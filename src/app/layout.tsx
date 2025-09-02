@@ -27,8 +27,8 @@ const brandFont = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Marketing Platform – Fixture",
-  description: "Shadcn test shell for tooling verification",
+  title: "Application Platform – Fixture",
+  description: "Application Platform for tooling verification",
 };
 
 export default function RootLayout({
@@ -45,7 +45,7 @@ export default function RootLayout({
           <header className="border-b">
             <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
               <Link href="/" className="font-semibold tracking-tight">
-                Fixture UI Shell
+                Fixture Application Platform
               </Link>
               <nav className="flex items-center gap-2">
                 <Button asChild variant="ghost" size="sm">
@@ -64,7 +64,7 @@ export default function RootLayout({
           </main>
           <footer className="border-t">
             <div className="text-muted-foreground mx-auto max-w-6xl px-4 py-3 text-sm">
-              Shadcn test shell • Next.js 15 • React 19
+              Application Platform • Next.js 15 • React 19
             </div>
           </footer>
           <Toaster position="top-right" richColors />
