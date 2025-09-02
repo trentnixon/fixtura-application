@@ -1,0 +1,23 @@
+/* Edit this file to change brand colors/fonts. Overrides globals via CSS cascade. */
+
+:root {
+  /* Brand palette - light */
+  --primary: oklch(0.6 0.12 255);
+  --primary-foreground: oklch(0.985 0 0);
+
+  --brand-primary: var(--primary);
+  --brand-foreground: var(--primary-foreground);
+  --brand-secondary: oklch(0.85 0.05 255);
+  --brand-accent: oklch(0.92 0.1 255);
+}
+
+.dark {
+  /* Brand palette - dark */
+  --primary: oklch(0.7 0.12 255);
+  --primary-foreground: oklch(0.205 0 0);
+
+  --brand-primary: var(--primary);
+  --brand-foreground: var(--primary-foreground);
+  --brand-secondary: oklch(0.4 0.06 255);
+  --brand-accent: oklch(0.35 0.1 255);
+}
