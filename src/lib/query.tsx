@@ -41,7 +41,7 @@ export function createQueryClient(): QueryClient {
 
 export function QueryProvider({ children }: PropsWithChildren) {
   const [client] = useState(() => createQueryClient());
-  const isDev = process.env.NODE_ENV !== "production"; // eslint-disable-line no-undef
+  const isDev = process.env.NODE_ENV !== "production";
   return (
     <QueryClientProvider client={client}>
       {children}

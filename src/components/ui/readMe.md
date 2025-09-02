@@ -1,52 +1,42 @@
 # Folder Overview
 
-Wrapped UI primitives used across the app (shadcn-style components).
+UI primitives and base components built on top of shadcn/ui and other libraries.
 
 ## Files
 
-- `button.tsx`: button variants and sizes
-- `button.test.tsx`: button component tests
-- `card.tsx`: card container and sections
-- `card.test.tsx`: card component tests
-- `tabs.tsx`: tabs wrapper for Radix Tabs
-- `table.tsx`: table elements
-- `table.test.tsx`: table component tests
-- `skeleton.tsx`: skeleton loader
-- `skeleton.test.tsx`: skeleton component tests
-- `empty-state.tsx`: empty state presentation component
-- `empty-state.test.tsx`: empty state component tests
-- `error-state.tsx`: error state presentation component
-- `error-state.test.tsx`: error state component tests
-- `dialog.tsx`: modal dialog primitives (Dialog, Content, Header, Footer, etc.)
-- `dialog.test.tsx`: dialog component tests
-- `sheet.tsx`: side drawer primitives (Sheet, Content, Header, Footer, etc.)
-- `dropdown-menu.tsx`: context menu primitives
-- `popover.tsx`: popover primitives
-- `tooltip.tsx`: tooltip primitives
-- `select.tsx`: select primitives
-- `calendar.tsx`: calendar (react-day-picker wrapper)
-- `calendar.test.tsx`: calendar component tests
-- `input-otp.tsx`: OTP inputs
-- `slider.tsx`: slider primitives
-- `switch.tsx`: switch primitive
-- `switch.test.tsx`: switch component tests
-- `textarea.tsx`: textarea primitive
-- `textarea.test.tsx`: textarea component tests
-- `command.tsx`: command palette primitives
-- `command.test.tsx`: command component tests
-- `carousel.tsx`: carousel primitives
-- `carousel.test.tsx`: carousel component tests
-- `avatar.tsx`: avatar primitives
-- `avatar.test.tsx`: avatar component tests
-- `breadcrumb.tsx`: breadcrumb primitives
-- `breadcrumb.test.tsx`: breadcrumb component tests
+- `icon.tsx`: Comprehensive icon library with namespace access and individual exports
+- `tabs.tsx`: Tab component wrapper
+- `button.tsx`: Button component variants
+- `card.tsx`: Card component wrapper
+- `input.tsx`: Input component wrapper
+- `label.tsx`: Label component wrapper
+- `select.tsx`: Select component wrapper
+- `dialog.tsx`: Dialog component wrapper
+- `popover.tsx`: Popover component wrapper
+- `tooltip.tsx`: Tooltip component wrapper
+- `dropdown-menu.tsx`: Dropdown menu component wrapper
+- `avatar.tsx`: Avatar component wrapper
+- `badge.tsx`: Badge component wrapper
+- `separator.tsx`: Separator component wrapper
+- `skeleton.tsx`: Skeleton loading component wrapper
+- `table.tsx`: Table component wrapper
+- `textarea.tsx`: Textarea component wrapper
+- `switch.tsx`: Switch component wrapper
+- `slider.tsx`: Slider component wrapper
+- `carousel.tsx`: Carousel component wrapper
+- `command.tsx`: Command palette component wrapper
+- `navigation-menu.tsx`: Navigation menu component wrapper
+- `menubar.tsx`: Menubar component wrapper
+- `breadcrumb.tsx`: Breadcrumb component wrapper
+- `date-picker.tsx`: Date picker component wrapper
+- `otp-input.tsx`: OTP input component wrapper
 
 ## Relations
 
 - Parent folder: [../readMe.md](../readMe.md)
-- Consumed by: `src/app/components/*` panels and feature modules
+- Consumed by: `src/app/components/*`, `src/components/*`
 
 ## Dependencies
 
-- External: `@radix-ui/react-tabs`, `@radix-ui/react-dialog`, `@radix-ui/react-dropdown-menu`, `@radix-ui/react-popover`, `@radix-ui/react-tooltip`, `@radix-ui/react-select`, `@radix-ui/react-slider`, `@radix-ui/react-switch`, `react-day-picker`, `lucide-react`
-- Internal: `@/lib/utils` (`cn`)
+- Internal: shadcn/ui components, class-variance-authority, clsx, tailwind-merge
+- External: `@radix-ui/*` components, `lucide-react` for icons, `embla-carousel-react` for carousel
