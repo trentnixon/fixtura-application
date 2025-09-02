@@ -11,6 +11,7 @@ import { CommandPanel } from "./components/command";
 import { ContainerOptionsPanel } from "./components/containers";
 import { DialogsPanel } from "./components/dialogs";
 import { FormsPanel } from "./components/forms";
+import { IconsPanel } from "./components/icons";
 import { InputsPanel } from "./components/inputs";
 import { LoadingPanel } from "./components/loading";
 import { NavigationPanel } from "./components/navigation";
@@ -47,6 +48,7 @@ export default function ComponentsPage() {
           <TabsTrigger value="loading">Loading</TabsTrigger>
           <TabsTrigger value="inputs">Inputs</TabsTrigger>
           <TabsTrigger value="avatar">Avatar</TabsTrigger>
+          <TabsTrigger value="icons">Icons</TabsTrigger>
           <TabsTrigger value="carousel">Carousel</TabsTrigger>
           <TabsTrigger value="command">Command</TabsTrigger>
         </TabsList>
@@ -109,6 +111,10 @@ export default function ComponentsPage() {
 
         <TabsContent value="avatar">
           <AvatarPanel />
+        </TabsContent>
+
+        <TabsContent value="icons">
+          <IconsPanel />
         </TabsContent>
 
         <TabsContent value="carousel">

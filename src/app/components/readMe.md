@@ -17,6 +17,7 @@ Components showcase route with tabbed demos for common UI primitives.
 - `components/inputs.tsx`: InputsPanel (date picker, otp, textarea, switch, slider, select)
 - `components/navigation.tsx`: NavigationPanel (navigation menu, menubar, breadcrumb)
 - `components/avatar.tsx`: AvatarPanel (image + fallback)
+- `components/icons.tsx`: IconsPanel (comprehensive icon library with namespace access)
 - `components/carousel.tsx`: CarouselPanel (slides with controls)
 - `components/command.tsx`: CommandPanel (command palette + combobox)
 
@@ -27,5 +28,5 @@ Components showcase route with tabbed demos for common UI primitives.
 
 ## Dependencies
 
-- Internal: shadcn components, toast helpers
-- External: `@radix-ui/react-tabs` via wrapper `src/components/ui/tabs.tsx`
+- Internal: shadcn components, toast helpers, icon library (`src/components/ui/icon.tsx`)
+- External: `@radix-ui/react-tabs` via wrapper `src/components/ui/tabs.tsx`, `lucide-react` for icons

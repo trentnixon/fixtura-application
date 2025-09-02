@@ -8,7 +8,7 @@ import importPlugin from "eslint-plugin-import";
 
 export default [
   {
-    ignores: ["node_modules/**", ".next/**", "dist/**", "out/**"],
+    ignores: ["node_modules/**", ".next/**", "dist/**", "out/**", "**/*.md"],
   },
   js.configs.recommended,
   {
