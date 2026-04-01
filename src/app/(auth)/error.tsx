@@ -6,7 +6,7 @@ import { useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 
-export default function Error({
+export default function AuthError({
   error,
   reset,
 }: {
@@ -16,20 +16,21 @@ export default function Error({
   const router = useRouter();
 
   useEffect(() => {
-    globalThis.console?.error?.(error);
     Sentry.captureException(error);
   }, [error]);
 
   return (
-    <div className="mx-auto grid max-w-lg gap-4 py-12 text-center">
+    <div className="mx-auto grid max-w-md gap-4 py-8 text-center">
       <h2 className="text-xl font-semibold">Something went wrong</h2>
       <p className="text-muted-foreground text-sm">
-        Please try again. If the problem continues, return to the home page.
+        We could not finish that step. Try again, or go back to the home page.
       </p>
       <div className="flex items-center justify-center gap-2">
-        <Button onClick={() => reset()}>Try again</Button>
-        <Button variant="outline" onClick={() => router.push("/")}>
-          Go home
+        <Button type="button" onClick={() => reset()}>
+          Try again
+        </Button>
+        <Button type="button" variant="outline" onClick={() => router.push("/")}>
+          Home
         </Button>
       </div>
     </div>

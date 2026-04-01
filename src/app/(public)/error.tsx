@@ -6,7 +6,7 @@ import { useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 
-export default function Error({
+export default function PublicAreaError({
   error,
   reset,
 }: {
@@ -24,12 +24,14 @@ export default function Error({
     <div className="mx-auto grid max-w-lg gap-4 py-12 text-center">
       <h2 className="text-xl font-semibold">Something went wrong</h2>
       <p className="text-muted-foreground text-sm">
-        Please try again. If the problem continues, return to the home page.
+        This page could not load. Try again, or return to the home page.
       </p>
       <div className="flex items-center justify-center gap-2">
-        <Button onClick={() => reset()}>Try again</Button>
-        <Button variant="outline" onClick={() => router.push("/")}>
-          Go home
+        <Button type="button" onClick={() => reset()}>
+          Try again
+        </Button>
+        <Button type="button" variant="outline" onClick={() => router.push("/")}>
+          Home
         </Button>
       </div>
     </div>
