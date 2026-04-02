@@ -1,5 +1,7 @@
+import { ROUTES } from "./routes";
+
 /**
- * Post-logout navigation target (client). Defaults to `/login`.
+ * Post-logout navigation target (client). Defaults to `signIn`.
  * Set `NEXT_PUBLIC_AUTH_LOGOUT_REDIRECT` to e.g. `/` for marketing home.
  */
 export function getLogoutRedirectPath(): string {
@@ -8,5 +10,5 @@ export function getLogoutRedirectPath(): string {
     const t = v.trim();
     if (t.startsWith("/") && !t.startsWith("//")) return t;
   }
-  return "/login";
+  return ROUTES.signIn;
 }

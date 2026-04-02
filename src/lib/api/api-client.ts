@@ -32,6 +32,13 @@ export async function apiFetch(input: RequestInfo | URL, init?: RequestInit): Pr
     credentials: "same-origin",
   });
 
+  if (!res.ok && process.env.NODE_ENV === "development" && typeof window !== "undefined") {
+    (window as any).__LAST_API_ERROR__ = {
+      status: res.status,
+      url: input.toString(),
+    };
+  }
+
   if (res.status === 401) {
     await handleUnauthorized();
   }

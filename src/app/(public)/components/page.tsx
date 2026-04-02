@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -22,6 +25,26 @@ import { ToastsPanel } from "./components/toasts";
 import { TypographyPanel } from "./components/typography";
 
 export default function ComponentsPage() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="grid gap-6">
+        <div className="flex items-center justify-between">
+          <h1 className="text-xl font-semibold">Components Showcase</h1>
+          <Link className="text-sm underline" href="/">
+            Back home
+          </Link>
+        </div>
+        <div className="bg-muted h-96 w-full animate-pulse rounded-lg" />
+      </div>
+    );
+  }
+
   return (
     <div className="grid gap-6">
       <div className="flex items-center justify-between">

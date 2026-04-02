@@ -15,12 +15,12 @@ describe("getSessionInvalidRedirectUrl", () => {
 
   it("appends reason=session when defaulting to /login", () => {
     delete process.env["NEXT_PUBLIC_AUTH_LOGOUT_REDIRECT"];
-    expect(getSessionInvalidRedirectUrl()).toBe(`/login?reason=${LOGIN_REASON_SESSION}`);
+    expect(getSessionInvalidRedirectUrl()).toBe(`/sign-in?reason=${LOGIN_REASON_SESSION}`);
   });
 
   it("merges reason when logout redirect is /login with existing query", () => {
-    process.env["NEXT_PUBLIC_AUTH_LOGOUT_REDIRECT"] = "/login?foo=bar";
-    expect(getSessionInvalidRedirectUrl()).toBe(`/login?foo=bar&reason=${LOGIN_REASON_SESSION}`);
+    process.env["NEXT_PUBLIC_AUTH_LOGOUT_REDIRECT"] = "/sign-in?foo=bar";
+    expect(getSessionInvalidRedirectUrl()).toBe(`/sign-in?foo=bar&reason=${LOGIN_REASON_SESSION}`);
   });
 
   it("does not add reason when redirecting to marketing home", () => {

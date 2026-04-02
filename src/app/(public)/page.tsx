@@ -1,95 +1,65 @@
 import Link from "next/link";
+import { Suspense } from "react";
 
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { EmptyState } from "@/components/ui/empty-state";
-import { ErrorState } from "@/components/ui/error-state";
+import { LoginForm } from "@/components/auth/login-form";
+import { BrandedLoader } from "@/components/ui/branded-loader";
+import { GlassSurface } from "@/components/ui/container";
+import { ROUTES } from "@/lib/config/routes";
+
+function LoginFormFallback() {
+  return (
+    <div className="flex min-h-[320px] items-center justify-center py-12">
+      <BrandedLoader size="sm" label="Awaiting Authenticator..." />
+    </div>
+  );
+}
 
 export default function Home() {
   return (
-    <div className="grid gap-6">
-      <div className="flex items-center justify-end">
-        <Button asChild variant="outline" size="sm">
-          <Link href="/components">Open Components Showcase</Link>
-        </Button>
-      </div>
+    <div className="relative mx-auto max-w-md space-y-8 pb-10">
+      {/* Decorative premium background elements */}
+      <div className="bg-primary/10 absolute top-0 right-0 -z-10 h-96 w-96 rounded-full opacity-50 blur-3xl sm:opacity-100" />
+      <div className="bg-brand-secondary/10 absolute bottom-20 left-0 -z-10 h-72 w-72 rounded-full opacity-50 blur-2xl sm:opacity-100" />
 
-      <section className="grid gap-2 rounded-xl border p-4">
-        <h2 className="font-brand text-base font-semibold">Brand tokens</h2>
-        <div className="flex flex-wrap items-center gap-3 text-sm">
-          <span className="inline-flex items-center gap-2">
-            <span className="bg-brand size-4 rounded-full" /> brand
-          </span>
-          <span className="inline-flex items-center gap-2">
-            <span className="bg-primary size-4 rounded-full" /> primary
-          </span>
-          <span className="inline-flex items-center gap-2">
-            <span className="bg-secondary size-4 rounded-full" /> secondary
-          </span>
-          <span className="inline-flex items-center gap-2">
-            <span className="bg-accent size-4 rounded-full" /> accent
-          </span>
+      <div className="space-y-4 pt-6 text-center sm:pt-10">
+        <div className="flex justify-center">
+          <img src="/logos/apple-touch-icon.png" alt="Fixtura Logo" className="h-16 w-16" />
         </div>
-      </section>
-
-      <div className="flex flex-wrap items-center gap-2">
-        <Button variant="default">Default</Button>
-        <Button variant="secondary">Secondary</Button>
-        <Button variant="outline">Outline</Button>
-        <Button variant="ghost">Ghost</Button>
-        <Button variant="destructive">Destructive</Button>
-        <Button variant="link">Link</Button>
-        <Button size="sm">Small</Button>
-        <Button size="lg">Large</Button>
-        <Button size="icon" aria-label="icon button">
-          ★
-        </Button>
+        <div className="space-y-1">
+          <p className="text-muted-foreground text-sm font-medium tracking-tight opacity-70">
+            Sign in to access your members dashboard.
+          </p>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>Card One</CardTitle>
-            <CardDescription>Basic shadcn card</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm">Use this to verify styling tokens and spacing.</p>
-          </CardContent>
-          <CardFooter>
-            <Button size="sm">Action</Button>
-          </CardFooter>
-        </Card>
+      <GlassSurface className="overflow-hidden p-1 sm:p-1">
+        <div className="rounded-[inherit] bg-white/40 p-8 sm:p-10 dark:bg-black/20">
+          <Suspense fallback={<LoginFormFallback />}>
+            <LoginForm />
+          </Suspense>
+        </div>
+      </GlassSurface>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Card Two</CardTitle>
-            <CardDescription>Another example</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm">
-                Outline
-              </Button>
-              <Button variant="ghost" size="sm">
-                Ghost
-              </Button>
-            </div>
-          </CardContent>
-          <CardFooter>
-            <Button variant="secondary" size="sm">
-              Secondary
-            </Button>
-          </CardFooter>
-        </Card>
-        <ErrorState />
-        <EmptyState action={<Button size="sm">Create item</Button>} />
+      <div className="space-y-6 pt-6 text-center">
+        <div className="text-muted-foreground flex items-center justify-center gap-4 text-[10px] font-black tracking-[0.2em] uppercase opacity-50">
+          <span className="bg-border h-px flex-1" />
+          <span>Support & Status</span>
+          <span className="bg-border h-px flex-1" />
+        </div>
+        <div className="flex justify-center gap-10">
+          <Link
+            href={ROUTES.help}
+            className="text-muted-foreground hover:text-primary text-[11px] font-bold tracking-widest uppercase transition-all"
+          >
+            System Pulse
+          </Link>
+          <Link
+            href={ROUTES.help}
+            className="text-muted-foreground hover:text-primary text-[11px] font-bold tracking-widest uppercase transition-all"
+          >
+            Direct Help
+          </Link>
+        </div>
       </div>
     </div>
   );

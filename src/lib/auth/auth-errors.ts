@@ -14,6 +14,10 @@ export const AUTH_ERROR_MESSAGES = {
   /** HTTP 5xx from APIs (do not surface raw server text) */
   serverError: "We're having trouble right now. Please try again shortly.",
   loggedOut: "You've been signed out.",
+  /** Forgot password recovery failure */
+  forgotPasswordFailed: "We couldn't process your request. Please try again.",
+  /** Reset password token/flow failure */
+  resetPasswordFailed: "The reset link is invalid or has expired.",
   /** Session boundary when `/api/auth/session` fails */
   sessionVerifyTitle: "Could not verify session",
 } as const;

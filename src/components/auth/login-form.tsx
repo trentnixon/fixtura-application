@@ -8,12 +8,12 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
+import { SubmitButton, ForgotPasswordLink, InlineAlert } from "@/components/auth/actions";
+import { AuthForm, EmailInput, PasswordInput } from "@/components/auth/forms";
 import { AUTH_ERROR_MESSAGES } from "@/lib/auth/auth-errors";
 import { LOGIN_REASON_SESSION } from "@/lib/config/auth-redirect";
 import { ROUTES } from "@/lib/config/routes";
 import { isSafeAppReturnPath } from "@/lib/config/safe-return-path";
-import { cn } from "@/lib/utils";
 
 const loginSchema = z.object({
   email: z.string().email("Enter a valid email address"),
@@ -21,13 +21,6 @@ const loginSchema = z.object({
 });
 
 type LoginValues = z.infer<typeof loginSchema>;
-
-const inputClassName = cn(
-  "border-input bg-background ring-offset-background placeholder:text-muted-foreground",
-  "focus-visible:ring-ring flex h-10 w-full rounded-md border px-3 py-2 text-sm",
-  "focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
-  "disabled:cursor-not-allowed disabled:opacity-50",
-);
 
 export function LoginForm() {
   const router = useRouter();
@@ -40,6 +33,12 @@ export function LoginForm() {
     resolver: zodResolver(loginSchema),
     defaultValues: { email: "", password: "" },
   });
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = form;
 
   async function onSubmit(values: LoginValues) {
     setSubmitting(true);
@@ -64,7 +63,7 @@ export function LoginForm() {
       toast.success("Signed in");
       await queryClient.invalidateQueries({ queryKey: ["auth", "session"] });
       const from = searchParams.get("from");
-      const safePath = from && isSafeAppReturnPath(from) ? from : ROUTES.app;
+      const safePath = from && isSafeAppReturnPath(from) ? from : ROUTES.dashboard;
       router.push(safePath);
       router.refresh();
     } catch {
@@ -75,50 +74,25 @@ export function LoginForm() {
   }
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
-      {sessionExpiredNotice ? (
-        <div
-          className="bg-muted/50 text-foreground rounded-lg border px-3 py-2 text-sm"
-          role="status"
-        >
-          {AUTH_ERROR_MESSAGES.sessionExpired}
+    <AuthForm onSubmit={handleSubmit(onSubmit)}>
+      {sessionExpiredNotice && (
+        <InlineAlert message={AUTH_ERROR_MESSAGES.sessionExpired} variant="destructive" />
+      )}
+
+      <div className="space-y-4">
+        <EmailInput {...register("email")} error={errors.email?.message} disabled={submitting} />
+
+        <div className="space-y-1">
+          <PasswordInput
+            {...register("password")}
+            error={errors.password?.message}
+            disabled={submitting}
+          />
+          <ForgotPasswordLink />
         </div>
-      ) : null}
-      <div className="grid gap-2">
-        <label htmlFor="members-email" className="text-sm font-medium">
-          Email
-        </label>
-        <input
-          id="members-email"
-          type="email"
-          autoComplete="email"
-          className={inputClassName}
-          disabled={submitting}
-          {...form.register("email")}
-        />
-        {form.formState.errors.email ? (
-          <p className="text-destructive text-xs">{form.formState.errors.email.message}</p>
-        ) : null}
       </div>
-      <div className="grid gap-2">
-        <label htmlFor="members-password" className="text-sm font-medium">
-          Password
-        </label>
-        <input
-          id="members-password"
-          type="password"
-          autoComplete="current-password"
-          className={inputClassName}
-          disabled={submitting}
-          {...form.register("password")}
-        />
-        {form.formState.errors.password ? (
-          <p className="text-destructive text-xs">{form.formState.errors.password.message}</p>
-        ) : null}
-      </div>
-      <Button type="submit" className="w-full" disabled={submitting}>
-        {submitting ? "Signing in…" : "Sign in"}
-      </Button>
-    </form>
+
+      <SubmitButton loading={submitting}>Sign in</SubmitButton>
+    </AuthForm>
   );
 }

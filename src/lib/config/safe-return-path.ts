@@ -16,7 +16,22 @@ export function isSafeAppReturnPath(path: string): boolean {
     return false;
   }
 
-  if (pathname !== "/app" && !pathname.startsWith("/app/")) return false;
+  const allowedPrefixes = [
+    "/dashboard",
+    "/settings",
+    "/bundles",
+    "/template-builder",
+    "/media-gallery",
+    "/manage-sponsors",
+    "/season",
+    "/account",
+  ];
+
+  const isAllowed = allowedPrefixes.some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
+  );
+
+  if (!isAllowed) return false;
   if (pathname.includes("..")) return false;
 
   const lower = path.toLowerCase();

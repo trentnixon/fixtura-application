@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Plus_Jakarta_Sans, Inter, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 
 import { QueryProvider } from "@/lib/query";
@@ -9,18 +9,18 @@ import type { ReactNode } from "react";
 import "./globals.css";
 import "./brand.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const jakartaSans = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
+  subsets: ["latin"],
+});
+
+const interFont = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const brandFont = Inter({
-  variable: "--font-brand",
   subsets: ["latin"],
 });
 
@@ -37,7 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${brandFont.variable} bg-background text-foreground min-h-screen antialiased`}
+        className={`${jakartaSans.variable} ${interFont.variable} ${geistMono.variable} bg-background text-foreground min-h-screen font-sans antialiased`}
       >
         <QueryProvider>
           {children}

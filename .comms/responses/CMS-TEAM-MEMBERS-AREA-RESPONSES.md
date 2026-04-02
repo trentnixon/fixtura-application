@@ -93,7 +93,7 @@ Complete this for **each** environment where members auth is tested or live. Val
 - [ ] **Email confirmation** — `confirmed` behaviour matches product (require confirmation vs not).
 - [ ] **Authenticated** role can access any new member APIs you add.
 
-**Owner / date verified:** ********\_********
+**Owner / date verified:** **\*\*\*\***\_**\*\*\*\***
 
 ---
 

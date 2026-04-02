@@ -22,6 +22,7 @@ export default [
       },
       globals: {
         process: "readonly",
+        console: "readonly",
         fetch: "readonly",
         Request: "readonly",
         Response: "readonly",
@@ -30,7 +31,15 @@ export default [
         URL: "readonly",
         Headers: "readonly",
         window: "readonly",
+        document: "readonly",
         URLSearchParams: "readonly",
+        setTimeout: "readonly",
+        clearTimeout: "readonly",
+        setInterval: "readonly",
+        clearInterval: "readonly",
+        HTMLDivElement: "readonly",
+        HTMLFormElement: "readonly",
+        HTMLParagraphElement: "readonly",
       },
     },
     plugins: {
