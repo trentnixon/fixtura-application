@@ -1,5 +1,21 @@
+import { cn } from "@/lib/utils";
+
 import type { ReactNode } from "react";
 
-export function TypographyH3({ children }: { children: ReactNode }) {
-  return <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">{children}</h3>;
+interface TypographyH3Props {
+  children: ReactNode;
+  className?: string;
+}
+
+export function TypographyH3({ children, className }: TypographyH3Props) {
+  return (
+    <h3
+      className={cn(
+        "font-heading text-foreground text-2xl font-semibold tracking-tight",
+        className,
+      )}
+    >
+      {children}
+    </h3>
+  );
 }

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ReturnToSignInAction } from "@/components/auth/actions";
 import { AuthPageSection, PublicShellContainer } from "@/components/auth/layout";
 import { AuthPageHeader, AuthSurface, SecondaryLinkGroup } from "@/components/auth/structure";
+import { TypographyH5, TypographyMuted } from "@/components/typography";
 
 export const metadata = {
   title: "Help & Support",
@@ -59,13 +60,13 @@ export default function HelpPage() {
                     <div className="bg-brand/10 text-brand group-hover:bg-brand flex h-10 w-10 items-center justify-center rounded-lg transition-colors group-hover:text-white">
                       <option.icon className="h-5 w-5" />
                     </div>
-                    <h3 className="group-hover:text-brand text-lg font-bold transition-colors">
+                    <TypographyH5 className="group-hover:text-brand font-bold transition-colors">
                       {option.title}
-                    </h3>
+                    </TypographyH5>
                   </div>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
+                  <TypographyMuted className="leading-relaxed">
                     {option.description}
-                  </p>
+                  </TypographyMuted>
                 </div>
               </AuthSurface>
             </Link>

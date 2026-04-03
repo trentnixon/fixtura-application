@@ -13,14 +13,13 @@ export const ROUTES = {
   maintenance: "/maintenance",
   kitchenSink: "/kitchen-sink",
 
-  // (auth)
-  dashboard: "/dashboard",
-  settings: "/settings",
-  bundles: "/bundles",
-  templateBuilder: "/template-builder",
-  mediaGallery: "/media-gallery",
-  manageSponsors: "/manage-sponsors",
-  season: "/season",
-  account: "/account",
+  // (members) gateway — authenticated, no account scope yet
+  selectOrganisation: "/select-organisation",
+  createOrganisation: "/create-organisation",
+
+  membersLogoutPage: "/logout",
   logout: "/api/auth/logout", // Action URL or action route
+  fetchHealth: "/admin/system/fetch-health",
+  systemInspector: "/admin/system/inspector",
+  systemLanding: "/admin/system",
 } as const;

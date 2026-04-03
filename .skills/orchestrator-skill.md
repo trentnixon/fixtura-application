@@ -122,6 +122,18 @@ After classifying the request, read all relevant skills before making recommenda
 
 # Skill Routing Map
 
+## If the task involves multi-organisation / account-scoped members routes
+
+Read:
+
+- [`.comms/18-FIXTURA_MULTI_ORGANISATION_ROUTE_LOGIC.md`](../.comms/18-FIXTURA_MULTI_ORGANISATION_ROUTE_LOGIC.md) (product + layer model)
+- [`.comms/responses/app-handoff-account-organisation-endpoint.md`](../.comms/responses/app-handoff-account-organisation-endpoint.md) (selected-account API)
+- `navigation-route-management.md`, `middleware-Update.md`, `api-data-layer-patterns.md`, `login-Flow.md`
+
+Use when changing **`/select-organisation`**, **`/o/[accountId]/...`**, account switcher, or organisation aggregate loading.
+
+---
+
 ## If the task involves login or authentication
 
 Read:
@@ -129,7 +141,7 @@ Read:
 - `login-Flow.md`
 - `logoutFlow.md`
 - `middleware-Update.md`
-- `authenticated-api-call.md`
+- `api-data-layer-patterns.md`
 - `sessionStateUI.md`
 
 Use these when working on:
@@ -204,7 +216,7 @@ Read:
 
 Also read as needed:
 
-- `authenticated-api-call.md`
+- `api-data-layer-patterns.md`
 - `layout-and-Spacing-System.md`
 - `component-Usage-Patterns.md`
 
@@ -247,7 +259,7 @@ Use these when working on:
 
 Read:
 
-- `authenticated-api-call.md`
+- `api-data-layer-patterns.md`
 - `ui-State-Patterns.md`
 - `feedback-and-Notifications.md`
 
@@ -323,7 +335,7 @@ Read:
 Also read as needed:
 
 - `ui-State-Patterns.md`
-- `authenticated-api-call.md`
+- `api-data-layer-patterns.md`
 
 Use this when working on:
 
@@ -393,7 +405,7 @@ Read:
 - `add-protected-page.md`
 - `navigation-route-management.md`
 - `form-Patterns.md`
-- `authenticated-api-call.md`
+- `api-data-layer-patterns.md`
 - `ui-State-Patterns.md`
 - `feedback-and-Notifications.md`
 - `layout-and-Spacing-System.md`
@@ -429,7 +441,7 @@ Read:
 
 Read:
 
-- `authenticated-api-call.md`
+- `api-data-layer-patterns.md`
 - `ui-State-Patterns.md`
 - `component-Usage-Patterns.md`
 - `layout-and-Spacing-System.md`

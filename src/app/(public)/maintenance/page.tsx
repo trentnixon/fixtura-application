@@ -1,8 +1,10 @@
-﻿export default function Page() {
+import { TypographyH1, TypographyMuted } from "@/components/typography";
+
+export default function Page() {
   return (
     <div className="py-20 text-center">
-      <h1 className="font-brand text-3xl font-bold">maintenance</h1>
-      <p className="text-muted-foreground mt-2">Placeholder for maintenance page</p>
+      <TypographyH1>Maintenance</TypographyH1>
+      <TypographyMuted className="mt-2">Placeholder for maintenance page</TypographyMuted>
     </div>
   );
 }

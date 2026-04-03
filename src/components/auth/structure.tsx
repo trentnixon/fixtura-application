@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 
 /**
  * AuthPageHeader: Standardised heading block for auth pages.
+ * Used above the AuthSurface (e.g. sign-in page logo + title).
  */
 export function AuthPageHeader({
   title,
@@ -32,6 +33,34 @@ export function AuthPageHeader({
         )}
       </div>
     </header>
+  );
+}
+
+/**
+ * AuthSurfaceHeader: Icon-badge + title block rendered *inside* the glass surface.
+ * Matches the "Identity Recovery" pattern from the kitchen sink forms reference.
+ */
+export function AuthSurfaceHeader({
+  icon,
+  title,
+  description,
+  className,
+}: {
+  icon: ReactNode;
+  title: string;
+  description?: string;
+  className?: string;
+}) {
+  return (
+    <div className={cn("mb-8 flex items-center gap-4", className)}>
+      <div className="bg-brand-secondary/15 text-brand-secondary flex size-12 shrink-0 items-center justify-center rounded-2xl">
+        {icon}
+      </div>
+      <div>
+        <h2 className="font-heading text-xl font-bold">{title}</h2>
+        {description && <p className="text-muted-foreground text-xs">{description}</p>}
+      </div>
+    </div>
   );
 }
 

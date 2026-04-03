@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { AUTH_COOKIE_NAME } from "@/lib/auth/auth-constants";
 import { getAuthCookieBaseOptions } from "@/lib/auth/auth-cookie";
 import { AUTH_ERROR_MESSAGES } from "@/lib/auth/auth-errors";
+import { spamSuppression } from "@/lib/auth/spam-suppression";
 import { getStrapiUrl } from "@/lib/config/env";
 
 type LoginBody = {
@@ -30,6 +31,20 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: AUTH_ERROR_MESSAGES.invalidCredentials }, { status: 400 });
   }
 
+  // 1. Spam Suppression & Rate Limiting Check
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0] || "127.0.0.1";
+  const { allowed, delayMs, reason } = spamSuppression.checkLogin(ip, identifier);
+
+  if (!allowed) {
+    console.warn(`[AUTH_BLOCK] Login blocked for ${identifier} from ${ip}. Reason: ${reason}`);
+    return NextResponse.json({ error: AUTH_ERROR_MESSAGES.tooManyRequests }, { status: 429 });
+  }
+
+  // 2. Apply Progressive Delay (if any)
+  if (delayMs > 0) {
+    await new Promise((resolve) => setTimeout(resolve, delayMs));
+  }
+
   let strapiRes: Response;
   try {
     strapiRes = await fetch(`${strapiUrl}/api/auth/local`, {
@@ -44,8 +59,13 @@ export async function POST(request: Request) {
   }
 
   if (!strapiRes.ok) {
+    // 3. Record Failure
+    spamSuppression.recordFailure(ip, identifier);
     return NextResponse.json({ error: AUTH_ERROR_MESSAGES.invalidCredentials }, { status: 401 });
   }
+
+  // 4. Record Success
+  spamSuppression.recordSuccess(ip, identifier);
 
   let data: unknown;
   try {

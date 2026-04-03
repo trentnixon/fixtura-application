@@ -13,7 +13,7 @@ import { ROUTES } from "@/lib/config/routes";
 export function AccessDeniedState({
   title = "Access denied",
   description = AUTH_ERROR_MESSAGES.forbidden,
-  backHref = ROUTES.app,
+  backHref = ROUTES.selectOrganisation,
   backLabel = "Back to members",
 }: {
   title?: string;

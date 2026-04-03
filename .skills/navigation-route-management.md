@@ -41,14 +41,24 @@ That means:
 - navigation should be driven from configuration
 - redirects should use shared route constants
 
+### Members URLs (multi-organisation)
+
+The members app uses `src/app/(members)/` with:
+
+- **Gateway:** `/select-organisation`, `/create-organisation` (no account in URL).
+- **Scoped:** `/o/[accountId]/...` — build links with `accountScopedRoutes` in `src/lib/config/account-routes.ts` (Strapi account id).
+- **Default after login:** `ROUTES.selectOrganisation`; safe `from` paths only under `/o/{accountId}/...` per `isSafeAppReturnPath`.
+
+Spec: [`.comms/18-FIXTURA_MULTI_ORGANISATION_ROUTE_LOGIC.md`](../.comms/18-FIXTURA_MULTI_ORGANISATION_ROUTE_LOGIC.md).
+
 ---
 
 ## 4. Route Ownership
 
 ### Route constants/config own:
 
-- route paths (`/app/home`, `/app/account`)
-- default redirect targets
+- route paths (public + members gateway + **scoped** paths under `/o/[accountId]/...` — use `accountScopedRoutes` in `src/lib/config/account-routes.ts` and `ROUTES` in `src/lib/config/routes.ts`)
+- default redirect targets (e.g. post-login **`ROUTES.selectOrganisation`**)
 - navigation structure
 
 ### Components own:
@@ -106,13 +116,15 @@ All redirects must use shared route definitions.
 Correct:
 
 ```ts
-router.push(ROUTES.app);
+router.push(ROUTES.selectOrganisation);
+// or, for scoped navigation:
+router.push(accountScopedRoutes.dashboard(accountId));
 ```
 
 Incorrect:
 
 ```ts
-router.push("/app");
+router.push("/dashboard");
 ```
 
 This prevents:
@@ -168,7 +180,7 @@ Keep route usage predictable and consistent.
 
 ### Do not invent routes outside the approved namespace
 
-Protected routes must stay within `/app/*`.
+Protected **members** routes must use either the **gateway** paths (`/select-organisation`, `/create-organisation`, …) or the **scoped** prefix **`/o/{accountId}/...`** (positive integer Strapi account id). Legacy flat paths such as `/dashboard` are redirected by middleware; do not add new features there.
 
 ---
 
@@ -178,7 +190,7 @@ Avoid:
 
 - scattered route strings across the codebase
 - navigation defined inside components instead of config
-- inconsistent route naming (`/app/home` vs `/app/dashboard`)
+- inconsistent route naming (e.g. mixing ad-hoc `/o/...` strings instead of `accountScopedRoutes`)
 - redirects using raw strings
 - routes that are not represented in navigation or config
 
@@ -205,7 +217,7 @@ Before considering the task complete, confirm:
 - [ ] no duplicate hardcoded route strings exist
 - [ ] navigation updated correctly if needed
 - [ ] redirects use shared route definitions
-- [ ] route fits within `/app/*` namespace
+- [ ] scoped routes use `accountScopedRoutes` / valid `accountId`; gateway routes use `ROUTES.*`
 - [ ] middleware behaviour remains correct
 
 ---

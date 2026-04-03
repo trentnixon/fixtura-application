@@ -4,6 +4,7 @@ import * as Sentry from "@sentry/nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
+import { TypographyH4, TypographyMuted } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 
 export default function PublicAreaError({
@@ -22,10 +23,10 @@ export default function PublicAreaError({
 
   return (
     <div className="mx-auto grid max-w-lg gap-4 py-12 text-center">
-      <h2 className="text-xl font-semibold">Something went wrong</h2>
-      <p className="text-muted-foreground text-sm">
+      <TypographyH4 className="font-semibold">Something went wrong</TypographyH4>
+      <TypographyMuted className="text-center">
         This page could not load. Try again, or return to the home page.
-      </p>
+      </TypographyMuted>
       <div className="flex items-center justify-center gap-2">
         <Button type="button" onClick={() => reset()}>
           Try again

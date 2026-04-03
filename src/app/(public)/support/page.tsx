@@ -3,6 +3,7 @@ import { Mail } from "lucide-react";
 import { ReturnToSignInAction } from "@/components/auth/actions";
 import { AuthContentContainer, AuthPageSection } from "@/components/auth/layout";
 import { AuthPageHeader, AuthSurface, SecondaryLinkGroup } from "@/components/auth/structure";
+import { TypographyH5, TypographyMuted } from "@/components/typography";
 
 export const metadata = {
   title: "Support",
@@ -24,20 +25,18 @@ export default function SupportPage() {
             </div>
 
             <div className="space-y-2">
-              <h3 className="text-lg font-medium">Contact Us</h3>
-              <p className="text-muted-foreground">
+              <TypographyH5>Contact Us</TypographyH5>
+              <TypographyMuted>
                 For account assistance, technical issues, or billing inquiries, please contact our
                 support team.
-              </p>
+              </TypographyMuted>
             </div>
 
             <div className="bg-muted/50 rounded-lg p-4">
               <p className="text-primary font-medium">support@fixtura.com.au</p>
             </div>
 
-            <p className="text-muted-foreground text-sm">
-              We typically respond within 24-48 hours.
-            </p>
+            <TypographyMuted>We typically respond within 24-48 hours.</TypographyMuted>
           </div>
         </AuthSurface>
 

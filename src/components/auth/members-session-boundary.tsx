@@ -8,7 +8,7 @@ import { useEffect, useRef } from "react";
 import { MembersLoadingSkeleton } from "@/components/layout/app/members-loading-skeleton";
 import { Button } from "@/components/ui/button";
 import { ErrorState } from "@/components/ui/error-state";
-import { useSession } from "@/hooks/use-session";
+import { useSession } from "@/lib/api/hooks/auth/useSession";
 import { AUTH_ERROR_MESSAGES } from "@/lib/auth/auth-errors";
 import { postLogoutRequest } from "@/lib/auth/logout-client";
 import { getSessionInvalidRedirectUrl } from "@/lib/config/auth-redirect";

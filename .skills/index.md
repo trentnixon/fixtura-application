@@ -14,13 +14,27 @@ This directory contains specialized **Skills** (instruction manuals and patterns
 
 - [**`orchestrator-skill.md`**](orchestrator-skill.md) — Read this first for any non-trivial task. It helps determine which other skills must be consulted before planning or writing code.
 
+## 🏢 Members area — multi-organisation routes (current)
+
+The authenticated members app uses a **gateway + account-scoped** URL model (Strapi **account id** in the path):
+
+- **Route group:** `src/app/(members)/` — shared shell (`MembersSessionBoundary` + `MembersAppShell`).
+- **Gateway (no account yet):** `/select-organisation`, `/create-organisation` (create flow API TBC).
+- **Scoped UI:** `/o/[accountId]/...` (e.g. `/o/319/dashboard`) — `OrgAccessBoundary` + `GET /api/account/organisation/[accountId]` (BFF → CMS).
+- **Path builders:** `src/lib/config/account-routes.ts` — use `accountScopedRoutes.*(accountId)`; **route constants:** `src/lib/config/routes.ts` (`ROUTES.selectOrganisation`, etc.).
+- **Product / architecture spec:** [`.comms/18-FIXTURA_MULTI_ORGANISATION_ROUTE_LOGIC.md`](../.comms/18-FIXTURA_MULTI_ORGANISATION_ROUTE_LOGIC.md).
+- **CMS handoff (selected account aggregate):** [`.comms/responses/app-handoff-account-organisation-endpoint.md`](../.comms/responses/app-handoff-account-organisation-endpoint.md).
+
+When touching members routing, read **`navigation-route-management.md`**, **`middleware-Update.md`**, and **`api-data-layer-patterns.md`** together with the orchestrator.
+
 ## 🔐 Core App & Authentication
 
-- [**`login-Flow.md`**](login-Flow.md) — Read this to understand how user login is implemented, the sequence of events, token handling, and redirection logic.
-- [**`logoutFlow.md`**](logoutFlow.md) — Read this to learn the proper way to sign a user out, clear their sessions, and redirect them.
-- [**`middleware-Update.md`**](middleware-Update.md) — Read this when you need to modify route protection mechanisms, verify tokens server-side, or update error handling in `middleware.ts`.
-- [**`add-protected-page.md`**](add-protected-page.md) — Read this whenever the user asks you to create a new page that requires the user to be logged in.
-- [**`authenticated-api-call.md`**](authenticated-api-call.md) — Read this to learn the standard `apiFetch` pattern for communicating securely with backend APIs via JWTs.
+- [**`api-data-layer-patterns.md`**](api-data-layer-patterns.md) — **Read this first for any data access task.** Outlines the Route Registry, Domain Services, and TanStack Hook architecture.
+- [**`login-Flow.md`**](login-Flow.md) — Read this to understand how user login is implemented using the `useLogin` hook and service layers.
+- [**`logoutFlow.md`**](logoutFlow.md) — Read this to learn the proper way to sign a user out using `useLogout` and clearing the query cache.
+- [**`middleware-Update.md`**](middleware-Update.md) — Read this when you need to modify route protection mechanisms or verify tokens server-side.
+- [**`add-protected-page.md`**](add-protected-page.md) — Read this whenever creating a new page requiring authentication.
+- [**`authenticated-api-call.md`**](authenticated-api-call.md) — (Legacy) Pointing to the new API Data Layer patterns.
 
 ## 🧭 Routing & Navigation
 
@@ -42,6 +56,7 @@ This directory contains specialized **Skills** (instruction manuals and patterns
 
 ## 🛠️ System & Maintenance
 
+- [**`system-diagnostics-skill.md`**](system-diagnostics-skill.md) — Read this for patterns on maintaining and expanding the internal Fetch Health diagnostics.
 - [**`devDebugExtension.md`**](devDebugExtension.md) — Read this to understand how to interact with the development-only debug panel to improve observability while modifying the application.
 - [**`kitchen-Sink-Maintenance.md`**](kitchen-Sink-Maintenance.md) — Read this to learn how to keep the Kitchen Sink testing page updated whenever you add or modify a UI component.
 

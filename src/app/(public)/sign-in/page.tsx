@@ -17,7 +17,7 @@ export default function LoginPage() {
   return (
     <AuthContentContainer>
       <AuthPageSection>
-        <AuthPageHeader title="Sign in" description="Access your Fixtura members area" />
+        <AuthPageHeader title="Sign in" />
 
         <AuthSurface>
           <Suspense fallback={<LoginFormFallback />}>

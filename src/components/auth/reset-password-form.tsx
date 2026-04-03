@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { KeyRound } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -14,6 +15,7 @@ import {
   ReturnToSignInAction,
 } from "@/components/auth/actions";
 import { AuthForm, PasswordInput, ConfirmPasswordInput } from "@/components/auth/forms";
+import { AuthSurfaceHeader } from "@/components/auth/structure";
 
 const resetPasswordSchema = z
   .object({
@@ -85,9 +87,6 @@ export function ResetPasswordForm() {
           title="Password Reset"
           description="Your password has been successfully updated. You can now sign in with your new password."
         />
-        <div className="flex justify-center">
-          <ReturnToSignInAction label="Continue to sign in" />
-        </div>
       </div>
     );
   }
@@ -108,6 +107,13 @@ export function ResetPasswordForm() {
 
   return (
     <AuthForm onSubmit={handleSubmit(onSubmit)}>
+      {/* Identity Recovery style header matching kitchen-sink reference */}
+      <AuthSurfaceHeader
+        icon={<KeyRound className="size-6" />}
+        title="New Password"
+        description="Choose a strong password to secure your account."
+      />
+
       {error && <InlineAlert message={error} variant="destructive" />}
 
       <div className="space-y-4">
@@ -126,7 +132,9 @@ export function ResetPasswordForm() {
         />
       </div>
 
-      <SubmitButton loading={submitting}>Update password</SubmitButton>
+      <SubmitButton loading={submitting} buttonVariant="accent">
+        Update password
+      </SubmitButton>
     </AuthForm>
   );
 }

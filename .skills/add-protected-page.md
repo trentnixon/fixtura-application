@@ -21,7 +21,7 @@ This skill should be used whenever a new members-area screen is introduced.
 
 Use this skill when:
 
-- creating a new route under `/app/*`
+- creating a new route under the members app (`src/app/(members)/`), usually **`/o/[accountId]/your-segment`** for organisation-scoped UI, or a **gateway** route alongside `/select-organisation`
 - adding a new screen to the protected members application
 - introducing a new section to private navigation
 - building the first version of a protected feature page
@@ -50,16 +50,11 @@ Do not move access-control logic into the page component.
 
 New protected pages must live inside the protected members-area route structure.
 
-They should be created under the approved `/app/*` namespace used by the current shell architecture.
+Organisation-scoped screens belong under **`src/app/(members)/o/[accountId]/...`** (e.g. `.../o/[accountId]/reports/page.tsx` → `/o/319/reports`). Use **`accountScopedRoutes`** from `src/lib/config/account-routes.ts` for links.
 
-Example intent:
+Gateway screens (no account chosen yet) live as siblings of `o/`, e.g. **`src/app/(members)/select-organisation/`**.
 
-- `/app/home`
-- `/app/account`
-- `/app/reports`
-- `/app/settings`
-
-Follow the existing route-group and layout structure already defined for the members-area app shell.
+Follow the existing `(members)` layout and **`MembersAppShell`** / **`OrgAccessBoundary`** patterns.
 
 ---
 
@@ -325,4 +320,4 @@ Before considering the task complete, confirm:
 
 This skill ensures that new members-area pages are added in a way that stays aligned with the Fixtura auth boundary, protected shell architecture, and central API rules.
 
-Use it whenever you create or upgrade a page under `/app/*`, and do not let page components become the place where route protection or session rules are redefined.
+Use it whenever you create or upgrade a page under **`(members)`** (gateway or `/o/[accountId]/...`), and do not let page components become the place where route protection or session rules are redefined.

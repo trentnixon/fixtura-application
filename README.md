@@ -13,6 +13,9 @@ Root of the marketing site built with Next.js 15, React 19, TypeScript 5, Tailwi
 - `readMe.md`: LLM-oriented folder overview (this file)
 - `public/*`: static assets
 - `src/app/*`: app router pages, layouts, and global styles
+- `src/app/(members)/`: authenticated members app (gateway routes + `/o/[accountId]/...`); see `.comms/18-FIXTURA_MULTI_ORGANISATION_ROUTE_LOGIC.md` and `.skills/index.md`
+- `.skills/`: LLM skill guides for routing, auth, API layer, UI patterns
+- `.comms/`: cross-team notes (e.g. multi-organisation route logic, CMS API handoffs)
 - `src/components/ui/*`: shadcn/ui components
 - `src/lib/utils.ts`: utility helpers (incl. className merger)
 - `src/lib/query.tsx`: TanStack Query provider and defaults (devtools in dev)

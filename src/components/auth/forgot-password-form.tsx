@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Undo2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -9,6 +10,7 @@ import { z } from "zod";
 
 import { SubmitButton, InlineAlert } from "@/components/auth/actions";
 import { AuthForm, EmailInput } from "@/components/auth/forms";
+import { AuthSurfaceHeader } from "@/components/auth/structure";
 import { ROUTES } from "@/lib/config/routes";
 
 const forgotPasswordSchema = z.object({
@@ -58,16 +60,28 @@ export function ForgotPasswordForm() {
 
   return (
     <AuthForm onSubmit={handleSubmit(onSubmit)}>
+      {/* Identity Recovery style header matching kitchen-sink reference */}
+      <AuthSurfaceHeader
+        icon={<Undo2 className="size-6" />}
+        title="Restore Access"
+        description="Verification link will be sent to your inbox."
+      />
+
       {error && <InlineAlert message={error} variant="destructive" />}
 
       <EmailInput
         {...register("email")}
+        label="Verified Email"
         error={errors.email?.message}
         disabled={submitting}
-        description="We'll send a password reset link to this email address."
+        description="We'll send a password reset link to this address."
       />
 
-      <SubmitButton loading={submitting}>Send reset link</SubmitButton>
+      <div className="flex flex-col gap-3">
+        <SubmitButton loading={submitting} buttonVariant="accent">
+          Initiate Recovery
+        </SubmitButton>
+      </div>
     </AuthForm>
   );
 }

@@ -1,6 +1,19 @@
+import { isValidAccountIdSegment, parseAccountScopePath } from "@/lib/config/account-routes";
+
+const SCOPED_SEGMENTS = new Set([
+  "dashboard",
+  "settings",
+  "bundles",
+  "template-builder",
+  "media-gallery",
+  "manage-sponsors",
+  "season",
+  "account",
+]);
+
 /**
  * Validates a relative return path for post-login redirect (`from` query param).
- * Allowlists the protected namespace `/app` only; rejects open redirects and traversal.
+ * Allowlists `/o/{accountId}/...` with a positive integer account id and known segments; rejects open redirects.
  */
 export function isSafeAppReturnPath(path: string): boolean {
   if (!path || path.length > 2048) return false;
@@ -16,22 +29,13 @@ export function isSafeAppReturnPath(path: string): boolean {
     return false;
   }
 
-  const allowedPrefixes = [
-    "/dashboard",
-    "/settings",
-    "/bundles",
-    "/template-builder",
-    "/media-gallery",
-    "/manage-sponsors",
-    "/season",
-    "/account",
-  ];
+  const scoped = parseAccountScopePath(pathname);
+  if (!scoped) return false;
+  if (!isValidAccountIdSegment(scoped.accountId)) return false;
 
-  const isAllowed = allowedPrefixes.some(
-    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
-  );
+  const firstSeg = scoped.rest.split("/").filter(Boolean)[0] ?? "";
+  if (!firstSeg || !SCOPED_SEGMENTS.has(firstSeg)) return false;
 
-  if (!isAllowed) return false;
   if (pathname.includes("..")) return false;
 
   const lower = path.toLowerCase();

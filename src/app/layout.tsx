@@ -1,6 +1,7 @@
 import { Plus_Jakarta_Sans, Inter, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryProvider } from "@/lib/query";
 
 import type { Metadata } from "next";
@@ -40,7 +41,7 @@ export default function RootLayout({
         className={`${jakartaSans.variable} ${interFont.variable} ${geistMono.variable} bg-background text-foreground min-h-screen font-sans antialiased`}
       >
         <QueryProvider>
-          {children}
+          <TooltipProvider delayDuration={0}>{children}</TooltipProvider>
           <Toaster position="top-right" richColors />
         </QueryProvider>
       </body>

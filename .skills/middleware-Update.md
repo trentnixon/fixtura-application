@@ -99,7 +99,9 @@ Routes outside the middleware’s intended matcher scope should not be affected.
 
 Protected matching must be precise.
 
-Preferred pattern:
+**Current members app:** protection is split across gateway routes (`/select-organisation`, …), scoped routes (`pathname.startsWith("/o/")`), `/admin/*`, and `/logout` — see `src/middleware.ts`. Do not assume a single `ROUTES.app` prefix; legacy flat `/dashboard`-style paths are redirected to the gateway.
+
+Illustrative pattern (generic):
 
 ```ts
 const isProtectedRoute = pathname === ROUTES.app || pathname.startsWith(`${ROUTES.app}/`);

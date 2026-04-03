@@ -18,6 +18,10 @@ export const AUTH_ERROR_MESSAGES = {
   forgotPasswordFailed: "We couldn't process your request. Please try again.",
   /** Reset password token/flow failure */
   resetPasswordFailed: "The reset link is invalid or has expired.",
+  /** Spam suppression / Rate limiting */
+  tooManyRequests: "Too many attempts. Please try again in a few minutes.",
+  /** Generic forgot password success (to prevent account enumeration) */
+  forgotPasswordSuccess: "If an account exists for that email, a reset link has been sent.",
   /** Session boundary when `/api/auth/session` fails */
   sessionVerifyTitle: "Could not verify session",
 } as const;

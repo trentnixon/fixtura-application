@@ -31,16 +31,9 @@ export default async function ForgotPasswordPage({ searchParams }: ForgotPasswor
   return (
     <AuthContentContainer>
       <AuthPageSection>
-        <AuthPageHeader
-          title={isResetting ? "Create a new password" : "Reset your password"}
-          description={
-            isResetting
-              ? "Enter a strong password to secure your account."
-              : "We'll send you a link to get back into your account."
-          }
-        />
+        <AuthPageHeader title={isResetting ? "Create a new password" : "Reset your password"} />
 
-        <AuthSurface>
+        <AuthSurface className="border-brand-secondary/30">
           <Suspense fallback={<AuthFormFallback />}>
             {isResetting ? <ResetPasswordForm /> : <ForgotPasswordForm />}
           </Suspense>

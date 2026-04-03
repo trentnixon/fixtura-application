@@ -3,6 +3,7 @@ import Link from "next/link";
 import { InlineAlert, ReturnToSignInAction } from "@/components/auth/actions";
 import { AuthContentContainer, AuthPageSection } from "@/components/auth/layout";
 import { AuthPageHeader, AuthSurface, SecondaryLinkGroup } from "@/components/auth/structure";
+import { TypographyMuted } from "@/components/typography";
 import { ROUTES } from "@/lib/config/routes";
 
 export const metadata = {
@@ -22,20 +23,20 @@ export default function AuthErrorPage() {
               message="Your request couldn't be processed. This might be due to an expired link, or a configuration issue."
               variant="destructive"
             />
-            <p className="text-muted-foreground text-center text-sm leading-relaxed">
+            <TypographyMuted className="text-center leading-relaxed">
               Please try signing in again. If the problem persists, contact our support team.
-            </p>
+            </TypographyMuted>
           </div>
         </AuthSurface>
 
         <SecondaryLinkGroup>
           <ReturnToSignInAction label="Return to sign in" />
-          <p className="text-muted-foreground text-xs">
+          <TypographyMuted className="text-xs">
             Still having issues?{" "}
             <Link href={ROUTES.help} className="text-primary font-medium hover:underline">
               Get help
             </Link>
-          </p>
+          </TypographyMuted>
         </SecondaryLinkGroup>
       </AuthPageSection>
     </AuthContentContainer>

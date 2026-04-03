@@ -3,6 +3,25 @@ import { type NextRequest, NextResponse } from "next/server";
 import { AUTH_COOKIE_NAME } from "@/lib/auth/auth-constants";
 import { ROUTES } from "@/lib/config/routes";
 import { isSafeAppReturnPath } from "@/lib/config/safe-return-path";
+
+/** Legacy flat URLs → redirect here (or into scoped app after selection). */
+const LEGACY_MEMBER_PREFIXES = [
+  "/dashboard",
+  "/settings",
+  "/bundles",
+  "/template-builder",
+  "/media-gallery",
+  "/manage-sponsors",
+  "/season",
+  "/account",
+] as const;
+
+function isLegacyMemberPath(pathname: string): boolean {
+  return LEGACY_MEMBER_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+}
+
+const GATEWAY_PATHS = [ROUTES.selectOrganisation, ROUTES.createOrganisation] as const;
+
 export function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
   const hasToken = Boolean(request.cookies.get(AUTH_COOKIE_NAME)?.value);
@@ -14,7 +33,13 @@ export function middleware(request: NextRequest) {
     });
   }
 
-  // Define public routes that should redirect authenticated users back to the app
+  if (hasToken && isLegacyMemberPath(pathname)) {
+    const url = request.nextUrl.clone();
+    url.pathname = ROUTES.selectOrganisation;
+    url.search = "";
+    return NextResponse.redirect(url);
+  }
+
   const publicAuthRoutes = [
     ROUTES.home,
     ROUTES.signIn,
@@ -23,34 +48,26 @@ export function middleware(request: NextRequest) {
     ROUTES.authError,
   ];
 
-  if (hasToken && publicAuthRoutes.includes(pathname as any)) {
-    // EXCEPTION: Allow access to forgot-password if a 'code' is present
-    // even if the user is already authenticated (e.g. following a reset email link)
+  if (hasToken && publicAuthRoutes.includes(pathname as (typeof publicAuthRoutes)[number])) {
     if (pathname === ROUTES.forgotPassword && searchParams.has("code")) {
       return NextResponse.next();
     }
 
     const url = request.nextUrl.clone();
-    url.pathname = ROUTES.dashboard;
+    url.pathname = ROUTES.selectOrganisation;
     url.search = "";
     return NextResponse.redirect(url);
   }
 
-  // List of paths that require authentication
-  const protectedRoutes = [
-    ROUTES.dashboard,
-    ROUTES.settings,
-    ROUTES.bundles,
-    ROUTES.templateBuilder,
-    ROUTES.mediaGallery,
-    ROUTES.manageSponsors,
-    ROUTES.season,
-    ROUTES.account,
-  ];
+  const isScopedMemberPrefix = pathname.startsWith("/o/");
+  const isGatewayMember = (GATEWAY_PATHS as readonly string[]).includes(pathname);
+  const isAdminMember = pathname === "/admin" || pathname.startsWith("/admin/");
+  const isLogoutPage = pathname === ROUTES.membersLogoutPage;
 
-  const isProtectedRoute = protectedRoutes.some((route) => pathname.startsWith(route));
+  const isProtectedMember =
+    isScopedMemberPrefix || isGatewayMember || isAdminMember || isLogoutPage;
 
-  if (isProtectedRoute) {
+  if (isProtectedMember) {
     if (!hasToken) {
       const url = request.nextUrl.clone();
       url.pathname = ROUTES.signIn;
@@ -59,7 +76,7 @@ export function middleware(request: NextRequest) {
         ? fullPath
         : isSafeAppReturnPath(pathname)
           ? pathname
-          : ROUTES.dashboard;
+          : ROUTES.selectOrganisation;
       url.searchParams.set("from", fromValue);
       return NextResponse.redirect(url);
     }
@@ -72,6 +89,10 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     "/",
+    "/o/:path*",
+    "/select-organisation",
+    "/create-organisation",
+    "/admin/:path*",
     "/dashboard/:path*",
     "/settings/:path*",
     "/bundles/:path*",
@@ -80,6 +101,7 @@ export const config = {
     "/manage-sponsors/:path*",
     "/season/:path*",
     "/account/:path*",
+    "/logout",
     "/sign-in",
     "/forgot-password",
     "/session-expired",

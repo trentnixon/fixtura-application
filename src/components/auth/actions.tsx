@@ -9,17 +9,22 @@ import type { ComponentProps } from "react";
 
 /**
  * SubmitButton: Primary action button with loading state.
+ * Pass `buttonVariant` to swap the colour scheme (defaults to "brand").
  */
 export function SubmitButton({
   children,
   loading,
   className,
+  buttonVariant = "brand",
   ...props
-}: ComponentProps<typeof Button> & { loading?: boolean }) {
+}: ComponentProps<typeof Button> & {
+  loading?: boolean;
+  buttonVariant?: ComponentProps<typeof Button>["variant"];
+}) {
   return (
     <Button
       type="submit"
-      variant="brand"
+      variant={buttonVariant}
       size="lg"
       className={cn(
         "shadow-primary/20 mt-4 h-12 w-full text-base font-bold shadow-lg transition-all hover:scale-[1.01] active:scale-[0.98]",
