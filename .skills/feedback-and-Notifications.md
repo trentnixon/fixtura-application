@@ -169,8 +169,8 @@ Inline messages:
 
 Before adding feedback UI:
 
-- check `/app/kitchen-sink/toasts`
-- check `/app/kitchen-sink/states`
+- check `/sandbox/kitchen-sink/toasts`
+- check `/sandbox/kitchen-sink/states`
 
 Match approved patterns.
 

@@ -2,7 +2,7 @@
 
 **Purpose:** Single reference for `.env` variables, build-time secrets, and non-env config used by this Next.js app.  
 **Audience:** Developers, DevOps, and anyone provisioning staging/production.  
-**Last reviewed:** 2026-04-01
+**Last reviewed:** 2026-04-04
 
 Values are **not** secrets in this document unless noted; copy real secrets only from your password manager or host config.
 
@@ -10,15 +10,16 @@ Values are **not** secrets in this document unless noted; copy real secrets only
 
 ## 1. Quick reference table
 
-| Name                               | Required                   | Where read                                            | Role                                                                                                   |
-| ---------------------------------- | -------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| `STRAPI_URL`                       | **Yes** for members login  | Server (`src/lib/config/env.ts`)                      | Strapi base URL (no trailing slash). Used by `POST /api/auth/login` and `fetchStrapiWithAuthCookie`.   |
-| `NEXT_PUBLIC_AUTH_LOGOUT_REDIRECT` | No                         | Client + server (`src/lib/config/logout-redirect.ts`) | Path after logout and after session invalidation (401). Default behaviour when unset implies `/login`. |
-| `NEXT_PUBLIC_POSTHOG_KEY`          | **Yes** for analytics      | Client (`src/instrumentation-client.ts`)              | PostHog project API key.                                                                               |
-| `NODE_ENV`                         | Automatic                  | Next.js / app                                         | `development` \| `production` \| `test`. Affects cookie `secure`, PostHog debug, React Query devtools. |
-| `CI`                               | Usually set by CI          | `next.config.ts` (Sentry plugin)                      | When set, Sentry build plugin is less silent during source-map upload.                                 |
-| `SENTRY_AUTH_TOKEN`                | For production source maps | Sentry webpack plugin (build)                         | Auth token to upload source maps to Sentry. Not used at runtime.                                       |
-| `NEXT_RUNTIME`                     | Set by Next                | `src/instrumentation.ts`                              | Internal; do not set manually.                                                                         |
+| Name                               | Required                   | Where read                                            | Role                                                                                                          |
+| ---------------------------------- | -------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `STRAPI_URL`                       | **Yes** for members login  | Server (`src/lib/config/env.ts`)                      | Strapi base URL (no trailing slash). Used by `POST /api/auth/login` and `fetchStrapiWithAuthCookie`.          |
+| `NEXT_PUBLIC_AUTH_LOGOUT_REDIRECT` | No                         | Client + server (`src/lib/config/logout-redirect.ts`) | Path after logout and after session invalidation (401). Default behaviour when unset implies `/login`.        |
+| `NEXT_PUBLIC_POSTHOG_KEY`          | **Yes** for analytics      | Client (`src/instrumentation-client.ts`)              | PostHog project API key.                                                                                      |
+| `NODE_ENV`                         | Automatic                  | Next.js / app                                         | `development` \| `production` \| `test`. Affects cookie `secure`, PostHog debug, React Query devtools.        |
+| `CI`                               | Usually set by CI          | `next.config.ts` (Sentry plugin)                      | When set, Sentry build plugin is less silent during source-map upload.                                        |
+| `SENTRY_AUTH_TOKEN`                | For production source maps | Sentry webpack plugin (build)                         | Auth token to upload source maps to Sentry. Not used at runtime.                                              |
+| `NEXT_RUNTIME`                     | Set by Next                | `src/instrumentation.ts`                              | Internal; do not set manually.                                                                                |
+| `NEXT_PUBLIC_ENABLE_DEV_SANDBOX`   | No                         | Server + client (`src/lib/dev-sandbox.ts`)            | When exactly `true`, `/sandbox` (portal, kitchen sink, route lab) renders; otherwise those routes return 404. |
 
 ---
 
@@ -36,6 +37,14 @@ Values are **not** secrets in this document unless noted; copy real secrets only
 - **Optional.** If unset, logout and session-invalid flows use the default login path logic in `getLogoutRedirectPath()` / `getSessionInvalidRedirectUrl()` (typically `/login`, with `?reason=session` when applicable).
 - **Example:** `/` to send users to the marketing home after logout.
 - **Note:** Must be a path the Next app serves; `NEXT_PUBLIC_` is required because redirect behaviour runs in the browser.
+
+### `NEXT_PUBLIC_ENABLE_DEV_SANDBOX`
+
+- **Optional.** Single source of truth for development sandbox routes ([`.comms/19-Dev-Sandbox-Routes.md`](../19-Dev-Sandbox-Routes.md)).
+- **Enable:** set to the literal string `true` (not `True`, `1`, or empty).
+- **If unset or any other value:** `/sandbox` and nested routes behave as though they do not exist (Next.js `notFound()`).
+- **Local:** add `NEXT_PUBLIC_ENABLE_DEV_SANDBOX=true` to `.env.local` when working on the sandbox portal, kitchen sink, or route lab.
+- **Staging / production:** omit or set `false` so sandbox routes are not reachable.
 
 ---
 
@@ -95,6 +104,7 @@ Values are **not** secrets in this document unless noted; copy real secrets only
 - [ ] `STRAPI_URL` → local Strapi if testing login.
 - [ ] `NEXT_PUBLIC_POSTHOG_KEY` → dev/test project key or disable analytics if your workflow allows (otherwise ensure key exists).
 - [ ] Optional: `NEXT_PUBLIC_AUTH_LOGOUT_REDIRECT`.
+- [ ] Optional: `NEXT_PUBLIC_ENABLE_DEV_SANDBOX=true` if using `/sandbox` (portal, kitchen sink, route lab).
 
 ### Staging / production
 

@@ -60,6 +60,10 @@ When touching members routing, read **`navigation-route-management.md`**, **`mid
 - [**`devDebugExtension.md`**](devDebugExtension.md) — Read this to understand how to interact with the development-only debug panel to improve observability while modifying the application.
 - [**`kitchen-Sink-Maintenance.md`**](kitchen-Sink-Maintenance.md) — Read this to learn how to keep the Kitchen Sink testing page updated whenever you add or modify a UI component.
 
+## 🧪 Development sandbox (`/sandbox`)
+
+- [**`dev-Sandbox.md`**](dev-Sandbox.md) — Read this before adding or changing sandbox routes (`/sandbox`, route lab, kitchen sink, interaction lab): env gate, `ROUTES`, `dev-sandbox-nav`, and how the three lab areas split responsibility.
+
 ---
 
 > **💡 Best Practice:** Always `view_file` on the relevant skill document before writing code on an unfamiliar part of the system. Following these established patterns ensures a robust, consistent, and maintainable codebase.

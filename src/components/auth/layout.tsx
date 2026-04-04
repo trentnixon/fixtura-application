@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { ROUTES } from "@/lib/config/routes";
+import { isDevSandboxEnabled } from "@/lib/dev-sandbox";
 import { cn } from "@/lib/utils";
 
 import type { ReactNode } from "react";
@@ -19,6 +20,16 @@ export function PublicTopBar() {
           <img src="/logos/apple-touch-icon.png" alt="Fixtura Home" className="h-8 w-8" />
         </Link>
         <nav className="flex items-center gap-1 sm:gap-2">
+          {isDevSandboxEnabled ? (
+            <Button
+              asChild
+              variant="ghost"
+              size="sm"
+              className="text-muted-foreground hover:text-foreground mr-1 font-medium"
+            >
+              <Link href={ROUTES.sandbox}>Sandbox</Link>
+            </Button>
+          ) : null}
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>

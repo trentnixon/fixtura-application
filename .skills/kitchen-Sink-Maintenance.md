@@ -103,25 +103,25 @@ The kitchen sink should live inside the protected members app so it is rendered 
 
 Recommended route model:
 
-- `/app/kitchen-sink`
-- `/app/kitchen-sink/typography`
-- `/app/kitchen-sink/brand-colors`
-- `/app/kitchen-sink/containers`
-- `/app/kitchen-sink/navigation`
-- `/app/kitchen-sink/buttons`
-- `/app/kitchen-sink/cards`
-- `/app/kitchen-sink/states`
-- `/app/kitchen-sink/toasts`
-- `/app/kitchen-sink/forms`
-- `/app/kitchen-sink/dialogs`
-- `/app/kitchen-sink/tables`
-- `/app/kitchen-sink/popovers`
-- `/app/kitchen-sink/loading`
-- `/app/kitchen-sink/inputs`
-- `/app/kitchen-sink/avatar`
-- `/app/kitchen-sink/icons`
-- `/app/kitchen-sink/carousel`
-- `/app/kitchen-sink/command`
+- `/sandbox/kitchen-sink`
+- `/sandbox/kitchen-sink/typography`
+- `/sandbox/kitchen-sink/brand-colors`
+- `/sandbox/kitchen-sink/containers`
+- `/sandbox/kitchen-sink/navigation`
+- `/sandbox/kitchen-sink/buttons`
+- `/sandbox/kitchen-sink/cards`
+- `/sandbox/kitchen-sink/states`
+- `/sandbox/kitchen-sink/toasts`
+- `/sandbox/kitchen-sink/forms`
+- `/sandbox/kitchen-sink/dialogs`
+- `/sandbox/kitchen-sink/tables`
+- `/sandbox/kitchen-sink/popovers`
+- `/sandbox/kitchen-sink/loading`
+- `/sandbox/kitchen-sink/inputs`
+- `/sandbox/kitchen-sink/avatar`
+- `/sandbox/kitchen-sink/icons`
+- `/sandbox/kitchen-sink/carousel`
+- `/sandbox/kitchen-sink/command`
 
 This keeps the kitchen sink aligned with the protected shell and the real members-area design system.
 

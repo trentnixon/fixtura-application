@@ -11,7 +11,11 @@ export const ROUTES = {
   help: "/help",
   support: "/support",
   maintenance: "/maintenance",
-  kitchenSink: "/kitchen-sink",
+  /** Dev sandbox root — portal; gated by NEXT_PUBLIC_ENABLE_DEV_SANDBOX */
+  sandbox: "/sandbox",
+  kitchenSink: "/sandbox/kitchen-sink",
+  routeLab: "/sandbox/route-lab",
+  interactionLab: "/sandbox/interaction-lab",
 
   // (members) gateway — authenticated, no account scope yet
   selectOrganisation: "/select-organisation",

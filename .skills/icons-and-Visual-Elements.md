@@ -132,7 +132,7 @@ Do not:
 
 Before adding icons:
 
-- check `/app/kitchen-sink/icons`
+- check `/sandbox/kitchen-sink/icons`
 - match approved sizing and usage
 
 ---

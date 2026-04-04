@@ -1,5 +1,12 @@
+import { cn } from "@/lib/utils";
+
 import type { ReactNode } from "react";
 
-export function TypographyLarge({ children }: { children: ReactNode }) {
-  return <p className="text-lg font-medium">{children}</p>;
+interface TypographyLargeProps {
+  children: ReactNode;
+  className?: string;
+}
+
+export function TypographyLarge({ children, className }: TypographyLargeProps) {
+  return <p className={cn("text-lg font-medium", className)}>{children}</p>;
 }

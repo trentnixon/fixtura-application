@@ -6,7 +6,6 @@ import {
   type SelectOrgGatewayReason,
 } from "@/lib/config/gateway-reasons";
 
-
 import { queryKeys } from "../../query/query-keys";
 import { accountApi } from "../../services/account.api";
 

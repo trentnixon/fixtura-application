@@ -192,9 +192,9 @@ Avoid:
 
 Before creating or modifying layout:
 
-- check `/app/kitchen-sink/containers`
-- check `/app/kitchen-sink/typography`
-- check `/app/kitchen-sink/cards`
+- check `/sandbox/kitchen-sink/containers`
+- check `/sandbox/kitchen-sink/typography`
+- check `/sandbox/kitchen-sink/cards`
 
 Match those patterns unless a new pattern is intentionally being introduced.
 

@@ -166,7 +166,7 @@ Avoid:
 
 Before building navigation:
 
-- check `/app/kitchen-sink/navigation`
+- check `/sandbox/kitchen-sink/navigation`
 
 Match:
 

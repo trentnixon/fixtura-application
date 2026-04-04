@@ -167,9 +167,9 @@ Example:
 
 Before building a form:
 
-- check `/app/kitchen-sink/forms`
-- check `/app/kitchen-sink/inputs`
-- check `/app/kitchen-sink/buttons`
+- check `/sandbox/kitchen-sink/forms`
+- check `/sandbox/kitchen-sink/inputs`
+- check `/sandbox/kitchen-sink/buttons`
 
 Match the approved patterns.
 

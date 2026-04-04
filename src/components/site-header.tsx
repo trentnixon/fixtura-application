@@ -27,7 +27,10 @@ function getPageTitle(pathname: string): string {
     if (seg === "account") return "Account";
   }
 
-  if (pathname === ROUTES.kitchenSink) return "Kitchen Sink";
+  if (pathname === ROUTES.sandbox) return "Sandbox";
+  if (pathname.startsWith(ROUTES.kitchenSink)) return "Kitchen Sink";
+  if (pathname.startsWith(ROUTES.routeLab)) return "Route lab";
+  if (pathname.startsWith(ROUTES.interactionLab)) return "Interaction lab";
   if (pathname === ROUTES.help) return "Help \u0026 Support";
 
   if (pathname.startsWith("/admin/system")) {

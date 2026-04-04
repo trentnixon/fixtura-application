@@ -160,9 +160,9 @@ Do not mix multiple states at once.
 
 Before implementing a state:
 
-- check `/app/kitchen-sink/loading`
-- check `/app/kitchen-sink/toasts` (for transient feedback)
-- check `/app/kitchen-sink/containers` (for state wrappers)
+- check `/sandbox/kitchen-sink/loading`
+- check `/sandbox/kitchen-sink/toasts` (for transient feedback)
+- check `/sandbox/kitchen-sink/containers` (for state wrappers)
 
 Match the approved patterns.
 

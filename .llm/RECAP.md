@@ -435,3 +435,272 @@ The next logical steps are:
 The Fixtura Members Area should be understood as:
 
 > A secure, middleware-controlled members application with strict public/auth separation, a centralised data architecture, a constrained design foundation, and a skill-driven development system supported by a live kitchen sink reference.
+
+Multi-Organisation Route Logic Pattern Added
+
+We have now introduced a new route logic pattern for the Fixtura members area to support the planned multi-organisation model.
+
+The key architectural change is that the app no longer treats login as the final gateway into the members UI. Instead, login now establishes user identity only. After authentication, the system must resolve the user’s active organisation context before loading the main application shell.
+
+The new flow is:
+
+Login
+→ fetch user + organisation summary
+→ select organisation OR create organisation
+→ fetch active organisation data
+→ load organisation UI
+
+This creates a new middle layer between authentication and the protected app UI.
+
+New Route Layer Thinking
+
+The members area is now understood as three layers:
+
+Public layer
+landing
+sign in
+forgot password
+help/support
+Authenticated but unscoped layer
+select organisation
+create organisation
+organisation onboarding
+Authenticated and organisation-scoped app layer
+dashboard
+downloads
+settings
+scheduler
+templates
+all main members UI
+Core Principle
+
+Authentication identifies the user.
+Organisation selection establishes the working context.
+
+The main app shell must only load once both are true:
+
+the user is authenticated
+an organisation has been selected or created
+Route Protection Logic
+
+Protected route logic now needs two checks:
+
+Is the user authenticated?
+if not, redirect to sign in
+Does the route require organisation context?
+if yes, and no valid organisation is resolved, redirect to organisation selection
+
+This means a user can be logged in but still not yet allowed into the main app until organisation context is established.
+
+Main Behaviour Decisions
+If the user has no organisations, they should be routed into create organisation / onboarding
+If the user has one or more organisations, they should be routed into organisation selection
+The app should not immediately push users into /app after login
+Organisation resolution is now a required step before mounting the full members UI
+Why This Matters
+
+This gives the members area a cleaner multi-organisation architecture by separating:
+
+identity
+from
+organisation context
+
+This improves clarity in:
+
+route logic
+middleware decisions
+onboarding flow placement
+app shell mounting
+frontend hydration order
+future account/org switching support
+Document Created
+
+A dedicated LLM-facing markdown document was created for this pattern:
+
+FIXTURA_MULTI_ORGANISATION_ROUTE_LOGIC.md
+
+This document explains the route model, state flow, route protection logic, shell model, and the required login → organisation resolution → app load sequence.
+
+Development Sandbox System Added
+
+We defined a clearer sandbox structure for the Fixtura Members Area so development can be split by what is being worked on, rather than using one catch-all development route.
+
+The sandbox system now has three distinct layers:
+
+/kitchen-sink → component and design primitive sandbox
+/route-lab → full page, route, layout, and screen-state sandbox
+/interaction-lab → behaviour, mechanics, and interaction sandbox
+
+This creates a much cleaner development model:
+
+Kitchen Sink = what components look like
+Route Lab = how pages are assembled
+Interaction Lab = how behaviours work
+Shared Sandbox Access Model
+
+A key decision was made that these sandbox routes must not depend on JWT auth or live CMS access.
+
+This is important because development sometimes happens away from the normal local environment, including situations where:
+
+Strapi is offline
+localhost CMS is unavailable
+login cannot complete
+backend services are disconnected
+work needs to continue while out of office
+
+Because of that, the sandbox routes are now defined as environment-controlled, not auth-controlled.
+
+The agreed shared env flag is:
+
+NEXT_PUBLIC_ENABLE_DEV_SANDBOX=true
+
+This flag controls access to all sandbox routes.
+
+When enabled:
+
+/kitchen-sink
+/route-lab
+/interaction-lab
+
+are available.
+
+When disabled, these routes should return 404 and behave as though they do not exist.
+
+Route Lab Defined
+
+/route-lab was introduced as the page and route development sandbox.
+
+Its purpose is to support:
+
+full page development
+layout composition
+shell work
+route-state testing
+organisation flow development
+onboarding flow testing
+app page scaffolding
+loading, empty, and error page states
+
+This route is especially useful because the members area now has a more advanced route model with:
+
+public routes
+authenticated but unscoped routes
+authenticated and organisation-scoped routes
+
+The route lab gives a way to visually develop and test these flows without needing real auth or real organisation resolution.
+
+A dedicated markdown doc was created for this:
+
+DEV_SANDBOX_ROUTES.md
+
+This doc defines:
+
+sandbox purpose
+access rules
+env control
+differences between /kitchen-sink and /route-lab
+scenario param patterns
+implementation examples for the shared sandbox gate
+production safety rules
+Interaction Lab Defined
+
+A third sandbox route was then added:
+
+/interaction-lab
+
+This route is intended for functionality and behaviour testing.
+
+It exists for interaction-heavy mechanics that are too stateful for the kitchen sink and do not need a full production page context like the route lab.
+
+Examples include:
+
+uploads
+drag and drop
+sorting and reordering
+bulk selection
+async form submission
+validation flows
+loading / success / error transitions
+retry behaviour
+dialog flows
+clipboard actions
+optimistic UI behaviour
+
+This gives the sandbox system a much stronger separation of concerns and avoids mixing component work, page work, and interaction work together.
+
+A dedicated markdown doc was also created for this:
+
+INTERACTION_LAB.md
+
+This doc defines:
+
+purpose and boundaries
+what belongs in interaction lab
+what does not belong there
+route structure
+scenario/state patterns
+mock and fake async rules
+production safety rules
+recommended first interaction pages
+Shared Implementation Direction
+
+The agreed implementation direction is that all sandbox routes should share the same development gate pattern.
+
+Recommended shared helper:
+
+export const isDevSandboxEnabled =
+process.env.NEXT_PUBLIC_ENABLE_DEV_SANDBOX === "true";
+
+Recommended shared gate component:
+
+use one common DevSandboxGate
+wrap /kitchen-sink, /route-lab, and /interaction-lab
+return 404 when sandbox mode is disabled
+
+This keeps sandbox access consistent across all dev-only route spaces.
+
+Sandbox Philosophy Now Established
+
+The sandbox system is now understood as a development-only suite that supports work across three levels:
+
+1. Component sandbox
+
+/kitchen-sink
+
+Used for:
+
+isolated UI primitives
+design patterns
+approved visual states 2. Page sandbox
+
+/route-lab
+
+Used for:
+
+route and screen development
+shell/layout composition
+page-level scenarios 3. Behaviour sandbox
+
+/interaction-lab
+
+Used for:
+
+interactive mechanics
+async flows
+user behaviour and state transitions
+
+All three routes are:
+
+development-only
+env-gated
+offline-safe
+mock/fixture friendly
+not part of the real production access model
+Documents Created
+
+The following new LLM-facing docs were created during this work:
+
+DEV_SANDBOX_ROUTES.md
+INTERACTION_LAB.md
+
+These documents now give Cursor a clear implementation guide for the sandbox route system and how each sandbox area should be used.
