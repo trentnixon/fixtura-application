@@ -31,7 +31,10 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useAccountMe } from "@/lib/api/hooks/account/useAccountMe";
-import { useAccountOrganisation } from "@/lib/api/hooks/account/useAccountOrganisation";
+import {
+  isOrganisationGatewayRedirect,
+  useAccountOrganisation,
+} from "@/lib/api/hooks/account/useAccountOrganisation";
 import { accountScopedRoutes } from "@/lib/config/account-routes";
 import { ROUTES } from "@/lib/config/routes";
 
@@ -50,9 +53,11 @@ export function AppSidebar({
   accountId?: string;
 }) {
   const { data: meData } = useAccountMe();
-  const { data: orgData } = useAccountOrganisation(
+  const { data: orgQueryData } = useAccountOrganisation(
     navMode === "scoped" && accountId ? accountId : "",
   );
+  const orgData =
+    orgQueryData && !isOrganisationGatewayRedirect(orgQueryData) ? orgQueryData : undefined;
 
   const meUser = {
     ...fallbackUser,

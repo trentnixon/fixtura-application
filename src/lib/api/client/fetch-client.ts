@@ -1,3 +1,4 @@
+import { normalizeErrorFieldToString } from "@/lib/api/normalize-error-field";
 import { AUTH_ERROR_MESSAGES } from "@/lib/auth/auth-errors";
 import { postLogoutRequest } from "@/lib/auth/logout-client";
 import { getSessionInvalidRedirectUrl } from "@/lib/config/auth-redirect";
@@ -87,24 +88,15 @@ export async function apiRequest<TResponse, TBody = unknown>(
         if (response.status >= 500) return AUTH_ERROR_MESSAGES.serverError;
         if (response.status === 403) return AUTH_ERROR_MESSAGES.forbidden;
 
-        // Try to extract message from payload
-        if (
-          typeof payload === "object" &&
-          payload !== null &&
-          "message" in payload &&
-          typeof (payload as any).message === "string"
-        ) {
-          return String((payload as any).message);
+        if (typeof payload === "object" && payload !== null) {
+          const record = payload as Record<string, unknown>;
+          const fromMessage = normalizeErrorFieldToString(record["message"]);
+          if (fromMessage) return fromMessage;
+          const fromError = normalizeErrorFieldToString(record["error"]);
+          if (fromError) return fromError;
         }
 
-        if (
-          typeof payload === "object" &&
-          payload !== null &&
-          "error" in payload &&
-          typeof (payload as any).error === "string"
-        ) {
-          return String((payload as any).error);
-        }
+        if (response.status === 404) return AUTH_ERROR_MESSAGES.notFound;
 
         return AUTH_ERROR_MESSAGES.unexpected;
       })();

@@ -13,6 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { accountPickerRowsFromMePayload } from "@/lib/account/account-me-rows";
 import { useAccountMe } from "@/lib/api/hooks/account/useAccountMe";
 import { accountScopedRoutes } from "@/lib/config/account-routes";
 import { ROUTES } from "@/lib/config/routes";
@@ -20,10 +21,10 @@ import { ROUTES } from "@/lib/config/routes";
 export function AccountSwitcher({ accountId }: { accountId: string }) {
   const router = useRouter();
   const { data: meData } = useAccountMe();
-  const accounts = meData?.data?.accounts ?? [];
+  const rows = accountPickerRowsFromMePayload(meData?.data);
   const currentLabel =
-    accounts.find((a) => String(a.id) === accountId)?.contentHub?.accountOrganisationDetails
-      ?.Name ?? `Account ${accountId}`;
+    rows.find((a) => String(a.id) === accountId)?.contentHub?.accountOrganisationDetails?.Name ??
+    `Account ${accountId}`;
 
   return (
     <DropdownMenu>
@@ -46,8 +47,8 @@ export function AccountSwitcher({ accountId }: { accountId: string }) {
         <DropdownMenuLabel className="text-muted-foreground text-xs font-normal">
           Switch organisation
         </DropdownMenuLabel>
-        {accounts.length > 0 ? (
-          accounts.map((a) => {
+        {rows.length > 0 ? (
+          rows.map((a) => {
             const id = String(a.id);
             const name = a.contentHub?.accountOrganisationDetails?.Name ?? `Account ${id}`;
             return (

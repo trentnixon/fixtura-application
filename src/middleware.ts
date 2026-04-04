@@ -1,8 +1,8 @@
 import { type NextRequest, NextResponse } from "next/server";
 
 import { AUTH_COOKIE_NAME } from "@/lib/auth/auth-constants";
+import { applySignInRedirectQuery } from "@/lib/auth/member-route-sign-in";
 import { ROUTES } from "@/lib/config/routes";
-import { isSafeAppReturnPath } from "@/lib/config/safe-return-path";
 
 /** Legacy flat URLs → redirect here (or into scoped app after selection). */
 const LEGACY_MEMBER_PREFIXES = [
@@ -71,13 +71,8 @@ export function middleware(request: NextRequest) {
     if (!hasToken) {
       const url = request.nextUrl.clone();
       url.pathname = ROUTES.signIn;
-      const fullPath = pathname + request.nextUrl.search;
-      const fromValue = isSafeAppReturnPath(fullPath)
-        ? fullPath
-        : isSafeAppReturnPath(pathname)
-          ? pathname
-          : ROUTES.selectOrganisation;
-      url.searchParams.set("from", fromValue);
+      url.search = "";
+      applySignInRedirectQuery(url, pathname, request.nextUrl.search);
       return NextResponse.redirect(url);
     }
     return NextResponse.next();

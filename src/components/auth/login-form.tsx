@@ -25,7 +25,11 @@ export function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const login = useLogin();
-  const sessionExpiredNotice = searchParams.get("reason") === LOGIN_REASON_SESSION;
+  const reason = searchParams.get("reason");
+  const sessionExpiredNotice = reason === LOGIN_REASON_SESSION;
+  const fromParam = searchParams.get("from");
+  const deepLinkReturnNotice =
+    !sessionExpiredNotice && Boolean(fromParam && isSafeAppReturnPath(fromParam));
 
   const form = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
@@ -59,6 +63,9 @@ export function LoginForm() {
     <AuthForm onSubmit={handleSubmit(onSubmit)}>
       {sessionExpiredNotice && (
         <InlineAlert message={AUTH_ERROR_MESSAGES.sessionExpired} variant="destructive" />
+      )}
+      {deepLinkReturnNotice && (
+        <InlineAlert message="Sign in to continue to the page you opened." variant="info" />
       )}
 
       <div className="space-y-4">

@@ -2,6 +2,7 @@ import * as Sentry from "@sentry/nextjs";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
+import { normalizeErrorFieldToString } from "@/lib/api/normalize-error-field";
 import { AUTH_COOKIE_NAME } from "@/lib/auth/auth-constants";
 import { isValidAccountIdSegment } from "@/lib/config/account-routes";
 import { getStrapiUrl } from "@/lib/config/env";
@@ -44,12 +45,15 @@ export async function GET(_request: Request, context: RouteContext) {
     const payload = isJson ? await strapiRes.json() : await strapiRes.text();
 
     if (!strapiRes.ok) {
-      const message =
-        typeof payload === "object" && payload !== null && "error" in payload
-          ? String((payload as { error?: unknown }).error)
-          : typeof payload === "string"
-            ? payload
-            : "Strapi error";
+      let message: string;
+      if (typeof payload === "object" && payload !== null && "error" in payload) {
+        const raw = (payload as { error?: unknown }).error;
+        message = normalizeErrorFieldToString(raw) ?? "Strapi error";
+      } else if (typeof payload === "string") {
+        message = payload.trim() || "Strapi error";
+      } else {
+        message = "Strapi error";
+      }
       return NextResponse.json({ error: message }, { status: strapiRes.status });
     }
 

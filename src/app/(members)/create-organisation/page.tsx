@@ -12,7 +12,9 @@ import {
 import { ROUTES } from "@/lib/config/routes";
 
 /**
- * Placeholder: CMS create-organisation API not documented yet (.comms TBC).
+ * Placeholder until Strapi documents a create-organisation API for this app.
+ * Product pattern: `.comms/18-FIXTURA_MULTI_ORGANISATION_ROUTE_LOGIC.md` (gateway + implementation table).
+ * Replace this page with the real flow when the CMS contract is available (no API in repo yet).
  */
 export default function CreateOrganisationPage() {
   return (
@@ -21,8 +23,8 @@ export default function CreateOrganisationPage() {
         <CardHeader>
           <CardTitle>Create organisation</CardTitle>
           <CardDescription>
-            Self-serve organisation creation is not available in the app yet. The CMS contract for
-            this flow is still to be confirmed.
+            Self-serve organisation creation is not wired up yet. The server contract for creating
+            an organisation from the members app is still to be confirmed with the CMS team.
           </CardDescription>
         </CardHeader>
         <CardContent className="text-muted-foreground text-sm">

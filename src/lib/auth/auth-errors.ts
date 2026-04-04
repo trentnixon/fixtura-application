@@ -9,6 +9,8 @@ export const AUTH_ERROR_MESSAGES = {
   sessionExpired: "Your session has expired. Please sign in again.",
   unauthorized: "You need to sign in to continue.",
   forbidden: "You don't have permission to access this page.",
+  /** HTTP 404 when no specific API message is available */
+  notFound: "That resource isn’t available.",
   network: "Something went wrong. Please check your connection and try again.",
   unexpected: "Something went wrong. Please try again.",
   /** HTTP 5xx from APIs (do not surface raw server text) */
