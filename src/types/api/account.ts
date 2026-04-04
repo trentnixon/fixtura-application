@@ -1,3 +1,12 @@
+/** Organisation display slice from GET /api/account/me (per account row or legacy contentHub). */
+export type AccountOrganisationDetails = {
+  id: number;
+  Name: string;
+  href: string;
+  ParentLogo: string;
+  Sport: string;
+};
+
 /**
  * Opaque / evolving — prefer typing the fields your screens actually use.
  * Aligns with legacy fixturaContentHub + filterAccountData outputs.
@@ -5,13 +14,7 @@
 export type AccountContentHubPayload = {
   FirstName?: string;
   DeliveryAddress?: string;
-  accountOrganisationDetails?: {
-    id: number;
-    Name: string;
-    href: string;
-    ParentLogo: string;
-    Sport: string;
-  };
+  accountOrganisationDetails?: AccountOrganisationDetails;
   [key: string]: unknown;
 };
 
@@ -35,6 +38,18 @@ export interface AccountMeUser {
 export interface AccountSummary {
   id: number;
   contentHub?: AccountContentHubPayload;
+  /** Present on each `accounts[]` item; preferred over legacy contentHub slice when set. */
+  accountOrganisationDetails?: AccountOrganisationDetails;
+  /** Account row fields (membership / CMS); use with org slice for select-organisation UI. */
+  FirstName?: string | null;
+  LastName?: string | null;
+  DeliveryAddress?: string | null;
+  isActive?: boolean;
+  isSetup?: boolean;
+  isRightsHolder?: boolean;
+  /** Account-level sport (may match `accountOrganisationDetails.Sport`). */
+  Sport?: string;
+  account_type?: number;
   [key: string]: unknown;
 }
 

@@ -24,10 +24,11 @@ export default async function RouteLabCreateOrganisationPage({
       title="Create organisation"
       productionRoute={ROUTES.createOrganisation}
       description="Onboarding-style form scaffold. Fixture-only; nothing is persisted."
+      contentPreset="form"
       stateOptions={STATES}
       scenarioSummary={`Active query: state=${state}. Try ${STATES.join(", ")}.`}
     >
-      <div className="mx-auto grid w-full max-w-lg gap-6 py-4">
+      <div className="grid gap-6">
         {state === "success" ? (
           <Card>
             <CardHeader>

@@ -26,6 +26,7 @@ export default async function RouteLabSettingsPage({
       title="Settings"
       productionRoute={productionRoute}
       description="Organisation settings layout stub. Fields are inert."
+      contentPreset="full"
       stateOptions={STATES}
       scenarioSummary={`Active query: state=${state}. Production pattern: ${productionRoute}`}
     >

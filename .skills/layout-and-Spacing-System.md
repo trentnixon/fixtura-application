@@ -103,6 +103,7 @@ Use consistent container patterns:
 - used for grouped UI elements
 - includes padding and border
 - default radius is `rounded-xl` (0.75rem)
+- **Persistent feedback cards:** for semantic, state-based messaging (info, success, warning, error, critical, premium) that stays visible until the user acts, use `FeedbackCard` / `FeedbackCardSoft` / `FeedbackCardTinted` / `FeedbackCardStrong` from `@/components/ui/feedback-card`—same radius and card language as standard cards; see `/sandbox/kitchen-sink/cards`
 
 ### GlassSurface (Premium)
 

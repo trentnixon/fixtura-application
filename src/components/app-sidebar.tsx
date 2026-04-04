@@ -3,7 +3,6 @@
 import {
   IconBuildingPlus,
   IconCamera,
-  IconChartBar,
   IconDashboard,
   IconFileDescription,
   IconFolder,
@@ -18,13 +17,17 @@ import * as React from "react";
 
 import { AccountSwitcher } from "@/components/layout/account-switcher";
 import { NavMain } from "@/components/nav-main";
+import { NavSandboxMenuItem } from "@/components/nav-sandbox";
 import { NavSecondary } from "@/components/nav-secondary";
-import { NavSystem } from "@/components/nav-system";
+import { NavSystemMenuItem } from "@/components/nav-system";
 import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -37,6 +40,7 @@ import {
 } from "@/lib/api/hooks/account/useAccountOrganisation";
 import { accountScopedRoutes } from "@/lib/config/account-routes";
 import { ROUTES } from "@/lib/config/routes";
+import { isDevSandboxEnabled } from "@/lib/dev-sandbox";
 
 const fallbackUser = {
   name: "Member",
@@ -124,7 +128,6 @@ export function AppSidebar({
     ...(navMode === "scoped" && accountId != null
       ? [{ title: "Settings", url: accountScopedRoutes.settings(accountId), icon: IconSettings }]
       : []),
-    { title: "Kitchen Sink", url: ROUTES.kitchenSink, icon: IconChartBar },
     { title: "Get Help", url: ROUTES.help, icon: IconHelp },
   ];
 
@@ -136,7 +139,17 @@ export function AppSidebar({
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={navMode === "gateway" ? gatewayMain : scopedMain} />
-        <NavSystem />
+        {isDevSandboxEnabled ? (
+          <SidebarGroup>
+            <SidebarGroupLabel>Admin</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <NavSandboxMenuItem />
+                <NavSystemMenuItem />
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        ) : null}
         <NavSecondary items={secondary} className="mt-auto" />
       </SidebarContent>
       {navMode === "scoped" && accountId ? (

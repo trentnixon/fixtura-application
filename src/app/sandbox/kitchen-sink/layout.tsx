@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { PublicPageWrapper, PublicShellContainer } from "@/components/auth/layout";
+import { SandboxToolsShell } from "@/components/dev/sandbox-tools-shell";
 import { TypographyH2, TypographyMuted } from "@/components/typography";
 import { ROUTES } from "@/lib/config/routes";
 
@@ -27,40 +27,36 @@ const NAV_LINKS = [
 
 export default function KitchenSinkLayout({ children }: { children: ReactNode }) {
   return (
-    <PublicPageWrapper>
-      <PublicShellContainer>
-        <div className="flex min-h-screen w-full">
-          <aside className="border-border bg-card sticky top-0 flex h-screen w-64 flex-col gap-4 overflow-y-auto border-r p-6">
-            <div>
+    <SandboxToolsShell
+      sidebar={
+        <aside className="border-border bg-card sticky top-0 flex h-screen w-64 shrink-0 flex-col gap-4 overflow-y-auto border-r p-6">
+          <div>
+            <Link
+              href={ROUTES.sandbox}
+              className="text-primary hover:text-primary/90 mb-3 block text-sm font-semibold underline-offset-4 hover:underline"
+            >
+              ← Sandbox portal
+            </Link>
+            <TypographyH2 className="text-xl font-semibold tracking-tight">
+              Kitchen Sink
+            </TypographyH2>
+            <TypographyMuted className="mt-1">Reference for design and patterns.</TypographyMuted>
+          </div>
+          <nav className="mt-4 flex flex-col gap-1">
+            {NAV_LINKS.map((link) => (
               <Link
-                href={ROUTES.sandbox}
-                className="text-primary hover:text-primary/90 mb-3 block text-sm font-semibold underline-offset-4 hover:underline"
+                key={link.href}
+                href={link.href}
+                className="text-muted-foreground hover:bg-secondary hover:text-foreground rounded-md px-3 py-2 text-sm font-medium transition-colors"
               >
-                ← Sandbox portal
+                {link.label}
               </Link>
-              <TypographyH2 className="text-xl font-semibold tracking-tight">
-                Kitchen Sink
-              </TypographyH2>
-              <TypographyMuted className="mt-1">Reference for design and patterns.</TypographyMuted>
-            </div>
-            <nav className="mt-4 flex flex-col gap-1">
-              {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-muted-foreground hover:bg-secondary hover:text-foreground rounded-md px-3 py-2 text-sm font-medium transition-colors"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
-          </aside>
-
-          <main className="bg-background text-foreground flex-1 overflow-y-auto p-8 md:p-12 lg:p-16">
-            <div className="mx-auto max-w-6xl">{children}</div>
-          </main>
-        </div>
-      </PublicShellContainer>
-    </PublicPageWrapper>
+            ))}
+          </nav>
+        </aside>
+      }
+    >
+      {children}
+    </SandboxToolsShell>
   );
 }

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent, CardFooter, CardAction } from "@/components/ui/card";
 import { PageHeader, Section, Surface } from "@/components/ui/container";
 
+import { FeedbackCardsSection } from "./feedback-cards-section";
 import { GridCardExplorationSection } from "./grid-card-exploration";
 
 export default function CardsPage() {
@@ -12,7 +13,7 @@ export default function CardsPage() {
     <div className="space-y-12">
       <PageHeader
         title="Card Components"
-        description="Cards are used to group related information and provide a clear entry point to more detailed content."
+        description="Cards group related information and provide a clear entry point to more detail. Standard shadcn-style cards sit alongside square and tall grid tiles (GridCard) used for organisation pickers and shortcuts."
       />
 
       <div className="space-y-16">
@@ -188,6 +189,8 @@ export default function CardsPage() {
             </div>
           </Card>
         </Section>
+
+        <FeedbackCardsSection />
 
         <GridCardExplorationSection />
       </div>

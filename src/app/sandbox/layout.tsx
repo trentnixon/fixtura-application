@@ -1,3 +1,4 @@
+import { PublicPageWrapper } from "@/components/auth/layout";
 import { DevSandboxGate } from "@/components/dev/DevSandboxGate";
 
 import type { ReactNode } from "react";
@@ -5,7 +6,9 @@ import type { ReactNode } from "react";
 export default function SandboxLayout({ children }: { children: ReactNode }) {
   return (
     <DevSandboxGate>
-      <div className="bg-background text-foreground min-h-screen">{children}</div>
+      <PublicPageWrapper contentAs="div" className="text-foreground">
+        {children}
+      </PublicPageWrapper>
     </DevSandboxGate>
   );
 }

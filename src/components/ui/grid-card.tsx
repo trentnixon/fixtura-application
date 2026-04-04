@@ -4,7 +4,7 @@ import { Plus, Route, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { createContext, useContext } from "react";
 
-import { TypographyH3 } from "@/components/typography";
+import { TypographyH3, TypographyMuted } from "@/components/typography";
 import { cn } from "@/lib/utils";
 
 import type { ReactNode } from "react";
@@ -14,10 +14,28 @@ export type GridCardVisualPreset = "org" | "add" | "sandbox";
 /** Visual styles for {@link GridCard}. Extend this union as new styles are added. */
 export type GridCardVariant = "default" | "reverse";
 
-const GridCardVariantContext = createContext<GridCardVariant>("default");
+/**
+ * Semantic surface / state for {@link GridCard}. Composes with `variant` (layout / primary fill).
+ * Use `loading` for in-flight actions; pair with a spinner in `visual` if needed.
+ */
+export type GridCardTone = "default" | "mute" | "error" | "success" | "warning" | "loading";
+
+type GridCardSurfaceContextValue = {
+  variant: GridCardVariant;
+  tone: GridCardTone;
+};
+
+const GridCardSurfaceContext = createContext<GridCardSurfaceContextValue>({
+  variant: "default",
+  tone: "default",
+});
 
 export function useGridCardVariant(): GridCardVariant {
-  return useContext(GridCardVariantContext);
+  return useContext(GridCardSurfaceContext).variant;
+}
+
+export function useGridCardTone(): GridCardTone {
+  return useContext(GridCardSurfaceContext).tone;
 }
 
 const gridCardTileVariants: Record<GridCardVariant, string> = {
@@ -33,6 +51,71 @@ const gridCardTileVariants: Record<GridCardVariant, string> = {
   ),
 };
 
+/** Extra tile classes for `tone`; merged after base `variant` styles (tailwind-merge). */
+const gridCardToneTile: Record<
+  Exclude<GridCardTone, "default">,
+  Record<GridCardVariant, string>
+> = {
+  mute: {
+    default: cn(
+      "bg-muted/50 text-muted-foreground ring-border/60",
+      "hover:bg-muted/70 hover:shadow-lg",
+      "focus-visible:ring-muted-foreground/40",
+    ),
+    reverse: cn(
+      "bg-muted text-muted-foreground ring-border/40",
+      "hover:bg-muted/90 hover:shadow-lg",
+      "focus-visible:ring-muted-foreground/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+    ),
+  },
+  error: {
+    default: cn(
+      "bg-destructive/5 text-card-foreground ring-destructive/25",
+      "hover:bg-destructive/10 hover:shadow-xl",
+      "focus-visible:ring-destructive",
+    ),
+    reverse: cn(
+      "bg-destructive text-destructive-foreground ring-destructive-foreground/25",
+      "hover:bg-destructive/90 hover:shadow-xl",
+      "focus-visible:ring-destructive-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--destructive)]",
+    ),
+  },
+  success: {
+    default: cn(
+      "bg-[var(--success)]/10 text-card-foreground ring-[color-mix(in_oklab,var(--success)_35%,transparent)]",
+      "hover:bg-[var(--success)]/15 hover:shadow-xl",
+      "focus-visible:ring-[var(--success)]",
+    ),
+    reverse: cn(
+      "bg-[var(--success)] text-white ring-white/25",
+      "hover:bg-[color-mix(in_oklab,var(--success)_92%,black)] hover:shadow-xl",
+      "focus-visible:ring-white focus-visible:ring-offset-[var(--success)]",
+    ),
+  },
+  warning: {
+    default: cn(
+      "bg-[var(--warning)]/10 text-card-foreground ring-[color-mix(in_oklab,var(--warning)_40%,transparent)]",
+      "hover:bg-[var(--warning)]/18 hover:shadow-xl",
+      "focus-visible:ring-[var(--warning)]",
+    ),
+    reverse: cn(
+      "bg-[var(--warning)] text-neutral-900 ring-neutral-900/15",
+      "hover:bg-[color-mix(in_oklab,var(--warning)_90%,black)] hover:shadow-xl",
+      "focus-visible:ring-neutral-900 focus-visible:ring-offset-[var(--warning)]",
+    ),
+  },
+  loading: {
+    default: cn(
+      "pointer-events-none cursor-wait opacity-80 animate-pulse shadow-lg",
+      "hover:bg-card hover:shadow-lg",
+    ),
+    reverse: cn(
+      "pointer-events-none cursor-wait opacity-80 animate-pulse shadow-lg",
+      "hover:bg-primary hover:shadow-lg",
+    ),
+  },
+};
+
 const gridCardTitleVariants: Record<GridCardVariant, string> = {
   default: "text-foreground",
   reverse: "text-primary-foreground",
@@ -43,6 +126,330 @@ const gridCardCtaVariants: Record<GridCardVariant, string> = {
   reverse:
     "text-primary-foreground/90 group-hover:text-primary-foreground underline-offset-4 group-hover:underline",
 };
+
+const gridCardTitleTone: Record<
+  Exclude<GridCardTone, "default">,
+  Record<GridCardVariant, string>
+> = {
+  mute: {
+    default: "text-muted-foreground",
+    reverse: "text-muted-foreground",
+  },
+  error: {
+    default: "text-destructive",
+    reverse: "text-destructive-foreground",
+  },
+  success: {
+    default: "text-[color-mix(in_oklab,var(--success)_55%,var(--foreground))]",
+    reverse: "text-white",
+  },
+  warning: {
+    default: "text-[color-mix(in_oklab,var(--warning)_45%,var(--foreground))]",
+    reverse: "text-neutral-900",
+  },
+  loading: {
+    default: "text-muted-foreground",
+    reverse: "text-primary-foreground/90",
+  },
+};
+
+const gridCardCtaTone: Record<Exclude<GridCardTone, "default">, Record<GridCardVariant, string>> = {
+  mute: {
+    default:
+      "text-muted-foreground group-hover:text-muted-foreground underline-offset-4 group-hover:underline",
+    reverse:
+      "text-muted-foreground group-hover:text-muted-foreground underline-offset-4 group-hover:underline",
+  },
+  error: {
+    default:
+      "text-destructive group-hover:text-destructive/90 underline-offset-4 group-hover:underline",
+    reverse:
+      "text-destructive-foreground group-hover:text-destructive-foreground underline-offset-4 group-hover:underline",
+  },
+  success: {
+    default:
+      "text-[var(--success)] group-hover:text-[color-mix(in_oklab,var(--success)_85%,black)] underline-offset-4 group-hover:underline",
+    reverse: "text-white/95 group-hover:text-white underline-offset-4 group-hover:underline",
+  },
+  warning: {
+    default:
+      "text-[var(--warning)] group-hover:text-[color-mix(in_oklab,var(--warning)_80%,black)] underline-offset-4 group-hover:underline",
+    reverse:
+      "text-neutral-900 group-hover:text-neutral-950 underline-offset-4 group-hover:underline",
+  },
+  loading: {
+    default:
+      "text-muted-foreground group-hover:text-muted-foreground underline-offset-4 group-hover:underline",
+    reverse:
+      "text-primary-foreground/80 group-hover:text-primary-foreground/80 underline-offset-4 group-hover:underline",
+  },
+};
+
+function gridCardTileClass(variant: GridCardVariant, tone: GridCardTone, className?: string) {
+  const base = gridCardTileVariants[variant];
+  const toneExtra = tone === "default" ? undefined : gridCardToneTile[tone][variant];
+  return cn(base, toneExtra, className);
+}
+
+function gridCardTitleClass(variant: GridCardVariant, tone: GridCardTone) {
+  if (tone === "default") return gridCardTitleVariants[variant];
+  return gridCardTitleTone[tone][variant];
+}
+
+function gridCardCtaClass(variant: GridCardVariant, tone: GridCardTone) {
+  if (tone === "default") return gridCardCtaVariants[variant];
+  return gridCardCtaTone[tone][variant];
+}
+
+type MediaEmphasis = "default" | "strong";
+
+const gridCardMediaStrongHoverTone: Record<
+  Exclude<GridCardTone, "default">,
+  Record<GridCardVariant, string>
+> = {
+  mute: {
+    default:
+      "transition-all duration-300 ease-out group-hover:bg-muted group-hover:text-muted-foreground group-hover:shadow-md group-hover:ring-2 group-hover:ring-border/50 group-hover:ring-offset-2",
+    reverse:
+      "transition-all duration-300 ease-out group-hover:bg-muted/80 group-hover:text-muted-foreground group-hover:shadow-md group-hover:ring-2 group-hover:ring-border/40 group-hover:ring-offset-2 group-hover:ring-offset-background",
+  },
+  error: {
+    default:
+      "transition-all duration-300 ease-out group-hover:bg-destructive/20 group-hover:text-destructive group-hover:shadow-md group-hover:ring-2 group-hover:ring-destructive/40 group-hover:ring-offset-2",
+    reverse:
+      "transition-all duration-300 ease-out group-hover:bg-destructive-foreground/20 group-hover:text-destructive-foreground group-hover:shadow-md group-hover:ring-2 group-hover:ring-destructive-foreground/50 group-hover:ring-offset-2 group-hover:ring-offset-[var(--destructive)]",
+  },
+  success: {
+    default:
+      "transition-all duration-300 ease-out group-hover:bg-[var(--success)]/25 group-hover:text-[var(--success)] group-hover:shadow-md group-hover:ring-2 group-hover:ring-[color-mix(in_oklab,var(--success)_45%,transparent)] group-hover:ring-offset-2",
+    reverse:
+      "transition-all duration-300 ease-out group-hover:bg-white/25 group-hover:text-white group-hover:shadow-md group-hover:ring-2 group-hover:ring-white/50 group-hover:ring-offset-2 group-hover:ring-offset-[var(--success)]",
+  },
+  warning: {
+    default:
+      "transition-all duration-300 ease-out group-hover:bg-[var(--warning)]/25 group-hover:text-[var(--warning)] group-hover:shadow-md group-hover:ring-2 group-hover:ring-[color-mix(in_oklab,var(--warning)_45%,transparent)] group-hover:ring-offset-2",
+    reverse:
+      "transition-all duration-300 ease-out group-hover:bg-neutral-900/15 group-hover:text-neutral-900 group-hover:shadow-md group-hover:ring-2 group-hover:ring-neutral-900/30 group-hover:ring-offset-2 group-hover:ring-offset-[var(--warning)]",
+  },
+  loading: {
+    default: "",
+    reverse: "",
+  },
+};
+
+const gridCardMediaBaseTone: Record<
+  Exclude<GridCardTone, "default">,
+  Record<GridCardVariant, Record<MediaEmphasis, string>>
+> = {
+  mute: {
+    default: {
+      strong: "size-16 bg-muted/50 text-muted-foreground",
+      default: "size-14 bg-muted/30 text-muted-foreground",
+    },
+    reverse: {
+      strong: "size-16 bg-muted/40 text-muted-foreground",
+      default: "size-14 bg-muted/20 text-muted-foreground",
+    },
+  },
+  error: {
+    default: {
+      strong: "size-16 bg-destructive/10 text-destructive",
+      default: "size-14 bg-destructive/5 text-destructive",
+    },
+    reverse: {
+      strong: "size-16 bg-destructive-foreground/15 text-destructive-foreground",
+      default: "size-14 bg-destructive-foreground/10 text-destructive-foreground",
+    },
+  },
+  success: {
+    default: {
+      strong: "size-16 bg-[var(--success)]/10 text-[var(--success)]",
+      default: "size-14 bg-[var(--success)]/5 text-[var(--success)]",
+    },
+    reverse: {
+      strong: "size-16 bg-white/20 text-white",
+      default: "size-14 bg-white/15 text-white/90",
+    },
+  },
+  warning: {
+    default: {
+      strong: "size-16 bg-[var(--warning)]/10 text-[var(--warning)]",
+      default: "size-14 bg-[var(--warning)]/5 text-[var(--warning)]",
+    },
+    reverse: {
+      strong: "size-16 bg-neutral-900/10 text-neutral-900",
+      default: "size-14 bg-neutral-900/5 text-neutral-900",
+    },
+  },
+  loading: {
+    default: {
+      strong: "size-16 bg-muted/40 text-muted-foreground",
+      default: "size-14 bg-muted/30 text-muted-foreground",
+    },
+    reverse: {
+      strong: "size-16 bg-primary-foreground/10 text-primary-foreground",
+      default: "size-14 bg-primary-foreground/5 text-primary-foreground",
+    },
+  },
+};
+
+function gridCardSlotWrap(
+  tone: GridCardTone,
+  variant: GridCardVariant,
+  emphasis: MediaEmphasis,
+  className?: string,
+) {
+  if (tone === "default") {
+    const strongHoverDefault =
+      emphasis === "strong"
+        ? "transition-all duration-300 ease-out group-hover:bg-primary/25 group-hover:text-primary group-hover:shadow-md group-hover:ring-2 group-hover:ring-primary/40 group-hover:ring-offset-2"
+        : "";
+    const strongHoverReverse =
+      emphasis === "strong"
+        ? "transition-all duration-300 ease-out group-hover:bg-primary-foreground/25 group-hover:text-primary-foreground group-hover:shadow-md group-hover:ring-2 group-hover:ring-primary-foreground/50 group-hover:ring-offset-2 group-hover:ring-offset-primary"
+        : "";
+    return cn(
+      "flex shrink-0 items-center justify-center rounded-xl",
+      variant === "reverse"
+        ? emphasis === "strong"
+          ? "size-16 bg-primary-foreground/15 text-primary-foreground"
+          : "size-14 bg-primary-foreground/10 text-primary-foreground"
+        : emphasis === "strong"
+          ? "size-16 bg-primary/10 text-primary"
+          : "size-14 bg-muted/40 text-foreground",
+      emphasis === "strong"
+        ? variant === "reverse"
+          ? strongHoverReverse
+          : strongHoverDefault
+        : "",
+      className,
+    );
+  }
+  const em = emphasis;
+  const base = gridCardMediaBaseTone[tone][variant][em];
+  const hover =
+    emphasis === "strong" && tone !== "loading" ? gridCardMediaStrongHoverTone[tone][variant] : "";
+  const loadingDim = tone === "loading" ? "opacity-70" : "";
+  return cn(
+    "flex shrink-0 items-center justify-center rounded-xl",
+    base,
+    hover,
+    loadingDim,
+    className,
+  );
+}
+
+const gridCardOrgInitialsByTone: Record<GridCardTone, Record<GridCardVariant, string>> = {
+  default: {
+    default: "border-border bg-muted/30 font-heading border text-sm font-bold text-foreground",
+    reverse:
+      "border-primary-foreground/25 bg-primary-foreground/10 font-heading border text-sm font-bold text-primary-foreground",
+  },
+  mute: {
+    default:
+      "border-border bg-muted/50 font-heading border text-sm font-bold text-muted-foreground",
+    reverse:
+      "border-muted-foreground/30 bg-muted/40 font-heading border text-sm font-bold text-muted-foreground",
+  },
+  error: {
+    default:
+      "border-destructive/30 bg-destructive/10 font-heading border text-sm font-bold text-destructive",
+    reverse:
+      "border-destructive-foreground/35 bg-destructive-foreground/10 font-heading border text-sm font-bold text-destructive-foreground",
+  },
+  success: {
+    default:
+      "border-[color-mix(in_oklab,var(--success)_40%,transparent)] bg-[var(--success)]/10 font-heading border text-sm font-bold text-[var(--success)]",
+    reverse: "border-white/30 bg-white/15 font-heading border text-sm font-bold text-white",
+  },
+  warning: {
+    default:
+      "border-[color-mix(in_oklab,var(--warning)_45%,transparent)] bg-[var(--warning)]/10 font-heading border text-sm font-bold text-neutral-900",
+    reverse:
+      "border-neutral-900/25 bg-neutral-900/10 font-heading border text-sm font-bold text-neutral-900",
+  },
+  loading: {
+    default:
+      "border-border bg-muted/30 font-heading border text-sm font-bold text-muted-foreground opacity-70",
+    reverse:
+      "border-primary-foreground/25 bg-primary-foreground/10 font-heading border text-sm font-bold text-primary-foreground opacity-70",
+  },
+};
+
+const gridCardAddBorderByTone: Record<GridCardTone, Record<GridCardVariant, string>> = {
+  default: {
+    default: "border-border border border-dashed",
+    reverse: "border-primary-foreground/40 border border-dashed",
+  },
+  mute: {
+    default: "border-border border border-dashed",
+    reverse: "border-muted-foreground/40 border border-dashed",
+  },
+  error: {
+    default: "border-destructive/40 border border-dashed",
+    reverse: "border-destructive-foreground/45 border border-dashed",
+  },
+  success: {
+    default: "border-[color-mix(in_oklab,var(--success)_50%,transparent)] border border-dashed",
+    reverse: "border-white/40 border border-dashed",
+  },
+  warning: {
+    default: "border-[color-mix(in_oklab,var(--warning)_50%,transparent)] border border-dashed",
+    reverse: "border-neutral-900/35 border border-dashed",
+  },
+  loading: {
+    default: "border-border border border-dashed opacity-70",
+    reverse: "border-primary-foreground/35 border border-dashed opacity-70",
+  },
+};
+
+function gridCardSandboxRing(tone: GridCardTone, variant: GridCardVariant): string {
+  if (tone === "default") {
+    return variant === "reverse"
+      ? "ring-primary-foreground/30 ring-offset-primary ring-2 ring-offset-2"
+      : "ring-primary/20 ring-2 ring-offset-2";
+  }
+  if (tone === "mute") {
+    return variant === "reverse"
+      ? "ring-muted-foreground/35 ring-offset-background ring-2 ring-offset-2"
+      : "ring-border ring-2 ring-offset-2";
+  }
+  if (tone === "error") {
+    return variant === "reverse"
+      ? "ring-destructive-foreground/40 ring-offset-[var(--destructive)] ring-2 ring-offset-2"
+      : "ring-destructive/30 ring-2 ring-offset-2";
+  }
+  if (tone === "success") {
+    return variant === "reverse"
+      ? "ring-white/40 ring-offset-[var(--success)] ring-2 ring-offset-2"
+      : "ring-[color-mix(in_oklab,var(--success)_35%,transparent)] ring-2 ring-offset-2";
+  }
+  if (tone === "warning") {
+    return variant === "reverse"
+      ? "ring-neutral-900/30 ring-offset-[var(--warning)] ring-2 ring-offset-2"
+      : "ring-[color-mix(in_oklab,var(--warning)_40%,transparent)] ring-2 ring-offset-2";
+  }
+  return variant === "reverse"
+    ? "ring-primary-foreground/25 ring-offset-primary ring-2 ring-offset-2"
+    : "ring-muted-foreground/25 ring-2 ring-offset-2";
+}
+
+const gridCardIconFrameDefault = cn(
+  "flex size-16 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary",
+  "transition-all duration-300 ease-out group-hover:bg-primary/25 group-hover:text-primary group-hover:shadow-md group-hover:ring-2 group-hover:ring-primary/40 group-hover:ring-offset-2",
+);
+
+const gridCardIconFrameReverse = cn(
+  "flex size-16 shrink-0 items-center justify-center rounded-xl bg-primary-foreground/15 text-primary-foreground",
+  "transition-all duration-300 ease-out group-hover:bg-primary-foreground/25 group-hover:text-primary-foreground group-hover:shadow-md group-hover:ring-2 group-hover:ring-primary-foreground/50 group-hover:ring-offset-2 group-hover:ring-offset-primary",
+);
+
+function gridCardIconFrameClass(tone: GridCardTone, variant: GridCardVariant): string {
+  if (tone === "default") {
+    return variant === "reverse" ? gridCardIconFrameReverse : gridCardIconFrameDefault;
+  }
+  return gridCardSlotWrap(tone, variant, "strong");
+}
 
 export type GridCardProps = {
   title: string;
@@ -56,11 +463,180 @@ export type GridCardProps = {
   className?: string;
   /** Surface style. Defaults to `default`; more variants added over time. */
   variant?: GridCardVariant;
+  /** Semantic accent / state (mute, error, success, warning, loading). Composes with `variant`. */
+  tone?: GridCardTone;
 };
 
 function buildAriaLabel(title: string, ctaLabel: string, description?: string) {
   if (description) return `${title}. ${description} ${ctaLabel}`;
   return `${title}. ${ctaLabel}`;
+}
+
+function buildSelectOrganisationAriaLabel(
+  title: string,
+  opts: {
+    sport?: string;
+    isActive?: boolean;
+    isSetup?: boolean;
+    /** Visible CTA text; if omitted, a default action phrase is used for assistive tech only. */
+    ctaLabel?: string;
+  },
+) {
+  const segments: string[] = [title];
+  if (opts.sport) segments.push(opts.sport);
+  if (opts.isActive === true) segments.push("Active");
+  if (opts.isActive === false) segments.push("Inactive");
+  if (opts.isSetup === true) segments.push("Setup complete");
+  if (opts.isSetup === false) segments.push("Setup pending");
+  if (opts.ctaLabel) segments.push(opts.ctaLabel);
+  else segments.push("Go to dashboard");
+  return segments.join(". ");
+}
+
+function SelectOrgStatusRow({ ok, children }: { ok: boolean; children: string }) {
+  return (
+    <div className="flex items-center justify-center gap-1.5">
+      <span
+        className={cn("size-1.5 shrink-0 rounded-full", ok ? "bg-emerald-500" : "bg-red-500")}
+        aria-hidden
+      />
+      <span className="text-muted-foreground text-[10px] leading-tight font-medium tracking-tight">
+        {children}
+      </span>
+    </div>
+  );
+}
+
+const gridCardSelectOrganisationTileOverrides =
+  "aspect-auto h-full min-h-0 justify-start gap-0 py-5";
+
+export type GridCardSelectOrganisationProps = {
+  title: string;
+  /** Optional link label at bottom of tile; omit for icon/title-only affordance. */
+  ctaLabel?: string;
+  visual: ReactNode;
+  href?: string;
+  onClick?: () => void;
+  className?: string;
+  variant?: GridCardVariant;
+  tone?: GridCardTone;
+  /** Organisation sport line (e.g. from `accountOrganisationDetails.Sport`). */
+  sport?: string;
+  isActive?: boolean;
+  isSetup?: boolean;
+};
+
+/**
+ * Taller tile for `/select-organisation`: org title, optional sport line, visual, status rows, CTA.
+ * Same surface tokens as {@link GridCard} but not `aspect-square`.
+ */
+export function GridCardSelectOrganisation({
+  title,
+  ctaLabel,
+  visual,
+  href,
+  onClick,
+  className,
+  variant = "default",
+  tone = "default",
+  sport,
+  isActive,
+  isSetup,
+}: GridCardSelectOrganisationProps) {
+  const ariaLabel = buildSelectOrganisationAriaLabel(title, {
+    ...(sport ? { sport } : {}),
+    ...(isActive !== undefined ? { isActive } : {}),
+    ...(isSetup !== undefined ? { isSetup } : {}),
+    ...(ctaLabel ? { ctaLabel } : {}),
+  });
+  const tileClass = gridCardTileClass(
+    variant,
+    tone,
+    cn(gridCardSelectOrganisationTileOverrides, className),
+  );
+
+  const hasStatusRows = isActive !== undefined || isSetup !== undefined;
+  const hasBottomBlock = hasStatusRows || Boolean(ctaLabel);
+
+  const inner = (
+    <div
+      className={cn(
+        "flex h-full min-h-0 w-full flex-col gap-3",
+        hasBottomBlock ? "justify-between" : "justify-center",
+      )}
+    >
+      <div className="flex flex-col items-center gap-3">
+        <TypographyH3
+          className={cn(
+            "line-clamp-2 w-full shrink-0 text-base leading-snug font-semibold",
+            gridCardTitleClass(variant, tone),
+          )}
+        >
+          {title}
+        </TypographyH3>
+        {sport ? (
+          <TypographyMuted className="line-clamp-1 w-full text-center text-xs">
+            {sport}
+          </TypographyMuted>
+        ) : null}
+        <div className="transition-transform duration-300 ease-out will-change-transform group-hover:-translate-y-1 group-hover:scale-110">
+          {visual}
+        </div>
+      </div>
+      {hasBottomBlock ? (
+        <div className="flex w-full min-w-0 flex-col items-center gap-2">
+          {hasStatusRows ? (
+            <div className="flex w-full min-w-0 flex-row flex-nowrap items-center justify-center gap-3">
+              {isActive !== undefined ? (
+                <SelectOrgStatusRow ok={isActive}>
+                  {isActive ? "Active" : "Inactive"}
+                </SelectOrgStatusRow>
+              ) : null}
+              {isSetup !== undefined ? (
+                <SelectOrgStatusRow ok={isSetup}>
+                  {isSetup ? "Setup complete" : "Setup pending"}
+                </SelectOrgStatusRow>
+              ) : null}
+            </div>
+          ) : null}
+          {ctaLabel ? (
+            <span
+              className={cn(
+                "cursor-pointer text-xs font-medium transition-colors",
+                gridCardCtaClass(variant, tone),
+              )}
+            >
+              {ctaLabel}
+            </span>
+          ) : null}
+        </div>
+      ) : null}
+    </div>
+  );
+
+  const busy = tone === "loading";
+
+  const body = href ? (
+    <Link href={href} className={tileClass} aria-label={ariaLabel} aria-busy={busy}>
+      {inner}
+    </Link>
+  ) : (
+    <button
+      type="button"
+      className={tileClass}
+      aria-label={ariaLabel}
+      aria-busy={busy}
+      onClick={onClick}
+    >
+      {inner}
+    </button>
+  );
+
+  return (
+    <GridCardSurfaceContext.Provider value={{ variant, tone }}>
+      {body}
+    </GridCardSurfaceContext.Provider>
+  );
 }
 
 /**
@@ -77,16 +653,17 @@ export function GridCard({
   onClick,
   className,
   variant = "default",
+  tone = "default",
 }: GridCardProps) {
   const ariaLabel = buildAriaLabel(title, ctaLabel, description);
-  const tileClass = cn(gridCardTileVariants[variant], className);
+  const tileClass = gridCardTileClass(variant, tone, className);
 
   const inner = (
     <>
       <TypographyH3
         className={cn(
           "line-clamp-2 w-full shrink-0 text-base leading-snug font-semibold",
-          gridCardTitleVariants[variant],
+          gridCardTitleClass(variant, tone),
         )}
       >
         {title}
@@ -97,7 +674,7 @@ export function GridCard({
       <span
         className={cn(
           "cursor-pointer text-xs font-medium transition-colors",
-          gridCardCtaVariants[variant],
+          gridCardCtaClass(variant, tone),
         )}
       >
         {ctaLabel}
@@ -105,17 +682,29 @@ export function GridCard({
     </>
   );
 
+  const busy = tone === "loading";
+
   const body = href ? (
-    <Link href={href} className={tileClass} aria-label={ariaLabel}>
+    <Link href={href} className={tileClass} aria-label={ariaLabel} aria-busy={busy}>
       {inner}
     </Link>
   ) : (
-    <button type="button" className={tileClass} aria-label={ariaLabel} onClick={onClick}>
+    <button
+      type="button"
+      className={tileClass}
+      aria-label={ariaLabel}
+      aria-busy={busy}
+      onClick={onClick}
+    >
       {inner}
     </button>
   );
 
-  return <GridCardVariantContext.Provider value={variant}>{body}</GridCardVariantContext.Provider>;
+  return (
+    <GridCardSurfaceContext.Provider value={{ variant, tone }}>
+      {body}
+    </GridCardSurfaceContext.Provider>
+  );
 }
 
 type GridCardVisualSlotProps = {
@@ -124,109 +713,69 @@ type GridCardVisualSlotProps = {
   emphasis?: "default" | "strong";
   /** When `visual` is `org`, overrides the default placeholder initials (e.g. `ND`). */
   initials?: string;
+  /** When `visual` is `org`, show logo instead of initials (e.g. ParentLogo URL). */
+  imageSrc?: string;
+  /** Optional label for the logo image (defaults to empty decorative). */
+  imageAlt?: string;
 };
 
 /**
  * Preset visuals for {@link GridCard}. Use `emphasis="strong"` for the selected Members Area style.
- * Adapts to parent {@link GridCard} `variant` (e.g. `reverse` inverts icon surface).
+ * Adapts to parent {@link GridCard} `variant` and `tone`.
  */
 export function GridCardVisualSlot({
   visual,
   className,
   emphasis = "strong",
   initials,
+  imageSrc,
+  imageAlt,
 }: GridCardVisualSlotProps) {
   const cardVariant = useGridCardVariant();
+  const tone = useGridCardTone();
 
-  const strongHoverDefault =
-    emphasis === "strong"
-      ? "transition-all duration-300 ease-out group-hover:bg-primary/25 group-hover:text-primary group-hover:shadow-md group-hover:ring-2 group-hover:ring-primary/40 group-hover:ring-offset-2"
-      : "";
-
-  const strongHoverReverse =
-    emphasis === "strong"
-      ? "transition-all duration-300 ease-out group-hover:bg-primary-foreground/25 group-hover:text-primary-foreground group-hover:shadow-md group-hover:ring-2 group-hover:ring-primary-foreground/50 group-hover:ring-offset-2 group-hover:ring-offset-primary"
-      : "";
-
-  const wrapDefault = cn(
-    "flex shrink-0 items-center justify-center rounded-xl",
-    emphasis === "strong"
-      ? "size-16 bg-primary/10 text-primary"
-      : "size-14 bg-muted/40 text-foreground",
-    strongHoverDefault,
-    className,
-  );
-
-  const wrapReverse = cn(
-    "flex shrink-0 items-center justify-center rounded-xl",
-    emphasis === "strong"
-      ? "size-16 bg-primary-foreground/15 text-primary-foreground"
-      : "size-14 bg-primary-foreground/10 text-primary-foreground",
-    strongHoverReverse,
-    className,
-  );
-
-  const wrap = cardVariant === "reverse" ? wrapReverse : wrapDefault;
+  const wrap = gridCardSlotWrap(tone, cardVariant, emphasis, className);
 
   if (visual === "org") {
+    const trimmedSrc = imageSrc?.trim();
+    if (trimmedSrc) {
+      return (
+        <div
+          className={cn(wrap, gridCardOrgInitialsByTone[tone][cardVariant], "overflow-hidden p-0")}
+        >
+          <img
+            src={trimmedSrc}
+            alt={imageAlt ?? ""}
+            className="size-full object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      );
+    }
     const raw = initials?.trim() ?? "";
     const mark = raw.length > 0 ? raw.slice(0, 2).toUpperCase() : "ND";
-    return (
-      <div
-        className={cn(
-          wrap,
-          cardVariant === "reverse"
-            ? "border-primary-foreground/25 bg-primary-foreground/10 font-heading border text-sm font-bold"
-            : "border-border bg-muted/30 font-heading border text-sm font-bold",
-        )}
-      >
-        {mark}
-      </div>
-    );
+    return <div className={cn(wrap, gridCardOrgInitialsByTone[tone][cardVariant])}>{mark}</div>;
   }
   if (visual === "add") {
     return (
-      <div
-        className={cn(
-          wrap,
-          cardVariant === "reverse"
-            ? "border-primary-foreground/40 border border-dashed"
-            : "border-border border border-dashed",
-        )}
-      >
+      <div className={cn(wrap, gridCardAddBorderByTone[tone][cardVariant])}>
         <Plus className={emphasis === "strong" ? "size-7" : "size-6"} strokeWidth={2} aria-hidden />
       </div>
     );
   }
   return (
-    <div
-      className={cn(
-        wrap,
-        emphasis === "strong" &&
-          (cardVariant === "reverse"
-            ? "ring-primary-foreground/30 ring-offset-primary ring-2 ring-offset-2"
-            : "ring-primary/20 ring-2 ring-offset-2"),
-      )}
-    >
+    <div className={cn(wrap, emphasis === "strong" && gridCardSandboxRing(tone, cardVariant))}>
       <Route className={emphasis === "strong" ? "size-7" : "size-6"} aria-hidden />
     </div>
   );
 }
 
-const gridCardIconFrameDefault = cn(
-  "flex size-16 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary",
-  "transition-all duration-300 ease-out group-hover:bg-primary/25 group-hover:text-primary group-hover:shadow-md group-hover:ring-2 group-hover:ring-primary/40 group-hover:ring-offset-2",
-);
-
-const gridCardIconFrameReverse = cn(
-  "flex size-16 shrink-0 items-center justify-center rounded-xl bg-primary-foreground/15 text-primary-foreground",
-  "transition-all duration-300 ease-out group-hover:bg-primary-foreground/25 group-hover:text-primary-foreground group-hover:shadow-md group-hover:ring-2 group-hover:ring-primary-foreground/50 group-hover:ring-offset-2 group-hover:ring-offset-primary",
-);
-
 /** Lucide icon inside the same media treatment as {@link GridCardVisualSlot} (strong). */
 export function GridCardIcon({ icon: Icon }: { icon: LucideIcon }) {
   const variant = useGridCardVariant();
-  const frame = variant === "reverse" ? gridCardIconFrameReverse : gridCardIconFrameDefault;
+  const tone = useGridCardTone();
+  const frame = gridCardIconFrameClass(tone, variant);
   return (
     <div className={frame}>
       <Icon className="size-7" aria-hidden />

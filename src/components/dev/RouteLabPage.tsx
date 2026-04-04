@@ -1,23 +1,31 @@
-import { Suspense } from "react";
+import { Suspense, type ReactNode } from "react";
 
+import {
+  RouteLabScreenBody,
+  type RouteLabContentPreset,
+} from "@/components/dev/route-lab-screen-body";
 import { ScenarioSwitch } from "@/components/dev/ScenarioSwitch";
-
-import type { ReactNode } from "react";
 
 type RouteLabPageProps = {
   title: string;
   productionRoute: string;
   description: string;
+  /** Scenario content width; defaults to full width of the route-lab main column. */
+  contentPreset?: RouteLabContentPreset;
   stateOptions?: readonly string[];
   modeOptions?: readonly string[];
   scenarioSummary?: string;
   children: ReactNode;
 };
 
+/**
+ * Standard lab wrapper for `/sandbox/route-lab/*` screens: metadata header, optional scenario controls, then RouteLabScreenBody.
+ */
 export function RouteLabPage({
   title,
   productionRoute,
   description,
+  contentPreset = "full",
   stateOptions,
   modeOptions,
   scenarioSummary,
@@ -45,7 +53,7 @@ export function RouteLabPage({
           <ScenarioSwitch stateOptions={stateOptions ?? []} modeOptions={modeOptions ?? []} />
         </Suspense>
       ) : null}
-      <div>{children}</div>
+      <RouteLabScreenBody preset={contentPreset}>{children}</RouteLabScreenBody>
     </div>
   );
 }

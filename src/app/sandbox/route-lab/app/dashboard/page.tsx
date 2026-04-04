@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { RouteLabPage } from "@/components/dev/RouteLabPage";
-import { TypographyH2, TypographyH3, TypographyMuted } from "@/components/typography";
+import { TypographyH3, TypographyMuted } from "@/components/typography";
 import { BrandedLoader } from "@/components/ui/branded-loader";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ErrorState } from "@/components/ui/error-state";
@@ -54,15 +54,11 @@ export default async function RouteLabDashboardPage({
       scenarioSummary={`mode=${mode}, state=${state}. Production pattern: ${productionRoute}`}
     >
       <div className="space-y-6">
-        <div className="border-border flex flex-col gap-1 border-b pb-4">
-          <TypographyMuted className="text-xs">
-            Lab app shell ·{" "}
-            {mode === "no-org"
-              ? "No active organisation (gateway context)"
-              : "Organisation: Eastern Eagles (fixture)"}
-          </TypographyMuted>
-          <TypographyH2 className="text-xl font-semibold">Dashboard</TypographyH2>
-        </div>
+        <TypographyMuted className="text-xs">
+          {mode === "no-org"
+            ? "No active organisation (gateway context)."
+            : "Organisation: Eastern Eagles (fixture)."}
+        </TypographyMuted>
 
         {mode === "no-org" ? (
           <Card>

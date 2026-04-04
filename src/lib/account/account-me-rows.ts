@@ -1,4 +1,18 @@
-import type { AccountMePayload, AccountSummary } from "@/types/api/account";
+import type {
+  AccountMePayload,
+  AccountOrganisationDetails,
+  AccountSummary,
+} from "@/types/api/account";
+
+/**
+ * Organisation display fields for a picker row. Prefer legacy `contentHub` when both exist
+ * so single-account payloads keep prior behaviour; `accounts[]` rows typically only set top-level `accountOrganisationDetails`.
+ */
+export function organisationDetailsFromAccountRow(
+  row: AccountSummary,
+): AccountOrganisationDetails | undefined {
+  return row.contentHub?.accountOrganisationDetails ?? row.accountOrganisationDetails;
+}
 
 /**
  * Rows for the org picker: prefers `accounts[]`, falls back to legacy single `accountId` + contentHub.

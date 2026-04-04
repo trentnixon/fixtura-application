@@ -1,10 +1,16 @@
+import Link from "next/link";
+
 import { InlineAlert } from "@/components/auth/actions";
 import { RouteLabPage } from "@/components/dev/RouteLabPage";
-import { TypographyH2, TypographyH3, TypographyMuted } from "@/components/typography";
+import { AccountLoadErrorFeedbackLab } from "@/components/select-organisation/account-load-error-feedback";
+import { TypographyH2, TypographyMuted } from "@/components/typography";
 import { BrandedLoader } from "@/components/ui/branded-loader";
-import { Card, CardHeader } from "@/components/ui/card";
-import { ErrorState } from "@/components/ui/error-state";
-import { GridCard, GridCardVisualSlot } from "@/components/ui/grid-card";
+import { Button } from "@/components/ui/button";
+import {
+  GridCard,
+  GridCardSelectOrganisation,
+  GridCardVisualSlot,
+} from "@/components/ui/grid-card";
 import {
   LAB_ORGANISATIONS_MULTIPLE,
   LAB_ORGANISATIONS_NONE,
@@ -12,9 +18,38 @@ import {
   type LabOrganisation,
 } from "@/features/route-lab/fixtures/organisations";
 import { getScenario } from "@/features/route-lab/utils/getScenario";
+import {
+  SELECT_ORG_REASON_QUERY,
+  parseSelectOrgGatewayReason,
+  selectOrgReasonMessage,
+} from "@/lib/config/gateway-reasons";
 import { ROUTES } from "@/lib/config/routes";
+import { cn } from "@/lib/utils";
 
 const STATES = ["loading", "none", "one", "multiple", "error"] as const;
+
+const LAB_SELECT_ORG_PATH = `${ROUTES.routeLab}/org/select-organisation`;
+
+function firstQueryValue(value: string | string[] | undefined): string | undefined {
+  if (value === undefined) return undefined;
+  if (Array.isArray(value)) return value[0];
+  return value || undefined;
+}
+
+function labDismissReasonHref(
+  params: Record<string, string | string[] | undefined>,
+  pathname: string,
+): string {
+  const sp = new URLSearchParams();
+  for (const [key, val] of Object.entries(params)) {
+    if (key === SELECT_ORG_REASON_QUERY) continue;
+    if (val === undefined) continue;
+    const v = Array.isArray(val) ? val[0] : val;
+    if (v) sp.set(key, v);
+  }
+  const q = sp.toString();
+  return q ? `${pathname}?${q}` : pathname;
+}
 
 function initialsFromName(name: string): string {
   const parts = name.trim().split(/\s+/).filter(Boolean);
@@ -23,16 +58,16 @@ function initialsFromName(name: string): string {
   return (parts[0]![0]! + parts[parts.length - 1]![0]!).toUpperCase();
 }
 
-const CREATE_ORG_HREF = `${ROUTES.routeLab}/org/create-organisation`;
-
-function CreateOrganisationGridCard() {
+function CreateOrganisationGridCard({ className }: { className?: string }) {
   return (
     <GridCard
+      className={cn("mx-0", className)}
       variant="reverse"
+      tone="mute"
       title="Create organisation"
       description="Add a new club, association, or internal workspace to the members area."
       ctaLabel="Create organisation"
-      href={CREATE_ORG_HREF}
+      href={`${ROUTES.routeLab}/org/create-organisation`}
       visual={<GridCardVisualSlot visual="add" />}
     />
   );
@@ -59,8 +94,15 @@ export default async function RouteLabSelectOrganisationPage({
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const { state } = getScenario(await searchParams);
+  const resolvedParams = await searchParams;
+  const { state } = getScenario(resolvedParams);
   const orgs = organisationsForState(state);
+
+  const reasonParam = firstQueryValue(resolvedParams[SELECT_ORG_REASON_QUERY]);
+  const parsedReason = parseSelectOrgGatewayReason(reasonParam ?? null);
+  const dismissHref = labDismissReasonHref(resolvedParams, LAB_SELECT_ORG_PATH);
+
+  const scenarioSummary = `Active query: state=${state}. Append ?${SELECT_ORG_REASON_QUERY}=forbidden|not_found|invalid_org (with state) to mirror production gateway messaging; Dismiss clears the reason and keeps other params. Open uses the lab dashboard (not real /o/ scope).`;
 
   return (
     <RouteLabPage
@@ -68,70 +110,76 @@ export default async function RouteLabSelectOrganisationPage({
       productionRoute={ROUTES.selectOrganisation}
       description="Gateway screen for authenticated users without an active organisation scope."
       stateOptions={STATES}
-      scenarioSummary={`Active query: state=${state}. Open goes to lab dashboard (not real /o/ scope).`}
+      scenarioSummary={scenarioSummary}
     >
-      {state === "loading" ? (
-        <BrandedLoader fullPage label="Loading your organisations" className="min-h-[240px]" />
-      ) : null}
+      {state === "loading" ? <BrandedLoader fullPage label="Loading your organisations" /> : null}
 
       {state === "error" ? (
-        <div className="mx-auto max-w-md py-8">
-          <ErrorState
-            title="Could not load accounts"
-            description="Lab error state — no API was called."
-          />
+        <div className="flex w-full max-w-md flex-col gap-4 py-8">
+          <AccountLoadErrorFeedbackLab />
         </div>
       ) : null}
 
       {state !== "loading" && state !== "error" ? (
-        <div className="mx-auto grid w-full max-w-5xl gap-6 py-4">
+        <div className="grid w-full max-w-5xl gap-6 py-4">
           <div>
             <TypographyH2 className="font-brand text-2xl font-semibold">
-              Select organisation
+              {orgs && orgs.length === 0 ? "Set up an organisation" : "Select organisation"}
             </TypographyH2>
             <TypographyMuted className="mt-1">
-              Choose which organisation you want to work in. You can switch later from the sidebar.
+              {orgs && orgs.length === 0
+                ? "Create one below."
+                : "Choose which organisation you want to work in. You can switch later from the sidebar."}
             </TypographyMuted>
           </div>
 
-          {(state === "multiple" || state === "one") && (
-            <InlineAlert
-              message="You switched organisation from settings (lab banner)."
-              variant="warning"
-            />
-          )}
+          {parsedReason ? (
+            <div className="grid gap-2">
+              <InlineAlert message={selectOrgReasonMessage(parsedReason)} variant="warning" />
+              <Button asChild variant="ghost" size="sm" className="self-start">
+                <Link href={dismissHref}>Dismiss</Link>
+              </Button>
+            </div>
+          ) : null}
 
           {orgs && orgs.length === 0 ? (
-            <div className="space-y-4">
-              <Card>
-                <CardHeader>
-                  <TypographyH3 className="text-lg font-semibold">
-                    No organisations yet
-                  </TypographyH3>
-                  <TypographyMuted>
-                    Fixture: empty list. In production, organisations would load from the CMS.
-                  </TypographyMuted>
-                </CardHeader>
-              </Card>
-              <div className="flex justify-center">
-                <CreateOrganisationGridCard />
-              </div>
+            <div className="flex justify-start">
+              <CreateOrganisationGridCard />
             </div>
           ) : null}
 
           {orgs && orgs.length > 0 ? (
-            <div className="grid grid-cols-1 justify-items-center gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              <CreateOrganisationGridCard />
-              {orgs.map((a) => (
-                <GridCard
-                  key={a.id}
-                  title={a.name}
-                  ctaLabel="Open"
-                  href={`${ROUTES.routeLab}/app/dashboard?mode=org-selected&state=populated`}
-                  visual={<GridCardVisualSlot visual="org" initials={initialsFromName(a.name)} />}
-                  {...(a.sport ? { description: a.sport } : {})}
-                />
-              ))}
+            <div className="flex flex-wrap items-stretch justify-start gap-4">
+              <div className="flex h-full min-h-0 w-full max-w-56 shrink-0 flex-col self-stretch">
+                <CreateOrganisationGridCard className="h-full min-h-0" />
+              </div>
+              {orgs.map((a) => {
+                const name = a.name;
+                const sport = a.sport;
+                const logo = a.logo?.trim();
+                return (
+                  <div
+                    key={a.id}
+                    className="flex h-full min-h-0 w-full max-w-56 shrink-0 flex-col self-stretch"
+                  >
+                    <GridCardSelectOrganisation
+                      className="mx-0 h-full min-h-0 w-full"
+                      title={name}
+                      href={`${ROUTES.routeLab}/app/dashboard?mode=org-selected&state=populated`}
+                      {...(sport ? { sport } : {})}
+                      {...(a.isActive !== undefined ? { isActive: a.isActive } : {})}
+                      {...(a.isSetup !== undefined ? { isSetup: a.isSetup } : {})}
+                      visual={
+                        <GridCardVisualSlot
+                          visual="org"
+                          initials={initialsFromName(name)}
+                          {...(logo ? { imageSrc: logo, imageAlt: name } : {})}
+                        />
+                      }
+                    />
+                  </div>
+                );
+              })}
             </div>
           ) : null}
         </div>

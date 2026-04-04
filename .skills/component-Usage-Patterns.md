@@ -161,6 +161,7 @@ Examples:
 
 - Button → interaction trigger
 - Card → content container
+- FeedbackCard / FeedbackCardSoft / FeedbackCardTinted / FeedbackCardStrong → persistent semantic notices (info through premium), not toasts
 - FormField → input + label + error
 - Dialog → modal interaction
 
@@ -183,6 +184,38 @@ Avoid components that:
   <CardContent>Content goes here</CardContent>
 </Card>
 ```
+
+### Example: persistent feedback cards (semantic state)
+
+Use `@/components/ui/feedback-card` for ongoing product states that should stay on the page until understood or resolved—distinct from transient toasts. Three visual variants are available as named components; or pass `visualVariant` on `FeedbackCard`.
+
+```tsx
+import {
+  FeedbackCard,
+  FeedbackCardSoft,
+  FeedbackCardTinted,
+  FeedbackCardStrong,
+} from "@/components/ui/feedback-card";
+
+<FeedbackCardSoft
+  kind="warning"
+  label="Warning"
+  title="Action needed"
+  description="Short supporting copy."
+  primaryCta="Resolve"
+/>
+
+<FeedbackCard
+  visualVariant="tinted"
+  kind="info"
+  label="Info"
+  title="Next step"
+  description="Guidance copy."
+  primaryCta="Continue"
+/>
+```
+
+Reference: `/sandbox/kitchen-sink/cards` (Feedback cards section).
 
 ### Example: using a button
 

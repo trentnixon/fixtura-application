@@ -99,14 +99,20 @@ export function PublicFooter() {
 
 /**
  * PublicPageWrapper: Defines page-level vertical structure.
+ * Use `contentAs="div"` when children include their own `<main>` (e.g. sandbox tool layouts with a sidebar).
  */
 export function PublicPageWrapper({
   children,
   className,
+  contentAs = "main",
 }: {
   children: ReactNode;
   className?: string;
+  /** `div` avoids invalid nested `<main>` when a child layout renders `<main>`. */
+  contentAs?: "main" | "div";
 }) {
+  const Content = contentAs === "main" ? "main" : "div";
+
   return (
     <div
       className={cn(
@@ -119,7 +125,9 @@ export function PublicPageWrapper({
       <div className="bg-brand-secondary/15 absolute bottom-40 left-0 -z-10 h-96 w-96 rounded-full opacity-50 blur-3xl sm:opacity-100" />
 
       <PublicTopBar />
-      <main className="flex-1 py-12">{children}</main>
+      <Content className={cn("flex-1", contentAs === "main" ? "py-12" : "py-0")}>
+        {children}
+      </Content>
       <PublicFooter />
     </div>
   );

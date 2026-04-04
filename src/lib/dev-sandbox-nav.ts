@@ -33,7 +33,10 @@ export type SandboxNavSection = {
   links: { href: string; label: string }[];
 };
 
-/** Route lab screen routes — extend as new lab pages are added. */
+/**
+ * Route lab screen routes — extend as new lab pages are added.
+ * New pages should use RouteLabPage with an appropriate contentPreset (auth | form | full); see RouteLabScreenBody.
+ */
 export const ROUTE_LAB_NAV_SECTIONS: SandboxNavSection[] = [
   {
     title: "Public",

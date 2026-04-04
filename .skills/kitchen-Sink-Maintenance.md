@@ -76,7 +76,7 @@ That means it may demonstrate:
 - containers
 - forms
 - buttons
-- cards
+- cards (standard cards, persistent feedback cards, GridCard tiles)
 - navigation
 - states
 - dialogs

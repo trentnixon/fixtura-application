@@ -23,6 +23,7 @@ Use this skill when:
 - showing toast notifications
 - displaying inline success or error messages
 - presenting system alerts or banners
+- placing persistent in-page feedback cards (semantic state, primary CTA)
 - handling form feedback
 - responding to API actions
 - communicating background events
@@ -107,6 +108,28 @@ Alerts should:
 
 ---
 
+### 4.4 Persistent feedback cards (in-page)
+
+Used for:
+
+- ongoing states the user must see until they understand, fix, or dismiss them
+- blockers, billing issues, onboarding nudges, upgrade prompts
+- structured messaging with a clear primary action (and optional secondary)
+
+Not for:
+
+- short-lived confirmations (use toasts)
+- field-level validation (use inline messages)
+
+Implementation:
+
+- `FeedbackCard`, `FeedbackCardSoft`, `FeedbackCardTinted`, `FeedbackCardStrong` from `@/components/ui/feedback-card`
+- Reference: `/sandbox/kitchen-sink/cards` (Feedback cards section)
+
+These should feel like normal product cards with semantic tinting, not loud banners.
+
+---
+
 ## 5. Messaging Rule
 
 All messages must be:
@@ -171,6 +194,7 @@ Before adding feedback UI:
 
 - check `/sandbox/kitchen-sink/toasts`
 - check `/sandbox/kitchen-sink/states`
+- for persistent in-page semantic cards, check `/sandbox/kitchen-sink/cards` and `@/components/ui/feedback-card`
 
 Match approved patterns.
 

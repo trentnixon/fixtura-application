@@ -1,16 +1,22 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { InlineAlert } from "@/components/auth/actions";
+import { AccountLoadErrorFeedback } from "@/components/select-organisation/account-load-error-feedback";
+import { TypographyH2, TypographyMuted } from "@/components/typography";
 import { BrandedLoader } from "@/components/ui/branded-loader";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ErrorState } from "@/components/ui/error-state";
-import { accountPickerRowsFromMePayload } from "@/lib/account/account-me-rows";
+import {
+  GridCard,
+  GridCardSelectOrganisation,
+  GridCardVisualSlot,
+} from "@/components/ui/grid-card";
+import {
+  accountPickerRowsFromMePayload,
+  organisationDetailsFromAccountRow,
+} from "@/lib/account/account-me-rows";
 import { useAccountMe } from "@/lib/api/hooks/account/useAccountMe";
-import { AUTH_ERROR_MESSAGES } from "@/lib/auth/auth-errors";
 import { accountScopedRoutes } from "@/lib/config/account-routes";
 import {
   SELECT_ORG_REASON_QUERY,
@@ -18,40 +24,103 @@ import {
   selectOrgReasonMessage,
 } from "@/lib/config/gateway-reasons";
 import { ROUTES } from "@/lib/config/routes";
+import {
+  SELECT_ORG_SIM_QUERY,
+  parseSelectOrgSim,
+  syntheticAccountMeResponseForSim,
+} from "@/lib/dev/select-organisation-sim";
+import { isSelectOrgSimulatorEnabled } from "@/lib/dev-sandbox";
+import { cn } from "@/lib/utils";
+
+function initialsFromName(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "";
+  if (parts.length === 1) return parts[0]!.slice(0, 2).toUpperCase();
+  return (parts[0]![0]! + parts[parts.length - 1]![0]!).toUpperCase();
+}
+
+function CreateOrganisationGridCard({ className }: { className?: string }) {
+  return (
+    <GridCard
+      className={cn("mx-0", className)}
+      variant="reverse"
+      tone="mute"
+      title="Create organisation"
+      description="Add a new club, association, or internal workspace to the members area."
+      ctaLabel="Create organisation"
+      href={ROUTES.createOrganisation}
+      visual={<GridCardVisualSlot visual="add" />}
+    />
+  );
+}
 
 export function SelectOrganisationContent() {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { data, isPending, isError, refetch } = useAccountMe();
+
+  const orgSim = isSelectOrgSimulatorEnabled
+    ? parseSelectOrgSim(searchParams.get(SELECT_ORG_SIM_QUERY))
+    : null;
+  const simulating = orgSim !== null;
+
+  const { data, isPending, isError, refetch } = useAccountMe(undefined, {
+    enabled: !simulating,
+  });
 
   const reasonParam = searchParams.get(SELECT_ORG_REASON_QUERY);
   const parsedReason = parseSelectOrgGatewayReason(reasonParam);
 
-  if (isPending) {
+  function removeOrgSimFromUrl() {
+    const p = new URLSearchParams(searchParams.toString());
+    p.delete(SELECT_ORG_SIM_QUERY);
+    const q = p.toString();
+    router.replace(q ? `${pathname}?${q}` : pathname);
+  }
+
+  if (orgSim === "loading") {
     return <BrandedLoader fullPage label="Loading your organisations" />;
   }
 
-  if (isError) {
+  if (!simulating && isPending) {
+    return <BrandedLoader fullPage label="Loading your organisations" />;
+  }
+
+  if (orgSim === "error") {
     return (
-      <div className="mx-auto flex w-full max-w-md flex-col gap-4 py-8">
-        <ErrorState
-          title="Could not load accounts"
-          description={AUTH_ERROR_MESSAGES.network}
-          onRetry={() => void refetch()}
-        />
+      <div className="flex w-full max-w-md flex-col gap-4 py-8">
+        <AccountLoadErrorFeedback onRetry={removeOrgSimFromUrl} />
       </div>
     );
   }
 
-  const rows = accountPickerRowsFromMePayload(data?.data);
+  if (!simulating && isError) {
+    return (
+      <div className="flex w-full max-w-md flex-col gap-4 py-8">
+        <AccountLoadErrorFeedback onRetry={() => void refetch()} />
+      </div>
+    );
+  }
+
+  const payload =
+    orgSim === "none" || orgSim === "one" || orgSim === "multiple"
+      ? syntheticAccountMeResponseForSim(orgSim).data
+      : data?.data;
+
+  const rows = accountPickerRowsFromMePayload(payload);
+  const isEmpty = rows.length === 0;
 
   return (
-    <div className="mx-auto grid w-full max-w-lg gap-6 py-4">
+    <div className="grid w-full max-w-5xl gap-6 py-4">
       <div>
-        <h1 className="font-brand text-2xl font-semibold">Select organisation</h1>
-        <p className="text-muted-foreground mt-1 text-sm">
-          Choose which organisation you want to work in. You can switch later from the sidebar.
-        </p>
+        <TypographyH2 className="font-brand text-2xl font-semibold">
+          {isEmpty ? "Set up an organisation" : "Select organisation"}
+        </TypographyH2>
+        <TypographyMuted className="mt-1">
+          {isEmpty
+            ? "Create one below."
+            : "Choose which organisation you want to work in. You can switch later from the sidebar."}
+        </TypographyMuted>
       </div>
 
       {parsedReason ? (
@@ -70,54 +139,45 @@ export function SelectOrganisationContent() {
       ) : null}
 
       {rows.length === 0 ? (
-        <Card>
-          <CardHeader>
-            <CardTitle>No organisations yet</CardTitle>
-            <CardDescription>
-              When your CMS account has organisations, they will appear here. Create flow is coming
-              soon.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button asChild variant="outline">
-              <Link href={ROUTES.createOrganisation}>Create organisation</Link>
-            </Button>
-          </CardContent>
-        </Card>
+        <div className="flex justify-start">
+          <CreateOrganisationGridCard />
+        </div>
       ) : (
-        <ul className="grid gap-3">
+        <div className="flex flex-wrap items-stretch justify-start gap-4">
+          <div className="flex h-full min-h-0 w-full max-w-56 shrink-0 flex-col self-stretch">
+            <CreateOrganisationGridCard className="h-full min-h-0" />
+          </div>
           {rows.map((a) => {
             const id = String(a.id);
-            const name = a.contentHub?.accountOrganisationDetails?.Name ?? `Account ${id}`;
-            const sport = a.contentHub?.accountOrganisationDetails?.Sport;
+            const org = organisationDetailsFromAccountRow(a);
+            const name = org?.Name ?? `Account ${id}`;
+            const sport = org?.Sport;
+            const logo = org?.ParentLogo?.trim();
             return (
-              <li key={id}>
-                <Card className="hover:bg-muted/40 transition-colors">
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <div>
-                      <CardTitle className="text-base">{name}</CardTitle>
-                      {sport ? <CardDescription className="mt-1">{sport}</CardDescription> : null}
-                    </div>
-                    <Button asChild size="sm">
-                      <Link href={accountScopedRoutes.dashboard(id)}>Open</Link>
-                    </Button>
-                  </CardHeader>
-                </Card>
-              </li>
+              <div
+                key={id}
+                className="flex h-full min-h-0 w-full max-w-56 shrink-0 flex-col self-stretch"
+              >
+                <GridCardSelectOrganisation
+                  className="mx-0 h-full min-h-0 w-full"
+                  title={name}
+                  href={accountScopedRoutes.dashboard(id)}
+                  {...(sport ? { sport } : {})}
+                  {...(a.isActive !== undefined ? { isActive: a.isActive } : {})}
+                  {...(a.isSetup !== undefined ? { isSetup: a.isSetup } : {})}
+                  visual={
+                    <GridCardVisualSlot
+                      visual="org"
+                      initials={initialsFromName(name)}
+                      {...(logo ? { imageSrc: logo, imageAlt: name } : {})}
+                    />
+                  }
+                />
+              </div>
             );
           })}
-        </ul>
+        </div>
       )}
-
-      <p className="text-muted-foreground text-center text-xs">
-        Need another organisation?{" "}
-        <Link
-          href={ROUTES.createOrganisation}
-          className="text-primary underline-offset-4 hover:underline"
-        >
-          Create organisation
-        </Link>
-      </p>
     </div>
   );
 }

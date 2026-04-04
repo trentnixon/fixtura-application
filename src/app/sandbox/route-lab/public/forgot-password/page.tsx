@@ -1,7 +1,7 @@
 import { Undo2 } from "lucide-react";
 
 import { InlineAlert, SubmitButton, SuccessMessageBlock } from "@/components/auth/actions";
-import { AuthContentContainer, AuthPageSection } from "@/components/auth/layout";
+import { AuthPageSection } from "@/components/auth/layout";
 import { AuthPageHeader, AuthSurface, AuthSurfaceHeader } from "@/components/auth/structure";
 import { RouteLabPage } from "@/components/dev/RouteLabPage";
 import { TypographyMuted } from "@/components/typography";
@@ -24,64 +24,63 @@ export default async function RouteLabForgotPasswordPage({
       title="Forgot password"
       productionRoute={ROUTES.forgotPassword}
       description="Password recovery request. Fixture-only; no email is sent."
+      contentPreset="auth"
       stateOptions={STATES}
       scenarioSummary={`Active query: state=${state}. Try ${STATES.join(", ")}.`}
     >
-      <AuthContentContainer>
-        <AuthPageSection>
-          <AuthPageHeader title="Reset your password" />
-          <AuthSurface className="border-brand-secondary/30">
-            {state === "success" ? (
-              <SuccessMessageBlock
-                title="Check your inbox"
-                description="Lab success state — no message was sent."
+      <AuthPageSection>
+        <AuthPageHeader title="Reset your password" />
+        <AuthSurface className="border-brand-secondary/30">
+          {state === "success" ? (
+            <SuccessMessageBlock
+              title="Check your inbox"
+              description="Lab success state — no message was sent."
+            />
+          ) : (
+            <>
+              <AuthSurfaceHeader
+                icon={<Undo2 className="size-6" />}
+                title="Restore Access"
+                description="Verification link will be sent to your inbox."
               />
-            ) : (
-              <>
-                <AuthSurfaceHeader
-                  icon={<Undo2 className="size-6" />}
-                  title="Restore Access"
-                  description="Verification link will be sent to your inbox."
+              {state === "validation" ? (
+                <InlineAlert message="Enter a valid email address." variant="destructive" />
+              ) : null}
+              {state === "error" ? (
+                <InlineAlert
+                  message="We could not process your request. Please try again."
+                  variant="destructive"
+                />
+              ) : null}
+              <div className="space-y-2">
+                <Label htmlFor="lab-forgot-email">Verified Email</Label>
+                <Input
+                  id="lab-forgot-email"
+                  type="email"
+                  placeholder="you@example.com"
+                  defaultValue={state === "validation" ? "bad" : ""}
+                  disabled={state === "submitting"}
+                  autoComplete="off"
                 />
                 {state === "validation" ? (
-                  <InlineAlert message="Enter a valid email address." variant="destructive" />
-                ) : null}
-                {state === "error" ? (
-                  <InlineAlert
-                    message="We could not process your request. Please try again."
-                    variant="destructive"
-                  />
-                ) : null}
-                <div className="space-y-2">
-                  <Label htmlFor="lab-forgot-email">Verified Email</Label>
-                  <Input
-                    id="lab-forgot-email"
-                    type="email"
-                    placeholder="you@example.com"
-                    defaultValue={state === "validation" ? "bad" : ""}
-                    disabled={state === "submitting"}
-                    autoComplete="off"
-                  />
-                  {state === "validation" ? (
-                    <TypographyMuted className="text-destructive text-xs">
-                      Enter a valid email address
-                    </TypographyMuted>
-                  ) : null}
-                  <TypographyMuted className="text-xs">
-                    We&apos;ll send a password reset link to this address.
+                  <TypographyMuted className="text-destructive text-xs">
+                    Enter a valid email address
                   </TypographyMuted>
-                </div>
-                <SubmitButton loading={state === "submitting"} type="button" buttonVariant="accent">
-                  Initiate Recovery
-                </SubmitButton>
-                <TypographyMuted className="mt-4 text-center text-xs">
-                  Lab preview — no network request.
+                ) : null}
+                <TypographyMuted className="text-xs">
+                  We&apos;ll send a password reset link to this address.
                 </TypographyMuted>
-              </>
-            )}
-          </AuthSurface>
-        </AuthPageSection>
-      </AuthContentContainer>
+              </div>
+              <SubmitButton loading={state === "submitting"} type="button" buttonVariant="accent">
+                Initiate Recovery
+              </SubmitButton>
+              <TypographyMuted className="mt-4 text-center text-xs">
+                Lab preview — no network request.
+              </TypographyMuted>
+            </>
+          )}
+        </AuthSurface>
+      </AuthPageSection>
     </RouteLabPage>
   );
 }
