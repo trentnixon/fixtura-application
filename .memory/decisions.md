@@ -1,5 +1,15 @@
 # Decisions
 
+## 2026-04-05 — Member form primary CTAs: `brand` / `accent` over `default`
+
+**Decision:** For members-area forms, primary submit actions should use **`Button`** **`variant="brand"`** (teal) or **`variant="accent"`** (promotional / upgrade) as intent requires—not **`variant="default"`** (blue primary). **`SubmitButton`** defaults to **`brand`**. Secondary / cancel actions use **`secondary`**, **`outline`**, or **`ghost`** per hierarchy.
+
+**Why:** Aligns product UI with Fixtura brand emphasis and keeps the blue **`default`** token for other primary surfaces; kitchen sink and route lab document the pattern.
+
+**Tradeoffs:** Teams must choose **`brand` vs `accent`** deliberately; existing screens using **`default`** on submits should migrate over time.
+
+---
+
 ## 2026-04-04 — Select-organisation dev simulator (`orgSim` + env)
 
 **Decision:** Optional UI-state exercise on the real **`/select-organisation`** route uses query **`orgSim=loading|none|one|multiple|error`** only when **`NEXT_PUBLIC_SELECT_ORG_SIMULATOR`** is the literal **`true`**. Implementation lives in **`src/lib/dev/select-organisation-sim.ts`**; **`useAccountMe`** accepts **`{ enabled: false }`** while simulating so GET **`/account/me`** is not called for that view.

@@ -5,11 +5,12 @@ import { AuthContentContainer, AuthPageSection } from "@/components/auth/layout"
 import { AuthPageHeader, AuthSurface, SecondaryLinkGroup } from "@/components/auth/structure";
 import { TypographyMuted } from "@/components/typography";
 import { ROUTES } from "@/lib/config/routes";
+import { buildPageMetadata } from "@/lib/metadata/buildMetadata";
 
-export const metadata = {
+export const metadata = buildPageMetadata({
   title: "Session Expired",
-  description: "For your security, your session has timed out.",
-};
+  description: "For your security, your Fixtura Members session has timed out.",
+});
 
 export default function SessionExpiredPage() {
   return (

@@ -9,16 +9,14 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-import { TypographyMuted } from "@/components/typography";
-import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardAction,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+  TypographyCardDescription,
+  TypographyCardTitle,
+  TypographyCaption,
+  TypographyOverline,
+} from "@/components/typography";
+import { Button } from "@/components/ui/button";
+import { Card, CardAction, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 export type FeedbackCardKind = "info" | "success" | "warning" | "error" | "critical" | "premium";
@@ -178,10 +176,10 @@ export function FeedbackCard({
             <Icon className={cn("size-5", accent.iconText)} />
           </div>
           <div className="min-w-0 flex-1 space-y-1">
-            <TypographyMuted className="text-[11px] font-semibold tracking-wider uppercase">
-              {label}
-            </TypographyMuted>
-            <CardTitle className="text-base leading-snug">{title}</CardTitle>
+            <TypographyOverline className="block">{label}</TypographyOverline>
+            <TypographyCardTitle as="div" className="text-base leading-snug">
+              {title}
+            </TypographyCardTitle>
           </div>
           {showDismiss ? (
             <CardAction>
@@ -198,12 +196,14 @@ export function FeedbackCard({
             </CardAction>
           ) : null}
         </div>
-        <TypographyMuted className="text-sm leading-relaxed">{description}</TypographyMuted>
+        <TypographyCardDescription className="leading-relaxed">
+          {description}
+        </TypographyCardDescription>
       </CardHeader>
 
       {metadata ? (
         <CardContent className="px-6 pt-0 pb-2">
-          <TypographyMuted className="text-xs font-medium">{metadata}</TypographyMuted>
+          <TypographyCaption className="font-medium">{metadata}</TypographyCaption>
         </CardContent>
       ) : null}
 

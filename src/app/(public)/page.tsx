@@ -5,6 +5,12 @@ import { LoginForm } from "@/components/auth/login-form";
 import { BrandedLoader } from "@/components/ui/branded-loader";
 import { GlassSurface } from "@/components/ui/container";
 import { ROUTES } from "@/lib/config/routes";
+import { buildPageMetadata } from "@/lib/metadata/buildMetadata";
+
+export const metadata = buildPageMetadata({
+  title: "Sign In",
+  description: "Sign in to access your Fixtura Members account.",
+});
 
 function LoginFormFallback() {
   return (

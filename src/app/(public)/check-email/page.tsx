@@ -1,11 +1,12 @@
 import { ReturnToSignInAction, SuccessMessageBlock } from "@/components/auth/actions";
 import { AuthContentContainer, AuthPageSection } from "@/components/auth/layout";
 import { AuthPageHeader, AuthSurface, SecondaryLinkGroup } from "@/components/auth/structure";
+import { buildPageMetadata } from "@/lib/metadata/buildMetadata";
 
-export const metadata = {
+export const metadata = buildPageMetadata({
   title: "Check Your Email",
-  description: "A password reset link has been sent to your email address.",
-};
+  description: "A password reset link has been sent to your email address for Fixtura Members.",
+});
 
 export default function CheckEmailPage() {
   return (

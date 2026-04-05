@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { TypographyPageDescription, TypographyPageTitle } from "@/components/typography";
 import { cn } from "@/lib/utils";
 
 /**
@@ -53,14 +54,12 @@ function PageHeader({
   return (
     <header className={cn("border-border mb-8 border-b pb-8", className)} {...props}>
       <div className="space-y-2">
-        <h1 className="font-heading text-foreground text-3xl font-bold tracking-tight sm:text-4xl">
+        <TypographyPageTitle className="text-3xl font-bold tracking-tight sm:text-4xl">
           {title}
-        </h1>
-        {description && (
-          <p className="text-muted-foreground max-w-3xl font-sans text-lg leading-relaxed">
-            {description}
-          </p>
-        )}
+        </TypographyPageTitle>
+        {description ? (
+          <TypographyPageDescription className="max-w-3xl">{description}</TypographyPageDescription>
+        ) : null}
       </div>
       {children && <div className="mt-6 flex flex-wrap gap-3">{children}</div>}
     </header>

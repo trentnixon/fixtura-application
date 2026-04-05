@@ -104,12 +104,7 @@ Avoid:
 
 Components should use a small, controlled set of variants.
 
-Examples:
-
-- primary
-- secondary
-- destructive
-- outline
+For **`Button`** specifically, approved variants are defined in **`@/components/ui/button`** (shadcn-aligned **`default`**, **`secondary`**, **`outline`**, **`ghost`**, **`link`**, **`destructive`**) plus Fixtura **`brand`** (teal) and **`accent`** (orange). See **[`buttons-and-CTA.md`](buttons-and-CTA.md)** for when to use each in members flows.
 
 Do not:
 
@@ -134,6 +129,18 @@ Avoid:
 - inline style overrides that break consistency
 - inconsistent padding/margin values
 - mixing multiple styling approaches
+
+---
+
+## 8a. Typography system rule
+
+Product UI copy should use shared primitives from **`@/components/typography`** (for example `TypographyPageTitle`, `TypographyCardTitle`, `TypographyLabel`, `TypographyMetricValue`, `TypographyTableCell`) instead of ad hoc `text-*` / `font-*` combinations, except for one-off sandbox experiments or third-party edges.
+
+- Choose variants by **semantic intent** (page vs card vs label vs caption), not only by size.
+- If a text pattern repeats across features, add a named export under `src/components/typography` and document it in **`/sandbox/kitchen-sink/typography`**.
+- Scale primitives (`TypographyH1`–`TypographyH5`, `TypographyP`) remain valid; prefer semantic components when the role matches.
+
+See **[`patterns/typography-system.md`](patterns/typography-system.md)** for the full rule set.
 
 ---
 
@@ -220,8 +227,12 @@ Reference: `/sandbox/kitchen-sink/cards` (Feedback cards section).
 ### Example: using a button
 
 ```tsx
-<Button variant="primary">Save</Button>
+import { Button } from "@/components/ui/button";
+
+<Button variant="brand">Save</Button>;
 ```
+
+Use **`variant="default"`** when the blue primary token is intentional; for most member-area form submits, prefer **`brand`** or **`accent`**. Async submits: **`loading`** + **`loadingText`**. Full detail: **[`buttons-and-CTA.md`](buttons-and-CTA.md)**.
 
 ---
 
@@ -305,3 +316,5 @@ Before considering the component work complete, confirm:
 This skill ensures that UI components in the Fixtura Members Area remain consistent, reusable, and aligned with the design system.
 
 Use it whenever building or modifying components, and prioritise reuse and consistency over creating new patterns.
+
+For **buttons and CTAs**, read **[`buttons-and-CTA.md`](buttons-and-CTA.md)** first.

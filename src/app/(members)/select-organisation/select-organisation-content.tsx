@@ -4,7 +4,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { InlineAlert } from "@/components/auth/actions";
 import { AccountLoadErrorFeedback } from "@/components/select-organisation/account-load-error-feedback";
-import { TypographyH2, TypographyMuted } from "@/components/typography";
+import { TypographyBodySmall, TypographyPageTitle } from "@/components/typography";
 import { BrandedLoader } from "@/components/ui/branded-loader";
 import { Button } from "@/components/ui/button";
 import {
@@ -113,14 +113,14 @@ export function SelectOrganisationContent() {
   return (
     <div className="grid w-full max-w-5xl gap-6 py-4">
       <div>
-        <TypographyH2 className="font-brand text-2xl font-semibold">
+        <TypographyPageTitle as="h1" className="font-brand text-2xl font-semibold sm:text-2xl">
           {isEmpty ? "Set up an organisation" : "Select organisation"}
-        </TypographyH2>
-        <TypographyMuted className="mt-1">
+        </TypographyPageTitle>
+        <TypographyBodySmall as="p" tone="muted" className="mt-1">
           {isEmpty
             ? "Create one below."
             : "Choose which organisation you want to work in. You can switch later from the sidebar."}
-        </TypographyMuted>
+        </TypographyBodySmall>
       </div>
 
       {parsedReason ? (

@@ -1,4 +1,10 @@
 import { TypographyH1, TypographyMuted } from "@/components/typography";
+import { buildPageMetadata } from "@/lib/metadata/buildMetadata";
+
+export const metadata = buildPageMetadata({
+  title: "Maintenance",
+  description: "Fixtura Members is temporarily unavailable while we perform maintenance.",
+});
 
 export default function Page() {
   return (

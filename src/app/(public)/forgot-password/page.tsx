@@ -6,11 +6,12 @@ import { ForgotPasswordForm } from "@/components/auth/forgot-password-form";
 import { AuthContentContainer, AuthPageSection } from "@/components/auth/layout";
 import { ResetPasswordForm } from "@/components/auth/reset-password-form";
 import { AuthPageHeader, AuthSurface, SecondaryLinkGroup } from "@/components/auth/structure";
+import { buildPageMetadata } from "@/lib/metadata/buildMetadata";
 
-export const metadata = {
+export const metadata = buildPageMetadata({
   title: "Forgot Password",
-  description: "Request a password reset link for your Fixtura account.",
-};
+  description: "Request a password reset link for your Fixtura Members account.",
+});
 
 function AuthFormFallback() {
   return (

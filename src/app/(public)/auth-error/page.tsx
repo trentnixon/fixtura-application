@@ -5,11 +5,12 @@ import { AuthContentContainer, AuthPageSection } from "@/components/auth/layout"
 import { AuthPageHeader, AuthSurface, SecondaryLinkGroup } from "@/components/auth/structure";
 import { TypographyMuted } from "@/components/typography";
 import { ROUTES } from "@/lib/config/routes";
+import { buildPageMetadata } from "@/lib/metadata/buildMetadata";
 
-export const metadata = {
+export const metadata = buildPageMetadata({
   title: "Authentication Error",
-  description: "Something went wrong during the authentication process.",
-};
+  description: "Something went wrong during sign-in to Fixtura Members.",
+});
 
 export default function AuthErrorPage() {
   return (

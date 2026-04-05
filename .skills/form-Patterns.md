@@ -140,12 +140,14 @@ Avoid:
 
 During submission:
 
-- disable submit button
-- show loading state (use `Loader2` or `BrandedLoader`)
-- prevent duplicate submissions
-- keep UI stable
+- disable the submit control and show a clear pending state
+- use **`Button`** with **`loading`** and **`loadingText`**, or **`SubmitButton`** from `@/components/auth/actions` (wraps **`Button`**, defaults to **`variant="brand"`**, supports **`loadingText`** and optional **`fullWidth={false}`** for inline footers)
+- for full-page or section loading, **`BrandedLoader`** remains appropriate
+- prevent duplicate submissions (built-in when using **`Button`** **`loading`**)
 
 Do not allow multiple concurrent submissions.
+
+Primary submit styling: prefer **`brand`** or **`accent`** over **`default`** (blue) in members-area forms—see **[`buttons-and-CTA.md`](buttons-and-CTA.md)**.
 
 ---
 
@@ -169,9 +171,9 @@ Before building a form:
 
 - check `/sandbox/kitchen-sink/forms`
 - check `/sandbox/kitchen-sink/inputs`
-- check `/sandbox/kitchen-sink/buttons`
+- check `/sandbox/kitchen-sink/buttons` (variants, **`loading`**, form action pairs)
 
-Match the approved patterns.
+Match the approved patterns. Button semantics and **`SubmitButton`**: **[`buttons-and-CTA.md`](buttons-and-CTA.md)**.
 
 ---
 

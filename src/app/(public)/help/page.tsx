@@ -5,11 +5,12 @@ import { ReturnToSignInAction } from "@/components/auth/actions";
 import { AuthPageSection, PublicShellContainer } from "@/components/auth/layout";
 import { AuthPageHeader, AuthSurface, SecondaryLinkGroup } from "@/components/auth/structure";
 import { TypographyH5, TypographyMuted } from "@/components/typography";
+import { buildPageMetadata } from "@/lib/metadata/buildMetadata";
 
-export const metadata = {
+export const metadata = buildPageMetadata({
   title: "Help & Support",
-  description: "Get assistance with your Fixtura account and technical issues.",
-};
+  description: "Get assistance with your Fixtura Members account and technical issues.",
+});
 
 export default function HelpPage() {
   const supportOptions = [

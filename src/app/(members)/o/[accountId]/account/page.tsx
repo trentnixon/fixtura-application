@@ -1,5 +1,11 @@
 import { ChangePasswordForm } from "@/components/auth/change-password-form";
 import { AuthSurface } from "@/components/auth/structure";
+import { buildPageMetadata } from "@/lib/metadata/buildMetadata";
+
+export const metadata = buildPageMetadata({
+  title: "Account Settings",
+  description: "Manage your Fixtura Members account and security settings.",
+});
 
 export default function AppAccountPage() {
   return (

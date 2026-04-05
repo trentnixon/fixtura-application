@@ -38,7 +38,7 @@ export default async function RouteLabCreateOrganisationPage({
               </TypographyMuted>
             </CardHeader>
             <CardFooter className="flex flex-wrap gap-2">
-              <Button asChild>
+              <Button asChild variant="brand">
                 <Link href={`${ROUTES.routeLab}/org/select-organisation?state=multiple`}>
                   Continue to selection
                 </Link>
@@ -81,7 +81,13 @@ export default async function RouteLabCreateOrganisationPage({
               </div>
             </CardContent>
             <CardFooter className="flex flex-wrap gap-2">
-              <SubmitButton loading={state === "submitting"} type="button">
+              <SubmitButton
+                fullWidth={false}
+                loading={state === "submitting"}
+                type="button"
+                buttonVariant="brand"
+                loadingText="Creating…"
+              >
                 Create organisation
               </SubmitButton>
               <Button variant="outline" asChild>

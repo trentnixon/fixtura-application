@@ -2,9 +2,9 @@ import { Plus_Jakarta_Sans, Inter, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { buildRootMetadata } from "@/lib/metadata/buildMetadata";
 import { QueryProvider } from "@/lib/query";
 
-import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
 import "./globals.css";
@@ -25,10 +25,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Application Platform – Fixture",
-  description: "Application Platform for tooling verification",
-};
+export const metadata = buildRootMetadata();
 
 export default function RootLayout({
   children,

@@ -1,4 +1,11 @@
+import { buildPageMetadata } from "@/lib/metadata/buildMetadata";
+
 import { TempOrgDataDump } from "./temp-data-drilling/temp-org-data-dump";
+
+export const metadata = buildPageMetadata({
+  title: "Dashboard",
+  description: "View your organisation overview and tools in Fixtura Members.",
+});
 
 export default async function DashboardPage({
   params,

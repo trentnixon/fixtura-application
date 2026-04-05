@@ -194,7 +194,7 @@ Avoid:
 Before creating or modifying layout:
 
 - check `/sandbox/kitchen-sink/containers`
-- check `/sandbox/kitchen-sink/typography`
+- check `/sandbox/kitchen-sink/typography` and **`patterns/typography-system.md`** for shared text components
 - check `/sandbox/kitchen-sink/cards`
 
 Match those patterns unless a new pattern is intentionally being introduced.

@@ -50,9 +50,11 @@ When touching members routing, read **`navigation-route-management.md`**, **`mid
 ## 🎨 Design System & Components
 
 - [**`layout-and-Spacing-System.md`**](layout-and-Spacing-System.md) — Read this to adhere to the core application layout design and standardize your padding, margins, and gaps.
+- [**`patterns/typography-system.md`**](patterns/typography-system.md) — Read this for shared **`@/components/typography`** semantics, kitchen sink reference, and rules for product text versus ad hoc utilities.
 - [**`component-Usage-Patterns.md`**](component-Usage-Patterns.md) — Read this to understand the methodology behind how shared components should be consumed, extended, and reused across the app.
+- [**`buttons-and-CTA.md`**](buttons-and-CTA.md) — Read this for **`Button`** / **`SubmitButton`** variants, **`loading`**, members-area **`brand`** vs **`accent`** vs **`default`**, and links to the kitchen sink buttons page.
 - [**`icons-and-Visual-Elements.md`**](icons-and-Visual-Elements.md) — Read this for instructions on the standard icon library (e.g., Lucide) and how to apply visual elements effectively.
-- [**`form-Patterns.md`**](form-Patterns.md) — Read this **before** building any forms. It details the standards for using `react-hook-form`, Zod validation schemas, and reusable `<Input>` components.
+- [**`form-Patterns.md`**](form-Patterns.md) — Read this **before** building any forms. It details the standards for using `react-hook-form`, Zod validation schemas, and reusable `<Input>` components (cross-reference **`buttons-and-CTA.md`** for submits).
 
 ## 🛠️ System & Maintenance
 

@@ -1,4 +1,4 @@
-import { MoveLeft, AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
+import { MoveLeft, AlertCircle, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -8,39 +8,42 @@ import { cn } from "@/lib/utils";
 import type { ComponentProps } from "react";
 
 /**
- * SubmitButton: Primary action button with loading state.
- * Pass `buttonVariant` to swap the colour scheme (defaults to "brand").
+ * SubmitButton: Primary form action with loading state.
+ * Uses shared `Button` loading behaviour (`aria-busy`, spinner). Defaults to `brand` (teal), not `default` (blue).
+ * Pass `buttonVariant` for accent flows (e.g. recovery CTAs).
  */
 export function SubmitButton({
   children,
   loading,
   className,
   buttonVariant = "brand",
+  loadingText = "Please wait",
+  fullWidth = true,
+  disabled,
   ...props
 }: ComponentProps<typeof Button> & {
   loading?: boolean;
   buttonVariant?: ComponentProps<typeof Button>["variant"];
+  loadingText?: string;
+  /** Auth surfaces default to full width; inline form footers can set `false`. */
+  fullWidth?: boolean;
 }) {
   return (
     <Button
+      {...props}
       type="submit"
       variant={buttonVariant}
       size="lg"
+      fullWidth={fullWidth}
+      loading={Boolean(loading)}
+      loadingText={loadingText}
       className={cn(
-        "shadow-primary/20 mt-4 h-12 w-full text-base font-bold shadow-lg transition-all hover:scale-[1.01] active:scale-[0.98]",
+        "shadow-primary/20 mt-4 h-12 text-base font-bold shadow-lg transition-transform hover:scale-[1.01] active:scale-[0.98]",
         className,
       )}
-      disabled={loading || props.disabled}
-      {...props}
+      disabled={disabled}
     >
-      {loading ? (
-        <>
-          <Loader2 className="mr-2 h-4 w-4 animate-spin text-white" />
-          Please wait
-        </>
-      ) : (
-        children
-      )}
+      {children}
     </Button>
   );
 }

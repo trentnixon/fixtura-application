@@ -4,6 +4,12 @@ import { Suspense } from "react";
 import { AuthContentContainer, AuthPageSection } from "@/components/auth/layout";
 import { LoginForm } from "@/components/auth/login-form";
 import { AuthPageHeader, AuthSurface } from "@/components/auth/structure";
+import { buildPageMetadata } from "@/lib/metadata/buildMetadata";
+
+export const metadata = buildPageMetadata({
+  title: "Sign In",
+  description: "Sign in to access your Fixtura Members account.",
+});
 
 function LoginFormFallback() {
   return (

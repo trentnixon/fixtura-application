@@ -71,7 +71,12 @@ export default async function RouteLabForgotPasswordPage({
                   We&apos;ll send a password reset link to this address.
                 </TypographyMuted>
               </div>
-              <SubmitButton loading={state === "submitting"} type="button" buttonVariant="accent">
+              <SubmitButton
+                loading={state === "submitting"}
+                type="button"
+                buttonVariant="accent"
+                loadingText="Sending…"
+              >
                 Initiate Recovery
               </SubmitButton>
               <TypographyMuted className="mt-4 text-center text-xs">

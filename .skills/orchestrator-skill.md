@@ -211,6 +211,7 @@ Use these when working on:
 Read:
 
 - `form-Patterns.md`
+- `buttons-and-CTA.md`
 - `feedback-and-Notifications.md`
 - `ui-State-Patterns.md`
 
@@ -228,6 +229,26 @@ Use these when working on:
 - inline errors
 - form success handling
 - reusable form structures
+
+---
+
+## If the task involves buttons, CTAs, or toolbars
+
+Read:
+
+- `buttons-and-CTA.md`
+- `component-Usage-Patterns.md`
+
+Also read as needed:
+
+- `form-Patterns.md` (submit flows)
+- `kitchen-Sink-Maintenance.md` (if updating `/sandbox/kitchen-sink/buttons`)
+
+Use these when working on:
+
+- `Button` variants, `loading`, dialog footers
+- `SubmitButton` in auth flows
+- route lab or feature screens that need consistent CTAs
 
 ---
 
@@ -287,6 +308,7 @@ Read:
 
 Also read as needed:
 
+- `buttons-and-CTA.md`
 - `navigation-UI-Patterns.md`
 - `ui-State-Patterns.md`
 - `form-Patterns.md`

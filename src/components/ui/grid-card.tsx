@@ -4,7 +4,7 @@ import { Plus, Route, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { createContext, useContext } from "react";
 
-import { TypographyH3, TypographyMuted } from "@/components/typography";
+import { TypographyCardTitle, TypographyCaption } from "@/components/typography";
 import { cn } from "@/lib/utils";
 
 import type { ReactNode } from "react";
@@ -566,18 +566,16 @@ export function GridCardSelectOrganisation({
       )}
     >
       <div className="flex flex-col items-center gap-3">
-        <TypographyH3
+        <TypographyCardTitle
           className={cn(
             "line-clamp-2 w-full shrink-0 text-base leading-snug font-semibold",
             gridCardTitleClass(variant, tone),
           )}
         >
           {title}
-        </TypographyH3>
+        </TypographyCardTitle>
         {sport ? (
-          <TypographyMuted className="line-clamp-1 w-full text-center text-xs">
-            {sport}
-          </TypographyMuted>
+          <TypographyCaption className="line-clamp-1 w-full text-center">{sport}</TypographyCaption>
         ) : null}
         <div className="transition-transform duration-300 ease-out will-change-transform group-hover:-translate-y-1 group-hover:scale-110">
           {visual}
@@ -660,14 +658,14 @@ export function GridCard({
 
   const inner = (
     <>
-      <TypographyH3
+      <TypographyCardTitle
         className={cn(
           "line-clamp-2 w-full shrink-0 text-base leading-snug font-semibold",
           gridCardTitleClass(variant, tone),
         )}
       >
         {title}
-      </TypographyH3>
+      </TypographyCardTitle>
       <div className="transition-transform duration-300 ease-out will-change-transform group-hover:-translate-y-1 group-hover:scale-110">
         {visual}
       </div>

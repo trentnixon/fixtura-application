@@ -3,6 +3,7 @@ import Link from "next/link";
 import { RouteLabPage } from "@/components/dev/RouteLabPage";
 import { TypographyH3, TypographyMuted } from "@/components/typography";
 import { BrandedLoader } from "@/components/ui/branded-loader";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ErrorState } from "@/components/ui/error-state";
 import {
@@ -69,12 +70,11 @@ export default async function RouteLabDashboardPage({
               </TypographyMuted>
             </CardHeader>
             <CardContent>
-              <Link
-                className="text-primary text-sm font-medium underline-offset-4 hover:underline"
-                href={`${ROUTES.routeLab}/org/select-organisation`}
-              >
-                Go to lab select organisation
-              </Link>
+              <Button variant="link" className="h-auto px-0 text-sm font-medium" asChild>
+                <Link href={`${ROUTES.routeLab}/org/select-organisation`}>
+                  Go to lab select organisation
+                </Link>
+              </Button>
             </CardContent>
           </Card>
         ) : null}

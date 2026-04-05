@@ -80,7 +80,12 @@ export default async function RouteLabSignInPage({
               ) : null}
             </div>
           </div>
-          <SubmitButton loading={state === "submitting"} type="button">
+          <SubmitButton
+            loading={state === "submitting"}
+            type="button"
+            buttonVariant="brand"
+            loadingText="Signing in…"
+          >
             Sign in
           </SubmitButton>
           <TypographyMuted className="mt-4 text-center text-xs">

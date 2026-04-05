@@ -104,7 +104,7 @@ The kitchen sink should live inside the protected members app so it is rendered 
 Recommended route model:
 
 - `/sandbox/kitchen-sink`
-- `/sandbox/kitchen-sink/typography`
+- `/sandbox/kitchen-sink/typography` (scenario sections under `_sections/`; scale reference for `TypographyH1`–`TypographyH5`)
 - `/sandbox/kitchen-sink/brand-colors`
 - `/sandbox/kitchen-sink/containers`
 - `/sandbox/kitchen-sink/navigation`
@@ -171,6 +171,7 @@ It should be referenced by:
 
 - `design-system-foundation`
 - `component-usage-patterns`
+- `buttons-and-CTA`
 - `ui-state-patterns`
 - `form-patterns`
 - `layout-and-spacing-system`
