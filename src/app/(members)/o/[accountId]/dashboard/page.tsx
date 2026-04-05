@@ -1,19 +1,21 @@
-import { SessionApiCallout } from "@/components/auth/session-api-callout";
-import { ChartAreaInteractive } from "@/components/chart-area-interactive";
-import { DataTable } from "@/components/data-table";
-import { SectionCards } from "@/components/section-cards";
+import { TempOrgDataDump } from "./temp-data-drilling/temp-org-data-dump";
 
-import data from "./data.json";
+export default async function DashboardPage({
+  params,
+}: {
+  params: Promise<{ accountId: string }>;
+}) {
+  const { accountId } = await params;
 
-export default function AppHomePage() {
   return (
-    <>
-      <SectionCards />
-      <ChartAreaInteractive />
-      <DataTable data={data} />
-      <div className="pt-8">
-        <SessionApiCallout />
+    <div className="grid gap-4">
+      <div>
+        <h1 className="font-brand text-2xl font-semibold">Dashboard</h1>
+        <p className="text-muted-foreground mt-1 text-sm">
+          Organisation data (temporary — for development visibility)
+        </p>
       </div>
-    </>
+      <TempOrgDataDump accountId={accountId} />
+    </div>
   );
 }
