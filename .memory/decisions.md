@@ -1,5 +1,25 @@
 # Decisions
 
+## 2026-04-05 — Application typography: semantic `Typography*` components + kitchen sink reference
+
+**Decision:** Product UI text should prefer named exports from **`@/components/typography`** (e.g. **`TypographyPageTitle`**, **`TypographyCardTitle`**, **`TypographyLabel`**, **`TypographyMetricValue`**) with a **`Typography*`** prefix, built on **`TypographyBase`** / **`typographyBaseVariants`** (font + tone). Scale primitives **`TypographyH1`–`TypographyH5`** and **`TypographyP`** remain for compatibility. **`/sandbox/kitchen-sink/typography`** and **`.skills/patterns/typography-system.md`** are the reference; **`PageHeader`** uses semantic page title/description components.
+
+**Why:** Matches the typography PDR: semantic intent, fewer ad hoc Tailwind text stacks, clearer LLM and review alignment.
+
+**Tradeoffs:** More imports to learn; incremental migration—old patterns remain until files are touched.
+
+---
+
+## 2026-04-05 — Favicon and app icons: canonical `public/logos` paths
+
+**Decision:** Browser tab icons and in-app logo marks use files under **`public/logos/`** (e.g. **`favicon.ico`**, **`favicon-16x16.png`**, **`favicon-32x32.png`**, **`apple-touch-icon.png`**). Next.js **`metadata.icons`** is defined in **`src/config/metadata.ts`**; **`auth`** layout/structure and public home **`&lt;img&gt;`** reference the same **`apple-touch-icon`** path. Do not duplicate icon sets at **`public/`** root.
+
+**Why:** One source of truth for brand exports; tab and UI stay aligned when assets are swapped.
+
+**Tradeoffs:** PWA / manifest may later reference **`android-chrome-*`** in the same folder; env **`NEXT_PUBLIC_APP_URL`** should be set for correct **`metadataBase`** outside localhost.
+
+---
+
 ## 2026-04-05 — Member form primary CTAs: `brand` / `accent` over `default`
 
 **Decision:** For members-area forms, primary submit actions should use **`Button`** **`variant="brand"`** (teal) or **`variant="accent"`** (promotional / upgrade) as intent requires—not **`variant="default"`** (blue primary). **`SubmitButton`** defaults to **`brand`**. Secondary / cancel actions use **`secondary`**, **`outline`**, or **`ghost`** per hierarchy.
