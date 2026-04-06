@@ -1,10 +1,16 @@
-﻿export default function Page() {
+﻿import { AccountSettingsContent } from "./account-settings-content";
+
+export default async function Page({ params }: { params: Promise<{ accountId: string }> }) {
+  const { accountId } = await params;
   return (
-    <div className="grid gap-4">
+    <div className="grid gap-6">
       <div>
-        <h1 className="font-brand text-2xl font-semibold capitalize">settings</h1>
-        <p className="text-muted-foreground mt-1">Protected route placeholder for settings</p>
+        <h1 className="font-brand text-2xl font-semibold capitalize">Settings</h1>
+        <p className="text-muted-foreground mt-1">
+          Account configuration from the CMS (read-only in this phase).
+        </p>
       </div>
+      <AccountSettingsContent accountId={accountId} />
     </div>
   );
 }

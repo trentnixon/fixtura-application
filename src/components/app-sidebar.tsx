@@ -33,11 +33,15 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import {
+  activeAccountSummaryFromMePayload,
+  organisationDetailsFromAccountRow,
+} from "@/lib/account/account-me-rows";
 import { useAccountMe } from "@/lib/api/hooks/account/useAccountMe";
 import {
-  isOrganisationGatewayRedirect,
-  useAccountOrganisation,
-} from "@/lib/api/hooks/account/useAccountOrganisation";
+  isAccountOrganisationContextGatewayRedirect,
+  useAccountOrganisationContext,
+} from "@/lib/api/hooks/account/useAccountOrganisationContext";
 import { accountScopedRoutes } from "@/lib/config/account-routes";
 import { ROUTES } from "@/lib/config/routes";
 import { isDevSandboxEnabled } from "@/lib/dev-sandbox";
@@ -57,27 +61,28 @@ export function AppSidebar({
   accountId?: string;
 }) {
   const { data: meData } = useAccountMe();
-  const { data: orgQueryData } = useAccountOrganisation(
+  const { data: orgQueryData } = useAccountOrganisationContext(
     navMode === "scoped" && accountId ? accountId : "",
   );
   const orgData =
-    orgQueryData && !isOrganisationGatewayRedirect(orgQueryData) ? orgQueryData : undefined;
+    orgQueryData && !isAccountOrganisationContextGatewayRedirect(orgQueryData)
+      ? orgQueryData
+      : undefined;
+
+  const bootstrapRow = activeAccountSummaryFromMePayload(meData?.data, accountId);
+  const bootstrapOrg = bootstrapRow ? organisationDetailsFromAccountRow(bootstrapRow) : undefined;
 
   const meUser = {
     ...fallbackUser,
-    name: meData?.data?.contentHub?.FirstName ?? fallbackUser.name,
-    email:
-      meData?.data?.contentHub?.accountOrganisationDetails?.Name ??
-      meData?.data?.user?.email ??
-      fallbackUser.email,
-    avatar: meData?.data?.contentHub?.accountOrganisationDetails?.ParentLogo ?? fallbackUser.avatar,
+    name: bootstrapRow?.FirstName ?? fallbackUser.name,
+    email: bootstrapOrg?.Name ?? meData?.data?.user?.email ?? fallbackUser.email,
+    avatar: bootstrapOrg?.ParentLogo ?? fallbackUser.avatar,
   };
 
   const scopedUser =
     navMode === "scoped" && orgData?.data
       ? {
           ...meUser,
-          name: orgData.data.FirstName ?? meUser.name,
           email: orgData.data.accountOrganisationDetails?.Name ?? meUser.email,
           avatar: orgData.data.accountOrganisationDetails?.ParentLogo ?? meUser.avatar,
         }

@@ -7,9 +7,9 @@ import { useEffect, useRef } from "react";
 import { BrandedLoader } from "@/components/ui/branded-loader";
 import { ErrorState } from "@/components/ui/error-state";
 import {
-  isOrganisationGatewayRedirect,
-  useAccountOrganisation,
-} from "@/lib/api/hooks/account/useAccountOrganisation";
+  isAccountOrganisationContextGatewayRedirect,
+  useAccountOrganisationContext,
+} from "@/lib/api/hooks/account/useAccountOrganisationContext";
 import { queryKeys } from "@/lib/api/query/query-keys";
 import { AUTH_ERROR_MESSAGES } from "@/lib/auth/auth-errors";
 import { isValidAccountIdSegment } from "@/lib/config/account-routes";
@@ -21,7 +21,7 @@ import {
 import type { ReactNode } from "react";
 
 /**
- * Loads organisation dashboard aggregate for `accountId`; redirects to gateway with `reason` on 403/404/400 or invalid segment.
+ * Validates scoped access via GET /api/accounts/:accountId/organisation (Phase 4); redirects to gateway with `reason` on 403/404/400 or invalid segment.
  */
 export function OrgAccessBoundary({
   accountId,
@@ -34,7 +34,7 @@ export function OrgAccessBoundary({
   const queryClient = useQueryClient();
   const redirectingRef = useRef(false);
   const segmentOk = isValidAccountIdSegment(accountId);
-  const q = useAccountOrganisation(accountId, { enabled: segmentOk });
+  const q = useAccountOrganisationContext(accountId, { enabled: segmentOk });
 
   useEffect(() => {
     redirectingRef.current = false;
@@ -49,9 +49,9 @@ export function OrgAccessBoundary({
   useEffect(() => {
     if (!segmentOk) return;
     if (!q.isSuccess || !q.data || redirectingRef.current) return;
-    if (!isOrganisationGatewayRedirect(q.data)) return;
+    if (!isAccountOrganisationContextGatewayRedirect(q.data)) return;
     redirectingRef.current = true;
-    void queryClient.removeQueries({ queryKey: queryKeys.account.organisation(accountId) });
+    void queryClient.removeQueries({ queryKey: queryKeys.account.organisationContext(accountId) });
     router.replace(selectOrganisationUrlWithReason(q.data.reason));
   }, [q.isSuccess, q.data, accountId, queryClient, router, segmentOk]);
 
@@ -67,7 +67,7 @@ export function OrgAccessBoundary({
     return <BrandedLoader fullPage label="Loading organisation" />;
   }
 
-  if (q.isSuccess && q.data && isOrganisationGatewayRedirect(q.data)) {
+  if (q.isSuccess && q.data && isAccountOrganisationContextGatewayRedirect(q.data)) {
     return (
       <div className="text-muted-foreground grid gap-2 p-6 text-center text-sm" role="status">
         <p>Redirecting…</p>

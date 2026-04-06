@@ -38,6 +38,11 @@ export function isValidAccountIdSegment(segment: string): boolean {
   return Number.isInteger(n) && n > 0;
 }
 
+/** Positive integer render id (path segment under `/renders/:renderId`). */
+export function isValidRenderIdSegment(segment: string): boolean {
+  return isValidAccountIdSegment(segment);
+}
+
 /**
  * Parse `/o/{accountId}/...` → accountId or null if not a scoped members path.
  */

@@ -47,3 +47,15 @@ export function selectOrgReasonFromApiStatus(status: number): SelectOrgGatewayRe
   if (status === 400) return SELECT_ORG_GATEWAY_REASON.invalidOrg;
   return null;
 }
+
+/**
+ * Like {@link selectOrgReasonFromApiStatus} but omits 400 — for endpoints where 400 can mean invalid
+ * query params (e.g. paginated list filters), not only invalid path `accountId`.
+ */
+export function selectOrgReasonFromApiStatusExcludingBadRequest(
+  status: number,
+): SelectOrgGatewayReason | null {
+  if (status === 403) return SELECT_ORG_GATEWAY_REASON.forbidden;
+  if (status === 404) return SELECT_ORG_GATEWAY_REASON.notFound;
+  return null;
+}

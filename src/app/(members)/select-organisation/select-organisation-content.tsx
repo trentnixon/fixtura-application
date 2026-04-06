@@ -64,7 +64,7 @@ export function SelectOrganisationContent() {
     : null;
   const simulating = orgSim !== null;
 
-  const { data, isPending, isError, refetch } = useAccountMe(undefined, {
+  const { data, isPending, isError, refetch } = useAccountMe({
     enabled: !simulating,
   });
 

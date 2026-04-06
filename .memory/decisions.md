@@ -1,5 +1,25 @@
 # Decisions
 
+## 2026-04-06 — Account-scoped list hooks: map 403/404 to gateway, not 400 when query params can be invalid
+
+**Decision:** TanStack hooks for account-scoped **paginated or filtered** GET routes where HTTP **400** may mean invalid **query** parameters (e.g. Phase 7 `GET /api/accounts/:accountId/renders`) use **`selectOrgReasonFromApiStatusExcludingBadRequest`** so **400** surfaces as a normal query error. Hooks for routes where **400** reliably means invalid path **`accountId`** only keep using **`selectOrgReasonFromApiStatus`** (which maps **400** → select-org **`invalid_org`**).
+
+**Why:** Avoids sending users to **`/select-organisation`** when they only have bad filters or pagination input.
+
+**Tradeoffs:** Implementers must read the handoff and pick the correct helper per endpoint.
+
+---
+
+## 2026-04-06 — Account-scoped CMS routes: planned registry + contract doc
+
+**Decision:** New Strapi **`/api/accounts/:accountId/*`** endpoints are registered under **`appRoutes.accounts`** in [`src/lib/api/routes/route-definitions.ts`](src/lib/api/routes/route-definitions.ts) with **`status: "planned"`** until the matching phase ships live handlers. The normative index for handoffs is [`.comms/data-fetching/account-admin-api-contract.md`](.comms/data-fetching/account-admin-api-contract.md) (with stable anchors for §7, §9–§15). UI and hooks should use [`accountScopedHttpSemantics`](src/lib/api/account-scoped-http-semantics.ts) when interpreting account-scoped HTTP status codes (401 / 403 / 400 / 404 / 500 per Phase 0).
+
+**Why:** Phase 0 did not ship new handlers; front-load the approved pipeline (registry → client → service → hook) without pretending routes are **`ready`**, and give handoff links a single resolving document.
+
+**Tradeoffs:** **`admin/fetch-health`** lists more **skipped** rows until phases flip to **`ready`**; services are still added per phase (no premature **`account.api`** surface for planned routes).
+
+---
+
 ## 2026-04-05 — Application typography: semantic `Typography*` components + kitchen sink reference
 
 **Decision:** Product UI text should prefer named exports from **`@/components/typography`** (e.g. **`TypographyPageTitle`**, **`TypographyCardTitle`**, **`TypographyLabel`**, **`TypographyMetricValue`**) with a **`Typography*`** prefix, built on **`TypographyBase`** / **`typographyBaseVariants`** (font + tone). Scale primitives **`TypographyH1`–`TypographyH5`** and **`TypographyP`** remain for compatibility. **`/sandbox/kitchen-sink/typography`** and **`.skills/patterns/typography-system.md`** are the reference; **`PageHeader`** uses semantic page title/description components.

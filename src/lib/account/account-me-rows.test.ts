@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   accountPickerRowsFromMePayload,
+  activeAccountSummaryFromMePayload,
   organisationDetailsFromAccountRow,
 } from "./account-me-rows";
 
@@ -72,7 +73,7 @@ describe("accountPickerRowsFromMePayload", () => {
     expect(rows.map((r) => r.id)).toEqual([2, 3]);
   });
 
-  it("falls back to legacy accountId when accounts is empty", () => {
+  it("falls back to legacy accountId when accounts is empty (optional contentHub)", () => {
     const rows = accountPickerRowsFromMePayload({
       accountId: 99,
       user: null,
@@ -82,5 +83,55 @@ describe("accountPickerRowsFromMePayload", () => {
     expect(rows).toHaveLength(1);
     expect(rows[0]?.id).toBe(99);
     expect(rows[0]?.contentHub).toEqual({ FirstName: "A" });
+  });
+
+  it("falls back to legacy row without contentHub when omitted", () => {
+    const rows = accountPickerRowsFromMePayload({
+      accountId: 42,
+      user: null,
+      accounts: [],
+    });
+    expect(rows).toHaveLength(1);
+    expect(rows[0]?.id).toBe(42);
+    expect(rows[0]?.contentHub).toBeUndefined();
+  });
+});
+
+describe("activeAccountSummaryFromMePayload", () => {
+  it("returns undefined when payload is undefined", () => {
+    expect(activeAccountSummaryFromMePayload(undefined)).toBeUndefined();
+  });
+
+  it("selects row matching selectedAccountId when provided", () => {
+    const payload = {
+      accountId: 1,
+      user: null,
+      accounts: [
+        { id: 1, FirstName: "A" },
+        { id: 2, FirstName: "B" },
+      ],
+    };
+    expect(activeAccountSummaryFromMePayload(payload, "2")?.FirstName).toBe("B");
+  });
+
+  it("uses payload.accountId when selectedAccountId is omitted", () => {
+    const payload = {
+      accountId: 2,
+      user: null,
+      accounts: [
+        { id: 1, FirstName: "A" },
+        { id: 2, FirstName: "B" },
+      ],
+    };
+    expect(activeAccountSummaryFromMePayload(payload)?.FirstName).toBe("B");
+  });
+
+  it("falls back to first row when id does not match", () => {
+    const payload = {
+      accountId: 1,
+      user: null,
+      accounts: [{ id: 1, FirstName: "Only" }],
+    };
+    expect(activeAccountSummaryFromMePayload(payload, "999")?.FirstName).toBe("Only");
   });
 });

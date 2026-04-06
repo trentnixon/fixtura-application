@@ -1,4 +1,4 @@
-import type { AccountMePayload, AccountMeResponse, AccountSummary } from "@/types/api/account";
+import type { AccountMeResponse, AccountSummary } from "@/types/api/account";
 
 /** Query key for dev-only UI simulation on `/select-organisation`. Ignored unless `NEXT_PUBLIC_SELECT_ORG_SIMULATOR=true`. */
 export const SELECT_ORG_SIM_QUERY = "orgSim" as const;
@@ -51,19 +51,16 @@ export function syntheticAccountMeResponseForSim(
     case "none":
       return {
         data: {
+          accountId: 0,
           user: null,
-          contentHub: {},
           accounts: [],
-          /** No legacy single-account row when the list is empty. */
-          accountId: undefined as unknown as number,
-        } as AccountMePayload,
+        },
       };
     case "one":
       return {
         data: {
           accountId: 1,
           user: null,
-          contentHub: {},
           accounts: [row(1, "Demo Club", "Rugby", { isActive: true, isSetup: true })],
         },
       };
@@ -72,7 +69,6 @@ export function syntheticAccountMeResponseForSim(
         data: {
           accountId: 1,
           user: null,
-          contentHub: {},
           accounts: [
             row(1, "Eastern Eagles", "AFL", { isActive: true, isSetup: true }),
             row(2, "Westside Netball", "Netball", { isActive: false, isSetup: true }),

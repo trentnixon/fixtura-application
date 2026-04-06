@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/nextjs";
 import { cookies } from "next/headers";
-import { type NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 import { AUTH_COOKIE_NAME } from "@/lib/auth/auth-constants";
 import { getStrapiUrl } from "@/lib/config/env";
@@ -11,7 +11,7 @@ import type { AccountMeResponse } from "@/types/api/account";
  * Proxy route for GET /api/account/me.
  * Proxies to Strapi's /api/account/me which resolves the account via JWT.
  */
-export async function GET(request: NextRequest) {
+export async function GET() {
   const strapiUrl = getStrapiUrl();
   const cookieStore = await cookies();
   const token = cookieStore.get(AUTH_COOKIE_NAME)?.value;
@@ -20,13 +20,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // Pass through the 'depth' query parameter if present
-  const searchParams = request.nextUrl.searchParams;
-  const depth = searchParams.get("depth");
-  const strapiPath = depth ? `/api/account/me?depth=${depth}` : "/api/account/me";
-
   try {
-    const strapiRes = await fetch(`${strapiUrl}${strapiPath}`, {
+    const strapiRes = await fetch(`${strapiUrl}/api/account/me`, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",

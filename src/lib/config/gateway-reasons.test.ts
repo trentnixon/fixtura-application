@@ -4,6 +4,7 @@ import {
   SELECT_ORG_GATEWAY_REASON,
   parseSelectOrgGatewayReason,
   selectOrgReasonFromApiStatus,
+  selectOrgReasonFromApiStatusExcludingBadRequest,
   selectOrganisationUrlWithReason,
   selectOrgReasonMessage,
 } from "./gateway-reasons";
@@ -33,6 +34,17 @@ describe("gateway-reasons", () => {
     expect(selectOrgReasonFromApiStatus(404)).toBe(SELECT_ORG_GATEWAY_REASON.notFound);
     expect(selectOrgReasonFromApiStatus(400)).toBe(SELECT_ORG_GATEWAY_REASON.invalidOrg);
     expect(selectOrgReasonFromApiStatus(500)).toBeNull();
+  });
+
+  it("selectOrgReasonFromApiStatusExcludingBadRequest omits 400", () => {
+    expect(selectOrgReasonFromApiStatusExcludingBadRequest(403)).toBe(
+      SELECT_ORG_GATEWAY_REASON.forbidden,
+    );
+    expect(selectOrgReasonFromApiStatusExcludingBadRequest(404)).toBe(
+      SELECT_ORG_GATEWAY_REASON.notFound,
+    );
+    expect(selectOrgReasonFromApiStatusExcludingBadRequest(400)).toBeNull();
+    expect(selectOrgReasonFromApiStatusExcludingBadRequest(500)).toBeNull();
   });
 
   it("selectOrgReasonMessage returns non-empty copy for each reason", () => {
