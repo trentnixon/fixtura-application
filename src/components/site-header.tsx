@@ -20,7 +20,8 @@ function getPageTitle(pathname: string): string {
     const seg = scoped.rest.split("/")[0] ?? "";
     if (seg === "dashboard") return "Dashboard";
     if (seg === "settings") return "Settings";
-    if (seg === "bundles") return "Content Bundles";
+    if (seg === "bundles") return "Bundles";
+    if (seg === "branding") return "Branding";
     if (seg === "template-builder") return "Templates";
     if (seg === "media-gallery") return "Media Gallery";
     if (seg === "manage-sponsors") return "Sponsorships";

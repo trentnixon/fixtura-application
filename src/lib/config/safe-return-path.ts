@@ -4,6 +4,7 @@ const SCOPED_SEGMENTS = new Set([
   "dashboard",
   "settings",
   "bundles",
+  "branding",
   "template-builder",
   "media-gallery",
   "manage-sponsors",

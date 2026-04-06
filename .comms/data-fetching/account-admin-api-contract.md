@@ -57,7 +57,7 @@ Prefer the Strapi default JSON error shape for new routes.
 | 6     | GET    | `/accounts/:accountId/render-token`       | [handoff-phase-06-accounts-render-token.md](./handoff/handoff-phase-06-accounts-render-token.md)                       |
 | 7     | GET    | `/accounts/:accountId/renders`            | [handoff-phase-07-renders-list.md](./handoff/handoff-phase-07-renders-list.md)                                         |
 | 8     | GET    | `/accounts/:accountId/renders/:renderId`  | [handoff-phase-08-accounts-render-detail.md](./handoff/handoff-phase-08-accounts-render-detail.md)                     |
-| 9     | GET    | `/accounts/:accountId/analytics/overview` | (Phase 9 handoff when published)                                                                                       |
+| 9     | GET    | `/accounts/:accountId/analytics/overview` | [handoff-phase-09-analytics-overview.md](./handoff/done/handoff-phase-09-analytics-overview.md)                        |
 | —     | GET    | `/account/organisation/:accountId`        | **Legacy hub** (retained; heavy aggregate). See [handoff-phase-00-contract.md](./handoff/handoff-phase-00-contract.md) |
 
 Normative transport rules for new `/accounts/:accountId/...` routes: [handoff-phase-00-contract.md](./handoff/handoff-phase-00-contract.md).
@@ -119,6 +119,16 @@ Lightweight shell bootstrap: user context, `accounts[]` summaries, **not** full 
 ## 15. Render detail — GET /accounts/:accountId/renders/:renderId (Phase 8)
 
 **Detail:** [handoff-phase-08-accounts-render-detail.md](./handoff/handoff-phase-08-accounts-render-detail.md)
+
+---
+
+<a id="16-analytics-overview--get-accountsaccountidanalyticsoverview-phase-9"></a>
+
+## 16. Analytics overview — GET /accounts/:accountId/analytics/overview (Phase 9)
+
+**Detail:** [handoff-phase-09-analytics-overview.md](./handoff/done/handoff-phase-09-analytics-overview.md)
+
+**Members app (BFF):** Next.js proxies authenticated requests to Strapi at `src/app/api/accounts/[accountId]/analytics/overview/route.ts` (forwards `from` / `to` query params).
 
 ---
 

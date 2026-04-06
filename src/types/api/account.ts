@@ -52,6 +52,8 @@ export interface AccountSummary {
   /** Account-level sport (may match `accountOrganisationDetails.Sport`). */
   Sport?: string;
   account_type?: number;
+  /** Saved template-option row id for `GET .../all-template-options?templateOptionId=` (CMS; optional). */
+  templateOptionId?: number | null;
   [key: string]: unknown;
 }
 
@@ -168,11 +170,43 @@ export interface AccountBrandingData {
   template: AccountBrandingTemplate | null;
   theme: AccountBrandingTheme | null;
   template_option: AccountBrandingTemplateOption | null;
+  /** Saved template-option row id for catalog hydration (CMS; optional). */
+  templateOptionId?: number | null;
 }
 
 export interface AccountBrandingResponse {
   data: AccountBrandingData;
 }
+
+/** CMS catalog row — shape varies by collection; omit Strapi timestamp noise in DTOs. */
+export type AllTemplateOptionsCatalogRow = Record<string, unknown>;
+
+/**
+ * GET /api/template-categories/all-template-options (via BFF /api/accounts/:id/all-template-options).
+ * @see .comms/data-fetching/handoff/handoff-template-all-template-options.md
+ */
+export interface AllTemplateOptionsData {
+  categories: AllTemplateOptionsCatalogRow[];
+  modes: AllTemplateOptionsCatalogRow[];
+  palettes: AllTemplateOptionsCatalogRow[];
+  gradients: AllTemplateOptionsCatalogRow[];
+  images: AllTemplateOptionsCatalogRow[];
+  noises: AllTemplateOptionsCatalogRow[];
+  particles: AllTemplateOptionsCatalogRow[];
+  patterns: AllTemplateOptionsCatalogRow[];
+  textures: AllTemplateOptionsCatalogRow[];
+  videos: AllTemplateOptionsCatalogRow[];
+  currentSelection: Record<string, unknown> | null;
+}
+
+export interface AllTemplateOptionsResponse {
+  data: AllTemplateOptionsData;
+}
+
+/** Optional query for all-template-options BFF. */
+export type AllTemplateOptionsParams = {
+  templateOptionId?: number;
+};
 
 /** GET /api/accounts/:accountId/organisation — read-only org summary (Phase 4). */
 export interface AccountOrganisationContextData {
@@ -317,4 +351,94 @@ export interface AccountRenderDetailData {
 
 export interface AccountRenderDetailResponse {
   data: AccountRenderDetailData;
+}
+
+/** Query params for GET /api/accounts/:accountId/analytics/overview (Phase 9). Omit both for CMS default window. */
+export interface AccountAnalyticsOverviewParams {
+  from?: string;
+  to?: string;
+}
+
+/** Top-level `meta` on analytics overview — resolved range and freshness. */
+export interface AccountAnalyticsOverviewMeta {
+  from: string;
+  to: string;
+  timezone: string;
+  computedAt: string;
+  staleness: string;
+  totalRendersInRange: number;
+}
+
+/** KPI rollup for renders with createdAt in [from, to] (Phase 9). */
+export interface AccountAnalyticsRollup {
+  totalRenders: number;
+  totalProcessingRenders: number;
+  totalCompleteRenders: number;
+  totalEmailsSent: number;
+  totalTeamRosterRequests: number;
+  totalTeamRosters: number;
+  totalTeamRosterEmails: number;
+  totalForceRerenders: number;
+  totalForceRerenderEmails: number;
+  totalGameResults: number;
+  totalUpcomingGames: number;
+  totalGrades: number;
+  totalDownloads: number;
+  totalAiArticles: number;
+}
+
+/** Per-day arrays align with `series` (UTC calendar days, chronological). */
+export interface AccountAnalyticsMetricsOverTime {
+  totalRenders: number;
+  totalCompleteRenders: number;
+  totalDownloads: number;
+  totalEmailsSent: number;
+  totalGameResults: number;
+  totalUpcomingGames: number;
+  totalGrades: number;
+  totalAiArticles: number;
+  GameResultsArr: number[];
+  UpcomingGamesArr: number[];
+  GradesArr: number[];
+  AiArticlesArr: number[];
+  DownloadsArr: number[];
+}
+
+export interface AccountAnalyticsMetricsAsPercentageOfCost {
+  valuePerRender: number;
+  totalCostByAccount: number;
+  totalDigitalAssets: number;
+  percentageCompleteRenders: number;
+  percentageProcessingRenders: number;
+  percentageGameResults: number;
+  percentageDownloads: number;
+  percentageAiArticles: number;
+  averageCostPerDigitalAsset: number;
+  averageCostOverTime: number[];
+}
+
+export interface AccountAnalyticsOverviewSeriesPoint {
+  date: string;
+  renders: number;
+  completeRenders: number;
+  gameResults: number;
+  upcomingGames: number;
+  grades: number;
+  downloads: number;
+  aiArticles: number;
+}
+
+/** GET /api/accounts/:accountId/analytics/overview — `data` slice (Phase 9). */
+export interface AccountAnalyticsOverviewData {
+  id: number;
+  rollup: AccountAnalyticsRollup;
+  metricsOverTime: AccountAnalyticsMetricsOverTime;
+  metricsAsPercentageOfCost: AccountAnalyticsMetricsAsPercentageOfCost;
+  series: AccountAnalyticsOverviewSeriesPoint[];
+}
+
+/** Envelope includes top-level `meta` (required for Phase 9). */
+export interface AccountAnalyticsOverviewResponse {
+  data: AccountAnalyticsOverviewData;
+  meta: AccountAnalyticsOverviewMeta;
 }

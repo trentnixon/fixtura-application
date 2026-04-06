@@ -1,4 +1,8 @@
-import type { AccountRendersListParams } from "@/types/api/account";
+import type {
+  AccountAnalyticsOverviewParams,
+  AccountRendersListParams,
+  AllTemplateOptionsParams,
+} from "@/types/api/account";
 
 /**
  * Standard registry for TanStack Query keys.
@@ -39,6 +43,17 @@ export const queryKeys = {
     /** Phase 8: GET /api/accounts/:accountId/renders/:renderId */
     renderDetail: (accountId: string, renderId: string) =>
       ["account", "render-detail", accountId, renderId] as const,
+    /** Phase 9: GET /api/accounts/:accountId/analytics/overview — key includes date window */
+    analyticsOverview: (accountId: string, params?: AccountAnalyticsOverviewParams) =>
+      [
+        "account",
+        "analytics-overview",
+        accountId,
+        params?.from ?? null,
+        params?.to ?? null,
+      ] as const,
+    allTemplateOptions: (accountId: string, params?: AllTemplateOptionsParams) =>
+      ["account", "all-template-options", accountId, params?.templateOptionId ?? null] as const,
   },
   bundles: {
     all: ["bundles"] as const,

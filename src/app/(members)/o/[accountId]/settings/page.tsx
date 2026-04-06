@@ -1,4 +1,5 @@
 ﻿import { AccountSettingsContent } from "./account-settings-content";
+import { SettingsAccountMeDump } from "./settings-account-me-dump";
 
 export default async function Page({ params }: { params: Promise<{ accountId: string }> }) {
   const { accountId } = await params;
@@ -10,6 +11,7 @@ export default async function Page({ params }: { params: Promise<{ accountId: st
           Account configuration from the CMS (read-only in this phase).
         </p>
       </div>
+      <SettingsAccountMeDump />
       <AccountSettingsContent accountId={accountId} />
     </div>
   );

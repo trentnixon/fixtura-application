@@ -6,6 +6,7 @@ import {
   IconDashboard,
   IconFileDescription,
   IconFolder,
+  IconPalette,
   IconHelp,
   IconListDetails,
   IconMoneybag,
@@ -102,9 +103,14 @@ export function AppSidebar({
             icon: IconDashboard,
           },
           {
-            title: "Content Bundles",
+            title: "Bundles",
             url: accountScopedRoutes.bundles(accountId),
             icon: IconFolder,
+          },
+          {
+            title: "Branding",
+            url: accountScopedRoutes.branding(accountId),
+            icon: IconPalette,
           },
           {
             title: "Templates",

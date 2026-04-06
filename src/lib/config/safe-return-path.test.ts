@@ -7,6 +7,7 @@ describe("isSafeAppReturnPath", () => {
     expect(isSafeAppReturnPath("/o/319/dashboard")).toBe(true);
     expect(isSafeAppReturnPath("/o/1/settings")).toBe(true);
     expect(isSafeAppReturnPath("/o/42/bundles/foo?tab=2")).toBe(true);
+    expect(isSafeAppReturnPath("/o/319/branding")).toBe(true);
   });
 
   it("rejects invalid account id or unknown segment", () => {

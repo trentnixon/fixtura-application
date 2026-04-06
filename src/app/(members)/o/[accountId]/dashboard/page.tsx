@@ -19,7 +19,8 @@ export default async function DashboardPage({
       <div>
         <h1 className="font-brand text-2xl font-semibold">Dashboard</h1>
         <p className="text-muted-foreground mt-1 text-sm">
-          Organisation data (temporary — for development visibility)
+          Phases 1–4 and 9 API JSON, legacy hub (temporary — development visibility). Phases 5–8 are
+          on Bundles.
         </p>
       </div>
       <TempOrgDataDump accountId={accountId} />

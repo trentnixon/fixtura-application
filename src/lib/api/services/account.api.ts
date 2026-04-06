@@ -2,6 +2,10 @@ import { apiClient } from "../client/fetch-client";
 import { appRoutes } from "../routes/route-definitions";
 
 import type {
+  AccountAnalyticsOverviewParams,
+  AccountAnalyticsOverviewResponse,
+  AllTemplateOptionsParams,
+  AllTemplateOptionsResponse,
   AccountBrandingResponse,
   AccountMeResponse,
   AccountOrganisationContextResponse,
@@ -37,6 +41,17 @@ export const accountApi = {
   getAccountBranding: (accountId: string) => {
     const path = `${appRoutes.accounts.branding.path}/${encodeURIComponent(accountId)}/branding`;
     return apiClient.get<AccountBrandingResponse>(path);
+  },
+
+  /** Full template catalog + optional currentSelection (handoff-template-all-template-options). */
+  getAllTemplateOptions: (accountId: string, params?: AllTemplateOptionsParams) => {
+    const search = new URLSearchParams();
+    if (params?.templateOptionId !== undefined) {
+      search.set("templateOptionId", String(params.templateOptionId));
+    }
+    const qs = search.toString();
+    const path = `${appRoutes.accounts.allTemplateOptions.path}/${encodeURIComponent(accountId)}/all-template-options${qs ? `?${qs}` : ""}`;
+    return apiClient.get<AllTemplateOptionsResponse>(path);
   },
 
   /** Phase 4: club/association summary for scoped UI (not the legacy hub aggregate). */
@@ -82,5 +97,19 @@ export const accountApi = {
   getAccountRenderDetail: (accountId: string, renderId: string) => {
     const path = `${appRoutes.accounts.renderDetail.path}/${encodeURIComponent(accountId)}/renders/${encodeURIComponent(renderId)}`;
     return apiClient.get<AccountRenderDetailResponse>(path);
+  },
+
+  /** Phase 9: range-scoped analytics KPIs and per-day series (not legacy hub all-time). */
+  getAccountAnalyticsOverview: (accountId: string, params?: AccountAnalyticsOverviewParams) => {
+    const search = new URLSearchParams();
+    if (params?.from !== undefined && params.from !== "") {
+      search.set("from", params.from);
+    }
+    if (params?.to !== undefined && params.to !== "") {
+      search.set("to", params.to);
+    }
+    const qs = search.toString();
+    const path = `${appRoutes.accounts.analyticsOverview.path}/${encodeURIComponent(accountId)}/analytics/overview${qs ? `?${qs}` : ""}`;
+    return apiClient.get<AccountAnalyticsOverviewResponse>(path);
   },
 };
