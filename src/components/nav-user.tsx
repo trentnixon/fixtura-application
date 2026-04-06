@@ -10,6 +10,7 @@ import {
 import Link from "next/link";
 import { toast } from "sonner";
 
+import { TypographyCaption, TypographyNavLabel } from "@/components/typography";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -78,8 +79,12 @@ export function NavUser({
                 <AvatarFallback className="rounded-lg">{initials}</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
-                <span className="text-muted-foreground truncate text-xs">{user.email}</span>
+                <TypographyNavLabel as="span" className="truncate">
+                  {user.name}
+                </TypographyNavLabel>
+                <TypographyCaption as="span" className="truncate">
+                  {user.email}
+                </TypographyCaption>
               </div>
               <IconDotsVertical className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -97,8 +102,12 @@ export function NavUser({
                   <AvatarFallback className="rounded-lg">{initials}</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
-                  <span className="text-muted-foreground truncate text-xs">{user.email}</span>
+                  <TypographyNavLabel as="span" className="truncate">
+                    {user.name}
+                  </TypographyNavLabel>
+                  <TypographyCaption as="span" className="truncate">
+                    {user.email}
+                  </TypographyCaption>
                 </div>
               </div>
             </DropdownMenuLabel>

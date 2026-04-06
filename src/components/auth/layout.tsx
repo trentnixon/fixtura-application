@@ -1,6 +1,7 @@
 import { HelpCircle, LifeBuoy } from "lucide-react";
 import Link from "next/link";
 
+import { TypographyBodySmall, TypographyNavLabel } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { ROUTES } from "@/lib/config/routes";
@@ -77,18 +78,24 @@ export function PublicFooter() {
     <footer className="bg-muted/50 border-t">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 md:py-12 lg:px-8">
         <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
-          <div className="text-muted-foreground text-sm font-medium">
+          <TypographyBodySmall as="div" tone="muted" className="font-medium">
             © {new Date().getFullYear()} Fixtura. All rights reserved.
-          </div>
-          <div className="text-muted-foreground flex gap-x-8 text-sm font-medium">
+          </TypographyBodySmall>
+          <div className="flex gap-x-8">
             <Link href={ROUTES.help} className="hover:text-foreground transition-colors">
-              Support
+              <TypographyNavLabel as="span" tone="muted">
+                Support
+              </TypographyNavLabel>
             </Link>
             <Link href="#" className="hover:text-foreground transition-colors">
-              Privacy Policy
+              <TypographyNavLabel as="span" tone="muted">
+                Privacy Policy
+              </TypographyNavLabel>
             </Link>
             <Link href="#" className="hover:text-foreground transition-colors">
-              Terms of Service
+              <TypographyNavLabel as="span" tone="muted">
+                Terms of Service
+              </TypographyNavLabel>
             </Link>
           </div>
         </div>

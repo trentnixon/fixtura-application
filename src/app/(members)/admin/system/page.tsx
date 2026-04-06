@@ -3,6 +3,7 @@
 import { IconActivity, IconChevronRight, IconServer, IconTools } from "@tabler/icons-react";
 import Link from "next/link";
 
+import { TypographyCardDescription, TypographyCardTitle } from "@/components/typography";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ROUTES } from "@/lib/config/routes";
 
@@ -53,11 +54,15 @@ export default function AdminSystemLandingPage() {
                   <tool.icon className="h-8 w-8" />
                 </div>
                 <div className="flex flex-1 flex-col gap-1">
-                  <CardTitle className="group-hover:text-primary text-xl transition-colors">
-                    {tool.title}
+                  <CardTitle className="group-hover:text-primary transition-colors">
+                    <TypographyCardTitle as="span" className="text-xl">
+                      {tool.title}
+                    </TypographyCardTitle>
                   </CardTitle>
-                  <CardDescription className="line-clamp-2 text-sm leading-relaxed">
-                    {tool.description}
+                  <CardDescription>
+                    <TypographyCardDescription className="line-clamp-2 leading-relaxed">
+                      {tool.description}
+                    </TypographyCardDescription>
                   </CardDescription>
                 </div>
                 <IconChevronRight className="text-muted-foreground group-hover:text-primary h-5 w-5 transition-all group-hover:translate-x-1" />

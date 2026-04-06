@@ -11,6 +11,7 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { useState, useMemo } from "react";
 
+import { TypographyCardDescription, TypographyCardTitle } from "@/components/typography";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -127,7 +128,11 @@ export default function AdminSystemPage() {
         <Card className="flex h-[700px] flex-col overflow-hidden md:col-span-4 lg:col-span-3">
           <CardHeader className="space-y-3 px-4 py-4">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-lg">Endpoints</CardTitle>
+              <CardTitle>
+                <TypographyCardTitle as="span" className="text-lg sm:text-lg">
+                  Endpoints
+                </TypographyCardTitle>
+              </CardTitle>
               <Badge variant="outline" className="font-mono">
                 {filteredRoutes.length}
               </Badge>
@@ -198,12 +203,16 @@ export default function AdminSystemPage() {
               <CardHeader className="bg-muted/20 border-b pb-4">
                 <div className="flex items-center justify-between">
                   <div className="flex flex-col gap-1">
-                    <CardTitle className="flex items-center gap-2 text-xl">
-                      <IconRoute className="text-primary h-5 w-5" />
-                      {selectedRoute.key}
+                    <CardTitle className="flex items-center gap-2">
+                      <TypographyCardTitle as="div" className="flex items-center gap-2 text-xl">
+                        <IconRoute className="text-primary h-5 w-5" />
+                        {selectedRoute.key}
+                      </TypographyCardTitle>
                     </CardTitle>
-                    <CardDescription className="font-mono text-xs">
-                      {selectedRoute.method} {selectedRoute.path}
+                    <CardDescription>
+                      <TypographyCardDescription className="font-mono text-xs">
+                        {selectedRoute.method} {selectedRoute.path}
+                      </TypographyCardDescription>
                     </CardDescription>
                   </div>
                   <div className="flex items-center gap-2">

@@ -12,6 +12,7 @@ import {
 import { format } from "date-fns";
 import { useState } from "react";
 
+import { TypographyCardDescription, TypographyCardTitle } from "@/components/typography";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -73,7 +74,11 @@ export default function FetchHealthPage() {
       <div className="grid gap-4 md:grid-cols-3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium italic">Service Status</CardTitle>
+            <CardTitle>
+              <TypographyCardTitle as="span" className="text-sm font-medium italic sm:text-sm">
+                Service Status
+              </TypographyCardTitle>
+            </CardTitle>
             <IconActivity className="text-muted-foreground h-4 w-4" />
           </CardHeader>
           <CardContent>
@@ -93,7 +98,11 @@ export default function FetchHealthPage() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium italic">Route Registry</CardTitle>
+            <CardTitle>
+              <TypographyCardTitle as="span" className="text-sm font-medium italic sm:text-sm">
+                Route Registry
+              </TypographyCardTitle>
+            </CardTitle>
             <IconRoute className="text-muted-foreground h-4 w-4" />
           </CardHeader>
           <CardContent>
@@ -106,7 +115,11 @@ export default function FetchHealthPage() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium italic">Logged User</CardTitle>
+            <CardTitle>
+              <TypographyCardTitle as="span" className="text-sm font-medium italic sm:text-sm">
+                Logged User
+              </TypographyCardTitle>
+            </CardTitle>
             <IconUser className="text-muted-foreground h-4 w-4" />
           </CardHeader>
           <CardContent>
@@ -158,9 +171,13 @@ export default function FetchHealthPage() {
       {/* Registry Detail */}
       <Card className="rounded-xl border shadow-sm">
         <CardHeader className="bg-muted/20 border-b pb-4">
-          <CardTitle>Route Implementation Registry</CardTitle>
+          <CardTitle>
+            <TypographyCardTitle as="span">Route Implementation Registry</TypographyCardTitle>
+          </CardTitle>
           <CardDescription>
-            Official registry of all application endpoints and their development readiness.
+            <TypographyCardDescription as="span">
+              Official registry of all application endpoints and their development readiness.
+            </TypographyCardDescription>
           </CardDescription>
         </CardHeader>
         <CardContent className="p-0">

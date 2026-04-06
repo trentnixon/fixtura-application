@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { TypographyCardDescription, TypographyCardTitle } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -21,10 +22,14 @@ export default function CreateOrganisationPage() {
     <div className="mx-auto grid w-full max-w-lg gap-6 py-4">
       <Card>
         <CardHeader>
-          <CardTitle>Create organisation</CardTitle>
+          <CardTitle>
+            <TypographyCardTitle as="span">Create organisation</TypographyCardTitle>
+          </CardTitle>
           <CardDescription>
-            Self-serve organisation creation is not wired up yet. The server contract for creating
-            an organisation from the members app is still to be confirmed with the CMS team.
+            <TypographyCardDescription as="span">
+              Self-serve organisation creation is not wired up yet. The server contract for creating
+              an organisation from the members app is still to be confirmed with the CMS team.
+            </TypographyCardDescription>
           </CardDescription>
         </CardHeader>
         <CardContent className="text-muted-foreground text-sm">

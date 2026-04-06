@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 
+import { TypographyCardDescription, TypographyCardTitle } from "@/components/typography";
 import {
   Card,
   CardAction,
@@ -164,10 +165,14 @@ export function ChartAreaInteractive() {
   return (
     <Card className="@container/card">
       <CardHeader>
-        <CardTitle>Total Visitors</CardTitle>
+        <CardTitle>
+          <TypographyCardTitle as="span">Total Visitors</TypographyCardTitle>
+        </CardTitle>
         <CardDescription>
-          <span className="hidden @[540px]/card:block">Total for the last 3 months</span>
-          <span className="@[540px]/card:hidden">Last 3 months</span>
+          <TypographyCardDescription as="div" className="leading-normal">
+            <span className="hidden @[540px]/card:block">Total for the last 3 months</span>
+            <span className="@[540px]/card:hidden">Last 3 months</span>
+          </TypographyCardDescription>
         </CardDescription>
         <CardAction>
           <ToggleGroup

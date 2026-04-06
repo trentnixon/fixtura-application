@@ -53,6 +53,7 @@ import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import { TypographyDialogDescription, TypographyDialogTitle } from "@/components/typography";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -608,8 +609,16 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className="gap-1">
-          <DrawerTitle>{item.header}</DrawerTitle>
-          <DrawerDescription>Showing total visitors for the last 6 months</DrawerDescription>
+          <DrawerTitle asChild>
+            <TypographyDialogTitle className="text-lg leading-none">
+              {item.header}
+            </TypographyDialogTitle>
+          </DrawerTitle>
+          <DrawerDescription asChild>
+            <TypographyDialogDescription>
+              Showing total visitors for the last 6 months
+            </TypographyDialogDescription>
+          </DrawerDescription>
         </DrawerHeader>
         <div className="flex flex-col gap-4 overflow-y-auto px-4 text-sm">
           {!isMobile && (

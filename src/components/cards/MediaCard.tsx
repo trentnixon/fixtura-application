@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { TypographyCardDescription, TypographyCardTitle } from "@/components/typography";
 import {
   Card,
   CardContent,
@@ -30,8 +31,16 @@ export function MediaCard({
     <Card {...props}>
       {(title || description) && (
         <CardHeader>
-          {title ? <CardTitle>{title}</CardTitle> : null}
-          {description ? <CardDescription>{description}</CardDescription> : null}
+          {title ? (
+            <CardTitle>
+              <TypographyCardTitle as="span">{title}</TypographyCardTitle>
+            </CardTitle>
+          ) : null}
+          {description ? (
+            <CardDescription>
+              <TypographyCardDescription as="span">{description}</TypographyCardDescription>
+            </CardDescription>
+          ) : null}
         </CardHeader>
       )}
       <CardContent className="grid gap-3">

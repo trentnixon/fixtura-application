@@ -3,8 +3,9 @@
 import { AlertTriangle, Trash2, UserPlus, ShieldCheck } from "lucide-react";
 
 import {
+  TypographyDialogDescription,
+  TypographyDialogTitle,
   TypographyH2,
-  TypographyH3,
   TypographyH4,
   TypographyLarge,
   TypographyMuted,
@@ -51,15 +52,15 @@ export default function DialogsPage() {
               <DialogContent>
                 <DialogHeader>
                   <DialogTitle asChild>
-                    <TypographyH3 className="text-lg leading-none font-semibold">
+                    <TypographyDialogTitle className="text-lg leading-none">
                       Project Audit Complete
-                    </TypographyH3>
+                    </TypographyDialogTitle>
                   </DialogTitle>
                   <DialogDescription asChild>
-                    <TypographyMuted>
+                    <TypographyDialogDescription>
                       Your automated accessibility scan for &quot;Marketing Site v2&quot; has
                       finished successfully.
-                    </TypographyMuted>
+                    </TypographyDialogDescription>
                   </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4 py-6">
@@ -94,15 +95,15 @@ export default function DialogsPage() {
                     <UserPlus className="size-6" />
                   </div>
                   <DialogTitle asChild>
-                    <TypographyH3 className="text-lg leading-none font-semibold">
+                    <TypographyDialogTitle className="text-lg leading-none">
                       Invite Member
-                    </TypographyH3>
+                    </TypographyDialogTitle>
                   </DialogTitle>
                   <DialogDescription asChild>
-                    <TypographyMuted>
+                    <TypographyDialogDescription>
                       Invite a new collaborator to this project. They will receive an email with
                       access instructions.
-                    </TypographyMuted>
+                    </TypographyDialogDescription>
                   </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-6 py-6">
@@ -136,16 +137,19 @@ export default function DialogsPage() {
                     <AlertTriangle className="size-6" />
                   </div>
                   <DialogTitle asChild>
-                    <TypographyH3 className="text-destructive text-lg leading-none font-bold">
+                    <TypographyDialogTitle
+                      tone="destructive"
+                      className="text-lg leading-none font-bold"
+                    >
                       Irreversible Action
-                    </TypographyH3>
+                    </TypographyDialogTitle>
                   </DialogTitle>
                   <DialogDescription asChild>
-                    <TypographyMuted>
+                    <TypographyDialogDescription>
                       Are you absolutely sure? This will permanently delete the{" "}
                       <strong>&quot;Acme Q2 Audit&quot;</strong> and all associated verification
                       history.
-                    </TypographyMuted>
+                    </TypographyDialogDescription>
                   </DialogDescription>
                 </DialogHeader>
                 <div className="bg-destructive/5 border-destructive/10 rounded-xl border px-4 py-4">
