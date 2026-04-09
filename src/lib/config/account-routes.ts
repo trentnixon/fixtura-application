@@ -12,6 +12,7 @@ const SEG = {
   templateBuilder: "template-builder",
   mediaGallery: "media-gallery",
   manageSponsors: "manage-sponsors",
+  billing: "billing",
   season: "season",
   account: "account",
 } as const;
@@ -28,6 +29,7 @@ export const accountScopedRoutes = {
   templateBuilder: (accountId: string | number) => scoped(accountId, SEG.templateBuilder),
   mediaGallery: (accountId: string | number) => scoped(accountId, SEG.mediaGallery),
   manageSponsors: (accountId: string | number) => scoped(accountId, SEG.manageSponsors),
+  billing: (accountId: string | number) => scoped(accountId, SEG.billing),
   season: (accountId: string | number) => scoped(accountId, SEG.season),
   account: (accountId: string | number) => scoped(accountId, SEG.account),
 } as const;

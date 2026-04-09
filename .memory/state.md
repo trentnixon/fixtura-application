@@ -1,26 +1,30 @@
 # State
 
+_Last updated: 2026-04-09 (episode — `LOG:` onboarding wizard-complete → dashboard)._
+
 ## Current focus
 
-- **CMS account data (Phases 1–9 + template catalog):** Hooks + BFFs per contract; see [`route-definitions.ts`](src/lib/api/routes/route-definitions.ts) and [`account.api.ts`](src/lib/api/services/account.api.ts). **`accounts.allTemplateOptions`** → BFF `GET /api/accounts/:id/all-template-options` (Strapi `template-categories/all-template-options`).
-- **Dev JSON visibility (temporary):**
-  - **Dashboard** [`temp-org-data-dump.tsx`](<src/app/(members)/o/[accountId]/dashboard/temp-data-drilling/temp-org-data-dump.tsx>): Phases **1–4**, **9**, legacy hub [`useAccountOrganisation`](src/lib/api/hooks/account/useAccountOrganisation.ts). Shared [`dump-block.tsx`](<src/app/(members)/o/[accountId]/dashboard/temp-data-drilling/dump-block.tsx>).
-  - **Bundles** [`bundles-api-dump.tsx`](<src/app/(members)/o/[accountId]/bundles/bundles-api-dump.tsx>): Phases **5–8** (Phase 8 **`renderId`** = first row **`data.renders[0].id`** from Phase 7 list; Phase 6 token redacted in dump).
-  - **Settings** [`settings-account-me-dump.tsx`](<src/app/(members)/o/[accountId]/settings/settings-account-me-dump.tsx>): Phase **1** `/api/account/me` (duplicate of dashboard block for inspection).
-  - **Branding** [`branding-api-dump.tsx`](<src/app/(members)/o/[accountId]/branding/branding-api-dump.tsx>): Phase **3** `/api/accounts/:id/branding` only.
-  - **Template builder** [`template-builder-content.tsx`](<src/app/(members)/o/[accountId]/template-builder/template-builder-content.tsx>) + [`all-template-options-dump.tsx`](<src/app/(members)/o/[accountId]/template-builder/all-template-options-dump.tsx>): branding summary + full catalog JSON (`useAllTemplateOptions`; `templateOptionId` from `/account/me` row or branding).
-- **Members nav (scoped):** Dashboard → **Bundles** → **Branding** → Templates → …; **Settings** in secondary. [`app-sidebar.tsx`](src/components/app-sidebar.tsx).
-- **Typography / Button / sandbox:** unchanged from prior state; replace dashboard dumps when real UI ships.
+- **Onboarding lifecycle (shipped):** Wizard completion → dashboard — [`resolve-account-entry.ts`](src/lib/onboarding/resolve-account-entry.ts) (`dashboard` \| `wizard` only); [`ScopedOnboardingSyncBanner`](src/components/scoped-onboarding-sync-banner.tsx) on scoped routes when **`!isSetup`** or pipeline failed; review — [`.comms/CODEX/ONBOARDING_STRUCTURE_REVIEW_SETUP_REDIRECT.md`](.comms/CODEX/ONBOARDING_STRUCTURE_REVIEW_SETUP_REDIRECT.md); decision [`.memory/decisions.md`](.memory/decisions.md) (2026-04-09).
+- **Onboarding Epic 7 (in progress — manual QA):** Repeatable checklists — [`.comms/CODEX/EPIC_7_TICKET_7_1_FRONTEND_ROUTE_QA.md`](.comms/CODEX/EPIC_7_TICKET_7_1_FRONTEND_ROUTE_QA.md), [`EPIC_7_TICKET_7_2_CMS_LIFECYCLE_QA.md`](.comms/CODEX/EPIC_7_TICKET_7_2_CMS_LIFECYCLE_QA.md), [`EPIC_7_TICKET_7_3_RECOVERY_QA.md`](.comms/CODEX/EPIC_7_TICKET_7_3_RECOVERY_QA.md); sign-off — [`EPIC_7_QA_SIGNOFF.md`](.comms/CODEX/EPIC_7_QA_SIGNOFF.md). **Automated:** [`org-access-boundary.test.tsx`](src/components/auth/org-access-boundary.test.tsx) (wizard-complete allowed without **`isSetup`**).
+- **Gateway `/select-organisation` (shipped):** Lifecycle card tones — [`select-org-card-tone.ts`](src/lib/onboarding/select-org-card-tone.ts); [`select-organisation-content.tsx`](<src/app/(members)/select-organisation/select-organisation-content.tsx>); dev sim [`select-organisation-sim.ts`](src/lib/dev/select-organisation-sim.ts); logo `onError` → initials in [`grid-card.tsx`](src/components/ui/grid-card.tsx).
+- **Delete unfinished account (shipped):** BFF [`DELETE …/api/accounts/[accountId]`](src/app/api/accounts/[accountId]/route.ts); [`useDeleteUnfinishedAccount`](src/lib/api/hooks/account/useDeleteUnfinishedAccount.ts); gating — [`can-delete-unfinished-onboarding-account.ts`](src/lib/onboarding/can-delete-unfinished-onboarding-account.ts).
+- **Onboarding Epic 5 (implemented):** Shared Strapi→BFF mapping — [`next-response-from-strapi-fetch.ts`](src/lib/api/bff/next-response-from-strapi-fetch.ts); onboarding lifecycle routes under [`src/app/api/accounts/[accountId]/onboarding/`](src/app/api/accounts/[accountId]/onboarding/).
+- **Optional setup route:** [`setup-client.tsx`](<src/app/(members)/create-organisation/setup/setup-client.tsx>) — recovery/manual; wizard-complete visits redirect to dashboard.
+- **UI primitives:** Default **`Card`** / **`Surface`** — **`ring-1 ring-border` + `shadow-xl`** app-wide.
+- **L3 premade themes:** Catalogue row **`sport`** + **`theme`** JSON; Step 2 branding — [`wizard-step-branding.tsx`](<src/app/(members)/create-organisation/_components/wizard-step-branding.tsx>).
+- **Create-organisation wizard:** Phases shipped; follow-ups: Strapi permissions; **§5** allowlist; gateway **Q1**. [`PhasedIntegrationPath.md`](<src/app/(members)/create-organisation/.docs/PhasedIntegrationPath.md>).
+- **CMS account data:** Hooks + BFFs; billing, media library, sponsors on **`/o/[accountId]/…`**.
+- **Members nav:** [`app-sidebar.tsx`](src/components/app-sidebar.tsx).
 
 ## Next actions
 
-- [ ] Smoke BFFs against live Strapi (Phases 2–9) where not recently verified.
-- [ ] Smoke **`GET /api/accounts/{accountId}/all-template-options`** (BFF → CMS); Strapi **Users & permissions → Authenticated → Template-category → `getAllTemplateOptions`** (403 if missing).
-- [ ] Replace **`temp-data-drilling`** / bundle dumps with product UI when ready.
-- [ ] Optional: dedupe Phase 3 branding JSON on dashboard if Branding page is sufficient.
-- [ ] Wire **create organisation** when CMS contract exists.
-- [ ] **Create-org** flow still TBC on backend.
+- [ ] **Epic 7:** Run ticket **7.1** / **7.2** / **7.3** checklists in **staging** (minimum); complete [`.comms/CODEX/EPIC_7_QA_SIGNOFF.md`](.comms/CODEX/EPIC_7_QA_SIGNOFF.md) (confirm flows match wizard-complete → dashboard).
+- [ ] **QA (optional):** `/select-organisation` multi-account lifecycle mix in staging; `?orgSim=multiple` with org simulator.
+- [ ] **QA (optional):** Staging parity — BFF vs direct Strapi for **onboarding-state**, **setup-status**, **retry-setup** (see [`epic-5-bff-contract-verification.md`](<src/app/(members)/create-organisation/.comms/epic-5-bff-contract-verification.md>)).
+- [ ] **CMS:** Confirm Strapi theme POST / GET branding / L3 **`theme`** four-key shape in target env.
+- [ ] **Product/CMS:** **§5** semantics; gateway **Q1**.
+- [ ] Replace temp JSON drilling with product UI when ready.
 
 ## Blockers / risks
 
-- **Create-org** flow blocked on backend spec (TBC).
+- **Strapi** upstream handlers and worker behaviour required for full **7.2** CMS QA — see [`EPIC_7_TICKET_7_2_CMS_LIFECYCLE_QA.md`](.comms/CODEX/EPIC_7_TICKET_7_2_CMS_LIFECYCLE_QA.md) and [`DevelopmentRoadMap.md`](<src/app/(members)/create-organisation/.docs/DevelopmentRoadMap.md>).

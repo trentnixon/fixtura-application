@@ -74,7 +74,7 @@ function Surface({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       className={cn(
-        "bg-card text-card-foreground border-border rounded-2xl border p-6 shadow-sm",
+        "bg-card text-card-foreground border-border ring-border rounded-2xl border-none p-6 shadow-xl ring-1",
         className,
       )}
       {...props}

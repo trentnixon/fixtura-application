@@ -3,6 +3,7 @@
 import {
   IconBuildingPlus,
   IconCamera,
+  IconCreditCard,
   IconDashboard,
   IconFileDescription,
   IconFolder,
@@ -126,6 +127,11 @@ export function AppSidebar({
             title: "Sponsors",
             url: accountScopedRoutes.manageSponsors(accountId),
             icon: IconMoneybag,
+          },
+          {
+            title: "Billing",
+            url: accountScopedRoutes.billing(accountId),
+            icon: IconCreditCard,
           },
           {
             title: "Season",

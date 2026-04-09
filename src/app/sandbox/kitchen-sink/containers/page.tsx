@@ -87,7 +87,7 @@ export default function ContainersPage() {
                 <Surface className="text-muted-foreground flex h-32 items-center justify-center text-sm italic">
                   Default Surface
                 </Surface>
-                <Surface className="bg-secondary border-secondary flex h-32 items-center justify-center">
+                <Surface className="bg-secondary border-secondary flex h-32 items-center justify-center border ring-0">
                   <div className="text-foreground font-semibold">Themed Surface</div>
                 </Surface>
               </div>

@@ -33,7 +33,7 @@ function GridCardShowcaseSurface({ children }: { children: ReactNode }) {
   return (
     <Surface
       className={cn(
-        "border-border/80 from-muted/15 to-card relative overflow-hidden p-6 md:p-8",
+        "border-border/80 from-muted/15 to-card relative overflow-hidden border p-6 ring-0 md:p-8",
         "bg-[linear-gradient(to_bottom,rgba(0,0,0,0.02),transparent_40%),radial-gradient(ellipse_80%_50%_at_50%_-20%,hsl(var(--primary)/0.06),transparent)]",
         "dark:bg-[linear-gradient(to_bottom,rgba(255,255,255,0.03),transparent_40%),radial-gradient(ellipse_80%_50%_at_50%_-20%,hsl(var(--primary)/0.08),transparent)]",
       )}

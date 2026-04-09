@@ -21,7 +21,16 @@ function isLegacyMemberPath(pathname: string): boolean {
   return LEGACY_MEMBER_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
 }
 
-const GATEWAY_PATHS = [ROUTES.selectOrganisation, ROUTES.createOrganisation] as const;
+/**
+ * Gateway members routes (auth required): organisation picker, wizard, and nested paths such as
+ * `/create-organisation/setup` (preparation / recovery).
+ */
+export function isMembersGatewayProtectedPath(pathname: string): boolean {
+  if (pathname === ROUTES.selectOrganisation) return true;
+  if (pathname === ROUTES.createOrganisation) return true;
+  if (pathname.startsWith(`${ROUTES.createOrganisation}/`)) return true;
+  return false;
+}
 
 export function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
@@ -61,7 +70,7 @@ export function middleware(request: NextRequest) {
   }
 
   const isScopedMemberPrefix = pathname.startsWith("/o/");
-  const isGatewayMember = (GATEWAY_PATHS as readonly string[]).includes(pathname);
+  const isGatewayMember = isMembersGatewayProtectedPath(pathname);
   const isAdminMember = pathname === "/admin" || pathname.startsWith("/admin/");
   const isLogoutPage = pathname === ROUTES.membersLogoutPage;
 
@@ -88,6 +97,7 @@ export const config = {
     "/o/:path*",
     "/select-organisation",
     "/create-organisation",
+    "/create-organisation/:path*",
     "/admin/:path*",
     "/dashboard/:path*",
     "/settings/:path*",

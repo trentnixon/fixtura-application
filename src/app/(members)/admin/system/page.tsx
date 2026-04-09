@@ -46,7 +46,7 @@ export default function AdminSystemLandingPage() {
       <div className="grid gap-6 md:grid-cols-2">
         {tools.map((tool) => (
           <Link key={tool.href} href={tool.href} className="group">
-            <Card className="group-hover:border-primary/50 h-full transition-all duration-300 group-hover:translate-y-[-2px] group-hover:shadow-md">
+            <Card className="group-hover:ring-primary/50 h-full ring-0 transition-all duration-300 group-hover:translate-y-[-2px] group-hover:shadow-md group-hover:ring-1">
               <CardHeader className="flex flex-row items-center gap-4 py-8">
                 <div
                   className={`rounded-xl p-3 ${tool.bgColor} ${tool.color} group-hover:bg-primary group-hover:text-primary-foreground transition-colors`}

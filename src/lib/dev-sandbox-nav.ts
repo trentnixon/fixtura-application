@@ -70,6 +70,7 @@ export const INTERACTION_LAB_NAV_SECTIONS: SandboxNavSection[] = [
     links: [
       { href: `${IL}/upload/drag-drop`, label: "Drag and drop" },
       { href: `${IL}/upload/multi-file`, label: "Multi file" },
+      { href: `${IL}/upload/image-crop`, label: "Image crop" },
     ],
   },
   {
@@ -87,5 +88,9 @@ export const INTERACTION_LAB_NAV_SECTIONS: SandboxNavSection[] = [
   {
     title: "Dialogs",
     links: [{ href: `${IL}/dialogs/confirm-flows`, label: "Confirm flows" }],
+  },
+  {
+    title: "Colour",
+    links: [{ href: `${IL}/color-picker`, label: "Colour picker" }],
   },
 ];

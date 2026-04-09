@@ -33,6 +33,8 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 
+import { OnboardingAutocompleteSection } from "./_sections/onboarding-autocomplete";
+
 export default function InputsPage() {
   const [date, setDate] = React.useState<Date>();
 
@@ -196,6 +198,8 @@ export default function InputsPage() {
             </Surface>
           </div>
         </Section>
+
+        <OnboardingAutocompleteSection />
       </div>
     </div>
   );

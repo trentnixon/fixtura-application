@@ -8,8 +8,8 @@ import { ApiError } from "./api-error";
 type FetchInit = NonNullable<Parameters<typeof globalThis.fetch>[1]>;
 
 export interface RequestOptions<TBody = unknown> {
-  method?: "GET" | "POST" | "PUT" | "DELETE";
-  body?: TBody;
+  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+  body?: TBody | FormData;
   headers?: FetchInit["headers"];
   signal?: FetchInit["signal"];
   timeoutMs?: number;
@@ -49,15 +49,17 @@ export async function apiRequest<TResponse, TBody = unknown>(
   const controller = new globalThis.AbortController();
   const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
+  const isFormData = typeof FormData !== "undefined" && body instanceof FormData;
+
   try {
     const response = await fetch(path, {
       method,
       credentials: "include",
       headers: {
-        "Content-Type": "application/json",
+        ...(isFormData ? {} : { "Content-Type": "application/json" }),
         ...headers,
       },
-      ...(body ? { body: JSON.stringify(body) } : {}),
+      ...(body ? (isFormData ? { body: body as BodyInit } : { body: JSON.stringify(body) }) : {}),
       signal: signal ?? controller.signal,
     });
 
@@ -149,6 +151,19 @@ export const apiClient = {
     options: Omit<RequestOptions<TBody>, "method" | "body"> = {},
   ) => apiRequest<TResponse, TBody>(path, { ...options, method: "PUT", body }),
 
+  patch: <TResponse, TBody = unknown>(
+    path: string,
+    body: TBody,
+    options: Omit<RequestOptions<TBody>, "method" | "body"> = {},
+  ) => apiRequest<TResponse, TBody>(path, { ...options, method: "PATCH", body }),
+
   delete: <TResponse>(path: string, options: Omit<RequestOptions, "method" | "body"> = {}) =>
     apiRequest<TResponse>(path, { ...options, method: "DELETE" }),
+
+  /** Multipart upload — do not set Content-Type (boundary set by the browser). */
+  postFormData: <TResponse>(
+    path: string,
+    formData: FormData,
+    options: Omit<RequestOptions<FormData>, "method" | "body"> = {},
+  ) => apiRequest<TResponse, FormData>(path, { ...options, method: "POST", body: formData }),
 };

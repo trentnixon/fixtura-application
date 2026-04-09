@@ -58,7 +58,7 @@ export default function CardsPage() {
               </CardFooter>
             </Card>
 
-            <Card className="border-primary/20 bg-primary/5">
+            <Card className="ring-primary/20 bg-primary/5 border-none ring-1">
               <CardHeader>
                 <TypographyH3 className="text-primary text-lg leading-none font-semibold">
                   Premium Feature
@@ -144,7 +144,7 @@ export default function CardsPage() {
               Combining cards and other UI primitives for feature-rich modules.
             </TypographyMuted>
           </div>
-          <Card className="ring-border max-w-3xl overflow-hidden border-none shadow-xl ring-1">
+          <Card className="max-w-3xl overflow-hidden">
             <div className="from-primary via-brand-secondary to-brand-accent h-2 w-full bg-gradient-to-r" />
             <div className="flex flex-col md:flex-row">
               <div className="flex-1 p-8">

@@ -37,8 +37,10 @@ describe("Card", () => {
       "bg-card",
       "text-card-foreground",
       "rounded-xl",
-      "border",
-      "shadow-sm",
+      "border-none",
+      "shadow-xl",
+      "ring-1",
+      "ring-border",
     );
   });
 

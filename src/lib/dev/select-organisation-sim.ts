@@ -32,7 +32,12 @@ function row(
   id: number,
   name: string,
   sport: string,
-  opts?: { isActive?: boolean; isSetup?: boolean; logo?: string },
+  opts?: {
+    isActive?: boolean;
+    isSetup?: boolean;
+    hasCompletedOnboardingWizard?: boolean;
+    logo?: string;
+  },
 ): AccountSummary {
   const base: AccountSummary = {
     id,
@@ -40,6 +45,9 @@ function row(
   };
   if (opts?.isActive !== undefined) base.isActive = opts.isActive;
   if (opts?.isSetup !== undefined) base.isSetup = opts.isSetup;
+  if (opts?.hasCompletedOnboardingWizard !== undefined) {
+    base.hasCompletedOnboardingWizard = opts.hasCompletedOnboardingWizard;
+  }
   return base;
 }
 
@@ -71,8 +79,16 @@ export function syntheticAccountMeResponseForSim(
           user: null,
           accounts: [
             row(1, "Eastern Eagles", "AFL", { isActive: true, isSetup: true }),
-            row(2, "Westside Netball", "Netball", { isActive: false, isSetup: true }),
-            row(3, "City Youth FC", "Football", { isActive: true, isSetup: false }),
+            row(2, "Westside Netball", "Netball", {
+              isActive: false,
+              isSetup: false,
+              hasCompletedOnboardingWizard: true,
+            }),
+            row(3, "City Youth FC", "Football", {
+              isActive: true,
+              isSetup: false,
+              hasCompletedOnboardingWizard: false,
+            }),
           ],
         },
       };

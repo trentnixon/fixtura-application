@@ -196,7 +196,7 @@ export function ContextualUsageSection() {
           <TypographyMuted className="mb-4 block text-sm">
             Strong primary + optional quiet link for learn more.
           </TypographyMuted>
-          <Card className="bg-card/50 max-w-lg border-dashed">
+          <Card className="bg-card/50 max-w-lg border border-dashed ring-0">
             <CardHeader>
               <CardTitle className="text-lg">No projects yet</CardTitle>
               <TypographyMuted>

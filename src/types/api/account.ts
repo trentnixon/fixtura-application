@@ -48,12 +48,16 @@ export interface AccountSummary {
   DeliveryAddress?: string | null;
   isActive?: boolean;
   isSetup?: boolean;
+  /** When set on bootstrap, avoids extra onboarding-state fetch for card tone; optional CMS field. */
+  hasCompletedOnboardingWizard?: boolean;
   isRightsHolder?: boolean;
   /** Account-level sport (may match `accountOrganisationDetails.Sport`). */
   Sport?: string;
   account_type?: number;
   /** Saved template-option row id for `GET .../all-template-options?templateOptionId=` (CMS; optional). */
   templateOptionId?: number | null;
+  /** Phase 2 onboarding working name; optional until CMS exposes on bootstrap. */
+  onboardingOrganisationName?: string | null;
   [key: string]: unknown;
 }
 
@@ -76,6 +80,242 @@ export interface AccountMePayload {
 /** Success body for GET /api/account/me */
 export interface AccountMeResponse {
   data: AccountMePayload;
+}
+
+/** Request body for POST /api/account/first (A1); forwarded to Strapi as-is. */
+export interface CreateFirstAccountRequestBody {
+  /** L1 sport id when user completes Get Started with a sport pick. */
+  sport?: string;
+  /** Signals CMS that the initial start sequence (e.g. sport selection) is complete. */
+  hasCompletedStartSequence?: boolean;
+  [key: string]: unknown;
+}
+
+/** POST /api/account/first (A1) — create or attach first account; see app-handoff-post-account-first-endpoint.md */
+export interface CreateFirstAccountPayload {
+  accountId: number;
+  [key: string]: unknown;
+}
+
+export interface CreateFirstAccountResponse {
+  data: CreateFirstAccountPayload;
+}
+
+/** L1 — GET /api/account/onboarding/lookups/sports */
+export interface OnboardingSportOption {
+  id: string;
+  label: string;
+  sortOrder: number;
+}
+
+export interface OnboardingLookupsSportsResponse {
+  data: OnboardingSportOption[];
+}
+
+/** L2 — GET /api/account/onboarding/lookups/organisation-types */
+export interface OnboardingOrganisationTypeOption {
+  id: number;
+  label: string;
+  sortOrder: number;
+}
+
+export interface OnboardingLookupsOrganisationTypesResponse {
+  data: OnboardingOrganisationTypeOption[];
+}
+
+/** GET /api/account/onboarding/lookups/associations?sport= */
+export interface OnboardingAssociationOption {
+  id: number;
+  label: string;
+  sortOrder: number;
+}
+
+export interface OnboardingLookupsAssociationsResponse {
+  data: OnboardingAssociationOption[];
+}
+
+/** GET /api/account/onboarding/lookups/clubs?associationId= */
+export interface OnboardingClubOption {
+  id: number;
+  label: string;
+  sortOrder: number;
+}
+
+export interface OnboardingLookupsClubsResponse {
+  data: OnboardingClubOption[];
+}
+
+/**
+ * Account sport enum (CMS); same values as account sport.
+ * @see GET /api/account/onboarding/lookups/themes — each theme may set `sport` or null.
+ */
+export type AccountSportEnum = "Cricket" | "AFL" | "Hockey" | "Netball" | "Basketball";
+
+/** L3 — GET /api/account/onboarding/lookups/themes (premade catalogue). */
+export interface OnboardingThemeOption {
+  id: number;
+  label: string;
+  slug?: string | null;
+  sortOrder?: number | null;
+  /** Theme’s sport from CMS; null when unset. */
+  sport: AccountSportEnum | null;
+  /** Full Theme JSON from CMS — expect `{ primary, secondary, dark, white }` hex tokens; null when absent. */
+  theme: Record<string, unknown> | null;
+}
+
+export interface OnboardingLookupsThemesResponse {
+  data: OnboardingThemeOption[];
+}
+
+/** W1 — PATCH /api/accounts/:accountId/onboarding/step-1 */
+export interface UpdateOnboardingStep1Body {
+  sport?: string;
+  accountTypeId?: number;
+  onboardingOrganisationName?: string | null;
+  isRightsHolder?: boolean;
+  isPermissionGiven?: boolean;
+  /** Selected association (sport-scoped); CMS may persist link. */
+  associationId?: number | null;
+  /** Selected club when organisation type is club; under parent association. */
+  clubId?: number | null;
+}
+
+export interface UpdateOnboardingStep1Response {
+  data: {
+    accountId: number;
+    updated: Partial<{
+      sport: string;
+      accountTypeId: number;
+      onboardingOrganisationName: string | null;
+      isRightsHolder: boolean;
+      isPermissionGiven: boolean;
+      associationId: number | null;
+      clubId: number | null;
+    }>;
+  };
+}
+
+/** W2 — PATCH /api/accounts/:accountId/onboarding/step-2 */
+export interface UpdateOnboardingStep2Body {
+  /** Maps to `account.theme` → `api::theme.theme` id (premade or private). Colours live on the theme, not on the account. */
+  themeId?: number | null;
+  logoMediaId?: number | null;
+}
+
+export interface UpdateOnboardingStep2Response {
+  data: {
+    accountId: number;
+    updated: Partial<{
+      themeId: number | null;
+      logoMediaId: number | null;
+    }>;
+  };
+}
+
+/** W3 — PATCH /api/accounts/:accountId/onboarding/step-3 */
+export interface UpdateOnboardingStep3Body {
+  firstName?: string | null;
+  lastName?: string | null;
+  deliveryAddress?: string | null;
+}
+
+export interface UpdateOnboardingStep3Response {
+  data: {
+    accountId: number;
+    updated: Partial<{
+      firstName: string | null;
+      lastName: string | null;
+      deliveryAddress: string | null;
+    }>;
+  };
+}
+
+/** W4 — POST /api/accounts/:accountId/onboarding/confirm (wizard complete; CMS-defined body). */
+export interface ConfirmOnboardingResponse {
+  data?: Record<string, unknown>;
+}
+
+/** Lifecycle v1 — GET .../onboarding/onboarding-state `data` object. */
+export type OnboardingWizardStatus = "not_started" | "in_progress" | "completed";
+
+export type InitialPipelineStatus = "not_started" | "queued" | "running" | "completed" | "failed";
+
+export interface OnboardingStateData {
+  accountId: number;
+  onboardingWizardStatus: OnboardingWizardStatus;
+  /** 0–4 — see onboarding lifecycle handoff §5 */
+  onboardingCurrentStep: number;
+  onboardingLastCompletedStep: number;
+  onboardingStartedAt: string | null;
+  onboardingLastActivityAt: string | null;
+  hasCompletedOnboardingWizard: boolean;
+  onboardingWizardCompletedAt: string | null;
+
+  initialSetupStatus: InitialPipelineStatus;
+  initialSetupStartedAt: string | null;
+  initialSetupCompletedAt: string | null;
+  initialSetupFailedAt: string | null;
+  initialSetupFailureReason: string | null;
+
+  initialDataFetchStatus: InitialPipelineStatus;
+  initialDataFetchStartedAt: string | null;
+  initialDataFetchCompletedAt: string | null;
+  initialDataFetchFailedAt: string | null;
+  initialDataFetchFailureReason: string | null;
+
+  isSetup: boolean;
+  isUpdating: boolean;
+  isActive: boolean;
+}
+
+export interface OnboardingStateResponse {
+  data: OnboardingStateData;
+}
+
+/** S1 — GET /api/accounts/:accountId/onboarding/setup-status (machine-readable preparation state). */
+export interface OnboardingSetupStatusData {
+  /** Machine-readable lifecycle value; drives polling stop when terminal. */
+  status: string;
+  phase?: string | null;
+  requiresUserAction?: boolean;
+  errorCode?: string | null;
+  /** CMS versions shape — number, percent string, or opaque object. */
+  progress?: number | string | Record<string, unknown> | null;
+  messageKey?: string | null;
+  /** Lifecycle v1 — pipeline enums + flags (optional until CMS ships). */
+  initialSetupStatus?: InitialPipelineStatus;
+  initialDataFetchStatus?: InitialPipelineStatus;
+  isSetup?: boolean;
+  isUpdating?: boolean;
+}
+
+/** Optional envelope — client uses `parseOnboardingSetupStatusPayload` for wire JSON. */
+export interface OnboardingSetupStatusResponse {
+  data: OnboardingSetupStatusData;
+}
+
+/** POST /api/accounts/:accountId/onboarding/step-2/theme — create private theme + link account. */
+export interface CreateOnboardingStep2ThemeBody {
+  name: string;
+  primary: string;
+  secondary: string;
+  dark: string;
+  white: string;
+}
+
+export interface CreateOnboardingStep2ThemeResponse {
+  data: {
+    id: number;
+    isPublic?: boolean;
+    accountId?: number;
+  };
+}
+
+/** M1 — POST /api/accounts/:accountId/onboarding/step-2/upload */
+export interface UploadOnboardingStep2LogoResponse {
+  data: {
+    id: number;
+  };
 }
 
 /**
@@ -119,10 +359,47 @@ export interface AccountSettingsData {
   hasCompletedStartSequence: boolean;
   hasCustomTemplate: boolean;
   account_type: number | null;
+  /** Working org name during onboarding (Phase 2); optional until CMS exposes. */
+  onboardingOrganisationName?: string | null;
 }
 
 export interface AccountSettingsResponse {
   data: AccountSettingsData;
+}
+
+/** Image on GET /api/accounts/:accountId/media-library item (handoff). */
+export interface AccountMediaLibraryImage {
+  id: number;
+  url: string;
+  width: number | null;
+  height: number | null;
+  mime: string | null;
+  alternativeText: string | null;
+}
+
+/** One published gallery row (ordering: updatedAt desc on server). */
+export interface AccountMediaLibraryItem {
+  id: number;
+  title: string | null;
+  isActive: boolean | null;
+  tags: unknown | null;
+  ageGroup: "Seniors" | "Juniors" | "Both" | string | null;
+  assetType: string | null;
+  markerPosition: unknown | null;
+  image: AccountMediaLibraryImage | null;
+}
+
+export interface AccountMediaLibraryData {
+  items: AccountMediaLibraryItem[];
+}
+
+export interface AccountMediaLibraryResponse {
+  data: AccountMediaLibraryData;
+}
+
+/** GET /api/accounts/:accountId/media-library/:mediaId — one published row (handoff). */
+export interface AccountMediaLibraryItemResponse {
+  data: AccountMediaLibraryItem;
 }
 
 /** Single media summary on template branding (poster / video / gallery items). */
@@ -133,6 +410,39 @@ export interface BrandingMedia {
   height: number | null;
   mime: string | null;
   alternativeText: string | null;
+}
+
+/** One sponsorship allocation row on GET /api/accounts/:accountId/sponsors (`allocation` is Strapi JSON). */
+export interface AccountSponsorshipAllocation {
+  id: number;
+  allocation: unknown | null;
+}
+
+/** Published sponsor row (handoff get-account-sponsors). */
+export interface AccountSponsorDto {
+  id: number;
+  name: string;
+  url: string | null;
+  startDate: string | null;
+  endDate: string | null;
+  isActive: boolean;
+  isPrimary: boolean;
+  tagline: string | null;
+  order: number | null;
+  description: string | null;
+  isVideo: boolean;
+  isArticle: boolean;
+  logo: BrandingMedia | null;
+  sponsorshipAllocations: AccountSponsorshipAllocation[];
+}
+
+export interface AccountSponsorsData {
+  items: AccountSponsorDto[];
+}
+
+/** GET /api/accounts/:accountId/sponsors */
+export interface AccountSponsorsResponse {
+  data: AccountSponsorsData;
 }
 
 /** Template slice on GET /api/accounts/:accountId/branding (Phase 3). */
@@ -156,6 +466,8 @@ export interface AccountBrandingTheme {
   id: number;
   name: string;
   theme: Record<string, unknown>;
+  /** When present, premade catalogue themes are public; private/custom themes are false. */
+  isPublic?: boolean | null;
 }
 
 /**
@@ -172,6 +484,8 @@ export interface AccountBrandingData {
   template_option: AccountBrandingTemplateOption | null;
   /** Saved template-option row id for catalog hydration (CMS; optional). */
   templateOptionId?: number | null;
+  /** Onboarding logo media (`onboardingLogo` on account); optional until CMS populates. */
+  onboardingLogo?: BrandingMedia | null;
 }
 
 export interface AccountBrandingResponse {
@@ -441,4 +755,107 @@ export interface AccountAnalyticsOverviewData {
 export interface AccountAnalyticsOverviewResponse {
   data: AccountAnalyticsOverviewData;
   meta: AccountAnalyticsOverviewMeta;
+}
+
+/** Tier row on GET /api/accounts/:accountId/billing (`image_url` omitted). */
+export interface AccountBillingSubscriptionTierDto {
+  id: number;
+  Name: string;
+  Title: string | null;
+  SubTitle: string | null;
+  description: string | null;
+  price: number | null;
+  currency: string | null;
+  stripe_product_id: string | null;
+  stripe_price_id: string | null;
+  isActive: boolean;
+  isClub: boolean;
+  includeSponsors: boolean;
+  Category: string | null;
+  DaysInPass: number | null;
+  PriceByWeekInPass: number | null;
+  subscription_items: unknown[];
+}
+
+export interface AccountBillingTrialDto {
+  id: number;
+  startDate: string | null;
+  endDate: string | null;
+  isActive: boolean;
+  subscriptionTier: AccountBillingSubscriptionTierDto | null;
+}
+
+export interface AccountBillingCustomerDto {
+  id: number;
+  stripe_customer_id: string | null;
+  stripe_created: string | null;
+  stripe_invoice_prefix: string | null;
+}
+
+export interface AccountBillingOrderDto {
+  id: number;
+  Name: string | null;
+  total: number | null;
+  currency: string | null;
+  OrderPaid: boolean | null;
+  payment_status: string | null;
+  checkout_status: string | null;
+  payment_channel: string | null;
+  startOrderAt: string | null;
+  endOrderAt: string | null;
+  isActive: boolean;
+  isPaused: boolean;
+  cancel_at_period_end: boolean | null;
+  stripe_subscription_id: string | null;
+  stripe_status: string | null;
+  hosted_invoice_url: string | null;
+  invoice_pdf: string | null;
+  invoice_number: string | null;
+  invoice_due_date: string | null;
+  createdAt: string;
+  updatedAt: string;
+  subscriptionTier: AccountBillingSubscriptionTierDto | null;
+}
+
+/** Derived current subscription (handoff SummaryDto). */
+export interface AccountBillingSummaryDto {
+  status: string;
+  tier: string | null;
+  price: number | null;
+  currency: string | null;
+  startDate: string | null;
+  endDate: string | null;
+  daysRemaining: number;
+  cancelAtPeriodEnd?: boolean;
+  isActive?: boolean;
+  autoRenew?: boolean;
+}
+
+export interface AccountBillingFinancialSummaryDto {
+  totalSpent: number;
+  averageOrderValue: number;
+  totalOrders: number;
+  paidOrders: number;
+  lifetimeValue: number;
+}
+
+export interface AccountBillingMetaDto {
+  ordersTotal: number;
+  ordersReturned: number;
+  orderListMax: number;
+}
+
+export interface AccountBillingPayload {
+  subscriptionTier: AccountBillingSubscriptionTierDto | null;
+  trial: AccountBillingTrialDto | null;
+  customers: AccountBillingCustomerDto[];
+  orders: AccountBillingOrderDto[];
+  summary: AccountBillingSummaryDto;
+  financialSummary: AccountBillingFinancialSummaryDto;
+  meta: AccountBillingMetaDto;
+}
+
+/** GET /api/accounts/:accountId/billing */
+export interface AccountBillingResponse {
+  data: AccountBillingPayload;
 }

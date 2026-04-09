@@ -124,7 +124,11 @@ export function NavUser({
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="/billing">
+                <Link
+                  href={
+                    accountId ? accountScopedRoutes.billing(accountId) : ROUTES.selectOrganisation
+                  }
+                >
                   <IconCreditCard />
                   Billing
                 </Link>

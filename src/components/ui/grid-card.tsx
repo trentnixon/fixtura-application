@@ -2,7 +2,7 @@
 
 import { Plus, Route, type LucideIcon } from "lucide-react";
 import Link from "next/link";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 import { TypographyCardTitle, TypographyCaption } from "@/components/typography";
 import { cn } from "@/lib/utils";
@@ -465,6 +465,8 @@ export type GridCardProps = {
   variant?: GridCardVariant;
   /** Semantic accent / state (mute, error, success, warning, loading). Composes with `variant`. */
   tone?: GridCardTone;
+  /** Non-interactive tile (e.g. coming soon). Only applies when `href` is not used. */
+  disabled?: boolean;
 };
 
 function buildAriaLabel(title: string, ctaLabel: string, description?: string) {
@@ -652,9 +654,14 @@ export function GridCard({
   className,
   variant = "default",
   tone = "default",
+  disabled = false,
 }: GridCardProps) {
   const ariaLabel = buildAriaLabel(title, ctaLabel, description);
-  const tileClass = gridCardTileClass(variant, tone, className);
+  const tileClass = gridCardTileClass(
+    variant,
+    tone,
+    cn(className, disabled && "cursor-not-allowed opacity-[0.72]"),
+  );
 
   const inner = (
     <>
@@ -692,7 +699,8 @@ export function GridCard({
       className={tileClass}
       aria-label={ariaLabel}
       aria-busy={busy}
-      onClick={onClick}
+      disabled={disabled}
+      onClick={disabled ? undefined : onClick}
     >
       {inner}
     </button>
@@ -731,12 +739,17 @@ export function GridCardVisualSlot({
 }: GridCardVisualSlotProps) {
   const cardVariant = useGridCardVariant();
   const tone = useGridCardTone();
+  const [orgImageFailed, setOrgImageFailed] = useState(false);
 
   const wrap = gridCardSlotWrap(tone, cardVariant, emphasis, className);
 
+  useEffect(() => {
+    setOrgImageFailed(false);
+  }, [imageSrc]);
+
   if (visual === "org") {
     const trimmedSrc = imageSrc?.trim();
-    if (trimmedSrc) {
+    if (trimmedSrc && !orgImageFailed) {
       return (
         <div
           className={cn(wrap, gridCardOrgInitialsByTone[tone][cardVariant], "overflow-hidden p-0")}
@@ -747,6 +760,7 @@ export function GridCardVisualSlot({
             className="size-full object-cover"
             loading="lazy"
             decoding="async"
+            onError={() => setOrgImageFailed(true)}
           />
         </div>
       );

@@ -98,12 +98,16 @@ function variantCardClass(
   const a = kindAccent(kind);
   switch (visualVariant) {
     case "soft":
-      return cn("bg-card border-l-4 shadow-sm", a.borderLeft, "border-y border-r border-border/80");
+      return cn(
+        "bg-card ring-0 border-l-4 shadow-sm",
+        a.borderLeft,
+        "border-y border-r border-border/80",
+      );
     case "tinted":
-      return cn("border shadow-sm", a.cardBorder, a.tintedBg);
+      return cn("ring-0 border shadow-sm", a.cardBorder, a.tintedBg);
     case "strong":
       return cn(
-        "bg-card border-l-[5px] shadow-md",
+        "bg-card ring-0 border-l-[5px] shadow-md",
         a.borderLeft,
         "border-y border-r border-border/70",
       );

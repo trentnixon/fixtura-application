@@ -23,7 +23,16 @@ export const queryKeys = {
     organisationContext: (accountId: string) =>
       ["account", "organisation-context", accountId] as const,
     settings: (accountId: string) => ["account", "settings", accountId] as const,
+    mediaLibrary: (accountId: string) => ["account", "media-library", accountId] as const,
+    mediaLibraryItem: (accountId: string, mediaId: string) =>
+      ["account", "media-library", accountId, mediaId] as const,
+    sponsors: (accountId: string) => ["account", "sponsors", accountId] as const,
+    billing: (accountId: string) => ["account", "billing", accountId] as const,
     branding: (accountId: string) => ["account", "branding", accountId] as const,
+    /** S1 — GET /api/accounts/:accountId/onboarding/setup-status */
+    setupStatus: (accountId: string) => ["account", "onboarding-setup-status", accountId] as const,
+    /** Lifecycle v1 — GET /api/accounts/:accountId/onboarding/onboarding-state */
+    onboardingState: (accountId: string) => ["account", "onboarding-state", accountId] as const,
     /** Phase 5: GET /api/accounts/:accountId/scheduler */
     scheduler: (accountId: string) => ["account", "scheduler", accountId] as const,
     /** Phase 6: GET /api/accounts/:accountId/render-token */
@@ -54,6 +63,15 @@ export const queryKeys = {
       ] as const,
     allTemplateOptions: (accountId: string, params?: AllTemplateOptionsParams) =>
       ["account", "all-template-options", accountId, params?.templateOptionId ?? null] as const,
+  },
+  onboarding: {
+    lookupsSports: ["onboarding", "lookups", "sports"] as const,
+    lookupsOrganisationTypes: ["onboarding", "lookups", "organisation-types"] as const,
+    lookupsAssociations: (sport: string) =>
+      ["onboarding", "lookups", "associations", sport] as const,
+    lookupsClubs: (associationId: number | null) =>
+      ["onboarding", "lookups", "clubs", associationId ?? "none"] as const,
+    lookupsThemes: ["onboarding", "lookups", "themes"] as const,
   },
   bundles: {
     all: ["bundles"] as const,
