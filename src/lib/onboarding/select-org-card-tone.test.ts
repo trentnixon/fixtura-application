@@ -51,6 +51,19 @@ describe("selectOrgCardToneFromOnboardingState", () => {
     ).toBe("error");
   });
 
+  it("returns warning when wizard not finished but background update is in progress", () => {
+    expect(
+      selectOrgCardToneFromOnboardingState(
+        baseState({
+          onboardingWizardStatus: "in_progress",
+          hasCompletedOnboardingWizard: false,
+          isSetup: false,
+          isUpdating: true,
+        }),
+      ),
+    ).toBe("warning");
+  });
+
   it("returns warning when wizard completed but setup not complete", () => {
     expect(
       selectOrgCardToneFromOnboardingState(

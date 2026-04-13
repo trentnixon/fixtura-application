@@ -16,7 +16,10 @@ export function selectOrgCardToneFromOnboardingState(
   state: OnboardingStateData,
 ): SelectOrgCardLifecycleTone {
   if (state.isSetup === true) return "default";
-  if (!wizardDoneFromState(state)) return "error";
+  if (!wizardDoneFromState(state)) {
+    if (state.isUpdating === true) return "warning";
+    return "error";
+  }
   return "warning";
 }
 

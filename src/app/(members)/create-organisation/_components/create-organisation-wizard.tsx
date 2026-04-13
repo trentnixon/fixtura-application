@@ -40,6 +40,7 @@ import { deleteUnfinishedAccountErrorMessage } from "@/lib/onboarding/delete-unf
 import { resolveAccountEntry } from "@/lib/onboarding/resolve-account-entry";
 import { cn } from "@/lib/utils";
 
+import { SetupStatusCard } from "./setup-status-card";
 import { WizardStepBranding, type WizardStepBrandingHandle } from "./wizard-step-branding";
 import { WizardStepContact, type WizardStepContactHandle } from "./wizard-step-contact";
 import {
@@ -55,7 +56,7 @@ const WIZARD_STEPS = [
     key: "organisation",
     title: "Organisation and permission",
     description:
-      "Organisation type, name, and authority to act for this organisation. Your answers are saved when you continue.",
+      "Organisation type, name, and authority to act for this organisation. Your answers are saved when you continue. Setup may begin in the background once organisation details are available.",
   },
   {
     key: "branding",
@@ -72,7 +73,7 @@ const WIZARD_STEPS = [
     key: "review",
     title: "Review and confirm",
     description:
-      "Summary of your choices and confirmation to complete the wizard. Finishing records wizard completion on the server.",
+      "Summary of your choices and confirmation to complete the wizard. Finishing records wizard completion on the server; background setup may already be in progress.",
   },
 ] as const;
 
@@ -355,6 +356,9 @@ export function CreateOrganisationWizard() {
             })}
           </ol>
           <Separator />
+          {accountId && entryIntent === "wizard" ? (
+            <SetupStatusCard accountId={accountId} variant="compact" />
+          ) : null}
         </div>
       ) : null}
 
@@ -582,7 +586,7 @@ export function CreateOrganisationWizard() {
                 <TypographyFinePrint className="max-w-none">
                   {wizardCompleted
                     ? "Wizard recorded. Return to organisation selection if you need to pick an account."
-                    : "Finishing records wizard completion on the server. You can continue to your dashboard while background setup runs; status appears in the app when available."}
+                    : "Finishing records wizard completion on the server. Background setup may have started earlier; you can continue to your dashboard and status will update when available."}
                 </TypographyFinePrint>
               </CardContent>
             </Card>

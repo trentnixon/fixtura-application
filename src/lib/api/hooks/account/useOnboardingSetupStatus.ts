@@ -14,8 +14,11 @@ import type { OnboardingSetupStatusData } from "@/types/api/account";
 
 /**
  * S1 — GET setup status; polls until `status` is terminal (`ready`, `failed`, or legacy `blocked` / `abandoned`).
+ * If CMS still reports `isUpdating` while `status` looks terminal, polling continues until `isUpdating` clears.
+ * Authoritative for in-wizard sync polling; pair with {@link useOnboardingOnboardingState} for routing and wizard flags.
  * @see create-organisation/.comms/phase-6/app-handoff-onboarding-phase6-s1-s2.md
  * @see .comms/onBoarding/app-handoff-onboarding-lifecycle-v1-integration.md
+ * @see .comms/CODEX/onboarding-data-fetch-outstanding-issues-frontend.md
  */
 export function useOnboardingSetupStatus(accountId: string, options?: { enabled?: boolean }) {
   const enabled = options?.enabled ?? Boolean(accountId);
@@ -42,7 +45,8 @@ export function useOnboardingSetupStatus(accountId: string, options?: { enabled?
       if (query.state.status === "error") return false;
       const row = query.state.data;
       if (!row) return false;
-      if (isTerminalOnboardingSetupStatus(row.status)) return false;
+      const terminal = isTerminalOnboardingSetupStatus(row.status);
+      if (terminal && row.isUpdating !== true) return false;
       return ONBOARDING_SETUP_STATUS_POLL_MS;
     },
   });

@@ -94,4 +94,33 @@ describe("SetupStatusCard", () => {
       }),
     );
   });
+
+  it("shows background-sync copy when phase is wizard, isUpdating is true, and status is non-standard", () => {
+    useOnboardingSetupStatus.mockReturnValue({
+      isPending: false,
+      isError: false,
+      data: {
+        status: "pending",
+        phase: "wizard",
+        progress: { syncing: true },
+        isUpdating: true,
+        initialSetupStatus: "running",
+        initialDataFetchStatus: "queued",
+        requiresUserAction: false,
+        errorCode: null,
+      },
+    });
+    useRetryOnboardingSetup.mockReturnValue({
+      isPending: false,
+      mutate: vi.fn(),
+    });
+
+    render(<SetupStatusCard accountId="1" variant="compact" />);
+
+    expect(
+      screen.getByText(/We are preparing your organisation in the background/i),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/Background setup/i)).toBeInTheDocument();
+    expect(screen.getByText(/Progress: Syncing/i)).toBeInTheDocument();
+  });
 });

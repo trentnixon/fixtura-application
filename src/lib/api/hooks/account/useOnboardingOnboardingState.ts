@@ -11,6 +11,9 @@ const STALE_MS = 30_000;
 
 /**
  * Lifecycle v1 — GET onboarding-state (bootstrap + invalidations; not a high-frequency poll).
+ * Use for wizard completion, routing (`resolveAccountEntry`), and pipeline timestamps — not for S1-style polling
+ * (see `useOnboardingSetupStatus` for setup-status / `isUpdating` during the wizard).
+ * @see .comms/CODEX/onboarding-data-fetch-outstanding-issues-frontend.md
  */
 export function useOnboardingOnboardingState(accountId: string, options?: { enabled?: boolean }) {
   const enabled = options?.enabled ?? Boolean(accountId);

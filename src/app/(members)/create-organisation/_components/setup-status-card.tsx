@@ -9,13 +9,27 @@ import { ApiError } from "@/lib/api/client/api-error";
 import { useOnboardingSetupStatus } from "@/lib/api/hooks/account/useOnboardingSetupStatus";
 import { useRetryOnboardingSetup } from "@/lib/api/hooks/account/useRetryOnboardingSetup";
 import { isTerminalOnboardingSetupStatus } from "@/lib/config/onboarding";
+import { cn } from "@/lib/utils";
 
 import type { OnboardingSetupStatusData } from "@/types/api/account";
+
+function progressIndicatesSyncing(progress: OnboardingSetupStatusData["progress"]): boolean {
+  if (progress === undefined || progress === null) return false;
+  if (typeof progress !== "object" || Array.isArray(progress)) return false;
+  return (progress as Record<string, unknown>)["syncing"] === true;
+}
 
 function progressLabel(progress: OnboardingSetupStatusData["progress"]): string | null {
   if (progress === undefined || progress === null) return null;
   if (typeof progress === "number") return `${Math.round(progress)}%`;
   if (typeof progress === "string") return progress.trim() || null;
+  if (typeof progress === "object" && !Array.isArray(progress)) {
+    const rec = progress as Record<string, unknown>;
+    if (rec["syncing"] === true) return "Syncing";
+    const pct = rec["percent"];
+    if (typeof pct === "number") return `${Math.round(pct)}%`;
+    if (typeof pct === "string") return pct.trim() || null;
+  }
   return null;
 }
 
@@ -32,7 +46,11 @@ function statusDescription(data: OnboardingSetupStatusData): string {
   else if (base === "abandoned") parts.push("Setup was stopped.");
   else if (base === "in_progress" || base === "retryable")
     parts.push("We are preparing your organisation in the background.");
-  else parts.push(`Status: ${data.status}.`);
+  else if (data.isUpdating === true || progressIndicatesSyncing(data.progress)) {
+    parts.push(
+      "We are preparing your organisation in the background. You can continue onboarding while this runs.",
+    );
+  } else parts.push(`Status: ${data.status}.`);
 
   const pl = progressLabel(data.progress);
   if (pl) parts.push(`Progress: ${pl}.`);
@@ -45,6 +63,8 @@ type SetupStatusCardProps = {
   enabled?: boolean;
   /** When poll status is `failed`, show Retry (lifecycle v1). */
   showRetryOnFailure?: boolean;
+  /** Tighter layout for the create-organisation wizard (S1 poll; same fields). */
+  variant?: "default" | "compact";
 };
 
 /**
@@ -64,6 +84,7 @@ export function SetupStatusCard({
   accountId,
   enabled = true,
   showRetryOnFailure = false,
+  variant = "default",
 }: SetupStatusCardProps) {
   const query = useOnboardingSetupStatus(accountId, { enabled: enabled && Boolean(accountId) });
   const retryMutation = useRetryOnboardingSetup(accountId);
@@ -71,10 +92,15 @@ export function SetupStatusCard({
 
   if (!accountId || !enabled) return null;
 
+  const shellPad = variant === "compact" ? "p-3" : "p-4";
+
   if (query.isPending && !query.data) {
     return (
       <div
-        className="border-muted-foreground/30 bg-muted/10 rounded-md border border-dashed p-4"
+        className={cn(
+          "border-muted-foreground/30 bg-muted/10 rounded-md border border-dashed",
+          shellPad,
+        )}
         aria-live="polite"
       >
         <TypographyFinePrint className="text-muted-foreground">
@@ -90,7 +116,12 @@ export function SetupStatusCard({
         ? "Setup status is not available yet. It will appear after your organisation is connected."
         : "We could not load setup status. Try again later.";
     return (
-      <div className="border-muted-foreground/30 bg-muted/10 rounded-md border border-dashed p-4">
+      <div
+        className={cn(
+          "border-muted-foreground/30 bg-muted/10 rounded-md border border-dashed",
+          shellPad,
+        )}
+      >
         <TypographyFinePrint className="text-muted-foreground">{msg}</TypographyFinePrint>
       </div>
     );
@@ -106,11 +137,19 @@ export function SetupStatusCard({
   const pipeline = pipelineDetail(data);
 
   return (
-    <div className="border-border/60 bg-muted/20 flex flex-col gap-2 rounded-md border p-4">
+    <div
+      className={cn(
+        "border-border/60 bg-muted/20 flex flex-col rounded-md border",
+        shellPad,
+        variant === "compact" ? "gap-1.5" : "gap-2",
+      )}
+    >
       <TypographyFinePrint className="text-muted-foreground font-medium">
-        Organisation setup
+        {variant === "compact" ? "Background setup" : "Organisation setup"}
       </TypographyFinePrint>
-      <p className="text-sm">{statusDescription(data)}</p>
+      <p className={variant === "compact" ? "text-sm leading-snug" : "text-sm"}>
+        {statusDescription(data)}
+      </p>
       {pipeline ? (
         <TypographyFinePrint className="text-muted-foreground">{pipeline}</TypographyFinePrint>
       ) : null}
@@ -155,7 +194,7 @@ export function SetupStatusCard({
       ) : null}
       {!terminal ? (
         <TypographyFinePrint className="text-muted-foreground">
-          Updating every few seconds…
+          {variant === "compact" ? "Updating…" : "Updating every few seconds…"}
         </TypographyFinePrint>
       ) : blocked ? (
         <InlineAlert

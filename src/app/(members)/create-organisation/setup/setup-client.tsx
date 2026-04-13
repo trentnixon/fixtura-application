@@ -111,8 +111,8 @@ export function CreateOrganisationSetupClient() {
       <header className="flex flex-col gap-2">
         <TypographyPageTitle as="h1">Setup status</TypographyPageTitle>
         <TypographyPageDescription>
-          If you opened this page directly, you can continue in your organisation dashboard while
-          setup runs in the background. The details below are for troubleshooting or if you were
+          If you opened this page directly, you can return to the wizard or open your organisation
+          dashboard while setup continues. The details below are for troubleshooting or if you were
           asked to wait here.
         </TypographyPageDescription>
       </header>

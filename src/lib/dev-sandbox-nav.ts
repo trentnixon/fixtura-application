@@ -68,8 +68,8 @@ export const INTERACTION_LAB_NAV_SECTIONS: SandboxNavSection[] = [
   {
     title: "Upload",
     links: [
-      { href: `${IL}/upload/drag-drop`, label: "Drag and drop" },
-      { href: `${IL}/upload/multi-file`, label: "Multi file" },
+      /*   { href: `${IL}/upload/drag-drop`, label: "Drag and drop" },
+      { href: `${IL}/upload/multi-file`, label: "Multi file" }, */
       { href: `${IL}/upload/image-crop`, label: "Image crop" },
     ],
   },
@@ -77,14 +77,14 @@ export const INTERACTION_LAB_NAV_SECTIONS: SandboxNavSection[] = [
     title: "Drag and drop",
     links: [{ href: `${IL}/drag-drop/list-reorder`, label: "List reorder" }],
   },
-  {
+  /*  {
     title: "Forms",
     links: [{ href: `${IL}/forms/async-submit`, label: "Async submit" }],
-  },
-  {
+  }, */
+  /* {
     title: "Selection",
     links: [{ href: `${IL}/selection/bulk-actions`, label: "Bulk actions" }],
-  },
+  }, */
   {
     title: "Dialogs",
     links: [{ href: `${IL}/dialogs/confirm-flows`, label: "Confirm flows" }],
@@ -92,5 +92,9 @@ export const INTERACTION_LAB_NAV_SECTIONS: SandboxNavSection[] = [
   {
     title: "Colour",
     links: [{ href: `${IL}/color-picker`, label: "Colour picker" }],
+  },
+  {
+    title: "Calendar",
+    links: [{ href: `${IL}/calendar`, label: "Date Selection" }],
   },
 ];
