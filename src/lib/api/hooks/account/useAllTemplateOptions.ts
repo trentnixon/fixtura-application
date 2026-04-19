@@ -38,6 +38,8 @@ export function isAllTemplateOptionsGatewayRedirect(
 /**
  * Full template catalog for the scoped account (GET /api/accounts/[accountId]/all-template-options).
  * HTTP 400/403/404 resolve successfully with a gateway redirect marker (no thrown ApiError / global query onError).
+ *
+ * @see .comms/API/handoff-all-template-options.md
  */
 export function useAllTemplateOptions(
   accountId: string,

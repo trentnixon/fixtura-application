@@ -1,0 +1,331 @@
+{
+  "RENDER": {
+    "SchedulerID": 175,
+    "RenderID": 6652
+  },
+  "ACCOUNT": {
+    "accountId": 287
+  },
+  "ASSET": {
+    "ASSETID": 60,
+    "ASSETTYPEID": 3,
+    "ASSETCATEGORYID": 1,
+    "ASSETSLINKID": "f2113c4a2f27fec89660ff7b07654a3728c96c3d3c8043ef9fc40a14444f5c4b"
+  },
+  "VIDEOMETA": {
+    "grouping_category": "Senior",
+    "Video": {
+      "Title": "Top 5",
+      "TitleSplit": ["Goal Scorers"],
+      "CompositionID": "Top5AFLScorers",
+      "VideoTitle": "Top 5 Scorers - undefined",
+      "HeroImage": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/r0_0_800_600_w800_h600_fmax_c26e796339.jpg",
+        "width": 800,
+        "height": 600,
+        "ratio": "landscape",
+        "AgeGroup": "Both",
+        "AssetType": "ALL",
+        "markerPosition": []
+      },
+      "Template": "CNSW",
+      "TemplateVariation": {
+        "Background": "Image"
+      },
+      "Theme": {
+        "primary": "#0731bb",
+        "secondary": "#f31c1c",
+        "dark": "#111",
+        "white": "#FFF"
+      },
+      "includeSponsors": true,
+      "audio_option": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Marscott_Readyand_Go_Speed_Outburst_Inst_fb6bfe8381.mp3",
+      "ASSETID": 60,
+      "ASSETTYPEID": 3,
+      "FRAMES": [390]
+    },
+    "THEME": {
+      "Template": "CNSW",
+      "TemplateVariation": {
+        "Background": "Image"
+      },
+      "Theme": {
+        "primary": "#0731bb",
+        "secondary": "#f31c1c",
+        "dark": "#111",
+        "white": "#FFF"
+      }
+    },
+    "Club": {
+      "Name": "Thuringowa Bulldogs AFC",
+      "Sport": "AFL",
+      "Logo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_41_9d95b8a56d.png",
+        "width": 440,
+        "height": 595
+      },
+      "Sponsors": {
+        "default": {
+          "primary_sponsor": {
+            "sponsorId": 92,
+            "name": "Fixtura",
+            "logo": {
+              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Logo_Blue_on_transparent_5001258f35.png",
+              "width": 1281,
+              "height": 1281
+            }
+          },
+          "general_sponsors": [
+            {
+              "position": 1,
+              "sponsorId": 96,
+              "name": "3 month Pass",
+              "logo": {
+                "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/3_Month_Pass_c8b0b602c7.png",
+                "width": 500,
+                "height": 500
+              }
+            },
+            {
+              "position": 2,
+              "sponsorId": 97,
+              "name": "1 month Pass",
+              "logo": {
+                "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/1_month_pass_2211ec3755.png",
+                "width": 500,
+                "height": 500
+              }
+            },
+            {
+              "position": 3,
+              "sponsorId": 98,
+              "name": "SJWCA",
+              "logo": {
+                "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Grounds_Closed_607639688f.jpg",
+                "width": 1080,
+                "height": 1080
+              }
+            },
+            {
+              "position": 4,
+              "sponsorId": 99,
+              "name": "SJWCA Logo",
+              "logo": {
+                "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/SJWCA_Logo_Fixtura_c1f0397219.png",
+                "width": 279,
+                "height": 279
+              }
+            }
+          ]
+        },
+        "team": [
+          {
+            "level": "team_20355",
+            "id": 20355,
+            "allocationName": "Thuringowa Bulldogs Reserves",
+            "sponsorId": 92,
+            "name": "Fixtura",
+            "logo": {
+              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Logo_Blue_on_transparent_5001258f35.png",
+              "width": 1281,
+              "height": 1281
+            }
+          },
+          {
+            "level": "team_21209",
+            "id": 21209,
+            "allocationName": "Thuringowa Bulldogs U14.5's (Female)",
+            "sponsorId": 92,
+            "name": "Fixtura",
+            "logo": {
+              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Logo_Blue_on_transparent_5001258f35.png",
+              "width": 1281,
+              "height": 1281
+            }
+          },
+          {
+            "level": "team_21206",
+            "id": 21206,
+            "allocationName": "Thuringowa Bulldogs U17.5's (Male)",
+            "sponsorId": 92,
+            "name": "Fixtura",
+            "logo": {
+              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Logo_Blue_on_transparent_5001258f35.png",
+              "width": 1281,
+              "height": 1281
+            }
+          },
+          {
+            "level": "team_20358",
+            "id": 20358,
+            "allocationName": "Thuringowa Bulldogs Senior Men",
+            "sponsorId": 96,
+            "name": "3 month Pass",
+            "logo": {
+              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/3_Month_Pass_c8b0b602c7.png",
+              "width": 500,
+              "height": 500
+            }
+          },
+          {
+            "level": "team_21198",
+            "id": 21198,
+            "allocationName": "Thuringowa Bulldogs U13.5's (Male)",
+            "sponsorId": 96,
+            "name": "3 month Pass",
+            "logo": {
+              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/3_Month_Pass_c8b0b602c7.png",
+              "width": 500,
+              "height": 500
+            }
+          },
+          {
+            "level": "team_20366",
+            "id": 20366,
+            "allocationName": "Thuringowa Bulldogs Senior Women",
+            "sponsorId": 97,
+            "name": "1 month Pass",
+            "logo": {
+              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/1_month_pass_2211ec3755.png",
+              "width": 500,
+              "height": 500
+            }
+          },
+          {
+            "level": "team_21201",
+            "id": 21201,
+            "allocationName": "Thuringowa Bulldogs U15.5's (Male)",
+            "sponsorId": 98,
+            "name": "SJWCA",
+            "logo": {
+              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Grounds_Closed_607639688f.jpg",
+              "width": 1080,
+              "height": 1080
+            }
+          },
+          {
+            "level": "team_21214",
+            "id": 21214,
+            "allocationName": "Thuringowa Bulldogs U17.5's (Female)",
+            "sponsorId": 99,
+            "name": "SJWCA Logo",
+            "logo": {
+              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/SJWCA_Logo_Fixtura_c1f0397219.png",
+              "width": 279,
+              "height": 279
+            }
+          }
+        ]
+      }
+    },
+    "FixtureCategory": "Senior"
+  },
+  "TIMINGS": {
+    "FPS_INTRO": 90,
+    "FPS_OUTRO": 180,
+    "FPS_MAIN": 360
+  },
+  "data": [
+    {
+      "name": "Ellen Turner",
+      "goals": 5,
+      "team": "Hermit Park Tigers Senior Women",
+      "teamLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_6c1658268b.jpg",
+      "prompt": "**Ellen Turner (Hermit Park Tigers Senior Women)** scored **5 goals** in the match between Thuringowa Bulldogs Senior Women and Hermit Park Tigers Senior Women, which ended with a score of 0 to 147. The game was part of **Round 7** of the **Townsville KX Pilates Senior Women's Cup** and resulted in Hermit Park Tigers Senior Women won by 147 points.",
+      "assignSponsors": {
+        "competition": {
+          "id": 7753,
+          "name": "AFL Townsville"
+        },
+        "grade": {
+          "id": 22825,
+          "name": "Townsville KX Pilates Senior Women's Cup"
+        },
+        "Team": {
+          "name": "Hermit Park Tigers Senior Women"
+        }
+      }
+    },
+    {
+      "name": "Rim Kris",
+      "goals": 4,
+      "team": "Thuringowa Bulldogs Reserves",
+      "teamLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_41_9d95b8a56d.png",
+      "prompt": "**Rim Kris (Thuringowa Bulldogs Reserves)** scored **4 goals** in the match between Thuringowa Bulldogs Reserves and Hermit Park Tigers Reserves, which ended with a score of 85 to 18. The game was part of **Round 7** of the **Townsville Reserve Men's Premiership** and resulted in Thuringowa Bulldogs Reserves won by 67 points.",
+      "assignSponsors": {
+        "competition": {
+          "id": 7753,
+          "name": "AFL Townsville"
+        },
+        "grade": {
+          "id": 22823,
+          "name": "Townsville Reserve Men's Premiership"
+        },
+        "Team": {
+          "name": "Thuringowa Bulldogs Reserves"
+        }
+      }
+    },
+    {
+      "name": "Brendan McGrath",
+      "goals": 4,
+      "team": "Thuringowa Bulldogs Reserves",
+      "teamLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_41_9d95b8a56d.png",
+      "prompt": "**Brendan McGrath (Thuringowa Bulldogs Reserves)** scored **4 goals** in the match between Thuringowa Bulldogs Reserves and Hermit Park Tigers Reserves, which ended with a score of 85 to 18. The game was part of **Round 7** of the **Townsville Reserve Men's Premiership** and resulted in Thuringowa Bulldogs Reserves won by 67 points.",
+      "assignSponsors": {
+        "competition": {
+          "id": 7753,
+          "name": "AFL Townsville"
+        },
+        "grade": {
+          "id": 22823,
+          "name": "Townsville Reserve Men's Premiership"
+        },
+        "Team": {
+          "name": "Thuringowa Bulldogs Reserves"
+        }
+      }
+    },
+    {
+      "name": "Reegan Mrsich",
+      "goals": 4,
+      "team": "Thuringowa Bulldogs Senior Men",
+      "teamLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_41_9d95b8a56d.png",
+      "prompt": "**Reegan Mrsich (Thuringowa Bulldogs Senior Men)** scored **4 goals** in the match between Thuringowa Bulldogs Senior Men and Hermit Park Tigers Senior Men, which ended with a score of 43 to 19. The game was part of **Round 7** of the **Townsville RMS Men's Premiership** and resulted in Thuringowa Bulldogs Senior Men won by 24 points.",
+      "assignSponsors": {
+        "competition": {
+          "id": 7753,
+          "name": "AFL Townsville"
+        },
+        "grade": {
+          "id": 22824,
+          "name": "Townsville RMS Men's Premiership"
+        },
+        "Team": {
+          "name": "Thuringowa Bulldogs Senior Men"
+        }
+      }
+    },
+    {
+      "name": "Maggie Evans",
+      "goals": 4,
+      "team": "Hermit Park Tigers Senior Women",
+      "teamLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_6c1658268b.jpg",
+      "prompt": "**Maggie Evans (Hermit Park Tigers Senior Women)** scored **4 goals** in the match between Thuringowa Bulldogs Senior Women and Hermit Park Tigers Senior Women, which ended with a score of 0 to 147. The game was part of **Round 7** of the **Townsville KX Pilates Senior Women's Cup** and resulted in Hermit Park Tigers Senior Women won by 147 points.",
+      "assignSponsors": {
+        "competition": {
+          "id": 7753,
+          "name": "AFL Townsville"
+        },
+        "grade": {
+          "id": 22825,
+          "name": "Townsville KX Pilates Senior Women's Cup"
+        },
+        "Team": {
+          "name": "Hermit Park Tigers Senior Women"
+        }
+      }
+    }
+  ],
+  "PROMPT": []
+}

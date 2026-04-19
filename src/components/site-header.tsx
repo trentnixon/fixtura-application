@@ -35,6 +35,7 @@ function getPageTitle(pathname: string): string {
   if (pathname.startsWith(ROUTES.kitchenSink)) return "Kitchen Sink";
   if (pathname.startsWith(ROUTES.routeLab)) return "Route lab";
   if (pathname.startsWith(ROUTES.interactionLab)) return "Interaction lab";
+  if (pathname.startsWith(ROUTES.dataLab)) return "Data lab";
   if (pathname === ROUTES.help) return "Help \u0026 Support";
 
   if (pathname.startsWith("/admin/system")) {

@@ -15,6 +15,7 @@ import {
   isAllTemplateOptionsGatewayRedirect,
   useAllTemplateOptions,
 } from "@/lib/api/hooks/account/useAllTemplateOptions";
+import { useTemplateCategoriesListForSelection } from "@/lib/api/hooks/account/useTemplateCategoriesListForSelection";
 import { queryKeys } from "@/lib/api/query/query-keys";
 import { AUTH_ERROR_MESSAGES } from "@/lib/auth/auth-errors";
 import { isValidAccountIdSegment } from "@/lib/config/account-routes";
@@ -24,6 +25,7 @@ import {
 } from "@/lib/config/gateway-reasons";
 
 import { AllTemplateOptionsDump } from "./all-template-options-dump";
+import { TemplateCategoriesListForSelectionDump } from "./template-categories-list-for-selection-dump";
 
 function removeAllTemplateOptionsQueriesForAccount(
   queryClient: ReturnType<typeof useQueryClient>,
@@ -62,6 +64,10 @@ export function TemplateBuilderContent({ accountId }: { accountId: string }) {
   const catalogQ = useAllTemplateOptions(accountId, {
     enabled: segmentOk,
     templateOptionId: templateOptionIdForCatalog,
+  });
+
+  const templateCategoriesListQ = useTemplateCategoriesListForSelection({
+    enabled: segmentOk,
   });
 
   useEffect(() => {
@@ -185,6 +191,8 @@ export function TemplateBuilderContent({ accountId }: { accountId: string }) {
         catalogQuery={catalogQ}
         templateOptionIdUsed={templateOptionIdForCatalog}
       />
+
+      <TemplateCategoriesListForSelectionDump query={templateCategoriesListQ} />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, LayoutGrid, Route, Zap, type LucideIcon } from "lucide-react";
+import { Box, Database, LayoutGrid, Route, Zap, type LucideIcon } from "lucide-react";
 
 import { GridCard, GridCardIcon } from "@/components/ui/grid-card";
 import { ROUTES } from "@/lib/config/routes";
@@ -10,6 +10,7 @@ const SANDBOX_TOOL_ICONS: Record<string, LucideIcon> = {
   [ROUTES.routeLab]: Route,
   [ROUTES.kitchenSink]: LayoutGrid,
   [ROUTES.interactionLab]: Zap,
+  [ROUTES.dataLab]: Database,
 };
 
 export function SandboxPortalGrid() {

@@ -6,6 +6,7 @@ import {
   ClipboardList,
   FormInput,
   LayoutGrid,
+  List,
   Loader2,
   MessageSquare,
   MousePointerClick,
@@ -122,6 +123,14 @@ const SECTIONS: {
     href: `${K}/loading`,
     linkLabel: "View Loading",
     icon: Loader2,
+  },
+  {
+    title: "Lists",
+    description:
+      "Stacked rows, card lists, avatar rows, menu lists, and searchable command lists for dense UI.",
+    href: `${K}/lists`,
+    linkLabel: "View Lists",
+    icon: List,
   },
   {
     title: "Inputs",

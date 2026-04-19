@@ -6,6 +6,8 @@ import type {
   AccountAnalyticsOverviewResponse,
   AllTemplateOptionsParams,
   AllTemplateOptionsResponse,
+  AssetListForSelectionResponse,
+  TemplateCategoriesForSelectionResponse,
   AccountBillingResponse,
   AccountBrandingResponse,
   AccountMediaLibraryItemResponse,
@@ -182,7 +184,7 @@ export const accountApi = {
     return apiClient.get<AccountBrandingResponse>(path);
   },
 
-  /** Full template catalog + optional currentSelection (handoff-template-all-template-options). */
+  /** Full template catalog + optional currentSelection. @see .comms/API/handoff-all-template-options.md */
   getAllTemplateOptions: (accountId: string, params?: AllTemplateOptionsParams) => {
     const search = new URLSearchParams();
     if (params?.templateOptionId !== undefined) {
@@ -192,6 +194,16 @@ export const accountApi = {
     const path = `${appRoutes.accounts.allTemplateOptions.path}/${encodeURIComponent(accountId)}/all-template-options${qs ? `?${qs}` : ""}`;
     return apiClient.get<AllTemplateOptionsResponse>(path);
   },
+
+  /** Live template categories for dropdowns (includes private). @see .comms/data-fetching/handoff/handoff-list-for-selection.md */
+  getTemplateCategoriesListForSelection: () =>
+    apiClient.get<TemplateCategoriesForSelectionResponse>(
+      appRoutes.account.templateCategoriesListForSelection.path,
+    ),
+
+  /** Published assets for pickers (compact list). @see .comms/API/ASSETS-handoff-list-for-selection.md */
+  getAssetsListForSelection: () =>
+    apiClient.get<AssetListForSelectionResponse>(appRoutes.assets.listForSelection.path),
 
   /** Phase 4: club/association summary for scoped UI (not the legacy hub aggregate). */
   getAccountOrganisationContext: (accountId: string) => {

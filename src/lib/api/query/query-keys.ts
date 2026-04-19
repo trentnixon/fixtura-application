@@ -63,6 +63,16 @@ export const queryKeys = {
       ] as const,
     allTemplateOptions: (accountId: string, params?: AllTemplateOptionsParams) =>
       ["account", "all-template-options", accountId, params?.templateOptionId ?? null] as const,
+    /** GET /api/account/template-categories/list-for-selection — live categories incl. private */
+    templateCategoriesListForSelection: [
+      "account",
+      "template-categories",
+      "list-for-selection",
+    ] as const,
+  },
+  /** GET /api/assets/list-for-selection — published assets (BFF → Strapi) */
+  assets: {
+    listForSelection: ["assets", "list-for-selection"] as const,
   },
   onboarding: {
     lookupsSports: ["onboarding", "lookups", "sports"] as const,
@@ -84,5 +94,11 @@ export const queryKeys = {
   admin: {
     fetchHealth: ["admin", "fetch-health"] as const,
     routes: ["admin", "routes"] as const,
+  },
+  /** Client/UI state only — not server-backed; avoid invalidating in broad "clear cache" flows. */
+  ui: {
+    templateCategoryPickerSelectedId: ["ui", "pickers", "template-category", "selectedId"] as const,
+    /** Image Options asset picker — selected asset id (list-for-selection). */
+    assetPickerSelectedId: ["ui", "pickers", "assets-list-for-selection", "selectedId"] as const,
   },
 } as const;

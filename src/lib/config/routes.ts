@@ -16,6 +16,10 @@ export const ROUTES = {
   kitchenSink: "/sandbox/kitchen-sink",
   routeLab: "/sandbox/route-lab",
   interactionLab: "/sandbox/interaction-lab",
+  /** Dev sandbox — CMS-backed selects, lists & form patterns */
+  dataLab: "/sandbox/data-lab",
+  /** Interaction lab — Remotion player + vendored Fixtura preview */
+  remotionPreview: "/sandbox/interaction-lab/remotion",
 
   // (members) gateway — authenticated, no account scope yet
   selectOrganisation: "/select-organisation",

@@ -1,0 +1,1906 @@
+{
+  "data": [
+    {
+      "gameID": "c8707c04",
+      "status": "Final",
+      "homeTeam": {
+        "name": "Runaway Bay Premier Div 1",
+        "isHome": true,
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+          "width": 500,
+          "height": 500
+        },
+        "score": "10/160",
+        "overs": "(32.3)",
+        "homeScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Ahmad Jawid",
+            "runs": 51,
+            "balls": 28,
+            "fours": 4,
+            "sixes": 5,
+            "SR": 182.14,
+            "team": "Runaway Bay Premier Div 1",
+            "notOut": false
+          },
+          {
+            "player": "Talha Anis",
+            "runs": 32,
+            "balls": 47,
+            "fours": 6,
+            "sixes": 0,
+            "SR": 68.08,
+            "team": "Runaway Bay Premier Div 1",
+            "notOut": false
+          },
+          {
+            "player": "Sayed Monib",
+            "runs": 20,
+            "balls": 22,
+            "fours": 0,
+            "sixes": 2,
+            "SR": 90.9,
+            "team": "Runaway Bay Premier Div 1",
+            "notOut": false
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Steven Graham",
+            "overs": 9,
+            "maidens": 3,
+            "runs": 24,
+            "wickets": 3,
+            "economy": "2.67",
+            "team": "Queens 1st Grade"
+          },
+          {
+            "player": "Blake Chapman",
+            "overs": 5,
+            "maidens": 1,
+            "runs": 39,
+            "wickets": 3,
+            "economy": "7.80",
+            "team": "Queens 1st Grade"
+          },
+          {
+            "player": "Steven Reingold",
+            "overs": 3.3,
+            "maidens": 0,
+            "runs": 32,
+            "wickets": 2,
+            "economy": "9.70",
+            "team": "Queens 1st Grade"
+          }
+        ],
+        "isClubTeam": true
+      },
+      "awayTeam": {
+        "name": "Queens 1st Grade",
+        "isHome": false,
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_d119f3d76d.jpg",
+          "width": 178,
+          "height": 184
+        },
+        "score": "3/162",
+        "overs": "(35)",
+        "awayScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Max Houlahan  (c)",
+            "runs": 45,
+            "balls": 54,
+            "fours": 3,
+            "sixes": 3,
+            "SR": 83.33,
+            "team": "Queens 1st Grade",
+            "notOut": true
+          },
+          {
+            "player": "Tom Watts",
+            "runs": 31,
+            "balls": 40,
+            "fours": 4,
+            "sixes": 1,
+            "SR": 77.5,
+            "team": "Queens 1st Grade",
+            "notOut": false
+          },
+          {
+            "player": "Steven Graham",
+            "runs": 31,
+            "balls": 62,
+            "fours": 3,
+            "sixes": 0,
+            "SR": 50,
+            "team": "Queens 1st Grade",
+            "notOut": true
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Suranga Lakmal",
+            "overs": 9,
+            "maidens": 1,
+            "runs": 30,
+            "wickets": 3,
+            "economy": "3.33",
+            "team": "Runaway Bay Premier Div 1"
+          },
+          {
+            "player": "TRAVIS HARKER",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 10,
+            "wickets": 0,
+            "economy": "2.50",
+            "team": "Runaway Bay Premier Div 1"
+          },
+          {
+            "player": "Ted Gossett",
+            "overs": 6,
+            "maidens": 1,
+            "runs": 23,
+            "wickets": 0,
+            "economy": "3.83",
+            "team": "Runaway Bay Premier Div 1"
+          }
+        ],
+        "isClubTeam": false
+      },
+      "teamHomeLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+        "width": 500,
+        "height": 500
+      },
+      "teamAwayLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_d119f3d76d.jpg",
+        "width": 178,
+        "height": 184
+      },
+      "date": "31 Jan 2026",
+      "type": "One Day",
+      "ground": "Runaway Bay Sports Precinct / Sam Loxton Oval 1 (Aussielec Oval)",
+      "round": "Round 16",
+      "gender": "Mixed",
+      "ageGroup": "Senior",
+      "gradeName": "(1) CGC Premier League - Division 1",
+      "gradeSortOrder": 2,
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "result": "Queens 1st Grade won by 7 wickets",
+      "resultShort": "Queens 1st Grade def Runaway Bay Premier Div 1",
+      "resultSummary": {
+        "homeTeam": "Runaway Bay Premier Div 1",
+        "awayTeam": "Queens 1st Grade",
+        "winner": "Queens 1st Grade",
+        "resultWord": "lost"
+      },
+      "prompt": "{\n  \"matchContext\": {\n    \"competition\": \"Cricket Gold Coast Senior Competition\",\n    \"grade\": \"(1) CGC Premier League - Division 1\",\n    \"round\": \"Round 16\",\n    \"ground\": \"Runaway Bay Sports Precinct / Sam Loxton Oval 1 (Aussielec Oval)\",\n    \"matchType\": \"One Day\",\n    \"tossWinner\": \"Runaway Bay Premier Div 1\",\n    \"tossResult\": \"Runaway Bay Premier Div 1 won the toss and elected to bat\",\n    \"resultStatement\": \"Queens 1st Grade won by 7 wickets\",\n    \"dayOne\": \"2026-01-31\",\n    \"finalDaysPlay\": \"2026-01-31\"\n  },\n  \"homeTeam\": {\n    \"teamName\": \"Runaway Bay Premier Div 1\",\n    \"innings\": [\n      {\n        \"teamName\": \"Runaway Bay Premier Div 1\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 10,\n        \"battingOrder\": [\n          {\n            \"description\": \"Ted Gossett, scored 12 Runs from (0) balls, they were out: c: ?b: Steven Graham c: ? b: Steven Graham\"\n          },\n          {\n            \"description\": \"Talha Anis, scored 32 Runs from (47) balls, with 6 fours, at a strike Rate of 68.08., they were out: c: ?b: Steven Reingold c: ? b: Steven Reingold\"\n          },\n          {\n            \"description\": \"Jaydn Denly, scored 8 Runs from (7) balls, with 1 four, at a strike Rate of 114.28., they were out: c: ?b: Steven Graham c: ? b: Steven Graham\"\n          },\n          {\n            \"description\": \"Yasiru Gamaarachchi, scored 12 Runs from (20) balls, with 1 four, at a strike Rate of 60.00., they were out: c: jack kannb: Steven Graham c: jack kann b: Steven Graham\"\n          },\n          {\n            \"description\": \"James Stirling, scored 4 Runs from (11) balls, with 1 four, at a strike Rate of 36.36., they were out: b: Harrison Winton b: Harrison Winton\"\n          },\n          {\n            \"description\": \"Corey Hucker, scored 2 Runs from (16) balls, at a strike Rate of 12.50., they were out: c: ?b: Blake Chapman c: ? b: Blake Chapman\"\n          },\n          {\n            \"description\": \"Freddie Fowler  (c), scored 15 Runs from (27) balls, with 2 fours, at a strike Rate of 55.55., they were out: c: ?b: Blake Chapman c: ? b: Blake Chapman\"\n          },\n          {\n            \"description\": \"Ahmad Jawid, scored 51 Runs from (28) balls, with 4 fours and 5 sixes, at a strike Rate of 182.14., they were out: b: Mitchell Freeman b: Mitchell Freeman\"\n          },\n          {\n            \"description\": \"Sayed Monib, scored 20 Runs from (22) balls, with 2 sixes, at a strike Rate of 90.90., they were out: c: ?b: Steven Reingold c: ? b: Steven Reingold\"\n          },\n          {\n            \"description\": \"Suranga Lakmal, scored 4 Runs from (0) balls, they were out: c: ?b: Blake Chapman c: ? b: Blake Chapman\"\n          },\n          {\n            \"description\": \"TRAVIS HARKER, scored 1 Runs from (2) balls, at a strike Rate of 50.00., they were not out.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Steven Graham, bowled 9 overs, took 3 wickets for 24 runs, with 3 maidens, at an economy of 2.66.\"\n          },\n          {\n            \"description\": \"Harrison Winton, bowled 9 overs, took 1 wicket for 37 runs, with 2 maidens, at an economy of 4.11.\"\n          },\n          {\n            \"description\": \"Blake Chapman, bowled 5 overs, took 3 wickets for 39 runs, with 1 maiden, at an economy of 7.80.\"\n          },\n          {\n            \"description\": \"Steven Reingold, bowled 3.3 overs, took 2 wickets for 32 runs, at an economy of 9.14.\"\n          },\n          {\n            \"description\": \"Mitchell Freeman, bowled 4 overs, took 1 wicket for 19 runs, at an economy of 4.75.\"\n          }\n        ],\n        \"fieldingStats\": [\n          {\n            \"description\": \"jack kann, took 1 catch and made 1 run out.\"\n          }\n        ],\n        \"fallOfWickets\": [\n          {\n            \"wicketNumber\": 1,\n            \"score\": \"8/1\",\n            \"batsman\": \"Ted Gossett\"\n          },\n          {\n            \"wicketNumber\": 2,\n            \"score\": \"24/2\",\n            \"batsman\": \"Jaydn Denly\"\n          },\n          {\n            \"wicketNumber\": 3,\n            \"score\": \"51/3\",\n            \"batsman\": \"Yasiru Gamaarachchi\"\n          },\n          {\n            \"wicketNumber\": 4,\n            \"score\": \"56/4\",\n            \"batsman\": \"James Stirling\"\n          },\n          {\n            \"wicketNumber\": 5,\n            \"score\": \"61/5\",\n            \"batsman\": \"Corey Hucker\"\n          },\n          {\n            \"wicketNumber\": 6,\n            \"score\": \"61/6\",\n            \"batsman\": \"Talha Anis\"\n          },\n          {\n            \"wicketNumber\": 7,\n            \"score\": \"128/7\",\n            \"batsman\": \"Ahmad Jawid\"\n          },\n          {\n            \"wicketNumber\": 8,\n            \"score\": \"138/8\",\n            \"batsman\": \"Freddie Fowler\"\n          },\n          {\n            \"wicketNumber\": 9,\n            \"score\": \"144/9\",\n            \"batsman\": \"Suranga Lakmal\"\n          },\n          {\n            \"wicketNumber\": 10,\n            \"score\": \"160/10\",\n            \"batsman\": \"Sayed Monib\"\n          }\n        ],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Runaway Bay Premier Div 1 Batting\"\n      }\n    ],\n    \"totalScore\": \"10/160\",\n    \"totalWickets\": 10\n  },\n  \"awayTeam\": {\n    \"teamName\": \"Queens 1st Grade\",\n    \"innings\": [\n      {\n        \"teamName\": \"Queens 1st Grade\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 3,\n        \"battingOrder\": [],\n        \"bowlingFigures\": [],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Queens 1st Grade Batting\"\n      }\n    ],\n    \"totalScore\": \"3/162\",\n    \"totalWickets\": 3\n  },\n  \"accountBias\": {\n    \"isBias\": \"Runaway Bay Cricket Club Inc\",\n    \"focusedTeams\": [\n      \"Runaway Bay Community Div 2\",\n      \"Runaway Bay Navy Community Div 1\",\n      \"Runaway Bay Navy Over 50s\",\n      \"Runaway Bay Navy Women\",\n      \"Runaway Bay Orange Community Div 1\",\n      \"Runaway Bay Orange Community Div 3\",\n      \"Runaway Bay Orange Over 50s\",\n      \"Runaway Bay Over 40 Div 2\",\n      \"Runaway Bay Over 40 Div 3\",\n      \"Runaway Bay Pink Women\",\n      \"Runaway Bay Premier Div 1\",\n      \"Runaway Bay Premier Div 2\",\n      \"Runaway Bay Premier Div 3\",\n      \"Runaway Bay Seagulls Opens Div 1\",\n      \"Runaway Bay Seagulls U10 Navy\",\n      \"Runaway Bay Seagulls U10 Orange\",\n      \"Runaway Bay Seagulls U11\",\n      \"Runaway Bay Seagulls U13 Div 1\",\n      \"Runaway Bay Seagulls U13 Div 2\",\n      \"Runaway Bay T20\"\n    ]\n  }\n}"
+    },
+    {
+      "gameID": "e8722028",
+      "status": "Final",
+      "homeTeam": {
+        "name": "Tamborine Senior Women",
+        "isHome": true,
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_b30fdf6cab.jpg",
+          "width": 368,
+          "height": 415
+        },
+        "score": "118",
+        "overs": "(20)",
+        "homeScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Lauren Riley",
+            "runs": 28,
+            "balls": 13,
+            "fours": 0,
+            "sixes": 0,
+            "SR": 215.38,
+            "team": "Tamborine Senior Women",
+            "notOut": true
+          },
+          {
+            "player": "Melanie Parker  (c)",
+            "runs": 21,
+            "balls": 14,
+            "fours": 0,
+            "sixes": 0,
+            "SR": 150,
+            "team": "Tamborine Senior Women",
+            "notOut": false
+          },
+          {
+            "player": "Makayla Moore",
+            "runs": 13,
+            "balls": 14,
+            "fours": 0,
+            "sixes": 0,
+            "SR": 92.85,
+            "team": "Tamborine Senior Women",
+            "notOut": true
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "GEREANNA TAUNAO",
+            "overs": 3,
+            "maidens": 0,
+            "runs": 6,
+            "wickets": 2,
+            "economy": "2.00",
+            "team": "Runaway Bay Navy Women"
+          },
+          {
+            "player": "Ruby Hasted",
+            "overs": 3,
+            "maidens": 0,
+            "runs": 8,
+            "wickets": 2,
+            "economy": "2.67",
+            "team": "Runaway Bay Navy Women"
+          },
+          {
+            "player": "Shana Gildea",
+            "overs": 2,
+            "maidens": 0,
+            "runs": 9,
+            "wickets": 2,
+            "economy": "4.50",
+            "team": "Runaway Bay Navy Women"
+          }
+        ],
+        "isClubTeam": false
+      },
+      "awayTeam": {
+        "name": "Runaway Bay Navy Women",
+        "isHome": false,
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+          "width": 500,
+          "height": 500
+        },
+        "score": "222",
+        "overs": "(20)",
+        "awayScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Cath Livy  (c)",
+            "runs": 37,
+            "balls": 14,
+            "fours": 0,
+            "sixes": 0,
+            "SR": 264.28,
+            "team": "Runaway Bay Navy Women",
+            "notOut": true
+          },
+          {
+            "player": "GEREANNA TAUNAO",
+            "runs": 35,
+            "balls": 14,
+            "fours": 0,
+            "sixes": 0,
+            "SR": 250,
+            "team": "Runaway Bay Navy Women",
+            "notOut": true
+          },
+          {
+            "player": "Amelia Hasted",
+            "runs": 25,
+            "balls": 13,
+            "fours": 0,
+            "sixes": 0,
+            "SR": 192.3,
+            "team": "Runaway Bay Navy Women",
+            "notOut": true
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Melanie Parker  (c)",
+            "overs": 3,
+            "maidens": 0,
+            "runs": 15,
+            "wickets": 0,
+            "economy": "5.00",
+            "team": "Tamborine Senior Women"
+          },
+          {
+            "player": "Private player",
+            "overs": 2,
+            "maidens": 0,
+            "runs": 12,
+            "wickets": 0,
+            "economy": "6.00",
+            "team": "Tamborine Senior Women"
+          },
+          {
+            "player": "Renae Holmes",
+            "overs": 2,
+            "maidens": 0,
+            "runs": 13,
+            "wickets": 0,
+            "economy": "6.50",
+            "team": "Tamborine Senior Women"
+          }
+        ],
+        "isClubTeam": true
+      },
+      "teamHomeLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_b30fdf6cab.jpg",
+        "width": 368,
+        "height": 415
+      },
+      "teamAwayLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+        "width": 500,
+        "height": 500
+      },
+      "date": "01 Feb 2026",
+      "type": "T20",
+      "ground": "Tamborine Mountain Sports Centre / Chris Wills 2",
+      "round": "Round 7",
+      "gender": "Women",
+      "ageGroup": "Senior",
+      "gradeName": "Senior Women Div 2",
+      "gradeSortOrder": 2,
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "result": "Runaway Bay Navy Women won by 104 runs",
+      "resultShort": "Runaway Bay Navy Women def Tamborine Senior Women",
+      "resultSummary": {
+        "homeTeam": "Tamborine Senior Women",
+        "awayTeam": "Runaway Bay Navy Women",
+        "winner": "Runaway Bay Navy Women",
+        "resultWord": "lost"
+      },
+      "prompt": "{\n  \"matchContext\": {\n    \"competition\": \"Women's Social Competition\",\n    \"grade\": \"Senior Women Div 2\",\n    \"round\": \"Round 7\",\n    \"ground\": \"Tamborine Mountain Sports Centre / Chris Wills 2\",\n    \"matchType\": \"T20\",\n    \"tossWinner\": \"Tamborine Senior Women\",\n    \"tossResult\": \"Tamborine Senior Women won the toss and elected to bowl\",\n    \"resultStatement\": \"Runaway Bay Navy Women won by 104 runs\",\n    \"dayOne\": \"2026-02-01\",\n    \"finalDaysPlay\": \"2026-02-01\"\n  },\n  \"homeTeam\": {\n    \"teamName\": \"Tamborine Senior Women\",\n    \"innings\": [\n      {\n        \"teamName\": \"Tamborine Senior Women\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 0,\n        \"battingOrder\": [],\n        \"bowlingFigures\": [],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Tamborine Senior Women Batting\"\n      }\n    ],\n    \"totalScore\": \"118\",\n    \"totalWickets\": 0\n  },\n  \"awayTeam\": {\n    \"teamName\": \"Runaway Bay Navy Women\",\n    \"innings\": [\n      {\n        \"teamName\": \"Runaway Bay Navy Women\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 0,\n        \"battingOrder\": [\n          {\n            \"description\": \"Nicole Lennix, scored 13 Runs from (13) balls, at a strike Rate of 100.00., they were not out.\"\n          },\n          {\n            \"description\": \"Shana Gildea, scored 16 Runs from (13) balls, at a strike Rate of 123.07., they were not out.\"\n          },\n          {\n            \"description\": \"Amelia Hasted, scored 25 Runs from (13) balls, at a strike Rate of 192.30., they were not out.\"\n          },\n          {\n            \"description\": \"Jade Baker, scored 16 Runs from (13) balls, at a strike Rate of 123.07., they were not out.\"\n          },\n          {\n            \"description\": \"Georgia Sandersan, scored 10 Runs from (13) balls, at a strike Rate of 76.92., they were not out.\"\n          },\n          {\n            \"description\": \"Ruby Hasted, scored 23 Runs from (14) balls, at a strike Rate of 164.28., they were not out.\"\n          },\n          {\n            \"description\": \"Amber Long, scored 12 Runs from (13) balls, at a strike Rate of 92.30., they were not out.\"\n          },\n          {\n            \"description\": \"Cath Livy  (c), scored 37 Runs from (14) balls, at a strike Rate of 264.28., they were not out.\"\n          },\n          {\n            \"description\": \"GEREANNA TAUNAO, scored 35 Runs from (14) balls, at a strike Rate of 250.00., they were not out.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Private player, took 6 wickets for 0 runs, with 12 maidens, at an economy of -.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Runaway Bay Navy Women Batting\"\n      }\n    ],\n    \"totalScore\": \"222\",\n    \"totalWickets\": 0\n  },\n  \"accountBias\": {\n    \"isBias\": \"Runaway Bay Cricket Club Inc\",\n    \"focusedTeams\": [\n      \"Runaway Bay Community Div 2\",\n      \"Runaway Bay Navy Community Div 1\",\n      \"Runaway Bay Navy Over 50s\",\n      \"Runaway Bay Navy Women\",\n      \"Runaway Bay Orange Community Div 1\",\n      \"Runaway Bay Orange Community Div 3\",\n      \"Runaway Bay Orange Over 50s\",\n      \"Runaway Bay Over 40 Div 2\",\n      \"Runaway Bay Over 40 Div 3\",\n      \"Runaway Bay Pink Women\",\n      \"Runaway Bay Premier Div 1\",\n      \"Runaway Bay Premier Div 2\",\n      \"Runaway Bay Premier Div 3\",\n      \"Runaway Bay Seagulls Opens Div 1\",\n      \"Runaway Bay Seagulls U10 Navy\",\n      \"Runaway Bay Seagulls U10 Orange\",\n      \"Runaway Bay Seagulls U11\",\n      \"Runaway Bay Seagulls U13 Div 1\",\n      \"Runaway Bay Seagulls U13 Div 2\",\n      \"Runaway Bay T20\"\n    ]\n  }\n}"
+    },
+    {
+      "gameID": "2dc1c537",
+      "status": "Final",
+      "homeTeam": {
+        "name": "Queens 2nd Grade",
+        "isHome": true,
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_d119f3d76d.jpg",
+          "width": 178,
+          "height": 184
+        },
+        "score": "10/210",
+        "overs": "(37)",
+        "homeScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Gordon Mackay",
+            "runs": 61,
+            "balls": 71,
+            "fours": 2,
+            "sixes": 1,
+            "SR": 85.91,
+            "team": "Queens 2nd Grade",
+            "notOut": false
+          },
+          {
+            "player": "Sajawal Hussain",
+            "runs": 54,
+            "balls": 57,
+            "fours": 3,
+            "sixes": 3,
+            "SR": 94.73,
+            "team": "Queens 2nd Grade",
+            "notOut": false
+          },
+          {
+            "player": "Mitch Foster  (c)",
+            "runs": 19,
+            "balls": 10,
+            "fours": 3,
+            "sixes": 0,
+            "SR": 190,
+            "team": "Queens 2nd Grade",
+            "notOut": true
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Patrick Brown  (c)",
+            "overs": 8,
+            "maidens": 0,
+            "runs": 54,
+            "wickets": 4,
+            "economy": "6.75",
+            "team": "Runaway Bay Premier Div 2"
+          },
+          {
+            "player": "Stephen Watson",
+            "overs": 8,
+            "maidens": 0,
+            "runs": 32,
+            "wickets": 3,
+            "economy": "4.00",
+            "team": "Runaway Bay Premier Div 2"
+          },
+          {
+            "player": "Mitchell Bailey",
+            "overs": 6,
+            "maidens": 0,
+            "runs": 23,
+            "wickets": 1,
+            "economy": "3.83",
+            "team": "Runaway Bay Premier Div 2"
+          }
+        ],
+        "isClubTeam": false
+      },
+      "awayTeam": {
+        "name": "Runaway Bay Premier Div 2",
+        "isHome": false,
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+          "width": 500,
+          "height": 500
+        },
+        "score": "5/258",
+        "overs": "(40)",
+        "awayScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Jack Hocart",
+            "runs": 107,
+            "balls": 98,
+            "fours": 12,
+            "sixes": 1,
+            "SR": 109.18,
+            "team": "Runaway Bay Premier Div 2",
+            "notOut": false
+          },
+          {
+            "player": "Thomas Gossett",
+            "runs": 52,
+            "balls": 58,
+            "fours": 6,
+            "sixes": 0,
+            "SR": 89.65,
+            "team": "Runaway Bay Premier Div 2",
+            "notOut": false
+          },
+          {
+            "player": "Austin Billing",
+            "runs": 27,
+            "balls": 21,
+            "fours": 1,
+            "sixes": 2,
+            "SR": 128.57,
+            "team": "Runaway Bay Premier Div 2",
+            "notOut": true
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Mitch Foster  (c)",
+            "overs": 8,
+            "maidens": 1,
+            "runs": 22,
+            "wickets": 2,
+            "economy": "2.75",
+            "team": "Queens 2nd Grade"
+          },
+          {
+            "player": "Jack Abercrombie",
+            "overs": 7,
+            "maidens": 0,
+            "runs": 43,
+            "wickets": 1,
+            "economy": "6.14",
+            "team": "Queens 2nd Grade"
+          },
+          {
+            "player": "Sajawal Hussain",
+            "overs": 3,
+            "maidens": 0,
+            "runs": 22,
+            "wickets": 1,
+            "economy": "7.33",
+            "team": "Queens 2nd Grade"
+          }
+        ],
+        "isClubTeam": true
+      },
+      "teamHomeLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_d119f3d76d.jpg",
+        "width": 178,
+        "height": 184
+      },
+      "teamAwayLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+        "width": 500,
+        "height": 500
+      },
+      "date": "31 Jan 2026",
+      "type": "One Day",
+      "ground": "Arthur Angove Park / Greg Chaplin Oval (Queens CC)",
+      "round": "Round 16",
+      "gender": "Mixed",
+      "ageGroup": "Senior",
+      "gradeName": "(2) CGC Premier League - Division 2",
+      "gradeSortOrder": 3,
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "result": "Runaway Bay Premier Div 2 won by 48 runs",
+      "resultShort": "Runaway Bay Premier Div 2 def Queens 2nd Grade",
+      "resultSummary": {
+        "homeTeam": "Queens 2nd Grade",
+        "awayTeam": "Runaway Bay Premier Div 2",
+        "winner": "Runaway Bay Premier Div 2",
+        "resultWord": "lost"
+      },
+      "prompt": "{\n  \"matchContext\": {\n    \"competition\": \"Cricket Gold Coast Senior Competition\",\n    \"grade\": \"(2) CGC Premier League - Division 2\",\n    \"round\": \"Round 16\",\n    \"ground\": \"Arthur Angove Park / Greg Chaplin Oval (Queens CC)\",\n    \"matchType\": \"One Day\",\n    \"tossWinner\": \"Queens 2nd Grade\",\n    \"tossResult\": \"Queens 2nd Grade won the toss and elected to bowl\",\n    \"resultStatement\": \"Runaway Bay Premier Div 2 won by 48 runs\",\n    \"dayOne\": \"2026-01-31\",\n    \"finalDaysPlay\": \"2026-01-31\"\n  },\n  \"homeTeam\": {\n    \"teamName\": \"Queens 2nd Grade\",\n    \"innings\": [\n      {\n        \"teamName\": \"Queens 2nd Grade\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 10,\n        \"battingOrder\": [],\n        \"bowlingFigures\": [],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Queens 2nd Grade Batting\"\n      }\n    ],\n    \"totalScore\": \"10/210\",\n    \"totalWickets\": 10\n  },\n  \"awayTeam\": {\n    \"teamName\": \"Runaway Bay Premier Div 2\",\n    \"innings\": [\n      {\n        \"teamName\": \"Runaway Bay Premier Div 2\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 5,\n        \"battingOrder\": [\n          {\n            \"description\": \"Nathan Proctor, scored 5 Runs from (13) balls, with 1 four, at a strike Rate of 38.46., they were out: c: Joel Lawsonb: Jack Abercrombie c: Joel Lawson b: Jack Abercrombie\"\n          },\n          {\n            \"description\": \"Jack Hocart, scored 107 Runs from (98) balls, with 12 fours and 1 six, at a strike Rate of 109.18., they were out: b: Mitch Foster b: Mitch Foster\"\n          },\n          {\n            \"description\": \"Timothy Murdoch, scored 15 Runs from (30) balls, with 3 fours, at a strike Rate of 50.00., they were out: c: Joel Lawsonb: Mitch Foster c: Joel Lawson b: Mitch Foster\"\n          },\n          {\n            \"description\": \"Thomas Gossett, scored 52 Runs from (58) balls, with 6 fours, at a strike Rate of 89.65., they were out: b: Sajawal Hussain b: Sajawal Hussain\"\n          },\n          {\n            \"description\": \"Mitchell Mcphee, scored 23 Runs from (14) balls, with 2 fours and 1 six, at a strike Rate of 164.28., they were out: c: Sajawal Hussainb: Kingston Currey c: Sajawal Hussain b: Kingston Currey\"\n          },\n          {\n            \"description\": \"Austin Billing, scored 27 Runs from (21) balls, with 1 four and 2 sixes, at a strike Rate of 128.57., they were not out.\"\n          },\n          {\n            \"description\": \"Connor Boyd, scored 11 Runs from (9) balls, with 1 four, at a strike Rate of 122.22., they were not out.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Jack Abercrombie, bowled 7 overs, took 1 wicket for 43 runs, at an economy of 6.14.\"\n          },\n          {\n            \"description\": \"Mitch Foster  (c), bowled 8 overs, took 2 wickets for 22 runs, with 1 maiden, at an economy of 2.75.\"\n          },\n          {\n            \"description\": \"Sajawal Hussain, bowled 3 overs, took 1 wicket for 22 runs, at an economy of 7.33.\"\n          },\n          {\n            \"description\": \"Kingston Currey, bowled 2 overs, took 1 wicket for 17 runs, at an economy of 8.50.\"\n          }\n        ],\n        \"fieldingStats\": [\n          {\n            \"description\": \"Joel Lawson, took 2 catches and made 2 run outs.\"\n          },\n          {\n            \"description\": \"Sajawal Hussain, took 1 catch and made 1 run out.\"\n          }\n        ],\n        \"fallOfWickets\": [\n          {\n            \"wicketNumber\": 1,\n            \"score\": \"11/1\",\n            \"batsman\": \"Nathan Proctor\"\n          },\n          {\n            \"wicketNumber\": 2,\n            \"score\": \"78/2\",\n            \"batsman\": \"Timothy Murdoch\"\n          },\n          {\n            \"wicketNumber\": 3,\n            \"score\": \"159/3\",\n            \"batsman\": \"Thomas Gossett\"\n          },\n          {\n            \"wicketNumber\": 4,\n            \"score\": \"197/4\",\n            \"batsman\": \"Mitchell Mcphee\"\n          },\n          {\n            \"wicketNumber\": 5,\n            \"score\": \"239/5\",\n            \"batsman\": \"Jack Hocart\"\n          }\n        ],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Runaway Bay Premier Div 2 Batting\"\n      }\n    ],\n    \"totalScore\": \"5/258\",\n    \"totalWickets\": 5\n  },\n  \"accountBias\": {\n    \"isBias\": \"Runaway Bay Cricket Club Inc\",\n    \"focusedTeams\": [\n      \"Runaway Bay Community Div 2\",\n      \"Runaway Bay Navy Community Div 1\",\n      \"Runaway Bay Navy Over 50s\",\n      \"Runaway Bay Navy Women\",\n      \"Runaway Bay Orange Community Div 1\",\n      \"Runaway Bay Orange Community Div 3\",\n      \"Runaway Bay Orange Over 50s\",\n      \"Runaway Bay Over 40 Div 2\",\n      \"Runaway Bay Over 40 Div 3\",\n      \"Runaway Bay Pink Women\",\n      \"Runaway Bay Premier Div 1\",\n      \"Runaway Bay Premier Div 2\",\n      \"Runaway Bay Premier Div 3\",\n      \"Runaway Bay Seagulls Opens Div 1\",\n      \"Runaway Bay Seagulls U10 Navy\",\n      \"Runaway Bay Seagulls U10 Orange\",\n      \"Runaway Bay Seagulls U11\",\n      \"Runaway Bay Seagulls U13 Div 1\",\n      \"Runaway Bay Seagulls U13 Div 2\",\n      \"Runaway Bay T20\"\n    ]\n  }\n}"
+    },
+    {
+      "gameID": "4eeb59b3",
+      "status": "Final",
+      "homeTeam": {
+        "name": "Alberton Premier Div 3",
+        "isHome": true,
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_c89e75b12f.jpg",
+          "width": 1190,
+          "height": 1190
+        },
+        "score": "10/99",
+        "overs": "(29.5)",
+        "homeScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Craig Scott",
+            "runs": 31,
+            "balls": 65,
+            "fours": 2,
+            "sixes": 1,
+            "SR": 47.69,
+            "team": "Alberton Premier Div 3",
+            "notOut": false
+          },
+          {
+            "player": "Max Tiley",
+            "runs": 12,
+            "balls": 13,
+            "fours": 3,
+            "sixes": 0,
+            "SR": 92.3,
+            "team": "Alberton Premier Div 3",
+            "notOut": false
+          },
+          {
+            "player": "Ezekiel Charles",
+            "runs": 11,
+            "balls": 18,
+            "fours": 2,
+            "sixes": 0,
+            "SR": 61.11,
+            "team": "Alberton Premier Div 3",
+            "notOut": false
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Cameron Davies",
+            "overs": 8,
+            "maidens": 3,
+            "runs": 20,
+            "wickets": 3,
+            "economy": "2.50",
+            "team": "Runaway Bay Premier Div 3"
+          },
+          {
+            "player": "Kunal Thakur",
+            "overs": 3.5,
+            "maidens": 1,
+            "runs": 6,
+            "wickets": 2,
+            "economy": "1.71",
+            "team": "Runaway Bay Premier Div 3"
+          },
+          {
+            "player": "Josh Hoare",
+            "overs": 8,
+            "maidens": 0,
+            "runs": 24,
+            "wickets": 2,
+            "economy": "3.00",
+            "team": "Runaway Bay Premier Div 3"
+          }
+        ],
+        "isClubTeam": false
+      },
+      "awayTeam": {
+        "name": "Runaway Bay Premier Div 3",
+        "isHome": false,
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+          "width": 500,
+          "height": 500
+        },
+        "score": "3/101",
+        "overs": "(19)",
+        "awayScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Lucas Frazer",
+            "runs": 44,
+            "balls": 50,
+            "fours": 5,
+            "sixes": 1,
+            "SR": 88,
+            "team": "Runaway Bay Premier Div 3",
+            "notOut": true
+          },
+          {
+            "player": "Muhammad Hamza Nadeem",
+            "runs": 14,
+            "balls": 30,
+            "fours": 2,
+            "sixes": 0,
+            "SR": 46.66,
+            "team": "Runaway Bay Premier Div 3",
+            "notOut": true
+          },
+          {
+            "player": "Brendan Roberts",
+            "runs": 13,
+            "balls": 12,
+            "fours": 3,
+            "sixes": 0,
+            "SR": 108.33,
+            "team": "Runaway Bay Premier Div 3",
+            "notOut": false
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Gregory Smith",
+            "overs": 5,
+            "maidens": 1,
+            "runs": 25,
+            "wickets": 2,
+            "economy": "5.00",
+            "team": "Alberton Premier Div 3"
+          },
+          {
+            "player": "Matthew Kearney",
+            "overs": 6,
+            "maidens": 1,
+            "runs": 21,
+            "wickets": 1,
+            "economy": "3.50",
+            "team": "Alberton Premier Div 3"
+          },
+          {
+            "player": "Rizan Abdeen",
+            "overs": 3,
+            "maidens": 0,
+            "runs": 10,
+            "wickets": 0,
+            "economy": "3.33",
+            "team": "Alberton Premier Div 3"
+          }
+        ],
+        "isClubTeam": true
+      },
+      "teamHomeLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_c89e75b12f.jpg",
+        "width": 1190,
+        "height": 1190
+      },
+      "teamAwayLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+        "width": 500,
+        "height": 500
+      },
+      "date": "31 Jan 2026",
+      "type": "One Day",
+      "ground": "Pimpama Island Sports Centre / Pimpama Island Recreational Reserve (TLT Oval)",
+      "round": "Round 15",
+      "gender": "Mixed",
+      "ageGroup": "Senior",
+      "gradeName": "(3) CGC Premier League - Division 3",
+      "gradeSortOrder": 4,
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "result": "Runaway Bay Premier Div 3 won by 7 wickets",
+      "resultShort": "Runaway Bay Premier Div 3 def Alberton Premier Div 3",
+      "resultSummary": {
+        "homeTeam": "Alberton Premier Div 3",
+        "awayTeam": "Runaway Bay Premier Div 3",
+        "winner": "Runaway Bay Premier Div 3",
+        "resultWord": "lost"
+      },
+      "prompt": "{\n  \"matchContext\": {\n    \"competition\": \"Cricket Gold Coast Senior Competition\",\n    \"grade\": \"(3) CGC Premier League - Division 3\",\n    \"round\": \"Round 15\",\n    \"ground\": \"Pimpama Island Sports Centre / Pimpama Island Recreational Reserve (TLT Oval)\",\n    \"matchType\": \"One Day\",\n    \"tossWinner\": \"Runaway Bay Premier Div 3\",\n    \"tossResult\": \"Runaway Bay Premier Div 3 won the toss and elected to bowl\",\n    \"resultStatement\": \"Runaway Bay Premier Div 3 won by 7 wickets\",\n    \"dayOne\": \"2026-01-31\",\n    \"finalDaysPlay\": \"2026-01-31\"\n  },\n  \"homeTeam\": {\n    \"teamName\": \"Alberton Premier Div 3\",\n    \"innings\": [\n      {\n        \"teamName\": \"Alberton Premier Div 3\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 10,\n        \"battingOrder\": [],\n        \"bowlingFigures\": [],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Alberton Premier Div 3 Batting\"\n      }\n    ],\n    \"totalScore\": \"10/99\",\n    \"totalWickets\": 10\n  },\n  \"awayTeam\": {\n    \"teamName\": \"Runaway Bay Premier Div 3\",\n    \"innings\": [\n      {\n        \"teamName\": \"Runaway Bay Premier Div 3\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 3,\n        \"battingOrder\": [\n          {\n            \"description\": \"Brendan Roberts, scored 13 Runs from (12) balls, with 3 fours, at a strike Rate of 108.33., they were out: c: ?b: Gregory Smith c: ? b: Gregory Smith\"\n          },\n          {\n            \"description\": \"Josh Hoare, scored 7 Runs from (11) balls, with 1 four, at a strike Rate of 63.63., they were out: b: Matthew Kearney b: Matthew Kearney\"\n          },\n          {\n            \"description\": \"Muhammad Hamza Nadeem, scored 14 Runs from (30) balls, with 2 fours, at a strike Rate of 46.66., they were not out.\"\n          },\n          {\n            \"description\": \"Lachlan Creed, scored 10 Runs from (12) balls, with 2 fours, at a strike Rate of 83.33., they were out: b: Gregory Smith b: Gregory Smith\"\n          },\n          {\n            \"description\": \"Lucas Frazer, scored 44 Runs from (50) balls, with 5 fours and 1 six, at a strike Rate of 88.00., they were not out.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Matthew Kearney, bowled 6 overs, took 1 wicket for 21 runs, with 1 maiden, at an economy of 3.50.\"\n          },\n          {\n            \"description\": \"Gregory Smith, bowled 5 overs, took 2 wickets for 25 runs, with 1 maiden, at an economy of 5.00.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [\n          {\n            \"wicketNumber\": 1,\n            \"score\": \"27/1\",\n            \"batsman\": \"Josh Hoare\"\n          },\n          {\n            \"wicketNumber\": 2,\n            \"score\": \"27/2\",\n            \"batsman\": \"Brendan Roberts\"\n          },\n          {\n            \"wicketNumber\": 3,\n            \"score\": \"43/3\",\n            \"batsman\": \"Lachlan Creed\"\n          }\n        ],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Runaway Bay Premier Div 3 Batting\"\n      }\n    ],\n    \"totalScore\": \"3/101\",\n    \"totalWickets\": 3\n  },\n  \"accountBias\": {\n    \"isBias\": \"Runaway Bay Cricket Club Inc\",\n    \"focusedTeams\": [\n      \"Runaway Bay Community Div 2\",\n      \"Runaway Bay Navy Community Div 1\",\n      \"Runaway Bay Navy Over 50s\",\n      \"Runaway Bay Navy Women\",\n      \"Runaway Bay Orange Community Div 1\",\n      \"Runaway Bay Orange Community Div 3\",\n      \"Runaway Bay Orange Over 50s\",\n      \"Runaway Bay Over 40 Div 2\",\n      \"Runaway Bay Over 40 Div 3\",\n      \"Runaway Bay Pink Women\",\n      \"Runaway Bay Premier Div 1\",\n      \"Runaway Bay Premier Div 2\",\n      \"Runaway Bay Premier Div 3\",\n      \"Runaway Bay Seagulls Opens Div 1\",\n      \"Runaway Bay Seagulls U10 Navy\",\n      \"Runaway Bay Seagulls U10 Orange\",\n      \"Runaway Bay Seagulls U11\",\n      \"Runaway Bay Seagulls U13 Div 1\",\n      \"Runaway Bay Seagulls U13 Div 2\",\n      \"Runaway Bay T20\"\n    ]\n  }\n}"
+    },
+    {
+      "gameID": "57df4bea",
+      "status": "Final",
+      "homeTeam": {
+        "name": "Helensvale 4th Grade",
+        "isHome": true,
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_30c6189e5f.jpg",
+          "width": 256,
+          "height": 164
+        },
+        "score": "5/88",
+        "overs": "(16.5)",
+        "homeScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Jayden Small",
+            "runs": 28,
+            "balls": 33,
+            "fours": 4,
+            "sixes": 0,
+            "SR": 84.84,
+            "team": "Helensvale 4th Grade",
+            "notOut": true
+          },
+          {
+            "player": "Ethan Martin",
+            "runs": 21,
+            "balls": 43,
+            "fours": 2,
+            "sixes": 1,
+            "SR": 48.83,
+            "team": "Helensvale 4th Grade",
+            "notOut": false
+          },
+          {
+            "player": "Ben Daley",
+            "runs": 13,
+            "balls": 6,
+            "fours": 3,
+            "sixes": 0,
+            "SR": 216.66,
+            "team": "Helensvale 4th Grade",
+            "notOut": false
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Altemash Mehmood",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 14,
+            "wickets": 3,
+            "economy": "3.50",
+            "team": "Runaway Bay Navy Community Div 1"
+          },
+          {
+            "player": "Flynn Richardson",
+            "overs": 4.5,
+            "maidens": 0,
+            "runs": 18,
+            "wickets": 2,
+            "economy": "4.00",
+            "team": "Runaway Bay Navy Community Div 1"
+          },
+          {
+            "player": "Muhammad Abdul Wahab",
+            "overs": 3,
+            "maidens": 0,
+            "runs": 17,
+            "wickets": 0,
+            "economy": "5.67",
+            "team": "Runaway Bay Navy Community Div 1"
+          }
+        ],
+        "isClubTeam": false
+      },
+      "awayTeam": {
+        "name": "Runaway Bay Navy Community Div 1",
+        "isHome": false,
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+          "width": 500,
+          "height": 500
+        },
+        "score": "10/86",
+        "overs": "(22.3)",
+        "awayScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Nathan Rudd",
+            "runs": 28,
+            "balls": 35,
+            "fours": 2,
+            "sixes": 0,
+            "SR": 80,
+            "team": "Runaway Bay Navy Community Div 1",
+            "notOut": false
+          },
+          {
+            "player": "Mat Lewis",
+            "runs": 15,
+            "balls": 8,
+            "fours": 2,
+            "sixes": 1,
+            "SR": 187.5,
+            "team": "Runaway Bay Navy Community Div 1",
+            "notOut": false
+          },
+          {
+            "player": "Arran Canning",
+            "runs": 11,
+            "balls": 33,
+            "fours": 1,
+            "sixes": 0,
+            "SR": 33.33,
+            "team": "Runaway Bay Navy Community Div 1",
+            "notOut": false
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Jacob Cooper",
+            "overs": 2.3,
+            "maidens": 1,
+            "runs": 4,
+            "wickets": 3,
+            "economy": "1.74",
+            "team": "Helensvale 4th Grade"
+          },
+          {
+            "player": "Marcus Davidson",
+            "overs": 6,
+            "maidens": 1,
+            "runs": 25,
+            "wickets": 3,
+            "economy": "4.17",
+            "team": "Helensvale 4th Grade"
+          },
+          {
+            "player": "Nikunj Amin",
+            "overs": 5,
+            "maidens": 0,
+            "runs": 26,
+            "wickets": 2,
+            "economy": "5.20",
+            "team": "Helensvale 4th Grade"
+          }
+        ],
+        "isClubTeam": true
+      },
+      "teamHomeLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_30c6189e5f.jpg",
+        "width": 256,
+        "height": 164
+      },
+      "teamAwayLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+        "width": 500,
+        "height": 500
+      },
+      "date": "31 Jan 2026",
+      "type": "One Day",
+      "ground": "Riverstone Crossing Park / Oval 2 - North",
+      "round": "Round 16",
+      "gender": "Mixed",
+      "ageGroup": "Senior",
+      "gradeName": "(4) CGC Community League - Division 1",
+      "gradeSortOrder": 5,
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "result": "Helensvale 4th Grade won by 5 wickets",
+      "resultShort": "Helensvale 4th Grade def Runaway Bay Navy Community Div 1",
+      "resultSummary": {
+        "homeTeam": "Helensvale 4th Grade",
+        "awayTeam": "Runaway Bay Navy Community Div 1",
+        "winner": "Helensvale 4th Grade",
+        "resultWord": "won"
+      },
+      "prompt": "{\n  \"matchContext\": {\n    \"competition\": \"Cricket Gold Coast Senior Competition\",\n    \"grade\": \"(4) CGC Community League - Division 1\",\n    \"round\": \"Round 16\",\n    \"ground\": \"Riverstone Crossing Park / Oval 2 - North\",\n    \"matchType\": \"One Day\",\n    \"tossWinner\": \"Runaway Bay Navy Community Div 1\",\n    \"tossResult\": \"Runaway Bay Navy Community Div 1 won the toss and elected to bat\",\n    \"resultStatement\": \"Helensvale 4th Grade won by 5 wickets\",\n    \"dayOne\": \"2026-01-31\",\n    \"finalDaysPlay\": \"2026-01-31\"\n  },\n  \"homeTeam\": {\n    \"teamName\": \"Helensvale 4th Grade\",\n    \"innings\": [\n      {\n        \"teamName\": \"Helensvale 4th Grade\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 5,\n        \"battingOrder\": [],\n        \"bowlingFigures\": [],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Helensvale 4th Grade Batting\"\n      }\n    ],\n    \"totalScore\": \"5/88\",\n    \"totalWickets\": 5\n  },\n  \"awayTeam\": {\n    \"teamName\": \"Runaway Bay Navy Community Div 1\",\n    \"innings\": [\n      {\n        \"teamName\": \"Runaway Bay Navy Community Div 1\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 10,\n        \"battingOrder\": [\n          {\n            \"description\": \"Jamie Phillips, scored 5 Runs from (0) balls, they were out: b: Marcus Davidson b: Marcus Davidson\"\n          },\n          {\n            \"description\": \"Jed Sessarago, scored 2 Runs from (9) balls, at a strike Rate of 22.22., they were out: c: Jacob Cooperb: Marcus Davidson c: Jacob Cooper b: Marcus Davidson\"\n          },\n          {\n            \"description\": \"Stephen Rudd, scored 2 Runs from (0) balls, they were out: c: Ben Daleyb: Marcus Davidson c: Ben Daley b: Marcus Davidson\"\n          },\n          {\n            \"description\": \"Nathan Rudd, scored 28 Runs from (35) balls, with 2 fours, at a strike Rate of 80.00., they were out: b: Vaughan Van De Meeberg b: Vaughan Van De Meeberg\"\n          },\n          {\n            \"description\": \"Hamad Ahmad, scored 5 Runs from (16) balls, with 1 four, at a strike Rate of 31.25., they were out: c: Jacob Cooperb: Jayden Small c: Jacob Cooper b: Jayden Small\"\n          },\n          {\n            \"description\": \"Flynn Richardson, scored 5 Runs from (0) balls, they were out: c: Cavan Morrisb: Nikunj Amin c: Cavan Morris b: Nikunj Amin\"\n          },\n          {\n            \"description\": \"Mat Lewis, scored 15 Runs from (8) balls, with 2 fours and 1 six, at a strike Rate of 187.50., they were out: c: Anand Jayaramanb: Nikunj Amin c: Anand Jayaraman b: Nikunj Amin\"\n          },\n          {\n            \"description\": \"Muhammad Abdul Wahab, scored 3 Runs from (17) balls, at a strike Rate of 17.64., they were out: c: Nikunj Aminb: Jacob Cooper c: Nikunj Amin b: Jacob Cooper\"\n          },\n          {\n            \"description\": \"Arran Canning, scored 11 Runs from (33) balls, with 1 four, at a strike Rate of 33.33., they were out: c: Anand Jayaramanb: Jacob Cooper c: Anand Jayaraman b: Jacob Cooper\"\n          },\n          {\n            \"description\": \"Phillip Kuech, scored 3 Runs from (3) balls, at a strike Rate of 100.00., they were out: b: Jacob Cooper b: Jacob Cooper\"\n          },\n          {\n            \"description\": \"Altemash Mehmood, scored 4 Runs from (3) balls, with 1 four, at a strike Rate of 133.33., they were not out.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Marcus Davidson, bowled 6 overs, took 3 wickets for 25 runs, with 1 maiden, at an economy of 4.16.\"\n          },\n          {\n            \"description\": \"Jayden Small, bowled 6 overs, took 1 wicket for 25 runs, with 1 maiden, at an economy of 4.16.\"\n          },\n          {\n            \"description\": \"Nikunj Amin, bowled 5 overs, took 2 wickets for 26 runs, at an economy of 5.20.\"\n          },\n          {\n            \"description\": \"Vaughan Van De Meeberg, bowled 3 overs, took 1 wicket for 6 runs, at an economy of 2.00.\"\n          },\n          {\n            \"description\": \"Jacob Cooper, bowled 2.3 overs, took 3 wickets for 4 runs, with 1 maiden, at an economy of 1.60.\"\n          }\n        ],\n        \"fieldingStats\": [\n          {\n            \"description\": \"Ben Daley, took 1 catch and made 1 run out.\"\n          },\n          {\n            \"description\": \"Anand Jayaraman, took 2 catches and made 2 run outs.\"\n          },\n          {\n            \"description\": \"Cavan Morris, took 1 catch and made 1 run out.\"\n          },\n          {\n            \"description\": \"Nikunj Amin, took 1 catch and made 1 run out.\"\n          },\n          {\n            \"description\": \"Jacob Cooper, took 2 catches and made 2 run outs.\"\n          }\n        ],\n        \"fallOfWickets\": [\n          {\n            \"wicketNumber\": 1,\n            \"score\": \"0/1\",\n            \"batsman\": \"Jamie Phillips\"\n          },\n          {\n            \"wicketNumber\": 2,\n            \"score\": \"2/2\",\n            \"batsman\": \"Stephen Rudd\"\n          },\n          {\n            \"wicketNumber\": 3,\n            \"score\": \"5/3\",\n            \"batsman\": \"Jed Sessarago\"\n          },\n          {\n            \"wicketNumber\": 4,\n            \"score\": \"29/4\",\n            \"batsman\": \"Hamad Ahmad\"\n          },\n          {\n            \"wicketNumber\": 5,\n            \"score\": \"33/5\",\n            \"batsman\": \"Flynn Richardson\"\n          },\n          {\n            \"wicketNumber\": 6,\n            \"score\": \"59/6\",\n            \"batsman\": \"Mat Lewis\"\n          },\n          {\n            \"wicketNumber\": 7,\n            \"score\": \"61/7\",\n            \"batsman\": \"Nathan Rudd\"\n          },\n          {\n            \"wicketNumber\": 8,\n            \"score\": \"71/8\",\n            \"batsman\": \"Muhammad Abdul Wahab\"\n          },\n          {\n            \"wicketNumber\": 9,\n            \"score\": \"81/9\",\n            \"batsman\": \"Phillip Kuech\"\n          },\n          {\n            \"wicketNumber\": 10,\n            \"score\": \"86/10\",\n            \"batsman\": \"Arran Canning\"\n          }\n        ],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Runaway Bay Navy Community Div 1 Batting\"\n      }\n    ],\n    \"totalScore\": \"10/86\",\n    \"totalWickets\": 10\n  },\n  \"accountBias\": {\n    \"isBias\": \"Runaway Bay Cricket Club Inc\",\n    \"focusedTeams\": [\n      \"Runaway Bay Community Div 2\",\n      \"Runaway Bay Navy Community Div 1\",\n      \"Runaway Bay Navy Over 50s\",\n      \"Runaway Bay Navy Women\",\n      \"Runaway Bay Orange Community Div 1\",\n      \"Runaway Bay Orange Community Div 3\",\n      \"Runaway Bay Orange Over 50s\",\n      \"Runaway Bay Over 40 Div 2\",\n      \"Runaway Bay Over 40 Div 3\",\n      \"Runaway Bay Pink Women\",\n      \"Runaway Bay Premier Div 1\",\n      \"Runaway Bay Premier Div 2\",\n      \"Runaway Bay Premier Div 3\",\n      \"Runaway Bay Seagulls Opens Div 1\",\n      \"Runaway Bay Seagulls U10 Navy\",\n      \"Runaway Bay Seagulls U10 Orange\",\n      \"Runaway Bay Seagulls U11\",\n      \"Runaway Bay Seagulls U13 Div 1\",\n      \"Runaway Bay Seagulls U13 Div 2\",\n      \"Runaway Bay T20\"\n    ]\n  }\n}"
+    },
+    {
+      "gameID": "7184b6c7",
+      "status": "Final",
+      "homeTeam": {
+        "name": "Runaway Bay Orange Community Div 1",
+        "isHome": true,
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+          "width": 500,
+          "height": 500
+        },
+        "score": "10/106",
+        "overs": "(31.2)",
+        "homeScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Trent Ray",
+            "runs": 39,
+            "balls": 48,
+            "fours": 3,
+            "sixes": 1,
+            "SR": 81.25,
+            "team": "Runaway Bay Orange Community Div 1",
+            "notOut": false
+          },
+          {
+            "player": "Christopher Castle",
+            "runs": 17,
+            "balls": 18,
+            "fours": 2,
+            "sixes": 0,
+            "SR": 94.44,
+            "team": "Runaway Bay Orange Community Div 1",
+            "notOut": false
+          },
+          {
+            "player": "Angus Richardson",
+            "runs": 16,
+            "balls": 37,
+            "fours": 0,
+            "sixes": 0,
+            "SR": 43.24,
+            "team": "Runaway Bay Orange Community Div 1",
+            "notOut": false
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Pat Prasad",
+            "overs": 3.2,
+            "maidens": 0,
+            "runs": 11,
+            "wickets": 3,
+            "economy": "3.44",
+            "team": "Palm Beach Community Div 1"
+          },
+          {
+            "player": "Samuel Hancock",
+            "overs": 6,
+            "maidens": 1,
+            "runs": 17,
+            "wickets": 2,
+            "economy": "2.83",
+            "team": "Palm Beach Community Div 1"
+          },
+          {
+            "player": "Blake Banham",
+            "overs": 6,
+            "maidens": 0,
+            "runs": 18,
+            "wickets": 2,
+            "economy": "3.00",
+            "team": "Palm Beach Community Div 1"
+          }
+        ],
+        "isClubTeam": true
+      },
+      "awayTeam": {
+        "name": "Palm Beach Community Div 1",
+        "isHome": false,
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_ccc273f65f.jpg",
+          "width": 500,
+          "height": 442
+        },
+        "score": "6/257",
+        "overs": "(36)",
+        "awayScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Ashton Delamare",
+            "runs": 85,
+            "balls": 61,
+            "fours": 10,
+            "sixes": 3,
+            "SR": 139.34,
+            "team": "Palm Beach Community Div 1",
+            "notOut": false
+          },
+          {
+            "player": "Matt Swindlehurst",
+            "runs": 35,
+            "balls": 22,
+            "fours": 5,
+            "sixes": 0,
+            "SR": 159.09,
+            "team": "Palm Beach Community Div 1",
+            "notOut": true
+          },
+          {
+            "player": "Kobe Movigliatti",
+            "runs": 32,
+            "balls": 41,
+            "fours": 5,
+            "sixes": 0,
+            "SR": 78.04,
+            "team": "Palm Beach Community Div 1",
+            "notOut": false
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Rocco Fisher",
+            "overs": 6,
+            "maidens": 1,
+            "runs": 27,
+            "wickets": 1,
+            "economy": "4.50",
+            "team": "Runaway Bay Orange Community Div 1"
+          },
+          {
+            "player": "James Munro",
+            "overs": 5,
+            "maidens": 2,
+            "runs": 28,
+            "wickets": 1,
+            "economy": "5.60",
+            "team": "Runaway Bay Orange Community Div 1"
+          },
+          {
+            "player": "Will Secombe",
+            "overs": 6,
+            "maidens": 0,
+            "runs": 37,
+            "wickets": 1,
+            "economy": "6.17",
+            "team": "Runaway Bay Orange Community Div 1"
+          }
+        ],
+        "isClubTeam": false
+      },
+      "teamHomeLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+        "width": 500,
+        "height": 500
+      },
+      "teamAwayLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_ccc273f65f.jpg",
+        "width": 500,
+        "height": 442
+      },
+      "date": "31 Jan 2026",
+      "type": "One Day",
+      "ground": "Runaway Bay Sports Precinct / Sam Loxton Oval 3",
+      "round": "Round 16",
+      "gender": "Mixed",
+      "ageGroup": "Senior",
+      "gradeName": "(4) CGC Community League - Division 1",
+      "gradeSortOrder": 5,
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "result": "Palm Beach Community Div 1 won by 151 runs",
+      "resultShort": "Palm Beach Community Div 1 def Runaway Bay Orange Community Div 1",
+      "resultSummary": {
+        "homeTeam": "Runaway Bay Orange Community Div 1",
+        "awayTeam": "Palm Beach Community Div 1",
+        "winner": "Palm Beach Community Div 1",
+        "resultWord": "lost"
+      },
+      "prompt": "{\n  \"matchContext\": {\n    \"competition\": \"Cricket Gold Coast Senior Competition\",\n    \"grade\": \"(4) CGC Community League - Division 1\",\n    \"round\": \"Round 16\",\n    \"ground\": \"Runaway Bay Sports Precinct / Sam Loxton Oval 3\",\n    \"matchType\": \"One Day\",\n    \"tossWinner\": \"Palm Beach Community Div 1\",\n    \"tossResult\": \"Palm Beach Community Div 1 won the toss and elected to bat\",\n    \"resultStatement\": \"Palm Beach Community Div 1 won by 151 runs\",\n    \"dayOne\": \"2026-01-31\",\n    \"finalDaysPlay\": \"2026-01-31\"\n  },\n  \"homeTeam\": {\n    \"teamName\": \"Runaway Bay Orange Community Div 1\",\n    \"innings\": [\n      {\n        \"teamName\": \"Runaway Bay Orange Community Div 1\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 10,\n        \"battingOrder\": [\n          {\n            \"description\": \"Christopher Castle, scored 17 Runs from (18) balls, with 2 fours, at a strike Rate of 94.44., they were out: b: Samuel Hancock b: Samuel Hancock\"\n          },\n          {\n            \"description\": \"Jamie Lennix, scored 7 Runs from (0) balls, they were out: c: Blake Banhamb: Samuel Hancock c: Blake Banham b: Samuel Hancock\"\n          },\n          {\n            \"description\": \"Kane Taylor, scored 1 Runs from (7) balls, at a strike Rate of 14.28., they were out: c: Anton Van Damb: Noah McTaggart c: Anton Van Dam b: Noah McTaggart\"\n          },\n          {\n            \"description\": \"Trent Ray, scored 39 Runs from (48) balls, with 3 fours and 1 six, at a strike Rate of 81.25., they were out: c: Blake Banhamb: Wayne Singleton c: Blake Banham b: Wayne Singleton\"\n          },\n          {\n            \"description\": \"Harrison Rachow, scored 6 Runs from (28) balls, at a strike Rate of 21.42., they were out: b: Blake Banham b: Blake Banham\"\n          },\n          {\n            \"description\": \"Angus Richardson, scored 16 Runs from (37) balls, at a strike Rate of 43.24., they were out: c: Noah Allanb: Pat Prasad c: Noah Allan b: Pat Prasad\"\n          },\n          {\n            \"description\": \"Rocco Fisher, scored 3 Runs from (0) balls, they were out: c: Heath Downieb: Blake Banham c: Heath Downie b: Blake Banham\"\n          },\n          {\n            \"description\": \"Lucas Anderson, scored 4 Runs from (13) balls, at a strike Rate of 30.76., they were out: c: Jarrod Thomasb: Noah Allan c: Jarrod Thomas b: Noah Allan\"\n          },\n          {\n            \"description\": \"Jack Castle, scored 8 Runs from (13) balls, at a strike Rate of 61.53., they were not out.\"\n          },\n          {\n            \"description\": \"Will Secombe, scored 1 Runs from (4) balls, at a strike Rate of 25.00., they were out: b: Pat Prasad b: Pat Prasad\"\n          },\n          {\n            \"description\": \"James Munro, scored 6 Runs from (10) balls, at a strike Rate of 60.00., they were out: b: Pat Prasad b: Pat Prasad\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Noah McTaggart, bowled 4 overs, took 1 wicket for 14 runs, at an economy of 3.50.\"\n          },\n          {\n            \"description\": \"Samuel Hancock, bowled 6 overs, took 2 wickets for 17 runs, with 1 maiden, at an economy of 2.83.\"\n          },\n          {\n            \"description\": \"Noah Allan, bowled 6 overs, took 1 wicket for 33 runs, at an economy of 5.50.\"\n          },\n          {\n            \"description\": \"Wayne Singleton, bowled 6 overs, took 1 wicket for 13 runs, at an economy of 2.16.\"\n          },\n          {\n            \"description\": \"Blake Banham, bowled 6 overs, took 2 wickets for 18 runs, at an economy of 3.00.\"\n          },\n          {\n            \"description\": \"Pat Prasad, bowled 3.2 overs, took 3 wickets for 11 runs, at an economy of 3.30.\"\n          }\n        ],\n        \"fieldingStats\": [\n          {\n            \"description\": \"Anton Van Dam, took 1 catch and made 1 run out.\"\n          },\n          {\n            \"description\": \"Heath Downie, took 1 catch and made 1 run out.\"\n          },\n          {\n            \"description\": \"Jarrod Thomas, took 1 catch and made 1 run out.\"\n          },\n          {\n            \"description\": \"Noah Allan, took 1 catch and made 1 run out.\"\n          },\n          {\n            \"description\": \"Blake Banham, took 2 catches and made 2 run outs.\"\n          }\n        ],\n        \"fallOfWickets\": [\n          {\n            \"wicketNumber\": 1,\n            \"score\": \"3/1\",\n            \"batsman\": \"Jamie Lennix\"\n          },\n          {\n            \"wicketNumber\": 2,\n            \"score\": \"11/2\",\n            \"batsman\": \"Kane Taylor\"\n          },\n          {\n            \"wicketNumber\": 3,\n            \"score\": \"24/3\",\n            \"batsman\": \"Christopher Castle\"\n          },\n          {\n            \"wicketNumber\": 4,\n            \"score\": \"57/4\",\n            \"batsman\": \"Harrison Rachow\"\n          },\n          {\n            \"wicketNumber\": 5,\n            \"score\": \"78/5\",\n            \"batsman\": \"Trent Ray\"\n          },\n          {\n            \"wicketNumber\": 6,\n            \"score\": \"79/6\",\n            \"batsman\": \"Rocco Fisher\"\n          },\n          {\n            \"wicketNumber\": 7,\n            \"score\": \"87/7\",\n            \"batsman\": \"Angus Richardson\"\n          },\n          {\n            \"wicketNumber\": 8,\n            \"score\": \"97/8\",\n            \"batsman\": \"Lucas Anderson\"\n          },\n          {\n            \"wicketNumber\": 9,\n            \"score\": \"98/9\",\n            \"batsman\": \"Will Secombe\"\n          },\n          {\n            \"wicketNumber\": 10,\n            \"score\": \"106/10\",\n            \"batsman\": \"James Munro\"\n          }\n        ],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Runaway Bay Orange Community Div 1 Batting\"\n      }\n    ],\n    \"totalScore\": \"10/106\",\n    \"totalWickets\": 10\n  },\n  \"awayTeam\": {\n    \"teamName\": \"Palm Beach Community Div 1\",\n    \"innings\": [\n      {\n        \"teamName\": \"Palm Beach Community Div 1\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 6,\n        \"battingOrder\": [],\n        \"bowlingFigures\": [],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Palm Beach Community Div 1 Batting\"\n      }\n    ],\n    \"totalScore\": \"6/257\",\n    \"totalWickets\": 6\n  },\n  \"accountBias\": {\n    \"isBias\": \"Runaway Bay Cricket Club Inc\",\n    \"focusedTeams\": [\n      \"Runaway Bay Community Div 2\",\n      \"Runaway Bay Navy Community Div 1\",\n      \"Runaway Bay Navy Over 50s\",\n      \"Runaway Bay Navy Women\",\n      \"Runaway Bay Orange Community Div 1\",\n      \"Runaway Bay Orange Community Div 3\",\n      \"Runaway Bay Orange Over 50s\",\n      \"Runaway Bay Over 40 Div 2\",\n      \"Runaway Bay Over 40 Div 3\",\n      \"Runaway Bay Pink Women\",\n      \"Runaway Bay Premier Div 1\",\n      \"Runaway Bay Premier Div 2\",\n      \"Runaway Bay Premier Div 3\",\n      \"Runaway Bay Seagulls Opens Div 1\",\n      \"Runaway Bay Seagulls U10 Navy\",\n      \"Runaway Bay Seagulls U10 Orange\",\n      \"Runaway Bay Seagulls U11\",\n      \"Runaway Bay Seagulls U13 Div 1\",\n      \"Runaway Bay Seagulls U13 Div 2\",\n      \"Runaway Bay T20\"\n    ]\n  }\n}"
+    },
+    {
+      "gameID": "21e247a9",
+      "status": "Final",
+      "homeTeam": {
+        "name": "Runaway Bay Community Div 2",
+        "isHome": true,
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+          "width": 500,
+          "height": 500
+        },
+        "score": "5/347",
+        "overs": "(36)",
+        "homeScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Chris Nilon",
+            "runs": 100,
+            "balls": 47,
+            "fours": 7,
+            "sixes": 9,
+            "SR": 212.76,
+            "team": "Runaway Bay Community Div 2",
+            "notOut": true
+          },
+          {
+            "player": "Luke Northam",
+            "runs": 66,
+            "balls": 51,
+            "fours": 9,
+            "sixes": 2,
+            "SR": 129.41,
+            "team": "Runaway Bay Community Div 2",
+            "notOut": false
+          },
+          {
+            "player": "Adrian Capp",
+            "runs": 64,
+            "balls": 38,
+            "fours": 6,
+            "sixes": 4,
+            "SR": 168.42,
+            "team": "Runaway Bay Community Div 2",
+            "notOut": false
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Andrew Burgess",
+            "overs": 6,
+            "maidens": 0,
+            "runs": 37,
+            "wickets": 2,
+            "economy": "6.17",
+            "team": "Alberton Community Div 2"
+          },
+          {
+            "player": "Christian Watson",
+            "overs": 6,
+            "maidens": 0,
+            "runs": 58,
+            "wickets": 1,
+            "economy": "9.67",
+            "team": "Alberton Community Div 2"
+          },
+          {
+            "player": "Matt Pilgrim",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 49,
+            "wickets": 1,
+            "economy": "12.25",
+            "team": "Alberton Community Div 2"
+          }
+        ],
+        "isClubTeam": true
+      },
+      "awayTeam": {
+        "name": "Alberton Community Div 2",
+        "isHome": false,
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_c89e75b12f.jpg",
+          "width": 1190,
+          "height": 1190
+        },
+        "score": "8/183",
+        "overs": "(36)",
+        "awayScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Paul Armstrong",
+            "runs": 77,
+            "balls": 40,
+            "fours": 11,
+            "sixes": 4,
+            "SR": 192.5,
+            "team": "Alberton Community Div 2",
+            "notOut": true
+          },
+          {
+            "player": "Damien Perkins",
+            "runs": 26,
+            "balls": 53,
+            "fours": 3,
+            "sixes": 0,
+            "SR": 49.05,
+            "team": "Alberton Community Div 2",
+            "notOut": false
+          },
+          {
+            "player": "Billy Jorgensen",
+            "runs": 19,
+            "balls": 18,
+            "fours": 3,
+            "sixes": 0,
+            "SR": 105.55,
+            "team": "Alberton Community Div 2",
+            "notOut": false
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Andrew Foenander",
+            "overs": 6,
+            "maidens": 0,
+            "runs": 33,
+            "wickets": 2,
+            "economy": "5.50",
+            "team": "Runaway Bay Community Div 2"
+          },
+          {
+            "player": "Conan Dunning",
+            "overs": 5,
+            "maidens": 0,
+            "runs": 33,
+            "wickets": 2,
+            "economy": "6.60",
+            "team": "Runaway Bay Community Div 2"
+          },
+          {
+            "player": "Chris Nilon",
+            "overs": 3,
+            "maidens": 0,
+            "runs": 9,
+            "wickets": 1,
+            "economy": "3.00",
+            "team": "Runaway Bay Community Div 2"
+          }
+        ],
+        "isClubTeam": false
+      },
+      "teamHomeLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+        "width": 500,
+        "height": 500
+      },
+      "teamAwayLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_c89e75b12f.jpg",
+        "width": 1190,
+        "height": 1190
+      },
+      "date": "31 Jan 2026",
+      "type": "One Day",
+      "ground": "Runaway Bay Sports Precinct / Sam Loxton 5",
+      "round": "Round 16",
+      "gender": "Mixed",
+      "ageGroup": "Senior",
+      "gradeName": "(5) CGC Community League - Division 2",
+      "gradeSortOrder": 6,
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "result": "Runaway Bay Community Div 2 won by 164 runs",
+      "resultShort": "Runaway Bay Community Div 2 def Alberton Community Div 2",
+      "resultSummary": {
+        "homeTeam": "Runaway Bay Community Div 2",
+        "awayTeam": "Alberton Community Div 2",
+        "winner": "Runaway Bay Community Div 2",
+        "resultWord": "won"
+      },
+      "prompt": "{\n  \"matchContext\": {\n    \"competition\": \"Cricket Gold Coast Senior Competition\",\n    \"grade\": \"(5) CGC Community League - Division 2\",\n    \"round\": \"Round 16\",\n    \"ground\": \"Runaway Bay Sports Precinct / Sam Loxton 5\",\n    \"matchType\": \"One Day\",\n    \"tossWinner\": \"Runaway Bay Community Div 2\",\n    \"tossResult\": \"Runaway Bay Community Div 2 won the toss and elected to bat\",\n    \"resultStatement\": \"Runaway Bay Community Div 2 won by 164 runs\",\n    \"dayOne\": \"2026-01-31\",\n    \"finalDaysPlay\": \"2026-01-31\"\n  },\n  \"homeTeam\": {\n    \"teamName\": \"Runaway Bay Community Div 2\",\n    \"innings\": [\n      {\n        \"teamName\": \"Runaway Bay Community Div 2\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 5,\n        \"battingOrder\": [\n          {\n            \"description\": \"Garred Birrell  (c), scored 40 Runs from (36) balls, with 5 fours and 1 six, at a strike Rate of 111.11., they were out: c: Clinton Davisb: Andrew Burgess c: Clinton Davis b: Andrew Burgess\"\n          },\n          {\n            \"description\": \"Jamie Hunt, scored 11 Runs from (10) balls, with 2 fours, at a strike Rate of 110.00., they were out: b: Andrew Burgess b: Andrew Burgess\"\n          },\n          {\n            \"description\": \"Luke Northam, scored 66 Runs from (51) balls, with 9 fours and 2 sixes, at a strike Rate of 129.41., they were out: lbw: Christian Watson lbw: Christian Watson\"\n          },\n          {\n            \"description\": \"Adrian Capp, scored 64 Runs from (38) balls, with 6 fours and 4 sixes, at a strike Rate of 168.42., they were out: c: ?b: Matt Pilgrim c: ? b: Matt Pilgrim\"\n          },\n          {\n            \"description\": \"Brad Adkins, scored 52 Runs from (34) balls, with 7 fours and 1 six, at a strike Rate of 152.94., they were out: c: David Burgessb: Billy Jorgensen c: David Burgess b: Billy Jorgensen\"\n          },\n          {\n            \"description\": \"Chris Nilon, scored 100 Runs from (47) balls, with 7 fours and 9 sixes, at a strike Rate of 212.76., they were not out.\"\n          },\n          {\n            \"description\": \"Arron Quine, scored 1 Runs from (1) balls, at a strike Rate of 100.00., they were not out.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Andrew Burgess, bowled 6 overs, took 2 wickets for 37 runs, at an economy of 6.16.\"\n          },\n          {\n            \"description\": \"Christian Watson, bowled 6 overs, took 1 wicket for 58 runs, at an economy of 9.66.\"\n          },\n          {\n            \"description\": \"Matt Pilgrim, bowled 4 overs, took 1 wicket for 49 runs, at an economy of 12.25.\"\n          },\n          {\n            \"description\": \"Billy Jorgensen, bowled 3 overs, took 1 wicket for 37 runs, at an economy of 12.33.\"\n          }\n        ],\n        \"fieldingStats\": [\n          {\n            \"description\": \"David Burgess, took 1 catch and made 1 run out.\"\n          },\n          {\n            \"description\": \"Clinton Davis  (c), took 1 catch and made 1 run out.\"\n          }\n        ],\n        \"fallOfWickets\": [\n          {\n            \"wicketNumber\": 1,\n            \"score\": \"16/1\",\n            \"batsman\": \"Jamie Hunt\"\n          },\n          {\n            \"wicketNumber\": 2,\n            \"score\": \"80/2\",\n            \"batsman\": \"Garred Birrell\"\n          },\n          {\n            \"wicketNumber\": 3,\n            \"score\": \"146/3\",\n            \"batsman\": \"Luke Northam\"\n          },\n          {\n            \"wicketNumber\": 4,\n            \"score\": \"192/4\",\n            \"batsman\": \"Adrian Capp\"\n          },\n          {\n            \"wicketNumber\": 5,\n            \"score\": \"323/5\",\n            \"batsman\": \"Brad Adkins\"\n          }\n        ],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Runaway Bay Community Div 2 Batting\"\n      }\n    ],\n    \"totalScore\": \"5/347\",\n    \"totalWickets\": 5\n  },\n  \"awayTeam\": {\n    \"teamName\": \"Alberton Community Div 2\",\n    \"innings\": [\n      {\n        \"teamName\": \"Alberton Community Div 2\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 8,\n        \"battingOrder\": [],\n        \"bowlingFigures\": [],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Alberton Community Div 2 Batting\"\n      }\n    ],\n    \"totalScore\": \"8/183\",\n    \"totalWickets\": 8\n  },\n  \"accountBias\": {\n    \"isBias\": \"Runaway Bay Cricket Club Inc\",\n    \"focusedTeams\": [\n      \"Runaway Bay Community Div 2\",\n      \"Runaway Bay Navy Community Div 1\",\n      \"Runaway Bay Navy Over 50s\",\n      \"Runaway Bay Navy Women\",\n      \"Runaway Bay Orange Community Div 1\",\n      \"Runaway Bay Orange Community Div 3\",\n      \"Runaway Bay Orange Over 50s\",\n      \"Runaway Bay Over 40 Div 2\",\n      \"Runaway Bay Over 40 Div 3\",\n      \"Runaway Bay Pink Women\",\n      \"Runaway Bay Premier Div 1\",\n      \"Runaway Bay Premier Div 2\",\n      \"Runaway Bay Premier Div 3\",\n      \"Runaway Bay Seagulls Opens Div 1\",\n      \"Runaway Bay Seagulls U10 Navy\",\n      \"Runaway Bay Seagulls U10 Orange\",\n      \"Runaway Bay Seagulls U11\",\n      \"Runaway Bay Seagulls U13 Div 1\",\n      \"Runaway Bay Seagulls U13 Div 2\",\n      \"Runaway Bay T20\"\n    ]\n  }\n}"
+    },
+    {
+      "gameID": "5075d1a0",
+      "status": "Final",
+      "homeTeam": {
+        "name": "Runaway Bay Orange Community Div 3",
+        "isHome": true,
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+          "width": 500,
+          "height": 500
+        },
+        "score": "2/139",
+        "overs": "(15.1)",
+        "homeScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Heath Slater",
+            "runs": 76,
+            "balls": 44,
+            "fours": 9,
+            "sixes": 5,
+            "SR": 172.72,
+            "team": "Runaway Bay Orange Community Div 3",
+            "notOut": true
+          },
+          {
+            "player": "Chris Schultz  (c)",
+            "runs": 31,
+            "balls": 31,
+            "fours": 4,
+            "sixes": 0,
+            "SR": 100,
+            "team": "Runaway Bay Orange Community Div 3",
+            "notOut": false
+          },
+          {
+            "player": "Aidan Long",
+            "runs": 14,
+            "balls": 5,
+            "fours": 2,
+            "sixes": 1,
+            "SR": 280,
+            "team": "Runaway Bay Orange Community Div 3",
+            "notOut": true
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Nathan O'Brien",
+            "overs": 3,
+            "maidens": 0,
+            "runs": 32,
+            "wickets": 1,
+            "economy": "10.67",
+            "team": "Bonogin Bulls Div 3"
+          },
+          {
+            "player": "Nikhil Taneja",
+            "overs": 1.1,
+            "maidens": 0,
+            "runs": 14,
+            "wickets": 1,
+            "economy": "12.73",
+            "team": "Bonogin Bulls Div 3"
+          },
+          {
+            "player": "Brock Lohmann",
+            "overs": 3,
+            "maidens": 0,
+            "runs": 21,
+            "wickets": 0,
+            "economy": "7.00",
+            "team": "Bonogin Bulls Div 3"
+          }
+        ],
+        "isClubTeam": true
+      },
+      "awayTeam": {
+        "name": "Bonogin Bulls Div 3",
+        "isHome": false,
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_70d301fe36.jpg",
+          "width": 897,
+          "height": 989
+        },
+        "score": "10/136",
+        "overs": "(31.1)",
+        "awayScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "William Noending",
+            "runs": 28,
+            "balls": 22,
+            "fours": 5,
+            "sixes": 0,
+            "SR": 127.27,
+            "team": "Bonogin Bulls Div 3",
+            "notOut": false
+          },
+          {
+            "player": "Harrison Eltis  (c)",
+            "runs": 26,
+            "balls": 27,
+            "fours": 4,
+            "sixes": 0,
+            "SR": 96.29,
+            "team": "Bonogin Bulls Div 3",
+            "notOut": false
+          },
+          {
+            "player": "Nathan O'Brien",
+            "runs": 16,
+            "balls": 14,
+            "fours": 3,
+            "sixes": 0,
+            "SR": 114.28,
+            "team": "Bonogin Bulls Div 3",
+            "notOut": false
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Sam Brookes",
+            "overs": 6,
+            "maidens": 2,
+            "runs": 11,
+            "wickets": 2,
+            "economy": "1.83",
+            "team": "Runaway Bay Orange Community Div 3"
+          },
+          {
+            "player": "Darren Redmayne",
+            "overs": 6,
+            "maidens": 1,
+            "runs": 17,
+            "wickets": 2,
+            "economy": "2.83",
+            "team": "Runaway Bay Orange Community Div 3"
+          },
+          {
+            "player": "MD jahirul Islam",
+            "overs": 2.1,
+            "maidens": 0,
+            "runs": 12,
+            "wickets": 2,
+            "economy": "5.71",
+            "team": "Runaway Bay Orange Community Div 3"
+          }
+        ],
+        "isClubTeam": false
+      },
+      "teamHomeLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+        "width": 500,
+        "height": 500
+      },
+      "teamAwayLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_70d301fe36.jpg",
+        "width": 897,
+        "height": 989
+      },
+      "date": "31 Jan 2026",
+      "type": "One Day",
+      "ground": "Runaway Bay Sports Precinct / Sam Loxton 6",
+      "round": "Round 16",
+      "gender": "Mixed",
+      "ageGroup": "Senior",
+      "gradeName": "(6) CGC Community League - Division 3",
+      "gradeSortOrder": 7,
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "result": "Runaway Bay Orange Community Div 3 won by 8 wickets",
+      "resultShort": "Runaway Bay Orange Community Div 3 def Bonogin Bulls Div 3",
+      "resultSummary": {
+        "homeTeam": "Runaway Bay Orange Community Div 3",
+        "awayTeam": "Bonogin Bulls Div 3",
+        "winner": "Runaway Bay Orange Community Div 3",
+        "resultWord": "won"
+      },
+      "prompt": "{\n  \"matchContext\": {\n    \"competition\": \"Cricket Gold Coast Senior Competition\",\n    \"grade\": \"(6) CGC Community League - Division 3\",\n    \"round\": \"Round 16\",\n    \"ground\": \"Runaway Bay Sports Precinct / Sam Loxton 6\",\n    \"matchType\": \"One Day\",\n    \"tossWinner\": \"Bonogin Bulls Div 3\",\n    \"tossResult\": \"Bonogin Bulls Div 3 won the toss and elected to bat\",\n    \"resultStatement\": \"Runaway Bay Orange Community Div 3 won by 8 wickets\",\n    \"dayOne\": \"2026-01-31\",\n    \"finalDaysPlay\": \"2026-01-31\"\n  },\n  \"homeTeam\": {\n    \"teamName\": \"Runaway Bay Orange Community Div 3\",\n    \"innings\": [\n      {\n        \"teamName\": \"Runaway Bay Orange Community Div 3\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 2,\n        \"battingOrder\": [\n          {\n            \"description\": \"Chris Schultz  (c), scored 31 Runs from (31) balls, with 4 fours, at a strike Rate of 100.00., they were out: c: ?b: Nathan O'Brien c: ? b: Nathan O'Brien\"\n          },\n          {\n            \"description\": \"Heath Slater, scored 76 Runs from (44) balls, with 9 fours and 5 sixes, at a strike Rate of 172.72., they were not out.\"\n          },\n          {\n            \"description\": \"Amrit Singh, scored 9 Runs from (11) balls, with 1 four, at a strike Rate of 81.81., they were out: c: ?b: Nikhil Taneja c: ? b: Nikhil Taneja\"\n          },\n          {\n            \"description\": \"Aidan Long, scored 14 Runs from (5) balls, with 2 fours and 1 six, at a strike Rate of 280.00., they were not out.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Nathan O'Brien, bowled 3 overs, took 1 wicket for 32 runs, at an economy of 10.66.\"\n          },\n          {\n            \"description\": \"Nikhil Taneja, bowled 1.1 overs, took 1 wicket for 14 runs, at an economy of 12.00.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [\n          {\n            \"wicketNumber\": 1,\n            \"score\": \"75/1\",\n            \"batsman\": \"Chris Schultz\"\n          },\n          {\n            \"wicketNumber\": 2,\n            \"score\": \"117/2\",\n            \"batsman\": \"Amrit Singh\"\n          }\n        ],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Runaway Bay Orange Community Div 3 Batting\"\n      }\n    ],\n    \"totalScore\": \"2/139\",\n    \"totalWickets\": 2\n  },\n  \"awayTeam\": {\n    \"teamName\": \"Bonogin Bulls Div 3\",\n    \"innings\": [\n      {\n        \"teamName\": \"Bonogin Bulls Div 3\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 10,\n        \"battingOrder\": [],\n        \"bowlingFigures\": [],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Bonogin Bulls Div 3 Batting\"\n      }\n    ],\n    \"totalScore\": \"10/136\",\n    \"totalWickets\": 10\n  },\n  \"accountBias\": {\n    \"isBias\": \"Runaway Bay Cricket Club Inc\",\n    \"focusedTeams\": [\n      \"Runaway Bay Community Div 2\",\n      \"Runaway Bay Navy Community Div 1\",\n      \"Runaway Bay Navy Over 50s\",\n      \"Runaway Bay Navy Women\",\n      \"Runaway Bay Orange Community Div 1\",\n      \"Runaway Bay Orange Community Div 3\",\n      \"Runaway Bay Orange Over 50s\",\n      \"Runaway Bay Over 40 Div 2\",\n      \"Runaway Bay Over 40 Div 3\",\n      \"Runaway Bay Pink Women\",\n      \"Runaway Bay Premier Div 1\",\n      \"Runaway Bay Premier Div 2\",\n      \"Runaway Bay Premier Div 3\",\n      \"Runaway Bay Seagulls Opens Div 1\",\n      \"Runaway Bay Seagulls U10 Navy\",\n      \"Runaway Bay Seagulls U10 Orange\",\n      \"Runaway Bay Seagulls U11\",\n      \"Runaway Bay Seagulls U13 Div 1\",\n      \"Runaway Bay Seagulls U13 Div 2\",\n      \"Runaway Bay T20\"\n    ]\n  }\n}"
+    },
+    {
+      "gameID": "97960890",
+      "status": "Final",
+      "homeTeam": {
+        "name": "Runaway Bay Pink Women",
+        "isHome": true,
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+          "width": 500,
+          "height": 500
+        },
+        "score": "163",
+        "overs": "(20)",
+        "homeScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Faith Davey  (c)",
+            "runs": 40,
+            "balls": 15,
+            "fours": 5,
+            "sixes": 2,
+            "SR": 266.66,
+            "team": "Runaway Bay Pink Women",
+            "notOut": false
+          },
+          {
+            "player": "Kelly Schultz",
+            "runs": 30,
+            "balls": 14,
+            "fours": 4,
+            "sixes": 0,
+            "SR": 214.28,
+            "team": "Runaway Bay Pink Women",
+            "notOut": false
+          },
+          {
+            "player": "Sonia Mostyn",
+            "runs": 27,
+            "balls": 13,
+            "fours": 4,
+            "sixes": 0,
+            "SR": 207.69,
+            "team": "Runaway Bay Pink Women",
+            "notOut": false
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Charmaine Johnson",
+            "overs": 2,
+            "maidens": 0,
+            "runs": 14,
+            "wickets": 2,
+            "economy": "7.00",
+            "team": "Loganholme Queen Cobras"
+          },
+          {
+            "player": "Belinda Wilson-Pepperdene",
+            "overs": 3,
+            "maidens": 0,
+            "runs": 14,
+            "wickets": 1,
+            "economy": "4.67",
+            "team": "Loganholme Queen Cobras"
+          },
+          {
+            "player": "Danielle Johnston  (vc)",
+            "overs": 2,
+            "maidens": 0,
+            "runs": 32,
+            "wickets": 1,
+            "economy": "16.00",
+            "team": "Loganholme Queen Cobras"
+          }
+        ],
+        "isClubTeam": true
+      },
+      "awayTeam": {
+        "name": "Loganholme Queen Cobras",
+        "isHome": false,
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_24fc0193ba.jpg",
+          "width": 951,
+          "height": 949
+        },
+        "score": "264",
+        "overs": "(20)",
+        "awayScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Belinda Wilson-Pepperdene",
+            "runs": 53,
+            "balls": 15,
+            "fours": 8,
+            "sixes": 3,
+            "SR": 353.33,
+            "team": "Loganholme Queen Cobras",
+            "notOut": true
+          },
+          {
+            "player": "Marnie Budd",
+            "runs": 35,
+            "balls": 15,
+            "fours": 7,
+            "sixes": 0,
+            "SR": 233.33,
+            "team": "Loganholme Queen Cobras",
+            "notOut": false
+          },
+          {
+            "player": "Charmaine Johnson",
+            "runs": 35,
+            "balls": 15,
+            "fours": 7,
+            "sixes": 0,
+            "SR": 233.33,
+            "team": "Loganholme Queen Cobras",
+            "notOut": false
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Tracy Secombe",
+            "overs": 2,
+            "maidens": 0,
+            "runs": 22,
+            "wickets": 1,
+            "economy": "11.00",
+            "team": "Runaway Bay Pink Women"
+          },
+          {
+            "player": "Emily McQueen",
+            "overs": 2,
+            "maidens": 0,
+            "runs": 18,
+            "wickets": 0,
+            "economy": "9.00",
+            "team": "Runaway Bay Pink Women"
+          },
+          {
+            "player": "Sonia Mostyn",
+            "overs": 3,
+            "maidens": 0,
+            "runs": 30,
+            "wickets": 0,
+            "economy": "10.00",
+            "team": "Runaway Bay Pink Women"
+          }
+        ],
+        "isClubTeam": false
+      },
+      "teamHomeLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+        "width": 500,
+        "height": 500
+      },
+      "teamAwayLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_24fc0193ba.jpg",
+        "width": 951,
+        "height": 949
+      },
+      "date": "01 Feb 2026",
+      "type": "T20",
+      "ground": "Runaway Bay Sports Precinct / Sam Loxton Oval 3",
+      "round": "Round 7",
+      "gender": "Women",
+      "ageGroup": "Senior",
+      "gradeName": "Senior Women Div 3",
+      "gradeSortOrder": 12,
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "result": "Loganholme Queen Cobras won by 101 runs",
+      "resultShort": "Loganholme Queen Cobras def Runaway Bay Pink Women",
+      "resultSummary": {
+        "homeTeam": "Runaway Bay Pink Women",
+        "awayTeam": "Loganholme Queen Cobras",
+        "winner": "Loganholme Queen Cobras",
+        "resultWord": "lost"
+      },
+      "prompt": "{\n  \"matchContext\": {\n    \"competition\": \"Women's Social Competition\",\n    \"grade\": \"Senior Women Div 3\",\n    \"round\": \"Round 7\",\n    \"ground\": \"Runaway Bay Sports Precinct / Sam Loxton Oval 3\",\n    \"matchType\": \"T20\",\n    \"tossWinner\": \"Runaway Bay Pink Women\",\n    \"tossResult\": \"Runaway Bay Pink Women won the toss and elected to bowl\",\n    \"resultStatement\": \"Loganholme Queen Cobras won by 101 runs\",\n    \"dayOne\": \"2026-02-01\",\n    \"finalDaysPlay\": \"2026-02-01\"\n  },\n  \"homeTeam\": {\n    \"teamName\": \"Runaway Bay Pink Women\",\n    \"innings\": [\n      {\n        \"teamName\": \"Runaway Bay Pink Women\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 0,\n        \"battingOrder\": [\n          {\n            \"description\": \"Kelly Schultz, scored 30 Runs from (14) balls, with 4 fours, at a strike Rate of 214.28., they were not out.\"\n          },\n          {\n            \"description\": \"Kirsten Schultz, scored 14 Runs from (14) balls, with 2 fours, at a strike Rate of 100.00., they were out: run out: Belinda Wilson-Pepperdene, Bianca Labutis-Mays run out: Belinda Wilson-Pepperdene, Bianca Labutis-Mays\"\n          },\n          {\n            \"description\": \"Faith Davey  (c), scored 40 Runs from (15) balls, with 5 fours and 2 sixes, at a strike Rate of 266.66., they were out: c: Charlotte Lawrieb: Charmaine Johnson c: Charlotte Lawrie b: Charmaine Johnson\"\n          },\n          {\n            \"description\": \"Sonia Mostyn, scored 27 Runs from (13) balls, with 4 fours, at a strike Rate of 207.69., they were not out.\"\n          },\n          {\n            \"description\": \"Emily McQueen, scored 9 Runs from (13) balls, at a strike Rate of 69.23., they were out: b: Belinda Wilson-Pepperdene b: Belinda Wilson-Pepperdene\"\n          },\n          {\n            \"description\": \"Tracy Secombe, scored 23 Runs from (13) balls, with 4 fours, at a strike Rate of 176.92., they were not out.\"\n          },\n          {\n            \"description\": \"Melinda Watkins, scored 8 Runs from (13) balls, at a strike Rate of 61.53., they were out: c: Charlotte Lawrieb: Charmaine Johnson c: Charlotte Lawrie b: Charmaine Johnson\"\n          },\n          {\n            \"description\": \"Gaylene Munro, scored 4 Runs from (11) balls, at a strike Rate of 36.36., they were out: run out: Marnie Budd, Charlotte Lawrie run out: Marnie Budd, Charlotte Lawrie\"\n          },\n          {\n            \"description\": \"Teagan Lumley, scored 3 Runs from (14) balls, at a strike Rate of 21.42., they were out: b: Danielle Johnston b: Danielle Johnston\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Belinda Wilson-Pepperdene, bowled 3 overs, took 1 wicket for 14 runs, at an economy of 4.66.\"\n          },\n          {\n            \"description\": \"Charmaine Johnson, bowled 2 overs, took 2 wickets for 14 runs, at an economy of 7.00.\"\n          },\n          {\n            \"description\": \"Danielle Johnston  (vc), bowled 2 overs, took 1 wicket for 32 runs, at an economy of 16.00.\"\n          }\n        ],\n        \"fieldingStats\": [\n          {\n            \"description\": \"Marnie Budd, made 1 run out and effected 1 stumping.\"\n          },\n          {\n            \"description\": \"Belinda Wilson-Pepperdene, made 1 run out and effected 1 stumping.\"\n          },\n          {\n            \"description\": \"Bianca Labutis-Mays  (c), made 1 run out and effected 1 stumping.\"\n          },\n          {\n            \"description\": \"Charlotte Lawrie, took 2 catches, made 3 run outs, and effected 1 stumping.\"\n          }\n        ],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Runaway Bay Pink Women Batting\"\n      }\n    ],\n    \"totalScore\": \"163\",\n    \"totalWickets\": 0\n  },\n  \"awayTeam\": {\n    \"teamName\": \"Loganholme Queen Cobras\",\n    \"innings\": [\n      {\n        \"teamName\": \"Loganholme Queen Cobras\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 1,\n        \"battingOrder\": [],\n        \"bowlingFigures\": [],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Loganholme Queen Cobras Batting\"\n      }\n    ],\n    \"totalScore\": \"264\",\n    \"totalWickets\": 1\n  },\n  \"accountBias\": {\n    \"isBias\": \"Runaway Bay Cricket Club Inc\",\n    \"focusedTeams\": [\n      \"Runaway Bay Community Div 2\",\n      \"Runaway Bay Navy Community Div 1\",\n      \"Runaway Bay Navy Over 50s\",\n      \"Runaway Bay Navy Women\",\n      \"Runaway Bay Orange Community Div 1\",\n      \"Runaway Bay Orange Community Div 3\",\n      \"Runaway Bay Orange Over 50s\",\n      \"Runaway Bay Over 40 Div 2\",\n      \"Runaway Bay Over 40 Div 3\",\n      \"Runaway Bay Pink Women\",\n      \"Runaway Bay Premier Div 1\",\n      \"Runaway Bay Premier Div 2\",\n      \"Runaway Bay Premier Div 3\",\n      \"Runaway Bay Seagulls Opens Div 1\",\n      \"Runaway Bay Seagulls U10 Navy\",\n      \"Runaway Bay Seagulls U10 Orange\",\n      \"Runaway Bay Seagulls U11\",\n      \"Runaway Bay Seagulls U13 Div 1\",\n      \"Runaway Bay Seagulls U13 Div 2\",\n      \"Runaway Bay T20\"\n    ]\n  }\n}"
+    }
+  ],
+  "asset": {
+    "assetID": 29,
+    "assetTypeID": 2,
+    "assetCategoryID": 2,
+    "assetsLinkID": "77da96bfe0b644626d7c95eb201717d57fa9240464307c782ac3ce29aca2b755"
+  },
+  "render": {
+    "schedulerId": 317,
+    "renderId": 8725
+  },
+  "account": {
+    "accountId": 430
+  },
+  "timings": {
+    "FPS_MAIN": 10000,
+    "FPS_INTRO": 90,
+    "FPS_OUTRO": 30,
+    "FPS_LADDER": 0,
+    "FPS_SCORECARD": 210,
+    "FPS_PREFORMANCECARD": 0
+  },
+  "frames": [195, 390, 585, 780, 975, 1170, 1365, 1560, 1755],
+  "videoMeta": {
+    "club": {
+      "logo": {
+        "hasLogo": true,
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+        "width": 500,
+        "height": 500
+      },
+      "name": "Runaway Bay Cricket Club Inc",
+      "sport": "Cricket",
+      "sponsors": {
+        "primary": [],
+        "default": {}
+      },
+      "IsAccountClub": true
+    },
+    "video": {
+      "fixtureCategory": "SENIOR",
+      "groupingCategory": "SENIOR",
+      "metadata": {
+        "title": "Weekend Result",
+        "titleSplit": ["Weekend", "Result"],
+        "videoTitle": "Weekend Result Single Game",
+        "compositionId": "CricketResultSingle",
+        "assetId": 29,
+        "assetTypeId": 2,
+        "frames": [],
+        "includeSponsors": false
+      },
+      "appearance": {
+        "theme": {
+          "dark": "#111",
+          "white": "#FFF",
+          "primary": "#352466",
+          "secondary": "#ffa500"
+        },
+        "template": "TwoColumnClassic"
+      },
+      "media": {
+        "HeroImage": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/blog_netball_image_qhclob_375107db8f.jpg",
+          "ratio": "landscape",
+          "width": 1920,
+          "height": 1083,
+          "AgeGroup": "Both",
+          "AssetType": "ALL",
+          "markerPosition": null
+        },
+        "audio": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Marscott_Wild_Neon_Get_The_Gains_inst_3251aaa9af.mp3",
+          "audioOption": null
+        }
+      },
+      "contentLayout": {
+        "divideFixturesBy": {
+          "CricketLadder": 1,
+          "CricketRoster": 1,
+          "CricketResults": 2,
+          "CricketUpcoming": 3,
+          "CricketResultSingle": 1,
+          "CricketBattingPerformances": 5,
+          "CricketBowlingPerformances": 5,
+          "CricketTeamOfTheWeek": 2
+        }
+      },
+      "templateVariation": {
+        "useBackground": "Texture",
+        "mode": "lightAlt",
+        "category": {
+          "slug": "TwoColumnClassic",
+          "name": "Classic Two Column ",
+          "divideFixturesBy": {
+            "CricketUpcoming": 3,
+            "CricketResults": 2,
+            "CricketResultSingle": 1,
+            "CricketLadder": 1,
+            "CricketRoster": 1,
+            "CricketBowlingPerformances": 5,
+            "CricketBattingPerformances": 5
+          },
+          "bundleAudio": {
+            "id": 1,
+            "Name": "Basic",
+            "createdAt": "2023-09-27T10:36:24.428Z",
+            "updatedAt": "2025-06-15T04:50:57.910Z",
+            "publishedAt": "2023-09-27T10:36:25.639Z",
+            "audio_options": [
+              {
+                "id": 4,
+                "Name": "Better Start Now",
+                "createdAt": "2023-09-27T10:34:46.702Z",
+                "updatedAt": "2025-06-15T04:53:45.558Z",
+                "publishedAt": "2023-09-27T10:34:48.455Z",
+                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Kidpenny_Single_Better_Start_Now_Inst_53b898d9ef.mp3",
+                "CompositionID": "CricketLadder",
+                "ComponentName": "CricketLadder"
+              },
+              {
+                "id": 2,
+                "Name": "Fifteen on Me",
+                "createdAt": "2022-12-20T01:59:28.337Z",
+                "updatedAt": "2025-06-15T04:53:11.194Z",
+                "publishedAt": "2022-12-20T01:59:29.080Z",
+                "URL": "https://lmssocialmediamanager.s3.ap-southeast-2.amazonaws.com/assets/Fifteen%20on%20Me.mp3",
+                "CompositionID": "CricketUpcoming",
+                "ComponentName": "CricketUpcoming"
+              },
+              {
+                "id": 5,
+                "Name": "Get The Gains",
+                "createdAt": "2023-09-27T10:35:01.053Z",
+                "updatedAt": "2025-06-15T04:53:59.493Z",
+                "publishedAt": "2023-09-27T10:35:29.163Z",
+                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Marscott_Wild_Neon_Get_The_Gains_inst_3251aaa9af.mp3",
+                "CompositionID": "CricketTop5Bowling",
+                "ComponentName": "CricketTop5Bowling"
+              },
+              {
+                "id": 3,
+                "Name": "Groover",
+                "createdAt": "2022-12-20T01:59:34.014Z",
+                "updatedAt": "2025-06-15T04:53:28.656Z",
+                "publishedAt": "2022-12-20T01:59:34.670Z",
+                "URL": "https://lmssocialmediamanager.s3.ap-southeast-2.amazonaws.com/assets/TournamentTitleMusic_v2.mp3",
+                "CompositionID": "CricketTop5Batting",
+                "ComponentName": "CricketTop5Batting"
+              },
+              {
+                "id": 1,
+                "Name": "Saltine",
+                "createdAt": "2022-12-12T05:19:56.353Z",
+                "updatedAt": "2025-06-15T04:50:50.079Z",
+                "publishedAt": "2022-12-12T05:19:57.408Z",
+                "URL": "https://lmssocialmediamanager.s3.ap-southeast-2.amazonaws.com/assets/Saltine_1.mp3",
+                "CompositionID": "CricketResults",
+                "ComponentName": "CricketResults"
+              },
+              {
+                "id": 16,
+                "Name": "BEECH LOVE",
+                "createdAt": "2024-06-05T04:31:26.640Z",
+                "updatedAt": "2026-01-05T09:04:09.788Z",
+                "publishedAt": "2024-06-07T12:45:32.118Z",
+                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_BEECH_LOVE_Pieces_Inst_0b547f2b20.mp3",
+                "CompositionID": "CricketUpcoming",
+                "ComponentName": "CricketUpcoming"
+              },
+              {
+                "id": 17,
+                "Name": "FAY V",
+                "createdAt": "2024-06-05T04:33:33.970Z",
+                "updatedAt": "2024-06-07T12:48:03.161Z",
+                "publishedAt": "2024-06-07T12:47:53.394Z",
+                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_FAYV_Single_Encore_INST_d7b21f5451.mp3",
+                "CompositionID": "WeekendResultsAFL",
+                "ComponentName": "Weekend Results"
+              }
+            ]
+          }
+        },
+        "video": {
+          "url": null,
+          "fallbackUrl": null,
+          "position": "left",
+          "size": "cover",
+          "loop": null,
+          "muted": true,
+          "overlay": {
+            "color": "rgba(0,0,0,0.5)",
+            "opacity": 0.7
+          },
+          "useOffthreadVideo": null,
+          "volume": 0.8,
+          "playbackRate": null
+        },
+        "image": {
+          "url": null,
+          "ratio": null,
+          "width": null,
+          "height": null,
+          "type": "pan",
+          "direction": "left",
+          "overlayStyle": "vignette",
+          "gradientType": "linear",
+          "overlayOpacity": 0.3
+        },
+        "palette": "primaryOnWhite",
+        "gradient": {
+          "type": "primary",
+          "direction": "HORIZONTAL"
+        },
+        "noise": {
+          "type": "floatingParticles"
+        },
+        "pattern": {
+          "type": "dots",
+          "animation": "none",
+          "scale": 0.75,
+          "rotation": null,
+          "opacity": 0.35,
+          "animationDuration": null,
+          "animationSpeed": 0.8
+        },
+        "particle": {
+          "type": "lines",
+          "particleCount": "300",
+          "speed": 0.8,
+          "direction": "up",
+          "animation": "scale"
+        },
+        "texture": {
+          "name": "Print Texture",
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Geometric_Halftone_Print_Texture_cb888287e4.png",
+          "repeat": "cover",
+          "scale": "100%",
+          "overlay": {
+            "opacity": 0.8,
+            "blendMode": "multiply"
+          }
+        }
+      }
+    }
+  },
+  "errors": []
+}

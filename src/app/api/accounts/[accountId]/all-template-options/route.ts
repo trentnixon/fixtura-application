@@ -12,7 +12,7 @@ type RouteContext = { params: Promise<{ accountId: string }> };
 /**
  * BFF for GET /api/accounts/:accountId/all-template-options → Strapi full template catalog + optional currentSelection.
  * Forwards optional query `templateOptionId` when it is a positive integer (else 400).
- * @see .comms/data-fetching/handoff/handoff-template-all-template-options.md
+ * @see .comms/API/handoff-all-template-options.md
  */
 export async function GET(request: Request, context: RouteContext) {
   const strapiUrl = getStrapiUrl();

@@ -48,6 +48,9 @@ const routeToQueryKeyMap: Record<string, any> = {
   "auth.me": queryKeys.auth.me,
   "auth.session": queryKeys.auth.session,
   "account.me": queryKeys.account.me,
+  "account.template-categories-list-for-selection":
+    queryKeys.account.templateCategoriesListForSelection,
+  "assets.list-for-selection": queryKeys.assets.listForSelection,
   "admin.fetch-health": queryKeys.admin.fetchHealth,
 };
 
@@ -57,6 +60,9 @@ const routeToQueryKeyMap: Record<string, any> = {
 const routeToFetchFnMap: Record<string, () => Promise<any>> = {
   "auth.me": () => authApi.getCurrentUser(),
   "account.me": () => accountApi.getAccountMe(),
+  "account.template-categories-list-for-selection": () =>
+    accountApi.getTemplateCategoriesListForSelection(),
+  "assets.list-for-selection": () => accountApi.getAssetsListForSelection(),
   "admin.fetch-health": () => healthApi.getFetchHealth(),
 };
 

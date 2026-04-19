@@ -54,7 +54,7 @@ export interface AccountSummary {
   /** Account-level sport (may match `accountOrganisationDetails.Sport`). */
   Sport?: string;
   account_type?: number;
-  /** Saved template-option row id for `GET .../all-template-options?templateOptionId=` (CMS; optional). */
+  /** Saved template-option row id for `GET .../all-template-options?templateOptionId=` (CMS; optional). @see .comms/API/handoff-all-template-options.md */
   templateOptionId?: number | null;
   /** Phase 2 onboarding working name; optional until CMS exposes on bootstrap. */
   onboardingOrganisationName?: string | null;
@@ -492,30 +492,33 @@ export interface AccountBrandingResponse {
   data: AccountBrandingData;
 }
 
-/** CMS catalog row — shape varies by collection; omit Strapi timestamp noise in DTOs. */
-export type AllTemplateOptionsCatalogRow = Record<string, unknown>;
+export type {
+  AllTemplateOptionsData,
+  AllTemplateOptionsPayload,
+  AllTemplateOptionsResponse,
+  TemplateCategoriesForSelectionResponse,
+  AudioOptionItem,
+  BundleAudioSummary,
+  CurrentTemplateSelection,
+  MediaSummary,
+  TemplateCategoryCatalogItem,
+  TemplateCategoryRef,
+  TemplateGradientItem,
+  TemplateImageItem,
+  TemplateModeItem,
+  TemplateNoiseItem,
+  TemplatePaletteItem,
+  TemplateParticleItem,
+  TemplatePatternItem,
+  TemplateTextureCatalogItem,
+  TemplateVideoItem,
+} from "./all-template-options";
 
-/**
- * GET /api/template-categories/all-template-options (via BFF /api/accounts/:id/all-template-options).
- * @see .comms/data-fetching/handoff/handoff-template-all-template-options.md
- */
-export interface AllTemplateOptionsData {
-  categories: AllTemplateOptionsCatalogRow[];
-  modes: AllTemplateOptionsCatalogRow[];
-  palettes: AllTemplateOptionsCatalogRow[];
-  gradients: AllTemplateOptionsCatalogRow[];
-  images: AllTemplateOptionsCatalogRow[];
-  noises: AllTemplateOptionsCatalogRow[];
-  particles: AllTemplateOptionsCatalogRow[];
-  patterns: AllTemplateOptionsCatalogRow[];
-  textures: AllTemplateOptionsCatalogRow[];
-  videos: AllTemplateOptionsCatalogRow[];
-  currentSelection: Record<string, unknown> | null;
-}
-
-export interface AllTemplateOptionsResponse {
-  data: AllTemplateOptionsData;
-}
+export type {
+  AssetCategorySummary,
+  AssetListForSelectionItem,
+  AssetListForSelectionResponse,
+} from "./assets";
 
 /** Optional query for all-template-options BFF. */
 export type AllTemplateOptionsParams = {

@@ -1,0 +1,200 @@
+{
+  "RENDER": {
+    "SchedulerID": 165,
+    "RenderID": 6201
+  },
+  "ACCOUNT": {
+    "accountId": 277
+  },
+  "ASSET": {
+    "ASSETID": 39,
+    "ASSETTYPEID": 1,
+    "ASSETCATEGORYID": 2,
+    "ASSETSLINKID": "74fd45802654ec2d268f86e00e95dd94054ac12ac6196f0f37a80bc127e35bcb"
+  },
+  "VIDEOMETA": {
+    "grouping_category": "terrywhite chemmart primary - Primary 5/6",
+    "Video": {
+      "Title": "Fixtures",
+      "TitleSplit": ["Fixtures", ""],
+      "CompositionID": "UpComingNetBallFixtures",
+      "VideoTitle": "Up Coming Fixtures  - undefined",
+      "HeroImage": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/gretel_2_scaled_a3555083bf.jpg",
+        "width": 1828,
+        "height": 2560,
+        "ratio": "portrait",
+        "AgeGroup": "Both",
+        "AssetType": "ALL",
+        "markerPosition": [
+          {
+            "top": 14.608854775580745,
+            "left": 44.760820045558084
+          }
+        ]
+      },
+      "Template": "Basic",
+      "TemplateVariation": {
+        "borderRadius": "0px"
+      },
+      "Theme": {
+        "primary": "#002855",
+        "secondary": "#00AEEF",
+        "dark": "#111",
+        "white": "#FFF"
+      },
+      "includeSponsors": true,
+      "audio_option": null,
+      "ASSETID": 39,
+      "ASSETTYPEID": 1,
+      "FRAMES": [325, 540, 810]
+    },
+    "THEME": {
+      "Template": "Basic",
+      "TemplateVariation": {
+        "borderRadius": "0px"
+      },
+      "Theme": {
+        "primary": "#002855",
+        "secondary": "#00AEEF",
+        "dark": "#111",
+        "white": "#FFF"
+      }
+    },
+    "Club": {
+      "Name": "Devon Netball Association",
+      "Sport": "Netball",
+      "Logo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_34_2fbd1b8efe.png",
+        "width": 256,
+        "height": 256
+      },
+      "Sponsors": []
+    },
+    "FixtureCategory": "terrywhite chemmart primary - Primary 5/6"
+  },
+  "TIMINGS": {
+    "FPS_INTRO": 90,
+    "FPS_SCORECARD": 270,
+    "FPS_OUTRO": 180,
+    "FPS_MAIN": 810
+  },
+  "data": [
+    {
+      "gameID": "16754619",
+      "round": "Round 3",
+      "teamHome": "Diamonds",
+      "teamHomeLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Default_ICON_171b58a21b.png",
+        "width": 1211,
+        "height": 1211
+      },
+      "teamAway": "Fury",
+      "teamAwayLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Default_ICON_171b58a21b.png",
+        "width": 1211,
+        "height": 1211
+      },
+      "date": "Saturday, 06 April 2024",
+      "time": "09:45 AM, Sat, 06 Apr 24",
+      "ground": "Devon Netball Association / Court 06",
+      "gender": "Mixed",
+      "ageGroup": "U12",
+      "gradeName": "Primary 5/6",
+      "prompt": "Upcoming netball match details:\n        - Teams: Diamonds vs Fury\n        - Date and Time: Saturday, 06 April 2024, 09:45 AM, Sat, 06 Apr 24\n        - Location: Devon Netball Association / Court 06\n        - Round: Round 3\n        - League: Primary 5/6"
+    },
+    {
+      "gameID": "2b88c8c1",
+      "round": "Round 3",
+      "teamHome": "Giants",
+      "teamHomeLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Default_ICON_171b58a21b.png",
+        "width": 1211,
+        "height": 1211
+      },
+      "teamAway": "Firebirds",
+      "teamAwayLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Default_ICON_171b58a21b.png",
+        "width": 1211,
+        "height": 1211
+      },
+      "date": "Saturday, 06 April 2024",
+      "time": "08:30 AM, Sat, 06 Apr 24",
+      "ground": "Devon Netball Association / Court 06",
+      "gender": "Mixed",
+      "ageGroup": "U12",
+      "gradeName": "Primary 5/6",
+      "prompt": "Upcoming netball match details:\n        - Teams: Giants vs Firebirds\n        - Date and Time: Saturday, 06 April 2024, 08:30 AM, Sat, 06 Apr 24\n        - Location: Devon Netball Association / Court 06\n        - Round: Round 3\n        - League: Primary 5/6"
+    },
+    {
+      "gameID": "3ca40154",
+      "round": "Round 3",
+      "teamHome": "Lightning",
+      "teamHomeLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Default_ICON_171b58a21b.png",
+        "width": 1211,
+        "height": 1211
+      },
+      "teamAway": "Vixens",
+      "teamAwayLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Default_ICON_171b58a21b.png",
+        "width": 1211,
+        "height": 1211
+      },
+      "date": "Saturday, 06 April 2024",
+      "time": "09:45 AM, Sat, 06 Apr 24",
+      "ground": "Devon Netball Association / Court 05",
+      "gender": "Mixed",
+      "ageGroup": "U12",
+      "gradeName": "Primary 5/6",
+      "prompt": "Upcoming netball match details:\n        - Teams: Lightning vs Vixens\n        - Date and Time: Saturday, 06 April 2024, 09:45 AM, Sat, 06 Apr 24\n        - Location: Devon Netball Association / Court 05\n        - Round: Round 3\n        - League: Primary 5/6"
+    },
+    {
+      "gameID": "ea8a77f1",
+      "round": "Round 3",
+      "teamHome": "Magpies",
+      "teamHomeLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Default_ICON_171b58a21b.png",
+        "width": 1211,
+        "height": 1211
+      },
+      "teamAway": "Swishers",
+      "teamAwayLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Default_ICON_171b58a21b.png",
+        "width": 1211,
+        "height": 1211
+      },
+      "date": "Saturday, 06 April 2024",
+      "time": "08:30 AM, Sat, 06 Apr 24",
+      "ground": "Devon Netball Association / Court 05",
+      "gender": "Mixed",
+      "ageGroup": "U12",
+      "gradeName": "Primary 5/6",
+      "prompt": "Upcoming netball match details:\n        - Teams: Magpies vs Swishers\n        - Date and Time: Saturday, 06 April 2024, 08:30 AM, Sat, 06 Apr 24\n        - Location: Devon Netball Association / Court 05\n        - Round: Round 3\n        - League: Primary 5/6"
+    },
+    {
+      "gameID": "40135fdf",
+      "round": "Round 3",
+      "teamHome": "Mavericks",
+      "teamHomeLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Default_ICON_171b58a21b.png",
+        "width": 1211,
+        "height": 1211
+      },
+      "teamAway": "Swifts",
+      "teamAwayLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Default_ICON_171b58a21b.png",
+        "width": 1211,
+        "height": 1211
+      },
+      "date": "Saturday, 06 April 2024",
+      "time": "09:45 AM, Sat, 06 Apr 24",
+      "ground": "Devon Netball Association / Court 07",
+      "gender": "Mixed",
+      "ageGroup": "U12",
+      "gradeName": "Primary 5/6",
+      "prompt": "Upcoming netball match details:\n        - Teams: Mavericks vs Swifts\n        - Date and Time: Saturday, 06 April 2024, 09:45 AM, Sat, 06 Apr 24\n        - Location: Devon Netball Association / Court 07\n        - Round: Round 3\n        - League: Primary 5/6"
+    }
+  ],
+  "PROMPT": []
+}

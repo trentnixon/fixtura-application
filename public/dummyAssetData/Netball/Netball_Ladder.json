@@ -1,0 +1,996 @@
+{
+  "RENDER": {
+    "SchedulerID": 172,
+    "RenderID": 6524
+  },
+  "ACCOUNT": {
+    "accountId": 284
+  },
+  "ASSET": {
+    "ASSETID": 41,
+    "ASSETTYPEID": 3,
+    "ASSETCATEGORYID": 2,
+    "ASSETSLINKID": "8dfabece2cf6e66e763ccd5cb2eaca4f3640b00288877ebe9116c6621da6747f"
+  },
+  "VIDEOMETA": {
+    "grouping_category": "Senior",
+    "Video": {
+      "Title": "Ladder",
+      "TitleSplit": ["Ladder", ""],
+      "CompositionID": "NetballLadder",
+      "VideoTitle": "League Tables - undefined",
+      "HeroImage": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/gretel_2_scaled_323f4c2612.jpg",
+        "width": 1828,
+        "height": 2560,
+        "ratio": "portrait",
+        "AgeGroup": "Both",
+        "AssetType": "ALL",
+        "markerPosition": []
+      },
+      "Template": "CNSW",
+      "TemplateVariation": {
+        "Background": null
+      },
+      "Theme": {
+        "primary": "#ffffff",
+        "secondary": "#c51933",
+        "dark": "#111",
+        "white": "#FFF"
+      },
+      "includeSponsors": true,
+      "audio_option": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Tate_Kirgiss_Analog_Inspired_Ill_Be_Alright_Inst_8d6691a7ca.mp3",
+      "ASSETID": 41,
+      "ASSETTYPEID": 3,
+      "FRAMES": [355, 600, 900, 1200]
+    },
+    "THEME": {
+      "Template": "CNSW",
+      "TemplateVariation": {
+        "Background": null
+      },
+      "Theme": {
+        "primary": "#ffffff",
+        "secondary": "#c51933",
+        "dark": "#111",
+        "white": "#FFF"
+      }
+    },
+    "Club": {
+      "Name": "Alvie",
+      "Sport": "Netball",
+      "Logo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_39_1a4f5002f1.jpg",
+        "width": 1020,
+        "height": 765
+      },
+      "Sponsors": {
+        "default": {
+          "primary_sponsor": {
+            "sponsorId": 104,
+            "name": "Test 5",
+            "logo": {
+              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/CNSW_Logo_dd7b981211.png",
+              "width": 545,
+              "height": 721
+            }
+          },
+          "general_sponsors": [
+            {
+              "position": 1,
+              "sponsorId": 110,
+              "name": "Test 7",
+              "logo": {
+                "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_123acd5e8c_590d76dbe2.jpg",
+                "width": 693,
+                "height": 682
+              }
+            },
+            {
+              "position": 2,
+              "sponsorId": 109,
+              "name": "Test 7",
+              "logo": {
+                "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_98f069a40c_5f62d4fc04.jpg",
+                "width": 272,
+                "height": 274
+              }
+            },
+            {
+              "position": 3,
+              "sponsorId": 108,
+              "name": "Test 7",
+              "logo": {
+                "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_38_17e6036134.png",
+                "width": 307,
+                "height": 223
+              }
+            },
+            {
+              "position": 4,
+              "sponsorId": 107,
+              "name": "Test 7",
+              "logo": {
+                "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_39_e316792c76.png",
+                "width": 751,
+                "height": 745
+              }
+            },
+            {
+              "position": 5,
+              "sponsorId": 106,
+              "name": "Test 7",
+              "logo": {
+                "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_38_25ae35091a.jpg",
+                "width": 2404,
+                "height": 2328
+              }
+            },
+            {
+              "position": 6,
+              "sponsorId": 105,
+              "name": "Test 6",
+              "logo": {
+                "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_41_6e04321df5.png",
+                "width": 440,
+                "height": 595
+              }
+            },
+            {
+              "position": 7,
+              "sponsorId": 100,
+              "name": "Test 1",
+              "logo": {
+                "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Grounds_Closed_325768f9fb.jpg",
+                "width": 1080,
+                "height": 1080
+              }
+            },
+            {
+              "position": 8,
+              "sponsorId": 103,
+              "name": "Test 4",
+              "logo": {
+                "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/1_month_pass_25261057da.png",
+                "width": 500,
+                "height": 500
+              }
+            },
+            {
+              "position": 9,
+              "sponsorId": 103,
+              "name": "Test 4",
+              "logo": {
+                "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/1_month_pass_25261057da.png",
+                "width": 500,
+                "height": 500
+              }
+            }
+          ]
+        },
+        "team": [
+          {
+            "level": "team_20180",
+            "sponsorId": 91,
+            "name": "Fixtura",
+            "logo": {
+              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Logo_Blue_on_transparent_aa6726d88c.png",
+              "width": 1281,
+              "height": 1281
+            }
+          },
+          {
+            "level": "team_20200",
+            "sponsorId": 104,
+            "name": "Test 5",
+            "logo": {
+              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/CNSW_Logo_dd7b981211.png",
+              "width": 545,
+              "height": 721
+            }
+          },
+          {
+            "level": "team_20150",
+            "sponsorId": 106,
+            "name": "Test 7",
+            "logo": {
+              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_38_25ae35091a.jpg",
+              "width": 2404,
+              "height": 2328
+            }
+          },
+          {
+            "level": "team_20190",
+            "sponsorId": 107,
+            "name": "Test 7",
+            "logo": {
+              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_39_e316792c76.png",
+              "width": 751,
+              "height": 745
+            }
+          },
+          {
+            "level": "team_20160",
+            "sponsorId": 108,
+            "name": "Test 7",
+            "logo": {
+              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_38_17e6036134.png",
+              "width": 307,
+              "height": 223
+            }
+          },
+          {
+            "level": "team_20168",
+            "sponsorId": 109,
+            "name": "Test 7",
+            "logo": {
+              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_98f069a40c_5f62d4fc04.jpg",
+              "width": 272,
+              "height": 274
+            }
+          },
+          {
+            "level": "team_20140",
+            "sponsorId": 110,
+            "name": "Test 7",
+            "logo": {
+              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_123acd5e8c_590d76dbe2.jpg",
+              "width": 693,
+              "height": 682
+            }
+          }
+        ]
+      }
+    },
+    "FixtureCategory": "Senior"
+  },
+  "TIMINGS": {
+    "FPS_INTRO": 90,
+    "FPS_OUTRO": 120,
+    "FPS_MAIN": 1200,
+    "FPS_LADDER": 300
+  },
+  "data": [
+    {
+      "ID": 19234,
+      "gradeStrapiID": 19234,
+      "gradeName": "2024 Colac & District FNL A Grade Colac RSL Cup",
+      "name": "2024 Colac & District FNL A Grade Colac RSL Cup",
+      "ageGroup": "Senior",
+      "gender": "Women",
+      "League": [
+        {
+          "position": "1",
+          "teamName": "Alvie A Grade",
+          "teamHref": "/netball-australia/org/alvie/e680853d/colac-and-district-football-netball-league-winter-2024/teams/alvie-a-grade/432a95ee",
+          "P": "7",
+          "PTS": "24",
+          "%": "169.70",
+          "W": "6",
+          "L": "1",
+          "D": "0",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_39_1a4f5002f1.jpg",
+            "width": 1020,
+            "height": 765
+          },
+          "prompt": "Alvie A Grade is currently positioned 1 in the 2024 Colac & District FNL A Grade Colac RSL Cup, with 6 wins and 1 losses, totaling 24 points."
+        },
+        {
+          "position": "2",
+          "teamName": "South Colac A Grade",
+          "teamHref": "/netball-australia/org/south-colac/8a564e98/colac-and-district-football-netball-league-winter-2024/teams/south-colac-a-grade/16203d9f",
+          "P": "6",
+          "PTS": "24",
+          "%": "168.00",
+          "W": "6",
+          "L": "0",
+          "D": "0",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_2e68fb3843.jpg",
+            "width": 500,
+            "height": 500
+          },
+          "prompt": "South Colac A Grade is currently positioned 2 in the 2024 Colac & District FNL A Grade Colac RSL Cup, with 6 wins and 0 losses, totaling 24 points."
+        },
+        {
+          "position": "3",
+          "teamName": "Irrewarra-Beeac A Grade",
+          "teamHref": "/netball-australia/org/irrewarra-beeac/8263175c/colac-and-district-football-netball-league-winter-2024/teams/irrewarra-beeac-a-grade/c910c759",
+          "P": "6",
+          "PTS": "20",
+          "%": "161.27",
+          "W": "5",
+          "L": "1",
+          "D": "0",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_ad74f4d8bd.jpg",
+            "width": 274,
+            "height": 274
+          },
+          "prompt": "Irrewarra-Beeac A Grade is currently positioned 3 in the 2024 Colac & District FNL A Grade Colac RSL Cup, with 5 wins and 1 losses, totaling 20 points."
+        },
+        {
+          "position": "4",
+          "teamName": "Birregurra A Grade",
+          "teamHref": "/netball-australia/org/birregurra/574a5055/colac-and-district-football-netball-league-winter-2024/teams/birregurra-a-grade/acd75a0f",
+          "P": "6",
+          "PTS": "12",
+          "%": "95.60",
+          "W": "3",
+          "L": "3",
+          "D": "0",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_31353cd1e6.jpg",
+            "width": 172,
+            "height": 225
+          },
+          "prompt": "Birregurra A Grade is currently positioned 4 in the 2024 Colac & District FNL A Grade Colac RSL Cup, with 3 wins and 3 losses, totaling 12 points."
+        },
+        {
+          "position": "5",
+          "teamName": "Simpson A Grade",
+          "teamHref": "/netball-australia/org/simpson/b47512cb/colac-and-district-football-netball-league-winter-2024/teams/simpson-a-grade/c9f2b1b7",
+          "P": "6",
+          "PTS": "12",
+          "%": "86.44",
+          "W": "3",
+          "L": "3",
+          "D": "0",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_8a56e58c1c.jpg",
+            "width": 300,
+            "height": 221
+          },
+          "prompt": "Simpson A Grade is currently positioned 5 in the 2024 Colac & District FNL A Grade Colac RSL Cup, with 3 wins and 3 losses, totaling 12 points."
+        },
+        {
+          "position": "6",
+          "teamName": "Otway Districts A Grade",
+          "teamHref": "/netball-australia/org/otway-districts/67e2d822/colac-and-district-football-netball-league-winter-2024/teams/otway-districts-a-grade/9f4e258d",
+          "P": "6",
+          "PTS": "12",
+          "%": "83.77",
+          "W": "3",
+          "L": "3",
+          "D": "0",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Default_ICON_171b58a21b.png",
+            "width": 1211,
+            "height": 1211
+          },
+          "prompt": "Otway Districts A Grade is currently positioned 6 in the 2024 Colac & District FNL A Grade Colac RSL Cup, with 3 wins and 3 losses, totaling 12 points."
+        },
+        {
+          "position": "7",
+          "teamName": "Western Eagles A Grade",
+          "teamHref": "/netball-australia/org/western-eagles/6be555fa/colac-and-district-football-netball-league-winter-2024/teams/western-eagles-a-grade/40f35a7f",
+          "P": "6",
+          "PTS": "8",
+          "%": "110.76",
+          "W": "2",
+          "L": "4",
+          "D": "0",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_7433afc3ec.jpg",
+            "width": 70,
+            "height": 70
+          },
+          "prompt": "Western Eagles A Grade is currently positioned 7 in the 2024 Colac & District FNL A Grade Colac RSL Cup, with 2 wins and 4 losses, totaling 8 points."
+        },
+        {
+          "position": "8",
+          "teamName": "Lorne A Grade",
+          "teamHref": "/netball-australia/org/lorne/0f30d461/colac-and-district-football-netball-league-winter-2024/teams/lorne-a-grade/ab0f05bc",
+          "P": "6",
+          "PTS": "4",
+          "%": "82.25",
+          "W": "1",
+          "L": "5",
+          "D": "0",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_e5b8c983c5.jpg",
+            "width": 1350,
+            "height": 1055
+          },
+          "prompt": "Lorne A Grade is currently positioned 8 in the 2024 Colac & District FNL A Grade Colac RSL Cup, with 1 wins and 5 losses, totaling 4 points."
+        },
+        {
+          "position": "9",
+          "teamName": "Colac Imperials A Grade",
+          "teamHref": "/netball-australia/org/colac-imperials/4113a5b1/colac-and-district-football-netball-league-winter-2024/teams/colac-imperials-a-grade/bf351f4d",
+          "P": "7",
+          "PTS": "4",
+          "%": "74.74",
+          "W": "1",
+          "L": "6",
+          "D": "0",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_4f8f154a67.jpg",
+            "width": 365,
+            "height": 400
+          },
+          "prompt": "Colac Imperials A Grade is currently positioned 9 in the 2024 Colac & District FNL A Grade Colac RSL Cup, with 1 wins and 6 losses, totaling 4 points."
+        },
+        {
+          "position": "10",
+          "teamName": "Apollo Bay A Grade",
+          "teamHref": "/netball-australia/org/apollo-bay/50e8a161/colac-and-district-football-netball-league-winter-2024/teams/apollo-bay-a-grade/64836ae3",
+          "P": "6",
+          "PTS": "4",
+          "%": "46.26",
+          "W": "1",
+          "L": "5",
+          "D": "0",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_ecae082297.jpg",
+            "width": 420,
+            "height": 421
+          },
+          "prompt": "Apollo Bay A Grade is currently positioned 10 in the 2024 Colac & District FNL A Grade Colac RSL Cup, with 1 wins and 5 losses, totaling 4 points."
+        }
+      ],
+      "gradeId": "f5385307",
+      "bias": "Alvie A Grade",
+      "competition": "Senior",
+      "prompt": "Alvie A Grade is currently positioned 1 in the 2024 Colac & District FNL A Grade Colac RSL Cup, with 6 wins and 1 losses, totaling 24 points."
+    },
+    {
+      "ID": 19235,
+      "gradeStrapiID": 19235,
+      "gradeName": "2024 Colac & District FNL B Grade Colac Herald Cup",
+      "name": "2024 Colac & District FNL B Grade Colac Herald Cup",
+      "ageGroup": "Senior",
+      "gender": "Women",
+      "League": [
+        {
+          "position": "1",
+          "teamName": "Colac Imperials B Grade",
+          "teamHref": "/netball-australia/org/colac-imperials/4113a5b1/colac-and-district-football-netball-league-winter-2024/teams/colac-imperials-b-grade/3d447f24",
+          "P": "7",
+          "PTS": "24",
+          "%": "153.57",
+          "W": "6",
+          "L": "1",
+          "D": "0",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_4f8f154a67.jpg",
+            "width": 365,
+            "height": 400
+          },
+          "prompt": "Colac Imperials B Grade is currently positioned 1 in the 2024 Colac & District FNL B Grade Colac Herald Cup, with 6 wins and 1 losses, totaling 24 points."
+        },
+        {
+          "position": "2",
+          "teamName": "Alvie B Grade",
+          "teamHref": "/netball-australia/org/alvie/e680853d/colac-and-district-football-netball-league-winter-2024/teams/alvie-b-grade/c8463825",
+          "P": "7",
+          "PTS": "20",
+          "%": "125.77",
+          "W": "5",
+          "L": "2",
+          "D": "0",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_39_1a4f5002f1.jpg",
+            "width": 1020,
+            "height": 765
+          },
+          "prompt": "Alvie B Grade is currently positioned 2 in the 2024 Colac & District FNL B Grade Colac Herald Cup, with 5 wins and 2 losses, totaling 20 points."
+        },
+        {
+          "position": "3",
+          "teamName": "Irrewarra-Beeac B Grade",
+          "teamHref": "/netball-australia/org/irrewarra-beeac/8263175c/colac-and-district-football-netball-league-winter-2024/teams/irrewarra-beeac-b-grade/e1cd391b",
+          "P": "6",
+          "PTS": "20",
+          "%": "119.67",
+          "W": "5",
+          "L": "1",
+          "D": "0",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_ad74f4d8bd.jpg",
+            "width": 274,
+            "height": 274
+          },
+          "prompt": "Irrewarra-Beeac B Grade is currently positioned 3 in the 2024 Colac & District FNL B Grade Colac Herald Cup, with 5 wins and 1 losses, totaling 20 points."
+        },
+        {
+          "position": "4",
+          "teamName": "South Colac B Grade",
+          "teamHref": "/netball-australia/org/south-colac/8a564e98/colac-and-district-football-netball-league-winter-2024/teams/south-colac-b-grade/e1ce6e47",
+          "P": "6",
+          "PTS": "16",
+          "%": "153.21",
+          "W": "4",
+          "L": "2",
+          "D": "0",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_2e68fb3843.jpg",
+            "width": 500,
+            "height": 500
+          },
+          "prompt": "South Colac B Grade is currently positioned 4 in the 2024 Colac & District FNL B Grade Colac Herald Cup, with 4 wins and 2 losses, totaling 16 points."
+        },
+        {
+          "position": "5",
+          "teamName": "Western Eagles B Grade",
+          "teamHref": "/netball-australia/org/western-eagles/6be555fa/colac-and-district-football-netball-league-winter-2024/teams/western-eagles-b-grade/73f8f53a",
+          "P": "6",
+          "PTS": "12",
+          "%": "140.22",
+          "W": "3",
+          "L": "3",
+          "D": "0",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_7433afc3ec.jpg",
+            "width": 70,
+            "height": 70
+          },
+          "prompt": "Western Eagles B Grade is currently positioned 5 in the 2024 Colac & District FNL B Grade Colac Herald Cup, with 3 wins and 3 losses, totaling 12 points."
+        },
+        {
+          "position": "6",
+          "teamName": "Otway Districts B Grade",
+          "teamHref": "/netball-australia/org/otway-districts/67e2d822/colac-and-district-football-netball-league-winter-2024/teams/otway-districts-b-grade/54cb5473",
+          "P": "6",
+          "PTS": "12",
+          "%": "114.83",
+          "W": "3",
+          "L": "3",
+          "D": "0",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Default_ICON_171b58a21b.png",
+            "width": 1211,
+            "height": 1211
+          },
+          "prompt": "Otway Districts B Grade is currently positioned 6 in the 2024 Colac & District FNL B Grade Colac Herald Cup, with 3 wins and 3 losses, totaling 12 points."
+        },
+        {
+          "position": "7",
+          "teamName": "Birregurra B Grade",
+          "teamHref": "/netball-australia/org/birregurra/574a5055/colac-and-district-football-netball-league-winter-2024/teams/birregurra-b-grade/eeb7e465",
+          "P": "6",
+          "PTS": "8",
+          "%": "101.19",
+          "W": "2",
+          "L": "4",
+          "D": "0",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_31353cd1e6.jpg",
+            "width": 172,
+            "height": 225
+          },
+          "prompt": "Birregurra B Grade is currently positioned 7 in the 2024 Colac & District FNL B Grade Colac Herald Cup, with 2 wins and 4 losses, totaling 8 points."
+        },
+        {
+          "position": "8",
+          "teamName": "Simpson B Grade",
+          "teamHref": "/netball-australia/org/simpson/b47512cb/colac-and-district-football-netball-league-winter-2024/teams/simpson-b-grade/81e30a4e",
+          "P": "6",
+          "PTS": "8",
+          "%": "88.51",
+          "W": "2",
+          "L": "4",
+          "D": "0",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_8a56e58c1c.jpg",
+            "width": 300,
+            "height": 221
+          },
+          "prompt": "Simpson B Grade is currently positioned 8 in the 2024 Colac & District FNL B Grade Colac Herald Cup, with 2 wins and 4 losses, totaling 8 points."
+        },
+        {
+          "position": "9",
+          "teamName": "Lorne B Grade",
+          "teamHref": "/netball-australia/org/lorne/0f30d461/colac-and-district-football-netball-league-winter-2024/teams/lorne-b-grade/7bf7f5f0",
+          "P": "6",
+          "PTS": "4",
+          "%": "41.70",
+          "W": "1",
+          "L": "5",
+          "D": "0",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_e5b8c983c5.jpg",
+            "width": 1350,
+            "height": 1055
+          },
+          "prompt": "Lorne B Grade is currently positioned 9 in the 2024 Colac & District FNL B Grade Colac Herald Cup, with 1 wins and 5 losses, totaling 4 points."
+        },
+        {
+          "position": "10",
+          "teamName": "Apollo Bay B Grade",
+          "teamHref": "/netball-australia/org/apollo-bay/50e8a161/colac-and-district-football-netball-league-winter-2024/teams/apollo-bay-b-grade/e8d5048e",
+          "P": "6",
+          "PTS": "0",
+          "%": "31.68",
+          "W": "0",
+          "L": "6",
+          "D": "0",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_ecae082297.jpg",
+            "width": 420,
+            "height": 421
+          },
+          "prompt": "Apollo Bay B Grade is currently positioned 10 in the 2024 Colac & District FNL B Grade Colac Herald Cup, with 0 wins and 6 losses, totaling 0 points."
+        }
+      ],
+      "gradeId": "a34f52fb",
+      "bias": "Alvie B Grade",
+      "competition": "Senior",
+      "prompt": "Alvie B Grade is currently positioned 2 in the 2024 Colac & District FNL B Grade Colac Herald Cup, with 5 wins and 2 losses, totaling 20 points."
+    },
+    {
+      "ID": 19236,
+      "gradeStrapiID": 19236,
+      "gradeName": "2024 Colac & District FNL C Grade Colac Herald Cup",
+      "name": "2024 Colac & District FNL C Grade Colac Herald Cup",
+      "ageGroup": "Senior",
+      "gender": "Women",
+      "League": [
+        {
+          "position": "1",
+          "teamName": "Colac Imperials C Grade",
+          "teamHref": "/netball-australia/org/colac-imperials/4113a5b1/colac-and-district-football-netball-league-winter-2024/teams/colac-imperials-c-grade/55e3c381",
+          "P": "7",
+          "PTS": "28",
+          "%": "180.00",
+          "W": "7",
+          "L": "0",
+          "D": "0",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_4f8f154a67.jpg",
+            "width": 365,
+            "height": 400
+          },
+          "prompt": "Colac Imperials C Grade is currently positioned 1 in the 2024 Colac & District FNL C Grade Colac Herald Cup, with 7 wins and 0 losses, totaling 28 points."
+        },
+        {
+          "position": "2",
+          "teamName": "Western Eagles C Grade",
+          "teamHref": "/netball-australia/org/western-eagles/6be555fa/colac-and-district-football-netball-league-winter-2024/teams/western-eagles-c-grade/a7f10a9f",
+          "P": "6",
+          "PTS": "20",
+          "%": "155.29",
+          "W": "5",
+          "L": "1",
+          "D": "0",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_7433afc3ec.jpg",
+            "width": 70,
+            "height": 70
+          },
+          "prompt": "Western Eagles C Grade is currently positioned 2 in the 2024 Colac & District FNL C Grade Colac Herald Cup, with 5 wins and 1 losses, totaling 20 points."
+        },
+        {
+          "position": "3",
+          "teamName": "South Colac C Grade",
+          "teamHref": "/netball-australia/org/south-colac/8a564e98/colac-and-district-football-netball-league-winter-2024/teams/south-colac-c-grade/03093cae",
+          "P": "6",
+          "PTS": "18",
+          "%": "133.50",
+          "W": "4",
+          "L": "1",
+          "D": "1",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_2e68fb3843.jpg",
+            "width": 500,
+            "height": 500
+          },
+          "prompt": "South Colac C Grade is currently positioned 3 in the 2024 Colac & District FNL C Grade Colac Herald Cup, with 4 wins and 1 losses, totaling 18 points."
+        },
+        {
+          "position": "4",
+          "teamName": "Birregurra C Grade",
+          "teamHref": "/netball-australia/org/birregurra/574a5055/colac-and-district-football-netball-league-winter-2024/teams/birregurra-c-grade/dadf601b",
+          "P": "6",
+          "PTS": "16",
+          "%": "154.22",
+          "W": "4",
+          "L": "2",
+          "D": "0",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_31353cd1e6.jpg",
+            "width": 172,
+            "height": 225
+          },
+          "prompt": "Birregurra C Grade is currently positioned 4 in the 2024 Colac & District FNL C Grade Colac Herald Cup, with 4 wins and 2 losses, totaling 16 points."
+        },
+        {
+          "position": "5",
+          "teamName": "Irrewarra-Beeac C Grade",
+          "teamHref": "/netball-australia/org/irrewarra-beeac/8263175c/colac-and-district-football-netball-league-winter-2024/teams/irrewarra-beeac-c-grade/7641b295",
+          "P": "6",
+          "PTS": "16",
+          "%": "113.56",
+          "W": "4",
+          "L": "2",
+          "D": "0",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_ad74f4d8bd.jpg",
+            "width": 274,
+            "height": 274
+          },
+          "prompt": "Irrewarra-Beeac C Grade is currently positioned 5 in the 2024 Colac & District FNL C Grade Colac Herald Cup, with 4 wins and 2 losses, totaling 16 points."
+        },
+        {
+          "position": "6",
+          "teamName": "Simpson C Grade",
+          "teamHref": "/netball-australia/org/simpson/b47512cb/colac-and-district-football-netball-league-winter-2024/teams/simpson-c-grade/a6256746",
+          "P": "6",
+          "PTS": "12",
+          "%": "103.57",
+          "W": "3",
+          "L": "3",
+          "D": "0",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_8a56e58c1c.jpg",
+            "width": 300,
+            "height": 221
+          },
+          "prompt": "Simpson C Grade is currently positioned 6 in the 2024 Colac & District FNL C Grade Colac Herald Cup, with 3 wins and 3 losses, totaling 12 points."
+        },
+        {
+          "position": "7",
+          "teamName": "Alvie C Grade",
+          "teamHref": "/netball-australia/org/alvie/e680853d/colac-and-district-football-netball-league-winter-2024/teams/alvie-c-grade/3e3f345d",
+          "P": "7",
+          "PTS": "6",
+          "%": "82.78",
+          "W": "1",
+          "L": "5",
+          "D": "1",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_39_1a4f5002f1.jpg",
+            "width": 1020,
+            "height": 765
+          },
+          "prompt": "Alvie C Grade is currently positioned 7 in the 2024 Colac & District FNL C Grade Colac Herald Cup, with 1 wins and 5 losses, totaling 6 points."
+        },
+        {
+          "position": "8",
+          "teamName": "Otway Districts C Grade",
+          "teamHref": "/netball-australia/org/otway-districts/67e2d822/colac-and-district-football-netball-league-winter-2024/teams/otway-districts-c-grade/ab711833",
+          "P": "6",
+          "PTS": "4",
+          "%": "74.67",
+          "W": "1",
+          "L": "5",
+          "D": "0",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Default_ICON_171b58a21b.png",
+            "width": 1211,
+            "height": 1211
+          },
+          "prompt": "Otway Districts C Grade is currently positioned 8 in the 2024 Colac & District FNL C Grade Colac Herald Cup, with 1 wins and 5 losses, totaling 4 points."
+        },
+        {
+          "position": "9",
+          "teamName": "Apollo Bay C Grade",
+          "teamHref": "/netball-australia/org/apollo-bay/50e8a161/colac-and-district-football-netball-league-winter-2024/teams/apollo-bay-c-grade/c01547ea",
+          "P": "6",
+          "PTS": "4",
+          "%": "48.94",
+          "W": "1",
+          "L": "5",
+          "D": "0",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_ecae082297.jpg",
+            "width": 420,
+            "height": 421
+          },
+          "prompt": "Apollo Bay C Grade is currently positioned 9 in the 2024 Colac & District FNL C Grade Colac Herald Cup, with 1 wins and 5 losses, totaling 4 points."
+        },
+        {
+          "position": "10",
+          "teamName": "Lorne C Grade",
+          "teamHref": "/netball-australia/org/lorne/0f30d461/colac-and-district-football-netball-league-winter-2024/teams/lorne-c-grade/09140d9b",
+          "P": "6",
+          "PTS": "0",
+          "%": "36.36",
+          "W": "0",
+          "L": "6",
+          "D": "0",
+          "BYE": "0",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_e5b8c983c5.jpg",
+            "width": 1350,
+            "height": 1055
+          },
+          "prompt": "Lorne C Grade is currently positioned 10 in the 2024 Colac & District FNL C Grade Colac Herald Cup, with 0 wins and 6 losses, totaling 0 points."
+        }
+      ],
+      "gradeId": "8893096b",
+      "bias": "Alvie C Grade",
+      "competition": "Senior",
+      "prompt": "Alvie C Grade is currently positioned 7 in the 2024 Colac & District FNL C Grade Colac Herald Cup, with 1 wins and 5 losses, totaling 6 points."
+    },
+    {
+      "ID": 19237,
+      "gradeStrapiID": 19237,
+      "gradeName": "2024 Colac & District FNL D Grade Corio Bay Sports Treatment Clinic Cup",
+      "name": "2024 Colac & District FNL D Grade Corio Bay Sports Treatment Clinic Cup",
+      "ageGroup": "Senior",
+      "gender": "Women",
+      "League": [
+        {
+          "position": "1",
+          "teamName": "Colac Imperials D Grade",
+          "teamHref": "/netball-australia/org/colac-imperials/4113a5b1/colac-and-district-football-netball-league-winter-2024/teams/colac-imperials-d-grade/08ea73ac",
+          "P": "6",
+          "PTS": "28",
+          "%": "158.62",
+          "W": "6",
+          "L": "0",
+          "D": "0",
+          "BYE": "1",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_4f8f154a67.jpg",
+            "width": 365,
+            "height": 400
+          },
+          "prompt": "Colac Imperials D Grade is currently positioned 1 in the 2024 Colac & District FNL D Grade Corio Bay Sports Treatment Clinic Cup, with 6 wins and 0 losses, totaling 28 points."
+        },
+        {
+          "position": "2",
+          "teamName": "South Colac D Grade",
+          "teamHref": "/netball-australia/org/south-colac/8a564e98/colac-and-district-football-netball-league-winter-2024/teams/south-colac-d-grade/38e23b87",
+          "P": "4",
+          "PTS": "20",
+          "%": "168.18",
+          "W": "3",
+          "L": "1",
+          "D": "0",
+          "BYE": "2",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_2e68fb3843.jpg",
+            "width": 500,
+            "height": 500
+          },
+          "prompt": "South Colac D Grade is currently positioned 2 in the 2024 Colac & District FNL D Grade Corio Bay Sports Treatment Clinic Cup, with 3 wins and 1 losses, totaling 20 points."
+        },
+        {
+          "position": "3",
+          "teamName": "Irrewarra-Beeac D Grade",
+          "teamHref": "/netball-australia/org/irrewarra-beeac/8263175c/colac-and-district-football-netball-league-winter-2024/teams/irrewarra-beeac-d-grade/739d7b18",
+          "P": "5",
+          "PTS": "20",
+          "%": "164.49",
+          "W": "4",
+          "L": "1",
+          "D": "0",
+          "BYE": "1",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_ad74f4d8bd.jpg",
+            "width": 274,
+            "height": 274
+          },
+          "prompt": "Irrewarra-Beeac D Grade is currently positioned 3 in the 2024 Colac & District FNL D Grade Corio Bay Sports Treatment Clinic Cup, with 4 wins and 1 losses, totaling 20 points."
+        },
+        {
+          "position": "4",
+          "teamName": "Simpson D Grade",
+          "teamHref": "/netball-australia/org/simpson/b47512cb/colac-and-district-football-netball-league-winter-2024/teams/simpson-d-grade/c267f6bc",
+          "P": "5",
+          "PTS": "16",
+          "%": "103.25",
+          "W": "3",
+          "L": "2",
+          "D": "0",
+          "BYE": "1",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_8a56e58c1c.jpg",
+            "width": 300,
+            "height": 221
+          },
+          "prompt": "Simpson D Grade is currently positioned 4 in the 2024 Colac & District FNL D Grade Corio Bay Sports Treatment Clinic Cup, with 3 wins and 2 losses, totaling 16 points."
+        },
+        {
+          "position": "5",
+          "teamName": "Western Eagles D Grade",
+          "teamHref": "/netball-australia/org/western-eagles/6be555fa/colac-and-district-football-netball-league-winter-2024/teams/western-eagles-d-grade/7efb0774",
+          "P": "4",
+          "PTS": "14",
+          "%": "114.42",
+          "W": "1",
+          "L": "2",
+          "D": "1",
+          "BYE": "2",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_7433afc3ec.jpg",
+            "width": 70,
+            "height": 70
+          },
+          "prompt": "Western Eagles D Grade is currently positioned 5 in the 2024 Colac & District FNL D Grade Corio Bay Sports Treatment Clinic Cup, with 1 wins and 2 losses, totaling 14 points."
+        },
+        {
+          "position": "6",
+          "teamName": "Birregurra D Grade",
+          "teamHref": "/netball-australia/org/birregurra/574a5055/colac-and-district-football-netball-league-winter-2024/teams/birregurra-d-grade/51952dd3",
+          "P": "5",
+          "PTS": "12",
+          "%": "78.26",
+          "W": "2",
+          "L": "3",
+          "D": "0",
+          "BYE": "1",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_31353cd1e6.jpg",
+            "width": 172,
+            "height": 225
+          },
+          "prompt": "Birregurra D Grade is currently positioned 6 in the 2024 Colac & District FNL D Grade Corio Bay Sports Treatment Clinic Cup, with 2 wins and 3 losses, totaling 12 points."
+        },
+        {
+          "position": "7",
+          "teamName": "Otway Districts D Grade",
+          "teamHref": "/netball-australia/org/otway-districts/67e2d822/colac-and-district-football-netball-league-winter-2024/teams/otway-districts-d-grade/75b861bf",
+          "P": "5",
+          "PTS": "6",
+          "%": "65.93",
+          "W": "0",
+          "L": "4",
+          "D": "1",
+          "BYE": "1",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Default_ICON_171b58a21b.png",
+            "width": 1211,
+            "height": 1211
+          },
+          "prompt": "Otway Districts D Grade is currently positioned 7 in the 2024 Colac & District FNL D Grade Corio Bay Sports Treatment Clinic Cup, with 0 wins and 4 losses, totaling 6 points."
+        },
+        {
+          "position": "8",
+          "teamName": "Alvie D Grade",
+          "teamHref": "/netball-australia/org/alvie/e680853d/colac-and-district-football-netball-league-winter-2024/teams/alvie-d-grade/5891c9f1",
+          "P": "6",
+          "PTS": "4",
+          "%": "41.09",
+          "W": "0",
+          "L": "6",
+          "D": "0",
+          "BYE": "1",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_39_1a4f5002f1.jpg",
+            "width": 1020,
+            "height": 765
+          },
+          "prompt": "Alvie D Grade is currently positioned 8 in the 2024 Colac & District FNL D Grade Corio Bay Sports Treatment Clinic Cup, with 0 wins and 6 losses, totaling 4 points."
+        }
+      ],
+      "gradeId": "1e4b45a9",
+      "bias": "Alvie D Grade",
+      "competition": "Senior",
+      "prompt": "Alvie D Grade is currently positioned 8 in the 2024 Colac & District FNL D Grade Corio Bay Sports Treatment Clinic Cup, with 0 wins and 6 losses, totaling 4 points."
+    }
+  ],
+  "PROMPT": []
+}

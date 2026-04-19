@@ -1,0 +1,803 @@
+{
+  "data": [
+    {
+      "SR": 143.15,
+      "name": "Jac Cunningham",
+      "runs": 136,
+      "balls": 95,
+      "notOut": false,
+      "prompt": "Jac Cunningham played for SJCC Blues, scoring 136 runs from 95 balls with a strike rate of 143.15. Game details: This was a One Day in the 3rd Grade grade, and the current match status is Match Completed . SJCC Blues, (1) vs MadBulls (1), the match result was SJCC Blues won by 130 runs.",
+      "teamLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_fa028c2139.jpg",
+        "width": 1203,
+        "height": 1458
+      },
+      "playedFor": "SJCC Blues",
+      "assignSponsors": {
+        "Team": {
+          "name": "SJCC Blues"
+        },
+        "grade": {
+          "id": 76732,
+          "name": "3rd Grade"
+        },
+        "competition": {
+          "id": 38318,
+          "name": "Goulburn District Cricket Association"
+        }
+      }
+    },
+    {
+      "SR": 71.55,
+      "name": "Robert Ings",
+      "runs": 78,
+      "balls": 109,
+      "notOut": true,
+      "prompt": "Robert Ings played for Hibo Green, scoring 78 runs from 109 balls with a strike rate of 71.55. Game details: This was a One Day in the 3rd Grade grade, and the current match status is Match Completed . Hibo Green, (1) vs MALARVAADI SOLDIERS KINGS CC 3rd Grade (1), the match result was MALARVAADI SOLDIERS KINGS CC 3rd Grade won by 5 wickets.",
+      "teamLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_6e5487f63d.jpg",
+        "width": 236,
+        "height": 289
+      },
+      "playedFor": "Hibo Green",
+      "assignSponsors": {
+        "Team": {
+          "name": "Hibo Green"
+        },
+        "grade": {
+          "id": 76732,
+          "name": "3rd Grade"
+        },
+        "competition": {
+          "id": 38318,
+          "name": "Goulburn District Cricket Association"
+        }
+      }
+    },
+    {
+      "SR": 113.2,
+      "name": "Akhil George  (c)",
+      "runs": 60,
+      "balls": 53,
+      "notOut": true,
+      "prompt": "Akhil George  (c) played for MALARVAADI SOLDIERS KINGS CC 3rd Grade, scoring 60 runs from 53 balls with a strike rate of 113.2. Game details: This was a One Day in the 3rd Grade grade, and the current match status is Match Completed . MALARVAADI SOLDIERS KINGS CC 3rd Grade, (1) vs Hibo Green (1), the match result was MALARVAADI SOLDIERS KINGS CC 3rd Grade won by 5 wickets.",
+      "teamLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Default_ICON_171b58a21b.png",
+        "width": 1211,
+        "height": 1211
+      },
+      "playedFor": "MALARVAADI SOLDIERS KINGS CC 3rd Grade",
+      "assignSponsors": {
+        "Team": {
+          "name": "MALARVAADI SOLDIERS KINGS CC 3rd Grade"
+        },
+        "grade": {
+          "id": 76732,
+          "name": "3rd Grade"
+        },
+        "competition": {
+          "id": 38318,
+          "name": "Goulburn District Cricket Association"
+        }
+      }
+    },
+    {
+      "SR": 119.56,
+      "name": "Dean Murray",
+      "runs": 55,
+      "balls": 46,
+      "notOut": false,
+      "prompt": "Dean Murray played for MadBulls, scoring 55 runs from 46 balls with a strike rate of 119.56. Game details: This was a One Day in the 3rd Grade grade, and the current match status is Match Completed . MadBulls, (1) vs SJCC Blues (1), the match result was SJCC Blues won by 130 runs.",
+      "teamLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Marulan_Cricket_Club_Logo_876cb02b7c.jpg",
+        "width": 1051,
+        "height": 1324
+      },
+      "playedFor": "MadBulls",
+      "assignSponsors": {
+        "Team": {
+          "name": "MadBulls"
+        },
+        "grade": {
+          "id": 76732,
+          "name": "3rd Grade"
+        },
+        "competition": {
+          "id": 38318,
+          "name": "Goulburn District Cricket Association"
+        }
+      }
+    },
+    {
+      "SR": 145.94,
+      "name": "Dean Cole",
+      "runs": 54,
+      "balls": 37,
+      "notOut": false,
+      "prompt": "Dean Cole played for MadBulls, scoring 54 runs from 37 balls with a strike rate of 145.94. Game details: This was a One Day in the 3rd Grade grade, and the current match status is Match Completed . MadBulls, (1) vs SJCC Blues (1), the match result was SJCC Blues won by 130 runs.",
+      "teamLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Marulan_Cricket_Club_Logo_876cb02b7c.jpg",
+        "width": 1051,
+        "height": 1324
+      },
+      "playedFor": "MadBulls",
+      "assignSponsors": {
+        "Team": {
+          "name": "MadBulls"
+        },
+        "grade": {
+          "id": 76732,
+          "name": "3rd Grade"
+        },
+        "competition": {
+          "id": 38318,
+          "name": "Goulburn District Cricket Association"
+        }
+      }
+    },
+    {
+      "SR": 110.2,
+      "name": "Luke Hayward",
+      "runs": 54,
+      "balls": 49,
+      "notOut": true,
+      "prompt": "Luke Hayward played for MadBulls, scoring 54 runs from 49 balls with a strike rate of 110.2. Game details: This was a One Day in the 1st & 2nd Grade Combined grade, and the current match status is Match Completed . MadBulls, (1) vs Pirates 1st Grade (1), the match result was MadBulls won by 9 wickets.",
+      "teamLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Marulan_Cricket_Club_Logo_876cb02b7c.jpg",
+        "width": 1051,
+        "height": 1324
+      },
+      "playedFor": "MadBulls",
+      "assignSponsors": {
+        "Team": {
+          "name": "MadBulls"
+        },
+        "grade": {
+          "id": 76731,
+          "name": "1st & 2nd Grade Combined"
+        },
+        "competition": {
+          "id": 38318,
+          "name": "Goulburn District Cricket Association"
+        }
+      }
+    },
+    {
+      "SR": 96.36,
+      "name": "Fill-in",
+      "runs": 53,
+      "balls": 55,
+      "notOut": true,
+      "prompt": "Fill-in played for MadBulls, scoring 53 runs from 55 balls with a strike rate of 96.36. Game details: This was a One Day in the 1st & 2nd Grade Combined grade, and the current match status is Match Completed . MadBulls, (1) vs Pirates 1st Grade (1), the match result was MadBulls won by 9 wickets.",
+      "teamLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Marulan_Cricket_Club_Logo_876cb02b7c.jpg",
+        "width": 1051,
+        "height": 1324
+      },
+      "playedFor": "MadBulls",
+      "assignSponsors": {
+        "Team": {
+          "name": "MadBulls"
+        },
+        "grade": {
+          "id": 76731,
+          "name": "1st & 2nd Grade Combined"
+        },
+        "competition": {
+          "id": 38318,
+          "name": "Goulburn District Cricket Association"
+        }
+      }
+    },
+    {
+      "SR": 85,
+      "name": "Gregory Tyler  (c)",
+      "runs": 51,
+      "balls": 60,
+      "notOut": false,
+      "prompt": "Gregory Tyler  (c) played for SJCC Blues, scoring 51 runs from 60 balls with a strike rate of 85. Game details: This was a One Day in the 3rd Grade grade, and the current match status is Match Completed . SJCC Blues, (1) vs MadBulls (1), the match result was SJCC Blues won by 130 runs.",
+      "teamLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_fa028c2139.jpg",
+        "width": 1203,
+        "height": 1458
+      },
+      "playedFor": "SJCC Blues",
+      "assignSponsors": {
+        "Team": {
+          "name": "SJCC Blues"
+        },
+        "grade": {
+          "id": 76732,
+          "name": "3rd Grade"
+        },
+        "competition": {
+          "id": 38318,
+          "name": "Goulburn District Cricket Association"
+        }
+      }
+    },
+    {
+      "SR": 150,
+      "name": "Adam Bruckshaw  (vc)",
+      "runs": 42,
+      "balls": 28,
+      "notOut": false,
+      "prompt": "Adam Bruckshaw  (vc) played for SJCC Blues, scoring 42 runs from 28 balls with a strike rate of 150. Game details: This was a One Day in the 3rd Grade grade, and the current match status is Match Completed . SJCC Blues, (1) vs MadBulls (1), the match result was SJCC Blues won by 130 runs.",
+      "teamLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_fa028c2139.jpg",
+        "width": 1203,
+        "height": 1458
+      },
+      "playedFor": "SJCC Blues",
+      "assignSponsors": {
+        "Team": {
+          "name": "SJCC Blues"
+        },
+        "grade": {
+          "id": 76732,
+          "name": "3rd Grade"
+        },
+        "competition": {
+          "id": 38318,
+          "name": "Goulburn District Cricket Association"
+        }
+      }
+    },
+    {
+      "SR": 0,
+      "name": "Darren Marshall",
+      "runs": 41,
+      "balls": 0,
+      "notOut": false,
+      "prompt": "Darren Marshall played for SJCC OG, scoring 41 runs from 0 balls with a strike rate of 0. Game details: This was a One Day in the 1st & 2nd Grade Combined grade, and the current match status is Match Completed . SJCC OG, (1) vs Big Merino Titans CC 2nd Grade (1), the match result was SJCC OG won by 0 wickets.",
+      "teamLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_fa028c2139.jpg",
+        "width": 1203,
+        "height": 1458
+      },
+      "playedFor": "SJCC OG",
+      "assignSponsors": {
+        "Team": {
+          "name": "SJCC OG"
+        },
+        "grade": {
+          "id": 76731,
+          "name": "1st & 2nd Grade Combined"
+        },
+        "competition": {
+          "id": 38318,
+          "name": "Goulburn District Cricket Association"
+        }
+      }
+    },
+    {
+      "SR": 105.4,
+      "name": "Isaac McGregor",
+      "runs": 39,
+      "balls": 37,
+      "notOut": false,
+      "prompt": "Isaac McGregor played for Pirates 1st Grade, scoring 39 runs from 37 balls with a strike rate of 105.4. Game details: This was a One Day in the 1st & 2nd Grade Combined grade, and the current match status is Match Completed . Pirates 1st Grade, (1) vs MadBulls (1), the match result was MadBulls won by 9 wickets.",
+      "teamLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_f76b057253.jpg",
+        "width": 4096,
+        "height": 2902
+      },
+      "playedFor": "Pirates 1st Grade",
+      "assignSponsors": {
+        "Team": {
+          "name": "Pirates 1st Grade"
+        },
+        "grade": {
+          "id": 76731,
+          "name": "1st & 2nd Grade Combined"
+        },
+        "competition": {
+          "id": 38318,
+          "name": "Goulburn District Cricket Association"
+        }
+      }
+    },
+    {
+      "SR": 63.93,
+      "name": "Jacob Paterson  (c)",
+      "runs": 39,
+      "balls": 61,
+      "notOut": false,
+      "prompt": "Jacob Paterson  (c) played for Pirates 1st Grade, scoring 39 runs from 61 balls with a strike rate of 63.93. Game details: This was a One Day in the 1st & 2nd Grade Combined grade, and the current match status is Match Completed . Pirates 1st Grade, (1) vs MadBulls (1), the match result was MadBulls won by 9 wickets.",
+      "teamLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_f76b057253.jpg",
+        "width": 4096,
+        "height": 2902
+      },
+      "playedFor": "Pirates 1st Grade",
+      "assignSponsors": {
+        "Team": {
+          "name": "Pirates 1st Grade"
+        },
+        "grade": {
+          "id": 76731,
+          "name": "1st & 2nd Grade Combined"
+        },
+        "competition": {
+          "id": 38318,
+          "name": "Goulburn District Cricket Association"
+        }
+      }
+    },
+    {
+      "SR": 150,
+      "name": "Sinto Joseph",
+      "runs": 36,
+      "balls": 24,
+      "notOut": false,
+      "prompt": "Sinto Joseph played for MALARVAADI SOLDIERS KINGS CC 3rd Grade, scoring 36 runs from 24 balls with a strike rate of 150. Game details: This was a One Day in the 3rd Grade grade, and the current match status is Match Completed . MALARVAADI SOLDIERS KINGS CC 3rd Grade, (1) vs Hibo Green (1), the match result was MALARVAADI SOLDIERS KINGS CC 3rd Grade won by 5 wickets.",
+      "teamLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Default_ICON_171b58a21b.png",
+        "width": 1211,
+        "height": 1211
+      },
+      "playedFor": "MALARVAADI SOLDIERS KINGS CC 3rd Grade",
+      "assignSponsors": {
+        "Team": {
+          "name": "MALARVAADI SOLDIERS KINGS CC 3rd Grade"
+        },
+        "grade": {
+          "id": 76732,
+          "name": "3rd Grade"
+        },
+        "competition": {
+          "id": 38318,
+          "name": "Goulburn District Cricket Association"
+        }
+      }
+    },
+    {
+      "SR": 0,
+      "name": "Nicolas Coppolino",
+      "runs": 36,
+      "balls": 0,
+      "notOut": false,
+      "prompt": "Nicolas Coppolino played for Mice, scoring 36 runs from 0 balls with a strike rate of 0. Game details: This was a One Day in the 3rd Grade grade, and the current match status is Match Completed . Mice, (1) vs Hibo Country (1), the match result was Mice won by 3 wickets.",
+      "teamLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_7dec42020c.jpg",
+        "width": 1046,
+        "height": 1054
+      },
+      "playedFor": "Mice",
+      "assignSponsors": {
+        "Team": {
+          "name": "Mice"
+        },
+        "grade": {
+          "id": 76732,
+          "name": "3rd Grade"
+        },
+        "competition": {
+          "id": 38318,
+          "name": "Goulburn District Cricket Association"
+        }
+      }
+    },
+    {
+      "SR": 0,
+      "name": "Saxon Greenwood",
+      "runs": 35,
+      "balls": 0,
+      "notOut": false,
+      "prompt": "Saxon Greenwood played for SJCC OG, scoring 35 runs from 0 balls with a strike rate of 0. Game details: This was a One Day in the 1st & 2nd Grade Combined grade, and the current match status is Match Completed . SJCC OG, (1) vs Big Merino Titans CC 2nd Grade (1), the match result was SJCC OG won by 0 wickets.",
+      "teamLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_fa028c2139.jpg",
+        "width": 1203,
+        "height": 1458
+      },
+      "playedFor": "SJCC OG",
+      "assignSponsors": {
+        "Team": {
+          "name": "SJCC OG"
+        },
+        "grade": {
+          "id": 76731,
+          "name": "1st & 2nd Grade Combined"
+        },
+        "competition": {
+          "id": 38318,
+          "name": "Goulburn District Cricket Association"
+        }
+      }
+    },
+    {
+      "SR": 0,
+      "name": "Jett T Edwards",
+      "runs": 30,
+      "balls": 0,
+      "notOut": false,
+      "prompt": "Jett T Edwards played for SJCC OG, scoring 30 runs from 0 balls with a strike rate of 0. Game details: This was a One Day in the 1st & 2nd Grade Combined grade, and the current match status is Match Completed . SJCC OG, (1) vs Big Merino Titans CC 2nd Grade (1), the match result was SJCC OG won by 0 wickets.",
+      "teamLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_fa028c2139.jpg",
+        "width": 1203,
+        "height": 1458
+      },
+      "playedFor": "SJCC OG",
+      "assignSponsors": {
+        "Team": {
+          "name": "SJCC OG"
+        },
+        "grade": {
+          "id": 76731,
+          "name": "1st & 2nd Grade Combined"
+        },
+        "competition": {
+          "id": 38318,
+          "name": "Goulburn District Cricket Association"
+        }
+      }
+    },
+    {
+      "SR": 121.73,
+      "name": "Jayden Van Bilsen",
+      "runs": 28,
+      "balls": 23,
+      "notOut": false,
+      "prompt": "Jayden Van Bilsen played for MadBulls, scoring 28 runs from 23 balls with a strike rate of 121.73. Game details: This was a One Day in the 3rd Grade grade, and the current match status is Match Completed . MadBulls, (1) vs SJCC Blues (1), the match result was SJCC Blues won by 130 runs.",
+      "teamLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Marulan_Cricket_Club_Logo_876cb02b7c.jpg",
+        "width": 1051,
+        "height": 1324
+      },
+      "playedFor": "MadBulls",
+      "assignSponsors": {
+        "Team": {
+          "name": "MadBulls"
+        },
+        "grade": {
+          "id": 76732,
+          "name": "3rd Grade"
+        },
+        "competition": {
+          "id": 38318,
+          "name": "Goulburn District Cricket Association"
+        }
+      }
+    },
+    {
+      "SR": 62.79,
+      "name": "Timothy Bruckshaw",
+      "runs": 27,
+      "balls": 43,
+      "notOut": false,
+      "prompt": "Timothy Bruckshaw played for SJCC Blues, scoring 27 runs from 43 balls with a strike rate of 62.79. Game details: This was a One Day in the 3rd Grade grade, and the current match status is Match Completed . SJCC Blues, (1) vs MadBulls (1), the match result was SJCC Blues won by 130 runs.",
+      "teamLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_fa028c2139.jpg",
+        "width": 1203,
+        "height": 1458
+      },
+      "playedFor": "SJCC Blues",
+      "assignSponsors": {
+        "Team": {
+          "name": "SJCC Blues"
+        },
+        "grade": {
+          "id": 76732,
+          "name": "3rd Grade"
+        },
+        "competition": {
+          "id": 38318,
+          "name": "Goulburn District Cricket Association"
+        }
+      }
+    },
+    {
+      "SR": 0,
+      "name": "Dave Foley",
+      "runs": 27,
+      "balls": 0,
+      "notOut": false,
+      "prompt": "Dave Foley played for SJCC OG, scoring 27 runs from 0 balls with a strike rate of 0. Game details: This was a One Day in the 1st & 2nd Grade Combined grade, and the current match status is Match Completed . SJCC OG, (1) vs Big Merino Titans CC 2nd Grade (1), the match result was SJCC OG won by 0 wickets.",
+      "teamLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_fa028c2139.jpg",
+        "width": 1203,
+        "height": 1458
+      },
+      "playedFor": "SJCC OG",
+      "assignSponsors": {
+        "Team": {
+          "name": "SJCC OG"
+        },
+        "grade": {
+          "id": 76731,
+          "name": "1st & 2nd Grade Combined"
+        },
+        "competition": {
+          "id": 38318,
+          "name": "Goulburn District Cricket Association"
+        }
+      }
+    }
+  ],
+  "asset": {
+    "assetID": 65,
+    "assetTypeID": 3,
+    "assetsLinkID": "ab80aba4d08b5a6e32d116a4a6c57b569310f942a173ed9377242e974ab5e70d",
+    "assetCategoryID": 1
+  },
+  "errors": [],
+  "frames": [45, 180, 345, 510, 645],
+  "render": {
+    "renderId": 23107,
+    "schedulerId": 1097
+  },
+  "account": {
+    "accountId": 1097
+  },
+  "timings": {
+    "FPS_MAIN": 510,
+    "FPS_INTRO": 90,
+    "FPS_OUTRO": 90,
+    "FPS_LADDER": 0,
+    "FPS_SCORECARD": 0,
+    "FPS_PREFORMANCECARD": 180
+  },
+  "videoMeta": {
+    "club": {
+      "logo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_65_c67e5b1404.jpg",
+        "width": 1031,
+        "height": 1330,
+        "hasLogo": true
+      },
+      "name": "Goulburn District Cricket Association",
+      "sport": "Cricket",
+      "sponsors": {
+        "default": {
+          "primary_sponsor": [
+            {
+              "id": 1390,
+              "url": "https://goulburnsoldiers.com.au/",
+              "logo": {
+                "id": 8796,
+                "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Glbn_Soldiers_Club_Logo_4b1eb2cade.jpg"
+              },
+              "name": "Goulburn Soldiers Club",
+              "isVideo": true,
+              "tagline": null,
+              "isActive": true,
+              "isArticle": true,
+              "isPrimary": true,
+              "description": null
+            }
+          ],
+          "general_sponsor_1": [
+            {
+              "id": 1391,
+              "url": "https://gpubg.com/",
+              "logo": {
+                "id": 8797,
+                "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/GPG_8c147ac418.jpg"
+              },
+              "name": "Goulburn Pub Group",
+              "isVideo": true,
+              "tagline": null,
+              "isActive": true,
+              "isArticle": true,
+              "isPrimary": false,
+              "description": null
+            }
+          ]
+        },
+        "primary": [
+          {
+            "id": 1390,
+            "url": "https://goulburnsoldiers.com.au/",
+            "logo": {
+              "id": 8796,
+              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Glbn_Soldiers_Club_Logo_4b1eb2cade.jpg"
+            },
+            "name": "Goulburn Soldiers Club",
+            "isVideo": true,
+            "tagline": null,
+            "isActive": true,
+            "isArticle": true,
+            "isPrimary": true,
+            "description": null
+          }
+        ]
+      },
+      "IsAccountClub": false
+    },
+    "video": {
+      "media": {
+        "audio": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Marscott_Wild_Neon_Get_The_Gains_inst_3251aaa9af.mp3",
+          "audioOption": null
+        },
+        "HeroImage": {
+          "url": "",
+          "ratio": "",
+          "width": 0,
+          "height": 0,
+          "AgeGroup": "",
+          "AssetType": "",
+          "markerPosition": ""
+        }
+      },
+      "metadata": {
+        "title": "Batting Performances",
+        "frames": [],
+        "assetId": 65,
+        "titleSplit": ["Performances"],
+        "videoTitle": "Batting Performances",
+        "assetTypeId": 3,
+        "compositionId": "CricketBattingPerformances",
+        "includeSponsors": true
+      },
+      "appearance": {
+        "theme": {
+          "dark": "#111",
+          "white": "#FFF",
+          "primary": "#de0000",
+          "secondary": "#ffa300"
+        },
+        "template": "CNSW"
+      },
+      "contentLayout": {
+        "divideFixturesBy": {
+          "CricketLadder": 1,
+          "CricketRoster": 1,
+          "CricketResults": 2,
+          "CricketUpcoming": 3,
+          "CricketResultSingle": 1,
+          "CricketBattingPerformances": 7,
+          "CricketBowlingPerformances": 7
+        }
+      },
+      "fixtureCategory": "Goulburn District Cricket Association",
+      "groupingCategory": "Goulburn District Cricket Association",
+      "templateVariation": {
+        "mode": "lightAlt",
+        "image": {
+          "url": null,
+          "type": "pan",
+          "ratio": null,
+          "width": null,
+          "height": null,
+          "direction": "left",
+          "gradientType": "linear",
+          "overlayStyle": "vignette",
+          "overlayOpacity": 0.3
+        },
+        "noise": {
+          "type": "floatingParticles"
+        },
+        "video": {
+          "url": null,
+          "loop": null,
+          "size": "cover",
+          "muted": true,
+          "volume": 0.8,
+          "overlay": {
+            "color": "rgba(0,0,0,0.5)",
+            "opacity": 0.7
+          },
+          "position": "left",
+          "fallbackUrl": null,
+          "playbackRate": null,
+          "useOffthreadVideo": null
+        },
+        "palette": "secondary",
+        "pattern": {
+          "type": "dots",
+          "scale": 0.75,
+          "opacity": 0.35,
+          "rotation": null,
+          "animation": "none",
+          "animationSpeed": 0.8,
+          "animationDuration": null
+        },
+        "texture": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Gemini_Stone_007e575f87.png",
+          "name": "Stone 2",
+          "scale": "100%",
+          "repeat": "cover",
+          "overlay": {
+            "opacity": 0.7,
+            "blendMode": "multiply"
+          }
+        },
+        "category": {
+          "name": "Cricket NSW",
+          "slug": "CNSW",
+          "bundleAudio": {
+            "id": 6,
+            "Name": "Muted",
+            "createdAt": "2024-10-30T00:35:16.398Z",
+            "updatedAt": "2024-10-30T00:35:17.926Z",
+            "publishedAt": "2024-10-30T00:35:17.915Z",
+            "audio_options": [
+              {
+                "id": 33,
+                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Bastian_Instrumental_Hello_Stranger_Instrumental_2f4c4acae7.mp3",
+                "Name": "HelloStranger_Instrumental",
+                "createdAt": "2024-10-30T00:35:04.160Z",
+                "updatedAt": "2024-10-30T00:36:30.358Z",
+                "publishedAt": "2024-10-30T00:35:05.839Z",
+                "ComponentName": "Top 5 Bowling",
+                "CompositionID": "Top5BowlingList"
+              },
+              {
+                "id": 34,
+                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Ghosthood_Side_Effects_Good_Good_Feeling_Inst_34015de6d6.mp3",
+                "Name": "GoodGoodFeeling_Inst",
+                "createdAt": "2024-10-30T00:37:09.563Z",
+                "updatedAt": "2024-10-30T00:38:09.963Z",
+                "publishedAt": "2024-10-30T00:38:09.959Z",
+                "ComponentName": "UpComing Fixtures",
+                "CompositionID": "UpComingFixtures"
+              },
+              {
+                "id": 35,
+                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_La_Jett_La_Jett_Collateral_No_Guitar_Solo_Inst_f72f65e862.mp3",
+                "Name": "Collateral-NoGuitarSolo_Inst",
+                "createdAt": "2024-10-30T00:38:02.552Z",
+                "updatedAt": "2024-10-30T00:38:04.070Z",
+                "publishedAt": "2024-10-30T00:38:04.063Z",
+                "ComponentName": "Weekend Results",
+                "CompositionID": "WeekendResults"
+              },
+              {
+                "id": 36,
+                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Jennings_Couch_Jennings_Couch_Wall_Of_Sound_Instrumental_1b8ec95fed.mp3",
+                "Name": "Wall-Of-Sound_Instrumental",
+                "createdAt": "2024-10-30T00:39:02.570Z",
+                "updatedAt": "2024-10-30T00:39:04.182Z",
+                "publishedAt": "2024-10-30T00:39:04.177Z",
+                "ComponentName": "Ladder",
+                "CompositionID": "Ladder"
+              },
+              {
+                "id": 38,
+                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Silverberg_So_Good_To_Be_Alive_Inst_Ohhs_e2d86690b9.mp3",
+                "Name": "So Good To Be Alive_Inst_Ohhs",
+                "createdAt": "2024-10-30T01:00:28.630Z",
+                "updatedAt": "2024-10-30T01:00:30.327Z",
+                "publishedAt": "2024-10-30T01:00:30.319Z",
+                "ComponentName": "Top 5 Batting",
+                "CompositionID": "Top5BattingList"
+              },
+              {
+                "id": 39,
+                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Speedtest_Blue_BMX_Knuckle_Sandwhich_75a8a98fdc.mp3",
+                "Name": "KnuckleSandwhich",
+                "createdAt": "2024-10-30T01:01:10.581Z",
+                "updatedAt": "2024-10-30T01:01:13.949Z",
+                "publishedAt": "2024-10-30T01:01:13.932Z",
+                "ComponentName": "UpComing Fixtures",
+                "CompositionID": "UpComingFixtures"
+              }
+            ]
+          },
+          "divideFixturesBy": {
+            "CricketLadder": 1,
+            "CricketRoster": 1,
+            "CricketResults": 2,
+            "CricketUpcoming": 3,
+            "CricketResultSingle": 1,
+            "CricketBattingPerformances": 7,
+            "CricketBowlingPerformances": 7
+          }
+        },
+        "gradient": {
+          "type": "primary",
+          "direction": "HORIZONTAL"
+        },
+        "particle": {
+          "type": "lines",
+          "speed": 0.8,
+          "animation": "scale",
+          "direction": "up",
+          "particleCount": "300"
+        },
+        "useBackground": "Texture"
+      }
+    }
+  }
+}

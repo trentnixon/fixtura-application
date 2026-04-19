@@ -1,5 +1,7 @@
 # Handoff — Templating: `GET /template-categories/all-template-options`
 
+**Canonical API spec (request/response/errors, TypeScript types):** [`.comms/API/handoff-all-template-options.md`](../../API/handoff-all-template-options.md). Prefer that document for integration; this file retains narrative context from the original CMS handoff.
+
 **Date:** 2026-04-06
 **Author:** Backend (Fixtura CMS)
 **Implementation:** [`src/api/template-category/controllers/services/getAllTemplateOptions/index.js`](../../../../src/api/template-category/controllers/services/getAllTemplateOptions/index.js), route [`custom-template-category.js`](../../../../src/api/template-category/routes/custom-template-category.js), controller [`template-category.js`](../../../../src/api/template-category/controllers/template-category.js)

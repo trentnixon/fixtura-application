@@ -8,5 +8,5 @@ export interface AppRouteDefinition {
   adminOnly?: boolean;
   status: RouteImplementationStatus;
   description: string;
-  domain: "auth" | "account" | "bundles" | "templates" | "season" | "admin";
+  domain: "auth" | "account" | "assets" | "bundles" | "templates" | "season" | "admin";
 }

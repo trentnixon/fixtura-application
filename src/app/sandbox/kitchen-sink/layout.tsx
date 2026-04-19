@@ -22,6 +22,7 @@ const NAV_LINKS = [
   { href: `${K}/tables`, label: "Tables" },
   { href: `${K}/popovers`, label: "Popovers" },
   { href: `${K}/loading`, label: "Loading" },
+  { href: `${K}/lists`, label: "Lists" },
   { href: `${K}/inputs`, label: "Inputs" },
 ];
 

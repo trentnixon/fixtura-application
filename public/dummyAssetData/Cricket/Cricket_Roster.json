@@ -1,0 +1,576 @@
+{
+  "data": [
+    {
+      "date": "Saturday, 25 October 2025",
+      "type": "One Day",
+      "round": "Round 2",
+      "gameId": "94ea8adf",
+      "gender": "Mixed",
+      "ground": "David Cruikshank Reserve / David Cruikshank Reserve",
+      "ageGroup": "Senior",
+      "sponsors": [],
+      "teamAway": "FMPCC Pirates 6th XI",
+      "teamHome": "WSCC One Day 3's",
+      "gradeName": "One Day Grade 3",
+      "isHomeTeam": true,
+      "teamRoster": [
+        "Stephen Winchester",
+        "Harpal Singh",
+        "Michael Selby",
+        "Beau Pearson\nvc",
+        "Daniel Ritish Paul Kavati",
+        "Dean Jones\nc",
+        "Jigar Jakharia",
+        "NAVENDU GOYAL",
+        "Mason Dent",
+        "Harshdev Bhatt",
+        "Timothy Antunovich"
+      ],
+      "teamAwayLogo": "https://res.cloudinary.com/playhq/image/upload/v1/production/ca/9b14be2d-c403-439f-a94b-0bb4bd79b791/1692623955494/logo.png",
+      "teamHomeLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/WSCC_Logo_transparent_background_be7675da07.png"
+    },
+    {
+      "date": "Sunday, 26 October 2025",
+      "type": "One Day",
+      "round": "Round 1",
+      "gameId": "de5c79d8",
+      "gender": "Mixed",
+      "ground": "David Cruikshank Reserve / David Cruikshank Reserve",
+      "ageGroup": "Senior",
+      "sponsors": [],
+      "teamAway": "Harlequins",
+      "teamHome": "Western Suburbs Cricket Club",
+      "gradeName": "Met Vets",
+      "isHomeTeam": true,
+      "teamRoster": ["No players allocated to line-up"],
+      "teamAwayLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Default_ICON_171b58a21b.png",
+      "teamHomeLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/WSCC_Logo_transparent_background_be7675da07.png"
+    },
+    {
+      "date": "Saturday, 25 October 2025",
+      "type": "One Day",
+      "round": "Round 3",
+      "gameId": "5f833d98",
+      "gender": "Mixed",
+      "ground": "College Park / College Park East - Turf",
+      "ageGroup": "Senior",
+      "sponsors": [
+        {
+          "id": 1361,
+          "url": "https://www.kreativepg.com.au/",
+          "logo": {
+            "id": 8700,
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/image_6_be09342901.png"
+          },
+          "name": "Kreative Property",
+          "isVideo": true,
+          "tagline": null,
+          "isActive": true,
+          "isArticle": true,
+          "isPrimary": false,
+          "description": null
+        }
+      ],
+      "teamAway": "Swan Valley 2nd XI",
+      "teamHome": "Kreative Property WSCC 2nd XI",
+      "gradeName": "4th Grade",
+      "isHomeTeam": true,
+      "teamRoster": [
+        "Henry Lewis",
+        "simon Daly",
+        "Yuvraj Deshpande",
+        "Bradley Forbes (WK)\nvc",
+        "Jack Murfin",
+        "ben davis",
+        "Michael Davis\nc",
+        "Max Bailey",
+        "George Lewin",
+        "Stuart Peterson",
+        "George Graham"
+      ],
+      "teamAwayLogo": "https://res.cloudinary.com/playhq/image/upload/v1/production/ca/4a4e8fd0-b476-4553-b0bf-c752802b4175/1687174591262/logo.jpg",
+      "teamHomeLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/WSCC_Logo_transparent_background_be7675da07.png"
+    },
+    {
+      "date": "Saturday, 25 October 2025",
+      "type": "One Day",
+      "round": "Round 2",
+      "gameId": "ed8c5a44",
+      "gender": "Mixed",
+      "ground": "Charles Court Reserve / Charles Court Reserve",
+      "ageGroup": "Senior",
+      "sponsors": [],
+      "teamAway": "Swan Athletic OD4",
+      "teamHome": "WSCC One Day 4's",
+      "gradeName": "One Day Grade 4",
+      "isHomeTeam": true,
+      "teamRoster": ["No players allocated to line-up"],
+      "teamAwayLogo": "https://res.cloudinary.com/playhq/image/upload/v1/production/ca/83d2cecd-2ed8-435a-9bde-64811a7fff3b/1687665303070/logo.jpg",
+      "teamHomeLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/WSCC_Logo_transparent_background_be7675da07.png"
+    },
+    {
+      "date": "Saturday, 25 October 2025",
+      "type": "One Day",
+      "round": "Round 2",
+      "gameId": "91f73f87",
+      "gender": "Mixed",
+      "ground": "College Park / College Park Lower - Synthetic",
+      "ageGroup": "Senior",
+      "sponsors": [],
+      "teamAway": "Bayswater Phyio - Bassendean CC 5th XI",
+      "teamHome": "WSCC One Day 2's",
+      "gradeName": "One Day Grade 2",
+      "isHomeTeam": true,
+      "teamRoster": [
+        "Dipen Sankhesara\nc",
+        "Vinay Verma",
+        "Abraham Jacob",
+        "Mikhail Alexander",
+        "Faneshwar Mishra",
+        "Manoj Kumar",
+        "Muhammad Shabbeer (WK)",
+        "Dinesh Pawale",
+        "YOGESH JAGDALE",
+        "Nayan Khairnar",
+        "Kripa Chakravarthy"
+      ],
+      "teamAwayLogo": "https://res.cloudinary.com/playhq/image/upload/v1/production/ca/c3294675-bfdd-4258-92dc-d26335cd2279/1686888288211/logo.png",
+      "teamHomeLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/WSCC_Logo_transparent_background_be7675da07.png"
+    },
+    {
+      "date": "Saturday, 25 October 2025",
+      "type": "One Day",
+      "round": "Round 2",
+      "gameId": "74bb0404",
+      "gender": "Mixed",
+      "ground": "Carine Open Space / Carine Open Space",
+      "ageGroup": "Senior",
+      "sponsors": [],
+      "teamAway": "WSCC One Day 1's",
+      "teamHome": "NBCCC OD1 - Patties",
+      "gradeName": "One Day Grade 1",
+      "isHomeTeam": false,
+      "teamRoster": [
+        "Simon O’Callaghan\nc",
+        "Siddhant Patil",
+        "Jon Scholtz",
+        "Greg Evans (WK)",
+        "Ian Rakich",
+        "Caleb Evans",
+        "Andrew Kavanagh",
+        "Flynn Kavanagh",
+        "Dale Ferreira",
+        "Bruce Kennedy",
+        "Alistair Owen-Browne"
+      ],
+      "teamAwayLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/WSCC_Logo_transparent_background_be7675da07.png",
+      "teamHomeLogo": "https://res.cloudinary.com/playhq/image/upload/v1/production/ca/82abbfb5-28f6-46ef-a970-dfa3f6f5eee5/1690252409066/logo.jpg"
+    },
+    {
+      "date": "Saturday, 25 October 2025",
+      "type": "One Day",
+      "round": "Round 3",
+      "gameId": "7d327a2a",
+      "gender": "Mixed",
+      "ground": "Tom Perrott Reserve / Tom Perrott Reserve",
+      "ageGroup": "Senior",
+      "sponsors": [
+        {
+          "id": 1362,
+          "url": "https://www.canaccordgenuity.com/wealth-management-australia/",
+          "logo": {
+            "id": 8701,
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/cg_logo_2_1_e1ee4b7c38.png"
+          },
+          "name": "Canacord Genuity",
+          "isVideo": true,
+          "tagline": null,
+          "isActive": true,
+          "isArticle": true,
+          "isPrimary": false,
+          "description": null
+        }
+      ],
+      "teamAway": "Canaccord Genuity WSCC 4th XI",
+      "teamHome": "FMPCC Pirates 5th XI",
+      "gradeName": "7th Grade",
+      "isHomeTeam": false,
+      "teamRoster": [
+        "Luke Dawson",
+        "Adam Uren",
+        "Robert Brierley",
+        "Riley Ludlam",
+        "Lachlan Wood",
+        "Riley Bridger",
+        "Morgan Klug\nc",
+        "Tim Kendall",
+        "Luke Evans",
+        "Mick Bridger",
+        "Oliver Kennedy"
+      ],
+      "teamAwayLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/WSCC_Logo_transparent_background_be7675da07.png",
+      "teamHomeLogo": "https://res.cloudinary.com/playhq/image/upload/v1/production/ca/9b14be2d-c403-439f-a94b-0bb4bd79b791/1692623955494/logo.png"
+    },
+    {
+      "date": "Saturday, 25 October 2025",
+      "type": "Two Day+",
+      "round": "Round 4",
+      "gameId": "f6cf6c84",
+      "gender": "Mixed",
+      "ground": "Kent Street Senior High School / Kent Street SHS (Turf)",
+      "ageGroup": "Senior",
+      "sponsors": [
+        {
+          "id": 1358,
+          "url": "https://hola.health/",
+          "logo": {
+            "id": 8704,
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Hola_Health_300x131_e4ce8d484b.png"
+          },
+          "name": "Hola Health",
+          "isVideo": true,
+          "tagline": null,
+          "isActive": true,
+          "isArticle": true,
+          "isPrimary": true,
+          "description": null
+        }
+      ],
+      "teamAway": "Hola Health WSCC 1st XI",
+      "teamHome": "Swan Valley 1st XI",
+      "gradeName": "2nd Grade",
+      "isHomeTeam": false,
+      "teamRoster": [
+        "Braden Vidler",
+        "Daniel Hogg",
+        "Phil Adams (WK)",
+        "Matthew Cecins",
+        "Otto Jozsa",
+        "Chris Lefroy",
+        "Jacob Johnston",
+        "Stan Skinner",
+        "Harry Williams\nc",
+        "Matt George",
+        "Alexander Bell",
+        "Sean Strachan"
+      ],
+      "teamAwayLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/WSCC_Logo_transparent_background_be7675da07.png",
+      "teamHomeLogo": "https://res.cloudinary.com/playhq/image/upload/v1/production/ca/4a4e8fd0-b476-4553-b0bf-c752802b4175/1687174591262/logo.jpg"
+    },
+    {
+      "date": "Saturday, 25 October 2025",
+      "type": "One Day",
+      "round": "Round 3",
+      "gameId": "da3ef41f",
+      "gender": "Mixed",
+      "ground": "Rosalie Park / Rosalie Park Turf (South Oval)",
+      "ageGroup": "Senior",
+      "sponsors": [
+        {
+          "id": 1364,
+          "url": "https://prestigeliquor.com.au/",
+          "logo": {
+            "id": 8703,
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/3_Prestige_Liquor_Full_Logo_With_Boarder_1_1_643c3f784a.png"
+          },
+          "name": "Prestige Liquor Subiaco",
+          "isVideo": true,
+          "tagline": null,
+          "isActive": true,
+          "isArticle": true,
+          "isPrimary": false,
+          "description": null
+        }
+      ],
+      "teamAway": "Applecross 3rd XI",
+      "teamHome": "Prestige Liquor WSCC 3rd XI",
+      "gradeName": "5th Grade",
+      "isHomeTeam": true,
+      "teamRoster": [
+        "Alex Ford\nc",
+        "Merrick Cloete",
+        "Lachlan O’Callaghan",
+        "Vishnu Gopalan",
+        "Euan Everett",
+        "George Harris",
+        "Will Hodge",
+        "Sumeet Wagh (WK)",
+        "Rhori Stein",
+        "subin shrestha",
+        "Cooper Warrick"
+      ],
+      "teamAwayLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/ACC_Logo_4583f05153.jpeg",
+      "teamHomeLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/WSCC_Logo_transparent_background_be7675da07.png"
+    },
+    {
+      "date": "Sunday, 26 October 2025",
+      "type": "T20",
+      "round": "Round 3",
+      "gameId": "859ca7c6",
+      "gender": "Women",
+      "ground": "College Park / College Park Lower - Synthetic",
+      "ageGroup": "Senior",
+      "sponsors": [],
+      "teamAway": "Warwick Greenwood CC Senior Women A Grade",
+      "teamHome": "Western Suburbs CC Women's",
+      "gradeName": "PSWL North A",
+      "isHomeTeam": true,
+      "teamRoster": [
+        "Josie Ball",
+        "Lizzie Bruce",
+        "Lila Gharbi\nc",
+        "Claire Hannah (WK)\nvc",
+        "Ashlee Hardisty",
+        "April Savundra",
+        "Issy Clark",
+        "Meghan Farrell",
+        "Olivia Purnell"
+      ],
+      "teamAwayLogo": "https://res.cloudinary.com/playhq/image/upload/v1/production/ca/3c936a4e-beb6-4604-8abe-95451e4d39d9/1686965028490/logo.jpg",
+      "teamHomeLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/WSCC_Logo_transparent_background_be7675da07.png"
+    },
+    {
+      "date": "Saturday, 25 October 2025",
+      "type": "One Day",
+      "round": "Round 2",
+      "gameId": "6fb79ba0",
+      "gender": "Mixed",
+      "ground": "Woodlands Reserve / Woodlands Reserve",
+      "ageGroup": "Senior",
+      "sponsors": [],
+      "teamAway": "WSCC One Day 5's",
+      "teamHome": "LSR SMCC 5th XI",
+      "gradeName": "One Day Grade 5 Black",
+      "isHomeTeam": false,
+      "teamRoster": [
+        "Jace Burton",
+        "James Healy (WK)\nvc",
+        "Sanjay Mukhedkar",
+        "Mike Davis\nc",
+        "Oliver Davis",
+        "Ravish Jois",
+        "Hemant Suryavanshi",
+        "Chris Williams",
+        "Varun Mukhedkar",
+        "Jack Da Silva",
+        "Dharjinder Rooprai"
+      ],
+      "teamAwayLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/WSCC_Logo_transparent_background_be7675da07.png",
+      "teamHomeLogo": "https://res.cloudinary.com/playhq/image/upload/v1/production/ca/d813e03b-caea-4eff-bac7-612728fbbfef/1687159947256/logo.jpg"
+    }
+  ],
+  "asset": {
+    "assetID": 32,
+    "assetTypeID": 1,
+    "assetsLinkID": "",
+    "assetCategoryID": 2
+  },
+  "errors": [],
+  "frames": [120, 180, 240, 300, 360, 420, 480, 540, 600, 660, 720],
+  "render": {
+    "renderId": 17393,
+    "schedulerId": 470
+  },
+  "account": {
+    "accountId": 470
+  },
+  "timings": {
+    "FPS_MAIN": 660,
+    "FPS_INTRO": 90,
+    "FPS_OUTRO": 180,
+    "FPS_LADDER": 0,
+    "FPS_SCORECARD": 60
+  },
+  "videoMeta": {
+    "club": {
+      "logo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/WSCC_Logo_transparent_background_be7675da07.png",
+        "width": 338,
+        "height": 354
+      },
+      "name": "Western Suburbs Cricket Club",
+      "sport": "Cricket",
+      "IsAccountClub": true
+    },
+    "video": {
+      "media": {
+        "audio": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Kidpenny_Single_Better_Start_Now_Inst_53b898d9ef.mp3"
+        },
+        "HeroImage": {
+          "url": "",
+          "ratio": "",
+          "width": 0,
+          "height": 0,
+          "AgeGroup": "SENIOR",
+          "AssetType": "CricketRoster",
+          "markerPosition": ""
+        }
+      },
+      "metadata": {
+        "title": "Team List",
+        "frames": [120, 180, 240, 300, 360, 420, 480, 540, 600, 660, 720],
+        "assetId": 32,
+        "titleSplit": ["Team", "List"],
+        "videoTitle": "Western Suburbs Cricket Club CricketRoster",
+        "assetTypeId": 1,
+        "compositionId": "CricketRoster",
+        "includeSponsors": false
+      },
+      "appearance": {
+        "theme": {
+          "dark": "#111",
+          "white": "#FFF",
+          "primary": "#16543d",
+          "secondary": "#f1cd58"
+        },
+        "template": "Basic"
+      },
+      "contentLayout": {
+        "divideFixturesBy": {
+          "CricketLadder": 1,
+          "CricketRoster": 1,
+          "CricketResults": 2,
+          "CricketUpcoming": 3,
+          "CricketResultSingle": 1
+        }
+      },
+      "fixtureCategory": "SENIOR",
+      "groupingCategory": "SENIOR",
+      "templateVariation": {
+        "mode": "dark",
+        "image": {
+          "url": null,
+          "type": "pan",
+          "ratio": null,
+          "width": null,
+          "height": null,
+          "direction": "left",
+          "gradientType": "linear",
+          "overlayStyle": "vignette",
+          "overlayOpacity": 0.3
+        },
+        "noise": {
+          "type": "floatingParticles"
+        },
+        "video": {
+          "url": null,
+          "loop": null,
+          "size": "cover",
+          "muted": true,
+          "volume": 0.8,
+          "overlay": {
+            "color": "rgba(0,0,0,0.5)",
+            "opacity": 0.7
+          },
+          "position": "left",
+          "fallbackUrl": null,
+          "playbackRate": null,
+          "useOffthreadVideo": null
+        },
+        "palette": "primary",
+        "pattern": {
+          "type": "dots",
+          "scale": 0.75,
+          "opacity": 0.35,
+          "rotation": null,
+          "animation": "none",
+          "animationSpeed": 0.8,
+          "animationDuration": null
+        },
+        "texture": {
+          "url": null,
+          "name": null,
+          "scale": "100%",
+          "repeat": "cover",
+          "overlay": {
+            "opacity": 0.5,
+            "blendMode": "multiply"
+          }
+        },
+        "category": {
+          "name": "Basic",
+          "slug": "Basic",
+          "bundleAudio": {
+            "id": 1,
+            "Name": "Upbeat Pop",
+            "createdAt": "2023-09-28T06:18:07.674Z",
+            "updatedAt": "2023-09-28T06:40:48.135Z",
+            "publishedAt": "2023-09-28T06:40:48.131Z",
+            "audio_options": [
+              {
+                "id": 13,
+                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Kidpenny_Single_Better_Start_Now_Inst_53b898d9ef.mp3",
+                "Name": "Better Start Now",
+                "createdAt": "2023-08-31T12:30:51.127Z",
+                "updatedAt": "2023-09-28T06:41:12.356Z",
+                "publishedAt": "2023-09-28T06:40:26.025Z",
+                "ComponentName": "Ladder",
+                "CompositionID": "Ladder"
+              },
+              {
+                "id": 11,
+                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Andy_D_Park_Andy_D_Park_Bruhaha_Inst_2b610a10b3.mp3",
+                "Name": "Bru ha ha",
+                "createdAt": "2023-08-31T12:30:14.961Z",
+                "updatedAt": "2023-09-28T06:42:51.950Z",
+                "publishedAt": "2023-08-31T12:30:16.245Z",
+                "ComponentName": "Top 5 Bowling",
+                "CompositionID": "Top5BowlingList"
+              },
+              {
+                "id": 2,
+                "URL": "https://lmssocialmediamanager.s3.ap-southeast-2.amazonaws.com/assets/Fifteen%20on%20Me.mp3",
+                "Name": "Fifteen on Me",
+                "createdAt": "2023-01-30T15:18:49.326Z",
+                "updatedAt": "2023-09-28T06:43:06.236Z",
+                "publishedAt": "2023-01-30T15:18:50.933Z",
+                "ComponentName": "Weekend Results",
+                "CompositionID": "WeekendResults"
+              },
+              {
+                "id": 10,
+                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Step_Rockets_Fire_Escape_Overtime_Inst_1623dd2a56.mp3",
+                "Name": "FireEscape",
+                "createdAt": "2023-08-31T12:29:50.321Z",
+                "updatedAt": "2023-09-28T06:43:47.509Z",
+                "publishedAt": "2023-08-31T12:29:51.668Z",
+                "ComponentName": "UpComing Fixtures",
+                "CompositionID": "UpComingFixtures"
+              },
+              {
+                "id": 9,
+                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Ghosthood_Single_Lets_Goft_Sara_Azriel_Inst_2e5921ce0b.mp3",
+                "Name": "Let's Go",
+                "createdAt": "2023-08-31T12:29:27.628Z",
+                "updatedAt": "2023-09-28T06:51:54.865Z",
+                "publishedAt": "2023-08-31T12:29:29.315Z",
+                "ComponentName": "Top 5 Batting",
+                "CompositionID": "Top5BattingList"
+              }
+            ]
+          },
+          "divideFixturesBy": {
+            "CricketLadder": 1,
+            "CricketRoster": 1,
+            "CricketResults": 2,
+            "CricketUpcoming": 3,
+            "CricketResultSingle": 1
+          }
+        },
+        "gradient": {
+          "type": "primary",
+          "direction": "VERTICAL"
+        },
+        "particle": {
+          "type": "lines",
+          "speed": 0.8,
+          "animation": "scale",
+          "direction": "up",
+          "particleCount": "300"
+        },
+        "useBackground": "Graphics"
+      }
+    }
+  }
+}

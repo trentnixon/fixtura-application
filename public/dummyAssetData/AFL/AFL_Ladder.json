@@ -1,0 +1,583 @@
+{
+  "RENDER": {
+    "SchedulerID": 175,
+    "RenderID": 6651
+  },
+  "ACCOUNT": {
+    "accountId": 287
+  },
+  "ASSET": {
+    "ASSETID": 58,
+    "ASSETTYPEID": 3,
+    "ASSETCATEGORYID": 2,
+    "ASSETSLINKID": "810eaeeb221322a5c48e3126173531237a6e8004111f170370096f81c5d4086f"
+  },
+  "VIDEOMETA": {
+    "grouping_category": "Senior",
+    "Video": {
+      "Title": "Ladder",
+      "TitleSplit": ["Ladder", ""],
+      "CompositionID": "AFLLadder",
+      "VideoTitle": "League Tables - undefined",
+      "HeroImage": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/r0_0_800_600_w800_h600_fmax_c26e796339.jpg",
+        "width": 800,
+        "height": 600,
+        "ratio": "landscape",
+        "AgeGroup": "Both",
+        "AssetType": "ALL",
+        "markerPosition": []
+      },
+      "Template": "CNSW",
+      "TemplateVariation": {
+        "Background": "Image"
+      },
+      "Theme": {
+        "primary": "#0731bb",
+        "secondary": "#f31c1c",
+        "dark": "#111",
+        "white": "#FFF"
+      },
+      "includeSponsors": true,
+      "audio_option": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Tate_Kirgiss_Analog_Inspired_Ill_Be_Alright_Inst_8d6691a7ca.mp3",
+      "ASSETID": 58,
+      "ASSETTYPEID": 3,
+      "FRAMES": [355, 600, 900]
+    },
+    "THEME": {
+      "Template": "CNSW",
+      "TemplateVariation": {
+        "Background": "Image"
+      },
+      "Theme": {
+        "primary": "#0731bb",
+        "secondary": "#f31c1c",
+        "dark": "#111",
+        "white": "#FFF"
+      }
+    },
+    "Club": {
+      "Name": "Thuringowa Bulldogs AFC",
+      "Sport": "AFL",
+      "Logo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_41_9d95b8a56d.png",
+        "width": 440,
+        "height": 595
+      },
+      "Sponsors": {
+        "default": {
+          "primary_sponsor": {
+            "sponsorId": 92,
+            "name": "Fixtura",
+            "logo": {
+              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Logo_Blue_on_transparent_5001258f35.png",
+              "width": 1281,
+              "height": 1281
+            }
+          },
+          "general_sponsors": [
+            {
+              "position": 1,
+              "sponsorId": 96,
+              "name": "3 month Pass",
+              "logo": {
+                "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/3_Month_Pass_c8b0b602c7.png",
+                "width": 500,
+                "height": 500
+              }
+            },
+            {
+              "position": 2,
+              "sponsorId": 97,
+              "name": "1 month Pass",
+              "logo": {
+                "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/1_month_pass_2211ec3755.png",
+                "width": 500,
+                "height": 500
+              }
+            },
+            {
+              "position": 3,
+              "sponsorId": 98,
+              "name": "SJWCA",
+              "logo": {
+                "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Grounds_Closed_607639688f.jpg",
+                "width": 1080,
+                "height": 1080
+              }
+            },
+            {
+              "position": 4,
+              "sponsorId": 99,
+              "name": "SJWCA Logo",
+              "logo": {
+                "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/SJWCA_Logo_Fixtura_c1f0397219.png",
+                "width": 279,
+                "height": 279
+              }
+            }
+          ]
+        },
+        "team": [
+          {
+            "level": "team_20355",
+            "id": 20355,
+            "allocationName": "Thuringowa Bulldogs Reserves",
+            "sponsorId": 92,
+            "name": "Fixtura",
+            "logo": {
+              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Logo_Blue_on_transparent_5001258f35.png",
+              "width": 1281,
+              "height": 1281
+            }
+          },
+          {
+            "level": "team_21209",
+            "id": 21209,
+            "allocationName": "Thuringowa Bulldogs U14.5's (Female)",
+            "sponsorId": 92,
+            "name": "Fixtura",
+            "logo": {
+              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Logo_Blue_on_transparent_5001258f35.png",
+              "width": 1281,
+              "height": 1281
+            }
+          },
+          {
+            "level": "team_21206",
+            "id": 21206,
+            "allocationName": "Thuringowa Bulldogs U17.5's (Male)",
+            "sponsorId": 92,
+            "name": "Fixtura",
+            "logo": {
+              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Logo_Blue_on_transparent_5001258f35.png",
+              "width": 1281,
+              "height": 1281
+            }
+          },
+          {
+            "level": "team_20358",
+            "id": 20358,
+            "allocationName": "Thuringowa Bulldogs Senior Men",
+            "sponsorId": 96,
+            "name": "3 month Pass",
+            "logo": {
+              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/3_Month_Pass_c8b0b602c7.png",
+              "width": 500,
+              "height": 500
+            }
+          },
+          {
+            "level": "team_21198",
+            "id": 21198,
+            "allocationName": "Thuringowa Bulldogs U13.5's (Male)",
+            "sponsorId": 96,
+            "name": "3 month Pass",
+            "logo": {
+              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/3_Month_Pass_c8b0b602c7.png",
+              "width": 500,
+              "height": 500
+            }
+          },
+          {
+            "level": "team_20366",
+            "id": 20366,
+            "allocationName": "Thuringowa Bulldogs Senior Women",
+            "sponsorId": 97,
+            "name": "1 month Pass",
+            "logo": {
+              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/1_month_pass_2211ec3755.png",
+              "width": 500,
+              "height": 500
+            }
+          },
+          {
+            "level": "team_21201",
+            "id": 21201,
+            "allocationName": "Thuringowa Bulldogs U15.5's (Male)",
+            "sponsorId": 98,
+            "name": "SJWCA",
+            "logo": {
+              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Grounds_Closed_607639688f.jpg",
+              "width": 1080,
+              "height": 1080
+            }
+          },
+          {
+            "level": "team_21214",
+            "id": 21214,
+            "allocationName": "Thuringowa Bulldogs U17.5's (Female)",
+            "sponsorId": 99,
+            "name": "SJWCA Logo",
+            "logo": {
+              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/SJWCA_Logo_Fixtura_c1f0397219.png",
+              "width": 279,
+              "height": 279
+            }
+          }
+        ]
+      }
+    },
+    "FixtureCategory": "Senior"
+  },
+  "TIMINGS": {
+    "FPS_INTRO": 90,
+    "FPS_OUTRO": 120,
+    "FPS_MAIN": 900,
+    "FPS_LADDER": 300
+  },
+  "data": [
+    {
+      "ID": 22825,
+      "gradeStrapiID": 22825,
+      "gradeName": "Townsville KX Pilates Senior Women's Cup",
+      "name": "Townsville KX Pilates Senior Women's Cup",
+      "ageGroup": "Senior",
+      "gender": "Women",
+      "League": [
+        {
+          "position": "1",
+          "teamName": "Curra Swans Senior Women",
+          "teamHref": "/afl/org/curra-swans-afc/97befb4e/afl-townsville-2024/teams/curra-swans-senior-women/529d65c4",
+          "P": "6",
+          "PTS": "20",
+          "%": "252.08",
+          "W": "5",
+          "L": "1",
+          "D": "0",
+          "BYE": "1",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_857771fb5d.jpg",
+            "width": 178,
+            "height": 141
+          },
+          "prompt": "Curra Swans Senior Women is currently positioned 1 in the Townsville KX Pilates Senior Women's Cup, with 5 wins and 1 losses, totaling 20 points."
+        },
+        {
+          "position": "2",
+          "teamName": "Hermit Park Tigers Senior Women",
+          "teamHref": "/afl/org/hermit-park-afc/ce8a191b/afl-townsville-2024/teams/hermit-park-tigers-senior-women/dc53da62",
+          "P": "5",
+          "PTS": "16",
+          "%": "1566.67",
+          "W": "4",
+          "L": "1",
+          "D": "0",
+          "BYE": "2",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_6c1658268b.jpg",
+            "width": 188,
+            "height": 185
+          },
+          "prompt": "Hermit Park Tigers Senior Women is currently positioned 2 in the Townsville KX Pilates Senior Women's Cup, with 4 wins and 1 losses, totaling 16 points."
+        },
+        {
+          "position": "3",
+          "teamName": "University Hawks Senior Women",
+          "teamHref": "/afl/org/university-hawks-afc/52f3e303/afl-townsville-2024/teams/university-hawks-senior-women/c3cc8568",
+          "P": "6",
+          "PTS": "8",
+          "%": "77.54",
+          "W": "2",
+          "L": "4",
+          "D": "0",
+          "BYE": "1",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_b0fcf51283.jpg",
+            "width": 180,
+            "height": 200
+          },
+          "prompt": "University Hawks Senior Women is currently positioned 3 in the Townsville KX Pilates Senior Women's Cup, with 2 wins and 4 losses, totaling 8 points."
+        },
+        {
+          "position": "4",
+          "teamName": "Thuringowa Bulldogs Senior Women",
+          "teamHref": "/afl/org/thuringowa-bulldogs-afc/1f49554d/afl-townsville-2024/teams/thuringowa-bulldogs-senior-women/063935d2",
+          "P": "6",
+          "PTS": "8",
+          "%": "14.63",
+          "W": "2",
+          "L": "4",
+          "D": "0",
+          "BYE": "1",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_41_9d95b8a56d.png",
+            "width": 440,
+            "height": 595
+          },
+          "prompt": "Thuringowa Bulldogs Senior Women is currently positioned 4 in the Townsville KX Pilates Senior Women's Cup, with 2 wins and 4 losses, totaling 8 points."
+        },
+        {
+          "position": "5",
+          "teamName": "Northern Beaches Suns Senior Women",
+          "teamHref": "/afl/org/northern-beaches-suns-afc/4a23cc02/afl-townsville-2024/teams/northern-beaches-suns-senior-women/784c2c67",
+          "P": "5",
+          "PTS": "0",
+          "%": "20.71",
+          "W": "1",
+          "L": "4",
+          "D": "0",
+          "BYE": "2",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_77b7e81c08.jpg",
+            "width": 283,
+            "height": 283
+          },
+          "prompt": "Northern Beaches Suns Senior Women is currently positioned 5 in the Townsville KX Pilates Senior Women's Cup, with 1 wins and 4 losses, totaling 0 points."
+        }
+      ],
+      "gradeId": "082c3fcb",
+      "bias": "Thuringowa Bulldogs Senior Women",
+      "competition": "Senior",
+      "prompt": "Thuringowa Bulldogs Senior Women is currently positioned 4 in the Townsville KX Pilates Senior Women's Cup, with 2 wins and 4 losses, totaling 8 points.",
+      "assignSponsors": {
+        "competition": {
+          "id": null,
+          "name": null
+        },
+        "grade": {
+          "id": 22825,
+          "name": "Townsville KX Pilates Senior Women's Cup"
+        },
+        "Team": {
+          "name": "Thuringowa Bulldogs Senior Women"
+        }
+      }
+    },
+    {
+      "ID": 22823,
+      "gradeStrapiID": 22823,
+      "gradeName": "Townsville Reserve Men's Premiership",
+      "name": "Townsville Reserve Men's Premiership",
+      "ageGroup": "Senior",
+      "gender": "Men",
+      "League": [
+        {
+          "position": "1",
+          "teamName": "Thuringowa Bulldogs Reserves",
+          "teamHref": "/afl/org/thuringowa-bulldogs-afc/1f49554d/afl-townsville-2024/teams/thuringowa-bulldogs-reserves/cc5f9f67",
+          "P": "6",
+          "PTS": "20",
+          "%": "297.93",
+          "W": "5",
+          "L": "1",
+          "D": "0",
+          "BYE": "1",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_41_9d95b8a56d.png",
+            "width": 440,
+            "height": 595
+          },
+          "prompt": "Thuringowa Bulldogs Reserves is currently positioned 1 in the Townsville Reserve Men's Premiership, with 5 wins and 1 losses, totaling 20 points."
+        },
+        {
+          "position": "2",
+          "teamName": "Hermit Park Tigers Reserves",
+          "teamHref": "/afl/org/hermit-park-afc/ce8a191b/afl-townsville-2024/teams/hermit-park-tigers-reserves/abec1412",
+          "P": "5",
+          "PTS": "16",
+          "%": "131.46",
+          "W": "4",
+          "L": "1",
+          "D": "0",
+          "BYE": "2",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_6c1658268b.jpg",
+            "width": 188,
+            "height": 185
+          },
+          "prompt": "Hermit Park Tigers Reserves is currently positioned 2 in the Townsville Reserve Men's Premiership, with 4 wins and 1 losses, totaling 16 points."
+        },
+        {
+          "position": "3",
+          "teamName": "University Hawks Reserves",
+          "teamHref": "/afl/org/university-hawks-afc/52f3e303/afl-townsville-2024/teams/university-hawks-reserves/ad4c2cd8",
+          "P": "6",
+          "PTS": "12",
+          "%": "102.49",
+          "W": "3",
+          "L": "3",
+          "D": "0",
+          "BYE": "1",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_b0fcf51283.jpg",
+            "width": 180,
+            "height": 200
+          },
+          "prompt": "University Hawks Reserves is currently positioned 3 in the Townsville Reserve Men's Premiership, with 3 wins and 3 losses, totaling 12 points."
+        },
+        {
+          "position": "4",
+          "teamName": "Curra Swans Reserves",
+          "teamHref": "/afl/org/curra-swans-afc/97befb4e/afl-townsville-2024/teams/curra-swans-reserves/627cfb55",
+          "P": "6",
+          "PTS": "8",
+          "%": "84.29",
+          "W": "2",
+          "L": "4",
+          "D": "0",
+          "BYE": "1",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_857771fb5d.jpg",
+            "width": 178,
+            "height": 141
+          },
+          "prompt": "Curra Swans Reserves is currently positioned 4 in the Townsville Reserve Men's Premiership, with 2 wins and 4 losses, totaling 8 points."
+        },
+        {
+          "position": "5",
+          "teamName": "Northern Beaches Suns Reserves",
+          "teamHref": "/afl/org/northern-beaches-suns-afc/4a23cc02/afl-townsville-2024/teams/northern-beaches-suns-reserves/d1c12c6a",
+          "P": "5",
+          "PTS": "0",
+          "%": "20.25",
+          "W": "0",
+          "L": "5",
+          "D": "0",
+          "BYE": "2",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_77b7e81c08.jpg",
+            "width": 283,
+            "height": 283
+          },
+          "prompt": "Northern Beaches Suns Reserves is currently positioned 5 in the Townsville Reserve Men's Premiership, with 0 wins and 5 losses, totaling 0 points."
+        }
+      ],
+      "gradeId": "d6aae62d",
+      "bias": "Thuringowa Bulldogs Reserves",
+      "competition": "Senior",
+      "prompt": "Thuringowa Bulldogs Reserves is currently positioned 1 in the Townsville Reserve Men's Premiership, with 5 wins and 1 losses, totaling 20 points.",
+      "assignSponsors": {
+        "competition": {
+          "id": null,
+          "name": null
+        },
+        "grade": {
+          "id": 22823,
+          "name": "Townsville Reserve Men's Premiership"
+        },
+        "Team": {
+          "name": "Thuringowa Bulldogs Reserves"
+        }
+      }
+    },
+    {
+      "ID": 22824,
+      "gradeStrapiID": 22824,
+      "gradeName": "Townsville RMS Men's Premiership",
+      "name": "Townsville RMS Men's Premiership",
+      "ageGroup": "Senior",
+      "gender": "Men",
+      "League": [
+        {
+          "position": "1",
+          "teamName": "Thuringowa Bulldogs Senior Men",
+          "teamHref": "/afl/org/thuringowa-bulldogs-afc/1f49554d/afl-townsville-2024/teams/thuringowa-bulldogs-senior-men/b02728bc",
+          "P": "6",
+          "PTS": "24",
+          "%": "329.45",
+          "W": "6",
+          "L": "0",
+          "D": "0",
+          "BYE": "1",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_41_9d95b8a56d.png",
+            "width": 440,
+            "height": 595
+          },
+          "prompt": "Thuringowa Bulldogs Senior Men is currently positioned 1 in the Townsville RMS Men's Premiership, with 6 wins and 0 losses, totaling 24 points."
+        },
+        {
+          "position": "2",
+          "teamName": "University Hawks Senior Men",
+          "teamHref": "/afl/org/university-hawks-afc/52f3e303/afl-townsville-2024/teams/university-hawks-senior-men/01990b25",
+          "P": "6",
+          "PTS": "12",
+          "%": "128.67",
+          "W": "3",
+          "L": "3",
+          "D": "0",
+          "BYE": "1",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_b0fcf51283.jpg",
+            "width": 180,
+            "height": 200
+          },
+          "prompt": "University Hawks Senior Men is currently positioned 2 in the Townsville RMS Men's Premiership, with 3 wins and 3 losses, totaling 12 points."
+        },
+        {
+          "position": "3",
+          "teamName": "Curra Swans Senior Men",
+          "teamHref": "/afl/org/curra-swans-afc/97befb4e/afl-townsville-2024/teams/curra-swans-senior-men/1d48dfa7",
+          "P": "6",
+          "PTS": "12",
+          "%": "95.64",
+          "W": "3",
+          "L": "3",
+          "D": "0",
+          "BYE": "1",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_857771fb5d.jpg",
+            "width": 178,
+            "height": 141
+          },
+          "prompt": "Curra Swans Senior Men is currently positioned 3 in the Townsville RMS Men's Premiership, with 3 wins and 3 losses, totaling 12 points."
+        },
+        {
+          "position": "4",
+          "teamName": "Hermit Park Tigers Senior Men",
+          "teamHref": "/afl/org/hermit-park-afc/ce8a191b/afl-townsville-2024/teams/hermit-park-tigers-senior-men/2163d40b",
+          "P": "5",
+          "PTS": "8",
+          "%": "115.97",
+          "W": "2",
+          "L": "3",
+          "D": "0",
+          "BYE": "2",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_6c1658268b.jpg",
+            "width": 188,
+            "height": 185
+          },
+          "prompt": "Hermit Park Tigers Senior Men is currently positioned 4 in the Townsville RMS Men's Premiership, with 2 wins and 3 losses, totaling 8 points."
+        },
+        {
+          "position": "5",
+          "teamName": "Northern Beaches Suns Senior Men",
+          "teamHref": "/afl/org/northern-beaches-suns-afc/4a23cc02/afl-townsville-2024/teams/northern-beaches-suns-senior-men/0e50f3e1",
+          "P": "5",
+          "PTS": "0",
+          "%": "10.76",
+          "W": "0",
+          "L": "5",
+          "D": "0",
+          "BYE": "2",
+          "teamLogo": {
+            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_77b7e81c08.jpg",
+            "width": 283,
+            "height": 283
+          },
+          "prompt": "Northern Beaches Suns Senior Men is currently positioned 5 in the Townsville RMS Men's Premiership, with 0 wins and 5 losses, totaling 0 points."
+        }
+      ],
+      "gradeId": "18612fcd",
+      "bias": "Thuringowa Bulldogs Senior Men",
+      "competition": "Senior",
+      "prompt": "Thuringowa Bulldogs Senior Men is currently positioned 1 in the Townsville RMS Men's Premiership, with 6 wins and 0 losses, totaling 24 points.",
+      "assignSponsors": {
+        "competition": {
+          "id": null,
+          "name": null
+        },
+        "grade": {
+          "id": 22824,
+          "name": "Townsville RMS Men's Premiership"
+        },
+        "Team": {
+          "name": "Thuringowa Bulldogs Senior Men"
+        }
+      }
+    }
+  ],
+  "PROMPT": []
+}

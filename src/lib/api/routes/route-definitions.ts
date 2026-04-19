@@ -119,6 +119,17 @@ export const appRoutes = {
       description: "Onboarding Phase 3 — premade theme catalogue for Step 2",
       domain: "account",
     },
+    /** Published template categories for selection UIs (includes private; see handoff). */
+    templateCategoriesListForSelection: {
+      key: "account.template-categories-list-for-selection",
+      method: "GET",
+      path: "/api/account/template-categories/list-for-selection",
+      authRequired: true,
+      status: "ready",
+      description:
+        "GET — live template categories for dropdowns (.comms/data-fetching/handoff/handoff-list-for-selection.md)",
+      domain: "account",
+    },
     /** Base path; append `/${accountId}` in the service (BFF: /api/account/organisation/[accountId]). */
     organisationDetails: {
       key: "account.organisation-details",
@@ -219,7 +230,7 @@ export const appRoutes = {
       authRequired: true,
       status: "ready",
       description:
-        "GET append /{accountId}/all-template-options — full published template catalog + optional currentSelection (handoff-template-all-template-options)",
+        "GET append /{accountId}/all-template-options — full published template catalog + optional currentSelection (.comms/API/handoff-all-template-options.md)",
       domain: "account",
     },
     mediaLibrary: {
@@ -371,6 +382,19 @@ export const appRoutes = {
       description:
         "DELETE append /{accountId} — delete unfinished onboarding account when CMS allows (Epic 6 recovery)",
       domain: "account",
+    },
+  },
+  /** CMS asset catalog (Next BFF; path mirrors Strapi). */
+  assets: {
+    listForSelection: {
+      key: "assets.list-for-selection",
+      method: "GET",
+      path: "/api/assets/list-for-selection",
+      authRequired: false,
+      status: "ready",
+      description:
+        "GET — BFF → Strapi public assets list (session optional; forwards Bearer when signed in). .comms/API/ASSETS-handoff-list-for-selection.md",
+      domain: "assets",
     },
   },
   admin: {

@@ -4,6 +4,7 @@ import {
   type Icon,
   IconBolt,
   IconChevronRight,
+  IconDatabase,
   IconLayoutGrid,
   IconRoute,
 } from "@tabler/icons-react";
@@ -26,6 +27,7 @@ const SANDBOX_LINK_ICONS: Record<string, Icon> = {
   [ROUTES.routeLab]: IconRoute,
   [ROUTES.kitchenSink]: IconLayoutGrid,
   [ROUTES.interactionLab]: IconBolt,
+  [ROUTES.dataLab]: IconDatabase,
 };
 
 /** Sandbox dev tools dropdown — same interaction pattern as `NavSystemMenuItem`. */

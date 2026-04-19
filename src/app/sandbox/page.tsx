@@ -7,7 +7,7 @@ import { SandboxPortalGrid } from "./sandbox-portal-grid";
 export const metadata = {
   title: "Sandbox",
   description:
-    "Development sandbox portal — route lab, kitchen sink, interaction lab, and future tools.",
+    "Development sandbox portal — route lab, kitchen sink, interaction lab, data lab, and future tools.",
 };
 
 export default function SandboxPortalPage() {

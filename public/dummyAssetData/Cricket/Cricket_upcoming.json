@@ -1,0 +1,408 @@
+{
+  "data": [
+    {
+      "date": "Sat, 13 Dec",
+      "time": "01:00 PM",
+      "type": "One Day",
+      "round": "Round 10",
+      "gameID": "b72e950b",
+      "gender": "Mixed",
+      "ground": "Trinity College Goulburn / Trinity Wexted Oval",
+      "prompt": "Upcoming cricket match details:\n- Teams: SJCC OG vs MadBulls, Date and Time: Saturday, 13 December 2025, 01:00 PM, Location: Trinity College Goulburn / Trinity Wexted Oval\n- Round: Round 10, Match Type: One Day\n- League: 1st & 2nd Grade Combined",
+      "ageGroup": "Senior",
+      "teamAway": "MadBulls",
+      "teamHome": "SJCC OG",
+      "gradeName": "1st & 2nd Grade Combined",
+      "teamAwayLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Marulan_Cricket_Club_Logo_876cb02b7c.jpg",
+        "width": 1051,
+        "height": 1324
+      },
+      "teamHomeLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_fa028c2139.jpg",
+        "width": 1203,
+        "height": 1458
+      },
+      "assignSponsors": {
+        "team": [],
+        "grade": [],
+        "competition": []
+      }
+    },
+    {
+      "date": "Sat, 13 Dec",
+      "time": "01:00 PM",
+      "type": "One Day",
+      "round": "Round 10",
+      "gameID": "d0ca9bfd",
+      "gender": "Mixed",
+      "ground": "The Grange / The Grange",
+      "prompt": "Upcoming cricket match details:\n- Teams: Pirates 1st Grade vs Rats, Date and Time: Saturday, 13 December 2025, 01:00 PM, Location: The Grange / The Grange\n- Round: Round 10, Match Type: One Day\n- League: 1st & 2nd Grade Combined",
+      "ageGroup": "Senior",
+      "teamAway": "Rats",
+      "teamHome": "Pirates 1st Grade",
+      "gradeName": "1st & 2nd Grade Combined",
+      "teamAwayLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_7dec42020c.jpg",
+        "width": 1046,
+        "height": 1054
+      },
+      "teamHomeLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_f76b057253.jpg",
+        "width": 4096,
+        "height": 2902
+      },
+      "assignSponsors": {
+        "team": [],
+        "grade": [],
+        "competition": []
+      }
+    },
+    {
+      "date": "Sat, 13 Dec",
+      "time": "01:00 PM",
+      "type": "One Day",
+      "round": "Round 10",
+      "gameID": "10f7505a",
+      "gender": "Mixed",
+      "ground": "Seiffert Oval / Seiffert Oval",
+      "prompt": "Upcoming cricket match details:\n- Teams: Pirates 2nd Grade vs Big Merino Titans CC 2nd Grade, Date and Time: Saturday, 13 December 2025, 01:00 PM, Location: Seiffert Oval / Seiffert Oval\n- Round: Round 10, Match Type: One Day\n- League: 1st & 2nd Grade Combined",
+      "ageGroup": "Senior",
+      "teamAway": "Big Merino Titans CC 2nd Grade",
+      "teamHome": "Pirates 2nd Grade",
+      "gradeName": "1st & 2nd Grade Combined",
+      "teamAwayLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Default_ICON_171b58a21b.png",
+        "width": 1211,
+        "height": 1211
+      },
+      "teamHomeLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_f76b057253.jpg",
+        "width": 4096,
+        "height": 2902
+      },
+      "assignSponsors": {
+        "team": [],
+        "grade": [],
+        "competition": []
+      }
+    },
+    {
+      "date": "Sat, 13 Dec",
+      "time": "01:00 PM",
+      "type": "One Day",
+      "round": "Round 10",
+      "gameID": "845c6c5a",
+      "gender": "Mixed",
+      "ground": "North Park / North Park - Oval #1",
+      "prompt": "Upcoming cricket match details:\n- Teams: Mice vs MadBulls, Date and Time: Saturday, 13 December 2025, 01:00 PM, Location: North Park / North Park - Oval #1\n- Round: Round 10, Match Type: One Day\n- League: 3rd Grade",
+      "ageGroup": "Senior",
+      "teamAway": "MadBulls",
+      "teamHome": "Mice",
+      "gradeName": "3rd Grade",
+      "teamAwayLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Marulan_Cricket_Club_Logo_876cb02b7c.jpg",
+        "width": 1051,
+        "height": 1324
+      },
+      "teamHomeLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_7dec42020c.jpg",
+        "width": 1046,
+        "height": 1054
+      },
+      "assignSponsors": {
+        "team": [],
+        "grade": [],
+        "competition": []
+      }
+    },
+    {
+      "date": "Sat, 13 Dec",
+      "time": "01:00 PM",
+      "type": "One Day",
+      "round": "Round 10",
+      "gameID": "5f41aaff",
+      "gender": "Mixed",
+      "ground": "Carr Confoy / Oval 1",
+      "prompt": "Upcoming cricket match details:\n- Teams: SJCC Blues vs MALARVAADI SOLDIERS KINGS CC 3rd Grade, Date and Time: Saturday, 13 December 2025, 01:00 PM, Location: Carr Confoy / Oval 1\n- Round: Round 10, Match Type: One Day\n- League: 3rd Grade",
+      "ageGroup": "Senior",
+      "teamAway": "MALARVAADI SOLDIERS KINGS CC 3rd Grade",
+      "teamHome": "SJCC Blues",
+      "gradeName": "3rd Grade",
+      "teamAwayLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Default_ICON_171b58a21b.png",
+        "width": 1211,
+        "height": 1211
+      },
+      "teamHomeLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_fa028c2139.jpg",
+        "width": 1203,
+        "height": 1458
+      },
+      "assignSponsors": {
+        "team": [],
+        "grade": [],
+        "competition": []
+      }
+    },
+    {
+      "date": "Sat, 13 Dec",
+      "time": "01:00 PM",
+      "type": "One Day",
+      "round": "Round 10",
+      "gameID": "e49efaea",
+      "gender": "Mixed",
+      "ground": "Marulan Cricket Ground / Marulan Cricket Ground",
+      "prompt": "Upcoming cricket match details:\n- Teams: Hibo Green vs Hibo Country, Date and Time: Saturday, 13 December 2025, 01:00 PM, Location: Marulan Cricket Ground / Marulan Cricket Ground\n- Round: Round 10, Match Type: One Day\n- League: 3rd Grade",
+      "ageGroup": "Senior",
+      "teamAway": "Hibo Country",
+      "teamHome": "Hibo Green",
+      "gradeName": "3rd Grade",
+      "teamAwayLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_6e5487f63d.jpg",
+        "width": 236,
+        "height": 289
+      },
+      "teamHomeLogo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_6e5487f63d.jpg",
+        "width": 236,
+        "height": 289
+      },
+      "assignSponsors": {
+        "team": [],
+        "grade": [],
+        "competition": []
+      }
+    }
+  ],
+  "asset": {
+    "assetID": 2,
+    "assetTypeID": 1,
+    "assetsLinkID": "d472e82f5bd8a4d776baf6767b0d39994220f346ef481e0551cf2dafcfba9535",
+    "assetCategoryID": 2
+  },
+  "errors": [],
+  "frames": [45, 195, 390],
+  "render": {
+    "renderId": 22593,
+    "schedulerId": 1097
+  },
+  "account": {
+    "accountId": 1097
+  },
+  "timings": {
+    "FPS_MAIN": 405,
+    "FPS_INTRO": 90,
+    "FPS_OUTRO": 30,
+    "FPS_LADDER": 0,
+    "FPS_SCORECARD": 210
+  },
+  "videoMeta": {
+    "club": {
+      "logo": {
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_65_c67e5b1404.jpg",
+        "width": 1031,
+        "height": 1330,
+        "hasLogo": true
+      },
+      "name": "Goulburn District Cricket Association",
+      "sport": "Cricket",
+      "sponsors": {
+        "default": {},
+        "primary": []
+      },
+      "IsAccountClub": false
+    },
+    "video": {
+      "media": {
+        "audio": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Marscott_Wild_Neon_Get_The_Gains_inst_3251aaa9af.mp3",
+          "audioOption": null
+        },
+        "HeroImage": {
+          "url": "",
+          "ratio": "",
+          "width": 0,
+          "height": 0,
+          "AgeGroup": "",
+          "AssetType": "",
+          "markerPosition": ""
+        }
+      },
+      "metadata": {
+        "title": "Fixtures",
+        "frames": [],
+        "assetId": 2,
+        "titleSplit": ["Fixtures", ""],
+        "videoTitle": "Upcoming Fixtures",
+        "assetTypeId": 1,
+        "compositionId": "CricketUpcoming",
+        "includeSponsors": false
+      },
+      "appearance": {
+        "theme": {
+          "dark": "#111",
+          "white": "#FFF",
+          "primary": "#de0000",
+          "secondary": "#ffa300"
+        },
+        "template": "CNSW"
+      },
+      "contentLayout": {
+        "divideFixturesBy": {
+          "CricketLadder": 1,
+          "CricketRoster": 1,
+          "CricketResults": 2,
+          "CricketUpcoming": 3,
+          "CricketResultSingle": 1
+        }
+      },
+      "fixtureCategory": "Goulburn District Cricket Association",
+      "groupingCategory": "Goulburn District Cricket Association",
+      "templateVariation": {
+        "mode": "lightAlt",
+        "image": {
+          "url": null,
+          "type": "pan",
+          "ratio": null,
+          "width": null,
+          "height": null,
+          "direction": "left",
+          "gradientType": "linear",
+          "overlayStyle": "vignette",
+          "overlayOpacity": 0.3
+        },
+        "noise": {
+          "type": "floatingParticles"
+        },
+        "video": {
+          "url": null,
+          "loop": null,
+          "size": "cover",
+          "muted": true,
+          "volume": 0.8,
+          "overlay": {
+            "color": "rgba(0,0,0,0.5)",
+            "opacity": 0.7
+          },
+          "position": "left",
+          "fallbackUrl": null,
+          "playbackRate": null,
+          "useOffthreadVideo": null
+        },
+        "palette": "secondary",
+        "pattern": {
+          "type": "dots",
+          "scale": 0.75,
+          "opacity": 0.35,
+          "rotation": null,
+          "animation": "none",
+          "animationSpeed": 0.8,
+          "animationDuration": null
+        },
+        "texture": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Gemini_Stone_007e575f87.png",
+          "name": "Stone 2",
+          "scale": "100%",
+          "repeat": "cover",
+          "overlay": {
+            "opacity": 0.7,
+            "blendMode": "multiply"
+          }
+        },
+        "category": {
+          "name": "Cricket NSW",
+          "slug": "CNSW",
+          "bundleAudio": {
+            "id": 6,
+            "Name": "Muted",
+            "createdAt": "2024-10-30T00:35:16.398Z",
+            "updatedAt": "2024-10-30T00:35:17.926Z",
+            "publishedAt": "2024-10-30T00:35:17.915Z",
+            "audio_options": [
+              {
+                "id": 33,
+                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Bastian_Instrumental_Hello_Stranger_Instrumental_2f4c4acae7.mp3",
+                "Name": "HelloStranger_Instrumental",
+                "createdAt": "2024-10-30T00:35:04.160Z",
+                "updatedAt": "2024-10-30T00:36:30.358Z",
+                "publishedAt": "2024-10-30T00:35:05.839Z",
+                "ComponentName": "Top 5 Bowling",
+                "CompositionID": "Top5BowlingList"
+              },
+              {
+                "id": 34,
+                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Ghosthood_Side_Effects_Good_Good_Feeling_Inst_34015de6d6.mp3",
+                "Name": "GoodGoodFeeling_Inst",
+                "createdAt": "2024-10-30T00:37:09.563Z",
+                "updatedAt": "2024-10-30T00:38:09.963Z",
+                "publishedAt": "2024-10-30T00:38:09.959Z",
+                "ComponentName": "UpComing Fixtures",
+                "CompositionID": "UpComingFixtures"
+              },
+              {
+                "id": 35,
+                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_La_Jett_La_Jett_Collateral_No_Guitar_Solo_Inst_f72f65e862.mp3",
+                "Name": "Collateral-NoGuitarSolo_Inst",
+                "createdAt": "2024-10-30T00:38:02.552Z",
+                "updatedAt": "2024-10-30T00:38:04.070Z",
+                "publishedAt": "2024-10-30T00:38:04.063Z",
+                "ComponentName": "Weekend Results",
+                "CompositionID": "WeekendResults"
+              },
+              {
+                "id": 36,
+                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Jennings_Couch_Jennings_Couch_Wall_Of_Sound_Instrumental_1b8ec95fed.mp3",
+                "Name": "Wall-Of-Sound_Instrumental",
+                "createdAt": "2024-10-30T00:39:02.570Z",
+                "updatedAt": "2024-10-30T00:39:04.182Z",
+                "publishedAt": "2024-10-30T00:39:04.177Z",
+                "ComponentName": "Ladder",
+                "CompositionID": "Ladder"
+              },
+              {
+                "id": 38,
+                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Silverberg_So_Good_To_Be_Alive_Inst_Ohhs_e2d86690b9.mp3",
+                "Name": "So Good To Be Alive_Inst_Ohhs",
+                "createdAt": "2024-10-30T01:00:28.630Z",
+                "updatedAt": "2024-10-30T01:00:30.327Z",
+                "publishedAt": "2024-10-30T01:00:30.319Z",
+                "ComponentName": "Top 5 Batting",
+                "CompositionID": "Top5BattingList"
+              },
+              {
+                "id": 39,
+                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Speedtest_Blue_BMX_Knuckle_Sandwhich_75a8a98fdc.mp3",
+                "Name": "KnuckleSandwhich",
+                "createdAt": "2024-10-30T01:01:10.581Z",
+                "updatedAt": "2024-10-30T01:01:13.949Z",
+                "publishedAt": "2024-10-30T01:01:13.932Z",
+                "ComponentName": "UpComing Fixtures",
+                "CompositionID": "UpComingFixtures"
+              }
+            ]
+          },
+          "divideFixturesBy": {
+            "CricketLadder": 1,
+            "CricketRoster": 1,
+            "CricketResults": 2,
+            "CricketUpcoming": 3,
+            "CricketResultSingle": 1
+          }
+        },
+        "gradient": {
+          "type": "primary",
+          "direction": "HORIZONTAL"
+        },
+        "particle": {
+          "type": "lines",
+          "speed": 0.8,
+          "animation": "scale",
+          "direction": "up",
+          "particleCount": "300"
+        },
+        "useBackground": "Texture"
+      }
+    }
+  }
+}

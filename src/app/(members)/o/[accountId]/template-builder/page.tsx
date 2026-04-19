@@ -7,6 +7,7 @@ export default async function Page({ params }: { params: Promise<{ accountId: st
       <div>
         <h1 className="font-brand text-2xl font-semibold capitalize">Template builder</h1>
         <p className="text-muted-foreground mt-1">
+          {/* Contract: .comms/API/handoff-all-template-options.md */}
           Read-only: branding slice plus full template catalog from GET
           /api/accounts/:id/all-template-options (optional templateOptionId from /account/me or
           branding).

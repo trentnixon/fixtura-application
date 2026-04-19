@@ -1,5 +1,45 @@
 # Decisions
 
+## 2026-04-15 — Carousel prev/next: keep vertical centering on hover (override Button translate)
+
+**Decision:** Horizontal [`CarouselPrevious`](src/components/ui/carousel.tsx) and [`CarouselNext`](src/components/ui/carousel.tsx) append Tailwind classes **`hover:-translate-y-1/2`**, **`focus-visible:-translate-y-1/2`**, **`disabled:hover:-translate-y-1/2`**, and **`hover:shadow-xs`** alongside **`top-1/2 -translate-y-1/2`**. Shared [`Button`](src/components/ui/button.tsx) uses **`hover:-translate-y-px`**, which otherwise overrides the transform and makes arrows jump vertically on hover.
+
+**Why:** Carousel positioning depends on **`translateY(-50%)`**; button hover utilities must not replace it.
+
+**Tradeoffs:** Duplicates transform intent if **`Button`** drops hover translate later; vertical-orientation carousel buttons unchanged (different transform axis).
+
+---
+
+## 2026-04-15 — Template category picker: client selection in TanStack Query cache as `string | null`
+
+**Decision:** Shared UI selection for template category pickers uses **`useQuery`** on [`queryKeys.ui.templateCategoryPickerSelectedId`](src/lib/api/query/query-keys.ts) with **`useTemplateCategoryPickerSelection`** ([`use-template-category-picker-selection.ts`](src/components/pickers/template-category/use-template-category-picker-selection.ts)). Cached value type is **`string | null`** (`null` = no selection). **`queryFn`** returns `getQueryData(queryKey) ?? null` (never **`undefined`**) so TanStack Query v5’s “query data cannot be undefined” rule is satisfied. **`setQueryData`** is called with **`id ?? null`**. Do not invalidate this key in broad cache-reset flows.
+
+**Why:** One global selection across picker variants without React context; avoids `undefined` as successful query data, which v5 rejects.
+
+**Tradeoffs:** Client/UI state lives in the server-state cache; misuse (invalidation) could clear selection; alternative would be context or URL state.
+
+---
+
+## 2026-04-14 — Remotion preview: host style isolation without iframe
+
+**Decision:** The in-app Remotion preview uses **`#remotion-preview-root`** as the immediate wrapper around **`@remotion/player` `<Player />`**, with **`not-prose`** on that element, plus co-located scoped CSS in [`src/components/remotion/remotion-preview.css`](src/components/remotion/remotion-preview.css) ( **`box-sizing`** on the root and descendants; margin reset for headings, paragraphs, lists, **`figure`**; **`max-width: none`** on **`img`**, **`svg`**, **`video`**, **`canvas`**). **Do not use an iframe** for this isolation layer. Optional follow-ups: extend the reset if host selectors still leak ([`.comms/Remotion Style Isolation Handoff.md`](.comms/Remotion%20Style%20Isolation%20Handoff.md) Phase 2); Tailwind prefix in **`@fixtura/remotion-assets`** if utility collisions persist (Phase 3).
+
+**Why:** Host globals and Tailwind preflight can alter composition typography and media sizing; an ID-scoped reset overrides those rules without a separate document context.
+
+**Tradeoffs:** A fixed **`id`** assumes at most one preview per page; multiple instances would need generated IDs or a class-based scope. The reset is a baseline, not a guarantee against every future host rule.
+
+---
+
+## 2026-04-14 — Remotion in-app preview: composition matches `@fixtura/remotion-assets` handoff
+
+**Decision:** The Next app’s `@remotion/player` integration for `FixturaTemplateScene` uses **`compositionWidth={1080}`** and **`compositionHeight={1350}`**, **FPS 30**, full dataset via **`inputProps={{ data }}`**, and duration from **`getProductionCompositionFromData(data)`**. Canonical contract: [`.comms/Guide to Remotion Set up handoff.md`](.comms/Guide%20to%20Remotion%20Set%20up%20handoff.md) §1–2 and §13.
+
+**Why:** Compositions in the package are authored for **1080×1350**; using **1920** height mis-sized the canvas and caused incorrect aspect ratio / layout.
+
+**Tradeoffs:** If the Remotion package ever changes default resolution, this app must update constants and docs in lockstep.
+
+---
+
 ## 2026-04-09 — Onboarding lifecycle: dashboard when wizard complete; `isSetup` non-blocking for routing
 
 **Decision:** [`resolveAccountEntry`](src/lib/onboarding/resolve-account-entry.ts) returns **`dashboard`** when the onboarding wizard is complete (`hasCompletedOnboardingWizard` or `onboardingWizardStatus === "completed"`), and **`wizard`** otherwise. **`isSetup`**, initial setup, and initial data-fetch **failure** states **do not** change routing. **`AccountEntryIntent`** is only **`dashboard` \| `wizard`**; **`accountEntryIntentAfterWizardConfirm`** was removed — after **W4** confirm, navigation goes to **`accountScopedRoutes.dashboard`**. **`OrgAccessBoundary`** and **`/select-organisation`** use the same resolver. Optional **`/create-organisation/setup`** remains for recovery; wizard-complete visits redirect to the dashboard. **[`ScopedOnboardingSyncBanner`](src/components/scoped-onboarding-sync-banner.tsx)** in the members shell shows info/destructive alerts when scoped, wizard-complete, and **`isSetup === false`** (or pipeline failed on onboarding-state).

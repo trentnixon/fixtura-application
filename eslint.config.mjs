@@ -8,7 +8,7 @@ import importPlugin from "eslint-plugin-import";
 
 export default [
   {
-    ignores: ["node_modules/**", ".next/**", "dist/**", "out/**", "**/*.md"],
+    ignores: ["node_modules/**", ".next/**", "dist/**", "out/**", "**/*.md", "src/vendor/**"],
   },
   js.configs.recommended,
   {
@@ -41,6 +41,8 @@ export default [
         setInterval: "readonly",
         clearInterval: "readonly",
         queueMicrotask: "readonly",
+        structuredClone: "readonly",
+        globalThis: "readonly",
         HTMLDivElement: "readonly",
         HTMLFormElement: "readonly",
         HTMLParagraphElement: "readonly",

@@ -63,6 +63,12 @@ export default function RouteLabOverviewPage() {
             </Link>{" "}
             — stateful interactions, async flows, and transitions (placeholders until built).
           </li>
+          <li>
+            <Link href={ROUTES.dataLab} className="text-foreground font-medium hover:underline">
+              Data lab
+            </Link>{" "}
+            — CMS-backed selects, lists, and form patterns via the BFF.
+          </li>
         </TypographyList>
       </section>
 

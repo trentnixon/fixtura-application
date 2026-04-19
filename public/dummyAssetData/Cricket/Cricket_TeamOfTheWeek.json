@@ -1,0 +1,680 @@
+{
+  "data": [
+    {
+      "category": "Batter",
+      "categoryDetail": {
+        "type": "Batter",
+        "position": "higheststrikerate"
+      },
+      "rank": 1,
+      "player": "joshua foenander",
+      "primaryTeam": "Runaway Bay Community Div 2",
+      "club": {
+        "name": "Runaway Bay Community Div 2",
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+          "width": 500,
+          "height": 500
+        }
+      },
+      "batting": {
+        "runs": 45,
+        "balls": 17,
+        "fours": 3,
+        "sixes": 5,
+        "strikeRate": 264.71,
+        "notOut": false,
+        "team": "Runaway Bay Community Div 2"
+      },
+      "rankings": {
+        "topRunScorer": 8,
+        "highestStrikeRate": 1
+      },
+      "prompt": "joshua foenander from Runaway Bay Community Div 2. has been selected as the top batter in the Team of the Week. Batting: scored 45 runs, from 17 balls, with a strike rate of 264.7, including 3 fours, and 5 sixes. Overall rankings: ranked #8 in runs scored, ranked #1 in strike rate."
+    },
+    {
+      "category": "Batter",
+      "categoryDetail": {
+        "type": "Batter",
+        "position": "higheststrikerate"
+      },
+      "rank": 2,
+      "player": "luke northam",
+      "primaryTeam": "Runaway Bay Community Div 2",
+      "club": {
+        "name": "Runaway Bay Community Div 2",
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+          "width": 500,
+          "height": 500
+        }
+      },
+      "batting": {
+        "runs": 64,
+        "balls": 34,
+        "fours": 10,
+        "sixes": 2,
+        "strikeRate": 188.24,
+        "notOut": true,
+        "team": "Runaway Bay Community Div 2"
+      },
+      "rankings": {
+        "topRunScorer": 3,
+        "highestStrikeRate": 2
+      },
+      "prompt": "luke northam from Runaway Bay Community Div 2. has been selected as rank 2 batter in the Team of the Week. Batting: scored 64 runs, from 34 balls, with a strike rate of 188.2, including 10 fours, and 2 sixes, (not out). Overall rankings: ranked #3 in runs scored, ranked #2 in strike rate."
+    },
+    {
+      "category": "Batter",
+      "categoryDetail": {
+        "type": "Batter",
+        "position": "higheststrikerate"
+      },
+      "rank": 3,
+      "player": "ahmad jawid",
+      "primaryTeam": "Runaway Bay Premier Div 1",
+      "club": {
+        "name": "Runaway Bay Premier Div 1",
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+          "width": 500,
+          "height": 500
+        }
+      },
+      "batting": {
+        "runs": 33,
+        "balls": 18,
+        "fours": 0,
+        "sixes": 4,
+        "strikeRate": 183.33,
+        "notOut": false,
+        "team": "Runaway Bay Premier Div 1"
+      },
+      "rankings": {
+        "topRunScorer": 13,
+        "highestStrikeRate": 3
+      },
+      "prompt": "ahmad jawid from Runaway Bay Premier Div 1. has been selected as rank 3 batter in the Team of the Week. Batting: scored 33 runs, from 18 balls, with a strike rate of 183.3, and 4 sixes. Overall rankings: ranked #13 in runs scored, ranked #3 in strike rate."
+    },
+    {
+      "category": "Batter",
+      "categoryDetail": {
+        "type": "Batter",
+        "position": "topscorer"
+      },
+      "rank": 4,
+      "player": "brendan roberts",
+      "primaryTeam": "Runaway Bay Premier Div 3",
+      "club": {
+        "name": "Runaway Bay Premier Div 3",
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+          "width": 500,
+          "height": 500
+        }
+      },
+      "batting": {
+        "runs": 68,
+        "balls": 80,
+        "fours": 7,
+        "sixes": 0,
+        "strikeRate": 85,
+        "notOut": true,
+        "team": "Runaway Bay Premier Div 3"
+      },
+      "rankings": {
+        "topRunScorer": 2,
+        "highestStrikeRate": 10
+      },
+      "prompt": "brendan roberts from Runaway Bay Premier Div 3. has been selected as rank 4 batter in the Team of the Week. Batting: scored 68 runs, from 80 balls, with a strike rate of 85.0, including 7 fours, (not out). Overall rankings: ranked #2 in runs scored, ranked #10 in strike rate."
+    },
+    {
+      "category": "Batter",
+      "categoryDetail": {
+        "type": "Batter",
+        "position": "topscorer"
+      },
+      "rank": 5,
+      "player": "yasiru gamaarachchi",
+      "primaryTeam": "Runaway Bay Premier Div 1",
+      "club": {
+        "name": "Runaway Bay Premier Div 1",
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+          "width": 500,
+          "height": 500
+        }
+      },
+      "batting": {
+        "runs": 71,
+        "balls": 93,
+        "fours": 6,
+        "sixes": 1,
+        "strikeRate": 76.34,
+        "notOut": false,
+        "team": "Runaway Bay Premier Div 1"
+      },
+      "rankings": {
+        "topRunScorer": 1,
+        "highestStrikeRate": 11
+      },
+      "prompt": "yasiru gamaarachchi from Runaway Bay Premier Div 1. has been selected as rank 5 batter in the Team of the Week. Batting: scored 71 runs, from 93 balls, with a strike rate of 76.3, including 6 fours, and 1 sixes. Overall rankings: ranked #1 in runs scored, ranked #11 in strike rate."
+    },
+    {
+      "category": "All-Rounder",
+      "categoryDetail": {
+        "type": "All-Rounder",
+        "position": "topallrounder"
+      },
+      "rank": 1,
+      "player": "thomas gossett",
+      "primaryTeam": "Runaway Bay Premier Div 2",
+      "club": {
+        "name": "Runaway Bay Premier Div 2",
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+          "width": 500,
+          "height": 500
+        }
+      },
+      "batting": {
+        "runs": 42,
+        "balls": 47,
+        "fours": 4,
+        "sixes": 0,
+        "strikeRate": 89.36,
+        "notOut": false,
+        "team": "Runaway Bay Premier Div 2"
+      },
+      "bowling": {
+        "wickets": 1,
+        "overs": 8,
+        "maidens": 1,
+        "runs": 27,
+        "economy": 3.38,
+        "team": "Runaway Bay Premier Div 2"
+      },
+      "allRounder": {
+        "score": 42,
+        "formula": "runs × wickets",
+        "battingContribution": 42,
+        "bowlingContribution": 1
+      },
+      "rankings": {
+        "topRunScorer": 9,
+        "highestStrikeRate": 9,
+        "mostWickets": 12,
+        "bestEconomy": 5,
+        "topAllRounder": 1
+      },
+      "prompt": "thomas gossett from Runaway Bay Premier Div 2. has been selected as the top all-rounder in the Team of the Week. Batting: scored 42 runs, from 47 balls, with a strike rate of 89.4, including 4 fours. Bowling: took 1 wicket, from 8 overs, conceding 27 runs, with an economy rate of 3.38, including 1 maiden. All-rounder score: 42.0. Overall rankings: ranked #9 in runs scored, ranked #9 in strike rate, ranked #12 in wickets taken, ranked #5 in economy rate, ranked #1 in all-rounder performance."
+    },
+    {
+      "category": "All-Rounder",
+      "categoryDetail": {
+        "type": "All-Rounder",
+        "position": "topallrounder"
+      },
+      "rank": 2,
+      "player": "chris schultz  (c)",
+      "primaryTeam": "Runaway Bay Orange Community Div 3",
+      "club": {
+        "name": "Runaway Bay Orange Community Div 3",
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+          "width": 500,
+          "height": 500
+        }
+      },
+      "batting": {
+        "runs": 40,
+        "balls": 37,
+        "fours": 4,
+        "sixes": 0,
+        "strikeRate": 108.11,
+        "notOut": false,
+        "team": "Runaway Bay Orange Community Div 3"
+      },
+      "bowling": {
+        "wickets": 1,
+        "overs": 4,
+        "maidens": 1,
+        "runs": 14,
+        "economy": 3.5,
+        "team": "Runaway Bay Orange Community Div 3"
+      },
+      "allRounder": {
+        "score": 40,
+        "formula": "runs × wickets",
+        "battingContribution": 40,
+        "bowlingContribution": 1
+      },
+      "rankings": {
+        "topRunScorer": 10,
+        "highestStrikeRate": 8,
+        "mostWickets": 13,
+        "topAllRounder": 2
+      },
+      "prompt": "chris schultz  (c) from Runaway Bay Orange Community Div 3. has been selected as rank 2 all-rounder in the Team of the Week. Batting: scored 40 runs, from 37 balls, with a strike rate of 108.1, including 4 fours. Bowling: took 1 wicket, from 4 overs, conceding 14 runs, with an economy rate of 3.50, including 1 maiden. All-rounder score: 40.0. Overall rankings: ranked #10 in runs scored, ranked #8 in strike rate, ranked #13 in wickets taken, ranked #2 in all-rounder performance."
+    },
+    {
+      "category": "Bowler",
+      "categoryDetail": {
+        "type": "Bowler",
+        "position": "mostwickets"
+      },
+      "rank": 1,
+      "player": "sean clark  (c)",
+      "primaryTeam": "Runaway Bay Navy Community Div 1",
+      "club": {
+        "name": "Runaway Bay Navy Community Div 1",
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+          "width": 500,
+          "height": 500
+        }
+      },
+      "batting": {
+        "runs": 6,
+        "balls": 21,
+        "fours": 1,
+        "sixes": 0,
+        "strikeRate": 28.57,
+        "notOut": false,
+        "team": "Runaway Bay Navy Community Div 1"
+      },
+      "bowling": {
+        "wickets": 5,
+        "overs": 6,
+        "maidens": 0,
+        "runs": 38,
+        "economy": 6.33,
+        "team": "Runaway Bay Navy Community Div 1"
+      },
+      "allRounder": {
+        "score": 30,
+        "formula": "runs × wickets",
+        "battingContribution": 6,
+        "bowlingContribution": 5
+      },
+      "rankings": {
+        "topRunScorer": 21,
+        "mostWickets": 1,
+        "bestEconomy": 10,
+        "topAllRounder": 3
+      },
+      "prompt": "sean clark  (c) from Runaway Bay Navy Community Div 1. has been selected as the top bowler in the Team of the Week. Batting: scored 6 runs, from 21 balls, with a strike rate of 28.6, including 1 fours. Bowling: took 5 wickets, from 6 overs, conceding 38 runs, with an economy rate of 6.33. All-rounder score: 30.0. Overall rankings: ranked #21 in runs scored, ranked #1 in wickets taken, ranked #10 in economy rate, ranked #3 in all-rounder performance."
+    },
+    {
+      "category": "Bowler",
+      "categoryDetail": {
+        "type": "Bowler",
+        "position": "mostwickets"
+      },
+      "rank": 2,
+      "player": "kunal thakur",
+      "primaryTeam": "Runaway Bay Premier Div 3",
+      "club": {
+        "name": "Runaway Bay Premier Div 3",
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+          "width": 500,
+          "height": 500
+        }
+      },
+      "bowling": {
+        "wickets": 3,
+        "overs": 5,
+        "maidens": 1,
+        "runs": 17,
+        "economy": 3.4,
+        "team": "Runaway Bay Premier Div 3"
+      },
+      "rankings": {
+        "mostWickets": 2,
+        "bestEconomy": 6
+      },
+      "prompt": "kunal thakur from Runaway Bay Premier Div 3. has been selected as rank 2 bowler in the Team of the Week. Bowling: took 3 wickets, from 5 overs, conceding 17 runs, with an economy rate of 3.40, including 1 maiden. Overall rankings: ranked #2 in wickets taken, ranked #6 in economy rate."
+    },
+    {
+      "category": "Bowler",
+      "categoryDetail": {
+        "type": "Bowler",
+        "position": "mostwickets"
+      },
+      "rank": 3,
+      "player": "michael schumacher",
+      "primaryTeam": "Runaway Bay Community Div 2",
+      "club": {
+        "name": "Runaway Bay Community Div 2",
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+          "width": 500,
+          "height": 500
+        }
+      },
+      "bowling": {
+        "wickets": 3,
+        "overs": 6,
+        "maidens": 0,
+        "runs": 28,
+        "economy": 4.67,
+        "team": "Runaway Bay Community Div 2"
+      },
+      "rankings": {
+        "mostWickets": 4,
+        "bestEconomy": 8
+      },
+      "prompt": "michael schumacher from Runaway Bay Community Div 2. has been selected as rank 3 bowler in the Team of the Week. Bowling: took 3 wickets, from 6 overs, conceding 28 runs, with an economy rate of 4.67. Overall rankings: ranked #4 in wickets taken, ranked #8 in economy rate."
+    },
+    {
+      "category": "Bowler",
+      "categoryDetail": {
+        "type": "Bowler",
+        "position": "mostwickets"
+      },
+      "rank": 4,
+      "player": "arron quine",
+      "primaryTeam": "Runaway Bay Community Div 2",
+      "club": {
+        "name": "Runaway Bay Community Div 2",
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+          "width": 500,
+          "height": 500
+        }
+      },
+      "bowling": {
+        "wickets": 3,
+        "overs": 6,
+        "maidens": 1,
+        "runs": 28,
+        "economy": 4.67,
+        "team": "Runaway Bay Community Div 2"
+      },
+      "rankings": {
+        "mostWickets": 5,
+        "bestEconomy": 9
+      },
+      "prompt": "arron quine from Runaway Bay Community Div 2. has been selected as rank 4 bowler in the Team of the Week. Bowling: took 3 wickets, from 6 overs, conceding 28 runs, with an economy rate of 4.67, including 1 maiden. Overall rankings: ranked #5 in wickets taken, ranked #9 in economy rate."
+    },
+    {
+      "category": "Twelfth Man",
+      "categoryDetail": {
+        "type": "Twelfth Man",
+        "position": "bestoftherest"
+      },
+      "rank": 1,
+      "player": "harrison rachow",
+      "primaryTeam": "Runaway Bay Orange Community Div 1",
+      "club": {
+        "name": "Runaway Bay Orange Community Div 1",
+        "logo": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+          "width": 500,
+          "height": 500
+        }
+      },
+      "batting": {
+        "runs": 50,
+        "balls": 43,
+        "fours": 7,
+        "sixes": 1,
+        "strikeRate": 116.28,
+        "notOut": false,
+        "team": "Runaway Bay Orange Community Div 1"
+      },
+      "rankings": {
+        "topRunScorer": 4,
+        "highestStrikeRate": 5
+      },
+      "prompt": "harrison rachow from Runaway Bay Orange Community Div 1. has been selected as the top twelfth man in the Team of the Week. Batting: scored 50 runs, from 43 balls, with a strike rate of 116.3, including 7 fours, and 1 sixes. Overall rankings: ranked #4 in runs scored, ranked #5 in strike rate."
+    }
+  ],
+  "asset": {
+    "assetID": 69,
+    "assetTypeID": 3,
+    "assetCategoryID": 1,
+    "assetsLinkID": "77ddda4411015a47006b171bb14937af3c44832c39a4c4038c960ab5d8c81c43"
+  },
+  "render": {
+    "schedulerId": 317,
+    "renderId": 8702
+  },
+  "account": {
+    "accountId": 430
+  },
+  "timings": {
+    "FPS_MAIN": 180,
+    "FPS_INTRO": 90,
+    "FPS_OUTRO": 30,
+    "FPS_LADDER": 0,
+    "FPS_SCORECARD": 0,
+    "FPS_PREFORMANCECARD": 180
+  },
+  "frames": [45, 180],
+  "videoMeta": {
+    "club": {
+      "logo": {
+        "hasLogo": true,
+        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+        "width": 500,
+        "height": 500
+      },
+      "name": "Runaway Bay Cricket Club Inc",
+      "sport": "Cricket",
+      "sponsors": {
+        "primary": [],
+        "default": {}
+      },
+      "IsAccountClub": false
+    },
+    "video": {
+      "fixtureCategory": "SENIOR",
+      "groupingCategory": "SENIOR",
+      "metadata": {
+        "title": "Team of the Week",
+        "titleSplit": ["Team of the Week"],
+        "videoTitle": "Team of the Week",
+        "compositionId": "CricketTeamOfTheWeek",
+        "assetId": 69,
+        "assetTypeId": 3,
+        "frames": [],
+        "includeSponsors": false
+      },
+      "appearance": {
+        "theme": {
+          "dark": "#111",
+          "white": "#FFF",
+          "primary": "#352466",
+          "secondary": "#ffa500"
+        },
+        "template": "TwoColumnClassic"
+      },
+      "media": {
+        "HeroImage": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/2023_Netball_Hero_CAV_9816_ddd33794fc.jpg",
+          "ratio": "landscape",
+          "width": 830,
+          "height": 400,
+          "AgeGroup": "Both",
+          "AssetType": "ALL",
+          "markerPosition": null
+        },
+        "audio": {
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Marscott_Wild_Neon_Get_The_Gains_inst_3251aaa9af.mp3",
+          "audioOption": null
+        }
+      },
+      "contentLayout": {
+        "divideFixturesBy": {
+          "CricketLadder": 1,
+          "CricketRoster": 1,
+          "CricketResults": 2,
+          "CricketUpcoming": 3,
+          "CricketResultSingle": 1,
+          "CricketBattingPerformances": 5,
+          "CricketBowlingPerformances": 5,
+          "CricketTeamOfTheWeek": 2
+        }
+      },
+      "templateVariation": {
+        "useBackground": "Texture",
+        "mode": "lightAlt",
+        "category": {
+          "slug": "TwoColumnClassic",
+          "name": "Classic Two Column ",
+          "divideFixturesBy": {
+            "CricketUpcoming": 3,
+            "CricketResults": 2,
+            "CricketResultSingle": 1,
+            "CricketLadder": 1,
+            "CricketRoster": 1,
+            "CricketBowlingPerformances": 5,
+            "CricketBattingPerformances": 5
+          },
+          "bundleAudio": {
+            "id": 1,
+            "Name": "Basic",
+            "createdAt": "2023-09-27T10:36:24.428Z",
+            "updatedAt": "2025-06-15T04:50:57.910Z",
+            "publishedAt": "2023-09-27T10:36:25.639Z",
+            "audio_options": [
+              {
+                "id": 4,
+                "Name": "Better Start Now",
+                "createdAt": "2023-09-27T10:34:46.702Z",
+                "updatedAt": "2025-06-15T04:53:45.558Z",
+                "publishedAt": "2023-09-27T10:34:48.455Z",
+                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Kidpenny_Single_Better_Start_Now_Inst_53b898d9ef.mp3",
+                "CompositionID": "CricketLadder",
+                "ComponentName": "CricketLadder"
+              },
+              {
+                "id": 2,
+                "Name": "Fifteen on Me",
+                "createdAt": "2022-12-20T01:59:28.337Z",
+                "updatedAt": "2025-06-15T04:53:11.194Z",
+                "publishedAt": "2022-12-20T01:59:29.080Z",
+                "URL": "https://lmssocialmediamanager.s3.ap-southeast-2.amazonaws.com/assets/Fifteen%20on%20Me.mp3",
+                "CompositionID": "CricketUpcoming",
+                "ComponentName": "CricketUpcoming"
+              },
+              {
+                "id": 5,
+                "Name": "Get The Gains",
+                "createdAt": "2023-09-27T10:35:01.053Z",
+                "updatedAt": "2025-06-15T04:53:59.493Z",
+                "publishedAt": "2023-09-27T10:35:29.163Z",
+                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Marscott_Wild_Neon_Get_The_Gains_inst_3251aaa9af.mp3",
+                "CompositionID": "CricketTop5Bowling",
+                "ComponentName": "CricketTop5Bowling"
+              },
+              {
+                "id": 3,
+                "Name": "Groover",
+                "createdAt": "2022-12-20T01:59:34.014Z",
+                "updatedAt": "2025-06-15T04:53:28.656Z",
+                "publishedAt": "2022-12-20T01:59:34.670Z",
+                "URL": "https://lmssocialmediamanager.s3.ap-southeast-2.amazonaws.com/assets/TournamentTitleMusic_v2.mp3",
+                "CompositionID": "CricketTop5Batting",
+                "ComponentName": "CricketTop5Batting"
+              },
+              {
+                "id": 1,
+                "Name": "Saltine",
+                "createdAt": "2022-12-12T05:19:56.353Z",
+                "updatedAt": "2025-06-15T04:50:50.079Z",
+                "publishedAt": "2022-12-12T05:19:57.408Z",
+                "URL": "https://lmssocialmediamanager.s3.ap-southeast-2.amazonaws.com/assets/Saltine_1.mp3",
+                "CompositionID": "CricketResults",
+                "ComponentName": "CricketResults"
+              },
+              {
+                "id": 16,
+                "Name": "BEECH LOVE",
+                "createdAt": "2024-06-05T04:31:26.640Z",
+                "updatedAt": "2026-01-05T09:04:09.788Z",
+                "publishedAt": "2024-06-07T12:45:32.118Z",
+                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_BEECH_LOVE_Pieces_Inst_0b547f2b20.mp3",
+                "CompositionID": "CricketUpcoming",
+                "ComponentName": "CricketUpcoming"
+              },
+              {
+                "id": 17,
+                "Name": "FAY V",
+                "createdAt": "2024-06-05T04:33:33.970Z",
+                "updatedAt": "2024-06-07T12:48:03.161Z",
+                "publishedAt": "2024-06-07T12:47:53.394Z",
+                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_FAYV_Single_Encore_INST_d7b21f5451.mp3",
+                "CompositionID": "WeekendResultsAFL",
+                "ComponentName": "Weekend Results"
+              }
+            ]
+          }
+        },
+        "video": {
+          "url": null,
+          "fallbackUrl": null,
+          "position": "left",
+          "size": "cover",
+          "loop": null,
+          "muted": true,
+          "overlay": {
+            "color": "rgba(0,0,0,0.5)",
+            "opacity": 0.7
+          },
+          "useOffthreadVideo": null,
+          "volume": 0.8,
+          "playbackRate": null
+        },
+        "image": {
+          "url": null,
+          "ratio": null,
+          "width": null,
+          "height": null,
+          "type": "pan",
+          "direction": "left",
+          "overlayStyle": "vignette",
+          "gradientType": "linear",
+          "overlayOpacity": 0.3
+        },
+        "palette": "primaryOnWhite",
+        "gradient": {
+          "type": "primary",
+          "direction": "HORIZONTAL"
+        },
+        "noise": {
+          "type": "floatingParticles"
+        },
+        "pattern": {
+          "type": "dots",
+          "animation": "none",
+          "scale": 0.75,
+          "rotation": null,
+          "opacity": 0.35,
+          "animationDuration": null,
+          "animationSpeed": 0.8
+        },
+        "particle": {
+          "type": "lines",
+          "particleCount": "300",
+          "speed": 0.8,
+          "direction": "up",
+          "animation": "scale"
+        },
+        "texture": {
+          "name": "Print Texture",
+          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Geometric_Halftone_Print_Texture_cb888287e4.png",
+          "repeat": "cover",
+          "scale": "100%",
+          "overlay": {
+            "opacity": 0.8,
+            "blendMode": "multiply"
+          }
+        }
+      }
+    }
+  },
+  "errors": []
+}

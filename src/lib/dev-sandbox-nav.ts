@@ -26,6 +26,11 @@ export const SANDBOX_PORTAL_LINKS: SandboxPortalLink[] = [
     label: "Interaction lab",
     description: "Behaviour, state transitions & async flows",
   },
+  {
+    href: ROUTES.dataLab,
+    label: "Data lab",
+    description: "CMS-backed selects, lists & form patterns",
+  },
 ];
 
 export type SandboxNavSection = {
@@ -57,6 +62,28 @@ export const ROUTE_LAB_NAV_SECTIONS: SandboxNavSection[] = [
     links: [
       { href: `${ROUTES.routeLab}/app/dashboard`, label: "Dashboard" },
       { href: `${ROUTES.routeLab}/app/settings`, label: "Settings" },
+    ],
+  },
+];
+
+/** Data lab child routes — add sections here as each scenario gets a dedicated URL under `/sandbox/data-lab`. */
+export const DATA_LAB_NAV_SECTIONS: SandboxNavSection[] = [
+  {
+    title: "Template categories",
+    links: [
+      {
+        href: `${ROUTES.dataLab}/template-categories/list-for-selection`,
+        label: "List for selection",
+      },
+    ],
+  },
+  {
+    title: "Assets",
+    links: [
+      {
+        href: `${ROUTES.dataLab}/assets/list-for-selection`,
+        label: "List for selection",
+      },
     ],
   },
 ];
@@ -96,5 +123,13 @@ export const INTERACTION_LAB_NAV_SECTIONS: SandboxNavSection[] = [
   {
     title: "Calendar",
     links: [{ href: `${IL}/calendar`, label: "Date Selection" }],
+  },
+  {
+    title: "Carousel",
+    links: [{ href: `${IL}/carousel`, label: "Shadcn carousel" }],
+  },
+  {
+    title: "Remotion",
+    links: [{ href: ROUTES.remotionPreview, label: "Preview" }],
   },
 ];
