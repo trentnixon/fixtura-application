@@ -114,7 +114,9 @@ export function SetupStatusCard({
     const msg =
       query.error instanceof ApiError && query.error.status === 404
         ? "Setup status is not available yet. It will appear after your organisation is connected."
-        : "We could not load setup status. Try again later.";
+        : query.error instanceof ApiError && query.error.status === 408
+          ? "Setup is taking longer than expected. We will keep retrying automatically."
+          : "We could not load setup status. Try again later.";
     return (
       <div
         className={cn(

@@ -67,6 +67,69 @@ export default function DataLabOverviewPage() {
           >
             Assets — list for selection
           </Link>
+          ,{" "}
+          <Link
+            href={`${ROUTES.dataLab}/template-gradients/ui`}
+            className="text-foreground font-medium hover:underline"
+          >
+            Template gradients — UI endpoint
+          </Link>
+          ,{" "}
+          <Link
+            href={`${ROUTES.dataLab}/template-images/ui`}
+            className="text-foreground font-medium hover:underline"
+          >
+            Template images — UI endpoint
+          </Link>
+          ,{" "}
+          <Link
+            href={`${ROUTES.dataLab}/template-modes/ui`}
+            className="text-foreground font-medium hover:underline"
+          >
+            Template modes — UI endpoint
+          </Link>
+          ,{" "}
+          <Link
+            href={`${ROUTES.dataLab}/template-noises/ui`}
+            className="text-foreground font-medium hover:underline"
+          >
+            Template noises — UI endpoint
+          </Link>
+          ,{" "}
+          <Link
+            href={`${ROUTES.dataLab}/template-palettes/ui`}
+            className="text-foreground font-medium hover:underline"
+          >
+            Template palettes — UI endpoint
+          </Link>
+          ,{" "}
+          <Link
+            href={`${ROUTES.dataLab}/template-particles/ui`}
+            className="text-foreground font-medium hover:underline"
+          >
+            Template particles — UI endpoint
+          </Link>
+          ,{" "}
+          <Link
+            href={`${ROUTES.dataLab}/template-patterns/ui`}
+            className="text-foreground font-medium hover:underline"
+          >
+            Template patterns - UI endpoint
+          </Link>
+          ,{" "}
+          <Link
+            href={`${ROUTES.dataLab}/template-textures/ui`}
+            className="text-foreground font-medium hover:underline"
+          >
+            Template textures - UI endpoint
+          </Link>
+          ,{" "}
+          <Link
+            href={`${ROUTES.dataLab}/template-videos/ui`}
+            className="text-foreground font-medium hover:underline"
+          >
+            Template videos - UI endpoint
+          </Link>
           .
         </TypographyMuted>
       </section>

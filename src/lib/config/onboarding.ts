@@ -12,6 +12,12 @@ export const CLUB_ACCOUNT_TYPE_ID = 1;
 export const ONBOARDING_SETUP_STATUS_POLL_MS = 5000;
 
 /**
+ * S1 — setup-status can lag while downstream setup/data-fetch jobs settle, so allow longer than
+ * the generic client timeout before surfacing a transient timeout to the UI.
+ */
+export const ONBOARDING_SETUP_STATUS_TIMEOUT_MS = 45000;
+
+/**
  * Returns true when polling should stop (terminal states).
  * Lifecycle v1 CMS emits `ready` and `failed`; older docs also listed `blocked` / `abandoned` — kept for compatibility.
  */

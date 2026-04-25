@@ -1,3 +1,5 @@
+import { ONBOARDING_SETUP_STATUS_TIMEOUT_MS } from "@/lib/config/onboarding";
+
 import { apiClient } from "../client/fetch-client";
 import { appRoutes } from "../routes/route-definitions";
 
@@ -115,7 +117,7 @@ export const accountApi = {
   /** S1: machine-readable setup / preparation status (poll until terminal). Parse with `parseOnboardingSetupStatusPayload`. */
   getOnboardingSetupStatus: (accountId: string) => {
     const path = `${appRoutes.accounts.onboardingSetupStatus.path}/${encodeURIComponent(accountId)}/onboarding/setup-status`;
-    return apiClient.get<unknown>(path);
+    return apiClient.get<unknown>(path, { timeoutMs: ONBOARDING_SETUP_STATUS_TIMEOUT_MS });
   },
 
   /** Lifecycle v1: wizard + setup bootstrap. Parse with `parseOnboardingStatePayload`. */

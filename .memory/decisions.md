@@ -1,5 +1,55 @@
 # Decisions
 
+## 2026-04-25 — Season route access gate uses onboarding `isSetup` completion
+
+**Decision:** The members Season area (`/o/[accountId]/season`) is locked unless onboarding-state reports **`isSetup === true`**. Wizard completion alone does not unlock Season.
+
+**Why:** Product requested Season to remain unavailable while setup/data preparation is still in progress, even if the account is otherwise reachable.
+
+**Tradeoffs:** This creates a route-specific stricter gate than wizard-complete access; users may see other scoped areas while Season remains locked, which can feel inconsistent unless messaging is clear.
+
+---
+
+## 2026-04-20 — Template pattern picker uses TanStack Query UI cache selection
+
+**Decision:** The new `template-pattern` picker package stores selected id in TanStack Query UI cache (`queryKeys.ui.templatePatternPickerSelectedId`) via `useTemplatePatternPickerSelection`, with value shape `string | null` and fallback resolution in `useTemplatePatternPickerList`.
+
+**Why:** Keeps selection shared and consistent across select/cards/detail variants while making parent pages thin consumers with reusable picker components.
+
+**Tradeoffs:** UI state depends on cache-key discipline; broad cache reset/invalidation flows must not clear UI-only picker keys unintentionally.
+
+---
+
+## 2026-04-25 — Season feature component layering uses `_constants`/`_hooks`/`_types`/`_utils`
+
+**Decision:** Season route components under `src/app/(members)/o/[accountId]/season/_components` are organized around explicit support folders: `_constants` (copy/text tokens), `_types` (props and shared shapes), `_utils` (pure parsing/format helpers), and `_hooks` (derived view-state composition), while top-level component files remain orchestration-focused.
+
+**Why:** Reduces per-file complexity, improves testability/reuse, and keeps hook/state derivation and data-shaping logic out of JSX-heavy render files.
+
+**Tradeoffs:** Increases file count and import-management overhead; requires strict lint discipline (import ordering + hook call order) to avoid regressions during refactors.
+
+---
+
+## 2026-04-25 — Route-lab season FE-first layout with explicit debug isolation
+
+**Decision:** In `src/app/sandbox/route-lab/season/575/*`, primary page content should mirror FE user-facing UI (clean header/title and user-focused sections), while all developer debugging affordances (endpoint scope, refetch debug control, raw payload views) are rendered in dedicated bottom-of-page debugging blocks using `FeedbackCardTinted` with `kind="critical"`.
+
+**Why:** Keeps route-lab suitable for FE UX validation without losing developer observability; makes debug intent explicit and avoids dev text leaking into user-facing sections.
+
+**Tradeoffs:** Slightly more page structure and shared-component ceremony is required; duplicated FE + debug sections can increase maintenance when route content changes.
+
+---
+
+## 2026-04-20 — Template palette picker uses TanStack Query UI cache selection
+
+**Decision:** The new `template-palette` picker package stores selected id in TanStack Query UI cache (`queryKeys.ui.templatePalettePickerSelectedId`) via `useTemplatePalettePickerSelection`, with value shape `string | null` and fallback resolution in `useTemplatePalettePickerList`.
+
+**Why:** Keeps selection shared and consistent across select/cards/detail variants while making parent pages thin consumers with reusable picker components.
+
+**Tradeoffs:** UI state depends on cache-key discipline; broad cache reset/invalidation flows must not clear UI-only picker selection keys unintentionally.
+
+---
+
 ## 2026-04-15 — Carousel prev/next: keep vertical centering on hover (override Button translate)
 
 **Decision:** Horizontal [`CarouselPrevious`](src/components/ui/carousel.tsx) and [`CarouselNext`](src/components/ui/carousel.tsx) append Tailwind classes **`hover:-translate-y-1/2`**, **`focus-visible:-translate-y-1/2`**, **`disabled:hover:-translate-y-1/2`**, and **`hover:shadow-xs`** alongside **`top-1/2 -translate-y-1/2`**. Shared [`Button`](src/components/ui/button.tsx) uses **`hover:-translate-y-px`**, which otherwise overrides the transform and makes arrows jump vertically on hover.
@@ -220,6 +270,26 @@
 
 ---
 
+## 2026-04-20 — Self-contained gradient picker uses TanStack Query UI cache selection
+
+**Decision:** The new gradient picker package stores selected id in TanStack Query UI cache (`queryKeys.ui.templateGradientPickerSelectedId`) via `useTemplateGradientPickerSelection`, with value shape `string | null` and fallback resolution in `useTemplateGradientPickerList`.
+
+**Why:** Keeps selection shared and consistent across select/cards/detail variants while allowing parent pages to remain thin and reusable.
+
+**Tradeoffs:** UI state now depends on query-cache discipline; broad cache reset flows must avoid invalidating UI-only picker keys unintentionally.
+
+---
+
+## 2026-04-20 — Exclude vendored bundles from ESLint app-source checks
+
+**Decision:** ESLint ignores `src/vendor/**` so generated third-party bundles (for example `src/vendor/fixtura-remotion-assets/preview.mjs`) are not linted by the project’s app-source rules. App source files continue to be linted normally.
+
+**Why:** Vendored generated files produced high-volume `no-undef` / `no-unused-vars` diagnostics that do not represent maintainable app-code issues and are likely to reappear on vendor sync.
+
+**Tradeoffs:** Potential issues inside vendored code will not be surfaced by the app lint run; if vendor quality checks become necessary, they should use a separate targeted lint config/process rather than modifying generated artifacts.
+
+---
+
 ## 2026-04-05 — Favicon and app icons: canonical `public/logos` paths
 
 **Decision:** Browser tab icons and in-app logo marks use files under **`public/logos/`** (e.g. **`favicon.ico`**, **`favicon-16x16.png`**, **`favicon-32x32.png`**, **`apple-touch-icon.png`**). Next.js **`metadata.icons`** is defined in **`src/config/metadata.ts`**; **`auth`** layout/structure and public home **`&lt;img&gt;`** reference the same **`apple-touch-icon`** path. Do not duplicate icon sets at **`public/`** root.
@@ -297,3 +367,63 @@
 **Why:** Matches [`.comms/18-FIXTURA_MULTI_ORGANISATION_ROUTE_LOGIC.md`](.comms/18-FIXTURA_MULTI_ORGANISATION_ROUTE_LOGIC.md) and [`.comms/responses/app-handoff-account-organisation-endpoint.md`](.comms/responses/app-handoff-account-organisation-endpoint.md) (two-step `account/me` + organisation aggregate).
 
 **Tradeoffs:** Account ids appear in URLs; middleware cannot validate ownership (handled by CMS + **`OrgAccessBoundary`**). **Create organisation** remains TBC until CMS documents an API.
+
+---
+
+## 2026-04-20 — Template image picker uses TanStack Query UI cache selection
+
+**Decision:** The new `template-image` picker package stores selected id in TanStack Query UI cache (`queryKeys.ui.templateImagePickerSelectedId`) via `useTemplateImagePickerSelection`, with value shape `string | null` and fallback resolution in `useTemplateImagePickerList`.
+
+**Why:** Keeps selection shared and consistent across select/cards/detail variants while making parent pages thin consumers with reusable picker components.
+
+**Tradeoffs:** UI state depends on cache-key discipline; broad cache reset/invalidation flows must not clear UI-only picker selection keys unintentionally.
+
+---
+
+## 2026-04-20 — Template mode picker uses TanStack Query UI cache selection
+
+**Decision:** The new `template-mode` picker package stores selected id in TanStack Query UI cache (`queryKeys.ui.templateModePickerSelectedId`) via `useTemplateModePickerSelection`, with value shape `string | null` and fallback resolution in `useTemplateModePickerList`.
+
+**Why:** Keeps selection shared and consistent across select/cards/detail variants while making parent pages thin consumers with reusable picker components.
+
+**Tradeoffs:** UI state depends on cache-key discipline; broad cache reset/invalidation flows must not clear UI-only picker selection keys unintentionally.
+
+---
+
+## 2026-04-20 — Template noise picker uses TanStack Query UI cache selection
+
+**Decision:** The new `template-noise` picker package stores selected id in TanStack Query UI cache (`queryKeys.ui.templateNoisePickerSelectedId`) via `useTemplateNoisePickerSelection`, with value shape `string | null` and fallback resolution in `useTemplateNoisePickerList`.
+
+**Why:** Keeps selection shared and consistent across select/cards/detail variants while making parent pages thin consumers with reusable picker components.
+
+**Tradeoffs:** UI state depends on cache-key discipline; broad cache reset/invalidation flows must not clear UI-only picker selection keys unintentionally.
+
+---
+
+## 2026-04-20 — Template particle picker uses TanStack Query UI cache selection
+
+**Decision:** The new `template-particle` picker package stores selected id in TanStack Query UI cache (`queryKeys.ui.templateParticlePickerSelectedId`) via `useTemplateParticlePickerSelection`, with value shape `string | null` and fallback resolution in `useTemplateParticlePickerList`.
+
+**Why:** Keeps selection shared and consistent across select/cards/detail variants while making parent pages thin consumers with reusable picker components.
+
+**Tradeoffs:** UI state depends on cache-key discipline; broad cache reset/invalidation flows must not clear UI-only picker selection keys unintentionally.
+
+---
+
+## 2026-04-20 — Template patterns UI endpoint uses dedicated top-level API domain
+
+**Decision:** Integrate the new catalog route under a dedicated top-level domain (`appRoutes.templatePatterns.ui`, `queryKeys.templatePatterns.ui`, `templatePatternsApi`, `useTemplatePatternsUi`) with `domain: "template-patterns"` and a dedicated BFF proxy at `GET /api/template-patterns/ui` rather than nesting inside `accountApi`.
+
+**Why:** Template pattern lookup is authenticated but not account-scoped, and this keeps parity with existing template `/ui` endpoint architecture (gradients, images, modes, noises, palettes, particles) for consistent route/service/hook wiring.
+
+**Tradeoffs:** Adding a new domain requires touching shared route typing (`AppRouteDefinition.domain` union) and keeping naming consistent across registry, query keys, and Data Lab links to avoid drift.
+
+---
+
+## 2026-04-25 — Data Lab Season pages standardize on Kitchen Sink Surface and Stat Card patterns
+
+**Decision:** The `/sandbox/data-lab/season/575/*` pages use shared Kitchen Sink-aligned UI primitives: `PageHeader` + `Section` + `Surface` for layout containers, Surface-header body composition for endpoint/payload blocks, and stat-card style metric tiles for overview counts.
+
+**Why:** Keeps season sandbox pages visually consistent with approved application design options shown in Kitchen Sink (`/sandbox/kitchen-sink/lists` and `/sandbox/kitchen-sink/cards`) while preserving the route-contract testing purpose.
+
+**Tradeoffs:** Slightly higher UI abstraction in sandbox pages; if Kitchen Sink container patterns evolve, season data-lab pages should be updated to stay aligned.

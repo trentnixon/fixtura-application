@@ -88,7 +88,10 @@ export default function RouteLabOverviewPage() {
           append <TypographyInlineCode>?state=…</TypographyInlineCode> or{" "}
           <TypographyInlineCode>?mode=…</TypographyInlineCode> where supported. New sandbox tools
           and lab routes can be registered in{" "}
-          <TypographyInlineCode>src/lib/dev-sandbox-nav.ts</TypographyInlineCode>.
+          <TypographyInlineCode>src/lib/dev-sandbox-nav.ts</TypographyInlineCode>. Season routes now
+          include a fixed ID walkthrough under{" "}
+          <TypographyInlineCode>/sandbox/route-lab/season/575/*</TypographyInlineCode> for
+          data-fetch scope validation.
         </TypographyMuted>
       </section>
     </div>

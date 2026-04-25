@@ -7,6 +7,7 @@ import type { AppRouteDefinition } from "@/types/routes/route-meta";
  * @see `.comms/data-fetching/handoff/handoff-phase-00-contract.md`
  */
 const ACCOUNTS_API_BASE = "/api/accounts" as const;
+const SEASON_HUB_API_BASE = "/api/season-hub" as const;
 
 export const appRoutes = {
   auth: {
@@ -395,6 +396,130 @@ export const appRoutes = {
       description:
         "GET — BFF → Strapi public assets list (session optional; forwards Bearer when signed in). .comms/API/ASSETS-handoff-list-for-selection.md",
       domain: "assets",
+    },
+  },
+  /** Published template gradients for UI selection (BFF → Strapi). */
+  templateGradients: {
+    ui: {
+      key: "template-gradients.ui",
+      method: "GET",
+      path: "/api/template-gradients/ui",
+      authRequired: true,
+      status: "ready",
+      description: "GET — published template gradients for UI selection",
+      domain: "template-gradients",
+    },
+  },
+  /** Published template images for UI selection (BFF → Strapi). */
+  templateImages: {
+    ui: {
+      key: "template-images.ui",
+      method: "GET",
+      path: "/api/template-images/ui",
+      authRequired: true,
+      status: "ready",
+      description: "GET — published template images for UI selection",
+      domain: "template-images",
+    },
+  },
+  /** Published template modes for UI selection (BFF → Strapi). */
+  templateModes: {
+    ui: {
+      key: "template-modes.ui",
+      method: "GET",
+      path: "/api/template-modes/ui",
+      authRequired: true,
+      status: "ready",
+      description: "GET — published template modes for UI selection",
+      domain: "template-modes",
+    },
+  },
+  /** Published template noises for UI selection (BFF → Strapi). */
+  templateNoises: {
+    ui: {
+      key: "template-noises.ui",
+      method: "GET",
+      path: "/api/template-noises/ui",
+      authRequired: true,
+      status: "ready",
+      description: "GET — published template noises for UI selection",
+      domain: "template-noises",
+    },
+  },
+  /** Published template palettes for UI selection (BFF → Strapi). */
+  templatePalettes: {
+    ui: {
+      key: "template-palettes.ui",
+      method: "GET",
+      path: "/api/template-palettes/ui",
+      authRequired: true,
+      status: "ready",
+      description: "GET — published template palettes for UI selection",
+      domain: "template-palettes",
+    },
+  },
+  /** Published template particles for UI selection (BFF → Strapi). */
+  templateParticles: {
+    ui: {
+      key: "template-particles.ui",
+      method: "GET",
+      path: "/api/template-particles/ui",
+      authRequired: true,
+      status: "ready",
+      description: "GET - published template particles for UI selection",
+      domain: "template-particles",
+    },
+  },
+  /** Published template patterns for UI selection (BFF → Strapi). */
+  templatePatterns: {
+    ui: {
+      key: "template-patterns.ui",
+      method: "GET",
+      path: "/api/template-patterns/ui",
+      authRequired: true,
+      status: "ready",
+      description: "GET - published template patterns for UI selection",
+      domain: "template-patterns",
+    },
+  },
+  /** Published template textures for UI selection (BFF → Strapi). */
+  templateTextures: {
+    ui: {
+      key: "template-textures.ui",
+      method: "GET",
+      path: "/api/template-textures/ui",
+      authRequired: true,
+      status: "ready",
+      description: "GET - published template textures for UI selection",
+      domain: "template-textures",
+    },
+  },
+  /** Published template video configs for UI selection (BFF → Strapi). */
+  templateVideos: {
+    ui: {
+      key: "template-videos.ui",
+      method: "GET",
+      path: "/api/template-videos/ui",
+      authRequired: true,
+      status: "ready",
+      description: "GET - published template video configs for UI selection",
+      domain: "template-videos",
+    },
+  },
+  /**
+   * Season explorer read model (BFF → Strapi). Base path only; services append
+   * `/${accountId}/recon|stats|competitions|...` per frontend-handoff.md under season/.docs/request/.
+   */
+  seasonHub: {
+    base: {
+      key: "season-hub.base",
+      method: "GET",
+      path: SEASON_HUB_API_BASE,
+      authRequired: true,
+      status: "ready",
+      description:
+        "GET append /{accountId}/… — recon, stats, competitions, grades, fixtures (see season/.docs/request/frontend-handoff.md)",
+      domain: "season-hub",
     },
   },
   admin: {

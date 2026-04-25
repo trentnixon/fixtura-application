@@ -1,6 +1,8 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
+import { ApiError } from "@/lib/api/client/api-error";
+
 import { SetupStatusCard } from "./setup-status-card";
 
 const useOnboardingSetupStatus = vi.hoisted(() => vi.fn());
@@ -122,5 +124,28 @@ describe("SetupStatusCard", () => {
     ).toBeInTheDocument();
     expect(screen.getByText(/Background setup/i)).toBeInTheDocument();
     expect(screen.getByText(/Progress: Syncing/i)).toBeInTheDocument();
+  });
+
+  it("shows a retrying message for transient timeout errors", () => {
+    useOnboardingSetupStatus.mockReturnValue({
+      isPending: false,
+      isError: true,
+      error: new ApiError({
+        status: 408,
+        message: "Request timed out",
+      }),
+    });
+    useRetryOnboardingSetup.mockReturnValue({
+      isPending: false,
+      mutate: vi.fn(),
+    });
+
+    render(<SetupStatusCard accountId="1" />);
+
+    expect(
+      screen.getByText(
+        /Setup is taking longer than expected. We will keep retrying automatically./i,
+      ),
+    ).toBeInTheDocument();
   });
 });

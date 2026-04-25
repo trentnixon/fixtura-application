@@ -1,0 +1,67 @@
+{
+  "json": {
+    "data": [
+      {
+        "id": 18030,
+        "name": "03 - Junior Competition",
+        "season": "Winter 2026",
+        "status": "Active",
+        "association": { "id": 2964, "name": "Darwin And Districts Cricket Competition" },
+        "counts": { "grades": 6, "teams": 44, "fixtures": 214 },
+        "links": {
+          "self": "/api/season-hub/575/competitions/18030",
+          "grades": "/api/season-hub/575/competitions/18030/grades"
+        }
+      },
+      {
+        "id": 18031,
+        "name": "02 - Senior Competition",
+        "season": "Winter 2026",
+        "status": "Active",
+        "association": { "id": 2964, "name": "Darwin And Districts Cricket Competition" },
+        "counts": { "grades": 5, "teams": 43, "fixtures": 327 },
+        "links": {
+          "self": "/api/season-hub/575/competitions/18031",
+          "grades": "/api/season-hub/575/competitions/18031/grades"
+        }
+      },
+      {
+        "id": 18032,
+        "name": "05 - Sunday League",
+        "season": "Winter 2026",
+        "status": "Active",
+        "association": { "id": 2964, "name": "Darwin And Districts Cricket Competition" },
+        "counts": { "grades": 2, "teams": 21, "fixtures": 140 },
+        "links": {
+          "self": "/api/season-hub/575/competitions/18032",
+          "grades": "/api/season-hub/575/competitions/18032/grades"
+        }
+      },
+      {
+        "id": 18033,
+        "name": "04 - T20 Competition",
+        "season": "Winter 2026",
+        "status": "Active",
+        "association": { "id": 2964, "name": "Darwin And Districts Cricket Competition" },
+        "counts": { "grades": 2, "teams": 14, "fixtures": 57 },
+        "links": {
+          "self": "/api/season-hub/575/competitions/18033",
+          "grades": "/api/season-hub/575/competitions/18033/grades"
+        }
+      },
+      {
+        "id": 18034,
+        "name": "01 - Women's Competition",
+        "season": "Winter 2026",
+        "status": "Active",
+        "association": { "id": 2964, "name": "Darwin And Districts Cricket Competition" },
+        "counts": { "grades": 2, "teams": 12, "fixtures": 93 },
+        "links": {
+          "self": "/api/season-hub/575/competitions/18034",
+          "grades": "/api/season-hub/575/competitions/18034/grades"
+        }
+      }
+    ],
+    "meta": { "pagination": { "page": 1, "pageSize": 25, "pageCount": 1, "total": 5 } }
+  }
+}

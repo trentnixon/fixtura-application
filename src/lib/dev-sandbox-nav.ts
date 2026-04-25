@@ -60,6 +60,7 @@ export const ROUTE_LAB_NAV_SECTIONS: SandboxNavSection[] = [
   {
     title: "App (scoped)",
     links: [
+      { href: `${ROUTES.routeLab}/season/575/overview`, label: "Season" },
       { href: `${ROUTES.routeLab}/app/dashboard`, label: "Dashboard" },
       { href: `${ROUTES.routeLab}/app/settings`, label: "Settings" },
     ],
@@ -69,11 +70,31 @@ export const ROUTE_LAB_NAV_SECTIONS: SandboxNavSection[] = [
 /** Data lab child routes — add sections here as each scenario gets a dedicated URL under `/sandbox/data-lab`. */
 export const DATA_LAB_NAV_SECTIONS: SandboxNavSection[] = [
   {
-    title: "Template categories",
+    title: "Season",
     links: [
       {
-        href: `${ROUTES.dataLab}/template-categories/list-for-selection`,
-        label: "List for selection",
+        href: `${ROUTES.dataLab}/season/575/overview`,
+        label: "Overview (account 575)",
+      },
+      {
+        href: `${ROUTES.dataLab}/season/575/competitions/18031`,
+        label: "Competition detail (canonical)",
+      },
+      {
+        href: `${ROUTES.dataLab}/season/575/competitions/18031/grades/71337`,
+        label: "Grade detail (canonical)",
+      },
+      {
+        href: `${ROUTES.dataLab}/season/575/competitions/18031/grades/71337/fixtures/3571729`,
+        label: "Fixture detail (canonical)",
+      },
+      {
+        href: `${ROUTES.dataLab}/season/575/grades/71337`,
+        label: "Grade detail (alias)",
+      },
+      {
+        href: `${ROUTES.dataLab}/season/575/grades/71337/fixtures/3571729`,
+        label: "Fixture detail (alias)",
       },
     ],
   },
@@ -83,6 +104,51 @@ export const DATA_LAB_NAV_SECTIONS: SandboxNavSection[] = [
       {
         href: `${ROUTES.dataLab}/assets/list-for-selection`,
         label: "List for selection",
+      },
+    ],
+  },
+  {
+    title: "Template options",
+    links: [
+      {
+        href: `${ROUTES.dataLab}/template-categories/list-for-selection`,
+        label: "Asset Types",
+      },
+      {
+        href: `${ROUTES.dataLab}/template-gradients/ui`,
+        label: "Gradients",
+      },
+      {
+        href: `${ROUTES.dataLab}/template-images/ui`,
+        label: "Images",
+      },
+      {
+        href: `${ROUTES.dataLab}/template-modes/ui`,
+        label: "Modes",
+      },
+      {
+        href: `${ROUTES.dataLab}/template-noises/ui`,
+        label: "Noise",
+      },
+      {
+        href: `${ROUTES.dataLab}/template-palettes/ui`,
+        label: "Palettes",
+      },
+      {
+        href: `${ROUTES.dataLab}/template-particles/ui`,
+        label: "Particles",
+      },
+      {
+        href: `${ROUTES.dataLab}/template-patterns/ui`,
+        label: "Patterns",
+      },
+      {
+        href: `${ROUTES.dataLab}/template-textures/ui`,
+        label: "Textures",
+      },
+      {
+        href: `${ROUTES.dataLab}/template-videos/ui`,
+        label: "Videos",
       },
     ],
   },

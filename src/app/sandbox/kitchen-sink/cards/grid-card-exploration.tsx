@@ -14,6 +14,8 @@ import {
 import { ROUTES } from "@/lib/config/routes";
 import { cn } from "@/lib/utils";
 
+import { CardReferenceName } from "./card-reference-name";
+
 import type { ReactNode } from "react";
 
 const DEMO_HREF = `${ROUTES.kitchenSink}/cards`;
@@ -95,8 +97,15 @@ export function GridCardExplorationSection() {
       <GridCardShowcaseSurface>
         <Subsection
           title="Visual presets"
-          description="Org initials, org with logo image, add (dashed), sandbox (route glyph), and a Lucide icon via GridCardIcon — all on the default variant and tone."
+          description="Org initials, org with logo image, add (dashed), sandbox (route glyph), and a Lucide icon via GridCardIcon - all on the default variant and tone."
         >
+          <div className="mb-4 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+            <CardReferenceName name="card.grid.default.org-initials" />
+            <CardReferenceName name="card.grid.default.org-logo" />
+            <CardReferenceName name="card.grid.default.add-shortcut" />
+            <CardReferenceName name="card.grid.default.sandbox-shortcut" />
+            <CardReferenceName name="card.grid.default.custom-icon" />
+          </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             <GridCard
               title="Northern District"
@@ -146,6 +155,10 @@ export function GridCardExplorationSection() {
           title="Layout variant"
           description="default uses the card surface; reverse fills with primary for emphasis (same pattern as create-org on select-organisation)."
         >
+          <div className="mb-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
+            <CardReferenceName name="card.grid.default.sandbox" />
+            <CardReferenceName name="card.grid.reverse.sandbox" />
+          </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <GridCard
               variant="default"
@@ -170,6 +183,11 @@ export function GridCardExplorationSection() {
           title="Semantic tones (default variant)"
           description="tone composes on top of variant for mute, error, success, warning, and loading states."
         >
+          <div className="mb-4 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            {TONES.map((tone) => (
+              <CardReferenceName key={`ref-default-${tone}`} name={`card.grid.default.${tone}`} />
+            ))}
+          </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {TONES.map((tone) => (
               <GridCard
@@ -191,6 +209,11 @@ export function GridCardExplorationSection() {
           title="Semantic tones (reverse variant)"
           description="Same tones on the primary-filled tile for high-contrast contexts."
         >
+          <div className="mb-4 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            {TONES.map((tone) => (
+              <CardReferenceName key={`ref-reverse-${tone}`} name={`card.grid.reverse.${tone}`} />
+            ))}
+          </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {TONES.map((tone) => (
               <GridCard
@@ -212,30 +235,36 @@ export function GridCardExplorationSection() {
           title="Visual slot emphasis"
           description='emphasis="strong" (default) is the members-area default: larger glyph and stronger hover ring. emphasis="default" is lighter.'
         >
+          <div className="mb-4 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
+            <CardReferenceName name="card.grid.sandbox.strong" />
+            <CardReferenceName name="card.grid.sandbox.default" />
+            <CardReferenceName name="card.grid.add.strong" />
+            <CardReferenceName name="card.grid.add.default" />
+          </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <GridCard
-              title="Sandbox · strong"
+              title="Sandbox / strong"
               description="Default emphasis."
               ctaLabel="Open"
               href={DEMO_HREF}
               visual={<GridCardVisualSlot visual="sandbox" emphasis="strong" />}
             />
             <GridCard
-              title="Sandbox · default"
+              title="Sandbox / default"
               description="Smaller icon, subtler hover."
               ctaLabel="Open"
               href={DEMO_HREF}
               visual={<GridCardVisualSlot visual="sandbox" emphasis="default" />}
             />
             <GridCard
-              title="Add · strong"
+              title="Add / strong"
               description="Default emphasis."
               ctaLabel="Add"
               href={DEMO_HREF}
               visual={<GridCardVisualSlot visual="add" emphasis="strong" />}
             />
             <GridCard
-              title="Add · default"
+              title="Add / default"
               description="Lighter plus mark."
               ctaLabel="Add"
               href={DEMO_HREF}
@@ -248,6 +277,12 @@ export function GridCardExplorationSection() {
           title="Select organisation tile"
           description="GridCardSelectOrganisation is the tall tile used on /select-organisation: title, optional sport line, visual, optional Active/Setup rows, and CTA."
         >
+          <div className="mb-4 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
+            <CardReferenceName name="card.grid-select.org-active" />
+            <CardReferenceName name="card.grid-select.org-pending" />
+            <CardReferenceName name="card.grid-select.create" />
+            <CardReferenceName name="card.grid-select.loading" />
+          </div>
           <div className="flex flex-wrap items-stretch justify-start gap-4">
             <div className="flex h-full min-h-0 w-full max-w-56 shrink-0 flex-col self-stretch">
               <GridCardSelectOrganisation
@@ -298,7 +333,7 @@ export function GridCardExplorationSection() {
                 title="Loading state"
                 ctaLabel="Please wait"
                 onClick={() => undefined}
-                visual={<GridCardVisualSlot visual="org" initials="··" />}
+                visual={<GridCardVisualSlot visual="org" initials=".." />}
               />
             </div>
           </div>
@@ -308,6 +343,11 @@ export function GridCardExplorationSection() {
           title="Icon tile (sandbox portal pattern)"
           description="Same composition as the /sandbox portal: title, short CTA, GridCardIcon, and optional description for assistive copy."
         >
+          <div className="mb-4 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            <CardReferenceName name="card.grid-icon.kitchen-sink" />
+            <CardReferenceName name="card.grid-icon.route-lab" />
+            <CardReferenceName name="card.grid-icon.disabled" />
+          </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <GridCard
               title="Kitchen Sink"
@@ -322,6 +362,13 @@ export function GridCardExplorationSection() {
               ctaLabel="Open"
               href={ROUTES.routeLab}
               visual={<GridCardIcon icon={Route} />}
+            />
+            <GridCard
+              title="Coming Soon"
+              description="Unavailable shortcut tile."
+              ctaLabel="Unavailable"
+              disabled
+              visual={<GridCardIcon icon={Building2} />}
             />
           </div>
         </Subsection>

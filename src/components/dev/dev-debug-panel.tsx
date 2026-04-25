@@ -59,7 +59,7 @@ export function DevDebugPanel() {
   const queryStr = searchParams.toString();
 
   return (
-    <div className="fixed right-4 bottom-4 z-[9999] max-h-[80vh] w-80 overflow-auto rounded-md border border-green-900/50 bg-black/95 p-4 font-mono text-xs text-green-400 shadow-xl backdrop-blur-md">
+    <div className="fixed right-4 bottom-4 z-[9999] max-h-[80vh] w-72 overflow-auto rounded-md border border-green-900/50 bg-black/95 p-4 font-mono text-xs text-green-400 shadow-xl backdrop-blur-md">
       <div className="mb-3 flex items-center justify-between border-b border-green-800 pb-2">
         <h3 className="font-bold text-green-300">⚙️ Dev Debug Panel</h3>
         <button

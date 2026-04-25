@@ -14,10 +14,14 @@ import type * as UseAccountOrganisationContextModule from "@/lib/api/hooks/accou
 import type { OnboardingStateData } from "@/types/api/account";
 import type { ReactElement } from "react";
 
-const replace = vi.fn();
+const navMocks = vi.hoisted(() => ({
+  pathname: "/o/42/dashboard",
+  replace: vi.fn(),
+}));
 
 vi.mock("next/navigation", () => ({
-  useRouter: () => ({ replace }),
+  useRouter: () => ({ replace: navMocks.replace }),
+  usePathname: () => navMocks.pathname,
 }));
 
 const useAccountOrganisationContextMock = vi.hoisted(() => vi.fn());
@@ -87,6 +91,7 @@ function renderWithClient(ui: ReactElement) {
 describe("OrgAccessBoundary", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    navMocks.pathname = "/o/42/dashboard";
     useAccountOrganisationContextMock.mockReturnValue(orgContextOk());
   });
 
@@ -107,7 +112,9 @@ describe("OrgAccessBoundary", () => {
     );
 
     await waitFor(() => {
-      expect(replace).toHaveBeenCalledWith(accountEntryFromOnboardingState(onboarding, accountId));
+      expect(navMocks.replace).toHaveBeenCalledWith(
+        accountEntryFromOnboardingState(onboarding, accountId),
+      );
     });
 
     expect(screen.queryByText("Scoped content")).not.toBeInTheDocument();
@@ -137,7 +144,31 @@ describe("OrgAccessBoundary", () => {
       expect(screen.getByText("Scoped content")).toBeInTheDocument();
     });
 
-    expect(replace).not.toHaveBeenCalled();
+    expect(navMocks.replace).not.toHaveBeenCalled();
+  });
+
+  it("does not redirect wizard users away when they are on the season area (season layout shows lock UI)", async () => {
+    const accountId = "42";
+    navMocks.pathname = `/o/${accountId}/season`;
+    const onboarding = baseOnboarding();
+    useOnboardingOnboardingStateMock.mockReturnValue({
+      isSuccess: true,
+      isPending: false,
+      isError: false,
+      data: onboarding,
+    });
+
+    renderWithClient(
+      <OrgAccessBoundary accountId={accountId}>
+        <div>Scoped content</div>
+      </OrgAccessBoundary>,
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText("Scoped content")).toBeInTheDocument();
+    });
+
+    expect(navMocks.replace).not.toHaveBeenCalled();
   });
 
   it("redirects to select-organisation when account id segment is invalid", async () => {
@@ -148,7 +179,7 @@ describe("OrgAccessBoundary", () => {
     );
 
     await waitFor(() => {
-      expect(replace).toHaveBeenCalledWith(
+      expect(navMocks.replace).toHaveBeenCalledWith(
         selectOrganisationUrlWithReason(SELECT_ORG_GATEWAY_REASON.invalidOrg),
       );
     });

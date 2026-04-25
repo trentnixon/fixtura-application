@@ -35,9 +35,12 @@ export default function DataLabLayout({ children }: { children: ReactNode }) {
             </Link>
             {DATA_LAB_NAV_SECTIONS.map((section) => (
               <div key={section.title}>
-                <TypographyMuted className="mb-2 px-3 text-xs font-semibold tracking-wide uppercase">
-                  {section.title}
-                </TypographyMuted>
+                <div className="mb-2 flex items-center gap-2 px-3">
+                  <TypographyMuted className="text-foreground/80 text-[11px] font-semibold tracking-[0.06em]">
+                    {section.title}
+                  </TypographyMuted>
+                  <span className="bg-border h-px flex-1" aria-hidden="true" />
+                </div>
                 <div className="flex flex-col gap-1">
                   {section.links.map((link) => (
                     <Link

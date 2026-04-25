@@ -1,27 +1,21 @@
 # State
 
-_Last updated: 2026-04-15 (episode — Image Options picker `isList` aligned with kitchen-sink Selectable list)._
+_Last updated: 2026-04-25 (episode — season-hub members integration + setup gate + zero-state coverage)._
 
 ## Current focus
 
-- **Assets (list for selection):** BFF [`/api/assets/list-for-selection`](src/app/api/assets/list-for-selection/route.ts); [`useAssetsListForSelection`](src/lib/api/hooks/account/useAssetsListForSelection.ts); handoff [`.comms/API/ASSETS-handoff-list-for-selection.md`](.comms/API/ASSETS-handoff-list-for-selection.md). **Reusable UI:** [`ImageOptionsAssetsPicker`](src/components/pickers/assets-list-for-selection/image-options-assets-picker.tsx) — optional `isSelect` / `isList` (default `false`); **`isList`** matches kitchen-sink **Selectable list** ([`/sandbox/kitchen-sink/lists`](src/app/sandbox/kitchen-sink/lists/page.tsx)); default sport filter [`DEFAULT_SPORT_FILTER_KEY`](src/components/pickers/assets-list-for-selection/_consts/sport-filter-keys.ts) (`Cricket`). Hooks [`_hooks/`](src/components/pickers/assets-list-for-selection/_hooks/) + [`_consts`](src/components/pickers/assets-list-for-selection/_consts/) (`queryKeys.ui.assetPickerSelectedId`). **Data lab:** [`/sandbox/data-lab/assets/list-for-selection`](src/app/sandbox/data-lab/assets/list-for-selection/page.tsx).
-- **Template categories (list for selection):** BFF [`/api/account/template-categories/list-for-selection`](src/app/api/account/template-categories/list-for-selection/route.ts); [`useTemplateCategoriesListForSelection`](src/lib/api/hooks/account/useTemplateCategoriesListForSelection.ts); handoff [`.comms/data-fetching/handoff/handoff-list-for-selection.md`](.comms/data-fetching/handoff/handoff-list-for-selection.md). **Pickers:** [`src/components/pickers/template-category/`](src/components/pickers/template-category/) — [`_hooks`](src/components/pickers/template-category/_hooks/) (`useTemplateCategoryPickerSelection`, `useTemplateCategoryPickerList`), [`_utils`](src/components/pickers/template-category/_utils/), barrel [`index.ts`](src/components/pickers/template-category/index.ts). **Data lab:** [`/sandbox/data-lab/template-categories/list-for-selection`](src/app/sandbox/data-lab/template-categories/list-for-selection/page.tsx). **Ops:** Strapi permission `getTemplateCategoriesForSelection` for Authenticated users.
-- **Remotion sandbox:** [`ROUTES.remotionPreview`](src/lib/config/routes.ts) → [`/sandbox/interaction-lab/remotion`](src/app/sandbox/interaction-lab/remotion/page.tsx); preview template from CMS category **slug** via [`remotionTemplateFromSlug`](src/components/remotion/remotion-sandbox-options.ts); [`RemotionSandboxPanel`](src/components/remotion/remotion-sandbox-panel.tsx) — right column: `TemplateCategorySelectPicker`, then asset/composition select. **Preview column:** [`RemotionPreview`](src/components/remotion/remotion-preview.tsx) — `Player` plus `Thumbnail` still(s); top-level dummy **`frames`** drives thumbnail frame indices via [`getSandboxThumbnailFramesFromData`](src/components/remotion/remotion-sandbox-dataset.ts), else fallback [`REMOTION_SANDBOX_PREVIEW_THUMBNAIL_FRAME`](src/components/remotion/remotion-sandbox-options.ts); shared data from [`useRemotionSandboxPreviewData`](src/components/remotion/remotion-sandbox-preview-data.ts).
-- **Interaction lab carousel:** [`/sandbox/interaction-lab/carousel`](src/app/sandbox/interaction-lab/carousel/page.tsx) — shadcn/Embla demo + [`CarouselPrevious`/`Next` hover alignment](src/components/ui/carousel.tsx) (see decisions).
-- **Onboarding lifecycle (shipped):** [`resolve-account-entry.ts`](src/lib/onboarding/resolve-account-entry.ts); [`ScopedOnboardingSyncBanner`](src/components/scoped-onboarding-sync-banner.tsx); review [`.comms/CODEX/ONBOARDING_STRUCTURE_REVIEW_SETUP_REDIRECT.md`](.comms/CODEX/ONBOARDING_STRUCTURE_REVIEW_SETUP_REDIRECT.md).
-- **Onboarding Epic 7 (in progress — manual QA):** [`.comms/CODEX/EPIC_7_TICKET_7_1_FRONTEND_ROUTE_QA.md`](.comms/CODEX/EPIC_7_TICKET_7_1_FRONTEND_ROUTE_QA.md), [7.2](.comms/CODEX/EPIC_7_TICKET_7_2_CMS_LIFECYCLE_QA.md), [7.3](.comms/CODEX/EPIC_7_TICKET_7_3_RECOVERY_QA.md); sign-off [`.comms/CODEX/EPIC_7_QA_SIGNOFF.md`](.comms/CODEX/EPIC_7_QA_SIGNOFF.md).
-- **Gateway `/select-organisation`:** [`select-org-card-tone.ts`](src/lib/onboarding/select-org-card-tone.ts); [`select-organisation-content.tsx`](<src/app/(members)/select-organisation/select-organisation-content.tsx>).
-- **Delete unfinished account:** BFF [`DELETE …/api/accounts/[accountId]`](src/app/api/accounts/[accountId]/route.ts); [`useDeleteUnfinishedAccount`](src/lib/api/hooks/account/useDeleteUnfinishedAccount.ts).
-- **Members nav:** [`app-sidebar.tsx`](src/components/app-sidebar.tsx).
+- Stabilize members Season under `/o/[accountId]/season` on the new `season-hub` endpoint family.
+- Enforce season access lock using `state.isSetup === true` and keep lock messaging polite/informational.
+- Validate and refine empty-state UX for zero competitions, grades, teams, and fixtures.
 
 ## Next actions
 
-- [ ] **Template categories:** If dev runtime still shows `getTemplateCategoriesListForSelection is not a function`, apply named-export pattern in [`account.api.ts`](src/lib/api/services/account.api.ts) + hook import; clear `.next` and restart dev.
-- [ ] **CMS:** Enable **getTemplateCategoriesForSelection** for Authenticated in Strapi (target env); align category **slugs** with [`REMOTION_SANDBOX_TEMPLATE_IDS`](src/components/remotion/remotion-sandbox-options.ts) for Remotion preview.
-- [ ] **Epic 7:** Run ticket **7.1** / **7.2** / **7.3** in staging; complete [EPIC_7_QA_SIGNOFF](.comms/CODEX/EPIC_7_QA_SIGNOFF.md).
-- [ ] **Remotion (optional):** `/sandbox/interaction-lab/remotion` — viewport resize, player controls, confirm `Thumbnail` row matches dataset `frames` / fallback frame 10.
-- [ ] **Assets picker (optional):** `/sandbox/data-lab/assets/list-for-selection` — default sport Cricket; pass `isSelect` / `isList` where the grouped select and list should show; TanStack selection, refetch.
+- [ ] Manually verify season lock behavior for accounts with `isSetup=false` and `isSetup=true`.
+- [ ] Manually validate season overview and drill-down pages (success, empty, and error states) against live data.
+- [ ] Run broader repo checks (`lint` / `typecheck`) when convenient.
+- [ ] Tighten loose season detail typings once stable payload samples are confirmed.
 
 ## Blockers / risks
 
-- **Strapi** upstream for Epic **7.2** CMS QA — see [EPIC_7_TICKET_7_2](.comms/CODEX/EPIC_7_TICKET_7_2_CMS_LIFECYCLE_QA.md).
+- Some season detail contracts are intentionally loose pending stable upstream payloads.
+- Environment-level Strapi permissions/data availability can change observed season endpoint behavior.

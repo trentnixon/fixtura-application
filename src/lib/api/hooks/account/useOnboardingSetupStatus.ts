@@ -38,11 +38,18 @@ export function useOnboardingSetupStatus(accountId: string, options?: { enabled?
       if (error instanceof ApiError && (error.status === 404 || error.status === 503)) {
         return failureCount < 1;
       }
+      if (error instanceof ApiError && error.status === 408) {
+        return failureCount < 3;
+      }
       return failureCount < 2;
     },
     refetchInterval: (query) => {
       if (query.state.fetchStatus === "fetching") return false;
-      if (query.state.status === "error") return false;
+      if (query.state.status === "error") {
+        return query.state.error instanceof ApiError && query.state.error.status === 408
+          ? ONBOARDING_SETUP_STATUS_POLL_MS
+          : false;
+      }
       const row = query.state.data;
       if (!row) return false;
       const terminal = isTerminalOnboardingSetupStatus(row.status);

@@ -1,7 +1,7 @@
 "use client";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 
 import { BrandedLoader } from "@/components/ui/branded-loader";
@@ -37,9 +37,12 @@ export function OrgAccessBoundary({
   children: ReactNode;
 }) {
   const router = useRouter();
+  const pathname = usePathname() ?? "";
   const queryClient = useQueryClient();
   const redirectingRef = useRef(false);
   const segmentOk = isValidAccountIdSegment(accountId);
+  const seasonPrefix = `/o/${accountId}/season`;
+  const isSeasonArea = pathname === seasonPrefix || pathname.startsWith(`${seasonPrefix}/`);
   const q = useAccountOrganisationContext(accountId, { enabled: segmentOk });
 
   const orgContextReady =
@@ -74,11 +77,19 @@ export function OrgAccessBoundary({
   useEffect(() => {
     if (!orgContextReady) return;
     if (!onboardingQuery.isSuccess || !onboardingQuery.data || redirectingRef.current) return;
+    if (isSeasonArea) return;
     const intent = resolveAccountEntry(onboardingQuery.data);
     if (intent === "dashboard") return;
     redirectingRef.current = true;
     router.replace(accountEntryFromOnboardingState(onboardingQuery.data, accountId));
-  }, [orgContextReady, onboardingQuery.isSuccess, onboardingQuery.data, accountId, router]);
+  }, [
+    orgContextReady,
+    onboardingQuery.isSuccess,
+    onboardingQuery.data,
+    accountId,
+    router,
+    isSeasonArea,
+  ]);
 
   if (!segmentOk) {
     return (
@@ -138,7 +149,8 @@ export function OrgAccessBoundary({
     orgContextReady &&
     onboardingQuery.isSuccess &&
     onboardingQuery.data &&
-    resolveAccountEntry(onboardingQuery.data) !== "dashboard"
+    resolveAccountEntry(onboardingQuery.data) !== "dashboard" &&
+    !isSeasonArea
   ) {
     return (
       <div className="text-muted-foreground grid gap-2 p-6 text-center text-sm" role="status">

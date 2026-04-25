@@ -3,6 +3,7 @@ import type {
   AccountRendersListParams,
   AllTemplateOptionsParams,
 } from "@/types/api/account";
+import type { SeasonHubCompetitionsListParams } from "@/types/api/season-hub";
 
 /**
  * Standard registry for TanStack Query keys.
@@ -74,6 +75,63 @@ export const queryKeys = {
   assets: {
     listForSelection: ["assets", "list-for-selection"] as const,
   },
+  /** GET /api/template-gradients/ui — published gradients (BFF → Strapi) */
+  templateGradients: {
+    ui: ["template-gradients", "ui"] as const,
+  },
+  /** GET /api/template-images/ui — published template images (BFF → Strapi) */
+  templateImages: {
+    ui: ["template-images", "ui"] as const,
+  },
+  /** GET /api/template-modes/ui — published template modes (BFF → Strapi) */
+  templateModes: {
+    ui: ["template-modes", "ui"] as const,
+  },
+  /** GET /api/template-noises/ui — published template noises (BFF → Strapi) */
+  templateNoises: {
+    ui: ["template-noises", "ui"] as const,
+  },
+  /** GET /api/template-palettes/ui — published template palettes (BFF → Strapi) */
+  templatePalettes: {
+    ui: ["template-palettes", "ui"] as const,
+  },
+  /** GET /api/template-particles/ui — published template particles (BFF → Strapi) */
+  templateParticles: {
+    ui: ["template-particles", "ui"] as const,
+  },
+  /** GET /api/template-patterns/ui — published template patterns (BFF → Strapi) */
+  templatePatterns: {
+    ui: ["template-patterns", "ui"] as const,
+  },
+  /** GET /api/template-textures/ui — published template textures (BFF → Strapi) */
+  templateTextures: {
+    ui: ["template-textures", "ui"] as const,
+  },
+  /** GET /api/template-videos/ui — published template video configs (BFF → Strapi) */
+  templateVideos: {
+    ui: ["template-videos", "ui"] as const,
+  },
+  /** GET /api/season-hub/:accountId/… — season explorer (BFF → Strapi) */
+  seasonHub: {
+    all: ["season-hub"] as const,
+    recon: (accountId: string) => ["season-hub", "recon", accountId] as const,
+    stats: (accountId: string) => ["season-hub", "stats", accountId] as const,
+    competitions: (accountId: string, params?: SeasonHubCompetitionsListParams) =>
+      ["season-hub", "competitions", accountId, params?.page ?? 1, params?.pageSize ?? 25] as const,
+    competition: (accountId: string, competitionId: string) =>
+      ["season-hub", "competition", accountId, competitionId] as const,
+    competitionGrades: (accountId: string, competitionId: string) =>
+      ["season-hub", "competition-grades", accountId, competitionId] as const,
+    /** Canonical grade key includes competitionId when present; otherwise alias branch. */
+    grade: (accountId: string, gradeId: string, competitionId: string | null) =>
+      ["season-hub", "grade", accountId, gradeId, competitionId ?? "alias"] as const,
+    gradeFixtures: (accountId: string, gradeId: string, competitionId: string | null) =>
+      ["season-hub", "grade-fixtures", accountId, gradeId, competitionId ?? "alias"] as const,
+    fixture: (accountId: string, competitionId: string, gradeId: string, fixtureId: string) =>
+      ["season-hub", "fixture", accountId, competitionId, gradeId, fixtureId] as const,
+    fixtureAlias: (accountId: string, gradeId: string, fixtureId: string) =>
+      ["season-hub", "fixture-alias", accountId, gradeId, fixtureId] as const,
+  },
   onboarding: {
     lookupsSports: ["onboarding", "lookups", "sports"] as const,
     lookupsOrganisationTypes: ["onboarding", "lookups", "organisation-types"] as const,
@@ -100,5 +158,14 @@ export const queryKeys = {
     templateCategoryPickerSelectedId: ["ui", "pickers", "template-category", "selectedId"] as const,
     /** Image Options asset picker — selected asset id (list-for-selection). */
     assetPickerSelectedId: ["ui", "pickers", "assets-list-for-selection", "selectedId"] as const,
+    templateGradientPickerSelectedId: ["ui", "pickers", "template-gradient", "selectedId"] as const,
+    templateImagePickerSelectedId: ["ui", "pickers", "template-image", "selectedId"] as const,
+    templateModePickerSelectedId: ["ui", "pickers", "template-mode", "selectedId"] as const,
+    templateNoisePickerSelectedId: ["ui", "pickers", "template-noise", "selectedId"] as const,
+    templateParticlePickerSelectedId: ["ui", "pickers", "template-particle", "selectedId"] as const,
+    templatePalettePickerSelectedId: ["ui", "pickers", "template-palette", "selectedId"] as const,
+    templatePatternPickerSelectedId: ["ui", "pickers", "template-pattern", "selectedId"] as const,
+    templateTexturePickerSelectedId: ["ui", "pickers", "template-texture", "selectedId"] as const,
+    templateVideoPickerSelectedId: ["ui", "pickers", "template-video", "selectedId"] as const,
   },
 } as const;

@@ -13,8 +13,10 @@ type AuthAttempt = {
 
 class SpamSuppressionStore {
   private static instance: SpamSuppressionStore;
-  private ipStore: Map<string, AuthAttempt> = new Map();
-  private emailStore: Map<string, AuthAttempt> = new Map();
+  private loginIpStore: Map<string, AuthAttempt> = new Map();
+  private loginEmailStore: Map<string, AuthAttempt> = new Map();
+  private forgotIpStore: Map<string, AuthAttempt> = new Map();
+  private forgotEmailStore: Map<string, AuthAttempt> = new Map();
 
   // Thresholds from [.comms/login-forgot-password-spam-suppression.md]
   private readonly LOGIN_IP_LIMIT = 5; // per minute
@@ -55,8 +57,8 @@ class SpamSuppressionStore {
     const normalizedEmail = email.toLowerCase().trim();
 
     // 1. Check Cooldowns
-    const ipData = this.ipStore.get(ip);
-    const emailData = this.emailStore.get(normalizedEmail);
+    const ipData = this.loginIpStore.get(ip);
+    const emailData = this.loginEmailStore.get(normalizedEmail);
 
     if (ipData && ipData.cooldownUntil > now) {
       return { allowed: false, delayMs: 0, reason: "ip_cooldown" };
@@ -94,8 +96,8 @@ class SpamSuppressionStore {
     const now = Date.now();
     const normalizedEmail = email.toLowerCase().trim();
 
-    const ipData = this.ipStore.get(ip);
-    const emailData = this.emailStore.get(normalizedEmail);
+    const ipData = this.forgotIpStore.get(ip);
+    const emailData = this.forgotEmailStore.get(normalizedEmail);
 
     if (
       ipData &&
@@ -119,8 +121,8 @@ class SpamSuppressionStore {
    * Records a successful attempt (resets counters/backoff).
    */
   public recordSuccess(ip: string, email: string) {
-    this.ipStore.delete(ip);
-    this.emailStore.delete(email.toLowerCase().trim());
+    this.loginIpStore.delete(ip);
+    this.loginEmailStore.delete(email.toLowerCase().trim());
   }
 
   /**
@@ -130,8 +132,8 @@ class SpamSuppressionStore {
     const now = Date.now();
     const normalizedEmail = email.toLowerCase().trim();
 
-    this.updateEntry(this.ipStore, ip, now);
-    this.updateEntry(this.emailStore, normalizedEmail, now);
+    this.updateEntry(this.loginIpStore, ip, now, this.LOGIN_IP_WINDOW);
+    this.updateEntry(this.loginEmailStore, normalizedEmail, now, this.LOGIN_EMAIL_WINDOW);
 
     // Logs for security monitoring
     this.logSuspiciousActivity(ip, normalizedEmail, "failed_login");
@@ -144,14 +146,14 @@ class SpamSuppressionStore {
     const now = Date.now();
     const normalizedEmail = email.toLowerCase().trim();
 
-    this.updateEntry(this.ipStore, ip, now);
-    this.updateEntry(this.emailStore, normalizedEmail, now);
+    this.updateEntry(this.forgotIpStore, ip, now, this.FORGOT_IP_WINDOW);
+    this.updateEntry(this.forgotEmailStore, normalizedEmail, now, this.FORGOT_EMAIL_WINDOW);
   }
 
   /**
    * Internal helper to update attempt data.
    */
-  private updateEntry(store: Map<string, AuthAttempt>, key: string, now: number) {
+  private updateEntry(store: Map<string, AuthAttempt>, key: string, now: number, windowMs: number) {
     const current = store.get(key) || {
       count: 0,
       lastAttempt: 0,
@@ -160,7 +162,7 @@ class SpamSuppressionStore {
     };
 
     // Reset count if window has passed
-    const isNewWindow = now - current.lastAttempt > this.LOGIN_EMAIL_WINDOW; // Use largest window for reset
+    const isNewWindow = now - current.lastAttempt > windowMs;
     const newCount = isNewWindow ? 1 : current.count + 1;
 
     let newBackoff = current.backoffLevel;
@@ -196,12 +198,23 @@ class SpamSuppressionStore {
     const now = Date.now();
     const expiry = 60 * 60 * 1000; // 1 hour
 
-    for (const [key, data] of this.ipStore.entries()) {
-      if (now - data.lastAttempt > expiry) this.ipStore.delete(key);
+    this.cleanupStore(this.loginIpStore, expiry, now);
+    this.cleanupStore(this.loginEmailStore, expiry, now);
+    this.cleanupStore(this.forgotIpStore, expiry, now);
+    this.cleanupStore(this.forgotEmailStore, expiry, now);
+  }
+
+  private cleanupStore(store: Map<string, AuthAttempt>, expiry: number, now: number) {
+    for (const [key, data] of store.entries()) {
+      if (now - data.lastAttempt > expiry) store.delete(key);
     }
-    for (const [key, data] of this.emailStore.entries()) {
-      if (now - data.lastAttempt > expiry) this.emailStore.delete(key);
-    }
+  }
+
+  public resetForTests() {
+    this.loginIpStore.clear();
+    this.loginEmailStore.clear();
+    this.forgotIpStore.clear();
+    this.forgotEmailStore.clear();
   }
 
   private logSuspiciousActivity(ip: string, email: string, event: string) {
