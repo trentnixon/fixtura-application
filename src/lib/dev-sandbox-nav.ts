@@ -188,7 +188,10 @@ export const INTERACTION_LAB_NAV_SECTIONS: SandboxNavSection[] = [
   },
   {
     title: "Calendar",
-    links: [{ href: `${IL}/calendar`, label: "Date Selection" }],
+    links: [
+      { href: `${IL}/calendar`, label: "Date Selection" },
+      { href: `${IL}/calendar/display`, label: "Schedule display" },
+    ],
   },
   {
     title: "Carousel",
