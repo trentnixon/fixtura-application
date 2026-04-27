@@ -71,6 +71,24 @@ const CARD_ROWS = [
   },
 ];
 
+const CHILD_LIST_GROUPS = [
+  {
+    title: "Registration setup",
+    meta: "3 tasks",
+    children: ["Open team nominations", "Review age groups", "Confirm venue access"],
+  },
+  {
+    title: "Fixture publishing",
+    meta: "2 tasks",
+    children: ["Generate draft rounds", "Send approval notice"],
+  },
+  {
+    title: "Media pack",
+    meta: "4 assets",
+    children: ["Hero image", "Sponsor lockup", "Round tile", "Social caption"],
+  },
+];
+
 const SELECTABLE_ITEMS: {
   id: string;
   title: string;
@@ -123,34 +141,10 @@ const MEMBER_ROWS = [
 const LIST_NAMING_EXAMPLES = [
   "list.stack.divided.basic",
   "list.card-row.settings.basic",
+  "list.nested.children.indented",
   "list.selectable.single.default",
   "list.rich-row.avatar.meta",
   "list.menu.overlay.grouped",
-  "list.command.search.popover",
-];
-
-const LIST_VARIANT_GROUPS = [
-  {
-    title: "Command/Search Lists",
-    variants: [
-      {
-        name: "list.command.search.popover",
-        description: "Searchable command list inside a popover.",
-      },
-      {
-        name: "list.command.search.empty",
-        description: "Command list empty state when no result matches.",
-      },
-      {
-        name: "list.command.search.grouped",
-        description: "Command results grouped by category.",
-      },
-      {
-        name: "list.command.search.shortcuts",
-        description: "Command items with right-aligned shortcut hints.",
-      },
-    ],
-  },
 ];
 
 function ListReferenceName({ name }: { name: string }) {
@@ -208,29 +202,6 @@ function ListVariantInventory() {
             <ListReferenceName key={name} name={name} />
           ))}
         </div>
-
-        <div className="space-y-8">
-          {LIST_VARIANT_GROUPS.map((group) => (
-            <div key={group.title} className="space-y-4">
-              <div>
-                <TypographyH4 className="text-sm font-semibold">{group.title}</TypographyH4>
-                <TypographyMuted className="mt-1 text-xs">
-                  Planned handles only; demos can be built out one group at a time.
-                </TypographyMuted>
-              </div>
-              <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-                {group.variants.map((variant) => (
-                  <div key={variant.name} className="space-y-1">
-                    <ListReferenceName name={variant.name} />
-                    <TypographyMuted className="text-xs leading-relaxed">
-                      {variant.description}
-                    </TypographyMuted>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
       </Surface>
     </Section>
   );
@@ -259,8 +230,6 @@ export default function ListsPage() {
       />
 
       <div className="space-y-16">
-        <ListVariantInventory />
-
         <ListSectionSeparator label="Divided stack lists" />
 
         <Section spacing="none">
@@ -989,21 +958,73 @@ export default function ListsPage() {
               Filterable list (cmdk) inside a popover—useful for pickers and quick jumps.
             </TypographyMuted>
           </div>
-          <div className="bg-card/50 flex min-h-[200px] flex-col items-center justify-center rounded-xl border border-dashed p-10">
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button variant="brand">Search actions…</Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-[min(100%,22rem)] p-0" align="start">
-                <Command>
-                  <CommandInput placeholder="Type to filter…" />
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+            <div className="space-y-3">
+              <ListReferenceName name="list.command.search.popover" />
+              <div className="bg-card/50 flex min-h-[200px] flex-col items-center justify-center rounded-xl border border-dashed p-10">
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="brand">Search actions…</Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[min(100%,22rem)] p-0" align="start">
+                    <Command>
+                      <CommandInput placeholder="Type to filter…" />
+                      <CommandList>
+                        <CommandEmpty>No results.</CommandEmpty>
+                        <CommandGroup heading="Templates">
+                          <CommandItem>
+                            <FileText className="size-4" />
+                            <span>Match day recap</span>
+                            <CommandShortcut>↵</CommandShortcut>
+                          </CommandItem>
+                          <CommandItem>
+                            <Copy className="size-4" />
+                            <span>Clone from season</span>
+                          </CommandItem>
+                        </CommandGroup>
+                        <CommandGroup heading="Organisation">
+                          <CommandItem>
+                            <Settings className="size-4" />
+                            <span>Branding</span>
+                          </CommandItem>
+                          <CommandItem>
+                            <User className="size-4" />
+                            <span>Team roster</span>
+                          </CommandItem>
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <ListReferenceName name="list.command.search.empty" />
+              <div className="bg-card/50 flex min-h-[200px] flex-col justify-center rounded-xl border border-dashed p-10">
+                <Command className="border">
+                  <CommandInput
+                    placeholder="Search archived actions"
+                    value="no matching result"
+                    readOnly
+                  />
                   <CommandList>
-                    <CommandEmpty>No results.</CommandEmpty>
+                    <CommandEmpty>No actions found.</CommandEmpty>
+                  </CommandList>
+                </Command>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <ListReferenceName name="list.command.search.grouped" />
+              <div className="bg-card/50 flex min-h-[200px] flex-col justify-center rounded-xl border border-dashed p-10">
+                <Command className="border">
+                  <CommandInput placeholder="Search modules" />
+                  <CommandList>
                     <CommandGroup heading="Templates">
                       <CommandItem>
                         <FileText className="size-4" />
                         <span>Match day recap</span>
-                        <CommandShortcut>↵</CommandShortcut>
                       </CommandItem>
                       <CommandItem>
                         <Copy className="size-4" />
@@ -1022,10 +1043,158 @@ export default function ListsPage() {
                     </CommandGroup>
                   </CommandList>
                 </Command>
-              </PopoverContent>
-            </Popover>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <ListReferenceName name="list.command.search.shortcuts" />
+              <div className="bg-card/50 flex min-h-[200px] flex-col justify-center rounded-xl border border-dashed p-10">
+                <Command className="border">
+                  <CommandInput placeholder="Search quick actions" />
+                  <CommandList>
+                    <CommandGroup heading="Actions">
+                      <CommandItem>
+                        <Plus className="size-4" />
+                        <span>New bundle</span>
+                        <CommandShortcut>Ctrl N</CommandShortcut>
+                      </CommandItem>
+                      <CommandItem>
+                        <Copy className="size-4" />
+                        <span>Clone from season</span>
+                        <CommandShortcut>Ctrl D</CommandShortcut>
+                      </CommandItem>
+                      <CommandItem>
+                        <Settings className="size-4" />
+                        <span>Open settings</span>
+                        <CommandShortcut>Ctrl ,</CommandShortcut>
+                      </CommandItem>
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </div>
+            </div>
           </div>
         </Section>
+
+        <ListSectionSeparator label="Nested child lists" />
+
+        <Section spacing="none">
+          <div className="mb-6">
+            <TypographyH2 className="text-xl font-semibold">Nested child lists</TypographyH2>
+            <TypographyMuted className="mt-1">
+              Parent rows with visible child rows for grouped tasks, expandable detail, and nested
+              checklist workflows.
+            </TypographyMuted>
+          </div>
+
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+            <div className="space-y-3">
+              <ListReferenceName name="list.nested.children.indented" />
+              <div className="bg-card/50 rounded-xl border p-2">
+                <ul className="space-y-1">
+                  {CHILD_LIST_GROUPS.map((group) => (
+                    <li key={group.title} className="rounded-lg px-3 py-3">
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="min-w-0">
+                          <TypographyH4 className="truncate text-sm font-medium">
+                            {group.title}
+                          </TypographyH4>
+                          <TypographyMuted className="text-xs">{group.meta}</TypographyMuted>
+                        </div>
+                        <Badge variant="secondary" className="shrink-0 text-[10px] font-normal">
+                          Parent
+                        </Badge>
+                      </div>
+                      <ul className="border-border mt-3 space-y-2 border-l pl-4">
+                        {group.children.map((child) => (
+                          <li key={child} className="text-muted-foreground text-xs">
+                            {child}
+                          </li>
+                        ))}
+                      </ul>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <ListReferenceName name="list.nested.children.collapsible" />
+              <div className="bg-card/50 rounded-xl border p-2">
+                <ul className="space-y-1">
+                  {CHILD_LIST_GROUPS.map((group, index) => (
+                    <li key={group.title}>
+                      <details
+                        className="group open:bg-muted/35 rounded-lg border border-transparent"
+                        open={index === 0}
+                      >
+                        <summary className="focus-visible:ring-ring flex cursor-pointer list-none items-center gap-3 rounded-lg px-3 py-3 focus-visible:ring-2 focus-visible:outline-none">
+                          <ChevronRight
+                            className="text-muted-foreground size-4 shrink-0 transition-transform group-open:rotate-90"
+                            aria-hidden
+                          />
+                          <span className="min-w-0 flex-1">
+                            <span className="block truncate text-sm font-medium">
+                              {group.title}
+                            </span>
+                            <TypographyMuted className="text-xs">{group.meta}</TypographyMuted>
+                          </span>
+                        </summary>
+                        <ul className="space-y-1 px-10 pb-3">
+                          {group.children.map((child) => (
+                            <li key={child} className="text-muted-foreground text-xs">
+                              {child}
+                            </li>
+                          ))}
+                        </ul>
+                      </details>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="space-y-3 lg:col-span-2">
+              <ListReferenceName name="list.nested.children.checklist" />
+              <div className="bg-card/50 max-w-2xl rounded-xl border p-2">
+                <ul className="divide-border divide-y">
+                  {CHILD_LIST_GROUPS.slice(0, 2).map((group) => (
+                    <li key={group.title} className="px-3 py-4">
+                      <div className="mb-3 flex items-center justify-between gap-3">
+                        <div className="min-w-0">
+                          <TypographyH4 className="truncate text-sm font-medium">
+                            {group.title}
+                          </TypographyH4>
+                          <TypographyMuted className="text-xs">
+                            Child rows with independent completion controls.
+                          </TypographyMuted>
+                        </div>
+                        <Badge variant="outline" className="shrink-0 text-[10px] font-normal">
+                          {group.children.length}
+                        </Badge>
+                      </div>
+                      <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                        {group.children.map((child, childIndex) => (
+                          <li key={child}>
+                            <label className="hover:bg-muted/40 flex cursor-pointer items-center gap-2 rounded-md px-2 py-2 transition-colors">
+                              <Checkbox
+                                defaultChecked={childIndex === 0}
+                                aria-label={`Mark ${child} complete`}
+                              />
+                              <span className="min-w-0 truncate text-xs">{child}</span>
+                            </label>
+                          </li>
+                        ))}
+                      </ul>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </Section>
+
+        <ListVariantInventory />
       </div>
     </div>
   );
