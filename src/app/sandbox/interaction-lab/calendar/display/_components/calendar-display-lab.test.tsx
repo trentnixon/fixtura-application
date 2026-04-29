@@ -9,7 +9,7 @@ describe("CalendarDisplayLab", () => {
     render(<CalendarDisplayLab />);
 
     expect(screen.getByRole("heading", { name: "Calendar Display Lab" })).toBeInTheDocument();
-    expect(screen.getByText("Calendar Event Sandbox")).toBeInTheDocument();
+    expect(screen.getByRole("radio", { name: "Show all events" })).toBeInTheDocument();
     expect(screen.getByText("Lab Metrics")).toBeInTheDocument();
     expect(screen.getByText("Visible event count")).toBeInTheDocument();
   });

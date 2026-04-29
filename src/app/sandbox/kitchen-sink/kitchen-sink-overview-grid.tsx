@@ -5,6 +5,7 @@ import {
   Box,
   ClipboardList,
   FormInput,
+  Heading1,
   LayoutGrid,
   List,
   Loader2,
@@ -12,6 +13,7 @@ import {
   MousePointerClick,
   Navigation,
   Palette,
+  Rows4,
   PanelTop,
   Table,
   Type,
@@ -61,6 +63,22 @@ const SECTIONS: {
     href: `${K}/navigation`,
     linkLabel: "View Navigation",
     icon: Navigation,
+  },
+  {
+    title: "Sections & Dividers",
+    description:
+      "Reusable section wrappers, dividers, separators, and labels for page-level structure and rhythm.",
+    href: `${K}/sections-and-dividers`,
+    linkLabel: "View Sections & Dividers",
+    icon: Rows4,
+  },
+  {
+    title: "Page Headers",
+    description:
+      "Reference for the title section at the top of every members-area route — title, eyebrow, breadcrumbs, actions, metadata, tabs, and stats variants.",
+    href: `${K}/page-headers`,
+    linkLabel: "View Page Headers",
+    icon: Heading1,
   },
   {
     title: "Buttons",

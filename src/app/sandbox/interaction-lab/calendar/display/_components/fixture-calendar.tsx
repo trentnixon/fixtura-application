@@ -5,7 +5,6 @@ import interactionPlugin, { type DateClickArg } from "@fullcalendar/interaction"
 import listPlugin from "@fullcalendar/list";
 import multiMonthPlugin from "@fullcalendar/multimonth";
 import FullCalendar from "@fullcalendar/react";
-import timeGridPlugin from "@fullcalendar/timegrid";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef, useState } from "react";
 
@@ -43,8 +42,10 @@ const calendarViews = [
   { value: "dayGridMonth", label: "Month" },
   { value: "multiMonthYear", label: "Year" },
   { value: "listMonth", label: "List" },
-  { value: "timeGridWeek", label: "Week" },
 ] as const;
+
+const bundleBadgeClassName =
+  "border-transparent bg-emerald-600 text-white shadow-none hover:bg-emerald-600 dark:bg-emerald-500 dark:text-white dark:hover:bg-emerald-500";
 
 /** Left accent only; surface stays neutral so event text stays readable in light/dark. */
 const statusAccentMap: Record<CalendarEventStatus, string> = {
@@ -212,7 +213,7 @@ export function FixtureCalendar({ events, onDateSelect, onFixtureSelect }: Fixtu
     if (event.eventType === "bundle-production") {
       if (isDenseCalendarView) {
         return (
-          <Badge variant="outline" className="rounded-md px-1.5 py-0.5 text-[9px] shadow-none">
+          <Badge className={cn("rounded-md px-1.5 py-0.5 text-[9px]", bundleBadgeClassName)}>
             Bundle
           </Badge>
         );
@@ -227,7 +228,7 @@ export function FixtureCalendar({ events, onDateSelect, onFixtureSelect }: Fixtu
           )}
         >
           <div className="flex items-center gap-1.5">
-            <Badge variant="outline" className="h-5 rounded-md px-1.5 text-[9px]">
+            <Badge className={cn("h-5 rounded-md px-1.5 text-[9px]", bundleBadgeClassName)}>
               Bundle
             </Badge>
             <div className="truncate font-semibold">Bundle created</div>
@@ -280,7 +281,6 @@ export function FixtureCalendar({ events, onDateSelect, onFixtureSelect }: Fixtu
         "[&_.fc-multimonth_.fc-daygrid-event]:bg-transparent!",
         "[&_.fc-list-day-cushion]:bg-muted/40 [&_.fc-list-event:hover_td]:bg-muted/40",
         "[&_.fc-multimonth-title]:font-semibold",
-        "[&_.fc-timegrid-slot]:h-14",
       )}
     >
       <div className="mb-4 flex flex-col gap-3 border-b pb-4 lg:flex-row lg:items-center lg:justify-between">
@@ -336,7 +336,7 @@ export function FixtureCalendar({ events, onDateSelect, onFixtureSelect }: Fixtu
 
       <FullCalendar
         ref={calendarRef}
-        plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin, multiMonthPlugin]}
+        plugins={[dayGridPlugin, interactionPlugin, listPlugin, multiMonthPlugin]}
         initialView="dayGridMonth"
         eventBackgroundColor="transparent"
         eventBorderColor="transparent"

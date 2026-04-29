@@ -10,15 +10,5 @@ export const metadata = buildPageMetadata({
 export default async function SeasonPage({ params }: { params: Promise<{ accountId: string }> }) {
   const { accountId } = await params;
 
-  return (
-    <div className="grid gap-4">
-      <div>
-        <h1 className="font-brand text-2xl font-semibold capitalize">Season</h1>
-        <p className="text-muted-foreground mt-1 text-sm">
-          Overview from season hub — competitions and scope for this account.
-        </p>
-      </div>
-      <SeasonOverview accountId={accountId} />
-    </div>
-  );
+  return <SeasonOverview accountId={accountId} />;
 }

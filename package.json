@@ -19,7 +19,8 @@
     "prepare": "husky"
   },
   "overrides": {
-    "import-in-the-middle": "3.0.0"
+    "import-in-the-middle": "3.0.0",
+    "postcss": "8.5.12"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,mjs,cjs,json,css,md}": [

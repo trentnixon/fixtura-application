@@ -41,6 +41,16 @@ import type {
   UpdateOnboardingStep3Response,
   UploadOnboardingStep2LogoResponse,
   ConfirmOnboardingResponse,
+  TriggerAssociationSingleScrapeRequest,
+  TriggerAssociationSingleScrapeSuccessResponse,
+  TriggerClubSingleScrapeRequest,
+  TriggerClubSingleScrapeSuccessResponse,
+  TriggerGradesCompsSingleScrapeRequest,
+  TriggerGradesCompsSingleScrapeSuccessResponse,
+  TriggerGradesLookupTeamsSingleScrapeRequest,
+  TriggerGradesLookupTeamsSingleScrapeSuccessResponse,
+  TriggerFixtureDiscoveryGradeRequest,
+  TriggerFixtureDiscoveryGradeSuccessResponse,
   OnboardingStateResponse,
 } from "@/types/api/account";
 
@@ -265,4 +275,39 @@ export const accountApi = {
     const path = `${appRoutes.accounts.analyticsOverview.path}/${encodeURIComponent(accountId)}/analytics/overview${qs ? `?${qs}` : ""}`;
     return apiClient.get<AccountAnalyticsOverviewResponse>(path);
   },
+
+  /** Queue a single association scrape run by association id. */
+  triggerAssociationSingleScrape: (body: TriggerAssociationSingleScrapeRequest) =>
+    apiClient.post<TriggerAssociationSingleScrapeSuccessResponse>(
+      appRoutes.associationOverviewQueues.triggerAssociationSingleScrape.path,
+      body,
+    ),
+
+  /** Queue a single club scrape run by club id. */
+  triggerClubSingleScrape: (body: TriggerClubSingleScrapeRequest) =>
+    apiClient.post<TriggerClubSingleScrapeSuccessResponse>(
+      appRoutes.club.triggerClubSingleScrape.path,
+      body,
+    ),
+
+  /** Queue a single competition grades scrape by Strapi competition document id. */
+  triggerGradesCompsSingleScrape: (body: TriggerGradesCompsSingleScrapeRequest) =>
+    apiClient.post<TriggerGradesCompsSingleScrapeSuccessResponse>(
+      appRoutes.competition.triggerGradesCompsSingleScrape.path,
+      body,
+    ),
+
+  /** Queue teams lookup for all grades under one competition (Strapi competition document id). */
+  triggerGradesLookupTeamsSingleScrape: (body: TriggerGradesLookupTeamsSingleScrapeRequest) =>
+    apiClient.post<TriggerGradesLookupTeamsSingleScrapeSuccessResponse>(
+      appRoutes.competition.triggerGradesLookupTeamsSingleScrape.path,
+      body,
+    ),
+
+  /** Queue fixture discovery for one grade (Strapi grade document id). */
+  triggerFixtureDiscoveryGrade: (body: TriggerFixtureDiscoveryGradeRequest) =>
+    apiClient.post<TriggerFixtureDiscoveryGradeSuccessResponse>(
+      appRoutes.grade.triggerFixtureDiscovery.path,
+      body,
+    ),
 };

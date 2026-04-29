@@ -96,45 +96,35 @@ export function CalendarDisplayLab() {
 
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
         <div className="space-y-6">
-          <Card>
-            <CardHeader className="border-b">
-              <CardTitle>Calendar Event Sandbox</CardTitle>
-              <CardDescription>
-                Default month view with alternate week, list, and year-style calendar modes
-                available from the built-in toolbar. Use the event-type toggle to isolate fixtures
-                or bundle productions in the hardcoded test schedule.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4 pt-6">
-              <ToggleGroup
-                type="single"
-                value={activeEventType}
-                onValueChange={(value) => {
-                  if (value) {
-                    setActiveEventType(value as CalendarEventType | "all");
-                  }
-                }}
-                variant="outline"
-                size="sm"
-                className="flex flex-wrap"
-              >
-                <ToggleGroupItem value="all" aria-label="Show all events">
-                  All events
-                </ToggleGroupItem>
-                <ToggleGroupItem value="fixture" aria-label="Show fixtures">
-                  Fixtures
-                </ToggleGroupItem>
-                <ToggleGroupItem value="bundle-production" aria-label="Show bundle productions">
-                  Bundle productions
-                </ToggleGroupItem>
-              </ToggleGroup>
-              <FixtureCalendar
-                events={visibleEvents}
-                onDateSelect={setSelectedDate}
-                onFixtureSelect={setSelectedFixture}
-              />
-            </CardContent>
-          </Card>
+          <div className="space-y-4">
+            <ToggleGroup
+              type="single"
+              value={activeEventType}
+              onValueChange={(value) => {
+                if (value) {
+                  setActiveEventType(value as CalendarEventType | "all");
+                }
+              }}
+              variant="outline"
+              size="sm"
+              className="flex flex-wrap"
+            >
+              <ToggleGroupItem value="all" aria-label="Show all events">
+                All events
+              </ToggleGroupItem>
+              <ToggleGroupItem value="fixture" aria-label="Show fixtures">
+                Fixtures
+              </ToggleGroupItem>
+              <ToggleGroupItem value="bundle-production" aria-label="Show bundle productions">
+                Bundle productions
+              </ToggleGroupItem>
+            </ToggleGroup>
+            <FixtureCalendar
+              events={visibleEvents}
+              onDateSelect={setSelectedDate}
+              onFixtureSelect={setSelectedFixture}
+            />
+          </div>
 
           <Card>
             <CardHeader className="border-b">
@@ -148,7 +138,6 @@ export function CalendarDisplayLab() {
               <div className="flex flex-wrap gap-2">
                 <Badge variant="secondary">dayGridMonth</Badge>
                 <Badge variant="secondary">listMonth</Badge>
-                <Badge variant="secondary">timeGridWeek</Badge>
                 <Badge variant="secondary">multiMonthYear</Badge>
                 <Badge variant="outline">Event types</Badge>
                 <Badge variant="outline">Detail dialog</Badge>

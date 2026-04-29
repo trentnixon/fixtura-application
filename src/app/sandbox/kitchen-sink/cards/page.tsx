@@ -21,6 +21,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
+import { MetricComparisonCard } from "@/components/cards";
 import { TypographyH2, TypographyH3, TypographyH4, TypographyMuted } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent, CardFooter, CardAction } from "@/components/ui/card";
@@ -35,6 +36,7 @@ const NAMING_RULES = [
   "card.standard.action",
   "card.surface.settings",
   "card.metric.compact",
+  "card.metric.comparison-card",
   "card.composite.split-action",
   "card.feedback.soft.info",
   "card.grid.default.org-initials",
@@ -610,35 +612,45 @@ export default function CardsPage() {
               </Surface>
             </div>
 
-            <div className="space-y-4">
-              <CardReferenceName name="card.metric.comparison" />
-              <TypographyMuted className="font-mono text-xs tracking-widest uppercase">
-                Comparison Metric
-              </TypographyMuted>
-              <Surface className="space-y-4">
-                <div className="flex items-center justify-between gap-4">
-                  <TypographyH4 className="text-sm font-semibold">Content output</TypographyH4>
-                  <Scale className="text-primary size-5" aria-hidden />
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="bg-muted/50 rounded-lg p-3">
-                    <TypographyMuted className="text-[10px] font-semibold tracking-tight uppercase">
-                      Current
-                    </TypographyMuted>
-                    <div className="mt-1 text-2xl font-bold">86</div>
-                  </div>
-                  <div className="bg-muted/50 rounded-lg p-3">
-                    <TypographyMuted className="text-[10px] font-semibold tracking-tight uppercase">
-                      Previous
-                    </TypographyMuted>
-                    <div className="mt-1 text-2xl font-bold">73</div>
-                  </div>
-                </div>
-                <TypographyMuted className="flex items-center gap-1 text-xs">
-                  <ArrowDownRight className="text-destructive size-3.5" aria-hidden />
-                  Gap to target reduced by 13 items.
+            <div className="space-y-10">
+              <div className="space-y-4">
+                <CardReferenceName name="card.metric.comparison" />
+                <TypographyMuted className="font-mono text-xs tracking-widest uppercase">
+                  Comparison Metric (Surface bands)
                 </TypographyMuted>
-              </Surface>
+                <MetricComparisonCard
+                  layout="surface"
+                  title="Content output"
+                  icon={<Scale className="text-primary size-5" aria-hidden />}
+                  primary={{ label: "Current", value: "86" }}
+                  secondary={{ label: "Previous", value: "73" }}
+                  footer={
+                    <TypographyMuted className="flex items-center gap-1 text-xs">
+                      <ArrowDownRight className="text-destructive size-3.5 shrink-0" aria-hidden />
+                      Gap to target reduced by 13 items.
+                    </TypographyMuted>
+                  }
+                />
+              </div>
+              <div className="space-y-4">
+                <CardReferenceName name="card.metric.comparison-card" />
+                <TypographyMuted className="font-mono text-xs tracking-widest uppercase">
+                  Comparison Metric (Card slots)
+                </TypographyMuted>
+                <MetricComparisonCard
+                  layout="card"
+                  title="Content output"
+                  icon={<Scale className="text-primary size-5" aria-hidden />}
+                  primary={{ label: "Current", value: "86" }}
+                  secondary={{ label: "Previous", value: "73" }}
+                  footer={
+                    <TypographyMuted className="flex items-center gap-1 text-xs">
+                      <ArrowDownRight className="text-destructive size-3.5 shrink-0" aria-hidden />
+                      Gap to target reduced by 13 items.
+                    </TypographyMuted>
+                  }
+                />
+              </div>
             </div>
 
             <div className="space-y-4">

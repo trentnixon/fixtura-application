@@ -1,6 +1,8 @@
+import { Suspense } from "react";
+
 import { buildPageMetadata } from "@/lib/metadata/buildMetadata";
 
-import { TempOrgDataDump } from "./temp-data-drilling/temp-org-data-dump";
+import { DashboardContent } from "./dashboard-content";
 
 export const metadata = buildPageMetadata({
   title: "Dashboard",
@@ -15,15 +17,14 @@ export default async function DashboardPage({
   const { accountId } = await params;
 
   return (
-    <div className="grid gap-4">
-      <div>
-        <h1 className="font-brand text-2xl font-semibold">Dashboard</h1>
-        <p className="text-muted-foreground mt-1 text-sm">
-          Phases 1–4 and 9 API JSON, legacy hub (temporary — development visibility). Phases 5–8 are
-          on Bundles.
+    <Suspense
+      fallback={
+        <p className="text-muted-foreground px-4 py-6 text-sm sm:px-6 lg:px-8">
+          Loading dashboard…
         </p>
-      </div>
-      <TempOrgDataDump accountId={accountId} />
-    </div>
+      }
+    >
+      <DashboardContent accountId={accountId} />
+    </Suspense>
   );
 }

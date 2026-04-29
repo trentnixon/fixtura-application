@@ -1,10 +1,24 @@
 "use client";
 
+import { Loader2 } from "lucide-react";
+
 import { ErrorState } from "@/components/ui/error-state";
-import { useSeasonHubFixture } from "@/lib/api/hooks/season-hub";
+import { useSeasonHubFixture, useSeasonHubGradeFixtures } from "@/lib/api/hooks/season-hub";
 
 import { SEASON_LOADING_COPY } from "./_constants";
-import { extractFixtureRecord, resolveFixtureHeadline } from "./_utils";
+import { useSeasonFixtureViewModel } from "./_hooks";
+import { SeasonFixtureContextMetaSection } from "./_sections/season-fixture-context-meta-section";
+import { SeasonFixtureGradeContextSection } from "./_sections/season-fixture-grade-context-section";
+import { SeasonFixtureGradeFixturesErrorBanner } from "./_sections/season-fixture-grade-fixtures-error-banner";
+import { SeasonFixtureMatchSummarySection } from "./_sections/season-fixture-match-summary-section";
+import { SeasonFixtureOutputsSection } from "./_sections/season-fixture-outputs-section";
+import { SeasonFixtureTeamsSection } from "./_sections/season-fixture-teams-section";
+import { SeasonFixtureViewHeader } from "./_sections/season-fixture-view-header";
+import {
+  buildSeasonCompetitionHref,
+  buildSeasonGradeHref,
+  buildSeasonOverviewHref,
+} from "./_utils";
 
 import type { SeasonFixtureViewProps } from "./_types";
 
@@ -14,38 +28,83 @@ export function SeasonFixtureView({
   gradeId,
   fixtureId,
 }: SeasonFixtureViewProps) {
-  const q = useSeasonHubFixture({
-    accountId,
+  const fixture = useSeasonHubFixture(
+    {
+      accountId,
+      competitionId,
+      gradeId,
+      fixtureId,
+    },
+    { enabled: Boolean(gradeId && fixtureId) },
+  );
+  const gradeFixtures = useSeasonHubGradeFixtures(accountId, gradeId, {
     competitionId,
-    gradeId,
-    fixtureId,
+    enabled: Boolean(gradeId),
   });
 
-  if (q.isError && q.error) {
+  const fixtureModel = useSeasonFixtureViewModel(fixture.data, gradeId, fixtureId, competitionId);
+
+  const isFetching = fixture.isFetching || gradeFixtures.isFetching;
+
+  const seasonBase = buildSeasonOverviewHref(accountId);
+  const competitionHref = buildSeasonCompetitionHref(accountId, competitionId);
+  const gradeHref = buildSeasonGradeHref(accountId, competitionId, gradeId);
+
+  const handleSync = () => {
+    void fixture.refetch();
+    void gradeFixtures.refetch();
+  };
+
+  if (fixture.isError && fixture.error) {
     return (
       <ErrorState
         title="Could not load fixture"
-        description={q.error instanceof Error ? q.error.message : "Something went wrong."}
-        onRetry={() => void q.refetch()}
+        description={
+          fixture.error instanceof Error ? fixture.error.message : "Something went wrong."
+        }
+        onRetry={handleSync}
       />
     );
   }
 
-  if (q.isPending) {
-    return <p className="text-muted-foreground text-sm">{SEASON_LOADING_COPY.fixture}</p>;
+  if (fixture.isPending) {
+    return (
+      <div className="bg-card flex items-center gap-2 rounded-lg border p-4">
+        <Loader2 className="text-muted-foreground size-4 animate-spin" aria-hidden />
+        <p className="text-muted-foreground text-sm">{SEASON_LOADING_COPY.fixture}</p>
+      </div>
+    );
   }
 
-  const fixture = extractFixtureRecord(q.data);
-  const headline = resolveFixtureHeadline(fixture, fixtureId);
-
   return (
-    <div className="grid gap-4">
-      <h1 className="font-brand text-2xl font-semibold">{headline}</h1>
-      <p className="text-muted-foreground text-sm">
-        Full fixture payload is available for future layout; key blocks include{" "}
-        <code className="text-xs">fixture</code>, <code className="text-xs">teamsData</code>, and{" "}
-        <code className="text-xs">downloads</code>.
-      </p>
+    <div className="grid gap-6">
+      <SeasonFixtureViewHeader
+        accountId={accountId}
+        seasonBase={seasonBase}
+        competitionHref={competitionHref}
+        gradeHref={gradeHref}
+        model={fixtureModel}
+        isFetching={isFetching}
+        onSync={handleSync}
+      />
+
+      <SeasonFixtureMatchSummarySection model={fixtureModel} />
+
+      <SeasonFixtureGradeContextSection model={fixtureModel} gradeHref={gradeHref} />
+
+      <SeasonFixtureTeamsSection model={fixtureModel} />
+
+      <SeasonFixtureOutputsSection model={fixtureModel} />
+
+      <SeasonFixtureContextMetaSection model={fixtureModel} />
+
+      {gradeFixtures.isError ? (
+        <SeasonFixtureGradeFixturesErrorBanner
+          message={
+            gradeFixtures.error instanceof Error ? gradeFixtures.error.message : "Unknown error"
+          }
+        />
+      ) : null}
     </div>
   );
 }

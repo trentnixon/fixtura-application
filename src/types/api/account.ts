@@ -862,3 +862,77 @@ export interface AccountBillingPayload {
 export interface AccountBillingResponse {
   data: AccountBillingPayload;
 }
+
+/** POST /api/association-overview-queues/trigger-association-single-scrape */
+export interface TriggerAssociationSingleScrapeRequest {
+  associationId: number;
+}
+
+export interface TriggerAssociationSingleScrapeSuccessResponse {
+  success: boolean;
+  jobId: number;
+  runId: string;
+  message: string;
+  queueName: string;
+}
+
+/** POST /api/club/trigger-club-single-scrape */
+export interface TriggerClubSingleScrapeRequest {
+  clubId: number;
+}
+
+export interface TriggerClubSingleScrapeSuccessResponse {
+  success: boolean;
+  jobId: number;
+  runId: string;
+  message: string;
+  queueName: string;
+}
+
+/** POST /api/competition/trigger-grades-comps-single-scrape */
+export interface TriggerGradesCompsSingleScrapeRequest {
+  competitionId: number;
+}
+
+export interface TriggerGradesCompsSingleScrapeSuccessResponse {
+  success: true;
+  jobId: number | string;
+  runId: string;
+  message: string;
+  queueName: "scrape:grades-comps-single" | string;
+}
+
+/** POST /api/competition/trigger-grades-lookup-teams-single-scrape */
+export interface TriggerGradesLookupTeamsSingleScrapeRequest {
+  competitionId: number;
+}
+
+export interface TriggerGradesLookupTeamsSingleScrapeSuccessResponse {
+  success: true;
+  jobId: number | string;
+  runId: string;
+  message: string;
+  queueName: "scrape:grades-lookup-teams-single" | string;
+}
+
+/** POST /api/grade/trigger-fixture-discovery */
+export interface TriggerFixtureDiscoveryGradeRequest {
+  id: number;
+}
+
+export interface TriggerFixtureDiscoveryGradeSuccessResponse {
+  success: true;
+  jobId: number | string;
+  runId: string;
+  message: string;
+  queueName: "fixture_discovery" | string;
+  gradeId: number;
+}
+
+export interface StrapiErrorResponse {
+  error?: {
+    status: number;
+    name: string;
+    message: string;
+  };
+}

@@ -24,5 +24,9 @@ export interface AppRouteDefinition {
     | "bundles"
     | "templates"
     | "season"
+    | "season-hub"
+    | "association-overview-queues"
+    | "club"
+    | "competition"
     | "admin";
 }

@@ -14,6 +14,8 @@ const NAV_LINKS = [
   { href: `${K}/typography`, label: "Typography" },
   { href: `${K}/containers`, label: "Containers" },
   { href: `${K}/navigation`, label: "Navigation" },
+  { href: `${K}/sections-and-dividers`, label: "Sections & Dividers" },
+  { href: `${K}/page-headers`, label: "Page Headers" },
   { href: `${K}/buttons`, label: "Buttons" },
   { href: `${K}/cards`, label: "Cards" },
   { href: `${K}/toasts`, label: "Toasts" },

@@ -1,103 +1,155 @@
 "use client";
 
-import Link from "next/link";
+import { Loader2 } from "lucide-react";
+import { useMemo, useState } from "react";
 
 import { ErrorState } from "@/components/ui/error-state";
+import { useTriggerFixtureDiscoveryGrade } from "@/lib/api/hooks/account/useTriggerFixtureDiscoveryGrade";
+import { useTriggerGradesLookupTeamsSingleScrape } from "@/lib/api/hooks/account/useTriggerGradesLookupTeamsSingleScrape";
 import { useSeasonHubGrade, useSeasonHubGradeFixtures } from "@/lib/api/hooks/season-hub";
-import { accountScopedRoutes } from "@/lib/config/account-routes";
 
 import { SEASON_LOADING_COPY } from "./_constants";
-import { useSeasonGradeViewState } from "./_hooks";
-import { SeasonEmptyPanel } from "./season-empty-panel";
+import { useSeasonGradeFixtureFilters, useSeasonGradeViewState } from "./_hooks";
+import { SeasonGradeCoverageSummarySection } from "./_sections/season-grade-coverage-summary-section";
+import { SeasonGradeFixturesSection } from "./_sections/season-grade-fixtures-section";
+import { SeasonGradeSyncDialog } from "./_sections/season-grade-sync-dialog";
+import { SeasonGradeViewHeader } from "./_sections/season-grade-view-header";
+import { buildSeasonCompetitionHref } from "./_utils";
 
 import type { SeasonGradeViewProps } from "./_types";
 
 export function SeasonGradeView({ accountId, competitionId, gradeId }: SeasonGradeViewProps) {
-  const grade = useSeasonHubGrade(accountId, gradeId, { competitionId });
+  const teamsLookup = useTriggerGradesLookupTeamsSingleScrape(accountId, competitionId, gradeId);
+  const fixtureDiscovery = useTriggerFixtureDiscoveryGrade(accountId, competitionId, gradeId);
+  const cmsCompetitionNumericId = Number.parseInt(competitionId, 10);
+  const cmsGradeNumericId = Number.parseInt(gradeId, 10);
+  const canQueueTeamsRefresh =
+    Number.isInteger(cmsCompetitionNumericId) && cmsCompetitionNumericId > 0;
+  const canQueueFixturesRefresh = Number.isInteger(cmsGradeNumericId) && cmsGradeNumericId > 0;
+  const canQueueCombinedSync = canQueueTeamsRefresh && canQueueFixturesRefresh;
+  const isSyncMutating = teamsLookup.isPending || fixtureDiscovery.isPending;
+  const [syncDialogOpen, setSyncDialogOpen] = useState(false);
+
+  const grade = useSeasonHubGrade(accountId, gradeId, { competitionId, enabled: Boolean(gradeId) });
   const fixtures = useSeasonHubGradeFixtures(accountId, gradeId, {
     competitionId,
-    enabled: grade.isSuccess,
+    enabled: Boolean(gradeId),
   });
+
+  const isPending = grade.isPending || fixtures.isPending;
+  const isFetching = grade.isFetching || fixtures.isFetching;
+  const isError = grade.isError || fixtures.isError;
+  const firstError = grade.error ?? fixtures.error;
+  const fixtureRows = useMemo(() => fixtures.data?.data ?? [], [fixtures.data?.data]);
 
   const g = grade.data?.data;
-  const rows = fixtures.data?.data ?? [];
-  const { title, fixturesCountFromGrade, fixturesEmpty } = useSeasonGradeViewState({
-    grade: g,
-    gradeId,
-    fixturesRows: rows,
-    fixturesPending: fixtures.isPending,
-  });
+  const { fixturesCountFromGrade, fixturesEmpty, gradeRaw, displayModel } = useSeasonGradeViewState(
+    {
+      grade: g,
+      gradeId,
+      competitionId,
+      fixturesRows: fixtureRows,
+      fixturesPending: fixtures.isPending,
+    },
+  );
 
-  const err = grade.error ?? fixtures.error;
-  if ((grade.isError || fixtures.isError) && err) {
+  const {
+    search,
+    setSearch,
+    team,
+    setTeam,
+    venue,
+    setVenue,
+    date,
+    setDate,
+    status,
+    setStatus,
+    options,
+    filteredRows,
+    hasActiveFilters,
+    clearFilters,
+  } = useSeasonGradeFixtureFilters({ rows: fixtureRows });
+
+  const competitionHref = buildSeasonCompetitionHref(accountId, competitionId);
+
+  if (isError && firstError) {
     return (
       <ErrorState
         title="Could not load grade"
-        description={err instanceof Error ? err.message : "Something went wrong."}
-        onRetry={() => void grade.refetch()}
+        description={firstError instanceof Error ? firstError.message : "Something went wrong."}
+        onRetry={() => {
+          void grade.refetch();
+          void fixtures.refetch();
+        }}
       />
     );
   }
 
-  if (grade.isPending) {
-    return <p className="text-muted-foreground text-sm">{SEASON_LOADING_COPY.grade}</p>;
+  if (isPending) {
+    return (
+      <div className="bg-card flex items-center gap-2 rounded-lg border p-4">
+        <Loader2 className="text-muted-foreground size-4 animate-spin" aria-hidden />
+        <p className="text-muted-foreground text-sm">{SEASON_LOADING_COPY.grade}</p>
+      </div>
+    );
   }
 
   return (
     <div className="grid gap-6">
-      <div>
-        <h1 className="font-brand text-2xl font-semibold">{title}</h1>
-        {fixtures.isPending ? (
-          <p className="text-muted-foreground mt-2 text-sm">{SEASON_LOADING_COPY.fixtures}</p>
-        ) : null}
-      </div>
+      <SeasonGradeViewHeader
+        accountId={accountId}
+        competitionHref={competitionHref}
+        displayModel={displayModel}
+        gradeRaw={gradeRaw}
+        isFetching={isFetching}
+        isSyncMutating={isSyncMutating}
+        canQueueCombinedSync={canQueueCombinedSync}
+        onOpenSync={() => setSyncDialogOpen(true)}
+      />
 
-      <div>
-        <h2 className="font-brand text-lg font-semibold">Fixtures</h2>
-        {fixturesEmpty ? (
-          <div className="mt-3">
-            <SeasonEmptyPanel
-              title="No fixtures for this grade"
-              description={
-                fixturesCountFromGrade === 0
-                  ? "This grade has no fixtures in season hub yet. When the draw is published, matches will show here."
-                  : "We could not load fixtures for this grade. Try refreshing, or go back to the competition if the problem continues."
-              }
-              action={{
-                label: "Back to competition",
-                href: `${accountScopedRoutes.season(accountId)}/competitions/${competitionId}`,
-              }}
-            />
-          </div>
-        ) : (
-          <ul className="mt-3 divide-y rounded-lg border">
-            {rows.map((f) => {
-              const href = `${accountScopedRoutes.season(accountId)}/competitions/${competitionId}/grades/${gradeId}/fixtures/${f.id}`;
-              const when = f.date ? new Date(f.date).toLocaleString() : "TBC";
-              return (
-                <li key={f.id}>
-                  <Link
-                    href={href}
-                    className="hover:bg-accent/40 block px-4 py-3 transition-colors"
-                  >
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <span className="font-medium">
-                        {f.teams.home ?? "Home"} vs {f.teams.away ?? "Away"}
-                      </span>
-                      <span className="text-muted-foreground text-sm">{f.status ?? "—"}</span>
-                    </div>
-                    <p className="text-muted-foreground mt-1 text-xs">
-                      {when}
-                      {f.round ? ` · ${f.round}` : ""}
-                      {f.venue.ground ? ` · ${f.venue.ground}` : ""}
-                    </p>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        )}
-      </div>
+      <SeasonGradeSyncDialog
+        open={syncDialogOpen}
+        onOpenChange={setSyncDialogOpen}
+        isSyncMutating={isSyncMutating}
+        cmsCompetitionNumericId={cmsCompetitionNumericId}
+        cmsGradeNumericId={cmsGradeNumericId}
+        teamsMutateAsync={teamsLookup.mutateAsync}
+        fixturesMutateAsync={fixtureDiscovery.mutateAsync}
+        onSynced={() => {
+          void grade.refetch();
+          void fixtures.refetch();
+          setSyncDialogOpen(false);
+        }}
+      />
+
+      <SeasonGradeCoverageSummarySection
+        teamCount={displayModel.teamCount}
+        fixtureCount={displayModel.fixtureCount}
+      />
+
+      <SeasonGradeFixturesSection
+        accountId={accountId}
+        competitionId={competitionId}
+        gradeId={gradeId}
+        competitionHref={competitionHref}
+        fixturesEmpty={fixturesEmpty}
+        fixturesCountFromGrade={fixturesCountFromGrade}
+        fixtureRows={fixtureRows}
+        filteredRows={filteredRows}
+        search={search}
+        setSearch={setSearch}
+        team={team}
+        setTeam={setTeam}
+        venue={venue}
+        setVenue={setVenue}
+        date={date}
+        setDate={setDate}
+        status={status}
+        setStatus={setStatus}
+        options={options}
+        hasActiveFilters={hasActiveFilters}
+        clearFilters={clearFilters}
+      />
     </div>
   );
 }

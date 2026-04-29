@@ -522,6 +522,63 @@ export const appRoutes = {
       domain: "season-hub",
     },
   },
+  associationOverviewQueues: {
+    triggerAssociationSingleScrape: {
+      key: "association-overview-queues.trigger-association-single-scrape",
+      method: "POST",
+      path: "/api/association-overview-queues/trigger-association-single-scrape",
+      authRequired: true,
+      status: "ready",
+      description:
+        "POST — queue single association scrape by association id (BFF proxy to CMS trigger endpoint)",
+      domain: "association-overview-queues",
+    },
+  },
+  club: {
+    triggerClubSingleScrape: {
+      key: "club.trigger-club-single-scrape",
+      method: "POST",
+      path: "/api/club/trigger-club-single-scrape",
+      authRequired: true,
+      status: "ready",
+      description: "POST — queue single club scrape by club id (BFF proxy to CMS trigger endpoint)",
+      domain: "club",
+    },
+  },
+  grade: {
+    triggerFixtureDiscovery: {
+      key: "grade.trigger-fixture-discovery",
+      method: "POST",
+      path: "/api/grade/trigger-fixture-discovery",
+      authRequired: true,
+      status: "ready",
+      description:
+        "POST — queue fixture discovery for one grade by Strapi grade document id (BFF proxy; CMS queue fixture_discovery)",
+      domain: "grade",
+    },
+  },
+  competition: {
+    triggerGradesCompsSingleScrape: {
+      key: "competition.trigger-grades-comps-single-scrape",
+      method: "POST",
+      path: "/api/competition/trigger-grades-comps-single-scrape",
+      authRequired: true,
+      status: "ready",
+      description:
+        "POST — queue single competition grades scrape (CMS scrape:grades-comps-single; BFF proxy)",
+      domain: "competition",
+    },
+    triggerGradesLookupTeamsSingleScrape: {
+      key: "competition.trigger-grades-lookup-teams-single-scrape",
+      method: "POST",
+      path: "/api/competition/trigger-grades-lookup-teams-single-scrape",
+      authRequired: true,
+      status: "ready",
+      description:
+        "POST — queue competition-wide teams lookup for all grades (CMS scrape:grades-lookup-teams-single; BFF proxy)",
+      domain: "competition",
+    },
+  },
   admin: {
     fetchHealth: {
       key: "admin.fetch-health",

@@ -1,5 +1,12 @@
 import type { UnknownRecord } from "../_types";
 
+export function asRecord(value: unknown): UnknownRecord | undefined {
+  if (value && typeof value === "object" && !Array.isArray(value)) {
+    return value as UnknownRecord;
+  }
+  return undefined;
+}
+
 export function pickString(row: UnknownRecord, keys: string[]): string | undefined {
   for (const key of keys) {
     const value = row[key];

@@ -1,5 +1,55 @@
 # Decisions
 
+## 2026-04-29 — Tailwind v4 color system uses token modules + theme mappings
+
+**Decision:** Tailwind v4 color variations are treated as token-driven (`@theme inline` + `--color-*` mappings) and the global styling setup is split into dedicated modules: `src/app/styles/theme-tokens.css`, `src/app/styles/color-variables.css`, and `src/app/styles/color-utilities.css`, imported by `src/app/globals.css`.
+
+**Why:** Restores clear ownership of where color classes come from in v4, reduces `globals.css` bloat, and makes it easier to add/maintain shade variations (for example `primary-600`) without mixing unrelated concerns.
+
+**Tradeoffs:** Additional files increase import-surface management, and shade classes still require explicit token + mapping definitions (they are not auto-generated from a legacy config object).
+
+---
+
+## 2026-04-29 — Members grade Sync batches two CMS queue triggers
+
+**Decision:** On the members **grade** page, the single **Sync** action (after confirmation) calls **both** the CMS **teams lookup** trigger (competition-scoped) and the **fixture discovery** trigger (grade document id) in parallel (`Promise.allSettled`), then refetches season-hub grade and fixtures when at least one request succeeds. User-facing copy describes **resyncing the grade**, not two separate backend jobs.
+
+**Why:** One CTA matches user mental model; both queues are still required to refresh teams and fixtures for the experience the page presents.
+
+**Tradeoffs:** Partial failure is possible; UI shows a success toast plus an error when only one path fails. Competition-scoped team refresh still affects other grades under the same competition (unchanged CMS contract).
+
+---
+
+## 2026-04-28 — Season-hub fixture detail: client-side payload normalization
+
+**Decision:** Fixture detail responses are normalized in **`unwrapSeasonHubFixturePayload`** and **`extractFixtureRecord`** (`src/app/(members)/o/[accountId]/season/_components/_utils/season-fixture.ts`) to accept multiple envelopes (`json`, `data`, `attributes`), a **flattened** match DTO (no nested `fixture` key), and a shallow scan of top-level object values when the real payload is nested one level deep.
+
+**Why:** The BFF forwards Strapi JSON as-is; observed shapes differ between routes and serializers, which broke the route-lab fixture page when only a single shape was assumed.
+
+**Tradeoffs:** Client logic is more complex and must stay in sync with upstream changes until the API exposes one canonical fixture-detail contract; then unwrap logic can shrink or move server-side.
+
+---
+
+## 2026-04-28 — Page-header reference naming + copy token convention
+
+**Decision:** Kitchen sink page header variants use a canonical reference naming format **`page.header.<variant>[.<modifier>]`** and each variant section exposes a copy-to-clipboard reference token via **`PageHeaderReferenceName`** (`src/app/sandbox/kitchen-sink/page-headers/page-header-reference-name.tsx`).
+
+**Why:** Mirrors the successful cards reference pattern, gives product/design/dev a shared vocabulary, and makes it easy to cite exact header patterns in tickets, docs, and implementation reviews.
+
+**Tradeoffs:** Naming governance is required to avoid token sprawl and near-duplicates; future variant additions should follow the same namespace to stay coherent.
+
+---
+
+## 2026-04-28 — Sandbox tools shell: document scroll, not scrollable main column
+
+**Decision:** [`SandboxToolsShell`](src/components/dev/sandbox-tools-shell.tsx) no longer applies **`overflow-y-auto`** on the content **`<main>`**; tall pages scroll with the **document** instead of a nested main-column scrollbar.
+
+**Why:** Prefer a single scroll surface for dev/sandbox tool layouts; the previous pattern pinned main to the viewport beside an **`h-screen`** sidebar and produced an inner scrollbar.
+
+**Tradeoffs:** Sticky sidebar behavior on very long pages may differ from the old viewport-locked main pane; sidebars still use **`overflow-y-auto`** only when the nav list itself is taller than the viewport.
+
+---
+
 ## 2026-04-25 — Season route access gate uses onboarding `isSetup` completion
 
 **Decision:** The members Season area (`/o/[accountId]/season`) is locked unless onboarding-state reports **`isSetup === true`**. Wizard completion alone does not unlock Season.

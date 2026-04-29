@@ -135,8 +135,8 @@ export function SelectedDateFixtures({
           )
         ) : (
           <div className="text-muted-foreground rounded-xl border border-dashed p-4 text-sm">
-            Use the month, list, week, or multi-month views to explore fixtures and bundle
-            productions in different densities, then click a date to populate this panel.
+            Use the month, list, or multi-month views to explore fixtures and bundle productions in
+            different densities, then click a date to populate this panel.
           </div>
         )}
       </CardContent>

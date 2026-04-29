@@ -14,7 +14,7 @@ export function SandboxToolsShell({
   return (
     <div className="flex min-h-screen w-full min-w-0">
       {sidebar}
-      <main className="bg-background text-foreground min-w-0 flex-1 overflow-y-auto p-6 md:p-8 lg:p-10">
+      <main className="bg-background text-foreground min-w-0 flex-1 p-6 md:p-8 lg:p-10">
         <div className="mx-auto w-full max-w-[min(100%,92rem)]">{children}</div>
       </main>
     </div>

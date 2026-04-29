@@ -4,7 +4,7 @@ import { AlertCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
 
 import { TypographyMuted } from "@/components/typography";
-import { buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FeedbackCardTinted } from "@/components/ui/feedback-card";
 
@@ -14,6 +14,7 @@ type SeasonRouteLabFrameProps = {
   title: string;
   description?: string;
   productionRoute?: string;
+  header?: ReactNode;
   endpoints: string[];
   onRefetch: () => void;
   isFetching: boolean;
@@ -24,6 +25,7 @@ export function SeasonRouteLabFrame({
   title,
   description,
   productionRoute,
+  header,
   endpoints,
   onRefetch,
   isFetching,
@@ -31,15 +33,19 @@ export function SeasonRouteLabFrame({
 }: SeasonRouteLabFrameProps) {
   return (
     <div className="space-y-6">
-      <header className="border-border space-y-2 border-b pb-6">
-        <h1 className="font-heading text-2xl font-semibold tracking-tight">{title}</h1>
-        {description ? <p className="text-muted-foreground text-sm">{description}</p> : null}
-        {productionRoute ? (
-          <p className="text-muted-foreground font-mono text-xs">
-            Production route: <span className="text-foreground">{productionRoute}</span>
-          </p>
-        ) : null}
-      </header>
+      {header ? (
+        header
+      ) : (
+        <header className="border-border space-y-2 border-b pb-6">
+          <h1 className="font-heading text-2xl font-semibold tracking-tight">{title}</h1>
+          {description ? <p className="text-muted-foreground text-sm">{description}</p> : null}
+          {productionRoute ? (
+            <p className="text-muted-foreground font-mono text-xs">
+              Production route: <span className="text-foreground">{productionRoute}</span>
+            </p>
+          ) : null}
+        </header>
+      )}
 
       {children}
 
@@ -174,7 +180,7 @@ export function SeasonRouteLabRowLink({
   return (
     <Link
       href={href}
-      className="border-border hover:bg-muted/40 flex items-center justify-between gap-4 border-b px-6 py-4 transition-colors last:border-b-0"
+      className="border-border hover:bg-muted/40 flex w-full min-w-0 items-center justify-between gap-4 border-b px-6 py-4 transition-colors last:border-b-0"
     >
       <div className="min-w-0">
         <p className="truncate text-sm font-medium">{title}</p>
@@ -182,7 +188,9 @@ export function SeasonRouteLabRowLink({
           <TypographyMuted className="mt-0.5 truncate text-xs">{subtitle}</TypographyMuted>
         ) : null}
       </div>
-      <span className={buttonVariants({ variant: "outline", size: "sm" })}>Open</span>
+      <Button asChild variant="accentOutline" size="sm">
+        <span>Open</span>
+      </Button>
     </Link>
   );
 }
