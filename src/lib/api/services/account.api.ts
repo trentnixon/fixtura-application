@@ -52,6 +52,8 @@ import type {
   TriggerFixtureDiscoveryGradeRequest,
   TriggerFixtureDiscoveryGradeSuccessResponse,
   OnboardingStateResponse,
+  PatchAccountBrandingBody,
+  PatchAccountBrandingSuccess,
 } from "@/types/api/account";
 
 /**
@@ -194,6 +196,15 @@ export const accountApi = {
   getAccountBranding: (accountId: string) => {
     const path = `${appRoutes.accounts.branding.path}/${encodeURIComponent(accountId)}/branding`;
     return apiClient.get<AccountBrandingResponse>(path);
+  },
+
+  /**
+   * Persist organisation palette + template mode in one call (Strapi `saveAccountBranding`).
+   * @see src/app/sandbox/route-lab/season/.docs/response/frontend-handoff-patch-account-branding-save.md
+   */
+  patchAccountBranding: (accountId: string, body: PatchAccountBrandingBody) => {
+    const path = `${appRoutes.accounts.branding.path}/${encodeURIComponent(accountId)}/branding`;
+    return apiClient.patch<PatchAccountBrandingSuccess>(path, body);
   },
 
   /** Full template catalog + optional currentSelection. @see .comms/API/handoff-all-template-options.md */

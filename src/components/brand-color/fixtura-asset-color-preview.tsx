@@ -11,6 +11,8 @@ import { Surface } from "@/components/ui/container";
 import { tryNormalizeHex } from "@/lib/brand-color";
 import { cn } from "@/lib/utils";
 
+import type { ReactNode } from "react";
+
 export type FixturaAssetColorPreviewProps = {
   primaryHex: string;
   secondaryHex: string;
@@ -19,6 +21,11 @@ export type FixturaAssetColorPreviewProps = {
   /** CMS template mode slug — hero titles, logo strip, and lower mock discs follow light vs dark UI preset. */
   templateModeSlug?: string | null;
   className?: string;
+  /**
+   * Replaces the default note under “Asset preview” (contrast / template disclaimer).
+   * Use for route labs or shells that need context-specific copy without wrapping an extra header.
+   */
+  previewNote?: ReactNode;
 };
 
 const FALLBACK_PRIMARY = "#64748B";
@@ -34,6 +41,7 @@ export function FixturaAssetColorPreview({
   logoSrc,
   templateModeSlug,
   className,
+  previewNote,
 }: FixturaAssetColorPreviewProps) {
   const lastPrimaryRef = useRef<string>(FALLBACK_PRIMARY);
   const lastSecondaryRef = useRef<string>(FALLBACK_SECONDARY);
@@ -61,8 +69,8 @@ export function FixturaAssetColorPreview({
           Asset preview
         </TypographyMuted>
         <TypographyMuted className="text-[11px] leading-relaxed">
-          Note: Template mode is a guide to how you would like contrast to work; it may change
-          depending on the template selected.
+          {previewNote ??
+            "This asset preview is a guide to how you would like contrast to work; it may change depending on the template selected."}
         </TypographyMuted>
       </header>
 

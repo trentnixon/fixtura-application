@@ -23,9 +23,9 @@ export function MembersAppShell({ children }: { children: ReactNode }) {
 
   return (
     <SidebarProvider
+      className="md:[--sidebar-width:--spacing(60)] lg:[--sidebar-width:--spacing(54)]"
       style={
         {
-          "--sidebar-width": "calc(var(--spacing) * 72)",
           "--header-height": "calc(var(--spacing) * 12)",
         } as CSSProperties
       }

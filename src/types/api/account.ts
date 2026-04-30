@@ -492,6 +492,60 @@ export interface AccountBrandingResponse {
   data: AccountBrandingData;
 }
 
+/** Keys stored in theme JSON (hex or clear with null / ""). */
+export type BrandingPaletteInput = Partial<{
+  primary: string | null;
+  secondary: string | null;
+  dark: string | null;
+  white: string | null;
+}>;
+
+export type PatchAccountBrandingThemePayload = {
+  themeId?: number | null;
+  primary?: string | null;
+  secondary?: string | null;
+  dark?: string | null;
+  white?: string | null;
+};
+
+/** PATCH /api/accounts/:accountId/branding — flat or Strapi-style `{ data }` body. */
+export type PatchAccountBrandingBody =
+  | {
+      themeId?: number | null;
+      palette?: BrandingPaletteInput;
+      theme?: PatchAccountBrandingThemePayload;
+      templateModeId?: number | null;
+    }
+  | {
+      data: {
+        themeId?: number | null;
+        palette?: BrandingPaletteInput;
+        theme?: PatchAccountBrandingThemePayload;
+        templateModeId?: number | null;
+      };
+    };
+
+/** Success envelope from Strapi save handler. */
+export interface PatchAccountBrandingSuccessData {
+  accountId: number;
+  themeId: number | null;
+  /** Present when the request included a `templateModeId` field. */
+  templateModeId?: number | null;
+  templateModeSlug?: string | null;
+}
+
+export interface PatchAccountBrandingSuccess {
+  data: PatchAccountBrandingSuccessData;
+}
+
+/** Validation / business error from Strapi `saveAccountBranding`. */
+export interface PatchAccountBrandingErrorBody {
+  error: {
+    code: string;
+    message: string;
+  };
+}
+
 export type {
   AllTemplateOptionsData,
   AllTemplateOptionsPayload,

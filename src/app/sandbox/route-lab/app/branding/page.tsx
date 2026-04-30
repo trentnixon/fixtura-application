@@ -68,7 +68,13 @@ export default async function RouteLabBrandingPage({
       ) : null}
 
       {state !== "loading" && state !== "error" ? (
-        <BrandingLabWorkspace key={`branding-${state}`} data={data} mode={workspaceMode} />
+        <BrandingLabWorkspace
+          key={`branding-${state}`}
+          accountId="575"
+          data={data}
+          includeBrandingPageIntro={false}
+          mode={workspaceMode}
+        />
       ) : null}
     </RouteLabPage>
   );

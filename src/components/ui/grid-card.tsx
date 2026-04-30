@@ -7,7 +7,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { TypographyCardTitle, TypographyCaption } from "@/components/typography";
 import { cn } from "@/lib/utils";
 
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 export type GridCardVisualPreset = "org" | "add" | "sandbox";
 
@@ -467,6 +467,12 @@ export type GridCardProps = {
   tone?: GridCardTone;
   /** Non-interactive tile (e.g. coming soon). Only applies when `href` is not used. */
   disabled?: boolean;
+  /** Applied to the root tile (Link or button). Use for e.g. custom `backgroundImage` gradients. */
+  tileStyle?: CSSProperties;
+  /** Merged after variant title tokens (e.g. `!text-white` on gradient tiles). */
+  titleClassName?: string;
+  /** Merged after variant CTA tokens. */
+  ctaClassName?: string;
 };
 
 function buildAriaLabel(title: string, ctaLabel: string, description?: string) {
@@ -655,6 +661,9 @@ export function GridCard({
   variant = "default",
   tone = "default",
   disabled = false,
+  tileStyle,
+  titleClassName,
+  ctaClassName,
 }: GridCardProps) {
   const ariaLabel = buildAriaLabel(title, ctaLabel, description);
   const tileClass = gridCardTileClass(
@@ -665,14 +674,15 @@ export function GridCard({
 
   const inner = (
     <>
-      <TypographyCardTitle
+      <span
         className={cn(
-          "line-clamp-2 w-full shrink-0 text-base leading-snug font-semibold",
+          "line-clamp-2 w-full shrink-0 text-center text-base leading-snug font-semibold tracking-tight",
           gridCardTitleClass(variant, tone),
+          titleClassName,
         )}
       >
         {title}
-      </TypographyCardTitle>
+      </span>
       <div className="transition-transform duration-300 ease-out will-change-transform group-hover:-translate-y-1 group-hover:scale-110">
         {visual}
       </div>
@@ -680,6 +690,7 @@ export function GridCard({
         className={cn(
           "cursor-pointer text-xs font-medium transition-colors",
           gridCardCtaClass(variant, tone),
+          ctaClassName,
         )}
       >
         {ctaLabel}
@@ -690,13 +701,20 @@ export function GridCard({
   const busy = tone === "loading";
 
   const body = href ? (
-    <Link href={href} className={tileClass} aria-label={ariaLabel} aria-busy={busy}>
+    <Link
+      href={href}
+      className={tileClass}
+      style={tileStyle}
+      aria-label={ariaLabel}
+      aria-busy={busy}
+    >
       {inner}
     </Link>
   ) : (
     <button
       type="button"
       className={tileClass}
+      style={tileStyle}
       aria-label={ariaLabel}
       aria-busy={busy}
       disabled={disabled}

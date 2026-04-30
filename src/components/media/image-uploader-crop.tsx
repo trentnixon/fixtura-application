@@ -117,10 +117,14 @@ export type ImageUploaderCropMeta = {
   originalFileName: string;
 };
 
+/** How the crop session was started (for labs / analytics). */
+export type ImageUploaderCropSessionSource = "dropzone" | "editableUrl" | "recrop";
+
 export type ImageUploaderCropCompletePayload = {
   file: File;
   previewUrl: string;
   meta: ImageUploaderCropMeta;
+  sessionSource?: ImageUploaderCropSessionSource;
 };
 
 export type ImageUploaderCropProps = {
@@ -164,6 +168,10 @@ export type ImageUploaderCropProps = {
   outputQuality?: number;
   /** Show a one-line summary of active limits under the helper text. */
   showValidationHints?: boolean;
+  /**
+   * Same-origin or CORS-safe URL used for “Recrop existing image” before the user picks a file.
+   */
+  editableSourceUrl?: string | null;
   onComplete?: (payload: ImageUploaderCropCompletePayload) => void;
   onError?: (message: string) => void;
   /** Called after pre-crop validation passes (before the crop dialog opens). */
@@ -202,6 +210,7 @@ export function ImageUploaderCrop({
   outputFormat = "image/png",
   outputQuality = 0.92,
   showValidationHints = false,
+  editableSourceUrl = null,
   onComplete,
   onError,
   onPreCropValidated,
@@ -216,6 +225,7 @@ export function ImageUploaderCrop({
   const [cropOpen, setCropOpen] = useState(false);
   const [result, setResult] = useState<ImageUploaderCropCompletePayload | null>(null);
   const sourceFileRef = useRef<File | null>(null);
+  const cropSessionSourceRef = useRef<ImageUploaderCropSessionSource>("dropzone");
   const isConfirmingCrop = useRef(false);
 
   const [selectedPresetIndex, setSelectedPresetIndex] = useState(() =>
@@ -307,7 +317,32 @@ export function ImageUploaderCrop({
     }
   }, []);
 
+  const beginCropFromFile = useCallback(
+    async (file: File, sessionSource: ImageUploaderCropSessionSource) => {
+      cropSessionSourceRef.current = sessionSource;
+      setPhase("validating");
+      const res = await validateImageFile(file, fileValidationRules);
+      if (!res.ok || !res.meta) {
+        const msg = res.errors[0] ?? "Image did not pass validation.";
+        toast.error(msg);
+        setPhase("idle");
+        onError?.(msg);
+        return;
+      }
+      onPreCropValidated?.(res.meta);
+      sourceFileRef.current = file;
+      revoke(objectUrl);
+      const next = URL.createObjectURL(file);
+      setObjectUrl(next);
+      setOriginalName(file.name);
+      setCropOpen(true);
+      setPhase("cropping");
+    },
+    [fileValidationRules, objectUrl, onError, onPreCropValidated, revoke],
+  );
+
   const reset = useCallback(() => {
+    cropSessionSourceRef.current = "dropzone";
     revoke(objectUrl);
     revoke(previewUrl);
     sourceFileRef.current = null;
@@ -367,28 +402,36 @@ export function ImageUploaderCrop({
       if (!file) return;
 
       const run = async () => {
-        setPhase("validating");
-        const res = await validateImageFile(file, fileValidationRules);
-        if (!res.ok || !res.meta) {
-          const msg = res.errors[0] ?? "Image did not pass validation.";
-          toast.error(msg);
-          setPhase("idle");
-          onError?.(msg);
-          return;
-        }
-        onPreCropValidated?.(res.meta);
-        sourceFileRef.current = file;
-        revoke(objectUrl);
-        const next = URL.createObjectURL(file);
-        setObjectUrl(next);
-        setOriginalName(file.name);
-        setCropOpen(true);
-        setPhase("cropping");
+        await beginCropFromFile(file, "dropzone");
       };
       void run();
     },
-    [fileValidationRules, objectUrl, onError, onPreCropValidated, resolvedMaxMb, revoke],
+    [beginCropFromFile, resolvedMaxMb, onError],
   );
+
+  const handleLoadEditableFromUrl = useCallback(async () => {
+    if (!editableSourceUrl) return;
+    try {
+      const res = await fetch(editableSourceUrl);
+      if (!res.ok) throw new Error("Could not load image.");
+      const blob = await res.blob();
+      const segment = editableSourceUrl.split("/").pop()?.split("?")[0] ?? "logo-source.png";
+      const safeName =
+        segment.endsWith(".png") ||
+        segment.endsWith(".jpg") ||
+        segment.endsWith(".jpeg") ||
+        segment.endsWith(".webp")
+          ? segment
+          : `${segment}.png`;
+      const file = blobToFile(blob, safeName);
+      await beginCropFromFile(file, "editableUrl");
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : "Could not load image.";
+      toast.error(msg);
+      setPhase("idle");
+      onError?.(msg);
+    }
+  }, [editableSourceUrl, beginCropFromFile, onError]);
 
   const dropzoneDisabled = phase === "validating" || (phase === "cropping" && cropOpen);
 
@@ -442,7 +485,12 @@ export function ImageUploaderCrop({
           ...(effectiveLabel !== undefined ? { aspectLabel: effectiveLabel } : {}),
         };
 
-        const payload: ImageUploaderCropCompletePayload = { file, previewUrl: nextPreview, meta };
+        const payload: ImageUploaderCropCompletePayload = {
+          file,
+          previewUrl: nextPreview,
+          meta,
+          sessionSource: cropSessionSourceRef.current,
+        };
         setResult(payload);
         setPhase("cropped");
         onComplete?.(payload);
@@ -477,6 +525,7 @@ export function ImageUploaderCrop({
   );
 
   const handleRecrop = useCallback(() => {
+    cropSessionSourceRef.current = "recrop";
     const f = sourceFileRef.current;
     if (!f) return;
     revoke(objectUrl);
@@ -513,6 +562,19 @@ export function ImageUploaderCrop({
           <TypographyHelperText>{validationHintLine}</TypographyHelperText>
         ) : null}
       </div>
+
+      {editableSourceUrl && showDropzone ? (
+        <Button
+          type="button"
+          variant="secondary"
+          size="sm"
+          className="w-full max-w-sm sm:w-auto"
+          disabled={phase === "validating"}
+          onClick={() => void handleLoadEditableFromUrl()}
+        >
+          Recrop existing image
+        </Button>
+      ) : null}
 
       {showDropzone && (
         <div className="space-y-3">

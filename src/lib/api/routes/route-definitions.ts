@@ -164,7 +164,7 @@ export const appRoutes = {
       authRequired: true,
       status: "ready",
       description:
-        "GET append /{accountId}/branding — template, theme, template_option (branding / preview)",
+        "GET/PATCH append /{accountId}/branding — read template/theme/template_option; save palette + template mode",
       domain: "account",
     },
     organisation: {

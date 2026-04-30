@@ -1,5 +1,45 @@
 # Decisions
 
+## 2026-04-30 — Production brand logo uses onboarding Step 2 (M1 + W2), not `PATCH /branding`
+
+**Decision:** The members **Brand Logo** screen (`/o/[accountId]/brand-logo`) persists logo changes via **`POST …/onboarding/step-2/upload`** (M1) and **`PATCH …/onboarding/step-2`** with `logoMediaId`, using `useUpdateOnboardingStep2`. **`PATCH /api/accounts/:accountId/branding`** remains palette + template mode only until CMS extends that contract.
+
+**Why:** Matches the implemented Strapi/onboarding handoff; the hook already invalidates branding reads after W2.
+
+**Tradeoffs:** Product naming references “onboarding” for ongoing maintenance; if CMS restricts M1/W2 after wizard completion, FED must migrate to an extended branding PATCH or dedicated logo route (documented in `.comms/responses/brand-logo-cms-fed-briefing.md`).
+
+---
+
+## 2026-04-30 — SidebarProvider applies default `--sidebar-width` via `className`, not inline
+
+**Decision:** `SidebarProvider` sets default `--sidebar-width` and `--sidebar-width-icon` on the wrapper using Tailwind arbitrary properties in `className` (`[--sidebar-width:16rem]`, `[--sidebar-width-icon:3rem]`). The merged `style` object no longer injects those keys by default; callers pass `style` only for other variables (or to force `--sidebar-width` inline when needed).
+
+**Why:** Inline custom properties on the same element beat class-based breakpoints, so responsive utilities such as `md:[--sidebar-width:…]` could not override members-shell width until defaults moved off inline.
+
+**Tradeoffs:** Call sites must use `className` for responsive width tuning; explicit `style={{ "--sidebar-width": "…" }}` still overrides when required. Mobile `SheetContent` continues to set its own `--sidebar-width` for the drawer.
+
+---
+
+## 2026-04-29 — Members dashboard is UI-first; raw payloads are collapsed debug with token redaction
+
+**Decision:** The members dashboard route (`/o/[accountId]/dashboard`) is implemented as a structured UI-first surface (header, KPI strip, activity table, account summary, branding), while raw API payload dumps are moved into a collapsed developer section. Legacy payload dumps must redact token values via the existing redaction helper.
+
+**Why:** Keeps the dashboard aligned with product-facing member experience while preserving developer visibility during migration from JSON-first placeholders.
+
+**Tradeoffs:** Adds component/view-model structure to maintain; debug visibility policy (`development` only vs `?debug=1`) still needs explicit environment agreement.
+
+---
+
+## 2026-04-29 — Route lab branding: template-mode slug drives shared contrast preview helpers
+
+**Decision:** Contrast preset behaviour for branding UX (contrast selector inset list, template-mode card styling, and `FixturaAssetColorPreview`) is derived from the CMS **template mode slug** via shared helpers in `@/components/pickers/template-mode/_utils` (`templateModeContrastVariant`, `templateModeUsesDarkTitlesOnGradient`, `templateModeUsesDarkLogoBackdrop`, etc.), rather than re-implementing rules per component.
+
+**Why:** One mapping keeps row styling, mock asset preview (titles, logo strip, glass + solid discs), and confirmation copy aligned as presets or slug naming evolve.
+
+**Tradeoffs:** `brand-color` depends on picker `_utils` for preview semantics; if layering matters later, equivalent helpers could move under `@/lib/branding/` without changing slug rules.
+
+---
+
 ## 2026-04-29 — Tailwind v4 color system uses token modules + theme mappings
 
 **Decision:** Tailwind v4 color variations are treated as token-driven (`@theme inline` + `--color-*` mappings) and the global styling setup is split into dedicated modules: `src/app/styles/theme-tokens.css`, `src/app/styles/color-variables.css`, and `src/app/styles/color-utilities.css`, imported by `src/app/globals.css`.

@@ -3,37 +3,35 @@
 import {
   IconBuildingPlus,
   IconCamera,
-  IconCreditCard,
   IconDashboard,
   IconFileDescription,
   IconFolder,
   IconPalette,
-  IconHelp,
+  IconPhoto,
   IconListDetails,
   IconMoneybag,
   IconSettings,
   IconUsers,
 } from "@tabler/icons-react";
-import Link from "next/link";
 import * as React from "react";
 
 import { AccountSwitcher } from "@/components/layout/account-switcher";
 import { NavMain } from "@/components/nav-main";
 import { NavSandboxMenuItem } from "@/components/nav-sandbox";
-import { NavSecondary } from "@/components/nav-secondary";
+/* import { NavSecondary } from "@/components/nav-secondary"; */
 import { NavSystemMenuItem } from "@/components/nav-system";
 import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
+  /*   SidebarFooter, */
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
+  /*   SidebarMenuButton,
+    SidebarMenuItem, */
 } from "@/components/ui/sidebar";
 import {
   activeAccountSummaryFromMePayload,
@@ -95,58 +93,87 @@ export function AppSidebar({
     { title: "Create organisation", url: ROUTES.createOrganisation, icon: IconBuildingPlus },
   ];
 
-  const scopedMain =
+  const scopedSections =
     accountId != null
       ? [
           {
-            title: "Dashboard",
-            url: accountScopedRoutes.dashboard(accountId),
-            icon: IconDashboard,
+            label: "" as const,
+            items: [
+              {
+                title: "Dashboard",
+                url: accountScopedRoutes.dashboard(accountId),
+                icon: IconDashboard,
+              },
+              {
+                title: "Season",
+                url: accountScopedRoutes.season(accountId),
+                icon: IconListDetails,
+              },
+            ],
+          },
+          /* {
+          label: "Account" as const,
+          items: [
+            {
+              title: "Billing",
+              url: accountScopedRoutes.billing(accountId),
+              icon: IconCreditCard,
+            },
+            {
+              title: "Season",
+              url: accountScopedRoutes.season(accountId),
+              icon: IconListDetails,
+            },
+          ],
+        }, */
+          {
+            label: "Settings" as const,
+            items: [
+              {
+                title: "Settings",
+                url: accountScopedRoutes.settings(accountId),
+                icon: IconSettings,
+              },
+              {
+                title: "Branding",
+                url: accountScopedRoutes.branding(accountId),
+                icon: IconPalette,
+              },
+              {
+                title: "Update Logo",
+                url: accountScopedRoutes.brandLogo(accountId),
+                icon: IconPhoto,
+              },
+            ],
           },
           {
-            title: "Bundles",
-            url: accountScopedRoutes.bundles(accountId),
-            icon: IconFolder,
-          },
-          {
-            title: "Branding",
-            url: accountScopedRoutes.branding(accountId),
-            icon: IconPalette,
-          },
-          {
-            title: "Templates",
-            url: accountScopedRoutes.templateBuilder(accountId),
-            icon: IconFileDescription,
-          },
-          {
-            title: "Media Gallery",
-            url: accountScopedRoutes.mediaGallery(accountId),
-            icon: IconCamera,
-          },
-          {
-            title: "Sponsors",
-            url: accountScopedRoutes.manageSponsors(accountId),
-            icon: IconMoneybag,
-          },
-          {
-            title: "Billing",
-            url: accountScopedRoutes.billing(accountId),
-            icon: IconCreditCard,
-          },
-          {
-            title: "Season",
-            url: accountScopedRoutes.season(accountId),
-            icon: IconListDetails,
+            label: "Assets" as const,
+            items: [
+              {
+                title: "Bundles",
+                url: accountScopedRoutes.bundles(accountId),
+                icon: IconFolder,
+              },
+
+              {
+                title: "Templates",
+                url: accountScopedRoutes.templateBuilder(accountId),
+                icon: IconFileDescription,
+              },
+              {
+                title: "Media Gallery",
+                url: accountScopedRoutes.mediaGallery(accountId),
+                icon: IconCamera,
+              },
+              {
+                title: "Sponsors",
+                url: accountScopedRoutes.manageSponsors(accountId),
+                icon: IconMoneybag,
+              },
+            ],
           },
         ]
       : [];
-
-  const secondary = [
-    ...(navMode === "scoped" && accountId != null
-      ? [{ title: "Settings", url: accountScopedRoutes.settings(accountId), icon: IconSettings }]
-      : []),
-    { title: "Get Help", url: ROUTES.help, icon: IconHelp },
-  ];
 
   return (
     <Sidebar collapsible="offcanvas" {...props}>
@@ -155,7 +182,7 @@ export function AppSidebar({
         <NavUser user={scopedUser} {...(accountId !== undefined ? { accountId } : {})} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={navMode === "gateway" ? gatewayMain : scopedMain} />
+        <NavMain sections={navMode === "gateway" ? [{ items: gatewayMain }] : scopedSections} />
         {isDevSandboxEnabled ? (
           <SidebarGroup>
             <SidebarGroupLabel>Admin</SidebarGroupLabel>
@@ -167,9 +194,9 @@ export function AppSidebar({
             </SidebarGroupContent>
           </SidebarGroup>
         ) : null}
-        <NavSecondary items={secondary} className="mt-auto" />
+        {/* <NavSecondary items={secondary} className="mt-auto" /> */}
       </SidebarContent>
-      {navMode === "scoped" && accountId ? (
+      {/* {navMode === "scoped" && accountId ? (
         <SidebarFooter>
           <SidebarMenu>
             <SidebarMenuItem>
@@ -182,7 +209,7 @@ export function AppSidebar({
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarFooter>
-      ) : null}
+      ) : null} */}
     </Sidebar>
   );
 }

@@ -137,7 +137,7 @@ export function BrandColorField({
         ) : null}
 
         <Popover open={open} onOpenChange={setOpen}>
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="flex flex-row items-center gap-3">
             <PopoverTrigger asChild>
               <button
                 type="button"
@@ -153,7 +153,7 @@ export function BrandColorField({
             </PopoverTrigger>
             <Input
               id={fieldId}
-              className="font-mono sm:max-w-xs"
+              className="min-w-0 flex-1 font-mono"
               value={value}
               onChange={(e) => onChange(e.target.value)}
               placeholder={placeholder}
