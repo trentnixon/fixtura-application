@@ -1,10 +1,20 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 
 import { CalendarDisplayLab } from "./calendar-display-lab";
 import { SelectedDateFixtures } from "./selected-date-fixtures";
 import { fixtureEvents } from "../_data/fixture-events";
 
 describe("CalendarDisplayLab", () => {
+  beforeAll(() => {
+    vi.useFakeTimers({ toFake: ["Date"] });
+    vi.setSystemTime(new Date("2026-04-15T12:00:00"));
+  });
+
+  afterAll(() => {
+    vi.useRealTimers();
+  });
+
   it("renders the lab shell copy and metrics", () => {
     render(<CalendarDisplayLab />);
 
