@@ -104,6 +104,41 @@ export function AppSidebar({
                 url: accountScopedRoutes.dashboard(accountId),
                 icon: IconDashboard,
               },
+            ],
+          },
+          /* {
+        label: "Account" as const,
+        items: [
+          {
+            title: "Billing",
+            url: accountScopedRoutes.billing(accountId),
+            icon: IconCreditCard,
+          },
+          {
+            title: "Season",
+            url: accountScopedRoutes.season(accountId),
+            icon: IconListDetails,
+          },
+        ],
+      }, */
+          {
+            label: "Organisation" as const,
+            items: [
+              {
+                title: "Branding",
+                url: accountScopedRoutes.branding(accountId),
+                icon: IconPalette,
+              },
+              {
+                title: "Logo",
+                url: accountScopedRoutes.brandLogo(accountId),
+                icon: IconPhoto,
+              },
+              {
+                title: "Sponsors",
+                url: accountScopedRoutes.manageSponsors(accountId),
+                icon: IconMoneybag,
+              },
               {
                 title: "Season",
                 url: accountScopedRoutes.season(accountId),
@@ -111,50 +146,14 @@ export function AppSidebar({
               },
             ],
           },
-          /* {
-          label: "Account" as const,
-          items: [
-            {
-              title: "Billing",
-              url: accountScopedRoutes.billing(accountId),
-              icon: IconCreditCard,
-            },
-            {
-              title: "Season",
-              url: accountScopedRoutes.season(accountId),
-              icon: IconListDetails,
-            },
-          ],
-        }, */
           {
-            label: "Settings" as const,
+            label: "Assets" as const,
             items: [
               {
                 title: "Settings",
                 url: accountScopedRoutes.settings(accountId),
                 icon: IconSettings,
               },
-              {
-                title: "Branding",
-                url: accountScopedRoutes.branding(accountId),
-                icon: IconPalette,
-              },
-              {
-                title: "Update Logo",
-                url: accountScopedRoutes.brandLogo(accountId),
-                icon: IconPhoto,
-              },
-            ],
-          },
-          {
-            label: "Assets" as const,
-            items: [
-              {
-                title: "Bundles",
-                url: accountScopedRoutes.bundles(accountId),
-                icon: IconFolder,
-              },
-
               {
                 title: "Templates",
                 url: accountScopedRoutes.templateBuilder(accountId),
@@ -166,9 +165,9 @@ export function AppSidebar({
                 icon: IconCamera,
               },
               {
-                title: "Sponsors",
-                url: accountScopedRoutes.manageSponsors(accountId),
-                icon: IconMoneybag,
+                title: "Bundles",
+                url: accountScopedRoutes.bundles(accountId),
+                icon: IconFolder,
               },
             ],
           },

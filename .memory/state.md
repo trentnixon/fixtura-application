@@ -1,13 +1,13 @@
 # State
 
-_Last updated: 2026-04-30 (LOG — production Brand Logo: dedicated workspace + M1/W2 on `/o/[accountId]/brand-logo`)._
+_Last updated: 2026-04-30 (LOG — Members branding header styling: `bg-primary-950` section headers + padding + CTA contrast.)_
 
 ## Current focus
 
 - Stabilize `/o/[accountId]/dashboard` as a UI-first page using phase hooks and a derived view model.
 - Keep members dashboard and season surfaces aligned with shared UI primitives and typography conventions.
 - Preserve safe diagnostics: collapsed developer payloads with token redaction.
-- Members **branding** (`/o/[accountId]/branding`): responsive layout shipped; colocated splits for `BrandingScreen` and `BrandingTemplateModeCardsInput`; `page.tsx` is shell-only. Follow-up: real save in route-lab when APIs graduate. Repo-wide `tsc --noEmit` still red from unrelated sandbox files — not blocking branding edits.
+- Members **branding** (`/o/[accountId]/branding`): responsive layout shipped; headers for **Brand colours** + **Contrast selector** now use `bg-primary-950` with white text/icons and full-bleed card header bands; CTAs tuned for contrast; `BrandingWorkspace` entry is thin + `_components` (brand colours card, save CTAs, preview sidebar, save dialog); `BrandingScreen` / `BrandingTemplateModeCardsInput` colocated as before; `page.tsx` is shell-only. Follow-up: real save in route-lab when APIs graduate. Repo-wide `tsc --noEmit` still red from unrelated sandbox files — not blocking branding edits.
 - Members **Brand Logo** (`/o/[accountId]/brand-logo`): **dedicated** `BrandLogoWorkspace` + `BrandLogoScreen`; persistence via **M1 + W2** (`useUpdateOnboardingStep2`), not `PATCH /branding`. See `.comms/responses/brand-logo-cms-fed-briefing.md` for CMS confirmations.
 - Sandbox **logo uploader** route lab (`/sandbox/route-lab/app/logo-uploader`): lab workspace unchanged; production link targets `brand-logo`.
 

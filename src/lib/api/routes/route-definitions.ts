@@ -154,7 +154,37 @@ export const appRoutes = {
       authRequired: true,
       status: "ready",
       description:
-        "GET append /{accountId}/settings — account configuration flags (canonical settings screen)",
+        "GET + PATCH append /{accountId}/settings — load + save preference flags / delivery (`saveAccountSettings`)",
+      domain: "account",
+    },
+    securityProfile: {
+      key: "accounts.security-profile",
+      method: "PATCH",
+      path: ACCOUNTS_API_BASE,
+      authRequired: true,
+      status: "ready",
+      description:
+        "PATCH append /{accountId}/security/profile — display name (`saveAccountSecurityProfile`); see route-lab .docs/frontend-handoff-account-security-writes.md",
+      domain: "account",
+    },
+    securityLoginEmail: {
+      key: "accounts.security-login-email",
+      method: "PATCH",
+      path: ACCOUNTS_API_BASE,
+      authRequired: true,
+      status: "ready",
+      description:
+        "PATCH append /{accountId}/security/login-email — login email (`saveAccountSecurityLoginEmail`)",
+      domain: "account",
+    },
+    securityPassword: {
+      key: "accounts.security-password",
+      method: "POST",
+      path: ACCOUNTS_API_BASE,
+      authRequired: true,
+      status: "ready",
+      description:
+        "POST append /{accountId}/security/password — password change (`changeAccountSecurityPassword`)",
       domain: "account",
     },
     branding: {

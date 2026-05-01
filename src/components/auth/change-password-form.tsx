@@ -8,59 +8,66 @@ import { z } from "zod";
 
 import { SubmitButton, InlineAlert } from "@/components/auth/actions";
 import { AuthForm, PasswordInput, ConfirmPasswordInput } from "@/components/auth/forms";
+import { PasswordStrengthMeter } from "@/components/auth/password-strength-meter";
+import { Button } from "@/components/ui/button";
+import { ApiError } from "@/lib/api/client/api-error";
+import { usePostAccountSecurityPassword } from "@/lib/api/hooks/account/usePostAccountSecurityPassword";
+import { AUTH_ERROR_MESSAGES } from "@/lib/auth/auth-errors";
 
 const changePasswordSchema = z
   .object({
     currentPassword: z.string().min(1, "Enter your current password"),
     password: z.string().min(8, "New password must be at least 8 characters"),
-    confirmPassword: z.string(),
+    passwordConfirmation: z.string(),
   })
-  .refine((data) => data.password === data.confirmPassword, {
+  .refine((data) => data.password === data.passwordConfirmation, {
     message: "New passwords do not match",
-    path: ["confirmPassword"],
+    path: ["passwordConfirmation"],
   });
 
 type ChangePasswordValues = z.infer<typeof changePasswordSchema>;
 
-export function ChangePasswordForm() {
-  const [submitting, setSubmitting] = useState(false);
+export function ChangePasswordForm({
+  accountId,
+  onSuccess,
+  footerCancelLabel = "Cancel",
+  onDismiss,
+}: {
+  accountId: string;
+  /** Invoked after a successful save and form reset */
+  onSuccess?: () => void;
+  /** When `onDismiss` is set (e.g. dialog), renders Cancel beside submit */
+  footerCancelLabel?: string;
+  onDismiss?: () => void;
+}) {
+  const mutation = usePostAccountSecurityPassword(accountId);
   const [error, setError] = useState<string | null>(null);
 
   const {
     register,
+    watch,
     formState: { errors },
     handleSubmit,
     reset,
   } = useForm<ChangePasswordValues>({
     resolver: zodResolver(changePasswordSchema),
-    defaultValues: { currentPassword: "", password: "", confirmPassword: "" },
+    defaultValues: { currentPassword: "", password: "", passwordConfirmation: "" },
   });
 
   async function onSubmit(values: ChangePasswordValues) {
-    setSubmitting(true);
     setError(null);
     try {
-      const res = await fetch("/api/auth/change-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
-
-      const data = await res.json().catch(() => ({}));
-
-      if (!res.ok) {
-        setError(data.error || "Password change failed. Please try again.");
-        return;
-      }
-
+      await mutation.mutateAsync(values);
       toast.success("Password changed successfully");
       reset();
-    } catch {
-      setError("A network error occurred. Please try again.");
-    } finally {
-      setSubmitting(false);
+      onSuccess?.();
+    } catch (e) {
+      setError(e instanceof ApiError ? e.message : AUTH_ERROR_MESSAGES.unexpected);
     }
   }
+
+  const submitting = mutation.isPending;
+  const newPassword = watch("password") ?? "";
 
   return (
     <AuthForm onSubmit={handleSubmit(onSubmit)}>
@@ -83,14 +90,37 @@ export function ChangePasswordForm() {
           disabled={submitting}
         />
 
+        <PasswordStrengthMeter password={newPassword} />
+
         <ConfirmPasswordInput
-          {...register("confirmPassword")}
-          error={errors.confirmPassword?.message}
+          {...register("passwordConfirmation")}
+          error={errors.passwordConfirmation?.message}
           disabled={submitting}
         />
       </div>
 
-      <SubmitButton loading={submitting}>Update password</SubmitButton>
+      {onDismiss ? (
+        <div className="flex flex-col-reverse gap-2 pt-4 sm:flex-row sm:justify-end sm:gap-3">
+          <Button
+            type="button"
+            variant="outline"
+            className="rounded-xl"
+            onClick={onDismiss}
+            disabled={submitting}
+          >
+            {footerCancelLabel}
+          </Button>
+          <SubmitButton
+            loading={submitting}
+            fullWidth={false}
+            className="mt-0 h-12 shrink-0 rounded-xl px-6 sm:min-w-[160px]"
+          >
+            Update password
+          </SubmitButton>
+        </div>
+      ) : (
+        <SubmitButton loading={submitting}>Update password</SubmitButton>
+      )}
     </AuthForm>
   );
 }

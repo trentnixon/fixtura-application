@@ -65,6 +65,8 @@ export const ROUTE_LAB_NAV_SECTIONS: SandboxNavSection[] = [
       { href: `${ROUTES.routeLab}/app/branding`, label: "Branding" },
       { href: `${ROUTES.routeLab}/app/logo-uploader`, label: "Logo uploader" },
       { href: `${ROUTES.routeLab}/app/settings`, label: "Settings" },
+      { href: `${ROUTES.routeLab}/app/notifications`, label: "Notifications" },
+      { href: `${ROUTES.routeLab}/app/account`, label: "Account" },
     ],
   },
 ];

@@ -328,7 +328,8 @@ export type OrganisationAccountDetailsData = AccountContentHubPayload & {
   isSetup?: boolean;
   Sport?: string;
   account_type?: number;
-  scheduler?: Record<string, unknown>;
+  /** Same shape as GET /api/accounts/:id/scheduler `data.scheduler` when CMS embeds it on the organisation hub. */
+  scheduler?: AccountSchedulerDocument | null;
   render_token?: Record<string, unknown>;
   theme?: Record<string, unknown>;
   renders?: unknown[];
@@ -342,7 +343,7 @@ export interface OrganisationAccountDetailsResponse {
   data: OrganisationAccountDetailsData;
 }
 
-/** GET /api/accounts/:accountId/settings — read-only account configuration (Phase 2 handoff). */
+/** GET /api/accounts/:accountId/settings — account configuration (Phase 2 + preferences save handoff). */
 export interface AccountSettingsData {
   id: number;
   FirstName: string | null;
@@ -361,10 +362,66 @@ export interface AccountSettingsData {
   account_type: number | null;
   /** Working org name during onboarding (Phase 2); optional until CMS exposes. */
   onboardingOrganisationName?: string | null;
+  /** Club-only preference; PATCH `splitSeniorsAndMasters`. @see .comms/response/frontend-handoff-patch-account-settings-save.md */
+  split_seniors_and_masters?: boolean;
+  /**
+   * Embedded scheduler when CMS returns it on the settings payload (delivery day lives on `days_of_the_week`).
+   */
+  scheduler?: AccountSchedulerDocument | null;
 }
 
 export interface AccountSettingsResponse {
   data: AccountSettingsData;
+}
+
+/** PATCH /api/accounts/:accountId/settings — partial body (flat). */
+export type PatchAccountSettingsBody = {
+  includeJuniorSurnames?: boolean;
+  competitionsGroupedBy?: "grade" | "competition";
+  splitSeniorsAndMasters?: boolean;
+  daysOfTheWeekId?: number;
+  bundleDeliveryDay?: string;
+};
+
+/** PATCH allows `{ data: { ... } }` wrapper per CMS contract. */
+export type PatchAccountSettingsRequest =
+  | PatchAccountSettingsBody
+  | { data: PatchAccountSettingsBody };
+
+/** Success envelope matches GET settings `data`. */
+export type PatchAccountSettingsResponse = AccountSettingsResponse;
+
+/** PATCH /api/accounts/:accountId/security/profile — XOR: `userName` OR `firstName`/`lastName` (server enforces). */
+export type PatchAccountSecurityProfileBody =
+  | { userName: string }
+  | { firstName?: string; lastName?: string };
+
+export type PatchAccountSecurityProfileRequest =
+  | PatchAccountSecurityProfileBody
+  | { data: PatchAccountSecurityProfileBody };
+
+export type PatchAccountSecurityProfileResponse = AccountSettingsResponse;
+
+/** PATCH /api/accounts/:accountId/security/login-email — one of `loginEmail` or `email` (server enforces). */
+export type PatchAccountSecurityLoginEmailBody = { loginEmail: string } | { email: string };
+
+export type PatchAccountSecurityLoginEmailRequest =
+  | PatchAccountSecurityLoginEmailBody
+  | { data: PatchAccountSecurityLoginEmailBody };
+
+export interface PatchAccountSecurityLoginEmailResponse {
+  data: { loginEmail: string };
+}
+
+/** POST /api/accounts/:accountId/security/password */
+export interface PostAccountSecurityPasswordBody {
+  currentPassword: string;
+  password: string;
+  passwordConfirmation: string;
+}
+
+export interface PostAccountSecurityPasswordResponse {
+  data: { changed: true };
 }
 
 /** Image on GET /api/accounts/:accountId/media-library item (handoff). */
@@ -594,12 +651,15 @@ export interface AccountOrganisationContextResponse {
 export interface AccountSchedulerDayOfWeek {
   id: number;
   Name: string;
+  /** Present when CMS populates full collection-type relation fields. */
+  updatedAt?: string;
+  publishedAt?: string;
 }
 
 export interface AccountSchedulerDocument {
   id: number;
   Name: string;
-  Time: string;
+  Time: string | null;
   Queued: boolean;
   isRendering: boolean;
   days_of_the_week?: AccountSchedulerDayOfWeek | null;

@@ -54,6 +54,14 @@ import type {
   OnboardingStateResponse,
   PatchAccountBrandingBody,
   PatchAccountBrandingSuccess,
+  PatchAccountSecurityLoginEmailRequest,
+  PatchAccountSecurityLoginEmailResponse,
+  PatchAccountSecurityProfileRequest,
+  PatchAccountSecurityProfileResponse,
+  PatchAccountSettingsRequest,
+  PatchAccountSettingsResponse,
+  PostAccountSecurityPasswordBody,
+  PostAccountSecurityPasswordResponse,
 } from "@/types/api/account";
 
 /**
@@ -165,6 +173,39 @@ export const accountApi = {
   getAccountSettings: (accountId: string) => {
     const path = `${appRoutes.accounts.settings.path}/${encodeURIComponent(accountId)}/settings`;
     return apiClient.get<AccountSettingsResponse>(path);
+  },
+
+  /**
+   * Save account preference flags + delivery via Strapi `saveAccountSettings`.
+   * @see src/app/(members)/.comms/response/frontend-handoff-patch-account-settings-save.md
+   */
+  patchAccountSettings: (accountId: string, body: PatchAccountSettingsRequest) => {
+    const path = `${appRoutes.accounts.settings.path}/${encodeURIComponent(accountId)}/settings`;
+    return apiClient.patch<PatchAccountSettingsResponse>(path, body);
+  },
+
+  /** Display / profile name on account (`saveAccountSecurityProfile`). */
+  patchAccountSecurityProfile: (accountId: string, body: PatchAccountSecurityProfileRequest) => {
+    const base = `${appRoutes.accounts.securityProfile.path}/${encodeURIComponent(accountId)}`;
+    return apiClient.patch<PatchAccountSecurityProfileResponse>(`${base}/security/profile`, body);
+  },
+
+  /** Login email (`users-permissions.user.email`; `saveAccountSecurityLoginEmail`). */
+  patchAccountSecurityLoginEmail: (
+    accountId: string,
+    body: PatchAccountSecurityLoginEmailRequest,
+  ) => {
+    const base = `${appRoutes.accounts.securityLoginEmail.path}/${encodeURIComponent(accountId)}`;
+    return apiClient.patch<PatchAccountSecurityLoginEmailResponse>(
+      `${base}/security/login-email`,
+      body,
+    );
+  },
+
+  /** Password change (`changeAccountSecurityPassword`). */
+  postAccountSecurityPassword: (accountId: string, body: PostAccountSecurityPasswordBody) => {
+    const base = `${appRoutes.accounts.securityPassword.path}/${encodeURIComponent(accountId)}`;
+    return apiClient.post<PostAccountSecurityPasswordResponse>(`${base}/security/password`, body);
   },
 
   /** Published gallery / media-library items for the account (handoff). */

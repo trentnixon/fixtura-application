@@ -18,6 +18,8 @@ import {
   selectOrganisationUrlWithReason,
 } from "@/lib/config/gateway-reasons";
 
+import { AccountSettingsPreferences } from "./_components/account-settings-preferences";
+
 export function AccountSettingsContent({ accountId }: { accountId: string }) {
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -81,34 +83,5 @@ export function AccountSettingsContent({ accountId }: { accountId: string }) {
 
   const payload = q.data.data;
 
-  return (
-    <div className="border-border bg-card text-card-foreground grid max-w-lg gap-4 rounded-lg border p-6 text-sm shadow-sm">
-      <dl className="grid gap-3">
-        <div className="grid gap-0.5">
-          <dt className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-            Sport
-          </dt>
-          <dd>{payload.Sport}</dd>
-        </div>
-        <div className="grid gap-0.5">
-          <dt className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-            Start sequence completed
-          </dt>
-          <dd>{payload.hasCompletedStartSequence ? "Yes" : "No"}</dd>
-        </div>
-        <div className="grid gap-0.5">
-          <dt className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-            Custom template
-          </dt>
-          <dd>{payload.hasCustomTemplate ? "Yes" : "No"}</dd>
-        </div>
-        <div className="grid gap-0.5">
-          <dt className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-            Account active
-          </dt>
-          <dd>{payload.isActive ? "Yes" : "No"}</dd>
-        </div>
-      </dl>
-    </div>
-  );
+  return <AccountSettingsPreferences accountId={accountId} payload={payload} />;
 }

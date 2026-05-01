@@ -81,7 +81,7 @@ These are **reads** that may help **populate** onboarding screens until write co
 | GET    | `/api/accounts/[accountId]/sponsors`                | Sponsors.                                                                                                   |
 | GET    | `/api/accounts/[accountId]/billing`                 | Billing.                                                                                                    |
 
-**Auth (POST in app, not account onboarding writes):** `POST /api/auth/login`, `POST /api/auth/logout`, password flows (`forgot-password`, `reset-password`, `change-password`).
+**Auth (POST in app, not account onboarding writes):** `POST /api/auth/login`, `POST /api/auth/logout`, password flows (`forgot-password`, `reset-password`). Signed-in password change on the members account page uses `POST /api/accounts/:accountId/security/password` (BFF → Strapi `changeAccountSecurityPassword`).
 
 ### 3.2 Gateway behaviour (product + routing)
 
