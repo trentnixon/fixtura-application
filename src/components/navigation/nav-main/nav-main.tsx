@@ -1,6 +1,5 @@
 "use client";
 
-import { type Icon } from "@tabler/icons-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -13,20 +12,11 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
-export type NavMainItem = {
-  title: string;
-  url: string;
-  icon?: Icon;
-};
+import { isNavItemActive } from "./_utils/is-nav-item-active";
 
-export function NavMain({
-  sections,
-}: {
-  sections: {
-    label?: string;
-    items: NavMainItem[];
-  }[];
-}) {
+import type { NavMainSection } from "./_types/nav-main";
+
+export function NavMain({ sections }: { sections: NavMainSection[] }) {
   const pathname = usePathname();
 
   return (
@@ -37,10 +27,9 @@ export function NavMain({
           <SidebarGroupContent className="flex flex-col gap-2">
             <SidebarMenu>
               {section.items.map((item) => {
-                const isActive =
-                  pathname === item.url || (item.url !== "/" && pathname.startsWith(item.url));
+                const isActive = isNavItemActive(pathname, item.url);
                 return (
-                  <SidebarMenuItem key={`${sectionIndex}-${item.title}`}>
+                  <SidebarMenuItem key={`${sectionIndex}-${item.url}`}>
                     <SidebarMenuButton asChild isActive={isActive} tooltip={item.title}>
                       <Link href={item.url}>
                         {item.icon && <item.icon />}

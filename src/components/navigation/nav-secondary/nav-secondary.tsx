@@ -1,10 +1,10 @@
 "use client";
 
-import { type Icon } from "@tabler/icons-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import * as React from "react";
 
+import { isNavItemActive } from "@/components/navigation/nav-main/_utils/is-nav-item-active";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -13,15 +13,13 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
+import type { NavSecondaryItem } from "./_types/nav-secondary";
+
 export function NavSecondary({
   items,
   ...props
 }: {
-  items: {
-    title: string;
-    url: string;
-    icon: Icon;
-  }[];
+  items: NavSecondaryItem[];
 } & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
   const pathname = usePathname();
 
@@ -30,8 +28,7 @@ export function NavSecondary({
       <SidebarGroupContent>
         <SidebarMenu>
           {items.map((item) => {
-            const isActive =
-              pathname === item.url || (item.url !== "/" && pathname.startsWith(item.url));
+            const isActive = isNavItemActive(pathname, item.url);
             return (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild isActive={isActive}>

@@ -8,7 +8,6 @@ import {
   IconUserCircle,
 } from "@tabler/icons-react";
 import Link from "next/link";
-import { toast } from "sonner";
 
 import { TypographyCaption, TypographyNavLabel } from "@/components/typography";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -27,43 +26,28 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { useLogout } from "@/lib/api/hooks/auth/useLogout";
-import { AUTH_ERROR_MESSAGES } from "@/lib/auth/auth-errors";
-import { accountScopedRoutes } from "@/lib/config/account-routes";
-import { ROUTES } from "@/lib/config/routes";
 
-import type { NavUserProps } from "@/types/api/auth";
-import type { MouseEvent } from "react";
+import {
+  NAV_USER_MENU_LABEL_ACCOUNT,
+  NAV_USER_MENU_LABEL_BILLING,
+  NAV_USER_MENU_LABEL_LOGGING_OUT,
+  NAV_USER_MENU_LABEL_LOGOUT,
+  NAV_USER_MENU_LABEL_NOTIFICATIONS,
+  NAV_USER_NOTIFICATIONS_HREF,
+} from "./_constants/nav-user-ui";
+import { useNavUserLogout } from "./_hooks/use-nav-user-logout";
+import { getNavUserInitials } from "./_utils/get-nav-user-initials";
+import {
+  resolveNavUserAccountHref,
+  resolveNavUserBillingHref,
+} from "./_utils/resolve-nav-user-menu-hrefs";
 
-export function NavUser({
-  user,
-  accountId,
-}: {
-  user: NavUserProps;
-  /** When set, Account links to scoped members account settings. */
-  accountId?: string;
-}) {
+import type { NavUserComponentProps } from "./_types/nav-user";
+
+export function NavUser({ user, accountId }: NavUserComponentProps) {
   const { isMobile } = useSidebar();
-  const logout = useLogout();
-  const initials =
-    user.name
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase()
-      .substring(0, 2) || "FX";
-
-  const handleLogout = async (e: MouseEvent) => {
-    e.preventDefault();
-    if (logout.isPending) return;
-
-    try {
-      await logout.mutateAsync();
-      toast.success(AUTH_ERROR_MESSAGES.loggedOut);
-    } catch {
-      toast.error(AUTH_ERROR_MESSAGES.unexpected);
-    }
-  };
+  const { logout, handleLogout } = useNavUserLogout();
+  const initials = getNavUserInitials(user.name);
 
   return (
     <SidebarMenu>
@@ -114,36 +98,28 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem asChild>
-                <Link
-                  href={
-                    accountId ? accountScopedRoutes.account(accountId) : ROUTES.selectOrganisation
-                  }
-                >
+                <Link href={resolveNavUserAccountHref(accountId)}>
                   <IconUserCircle />
-                  Account
+                  {NAV_USER_MENU_LABEL_ACCOUNT}
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link
-                  href={
-                    accountId ? accountScopedRoutes.billing(accountId) : ROUTES.selectOrganisation
-                  }
-                >
+                <Link href={resolveNavUserBillingHref(accountId)}>
                   <IconCreditCard />
-                  Billing
+                  {NAV_USER_MENU_LABEL_BILLING}
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="/notifications">
+                <Link href={NAV_USER_NOTIFICATIONS_HREF}>
                   <IconNotification />
-                  Notifications
+                  {NAV_USER_MENU_LABEL_NOTIFICATIONS}
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem disabled={logout.isPending} onClick={handleLogout}>
               <IconLogout />
-              {logout.isPending ? "Signing out…" : "Log out"}
+              {logout.isPending ? NAV_USER_MENU_LABEL_LOGGING_OUT : NAV_USER_MENU_LABEL_LOGOUT}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

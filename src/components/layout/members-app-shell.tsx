@@ -2,8 +2,8 @@
 
 import { usePathname } from "next/navigation";
 
-import { AppSidebar } from "@/components/app-sidebar";
 import { DevDebugPanel } from "@/components/dev/dev-debug-panel";
+import { AppSidebar } from "@/components/navigation/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { ACCOUNT_SCOPE_PREFIX } from "@/lib/config/account-routes";

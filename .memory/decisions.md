@@ -1,5 +1,15 @@
 # Decisions
 
+## 2026-05-01 — `AppSidebar` lives in `navigation/app-sidebar/` with route-style underscore folders
+
+**Decision:** Members **`AppSidebar`** is implemented as a self-contained module at **`src/components/navigation/app-sidebar/`**, with **`_constants`**, **`_types`**, **`_utils`**, **`_hooks`**, and **`_components`**, plus **`app-sidebar.tsx`** as the thin composition entry and **`index.ts`** re-exporting **`AppSidebar`** so **`@/components/navigation/app-sidebar`** stays stable.
+
+**Why:** Matches the route-refactoring folder mental model from `.comms/Refactoring Guide/route-refactoring-standards.md` for shared shell UI without moving the component under an `app/` segment.
+
+**Tradeoffs:** Slightly deeper import paths for internal pieces; team must add new sidebar concerns in the correct subfolder rather than a single flat file.
+
+---
+
 ## 2026-04-30 — Production brand logo uses onboarding Step 2 (M1 + W2), not `PATCH /branding`
 
 **Decision:** The members **Brand Logo** screen (`/o/[accountId]/brand-logo`) persists logo changes via **`POST …/onboarding/step-2/upload`** (M1) and **`PATCH …/onboarding/step-2`** with `logoMediaId`, using `useUpdateOnboardingStep2`. **`PATCH /api/accounts/:accountId/branding`** remains palette + template mode only until CMS extends that contract.

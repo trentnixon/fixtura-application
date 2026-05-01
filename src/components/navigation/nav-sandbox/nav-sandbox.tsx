@@ -1,6 +1,6 @@
 "use client";
 
-import { IconActivity, IconChevronRight, IconServer, IconTools } from "@tabler/icons-react";
+import { IconChevronRight, IconLayoutGrid } from "@tabler/icons-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -14,26 +14,17 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar";
 import { ROUTES } from "@/lib/config/routes";
+import { SANDBOX_PORTAL_LINKS } from "@/lib/dev-sandbox-nav";
 
-/** System admin tools dropdown — use inside a parent `SidebarMenu` (e.g. under an Admin group). */
-export function NavSystemMenuItem() {
+import { isSandboxActive } from "./_utils/is-sandbox-active";
+import { resolveSandboxLinkIcon } from "./_utils/resolve-sandbox-link-icon";
+
+/** Sandbox dev tools dropdown — same interaction pattern as `NavSystemMenuItem`. */
+export function NavSandboxMenuItem() {
   const { isMobile } = useSidebar();
   const pathname = usePathname();
 
-  const isActive = pathname.startsWith("/admin/system");
-
-  const tools = [
-    {
-      title: "Inspector",
-      url: ROUTES.systemInspector,
-      icon: IconServer,
-    },
-    {
-      title: "Fetch Health",
-      url: ROUTES.fetchHealth,
-      icon: IconActivity,
-    },
-  ];
+  const isActive = isSandboxActive(pathname);
 
   return (
     <SidebarMenuItem>
@@ -45,11 +36,11 @@ export function NavSystemMenuItem() {
             className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
           >
             <div className="bg-primary text-primary-foreground group-hover:bg-primary/90 flex aspect-square size-8 items-center justify-center rounded-lg transition-colors">
-              <IconTools className="size-4" />
+              <IconLayoutGrid className="size-4" />
             </div>
             <div className="grid flex-1 text-left text-sm leading-tight">
-              <span className="truncate font-semibold">System</span>
-              <span className="text-muted-foreground truncate text-xs italic">Admin Tools</span>
+              <span className="truncate font-semibold">Sandbox</span>
+              <span className="text-muted-foreground truncate text-xs italic">Dev tools</span>
             </div>
             <IconChevronRight className="ml-auto size-4 transition-transform group-data-[state=open]:rotate-90" />
           </SidebarMenuButton>
@@ -61,25 +52,35 @@ export function NavSystemMenuItem() {
           sideOffset={4}
         >
           <DropdownMenuLabel className="text-muted-foreground/70 px-2 py-1.5 text-xs font-semibold tracking-wider uppercase">
-            Infrastructure
+            Labs
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          {tools.map((tool) => (
-            <DropdownMenuItem key={tool.url} asChild>
-              <Link href={tool.url} className="flex cursor-pointer items-center gap-2">
-                <tool.icon className="text-muted-foreground size-4" />
-                <span>{tool.title}</span>
-              </Link>
-            </DropdownMenuItem>
-          ))}
+          {SANDBOX_PORTAL_LINKS.map((item) => {
+            const LinkIcon = resolveSandboxLinkIcon(item.href);
+            return (
+              <DropdownMenuItem key={item.href} asChild>
+                <Link
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex cursor-pointer items-center gap-2"
+                >
+                  <LinkIcon className="text-muted-foreground size-4" />
+                  <span>{item.label}</span>
+                </Link>
+              </DropdownMenuItem>
+            );
+          })}
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
             <Link
-              href={ROUTES.systemLanding}
+              href={ROUTES.sandbox}
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-primary flex cursor-pointer items-center gap-2 font-medium"
             >
-              <IconTools className="size-4" />
-              <span>System Overview</span>
+              <IconLayoutGrid className="size-4" />
+              <span>Sandbox portal</span>
             </Link>
           </DropdownMenuItem>
         </DropdownMenuContent>

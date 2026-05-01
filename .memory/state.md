@@ -1,6 +1,6 @@
 # State
 
-_Last updated: 2026-04-30 (LOG — Members branding header styling: `bg-primary-950` section headers + padding + CTA contrast.)_
+_Last updated: 2026-05-01 (LOG — Navigation: `AppSidebar`, `NavMain`, `NavSandbox`, `NavDocuments` use folder modules + underscore subfolders; stable `@/components/navigation/*` barrels.)_
 
 ## Current focus
 
@@ -10,6 +10,9 @@ _Last updated: 2026-04-30 (LOG — Members branding header styling: `bg-primary-
 - Members **branding** (`/o/[accountId]/branding`): responsive layout shipped; headers for **Brand colours** + **Contrast selector** now use `bg-primary-950` with white text/icons and full-bleed card header bands; CTAs tuned for contrast; `BrandingWorkspace` entry is thin + `_components` (brand colours card, save CTAs, preview sidebar, save dialog); `BrandingScreen` / `BrandingTemplateModeCardsInput` colocated as before; `page.tsx` is shell-only. Follow-up: real save in route-lab when APIs graduate. Repo-wide `tsc --noEmit` still red from unrelated sandbox files — not blocking branding edits.
 - Members **Brand Logo** (`/o/[accountId]/brand-logo`): **dedicated** `BrandLogoWorkspace` + `BrandLogoScreen`; persistence via **M1 + W2** (`useUpdateOnboardingStep2`), not `PATCH /branding`. See `.comms/responses/brand-logo-cms-fed-briefing.md` for CMS confirmations.
 - Sandbox **logo uploader** route lab (`/sandbox/route-lab/app/logo-uploader`): lab workspace unchanged; production link targets `brand-logo`.
+- **AppSidebar:** Implemented as `src/components/navigation/app-sidebar/` (underscore subfolders + `index` re-export); import path for shell unchanged.
+- **NavMain / NavSandbox:** Each lives under `src/components/navigation/nav-main/` and `nav-sandbox/` with `_types` / `_utils` (and sandbox `_constants`); public imports unchanged via `index.ts`.
+- **NavDocuments:** `src/components/navigation/nav-documents/` (`_components/_constants/_types`); entry is `index.tsx` only (no root shim file).
 
 ## Next actions
 
