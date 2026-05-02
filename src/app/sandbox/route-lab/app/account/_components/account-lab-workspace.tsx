@@ -76,6 +76,10 @@ const STRENGTH_BAR_COLORS: Record<1 | 2 | 3 | 4, string> = {
   4: "bg-emerald-600",
 };
 
+function strengthBarColor(level: 0 | 1 | 2 | 3 | 4): string {
+  return level === 0 ? "bg-muted" : STRENGTH_BAR_COLORS[level];
+}
+
 function PasswordStrengthMeter({ password }: { password: string }) {
   const { level, label } = passwordStrengthHint(password);
   return (
@@ -94,7 +98,7 @@ function PasswordStrengthMeter({ password }: { password: string }) {
             key={i}
             className={cn(
               "h-1.5 flex-1 rounded-full transition-colors",
-              level > 0 && i <= level ? STRENGTH_BAR_COLORS[level] : "bg-muted",
+              level > 0 && i <= level ? strengthBarColor(level) : "bg-muted",
             )}
           />
         ))}

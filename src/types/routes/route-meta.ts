@@ -28,5 +28,6 @@ export interface AppRouteDefinition {
     | "association-overview-queues"
     | "club"
     | "competition"
+    | "grade"
     | "admin";
 }

@@ -149,7 +149,11 @@ function parseTeamSide(rec: UnknownRecord | undefined, fallbackName: string): Te
       }
     }
   }
-  return { name, subtitle: subtitle ? String(subtitle) : undefined, playerLines };
+  return {
+    name,
+    ...(subtitle ? { subtitle: String(subtitle) } : {}),
+    playerLines,
+  };
 }
 
 function extractTeamSides(
@@ -219,12 +223,12 @@ function extractDownloadEntries(downloads: unknown): DownloadEntry[] {
     for (const item of downloads) {
       if (typeof item === "string") {
         const href = /^https?:\/\//i.test(item) ? item : undefined;
-        out.push({ label: item, href });
+        out.push({ label: item, ...(href ? { href } : {}) });
       } else if (item && typeof item === "object") {
         const rec = item as UnknownRecord;
         const url = pickString(rec, ["url", "href", "link", "src"]);
         const label = pickString(rec, ["name", "label", "title", "type"]) ?? url ?? "Download";
-        out.push({ label, href: url });
+        out.push({ label, ...(url ? { href: url } : {}) });
       }
     }
     return out;

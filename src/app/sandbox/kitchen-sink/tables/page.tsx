@@ -66,6 +66,8 @@ const auditData = [
   },
 ];
 
+const primaryAuditRow = auditData[0]!;
+
 const syncRows = [
   {
     service: "Stripe",
@@ -76,7 +78,7 @@ const syncRows = [
       ["Invoices", "Completed", "42 records"],
       ["Customers", "Completed", "18 records"],
       ["Webhook events", "Running", "6 queued"],
-    ],
+    ] as const,
   },
   {
     service: "Mailchimp",
@@ -86,7 +88,7 @@ const syncRows = [
     children: [
       ["Audience sync", "Warning", "Needs reconnect"],
       ["Campaign stats", "Queued", "Waiting"],
-    ],
+    ] as const,
   },
 ];
 
@@ -94,7 +96,7 @@ const jobRows = [
   ["JOB-1042", "Fixture export", "Running", "Processing round data"],
   ["JOB-1041", "Asset render", "Pending", "Waiting for worker"],
   ["JOB-1040", "Webhook retry", "Failed", "Gateway timeout"],
-];
+] as const;
 
 function TableReferenceName({ name }: { name: string }) {
   const [copied, setCopied] = useState(false);
@@ -624,11 +626,11 @@ export default function TablesPage() {
                   </TableHeader>
                   <TableBody>
                     <TableRow>
-                      <TableCell className="font-medium">{auditData[0].project}</TableCell>
+                      <TableCell className="font-medium">{primaryAuditRow.project}</TableCell>
                       <TableCell>
-                        <StatusPill status={auditData[0].status} />
+                        <StatusPill status={primaryAuditRow.status} />
                       </TableCell>
-                      <TableCell className="text-right">{auditData[0].score}%</TableCell>
+                      <TableCell className="text-right">{primaryAuditRow.score}%</TableCell>
                     </TableRow>
                     <TableRow className="hover:bg-transparent">
                       <TableCell colSpan={3} className="bg-muted/20 p-4">
@@ -642,11 +644,13 @@ export default function TablesPage() {
                               </TableRow>
                             </TableHeader>
                             <TableBody>
-                              {[
-                                ["Accessibility", "QA", "Passed"],
-                                ["Performance", "Ops", "Review"],
-                                ["SEO metadata", "Content", "Passed"],
-                              ].map(([check, owner, result]) => (
+                              {(
+                                [
+                                  ["Accessibility", "QA", "Passed"],
+                                  ["Performance", "Ops", "Review"],
+                                  ["SEO metadata", "Content", "Passed"],
+                                ] as const
+                              ).map(([check, owner, result]) => (
                                 <TableRow key={check}>
                                   <TableCell>{check}</TableCell>
                                   <TableCell>{owner}</TableCell>
@@ -688,11 +692,13 @@ export default function TablesPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {[
-                      ["LOG-941", "Fixture", "Published", "A. Chen", "09:42"],
-                      ["LOG-940", "Team", "Updated", "M. Jones", "09:18"],
-                      ["LOG-939", "Asset", "Archived", "System", "08:55"],
-                    ].map(([id, entity, action, actor, time]) => (
+                    {(
+                      [
+                        ["LOG-941", "Fixture", "Published", "A. Chen", "09:42"],
+                        ["LOG-940", "Team", "Updated", "M. Jones", "09:18"],
+                        ["LOG-939", "Asset", "Archived", "System", "08:55"],
+                      ] as const
+                    ).map(([id, entity, action, actor, time]) => (
                       <TableRow key={id}>
                         <TableCell className="font-mono text-xs">{id}</TableCell>
                         <TableCell className="font-medium">{entity}</TableCell>
@@ -720,11 +726,13 @@ export default function TablesPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {[
-                      ["Renderer", "Completed", "122ms"],
-                      ["Webhook", "In Progress", "410ms"],
-                      ["Storage", "Failed", "Timeout"],
-                    ].map(([module, state, latency]) => (
+                    {(
+                      [
+                        ["Renderer", "Completed", "122ms"],
+                        ["Webhook", "In Progress", "410ms"],
+                        ["Storage", "Failed", "Timeout"],
+                      ] as const
+                    ).map(([module, state, latency]) => (
                       <TableRow key={module}>
                         <TableCell className="font-medium">{module}</TableCell>
                         <TableCell>
@@ -750,11 +758,13 @@ export default function TablesPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {[
-                      ["Generate fixtures", 86],
-                      ["Render social assets", 64],
-                      ["Sync teams", 38],
-                    ].map(([workflow, percent]) => (
+                    {(
+                      [
+                        ["Generate fixtures", 86],
+                        ["Render social assets", 64],
+                        ["Sync teams", 38],
+                      ] as const
+                    ).map(([workflow, percent]) => (
                       <TableRow key={workflow}>
                         <TableCell className="font-medium">{workflow}</TableCell>
                         <TableCell>
@@ -895,11 +905,13 @@ export default function TablesPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {[
-                      ["AC", "Alex Chen", "Admin", "Completed"],
-                      ["MJ", "Morgan Jones", "Editor", "In Progress"],
-                      ["SK", "Sam Kumar", "Viewer", "Pending"],
-                    ].map(([initials, name, role, status]) => (
+                    {(
+                      [
+                        ["AC", "Alex Chen", "Admin", "Completed"],
+                        ["MJ", "Morgan Jones", "Editor", "In Progress"],
+                        ["SK", "Sam Kumar", "Viewer", "Pending"],
+                      ] as const
+                    ).map(([initials, name, role, status]) => (
                       <TableRow key={name}>
                         <TableCell>
                           <div className="flex items-center gap-3">
@@ -940,11 +952,13 @@ export default function TablesPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {[
-                      ["Falcons U16", "Metro League", "Division 1", "2026"],
-                      ["Northside Open", "Summer Cup", "Senior", "2026"],
-                      ["Riverside Juniors", "Metro League", "Division 3", "2026"],
-                    ].map(([team, competition, grade, season]) => (
+                    {(
+                      [
+                        ["Falcons U16", "Metro League", "Division 1", "2026"],
+                        ["Northside Open", "Summer Cup", "Senior", "2026"],
+                        ["Riverside Juniors", "Metro League", "Division 3", "2026"],
+                      ] as const
+                    ).map(([team, competition, grade, season]) => (
                       <TableRow key={team}>
                         <TableCell className="font-medium">{team}</TableCell>
                         <TableCell>{competition}</TableCell>
@@ -970,11 +984,13 @@ export default function TablesPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {[
-                      ["R1", "Falcons vs Rangers", "Main Oval", "Completed"],
-                      ["R2", "Northside vs Riverside", "Court 2", "In Progress"],
-                      ["R3", "City vs United", "Stadium A", "Pending"],
-                    ].map(([round, fixture, venue, state]) => (
+                    {(
+                      [
+                        ["R1", "Falcons vs Rangers", "Main Oval", "Completed"],
+                        ["R2", "Northside vs Riverside", "Court 2", "In Progress"],
+                        ["R3", "City vs United", "Stadium A", "Pending"],
+                      ] as const
+                    ).map(([round, fixture, venue, state]) => (
                       <TableRow key={fixture}>
                         <TableCell className="font-mono text-xs font-semibold">{round}</TableCell>
                         <TableCell className="font-medium">{fixture}</TableCell>
@@ -1002,11 +1018,13 @@ export default function TablesPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {[
-                      ["Round 1 tile", "Social", "Content", "Today"],
-                      ["Sponsor lockup", "Brand", "Admin", "Yesterday"],
-                      ["Fixture poster", "Print", "Design", "Apr 22"],
-                    ].map(([asset, type, owner, modified]) => (
+                    {(
+                      [
+                        ["Round 1 tile", "Social", "Content", "Today"],
+                        ["Sponsor lockup", "Brand", "Admin", "Yesterday"],
+                        ["Fixture poster", "Print", "Design", "Apr 22"],
+                      ] as const
+                    ).map(([asset, type, owner, modified]) => (
                       <TableRow key={asset}>
                         <TableCell className="font-medium">{asset}</TableCell>
                         <TableCell>{type}</TableCell>
@@ -1034,11 +1052,13 @@ export default function TablesPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {[
-                      ["INV-2048", "Completed", "Paid Apr 18", "$420.00"],
-                      ["INV-2049", "Pending", "May 01", "$320.00"],
-                      ["INV-2050", "In Progress", "May 08", "$180.00"],
-                    ].map(([invoice, status, due, amount]) => (
+                    {(
+                      [
+                        ["INV-2048", "Completed", "Paid Apr 18", "$420.00"],
+                        ["INV-2049", "Pending", "May 01", "$320.00"],
+                        ["INV-2050", "In Progress", "May 08", "$180.00"],
+                      ] as const
+                    ).map(([invoice, status, due, amount]) => (
                       <TableRow key={invoice}>
                         <TableCell className="font-mono text-xs font-semibold">{invoice}</TableCell>
                         <TableCell>
@@ -1082,10 +1102,19 @@ export default function TablesPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {[
-                      ["Falcons vs Rangers", "R1", "Main Oval", "9:00 AM", "Completed", "Alex"],
-                      ["Northside vs Riverside", "R2", "Court 2", "11:30 AM", "Pending", "Morgan"],
-                    ].map(([fixture, round, venue, time, status, owner]) => (
+                    {(
+                      [
+                        ["Falcons vs Rangers", "R1", "Main Oval", "9:00 AM", "Completed", "Alex"],
+                        [
+                          "Northside vs Riverside",
+                          "R2",
+                          "Court 2",
+                          "11:30 AM",
+                          "Pending",
+                          "Morgan",
+                        ],
+                      ] as const
+                    ).map(([fixture, round, venue, time, status, owner]) => (
                       <TableRow key={fixture}>
                         <TableCell className="font-medium">{fixture}</TableCell>
                         <TableCell>{round}</TableCell>
@@ -1115,11 +1144,13 @@ export default function TablesPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {[
-                      ["Falcons U16", "Metro League", "Division 1", "Completed"],
-                      ["Northside Open", "Summer Cup", "Senior", "Pending"],
-                      ["Riverside Juniors", "Metro League", "Division 3", "In Progress"],
-                    ].map(([team, competition, grade, status]) => (
+                    {(
+                      [
+                        ["Falcons U16", "Metro League", "Division 1", "Completed"],
+                        ["Northside Open", "Summer Cup", "Senior", "Pending"],
+                        ["Riverside Juniors", "Metro League", "Division 3", "In Progress"],
+                      ] as const
+                    ).map(([team, competition, grade, status]) => (
                       <TableRow key={team}>
                         <TableCell className="font-medium">{team}</TableCell>
                         <TableCell className="hidden md:table-cell">{competition}</TableCell>
@@ -1374,20 +1405,22 @@ export default function TablesPage() {
                   </TableHeader>
                   <TableBody>
                     <TableRow>
-                      <TableCell className="font-medium">{auditData[0].project}</TableCell>
+                      <TableCell className="font-medium">{primaryAuditRow.project}</TableCell>
                       <TableCell>
-                        <StatusPill status={auditData[0].status} />
+                        <StatusPill status={primaryAuditRow.status} />
                       </TableCell>
-                      <TableCell className="text-right">{auditData[0].score}%</TableCell>
+                      <TableCell className="text-right">{primaryAuditRow.score}%</TableCell>
                     </TableRow>
                     <TableRow className="hover:bg-transparent">
                       <TableCell colSpan={3} className="bg-muted/20 p-4">
                         <div className="bg-background grid gap-3 rounded-lg border p-4 sm:grid-cols-3">
-                          {[
-                            ["Accessibility", "Passed"],
-                            ["Performance", "Review"],
-                            ["SEO", "Passed"],
-                          ].map(([label, result]) => (
+                          {(
+                            [
+                              ["Accessibility", "Passed"],
+                              ["Performance", "Review"],
+                              ["SEO", "Passed"],
+                            ] as const
+                          ).map(([label, result]) => (
                             <div key={label}>
                               <TypographyMuted className="text-[10px] font-semibold tracking-tight uppercase">
                                 {label}
@@ -1415,11 +1448,13 @@ export default function TablesPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {[
-                      ["Archived sponsor lockup", "Pending", "Delete"],
-                      ["Round 1 draft tile", "In Progress", "Archive"],
-                      ["Old fixture export", "Completed", "Remove"],
-                    ].map(([asset, status, action], index) => (
+                    {(
+                      [
+                        ["Archived sponsor lockup", "Pending", "Delete"],
+                        ["Round 1 draft tile", "In Progress", "Archive"],
+                        ["Old fixture export", "Completed", "Remove"],
+                      ] satisfies Array<[asset: string, status: string, action: string]>
+                    ).map(([asset, status, action], index) => (
                       <TableRow key={asset}>
                         <TableCell className="font-medium">{asset}</TableCell>
                         <TableCell>
@@ -1682,12 +1717,14 @@ export default function TablesPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {[
-                      ["Completed", "Acme Corporate Site", "94%"],
-                      ["Completed", "Stark Industries v4", "88%"],
-                      ["In Progress", "Globex App Dashboard", "Pending"],
-                      ["Failed", "Soylent Corp LP", "42%"],
-                    ].map(([group, project, score], index) => (
+                    {(
+                      [
+                        ["Completed", "Acme Corporate Site", "94%"],
+                        ["Completed", "Stark Industries v4", "88%"],
+                        ["In Progress", "Globex App Dashboard", "Pending"],
+                        ["Failed", "Soylent Corp LP", "42%"],
+                      ] satisfies Array<[group: string, project: string, score: string]>
+                    ).map(([group, project, score], index) => (
                       <TableRow key={`${group}-${project}`}>
                         <TableCell>
                           {index === 0 ||

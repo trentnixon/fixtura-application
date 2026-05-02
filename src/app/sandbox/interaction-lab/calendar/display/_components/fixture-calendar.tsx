@@ -87,8 +87,8 @@ function buildGroupedMonthEvents(events: CalendarDisplayEvent[]) {
         id: event.id,
         title: event.title,
         start: event.start ?? event.date,
-        end: event.end,
-        allDay: event.allDay,
+        ...(event.end ? { end: event.end } : {}),
+        ...(event.allDay !== undefined ? { allDay: event.allDay } : {}),
         extendedProps: {
           renderKind: "raw-event",
           sourceEventId: event.id,
@@ -112,9 +112,9 @@ function buildGroupedMonthEvents(events: CalendarDisplayEvent[]) {
       start: dateKey,
       allDay: true,
       extendedProps: {
-        renderKind: "fixture-day-total",
+        renderKind: "fixture-day-total" as const,
         dateKey,
-        eventType: "fixture",
+        eventType: "fixture" as const,
         count,
       },
     }))
@@ -130,15 +130,15 @@ export function FixtureCalendar({ events, onDateSelect, onFixtureSelect }: Fixtu
   const [currentView, setCurrentView] = useState("dayGridMonth");
   const [currentTitle, setCurrentTitle] = useState("");
 
-  const renderedEvents =
+  const renderedEvents: CalendarRenderEvent[] =
     currentView === "dayGridMonth" || currentView === "multiMonthYear"
       ? buildGroupedMonthEvents(events)
       : events.map((event) => ({
           id: event.id,
           title: event.title,
           start: event.start ?? event.date,
-          end: event.end,
-          allDay: event.allDay,
+          ...(event.end ? { end: event.end } : {}),
+          ...(event.allDay !== undefined ? { allDay: event.allDay } : {}),
           extendedProps: {
             renderKind: "raw-event" as const,
             sourceEventId: event.id,
@@ -148,13 +148,13 @@ export function FixtureCalendar({ events, onDateSelect, onFixtureSelect }: Fixtu
         }));
 
   function handleEventClick(arg: EventClickArg) {
-    const renderKind = arg.event.extendedProps.renderKind as
+    const renderKind = arg.event.extendedProps["renderKind"] as
       | "raw-event"
       | "fixture-day-total"
       | undefined;
 
     if (renderKind === "fixture-day-total") {
-      const dateKey = arg.event.extendedProps.dateKey as string | undefined;
+      const dateKey = arg.event.extendedProps["dateKey"] as string | undefined;
 
       if (dateKey) {
         onDateSelect(dateKey);
@@ -162,7 +162,7 @@ export function FixtureCalendar({ events, onDateSelect, onFixtureSelect }: Fixtu
       return;
     }
 
-    const sourceEventId = arg.event.extendedProps.sourceEventId as string | undefined;
+    const sourceEventId = arg.event.extendedProps["sourceEventId"] as string | undefined;
     const selectedFixture = events.find((event) => event.id === sourceEventId);
 
     if (selectedFixture) {
@@ -185,14 +185,14 @@ export function FixtureCalendar({ events, onDateSelect, onFixtureSelect }: Fixtu
   }
 
   function renderEventContent(eventInfo: EventContentArg) {
-    const renderKind = eventInfo.event.extendedProps.renderKind as
+    const renderKind = eventInfo.event.extendedProps["renderKind"] as
       | "raw-event"
       | "fixture-day-total"
       | undefined;
     const isDenseCalendarView = currentView === "dayGridMonth" || currentView === "multiMonthYear";
 
     if (renderKind === "fixture-day-total") {
-      const count = Number(eventInfo.event.extendedProps.count ?? 0);
+      const count = Number(eventInfo.event.extendedProps["count"] ?? 0);
 
       return (
         <Badge className="rounded-md px-2 py-0.5 text-[10px] font-medium shadow-none">
@@ -201,7 +201,7 @@ export function FixtureCalendar({ events, onDateSelect, onFixtureSelect }: Fixtu
       );
     }
 
-    const sourceEventId = eventInfo.event.extendedProps.sourceEventId as string | undefined;
+    const sourceEventId = eventInfo.event.extendedProps["sourceEventId"] as string | undefined;
     const event = events.find((entry) => entry.id === sourceEventId);
 
     if (!event) {

@@ -157,6 +157,10 @@ const under18Matchups: Matchup[] = [
   },
 ];
 
+function matchupAt(matchups: Matchup[], index: number): Matchup {
+  return matchups[index % matchups.length]!;
+}
+
 function createFixtureEvent(
   id: string,
   roundNumber: number,
@@ -213,12 +217,12 @@ function createFixtureEvent(
 }
 
 const fixtureSeasonEvents = weekendRounds.flatMap((weekendRound, index) => {
-  const primaryFirstGrade = firstGradeMatchups[index % firstGradeMatchups.length];
-  const secondaryFirstGrade = firstGradeMatchups[(index + 1) % firstGradeMatchups.length];
-  const primaryReserveGrade = reserveGradeMatchups[index % reserveGradeMatchups.length];
-  const secondaryReserveGrade = reserveGradeMatchups[(index + 2) % reserveGradeMatchups.length];
-  const primaryUnder18 = under18Matchups[index % under18Matchups.length];
-  const secondaryUnder18 = under18Matchups[(index + 3) % under18Matchups.length];
+  const primaryFirstGrade = matchupAt(firstGradeMatchups, index);
+  const secondaryFirstGrade = matchupAt(firstGradeMatchups, index + 1);
+  const primaryReserveGrade = matchupAt(reserveGradeMatchups, index);
+  const secondaryReserveGrade = matchupAt(reserveGradeMatchups, index + 2);
+  const primaryUnder18 = matchupAt(under18Matchups, index);
+  const secondaryUnder18 = matchupAt(under18Matchups, index + 3);
 
   return [
     createFixtureEvent(

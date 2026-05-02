@@ -10,7 +10,7 @@ import {
   SeasonLabPayloadCard,
   SeasonLabRowLink,
   SeasonLabStatus,
-} from "../../../_components/season-lab-frame";
+} from "../../_components/season-lab-frame";
 
 const ACCOUNT_ID = "575";
 
