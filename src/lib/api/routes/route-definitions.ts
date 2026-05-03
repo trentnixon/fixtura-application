@@ -157,6 +157,16 @@ export const appRoutes = {
         "GET + PATCH append /{accountId}/settings — load + save preference flags / delivery (`saveAccountSettings`)",
       domain: "account",
     },
+    notifications: {
+      key: "accounts.notifications",
+      method: "GET",
+      path: ACCOUNTS_API_BASE,
+      authRequired: true,
+      status: "ready",
+      description:
+        "PATCH append /{accountId}/notifications — bundle addressee + delivery email (`saveAccountNotifications`); members read via GET …/settings",
+      domain: "account",
+    },
     securityProfile: {
       key: "accounts.security-profile",
       method: "PATCH",

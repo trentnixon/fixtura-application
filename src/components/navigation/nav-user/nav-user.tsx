@@ -3,6 +3,7 @@
 import {
   IconCreditCard,
   IconDotsVertical,
+  IconList,
   IconLogout,
   IconNotification,
   IconUserCircle,
@@ -26,20 +27,22 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { ROUTES } from "@/lib/config/routes";
 
 import {
   NAV_USER_MENU_LABEL_ACCOUNT,
+  NAV_USER_MENU_LABEL_ALL_ORGANISATIONS,
   NAV_USER_MENU_LABEL_BILLING,
   NAV_USER_MENU_LABEL_LOGGING_OUT,
   NAV_USER_MENU_LABEL_LOGOUT,
   NAV_USER_MENU_LABEL_NOTIFICATIONS,
-  NAV_USER_NOTIFICATIONS_HREF,
 } from "./_constants/nav-user-ui";
 import { useNavUserLogout } from "./_hooks/use-nav-user-logout";
 import { getNavUserInitials } from "./_utils/get-nav-user-initials";
 import {
   resolveNavUserAccountHref,
   resolveNavUserBillingHref,
+  resolveNavUserNotificationsHref,
 } from "./_utils/resolve-nav-user-menu-hrefs";
 
 import type { NavUserComponentProps } from "./_types/nav-user";
@@ -110,12 +113,19 @@ export function NavUser({ user, accountId }: NavUserComponentProps) {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href={NAV_USER_NOTIFICATIONS_HREF}>
+                <Link href={resolveNavUserNotificationsHref(accountId)}>
                   <IconNotification />
                   {NAV_USER_MENU_LABEL_NOTIFICATIONS}
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <Link href={ROUTES.selectOrganisation}>
+                <IconList />
+                {NAV_USER_MENU_LABEL_ALL_ORGANISATIONS}
+              </Link>
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem disabled={logout.isPending} onClick={handleLogout}>
               <IconLogout />

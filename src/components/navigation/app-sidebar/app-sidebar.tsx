@@ -2,7 +2,6 @@
 
 import * as React from "react";
 
-import { AccountSwitcher } from "@/components/layout/account-switcher";
 import { AppSidebarAdminMenu } from "@/components/navigation/app-sidebar/_components/app-sidebar-admin-menu";
 import {
   getGatewayNavItems,
@@ -37,7 +36,6 @@ export function AppSidebar({
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
-        {navMode === "scoped" && accountId ? <AccountSwitcher accountId={accountId} /> : null}
         <NavUser user={scopedUser} {...(accountId !== undefined ? { accountId } : {})} />
       </SidebarHeader>
       <SidebarContent>

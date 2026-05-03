@@ -8,3 +8,7 @@ export function resolveNavUserAccountHref(accountId: string | undefined): string
 export function resolveNavUserBillingHref(accountId: string | undefined): string {
   return accountId ? accountScopedRoutes.billing(accountId) : ROUTES.selectOrganisation;
 }
+
+export function resolveNavUserNotificationsHref(accountId: string | undefined): string {
+  return accountId ? accountScopedRoutes.notifications(accountId) : ROUTES.selectOrganisation;
+}

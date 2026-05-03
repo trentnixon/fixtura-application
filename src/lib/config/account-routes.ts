@@ -14,6 +14,7 @@ const SEG = {
   mediaGallery: "media-gallery",
   manageSponsors: "manage-sponsors",
   billing: "billing",
+  notifications: "notifications",
   season: "season",
   account: "account",
 } as const;
@@ -32,6 +33,7 @@ export const accountScopedRoutes = {
   mediaGallery: (accountId: string | number) => scoped(accountId, SEG.mediaGallery),
   manageSponsors: (accountId: string | number) => scoped(accountId, SEG.manageSponsors),
   billing: (accountId: string | number) => scoped(accountId, SEG.billing),
+  notifications: (accountId: string | number) => scoped(accountId, SEG.notifications),
   season: (accountId: string | number) => scoped(accountId, SEG.season),
   account: (accountId: string | number) => scoped(accountId, SEG.account),
 } as const;

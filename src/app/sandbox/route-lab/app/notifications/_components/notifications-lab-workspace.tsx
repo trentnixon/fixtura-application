@@ -1,7 +1,7 @@
 "use client";
 
 import { Mail } from "lucide-react";
-import { type ReactNode, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { TypographyMuted } from "@/components/typography";
@@ -15,7 +15,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -24,17 +23,22 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
+  type NotificationsProfileDraft,
+  AccountInputRow,
+  AccountSelectRow,
+  WEEKDAY_OPTIONS,
+  collectNotificationsChanges,
+  daysUntilNextDelivery,
+  equalNotificationsDraft,
+  notificationsFieldId,
+  weekdayLabel,
+} from "@/features/notifications/bundle-delivery-profile-shared";
+import {
   type AccountNotificationsLabDraft,
   accountLabBaseForState,
   notificationsLabDraftFromAccount,
 } from "@/features/route-lab/fixtures/account";
-import {
-  type WeekdayKey,
-  WEEKDAY_OPTIONS,
-  daysUntilNextDelivery,
-  weekdayLabel,
-} from "@/features/settings/bundle-delivery-weekdays";
-import { cn } from "@/lib/utils";
+import { type WeekdayKey } from "@/features/settings/bundle-delivery-weekdays";
 
 export type NotificationsLabWorkspaceProps = {
   mode: "view" | "edit";
@@ -42,101 +46,12 @@ export type NotificationsLabWorkspaceProps = {
   stubSaving: boolean;
 };
 
-function equalNotificationsDraft(a: AccountNotificationsLabDraft, b: AccountNotificationsLabDraft) {
-  return (
-    a.bundleAddressedTo === b.bundleAddressedTo &&
-    a.deliveryEmail === b.deliveryEmail &&
-    a.assetDeliveryDay === b.assetDeliveryDay
-  );
-}
-
-function notificationsFieldId(key: keyof AccountNotificationsLabDraft) {
-  return `route-lab-notifications-${key}`;
-}
-
-function AccountSelectRow(props: {
-  title: string;
-  description: string;
-  disabled: boolean;
-  id: string;
-  valueLabel: string;
-  children: ReactNode;
-}) {
-  const { title, description, disabled, id, valueLabel, children } = props;
-
-  return (
-    <li className="border-border flex items-center justify-between gap-4 border-b px-6 py-4 last:border-b-0">
-      <div className="min-w-0 space-y-1">
-        <div className="text-sm font-medium">{title}</div>
-        <TypographyMuted className="text-xs">{description}</TypographyMuted>
-      </div>
-      <div className="flex shrink-0 items-center gap-3">
-        <TypographyMuted className="hidden text-xs sm:block">{valueLabel}</TypographyMuted>
-        <div className={cn("min-w-40", disabled ? "opacity-70" : "opacity-100")}>{children}</div>
-      </div>
-      <span id={id} className="sr-only" />
-    </li>
-  );
-}
-
-function AccountInputRow(props: {
-  title: string;
-  description: string;
-  disabled: boolean;
-  value: string;
-  onChange: (value: string) => void;
-  type?: "text" | "email";
-  id: string;
-}) {
-  const { title, description, disabled, value, onChange, type = "text", id } = props;
-
-  return (
-    <li className="border-border flex flex-col gap-3 border-b px-6 py-4 last:border-b-0 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-      <div className="min-w-0 space-y-1 sm:max-w-[55%]">
-        <div className="text-sm font-medium">{title}</div>
-        <TypographyMuted className="text-xs">{description}</TypographyMuted>
-      </div>
-      <Input
-        id={id}
-        type={type}
-        value={value}
-        disabled={disabled}
-        onChange={(e) => onChange(e.target.value)}
-        className="h-9 max-w-md rounded-xl sm:shrink-0"
-      />
-    </li>
-  );
-}
-
-type ChangeRow = { label: string; before: string; after: string };
-
-function collectNotificationsChanges(
-  saved: AccountNotificationsLabDraft,
-  next: AccountNotificationsLabDraft,
-): ChangeRow[] {
-  const out: ChangeRow[] = [];
-  if (saved.bundleAddressedTo !== next.bundleAddressedTo) {
-    out.push({
-      label: "Bundle addressed to",
-      before: saved.bundleAddressedTo,
-      after: next.bundleAddressedTo,
-    });
-  }
-  if (saved.deliveryEmail !== next.deliveryEmail) {
-    out.push({
-      label: "Delivery email",
-      before: saved.deliveryEmail,
-      after: next.deliveryEmail,
-    });
-  }
-  if (saved.assetDeliveryDay !== next.assetDeliveryDay) {
-    out.push({
-      label: "Asset delivery day",
-      before: weekdayLabel(saved.assetDeliveryDay),
-      after: weekdayLabel(next.assetDeliveryDay),
-    });
-  }
-  return out;
+function labDraftToProfile(d: AccountNotificationsLabDraft): NotificationsProfileDraft {
+  return {
+    bundleAddressedTo: d.bundleAddressedTo,
+    deliveryEmail: d.deliveryEmail,
+    assetDeliveryDay: d.assetDeliveryDay,
+  };
 }
 
 export function NotificationsLabWorkspace({
@@ -146,18 +61,18 @@ export function NotificationsLabWorkspace({
 }: NotificationsLabWorkspaceProps) {
   const baseData = useMemo(() => accountLabBaseForState(scenarioKey), [scenarioKey]);
 
-  const [savedDraft, setSavedDraft] = useState<AccountNotificationsLabDraft>(() =>
-    notificationsLabDraftFromAccount(baseData),
+  const [savedDraft, setSavedDraft] = useState<NotificationsProfileDraft>(() =>
+    labDraftToProfile(notificationsLabDraftFromAccount(baseData)),
   );
-  const [draft, setDraft] = useState<AccountNotificationsLabDraft>(() =>
-    notificationsLabDraftFromAccount(baseData),
+  const [draft, setDraft] = useState<NotificationsProfileDraft>(() =>
+    labDraftToProfile(notificationsLabDraftFromAccount(baseData)),
   );
   const [confirmedAt, setConfirmedAt] = useState<string | null>(null);
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
 
   useEffect(() => {
     const data = accountLabBaseForState(scenarioKey);
-    const initial = notificationsLabDraftFromAccount(data);
+    const initial = labDraftToProfile(notificationsLabDraftFromAccount(data));
     setSavedDraft(initial);
     setDraft(initial);
     setConfirmedAt(null);
@@ -176,7 +91,7 @@ export function NotificationsLabWorkspace({
   );
 
   function handleReset() {
-    setDraft(notificationsLabDraftFromAccount(baseData));
+    setDraft(labDraftToProfile(notificationsLabDraftFromAccount(baseData)));
   }
 
   function handleStubSave() {
@@ -192,6 +107,8 @@ export function NotificationsLabWorkspace({
     setSavedDraft(draft);
     setSaveDialogOpen(false);
   }
+
+  const fieldId = (key: keyof NotificationsProfileDraft) => notificationsFieldId("route-lab", key);
 
   const bundleSectionInner =
     mode === "view" ? (
@@ -230,7 +147,7 @@ export function NotificationsLabWorkspace({
       <div className="px-0 pb-0">
         <ul>
           <AccountInputRow
-            id={notificationsFieldId("bundleAddressedTo")}
+            id={fieldId("bundleAddressedTo")}
             title="Bundle addressed to"
             description="Legal or display name used on generated bundles."
             disabled={!fieldsEditable}
@@ -238,7 +155,7 @@ export function NotificationsLabWorkspace({
             onChange={(v) => setDraft((prev) => ({ ...prev, bundleAddressedTo: v }))}
           />
           <AccountInputRow
-            id={notificationsFieldId("deliveryEmail")}
+            id={fieldId("deliveryEmail")}
             title="Delivery email"
             description="Where weekly asset notifications and delivery are sent."
             type="email"
@@ -247,7 +164,7 @@ export function NotificationsLabWorkspace({
             onChange={(v) => setDraft((prev) => ({ ...prev, deliveryEmail: v }))}
           />
           <AccountSelectRow
-            id={notificationsFieldId("assetDeliveryDay")}
+            id={fieldId("assetDeliveryDay")}
             title="Asset delivery day"
             description={`Weekly generated assets are delivered on this day. Next delivery in ${daysUntilNextDelivery(draft.assetDeliveryDay)} days.`}
             disabled={!fieldsEditable}

@@ -9,7 +9,8 @@ import { NotificationsLabWorkspace } from "./_components/notifications-lab-works
 const STATES = ["default", "saving", "loading", "error", "setup-pending", "inactive"] as const;
 const MODES = ["view", "edit"] as const;
 
-const DEMO_ACCOUNT_ID = "0000001";
+/** Matches common data-lab / season lab account; production comparison: `/o/575/notifications`. */
+const DEMO_ACCOUNT_ID = "575";
 
 function effectiveMode(mode: string): "view" | "edit" {
   return mode === "view" ? "view" : "edit";
@@ -21,7 +22,7 @@ export default async function RouteLabNotificationsPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const { state, mode } = getScenario(await searchParams);
-  const productionRoute = accountScopedRoutes.settings(DEMO_ACCOUNT_ID);
+  const productionRoute = accountScopedRoutes.notifications(DEMO_ACCOUNT_ID);
   const workspaceMode = effectiveMode(mode);
   const stubSaving = state === "saving";
 
@@ -29,7 +30,7 @@ export default async function RouteLabNotificationsPage({
     <RouteLabPage
       title="Notifications"
       productionRoute={productionRoute}
-      description="Route lab: bundle delivery & notification preferences — fixture only. Production may align with `/o/[accountId]/settings` or a future notifications route."
+      description="Route lab: fixture-only UI states (view/edit, loading, errors). Production members route is API-backed at `/o/[accountId]/notifications` — see nav link “Notifications (members 575)” when logged in. Lab does not call the CMS; compare layout there. Bundle delivery day edits remain under organisation settings."
       contentPreset="full"
       stateOptions={STATES}
       modeOptions={MODES}

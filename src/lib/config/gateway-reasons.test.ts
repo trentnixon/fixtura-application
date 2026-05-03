@@ -5,6 +5,7 @@ import {
   parseSelectOrgGatewayReason,
   selectOrgReasonFromApiStatus,
   selectOrgReasonFromApiStatusExcludingBadRequest,
+  selectOrgReasonFromApiStatusExcludingForbidden,
   selectOrganisationUrlWithReason,
   selectOrgReasonMessage,
 } from "./gateway-reasons";
@@ -45,6 +46,17 @@ describe("gateway-reasons", () => {
     );
     expect(selectOrgReasonFromApiStatusExcludingBadRequest(400)).toBeNull();
     expect(selectOrgReasonFromApiStatusExcludingBadRequest(500)).toBeNull();
+  });
+
+  it("selectOrgReasonFromApiStatusExcludingForbidden omits 403", () => {
+    expect(selectOrgReasonFromApiStatusExcludingForbidden(403)).toBeNull();
+    expect(selectOrgReasonFromApiStatusExcludingForbidden(404)).toBe(
+      SELECT_ORG_GATEWAY_REASON.notFound,
+    );
+    expect(selectOrgReasonFromApiStatusExcludingForbidden(400)).toBe(
+      SELECT_ORG_GATEWAY_REASON.invalidOrg,
+    );
+    expect(selectOrgReasonFromApiStatusExcludingForbidden(500)).toBeNull();
   });
 
   it("selectOrgReasonMessage returns non-empty copy for each reason", () => {

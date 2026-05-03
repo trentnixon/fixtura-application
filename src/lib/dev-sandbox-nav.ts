@@ -1,3 +1,4 @@
+import { accountScopedRoutes } from "@/lib/config/account-routes";
 import { ROUTES } from "@/lib/config/routes";
 
 /**
@@ -65,7 +66,11 @@ export const ROUTE_LAB_NAV_SECTIONS: SandboxNavSection[] = [
       { href: `${ROUTES.routeLab}/app/branding`, label: "Branding" },
       { href: `${ROUTES.routeLab}/app/logo-uploader`, label: "Logo uploader" },
       { href: `${ROUTES.routeLab}/app/settings`, label: "Settings" },
-      { href: `${ROUTES.routeLab}/app/notifications`, label: "Notifications" },
+      { href: `${ROUTES.routeLab}/app/notifications`, label: "Notifications (lab)" },
+      {
+        href: accountScopedRoutes.notifications("575"),
+        label: "Notifications (members 575)",
+      },
       { href: `${ROUTES.routeLab}/app/account`, label: "Account" },
     ],
   },

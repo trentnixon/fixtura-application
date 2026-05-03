@@ -104,7 +104,9 @@ export function weekdayKeyFromDaysOfWeekRelation(
         ? row["name"]
         : typeof row["Name"] === "string"
           ? row["Name"]
-          : "";
+          : typeof row["Nmae"] === "string"
+            ? row["Nmae"]
+            : "";
   const parsedName = weekdayKeyFromPublishedName(
     typeof fromName === "string" ? fromName : undefined,
   );

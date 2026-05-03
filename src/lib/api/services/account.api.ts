@@ -58,6 +58,8 @@ import type {
   PatchAccountSecurityLoginEmailResponse,
   PatchAccountSecurityProfileRequest,
   PatchAccountSecurityProfileResponse,
+  PatchAccountNotificationsRequest,
+  PatchAccountNotificationsResponse,
   PatchAccountSettingsRequest,
   PatchAccountSettingsResponse,
   PostAccountSecurityPasswordBody,
@@ -182,6 +184,11 @@ export const accountApi = {
   patchAccountSettings: (accountId: string, body: PatchAccountSettingsRequest) => {
     const path = `${appRoutes.accounts.settings.path}/${encodeURIComponent(accountId)}/settings`;
     return apiClient.patch<PatchAccountSettingsResponse>(path, body);
+  },
+
+  patchAccountNotifications: (accountId: string, body: PatchAccountNotificationsRequest) => {
+    const path = `${appRoutes.accounts.notifications.path}/${encodeURIComponent(accountId)}/notifications`;
+    return apiClient.patch<PatchAccountNotificationsResponse>(path, body);
   },
 
   /** Display / profile name on account (`saveAccountSecurityProfile`). */

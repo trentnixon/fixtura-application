@@ -1,6 +1,5 @@
 import { weekdayKeyFromDaysOfWeekRelation } from "@/features/settings/bundle-delivery-weekdays";
-
-import { pickDaysOfWeekRelation } from "./pick-days-of-week-relation";
+import { pickDaysOfWeekRelation } from "@/features/settings/pick-days-of-week-relation";
 
 import type { CompetitionGroupingKey, SettingsDraft } from "../_types/settings-draft";
 import type { AccountSchedulerDocument, AccountSettingsData } from "@/types/api/account";

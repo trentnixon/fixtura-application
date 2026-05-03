@@ -368,6 +368,10 @@ export interface AccountSettingsData {
    * Embedded scheduler when CMS returns it on the settings payload (delivery day lives on `days_of_the_week`).
    */
   scheduler?: AccountSchedulerDocument | null;
+  /** Bundle addressee line when CMS exposes it on the settings document (same source as notifications PATCH). */
+  bundleAddressedTo?: string | null;
+  /** Operational delivery mailbox when CMS exposes it on the settings document. */
+  deliveryEmail?: string | null;
 }
 
 export interface AccountSettingsResponse {
@@ -390,6 +394,30 @@ export type PatchAccountSettingsRequest =
 
 /** Success envelope matches GET settings `data`. */
 export type PatchAccountSettingsResponse = AccountSettingsResponse;
+
+/** Notifications form shape: read from **`GET /api/account/me`** + scheduler; writes use **onboarding step-3** (contact) + **PATCH settings** (weekday). @see frontend-handoff-account-notifications.md */
+export interface AccountNotificationsData {
+  bundleAddressedTo: string | null;
+  deliveryEmail: string | null;
+  /** Read-only derived from scheduler; writes via PATCH .../settings. */
+  assetDeliveryDay: string | null;
+}
+
+export interface AccountNotificationsResponse {
+  data: AccountNotificationsData;
+}
+
+/** PATCH /api/accounts/:accountId/notifications — only these keys; never delivery day fields. */
+export type PatchAccountNotificationsBody = {
+  bundleAddressedTo?: string | null;
+  deliveryEmail?: string | null;
+};
+
+export type PatchAccountNotificationsRequest =
+  | PatchAccountNotificationsBody
+  | { data: PatchAccountNotificationsBody };
+
+export type PatchAccountNotificationsResponse = AccountNotificationsResponse;
 
 /** PATCH /api/accounts/:accountId/security/profile — XOR: `userName` OR `firstName`/`lastName` (server enforces). */
 export type PatchAccountSecurityProfileBody =

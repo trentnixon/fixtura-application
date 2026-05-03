@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { weekdayKeyFromDaysOfWeekRelation } from "@/features/settings/bundle-delivery-weekdays";
+import { pickDaysOfWeekRelation } from "@/features/settings/pick-days-of-week-relation";
 import { ApiError } from "@/lib/api/client/api-error";
 import {
   isAccountSchedulerGatewayRedirect,
@@ -13,7 +14,6 @@ import { usePatchAccountSettings } from "@/lib/api/hooks/account/usePatchAccount
 import { isValidAccountIdSegment } from "@/lib/config/account-routes";
 
 import { buildPartialPatch } from "../_utils/build-partial-patch";
-import { pickDaysOfWeekRelation } from "../_utils/pick-days-of-week-relation";
 import { extraDetailForSaveError, strapiStructuredErrorCode } from "../_utils/save-error-details";
 import { equalDraft, settingsDraftFromPayload } from "../_utils/settings-draft-from-payload";
 

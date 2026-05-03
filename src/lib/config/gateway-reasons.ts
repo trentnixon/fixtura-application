@@ -59,3 +59,16 @@ export function selectOrgReasonFromApiStatusExcludingBadRequest(
   if (status === 404) return SELECT_ORG_GATEWAY_REASON.notFound;
   return null;
 }
+
+/**
+ * Like {@link selectOrgReasonFromApiStatus} but omits **403**.
+ * Use for account sub-resources where **403** means “no permission for this slice” (e.g. notifications),
+ * not “lose access to the organisation” — the page should show an error instead of the select-org gateway.
+ */
+export function selectOrgReasonFromApiStatusExcludingForbidden(
+  status: number,
+): SelectOrgGatewayReason | null {
+  if (status === 404) return SELECT_ORG_GATEWAY_REASON.notFound;
+  if (status === 400) return SELECT_ORG_GATEWAY_REASON.invalidOrg;
+  return null;
+}
