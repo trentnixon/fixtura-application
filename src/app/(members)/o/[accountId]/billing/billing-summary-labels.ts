@@ -24,8 +24,13 @@ function humanizeUnderscoreCode(key: string): string {
 const BILLING_STATUS_LABELS: Record<string, string> = {
   active: "Active",
   inactive: "Inactive",
-  trialing: "Trialing",
+  trial_available: "Trial available",
+  trial_active: "Trial active",
+  trial_ended: "Trial ended",
+  trialing: "Trial active",
   trial: "Trial",
+  active_trial: "Active trial",
+  free_trial: "Free trial",
   past_due: "Past due",
   canceled: "Canceled",
   cancelled: "Cancelled",
@@ -39,11 +44,13 @@ const BILLING_STATUS_LABELS: Record<string, string> = {
 };
 
 const ACCESS_STATUS_LABELS: Record<string, string> = {
+  pending: "Pending",
   granted: "Access granted",
   denied: "Access denied",
   restricted: "Access restricted",
   full: "Full access",
   trial: "Trial access",
+  trial_access: "Trial access",
   none: "No access",
   active: "Active",
   inactive: "Inactive",
@@ -74,6 +81,9 @@ export function accessStatusBadgeVariant(code: string): BillingAccessBadgeVarian
   if (k.includes("denied") || k === "locked" || k === "none") {
     return "destructive";
   }
+  if (k === "pending") {
+    return "outline";
+  }
   if (k.includes("granted") || k === "full" || k === "active" || k === "trial") {
     return "secondary";
   }
@@ -96,6 +106,8 @@ export const BILLING_AVAILABLE_ACTION_LABELS: Record<string, string> = {
   can_change_plan: "Change plan",
   canCancel: "Cancel subscription",
   can_cancel: "Cancel subscription",
+  canStartTrial: "Start free trial",
+  can_start_trial: "Start free trial",
 };
 
 function normalizeActionKey(key: string): string {

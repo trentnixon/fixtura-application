@@ -65,7 +65,7 @@ export function shouldShowInvoiceRequest(
   if (actions == null) {
     return true;
   }
-  if (actions["canRequestInvoice"] === true) {
+  if (actions["canRequestInvoice"] === true || actions["can_request_invoice"] === true) {
     return true;
   }
   return Object.keys(actions).length === 0;

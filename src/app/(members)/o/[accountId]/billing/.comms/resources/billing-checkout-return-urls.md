@@ -23,7 +23,7 @@ If the backend builds URLs without Stripe’s placeholder:
 
 ## Behaviour
 
-1. On load, if any recognised marker is present, the client **invalidates** `queryKeys.account.billing(accountId)` and `queryKeys.account.billingAvailableTiers(accountId)`.
+1. On load, if any recognised marker is present, the client **invalidates** `queryKeys.account.billing(accountId)`, `queryKeys.account.billingAvailableTiers(accountId)`, and `queryKeys.account.billingInvoiceRequests(accountId)`.
 2. The address bar is **`router.replace`’d** to the same path **without** those query params (avoids leaking `session_id` in bookmarks/history noise).
 
 ## CMS / Stripe checklist

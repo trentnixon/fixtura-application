@@ -983,6 +983,14 @@ export interface CreateInvoiceRequestResponse {
   message: string;
 }
 
+/** POST …/billing/start-trial — CMS assigns trial; extend when Strapi stabilises envelope. */
+export interface StartAccountBillingTrialResponse {
+  trialId?: string | number;
+  /** CMS may return a fixed token (e.g. `started`) or other string; UI should refetch GET /billing. */
+  status?: string;
+  message?: string;
+}
+
 /** Tier row on GET /api/accounts/:accountId/billing — legacy consolidated payload / Strapi tier embed (`image_url` omitted). */
 export interface AccountBillingSubscriptionTierDto {
   id: number;
@@ -1092,6 +1100,56 @@ export interface AccountBillingLegacyPayload {
   summary: AccountBillingSummaryDto;
   financialSummary: AccountBillingFinancialSummaryDto;
   meta: AccountBillingMetaDto;
+}
+
+/** Tier slice on GET /api/orders/account/:accountId order rows (camelCase handoff). */
+export interface AccountBillingOrderHistorySubscriptionTierDto {
+  id: number;
+  name: string;
+  price: number;
+  currency: string;
+}
+
+/**
+ * Single order row from GET /api/orders/account/:accountId (Strapi custom route; plain JSON, no `{ data }` wrapper).
+ * `status` is boolean in CMS schema — treat as opaque unless product defines semantics.
+ */
+export interface AccountBillingOrderHistoryDto {
+  id: number;
+  name: string | null;
+  status: boolean | null;
+  currency: string | null;
+  /** Stored as string in CMS; parse on client when numeric ops are needed. */
+  total: string | null;
+  isPaid: boolean;
+  paymentStatus: string | null;
+  checkoutStatus: string | null;
+  paymentChannel: string | null;
+  isActive: boolean;
+  isPaused: boolean;
+  cancelAtPeriodEnd: boolean;
+  stripeStatus: string | null;
+  stripeSubscriptionId: string | null;
+  startAt: string | null;
+  endAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+  subscriptionTier: AccountBillingOrderHistorySubscriptionTierDto | null;
+}
+
+/** Meta on GET /api/orders/account/:accountId */
+export interface AccountBillingOrdersMetaDto {
+  count: number;
+}
+
+/**
+ * GET /api/accounts/:accountId/billing/orders (BFF) → Strapi GET /api/orders/account/:accountId.
+ * Plain JSON object (not wrapped in `{ data: … }`).
+ */
+export interface AccountBillingOrdersResponse {
+  accountId: number;
+  orders: AccountBillingOrderHistoryDto[];
+  meta: AccountBillingOrdersMetaDto;
 }
 
 /** GET /api/accounts/:accountId/billing */

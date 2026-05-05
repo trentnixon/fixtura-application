@@ -344,6 +344,26 @@ export const appRoutes = {
         "GET + POST append /{accountId}/billing/invoice-requests — list and submit invoice payment requests",
       domain: "account",
     },
+    billingStartTrial: {
+      key: "accounts.billing-start-trial",
+      method: "POST",
+      path: ACCOUNTS_API_BASE,
+      authRequired: true,
+      status: "ready",
+      description:
+        "POST append /{accountId}/billing/start-trial — CMS assigns eligible free trial; refetch GET billing after success",
+      domain: "account",
+    },
+    billingOrders: {
+      key: "accounts.billing-orders",
+      method: "GET",
+      path: ACCOUNTS_API_BASE,
+      authRequired: true,
+      status: "ready",
+      description:
+        "GET append /{accountId}/billing/orders — full order history (BFF → Strapi /api/orders/account/:accountId)",
+      domain: "account",
+    },
     /** W1: PATCH append /{accountId}/onboarding/step-1 — Step 1 organisation + permission. */
     onboardingStep1: {
       key: "accounts.onboarding-step-1",

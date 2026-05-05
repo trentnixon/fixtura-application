@@ -1,390 +1,514 @@
-# Free trial status identification, UI modes, and CMS integration plan
+# Development implementation: free trial start flow
 
 Date: 2026-05-05
-Owner: Frontend billing
-Scope: Members billing page at `/o/{accountId}/billing`
+Status: **Implemented** — production UI uses [`billing-state.ts`](../../billing-state.ts) (`deriveBillingUiMode`, `active_trial` mode name; planning doc historically said `trial_active`).
+Route: `/o/{accountId}/billing`
+Reference UI: `/sandbox/route-lab/o/575/billing?state=trial_available`
 
-## Purpose
+## Objective
 
-Define the next implementation phase after the billing v1 commit: make the members billing page correctly identify and present an account in an active free trial period, while preserving the account-scoped checkout and invoice-request flows.
+Implement the production free trial flow on the members billing page.
 
-This plan covers:
+Required user journey:
 
-- Free trial status identification from `GET /billing`
-- UI modes for active trial, expired trial, no trial, and paid states
-- Button/click processing for checkout and invoice request actions
-- CMS/Strapi contract expectations
-- UI handling after checkout, invoice request, and refreshed billing responses
+1. `GET /billing` returns a trial-available account state.
+2. Billing UI shows a free trial card with a Start button, matching the route-lab pattern.
+3. User clicks Start.
+4. Frontend calls an account-scoped CMS endpoint to assign the free trial.
+5. Frontend invalidates/refetches `GET /billing`.
+6. Refreshed billing data returns an active trial state.
+7. UI changes to `trial_active`: trial dates/access are shown and Start is hidden or disabled.
 
-## Current frontend baseline
+The frontend must never locally flip billing entitlement. Button clicks trigger mutations and refetches; the refreshed CMS response decides the final UI.
 
-The billing page already uses account-scoped v1 endpoints:
+## Implementation summary
 
-- `GET /api/accounts/{accountId}/billing`
-- `GET /api/accounts/{accountId}/billing/available-tiers`
-- `POST /api/accounts/{accountId}/billing/checkout`
-- `GET /api/accounts/{accountId}/billing/invoice-requests`
-- `POST /api/accounts/{accountId}/billing/invoice-requests`
+Add:
 
-The UI already renders:
+- A trial UI mode helper.
+- A BFF route for starting a trial, once the CMS path is confirmed.
+- An `accountApi` method.
+- A React Query mutation hook.
+- A `BillingTrialStartCard` client component.
+- Billing UI wiring that shows the card for `trial_available` and active trial details for `trial_active`.
 
-- Billing/access status labels
-- Current plan
-- Trial card
-- Active order
-- Latest invoice request
-- Card checkout form
-- Invoice request form
+Update:
 
-The next work is to make the trial state explicit, reliable, and easy to QA.
+- Types for the start-trial response/request if CMS returns more than a minimal response.
+- Route definitions with the new account billing trial-start route.
+- Billing labels for confirmed CMS trial statuses.
+- Staging QA checklist after implementation.
 
-## Trial status source of truth
+## Data flow
 
-`GET /billing` remains the single source of truth.
+```mermaid
+sequenceDiagram
+  participant UI as Billing UI
+  participant BFF as Next BFF
+  participant CMS as Strapi/CMS
+  participant RQ as React Query
 
-The frontend should infer free-trial state from this data, in order:
+  UI->>BFF: GET /api/accounts/{accountId}/billing
+  BFF->>CMS: GET /api/accounts/{accountId}/billing
+  CMS-->>BFF: billingStatus=trial_available
+  BFF-->>UI: AccountBillingResponse
+  UI->>UI: derive mode free_trial_available
+  UI->>UI: show Start trial card
+  UI->>BFF: POST /api/accounts/{accountId}/billing/start-trial
+  BFF->>CMS: POST account-scoped start trial
+  CMS-->>BFF: trial started response
+  BFF-->>UI: success
+  UI->>RQ: invalidate billing query
+  UI->>BFF: GET /api/accounts/{accountId}/billing
+  BFF->>CMS: GET /api/accounts/{accountId}/billing
+  CMS-->>BFF: billingStatus=trialing, trial.isActive=true
+  BFF-->>UI: AccountBillingResponse
+  UI->>UI: derive mode trial_active
+```
 
-1. `trial?.isActive === true`
-2. `billingStatus` code maps to a trial state, for example `trial`, `trialing`, `active_trial`, `free_trial`
-3. `accessStatus` code maps to trial access, for example `trial`, `trial_access`
-4. Date fallback: `trial.endDate` exists and is greater than now, if CMS does not reliably send `isActive`
+## CMS contract to confirm
 
-Preferred CMS contract:
+Confirm these before coding the BFF path.
 
-```ts
+### Trial available response
+
+Expected shape from `GET /api/accounts/{accountId}/billing`:
+
+```json
 {
-  data: {
-    billingStatus: "trialing",
-    accessStatus: "trial",
-    currentPlan: null,
-    trial: {
-      id: 123,
-      startDate: "2026-05-01T00:00:00.000Z",
-      endDate: "2026-05-15T23:59:59.000Z",
-      isActive: true,
-      eligible: true,
-      subscriptionTier: {
-        id: 12,
-        Name: "Trial",
-        Title: "Free trial"
-      }
+  "data": {
+    "billingStatus": "trial_available",
+    "accessStatus": "pending",
+    "currentPlan": null,
+    "trial": {
+      "id": null,
+      "startDate": null,
+      "endDate": null,
+      "isActive": false,
+      "eligible": true,
+      "subscriptionTier": null
     },
-    activeOrder: null,
-    latestInvoiceRequest: null,
-    availableActions: {
-      canCheckout: true,
-      canRequestInvoice: true
+    "activeOrder": null,
+    "latestInvoiceRequest": null,
+    "availableActions": {
+      "canStartTrial": true
     }
   }
 }
 ```
 
-## Proposed frontend helper
+### Trial active response
 
-Add a small derived-state helper near billing presentation code.
-
-Suggested file:
-
-`src/app/(members)/o/[accountId]/billing/billing-state.ts`
-
-Suggested API:
-
-```ts
-export type BillingUiMode =
-  | "active_trial"
-  | "trial_expired"
-  | "paid_active"
-  | "payment_pending"
-  | "access_denied"
-  | "no_billing"
-  | "unknown";
-
-export function deriveBillingUiMode(summary: AccountBillingSummaryV1): BillingUiMode;
-
-export function isActiveTrial(summary: AccountBillingSummaryV1): boolean;
-```
-
-Rules:
-
-- `active_trial`: `trial.isActive === true` or known trial status code with valid future `trial.endDate`
-- `trial_expired`: trial exists, `trial.isActive === false`, and no active paid order
-- `paid_active`: active paid order exists or billing/access status clearly indicates paid active access
-- `payment_pending`: latest invoice request pending/submitted or checkout/order state is incomplete/pending
-- `access_denied`: access status denied, locked, none, or billing status unpaid/past due with no trial
-- `no_billing`: no current plan, no active order, no active trial, no pending invoice request
-- `unknown`: response is valid but does not match a known mode
-
-Keep this helper pure and covered by focused unit tests or route-lab fixtures.
-
-## UI modes
-
-### Mode: active trial
-
-Expected account state:
-
-- `trial.isActive === true`
-- `accessStatus` is available/granted/trial
-- `activeOrder` is usually `null`
-- `currentPlan` may be `null`, or CMS may provide `trial.subscriptionTier`
-
-UI handling:
-
-- Show a positive status: "Trial active"
-- Show access badge as secondary: "Trial access" or "Access granted"
-- Trial card is prominent and shows:
-  - start date
-  - end date
-  - days remaining if simple to derive
-  - eligibility
-  - trial tier name if available
-- Current plan card should not imply a paid subscription if `currentPlan` is null.
-  - Suggested copy: "No paid plan yet"
-  - Supporting copy: "This account is currently using a free trial."
-- Show checkout if `availableActions.canCheckout` or `availableActions.canSubscribe` is true.
-- Show invoice request if `availableActions.canRequestInvoice` or `availableActions.can_request_invoice` is true.
-
-### Mode: trial expired
-
-Expected account state:
-
-- trial exists but is inactive or ended
-- no active paid order
-- access may be denied/restricted
-
-UI handling:
-
-- Show "Trial ended" or CMS-provided billing/access labels
-- Trial card shows ended date
-- Primary action should be plan checkout if allowed
-- Invoice request can show if allowed
-
-### Mode: paid active
-
-Expected account state:
-
-- active paid order exists, or current plan exists with active access
-
-UI handling:
-
-- Current plan and active order remain the main billing state
-- Trial card can still show historical trial details, but should not compete with paid state
-- Checkout/change-plan actions only show if CMS action flags allow them
-
-### Mode: payment pending
-
-Expected account state:
-
-- latest invoice request exists with `submitted`, `pending`, or equivalent
-- or checkout/order status indicates incomplete/pending
-
-UI handling:
-
-- Latest invoice request card should make pending state clear
-- Avoid implying paid access unless `accessStatus` says access is granted
-- Keep actions driven by `availableActions`
-
-### Mode: access denied / no billing
-
-Expected account state:
-
-- no active trial
-- no active order
-- access denied/locked/none, or billing status none/inactive
-
-UI handling:
-
-- Show clear status and available next actions
-- Do not show a paid active order or plan if response does not provide one
-
-## Available action handling
-
-Current action keys should be made tolerant of camelCase and snake_case.
-
-Checkout should show when:
-
-- `availableActions` is missing
-- `availableActions` is empty
-- `availableActions.canCheckout === true`
-- `availableActions.can_checkout === true`
-- `availableActions.canSubscribe === true`
-- `availableActions.can_subscribe === true`
-
-Invoice request should show when:
-
-- `availableActions` is missing
-- `availableActions` is empty
-- `availableActions.canRequestInvoice === true`
-- `availableActions.can_request_invoice === true`
-
-Do not show unmapped actions as user-facing text unless `billing-summary-labels.ts` has a label for that action key.
-
-## On-click processing
-
-### Card checkout
-
-User action:
-
-1. User selects a tier.
-2. User chooses a start date.
-3. User clicks "Continue to payment".
-
-Frontend processing:
-
-1. Validate selected tier and start date.
-2. Call `POST /billing/checkout`.
-3. If `checkoutUrl` exists, redirect browser to Stripe.
-4. If `checkoutUrl` is missing, show inline error.
-5. On Stripe return, detect return params:
-   - `session_id`
-   - `checkout_session_id`
-   - `billing_checkout=success`
-   - `billing_checkout=cancelled`
-6. Invalidate:
-   - `queryKeys.account.billing(accountId)`
-   - `queryKeys.account.billingAvailableTiers(accountId)`
-7. Strip return params from the URL.
-8. Render refreshed `GET /billing` response.
-
-Active trial detail:
-
-- Checkout from trial should not require ending trial client-side.
-- CMS/Stripe decides whether the paid plan starts now, at trial end, or on selected start date.
-- Frontend only sends selected `subscriptionTierId` and `startDate`.
-
-### Invoice request
-
-User action:
-
-1. User selects a tier.
-2. User enters requested start datetime.
-3. User enters billing contact and address.
-4. User clicks "Submit invoice request".
-
-Frontend processing:
-
-1. Validate required fields.
-2. Validate requested start is not in the past.
-3. Build `PostAccountBillingInvoiceRequestBody`.
-4. Omit optional empty fields:
-   - `billingAddress.line2`
-   - `purchaseOrderNumber`
-   - `notes`
-5. Submit `POST /billing/invoice-requests`.
-6. On success, show response `message` or fallback success copy.
-7. Mutation invalidates:
-   - `queryKeys.account.billing(accountId)`
-   - `queryKeys.account.billingInvoiceRequests(accountId)`
-8. Latest invoice request card should update from refreshed `GET /billing`.
-
-Active trial detail:
-
-- Invoice request during active trial should be allowed only if CMS sends the action flag.
-- UI should present invoice request as a transition from trial to paid invoice billing, not as an immediate paid state.
-
-## CMS integration requirements
-
-CMS should provide stable, account-scoped billing summary values.
-
-Required for active trial:
-
-- `trial.isActive`
-- `trial.startDate`
-- `trial.endDate`
-- `accessStatus`
-- `billingStatus`
-- `availableActions`
-
-Recommended:
-
-- `trial.subscriptionTier`
-- `availableActions.canCheckout`
-- `availableActions.canRequestInvoice`
-- `currentPlan` should be null unless there is a real paid/current plan
-- `activeOrder` should be null unless there is a real active paid entitlement
-
-Open CMS questions:
-
-- What exact `billingStatus` string is returned for active trial?
-- What exact `accessStatus` string is returned for active trial?
-- Does `currentPlan` remain null during trial, or does CMS expose a trial plan there?
-- Should checkout start date default to today or trial end date?
-- Should invoice requested start default to trial end date?
-- Are action flags camelCase, snake_case, or mixed?
-- Can active trial accounts request invoice billing?
-
-## UI response handling
-
-After every mutation or return flow, `GET /billing` wins.
-
-Expected response handling:
-
-- If trial remains active, keep showing active trial mode.
-- If checkout creates an active paid order, switch to paid active mode.
-- If checkout is cancelled, keep the previous mode and show no false paid state.
-- If invoice request is submitted, show latest invoice request and keep trial state until CMS changes access/billing state.
-- If CMS/webhook lags, show the best current `GET /billing` data and allow manual refresh/retry.
-- If account access changes to denied/locked, redirect or show safe access state according to existing gateway behavior.
-
-## Implementation steps
-
-1. Confirm staging/CMS active-trial JSON for one owned account.
-2. Add `billing-state.ts` helper for derived UI mode.
-3. Add or update labels for known trial codes in `billing-summary-labels.ts`.
-4. Harden action checks for snake_case and camelCase.
-5. Update billing summary cards for active trial copy:
-   - trial card
-   - current plan empty state
-   - available action labels
-6. Add a route-lab or local fixture for active trial.
-7. Run:
-   - `npm run typecheck`
-   - focused ESLint on billing files
-8. Run staging QA using `.comms/staging-qa-checklist.md`.
-
-## Acceptance criteria
-
-- Active trial account shows a clear trial state.
-- Trial access is presented as available access, not an error.
-- Paid plan is not implied unless CMS returns paid/current plan data.
-- Checkout and invoice request visibility are driven by `availableActions`.
-- Both camelCase and snake_case action flags work.
-- Stripe return refresh still invalidates and strips checkout params.
-- Invoice request success updates latest invoice request after refetch.
-- No legacy `/orders` or `/subscription-tiers` client routes are introduced.
-
-## Suggested active trial QA payload
+Expected shape after Start + refetch:
 
 ```json
 {
   "data": {
     "billingStatus": "trialing",
-    "accessStatus": "trial",
+    "accessStatus": "active",
     "currentPlan": null,
     "trial": {
-      "id": 101,
+      "id": 123,
       "startDate": "2026-05-05T00:00:00.000Z",
       "endDate": "2026-05-19T00:00:00.000Z",
       "isActive": true,
-      "eligible": true,
-      "subscriptionTier": {
-        "id": 1,
-        "Name": "Free Trial",
-        "Title": "14 day trial",
-        "SubTitle": null,
-        "description": "Temporary access for evaluation.",
-        "price": 0,
-        "currency": "AUD",
-        "stripe_product_id": null,
-        "stripe_price_id": null,
-        "isActive": true
-      }
+      "eligible": false,
+      "subscriptionTier": null
     },
     "activeOrder": null,
     "latestInvoiceRequest": null,
     "availableActions": {
-      "canCheckout": true,
-      "canRequestInvoice": true
+      "canStartTrial": false
     }
   }
 }
 ```
+
+### Start-trial endpoint
+
+Preferred application endpoint:
+
+```http
+POST /api/accounts/{accountId}/billing/start-trial
+```
+
+Preferred Strapi endpoint behind the BFF:
+
+```http
+POST {STRAPI_URL}/api/accounts/{accountId}/billing/start-trial
+Authorization: Bearer <jwt>
+```
+
+Acceptable alternative if CMS chooses a different name:
+
+```http
+POST /api/accounts/{accountId}/billing/trial
+```
+
+Expected response:
+
+```ts
+export interface StartAccountBillingTrialResponse {
+  trialId?: string | number;
+  status: "started";
+  message?: string;
+}
+```
+
+If CMS returns the full billing summary instead, still invalidate/refetch `GET /billing` so the UI remains consistent with the existing billing data flow.
+
+## Files to add or update
+
+### 1. Trial mode helper
+
+Add:
+
+`src/app/(members)/o/[accountId]/billing/billing-ui-mode.ts`
+
+Implementation:
+
+```ts
+import type { AccountBillingSummaryV1 } from "@/types/api/account";
+
+export type BillingUiMode =
+  | "free_trial_available"
+  | "trial_active"
+  | "trial_expired"
+  | "paid_active"
+  | "invoice_pending"
+  | "payment_required"
+  | "access_unavailable"
+  | "unknown";
+
+export function deriveBillingUiMode(summary: AccountBillingSummaryV1): BillingUiMode {
+  // Implement from confirmed CMS status values.
+}
+```
+
+Detection rules:
+
+- `paid_active`: `activeOrder?.isActive === true` or confirmed paid-active CMS statuses.
+- `free_trial_available`: trial eligible, not active, and `canStartTrial` or `can_start_trial` is true.
+- `trial_active`: `trial?.isActive === true` and access status is active/available/trial.
+- `invoice_pending`: latest invoice request has submitted/pending status.
+- `trial_expired`: trial exists, not active, and no active paid order.
+- `payment_required`: no active trial/order and CMS indicates payment needed.
+- `access_unavailable`: CMS access status is denied/locked/none.
+- `unknown`: fallback.
+
+Keep this helper pure.
+
+### 2. Start-trial action helper
+
+Add action-key helpers near the billing UI code or in `billing-ui-mode.ts`.
+
+Required behavior:
+
+```ts
+export function canStartTrial(actions?: Partial<Record<string, boolean>>): boolean {
+  return actions?.canStartTrial === true || actions?.can_start_trial === true;
+}
+```
+
+Do not treat missing/empty `availableActions` as permission to start a trial. Starting a free trial assigns entitlement and should require an explicit CMS action flag.
+
+### 3. BFF route
+
+Add after CMS endpoint is confirmed:
+
+`src/app/api/accounts/[accountId]/billing/start-trial/route.ts`
+
+Pattern:
+
+- Same auth/account guard as the other billing BFF routes.
+- Forward bearer token from cookie session.
+- Validate `accountId`.
+- Return 401/400/500 consistently with existing billing routes.
+- Forward Strapi JSON response.
+- Preserve Strapi status code on expected errors.
+
+Use existing helper:
+
+`src/app/api/accounts/[accountId]/billing/_billing-strapi-proxy.ts`
+
+Update `AccountBillingStrapiSubpath` to include:
+
+```ts
+"start-trial";
+```
+
+If CMS chooses `trial`, add that exact path instead.
+
+### 4. Route registry
+
+Update:
+
+`src/lib/api/routes/route-definitions.ts`
+
+Add account billing route:
+
+```ts
+billingStartTrial: {
+  key: "accounts.billing-start-trial",
+  method: "POST",
+  path: ACCOUNTS_API_BASE,
+  authRequired: true,
+  status: "ready",
+  description:
+    "POST append /{accountId}/billing/start-trial - assign a free trial to an eligible account",
+  domain: "account",
+}
+```
+
+Keep the existing guardrail against legacy `/orders` and `/subscription-tiers`.
+
+### 5. Types
+
+Update:
+
+`src/types/api/account.ts`
+
+Add:
+
+```ts
+export interface StartAccountBillingTrialResponse {
+  trialId?: string | number;
+  status: "started";
+  message?: string;
+}
+```
+
+If CMS requires a request body, add:
+
+```ts
+export interface StartAccountBillingTrialRequest {
+  // Prefer empty body unless CMS needs a tier, reason, or source.
+}
+```
+
+Also check whether `BillingTrialSummaryV1` needs `eligible` vs `isEligible` compatibility after staging response is known.
+
+### 6. accountApi method
+
+Update:
+
+`src/lib/api/services/account.api.ts`
+
+Add:
+
+```ts
+postAccountBillingStartTrial: (accountId: string) => {
+  const path = `${appRoutes.accounts.billingStartTrial.path}/${encodeURIComponent(accountId)}/billing/start-trial`;
+  return apiClient.post<StartAccountBillingTrialResponse>(path, {});
+};
+```
+
+If empty request bodies are not desired by `apiClient`, use the established local pattern for no-body POSTs.
+
+### 7. Mutation hook
+
+Add:
+
+`src/lib/api/hooks/account/usePostAccountBillingStartTrial.ts`
+
+Implementation:
+
+```ts
+export function usePostAccountBillingStartTrial(accountId: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: () => accountApi.postAccountBillingStartTrial(accountId),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: queryKeys.account.billing(accountId) });
+    },
+  });
+}
+```
+
+Do not set local billing state in the hook.
+
+### 8. Trial start card
+
+Add:
+
+`src/app/(members)/o/[accountId]/billing/billing-trial-start-card.tsx`
+
+Component contract:
+
+```ts
+export type BillingTrialStartCardProps = {
+  accountId: string;
+  enabled: boolean;
+  availableActions?: Partial<Record<string, boolean>>;
+};
+```
+
+Behavior:
+
+- Render only when `enabled` and `canStartTrial(availableActions)` are true.
+- Match the route-lab `trial_available` card pattern:
+  - small "Free trial" label
+  - headline such as "Try Fixtura free"
+  - short no-payment explanation
+  - Start button
+- On click:
+  - clear old messages
+  - call `usePostAccountBillingStartTrial`
+  - show pending state on the button
+  - show success message from CMS if present
+  - rely on query invalidation/refetch for the UI transition
+- On error:
+  - show `ApiError.message`
+  - fallback to network error message
+
+Suggested button copy:
+
+- idle: `Start free trial`
+- pending: `Starting trial...`
+
+### 9. Billing content wiring
+
+Update:
+
+`src/app/(members)/o/[accountId]/billing/billing-content.tsx`
+
+Use:
+
+```ts
+const mode = deriveBillingUiMode(q.data.data);
+```
+
+Render order after successful billing load:
+
+1. Checkout return banner if present.
+2. Billing summary sections.
+3. If `mode === "free_trial_available"`, render `BillingTrialStartCard`.
+4. If `mode !== "free_trial_available"`, allow checkout and invoice forms according to CMS actions.
+
+Recommended first pass:
+
+- Hide `BillingPlanCheckout` and `BillingInvoiceRequest` while `free_trial_available` is active, unless CMS/Product explicitly asks for those actions to appear beside Start.
+- Once `trial_active`, keep Start hidden and let checkout/invoice be controlled by `availableActions`.
+
+### 10. Labels
+
+Update:
+
+`src/app/(members)/o/[accountId]/billing/billing-summary-labels.ts`
+
+Add confirmed mappings after staging/CMS confirmation:
+
+```ts
+trial_available: "Trial available",
+trialing: "Trial active",
+trial_active: "Trial active",
+trial_ended: "Trial ended",
+```
+
+Access labels may need:
+
+```ts
+pending: "Pending",
+active: "Active",
+trial: "Trial access",
+```
+
+Badge behavior:
+
+- `trial_active` / `trialing` access should not use destructive styling.
+- `trial_available` should probably be outline until access is active.
+
+## UI states
+
+### free_trial_available
+
+Show:
+
+- billing status label
+- current plan empty state
+- free trial Start card
+
+Hide:
+
+- active order card, unless CMS returns one
+- Start button after mutation begins only while pending
+- checkout/invoice forms unless explicitly enabled by Product/CMS for this mode
+
+### trial_active
+
+Show:
+
+- trial status as active
+- access as active/available/trial
+- trial dates
+- days remaining if available
+- checkout/invoice forms only if CMS action flags allow them
+
+Hide:
+
+- free trial Start card
+- paid plan/order claims unless CMS returns paid plan/order data
+
+### Error and pending states
+
+Start click pending:
+
+- Disable Start button.
+- Keep card visible.
+- Button text: `Starting trial...`
+
+Start failure:
+
+- Keep `free_trial_available`.
+- Show inline error.
+- Re-enable Start if action is still available.
+
+Start success but refetch still returns `trial_available`:
+
+- Show CMS success message if available.
+- Keep UI data-driven.
+- Do not force active trial UI.
+
+## Verification
+
+Run:
+
+```powershell
+npm run typecheck
+npx eslint 'src/app/(members)/o/[accountId]/billing/billing-content.tsx' 'src/app/(members)/o/[accountId]/billing/billing-trial-start-card.tsx' 'src/app/(members)/o/[accountId]/billing/billing-ui-mode.ts' 'src/lib/api/hooks/account/usePostAccountBillingStartTrial.ts'
+```
+
+Manual staging checks:
+
+- Trial available account shows Start card.
+- Start button calls the account-scoped CMS endpoint.
+- Start pending state disables duplicate clicks.
+- Start success invalidates/refetches `GET /billing`.
+- UI changes to active trial only after `GET /billing` returns active trial data.
+- Start card is hidden or disabled in active trial mode.
+- Trial dates render correctly.
+- Checkout and invoice actions follow `availableActions`.
+- No legacy `/orders` or `/subscription-tiers` routes are introduced.
+
+## Implementation blockers
+
+Do not implement the BFF route until CMS confirms:
+
+- exact start-trial endpoint path
+- whether request body is empty
+- response shape
+- exact `billingStatus` and `accessStatus` values before and after Start
+- exact action flag name for trial start
+
+## Acceptance criteria
+
+- `trial_available` is detected from live `GET /billing`.
+- UI shows a route-lab-style free trial card with Start button.
+- Start button is visible only when CMS says trial can be started.
+- Start button calls the account-scoped CMS endpoint.
+- Successful Start invalidates/refetches billing.
+- `trial_active` UI is shown only from refreshed CMS billing data.
+- Active trial shows available access and trial dates.
+- Paid plan/order UI is not shown unless CMS returns paid plan/order data.
+- Unknown CMS statuses render safely.

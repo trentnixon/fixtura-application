@@ -57,7 +57,12 @@ export function shouldShowPlanCheckout(
   if (actions == null) {
     return true;
   }
-  if (actions["canCheckout"] === true || actions["canSubscribe"] === true) {
+  if (
+    actions["canCheckout"] === true ||
+    actions["can_checkout"] === true ||
+    actions["canSubscribe"] === true ||
+    actions["can_subscribe"] === true
+  ) {
     return true;
   }
   return Object.keys(actions).length === 0;

@@ -18,13 +18,14 @@ All routes below are account-scoped and require the authenticated user to own th
 
 ## Endpoints
 
-| Need                   | Method | Path                                            | Response                                       |
-| ---------------------- | ------ | ----------------------------------------------- | ---------------------------------------------- |
-| Billing summary        | GET    | `/accounts/:accountId/billing`                  | `{ data: BillingSummary }`                     |
-| Available tiers        | GET    | `/accounts/:accountId/billing/available-tiers`  | `{ tiers: AvailableBillingTier[] }`            |
-| Start Stripe checkout  | POST   | `/accounts/:accountId/billing/checkout`         | `CreateCheckoutResponse`                       |
-| List invoice requests  | GET    | `/accounts/:accountId/billing/invoice-requests` | `{ invoiceRequests: InvoiceRequestSummary[] }` |
-| Submit invoice request | POST   | `/accounts/:accountId/billing/invoice-requests` | `CreateInvoiceRequestResponse`                 |
+| Need                   | Method | Path                                            | Response                                                |
+| ---------------------- | ------ | ----------------------------------------------- | ------------------------------------------------------- |
+| Billing summary        | GET    | `/accounts/:accountId/billing`                  | `{ data: BillingSummary }`                              |
+| Available tiers        | GET    | `/accounts/:accountId/billing/available-tiers`  | `{ tiers: AvailableBillingTier[] }`                     |
+| Start Stripe checkout  | POST   | `/accounts/:accountId/billing/checkout`         | `CreateCheckoutResponse`                                |
+| Start free trial       | POST   | `/accounts/:accountId/billing/start-trial`      | `{ trialId: string; status: string; message?: string }` |
+| List invoice requests  | GET    | `/accounts/:accountId/billing/invoice-requests` | `{ invoiceRequests: InvoiceRequestSummary[] }`          |
+| Submit invoice request | POST   | `/accounts/:accountId/billing/invoice-requests` | `CreateInvoiceRequestResponse`                          |
 
 ## Auth And Permissions
 
@@ -41,6 +42,7 @@ Backend Users & Permissions scopes:
 | `GET /billing`                   | `api::account.account.getAccountBilling`                |
 | `GET /billing/available-tiers`   | `api::account.account.getAccountBillingAvailableTiers`  |
 | `POST /billing/checkout`         | `api::account.account.postAccountBillingCheckout`       |
+| `POST /billing/start-trial`      | `api::account.account.postAccountBillingStartTrial`     |
 | `GET /billing/invoice-requests`  | `api::account.account.getAccountBillingInvoiceRequests` |
 | `POST /billing/invoice-requests` | `api::account.account.postAccountBillingInvoiceRequest` |
 
@@ -63,7 +65,7 @@ Response:
 
 Important fields:
 
-- `billingStatus`: lifecycle state for billing UI
+- `billingStatus`: lifecycle state for billing UI (**during an active free trial this may be `active` because the synthetic trial order counts as paid-in-window entitlement — use `trial.isActive` and tier labels for “trialing” UX**)
 - `accessStatus`: access gate state
 - `currentPlan`: current plan or `null`
 - `trial`: trial eligibility and active state
@@ -129,8 +131,6 @@ Frontend flow:
 2. Redirect to `checkoutUrl`.
 3. On return from Stripe, refresh `GET /billing`.
 4. Do not call a legacy confirm endpoint. Stripe webhook updates the order.
-
-**Return URLs:** After Stripe redirects back to the app, the members billing page recognises specific query parameters, strips them, and **refetches** `GET /billing` (and available tiers). Configure `success_url` / `cancel_url` accordingly — see [`.comms/billing-checkout-return-urls.md`](./.comms/billing-checkout-return-urls.md).
 
 ## Submit Invoice Request
 
@@ -214,10 +214,6 @@ For cross-account access, backend may return `404` intentionally to avoid accoun
 | `POST /orders/CancelCreateSubscription` | Refresh `GET /billing` after cancelled/abandoned checkout |
 | `POST /orders`                          | `POST /api/accounts/:accountId/billing/checkout`          |
 
-### Frontend legacy audit
-
-- **2026-05-05:** Searched application `src/` (TypeScript/TSX) for legacy path fragments (`subscription-tiers`, `orders/createInvoice`, `orders/confirm`, `CancelCreateSubscription`, and generic Strapi `/orders` API calls). **No client or Next BFF usage** of those legacy routes was found. Production billing traffic uses account-scoped paths only: `GET|POST …/api/accounts/:accountId/billing/…` (via the app’s `/api/accounts/...` BFF). **Stripe Customer Portal** remains deferred below; this repo does **not** call `POST /api/orders/StripeCustomerPortal`.
-
 ## Stripe Customer Portal Gap
 
 There is no account-scoped v1 replacement for:
@@ -226,19 +222,11 @@ There is no account-scoped v1 replacement for:
 POST /api/orders/StripeCustomerPortal
 ```
 
-Historical options (superseded by decision below):
+Product/frontend decision required:
 
 - remove/defer portal UX, or
 - keep this legacy endpoint temporarily with owner and removal ticket, or
 - create a future account-scoped portal route.
-
-**Decision (2026-05-05): defer (Option A).** Members billing UI does **not** integrate Stripe Customer Portal. There is no call to `POST /api/orders/StripeCustomerPortal` in this codebase. When CMS provides an account-scoped portal endpoint, add a BFF route + `accountApi` method + UI (mirror the checkout pattern) and replace this section.
-
-### Release gate (Customer Portal)
-
-- **Chosen path for this repo:** Option A (defer). No Next BFF route, `accountApi` method, or members CTA for `StripeCustomerPortal`.
-- **Product:** Before each release, confirm portal remains out of scope—or open a ticket for Option B (temporary legacy proxy + removal criterion) and revise the **Decision** paragraph plus code in the same change train.
-- **QA:** See [`staging-qa-checklist.md`](./staging-qa-checklist.md) (portal expectation: no portal entry point).
 
 ## Frontend Done Criteria
 
@@ -246,11 +234,5 @@ Historical options (superseded by decision below):
 - Plan selection uses `GET /billing/available-tiers`.
 - Card checkout uses `POST /billing/checkout`.
 - Invoice request flow uses account-scoped invoice request endpoints.
-- Legacy endpoint usage is removed or documented as temporary (see **Frontend legacy audit** above).
-- **`bill-0606-frontend-readiness-handoff.md`:** see [`../resources/bill-0606-frontend-readiness-handoff.md`](../resources/bill-0606-frontend-readiness-handoff.md) for criteria + stakeholder sign-off table.
-
-## Sign-off (interim)
-
-Use **Frontend Done Criteria** + [`bill-0606-frontend-readiness-handoff.md`](../resources/bill-0606-frontend-readiness-handoff.md) + PR merge as the billing v1 frontend release gate.
-
-**Staging QA:** Complete and attach [`staging-qa-checklist.md`](./staging-qa-checklist.md) (or equivalent) for releases that touch billing.
+- Legacy endpoint usage is removed or documented as temporary.
+- [`bill-0606-frontend-readiness-handoff.md`](../resources/bill-0606-frontend-readiness-handoff.md) — engineering checklist and stakeholder sign-off table.

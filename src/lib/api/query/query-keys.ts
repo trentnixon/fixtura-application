@@ -33,6 +33,8 @@ export const queryKeys = {
       ["account", "billing-available-tiers", accountId] as const,
     billingInvoiceRequests: (accountId: string) =>
       ["account", "billing-invoice-requests", accountId] as const,
+    /** GET /api/accounts/:accountId/billing/orders → Strapi orders-by-account list */
+    billingOrders: (accountId: string) => ["account", "billing-orders", accountId] as const,
     branding: (accountId: string) => ["account", "branding", accountId] as const,
     /** S1 — GET /api/accounts/:accountId/onboarding/setup-status */
     setupStatus: (accountId: string) => ["account", "onboarding-setup-status", accountId] as const,

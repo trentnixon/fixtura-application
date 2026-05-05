@@ -12,6 +12,7 @@ import type {
   TemplateCategoriesForSelectionResponse,
   AccountBillingAvailableTiersResponse,
   AccountBillingInvoiceRequestsResponse,
+  AccountBillingOrdersResponse,
   AccountBillingResponse,
   AccountBrandingResponse,
   AccountMediaLibraryItemResponse,
@@ -70,6 +71,7 @@ import type {
   PostAccountSecurityPasswordResponse,
   PostAccountBillingCheckoutRequest,
   PostAccountBillingInvoiceRequestBody,
+  StartAccountBillingTrialResponse,
 } from "@/types/api/account";
 
 /**
@@ -271,6 +273,18 @@ export const accountApi = {
   ) => {
     const path = `${appRoutes.accounts.billingInvoiceRequests.path}/${encodeURIComponent(accountId)}/billing/invoice-requests`;
     return apiClient.post<CreateInvoiceRequestResponse>(path, body);
+  },
+
+  /** Assign free trial when CMS marks account eligible (`billingStatus=trial_available` + action flag). */
+  postAccountBillingStartTrial: (accountId: string) => {
+    const path = `${appRoutes.accounts.billingStartTrial.path}/${encodeURIComponent(accountId)}/billing/start-trial`;
+    return apiClient.post<StartAccountBillingTrialResponse>(path, {});
+  },
+
+  /** Full order history for the account (BFF → Strapi GET /api/orders/account/:accountId). */
+  getAccountBillingOrders: (accountId: string) => {
+    const path = `${appRoutes.accounts.billingOrders.path}/${encodeURIComponent(accountId)}/billing/orders`;
+    return apiClient.get<AccountBillingOrdersResponse>(path);
   },
 
   /** Phase 3: template, theme, and template_option for branding / preview flows. */

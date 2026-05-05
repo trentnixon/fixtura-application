@@ -2,7 +2,7 @@
  * Query parameters the billing page recognises after Stripe Checkout (success/cancel).
  * Strapi/Stripe should set success_url and cancel_url to this app’s billing route with one of these patterns.
  *
- * @see src/app/(members)/o/[accountId]/billing/.comms/billing-checkout-return-urls.md
+ * @see src/app/(members)/o/[accountId]/billing/.comms/resources/billing-checkout-return-urls.md
  */
 
 export const BILLING_CHECKOUT_RETURN_PARAM = {

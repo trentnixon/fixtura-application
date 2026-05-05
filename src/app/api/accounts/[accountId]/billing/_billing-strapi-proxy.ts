@@ -2,8 +2,11 @@ import { NextResponse } from "next/server";
 
 import { normalizeErrorFieldToString } from "@/lib/api/normalize-error-field";
 
-/** Strapi path after `/api/accounts/:accountId/billing` (no leading slash). */
-export type AccountBillingStrapiSubpath = "available-tiers" | "checkout" | "invoice-requests";
+export type AccountBillingStrapiSubpath =
+  | "available-tiers"
+  | "checkout"
+  | "invoice-requests"
+  | "start-trial";
 
 export function strapiAccountBillingUrl(
   strapiUrl: string,
@@ -22,6 +25,28 @@ export async function forwardAccountBillingToStrapi(
   init: RequestInit,
 ): Promise<Response> {
   return fetch(strapiAccountBillingUrl(strapiUrl, accountId, subpath), {
+    ...init,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: "application/json",
+      ...(init.headers ?? {}),
+    },
+    cache: "no-store",
+  });
+}
+
+/** Strapi custom route: GET /api/orders/account/:accountId (camelCase order rows). */
+export function strapiOrdersByAccountUrl(strapiUrl: string, accountId: string): string {
+  return `${strapiUrl}/api/orders/account/${encodeURIComponent(accountId)}`;
+}
+
+export async function forwardOrdersByAccountToStrapi(
+  strapiUrl: string,
+  accountId: string,
+  token: string,
+  init: RequestInit,
+): Promise<Response> {
+  return fetch(strapiOrdersByAccountUrl(strapiUrl, accountId), {
     ...init,
     headers: {
       Authorization: `Bearer ${token}`,
