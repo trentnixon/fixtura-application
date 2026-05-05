@@ -71,6 +71,7 @@ export const ROUTE_LAB_NAV_SECTIONS: SandboxNavSection[] = [
         href: accountScopedRoutes.notifications("575"),
         label: "Notifications (members 575)",
       },
+      { href: `${ROUTES.routeLab}/o/575/billing`, label: "Billing (lab)" },
       { href: `${ROUTES.routeLab}/app/account`, label: "Account" },
     ],
   },

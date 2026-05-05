@@ -304,6 +304,7 @@ export const appRoutes = {
         "GET append /{accountId}/sponsors — published sponsors for the account (slim DTOs; logo + sponsorship allocations)",
       domain: "account",
     },
+    /** Billing v1 only: do not add client routes for legacy Strapi `/orders` or `/subscription-tiers`; use account billing keys below. */
     billing: {
       key: "accounts.billing",
       method: "GET",
@@ -311,7 +312,36 @@ export const appRoutes = {
       authRequired: true,
       status: "ready",
       description:
-        "GET append /{accountId}/billing — subscription tier, trial, Stripe customers, orders, summary, financial rollups",
+        "GET append /{accountId}/billing — billing v1 summary (`data`: billingStatus, accessStatus, currentPlan, trial, activeOrder, latestInvoiceRequest, availableActions); see billing .comms/frontend-billing-api-contract-handoff.md",
+      domain: "account",
+    },
+    billingAvailableTiers: {
+      key: "accounts.billing-available-tiers",
+      method: "GET",
+      path: ACCOUNTS_API_BASE,
+      authRequired: true,
+      status: "ready",
+      description:
+        "GET append /{accountId}/billing/available-tiers — `{ tiers: AvailableBillingTier[] }` for plan selection",
+      domain: "account",
+    },
+    billingCheckout: {
+      key: "accounts.billing-checkout",
+      method: "POST",
+      path: ACCOUNTS_API_BASE,
+      authRequired: true,
+      status: "ready",
+      description: "POST append /{accountId}/billing/checkout — Start Stripe checkout session",
+      domain: "account",
+    },
+    billingInvoiceRequests: {
+      key: "accounts.billing-invoice-requests",
+      method: "GET",
+      path: ACCOUNTS_API_BASE,
+      authRequired: true,
+      status: "ready",
+      description:
+        "GET + POST append /{accountId}/billing/invoice-requests — list and submit invoice payment requests",
       domain: "account",
     },
     /** W1: PATCH append /{accountId}/onboarding/step-1 — Step 1 organisation + permission. */

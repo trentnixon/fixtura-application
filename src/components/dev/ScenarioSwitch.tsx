@@ -27,7 +27,6 @@ export function ScenarioSwitch({ stateOptions = [], modeOptions = [] }: Scenario
   const rawState = searchParams.get("state");
   const rawMode = searchParams.get("mode");
   const currentState = rawState ?? "default";
-  const currentMode = rawMode ?? "default";
 
   return (
     <div className="flex flex-wrap gap-8 text-sm">
@@ -63,23 +62,30 @@ export function ScenarioSwitch({ stateOptions = [], modeOptions = [] }: Scenario
             mode
           </p>
           <div className="flex flex-wrap gap-2">
-            {modeOptions.map((m) => {
-              const active = m === "default" ? !rawMode : currentMode === m;
-              return (
-                <Link
-                  key={m}
-                  href={buildHref({ mode: m === "default" ? null : m })}
-                  className={cn(
-                    "rounded-md px-3 py-1.5 font-medium transition-colors",
-                    active
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-                  )}
-                >
-                  {m}
-                </Link>
-              );
-            })}
+            {(() => {
+              const firstMode = modeOptions[0];
+              const currentMode = rawMode ?? firstMode ?? "default";
+              return modeOptions.map((m) => {
+                const isFirst = firstMode !== undefined && m === firstMode;
+                const active = isFirst
+                  ? rawMode == null || rawMode === firstMode
+                  : currentMode === m;
+                return (
+                  <Link
+                    key={m}
+                    href={buildHref({ mode: isFirst ? null : m })}
+                    className={cn(
+                      "rounded-md px-3 py-1.5 font-medium transition-colors",
+                      active
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+                    )}
+                  >
+                    {m}
+                  </Link>
+                );
+              });
+            })()}
           </div>
         </div>
       ) : null}

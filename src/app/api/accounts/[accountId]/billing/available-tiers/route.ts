@@ -14,8 +14,8 @@ import { getStrapiUrl } from "@/lib/config/env";
 type RouteContext = { params: Promise<{ accountId: string }> };
 
 /**
- * BFF for GET /api/accounts/:accountId/billing → Strapi consolidated billing payload.
- * @see src/app/(members)/o/[accountId]/billing/.comms/app-handoff-get-account-billing-endpoint.md
+ * BFF for GET /api/accounts/:accountId/billing/available-tiers → Strapi.
+ * @see src/app/(members)/o/[accountId]/billing/.comms/frontend-billing-api-contract-handoff.md
  */
 export async function GET(_request: Request, context: RouteContext) {
   const strapiUrl = getStrapiUrl();
@@ -36,10 +36,15 @@ export async function GET(_request: Request, context: RouteContext) {
   }
 
   try {
-    const strapiRes = await forwardAccountBillingToStrapi(strapiUrl, accountId, token, undefined, {
-      method: "GET",
-    });
-
+    const strapiRes = await forwardAccountBillingToStrapi(
+      strapiUrl,
+      accountId,
+      token,
+      "available-tiers",
+      {
+        method: "GET",
+      },
+    );
     const payload = await jsonFromStrapiResponse(strapiRes);
     return nextResponseFromStrapi(strapiRes, payload);
   } catch (error) {

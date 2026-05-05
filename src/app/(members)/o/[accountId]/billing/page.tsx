@@ -1,3 +1,7 @@
+import { Suspense } from "react";
+
+import { BrandedLoader } from "@/components/ui/branded-loader";
+
 import { BillingContent } from "./billing-content";
 
 export default async function Page({ params }: { params: Promise<{ accountId: string }> }) {
@@ -7,10 +11,13 @@ export default async function Page({ params }: { params: Promise<{ accountId: st
       <div>
         <h1 className="font-brand text-2xl font-semibold capitalize">Billing</h1>
         <p className="text-muted-foreground mt-1">
-          Subscription status, invoices, and payment history for this account (read-only).
+          Subscription and billing status for this organisation from your live account (one request
+          refreshes plan, trial, access, and invoice-request state).
         </p>
       </div>
-      <BillingContent accountId={accountId} />
+      <Suspense fallback={<BrandedLoader label="Loading billing" />}>
+        <BillingContent accountId={accountId} />
+      </Suspense>
     </div>
   );
 }

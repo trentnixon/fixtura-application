@@ -902,7 +902,88 @@ export interface AccountAnalyticsOverviewResponse {
   meta: AccountAnalyticsOverviewMeta;
 }
 
-/** Tier row on GET /api/accounts/:accountId/billing (`image_url` omitted). */
+/** --- Account billing v1 (Strapi handoff: frontend-billing-api-contract-handoff.md) --- */
+
+/** Tier row from GET /accounts/:id/billing/available-tiers. */
+export interface AvailableBillingTier {
+  id: string | number;
+  Name?: string;
+  Title?: string | null;
+  SubTitle?: string | null;
+  description?: string | null;
+  price?: number | null;
+  currency?: string | null;
+  stripe_product_id?: string | null;
+  stripe_price_id?: string | null;
+  isActive?: boolean;
+}
+
+export interface BillingTrialSummaryV1 {
+  id?: number;
+  startDate?: string | null;
+  endDate?: string | null;
+  isActive?: boolean;
+  eligible?: boolean;
+  subscriptionTier?: AvailableBillingTier | null;
+}
+
+export interface InvoiceRequestSummary {
+  invoiceRequestId?: string;
+  id?: string | number;
+  status?: string;
+  submittedAt?: string | null;
+  message?: string | null;
+  subscriptionTierId?: string | null;
+  requestedStartDate?: string | null;
+}
+
+export interface BillingInvoiceAddressRequest {
+  line1: string;
+  line2?: string;
+  city: string;
+  state: string;
+  postcode: string;
+  country: string;
+}
+
+export interface AccountBillingAvailableTiersResponse {
+  tiers: AvailableBillingTier[];
+}
+
+export interface PostAccountBillingCheckoutRequest {
+  subscriptionTierId: string;
+  startDate: string;
+}
+
+export interface CreateCheckoutResponse {
+  checkoutSessionId: string;
+  checkoutUrl?: string;
+  orderId: string;
+}
+
+export interface AccountBillingInvoiceRequestsResponse {
+  invoiceRequests: InvoiceRequestSummary[];
+}
+
+export interface PostAccountBillingInvoiceRequestBody {
+  subscriptionTierId: string;
+  requestedStartDate: string;
+  billingContactName: string;
+  billingEmail: string;
+  billingOrganisationName: string;
+  billingAddress: BillingInvoiceAddressRequest;
+  purchaseOrderNumber?: string;
+  notes?: string;
+}
+
+export interface CreateInvoiceRequestResponse {
+  invoiceRequestId: string;
+  status: "submitted";
+  submittedAt: string;
+  message: string;
+}
+
+/** Tier row on GET /api/accounts/:accountId/billing — legacy consolidated payload / Strapi tier embed (`image_url` omitted). */
 export interface AccountBillingSubscriptionTierDto {
   id: number;
   Name: string;
@@ -962,6 +1043,18 @@ export interface AccountBillingOrderDto {
   subscriptionTier: AccountBillingSubscriptionTierDto | null;
 }
 
+/** GET /api/accounts/:accountId/billing — `data` slice (billing v1). */
+export interface AccountBillingSummaryV1 {
+  billingStatus: string;
+  accessStatus: string;
+  currentPlan: AvailableBillingTier | null;
+  trial: BillingTrialSummaryV1 | null;
+  activeOrder: AccountBillingOrderDto | null;
+  latestInvoiceRequest: InvoiceRequestSummary | null;
+  /** When omitted by the API, treat as `{}`. */
+  availableActions?: Partial<Record<string, boolean>>;
+}
+
 /** Derived current subscription (handoff SummaryDto). */
 export interface AccountBillingSummaryDto {
   status: string;
@@ -990,7 +1083,8 @@ export interface AccountBillingMetaDto {
   orderListMax: number;
 }
 
-export interface AccountBillingPayload {
+/** Legacy consolidated billing payload (pre–billing v1 summary). */
+export interface AccountBillingLegacyPayload {
   subscriptionTier: AccountBillingSubscriptionTierDto | null;
   trial: AccountBillingTrialDto | null;
   customers: AccountBillingCustomerDto[];
@@ -1002,7 +1096,7 @@ export interface AccountBillingPayload {
 
 /** GET /api/accounts/:accountId/billing */
 export interface AccountBillingResponse {
-  data: AccountBillingPayload;
+  data: AccountBillingSummaryV1;
 }
 
 /** POST /api/association-overview-queues/trigger-association-single-scrape */

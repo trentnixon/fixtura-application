@@ -10,6 +10,8 @@ import type {
   AllTemplateOptionsResponse,
   AssetListForSelectionResponse,
   TemplateCategoriesForSelectionResponse,
+  AccountBillingAvailableTiersResponse,
+  AccountBillingInvoiceRequestsResponse,
   AccountBillingResponse,
   AccountBrandingResponse,
   AccountMediaLibraryItemResponse,
@@ -41,6 +43,8 @@ import type {
   UpdateOnboardingStep3Response,
   UploadOnboardingStep2LogoResponse,
   ConfirmOnboardingResponse,
+  CreateCheckoutResponse,
+  CreateInvoiceRequestResponse,
   TriggerAssociationSingleScrapeRequest,
   TriggerAssociationSingleScrapeSuccessResponse,
   TriggerClubSingleScrapeRequest,
@@ -64,6 +68,8 @@ import type {
   PatchAccountSettingsResponse,
   PostAccountSecurityPasswordBody,
   PostAccountSecurityPasswordResponse,
+  PostAccountBillingCheckoutRequest,
+  PostAccountBillingInvoiceRequestBody,
 } from "@/types/api/account";
 
 /**
@@ -234,10 +240,37 @@ export const accountApi = {
     return apiClient.get<AccountSponsorsResponse>(path);
   },
 
-  /** Subscription, orders, and financial rollups for the account (handoff get-account-billing). */
+  /** Billing v1 summary for the account (handoff frontend-billing-api-contract-handoff.md). */
   getAccountBilling: (accountId: string) => {
     const path = `${appRoutes.accounts.billing.path}/${encodeURIComponent(accountId)}/billing`;
     return apiClient.get<AccountBillingResponse>(path);
+  },
+
+  /** Plan rows for billing checkout (filtered per account where possible). */
+  getAccountBillingAvailableTiers: (accountId: string) => {
+    const path = `${appRoutes.accounts.billingAvailableTiers.path}/${encodeURIComponent(accountId)}/billing/available-tiers`;
+    return apiClient.get<AccountBillingAvailableTiersResponse>(path);
+  },
+
+  /** Start Stripe Checkout session for the account. */
+  postAccountBillingCheckout: (accountId: string, body: PostAccountBillingCheckoutRequest) => {
+    const path = `${appRoutes.accounts.billingCheckout.path}/${encodeURIComponent(accountId)}/billing/checkout`;
+    return apiClient.post<CreateCheckoutResponse>(path, body);
+  },
+
+  /** Invoice payment request history for the account. */
+  getAccountBillingInvoiceRequests: (accountId: string) => {
+    const path = `${appRoutes.accounts.billingInvoiceRequests.path}/${encodeURIComponent(accountId)}/billing/invoice-requests`;
+    return apiClient.get<AccountBillingInvoiceRequestsResponse>(path);
+  },
+
+  /** Submit an invoice payment request for the account. */
+  postAccountBillingInvoiceRequest: (
+    accountId: string,
+    body: PostAccountBillingInvoiceRequestBody,
+  ) => {
+    const path = `${appRoutes.accounts.billingInvoiceRequests.path}/${encodeURIComponent(accountId)}/billing/invoice-requests`;
+    return apiClient.post<CreateInvoiceRequestResponse>(path, body);
   },
 
   /** Phase 3: template, theme, and template_option for branding / preview flows. */

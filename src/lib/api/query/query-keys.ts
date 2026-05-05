@@ -29,6 +29,10 @@ export const queryKeys = {
       ["account", "media-library", accountId, mediaId] as const,
     sponsors: (accountId: string) => ["account", "sponsors", accountId] as const,
     billing: (accountId: string) => ["account", "billing", accountId] as const,
+    billingAvailableTiers: (accountId: string) =>
+      ["account", "billing-available-tiers", accountId] as const,
+    billingInvoiceRequests: (accountId: string) =>
+      ["account", "billing-invoice-requests", accountId] as const,
     branding: (accountId: string) => ["account", "branding", accountId] as const,
     /** S1 — GET /api/accounts/:accountId/onboarding/setup-status */
     setupStatus: (accountId: string) => ["account", "onboarding-setup-status", accountId] as const,
