@@ -4,10 +4,10 @@ import { OrdersTableRow } from "./OrdersTableRow";
 import {
   ORDERS_TABLE_SECTION_MIN_WIDTH_PX,
   ordersTableSectionCopy,
-} from "../../_constants/ordersTableSection";
-import { getOrdersTableRowKey } from "../../_utils/ordersTableSectionTableUtils";
+} from "../../_constants/orders/ordersTableSection";
+import { getOrdersTableRowKey } from "../../_utils/orders/ordersTableSectionTableUtils";
 
-import type { OrdersTableProps } from "../../_types/ordersTableSection";
+import type { OrdersTableProps } from "../../_types/orders/ordersTableSection";
 
 export function OrdersTable({ orders, activeOrder }: OrdersTableProps) {
   return (

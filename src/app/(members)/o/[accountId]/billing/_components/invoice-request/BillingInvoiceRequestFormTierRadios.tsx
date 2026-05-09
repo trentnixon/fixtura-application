@@ -1,12 +1,14 @@
+import { TypographyBodySmall } from "@/components/typography";
+
 import { BillingInvoiceRequestFormTierRadioOption } from "./BillingInvoiceRequestFormTierRadioOption";
 import {
   billingInvoiceRequestFormCopy,
   billingInvoiceRequestTierEmptyStatusClass,
   billingInvoiceRequestTierRadiogroupClass,
-} from "../../_constants/billingInvoiceRequest";
-import { billingInvoiceTierKey } from "../../_utils/billingInvoiceRequest";
+} from "../../_constants/invoice-request/billingInvoiceRequest";
+import { billingInvoiceTierKey } from "../../_utils/invoice-request/billingInvoiceRequest";
 
-import type { BillingInvoiceRequestFormTierRadiosProps } from "../../_types/billingInvoiceRequest";
+import type { BillingInvoiceRequestFormTierRadiosProps } from "../../_types/invoice-request/billingInvoiceRequest";
 
 export function BillingInvoiceRequestFormTierRadios({
   tiers,
@@ -17,9 +19,9 @@ export function BillingInvoiceRequestFormTierRadios({
 
   if (tiers.length === 0) {
     return (
-      <p className={billingInvoiceRequestTierEmptyStatusClass} role="status">
+      <TypographyBodySmall className={billingInvoiceRequestTierEmptyStatusClass} role="status">
         {copy.noPlansAvailable}
-      </p>
+      </TypographyBodySmall>
     );
   }
 

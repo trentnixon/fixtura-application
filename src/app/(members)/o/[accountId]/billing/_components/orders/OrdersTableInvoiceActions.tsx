@@ -1,15 +1,18 @@
+import { TypographyDataLabel } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 
-import { ordersTableSectionCopy } from "../../_constants/ordersTableSection";
+import { ordersTableSectionCopy } from "../../_constants/orders/ordersTableSection";
 
-import type { OrdersTableInvoiceActionsProps } from "../../_types/ordersTableSection";
+import type { OrdersTableInvoiceActionsProps } from "../../_types/orders/ordersTableSection";
 
 export function OrdersTableInvoiceActions({
   hostedInvoiceUrl,
   invoicePdfUrl,
 }: OrdersTableInvoiceActionsProps) {
   if (!hostedInvoiceUrl && !invoicePdfUrl) {
-    return <span className="text-muted-foreground">{ordersTableSectionCopy.missingName}</span>;
+    return (
+      <TypographyDataLabel as="span">{ordersTableSectionCopy.missingName}</TypographyDataLabel>
+    );
   }
 
   return (

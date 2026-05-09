@@ -1,3 +1,8 @@
+import {
+  TypographyBodySmall,
+  TypographyCaption,
+  TypographyDataValue,
+} from "@/components/typography";
 import { cn } from "@/lib/utils";
 
 import {
@@ -5,14 +10,14 @@ import {
   billingInvoiceRequestTierRadioButtonBaseClass,
   billingInvoiceRequestTierRadioButtonSelectedClass,
   billingInvoiceRequestTierRadioTextClass,
-} from "../../_constants/billingInvoiceRequest";
+} from "../../_constants/invoice-request/billingInvoiceRequest";
 import {
   billingInvoiceTierKey,
   formatBillingInvoiceTierMoney,
   truncateBillingInvoiceDescription,
-} from "../../_utils/billingInvoiceRequest";
+} from "../../_utils/invoice-request/billingInvoiceRequest";
 
-import type { BillingInvoiceRequestFormTierRadioOptionProps } from "../../_types/billingInvoiceRequest";
+import type { BillingInvoiceRequestFormTierRadioOptionProps } from "../../_types/invoice-request/billingInvoiceRequest";
 
 export function BillingInvoiceRequestFormTierRadioOption({
   tier,
@@ -34,16 +39,20 @@ export function BillingInvoiceRequestFormTierRadioOption({
         selected && billingInvoiceRequestTierRadioButtonSelectedClass,
       )}
     >
-      <p className={tc.primary}>{primaryLabel}</p>
+      <TypographyBodySmall as="span" className={tc.primary}>
+        {primaryLabel}
+      </TypographyBodySmall>
       {tier.description ? (
-        <p className={tc.description}>
+        <TypographyCaption as="span" className={tc.description}>
           {truncateBillingInvoiceDescription(
             tier.description,
             BILLING_INVOICE_REQUEST_TIER_DESCRIPTION_MAX,
           )}
-        </p>
+        </TypographyCaption>
       ) : null}
-      <p className={tc.price}>{formatBillingInvoiceTierMoney(tier.price, tier.currency)}</p>
+      <TypographyDataValue as="span" className={tc.price}>
+        {formatBillingInvoiceTierMoney(tier.price, tier.currency)}
+      </TypographyDataValue>
     </button>
   );
 }

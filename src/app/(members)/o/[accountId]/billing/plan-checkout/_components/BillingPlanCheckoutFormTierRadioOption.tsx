@@ -1,3 +1,8 @@
+import {
+  TypographyBodySmall,
+  TypographyCaption,
+  TypographyDataValue,
+} from "@/components/typography";
 import { cn } from "@/lib/utils";
 
 import {
@@ -34,16 +39,20 @@ export function BillingPlanCheckoutFormTierRadioOption({
         selected && billingPlanCheckoutTierRadioButtonSelectedClass,
       )}
     >
-      <p className={tc.primary}>{primaryLabel}</p>
+      <TypographyBodySmall as="span" className={tc.primary}>
+        {primaryLabel}
+      </TypographyBodySmall>
       {tier.description ? (
-        <p className={tc.description}>
+        <TypographyCaption as="span" className={tc.description}>
           {truncateBillingPlanCheckoutDescription(
             tier.description,
             BILLING_PLAN_CHECKOUT_TIER_DESCRIPTION_MAX,
           )}
-        </p>
+        </TypographyCaption>
       ) : null}
-      <p className={tc.price}>{formatBillingPlanCheckoutMoney(tier.price, tier.currency)}</p>
+      <TypographyDataValue as="span" className={tc.price}>
+        {formatBillingPlanCheckoutMoney(tier.price, tier.currency)}
+      </TypographyDataValue>
     </button>
   );
 }

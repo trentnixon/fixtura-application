@@ -36,4 +36,4 @@ Restore correct tier rendering after CMS contract change; ship improved plan sel
 
 - Rewrote `AvailableBillingTier` and added `SubscriptionTierCategory` in `src/types/api/account.ts`; linked main billing handoff to `frontend-handoff-billing-available-tiers.md`.
 - Migrated tier UI reads to `name`/v1 fields across wizard, plan-checkout and invoice tier radios, current plan card, and trial tier label helper; fixed billing state test fixtures.
-- Introduced `PlanTierCard`, `_utils/planTierCard.ts`, category toggle when multiple tiers categories exist, and replaced wizard step 1 list with responsive card grid.
+- Introduced `PlanTierCard`, `_utils/create-subscription/planTierCard.ts`, category toggle when multiple tiers categories exist, and replaced wizard step 1 list with responsive card grid.

@@ -1,16 +1,24 @@
+import {
+  TypographyCaption,
+  TypographyCardDescription,
+  TypographyCardTitle,
+  TypographyDataLabel,
+  TypographyDataValue,
+  TypographyMuted,
+} from "@/components/typography";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
-import { BILLING_TRIAL_DETAILS_COPY } from "../../_constants/billingTrialDetails";
-import { buildActiveTrialStatusCardViewModel } from "../../_utils/billingOverviewStatusCards";
+import { BILLING_TRIAL_DETAILS_COPY } from "../../_constants/trial/billingTrialDetails";
+import { buildActiveTrialStatusCardViewModel } from "../../_utils/overview/billingOverviewStatusCards";
+import { formatBillingDateLong } from "../../_utils/overview/formatBillingDisplay";
 import {
   billingTrialDetailsBadgeLabel,
   billingTrialDetailsBadgeVariant,
   formatTrialDaysRemainingLine,
-} from "../../_utils/billingTrialDetails";
-import { formatBillingDateLong } from "../../_utils/formatBillingDisplay";
+} from "../../_utils/trial/billingTrialDetails";
 
-import type { BillingActiveTrialStatusCardProps } from "../../_types/billingSections";
+import type { BillingActiveTrialStatusCardProps } from "../../_types/overview/billingSections";
 
 export function BillingActiveTrialStatusCard({ trial }: BillingActiveTrialStatusCardProps) {
   const uiMode = "active_trial" as const;
@@ -21,18 +29,20 @@ export function BillingActiveTrialStatusCard({ trial }: BillingActiveTrialStatus
       <div className="from-primary via-brand-secondary to-brand-accent h-2 w-full bg-linear-to-r" />
       <CardHeader>
         <div className="flex flex-wrap items-center gap-2">
-          <CardTitle className="font-brand text-lg">Billing status</CardTitle>
+          <TypographyCardTitle className="font-brand">Billing status</TypographyCardTitle>
           <Badge variant={billingTrialDetailsBadgeVariant(uiMode)}>
             {billingTrialDetailsBadgeLabel(uiMode)}
           </Badge>
         </div>
-        <CardDescription>Your organisation is on an active trial.</CardDescription>
+        <TypographyCardDescription>
+          Your organisation is on an active trial.
+        </TypographyCardDescription>
       </CardHeader>
       <CardContent className="grid gap-4 text-sm">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-muted-foreground text-sm font-medium">
+          <TypographyDataLabel as="span" className="font-medium">
             {BILLING_TRIAL_DETAILS_COPY.assetProcessEnabledLabel}
-          </span>
+          </TypographyDataLabel>
           <Badge
             variant="secondary"
             className="bg-success-600 hover:bg-success-600/90 border-transparent text-white"
@@ -43,19 +53,27 @@ export function BillingActiveTrialStatusCard({ trial }: BillingActiveTrialStatus
 
         {trial ? (
           <div className="border-border border-t pt-3">
-            {tierLabel ? <p className="text-foreground mb-3 font-medium">{tierLabel}</p> : null}
+            {tierLabel ? (
+              <TypographyDataValue as="p" className="mb-3">
+                {tierLabel}
+              </TypographyDataValue>
+            ) : null}
             <dl className="text-muted-foreground grid gap-3 sm:grid-cols-2">
               <div>
-                <dt className="text-foreground text-xs font-medium">
+                <TypographyDataLabel as="dt" className="text-foreground font-medium">
                   {BILLING_TRIAL_DETAILS_COPY.trialStartsLabel}
-                </dt>
-                <dd className="mt-1 tabular-nums">{formatBillingDateLong(trial.startDate)}</dd>
+                </TypographyDataLabel>
+                <TypographyDataValue as="dd" className="mt-1">
+                  {formatBillingDateLong(trial.startDate)}
+                </TypographyDataValue>
               </div>
               <div>
-                <dt className="text-foreground text-xs font-medium">
+                <TypographyDataLabel as="dt" className="text-foreground font-medium">
                   {BILLING_TRIAL_DETAILS_COPY.trialEndsLabel}
-                </dt>
-                <dd className="mt-1 tabular-nums">{formatBillingDateLong(trial.endDate)}</dd>
+                </TypographyDataLabel>
+                <TypographyDataValue as="dd" className="mt-1">
+                  {formatBillingDateLong(trial.endDate)}
+                </TypographyDataValue>
               </div>
             </dl>
             {remainingPercent != null ? (
@@ -76,16 +94,16 @@ export function BillingActiveTrialStatusCard({ trial }: BillingActiveTrialStatus
               </div>
             ) : null}
             {daysRemaining != null ? (
-              <p className="text-muted-foreground mt-3 text-sm">
+              <TypographyMuted className="mt-3">
                 {formatTrialDaysRemainingLine(daysRemaining)}
-              </p>
+              </TypographyMuted>
             ) : null}
           </div>
         ) : (
-          <p className="text-muted-foreground text-xs" role="status">
+          <TypographyCaption role="status">
             Trial dates were not returned in this summary; access may still be on trial based on
             billing codes.
-          </p>
+          </TypographyCaption>
         )}
       </CardContent>
     </Card>

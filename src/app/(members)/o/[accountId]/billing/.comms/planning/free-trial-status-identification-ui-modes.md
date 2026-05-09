@@ -371,7 +371,7 @@ Suggested button copy:
 
 Update:
 
-`src/app/(members)/o/[accountId]/billing/billing-content.tsx`
+`src/app/(members)/o/[accountId]/billing/overview/_components/BillingContent.tsx`
 
 Use:
 
@@ -476,7 +476,7 @@ Run:
 
 ```powershell
 npm run typecheck
-npx eslint 'src/app/(members)/o/[accountId]/billing/billing-content.tsx' 'src/app/(members)/o/[accountId]/billing/billing-trial-start-card.tsx' 'src/app/(members)/o/[accountId]/billing/billing-ui-mode.ts' 'src/lib/api/hooks/account/usePostAccountBillingStartTrial.ts'
+npx eslint 'src/app/(members)/o/[accountId]/billing/overview/_components/BillingContent.tsx' 'src/app/(members)/o/[accountId]/billing/billing-trial-start-card.tsx' 'src/app/(members)/o/[accountId]/billing/billing-ui-mode.ts' 'src/lib/api/hooks/account/usePostAccountBillingStartTrial.ts'
 ```
 
 Manual staging checks:

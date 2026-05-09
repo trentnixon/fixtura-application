@@ -1,3 +1,5 @@
+import { TypographyBodySmall } from "@/components/typography";
+
 import { BillingPlanCheckoutFormTierRadioOption } from "./BillingPlanCheckoutFormTierRadioOption";
 import {
   billingPlanCheckoutFormCopy,
@@ -17,9 +19,9 @@ export function BillingPlanCheckoutFormTierRadios({
 
   if (tiers.length === 0) {
     return (
-      <p className={billingPlanCheckoutTierEmptyStatusClass} role="status">
+      <TypographyBodySmall className={billingPlanCheckoutTierEmptyStatusClass} role="status">
         {copy.noPlansAvailable}
-      </p>
+      </TypographyBodySmall>
     );
   }
 

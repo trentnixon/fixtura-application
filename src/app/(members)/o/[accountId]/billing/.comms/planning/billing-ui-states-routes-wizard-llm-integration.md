@@ -124,7 +124,7 @@ This precedence intentionally resolves mixed signals:
 - Paid entitlement beats free-trial eligibility.
 - Trial active is shown only after paid and free-trial-start cases are ruled out.
 
-If product wants a different precedence, change `billing-state.ts`, update `_utils/billing-state.test.ts`, then update this document.
+If product wants a different precedence, change `billing-state.ts`, update `_utils/overview/billing-state.test.ts`, then update this document.
 
 ## Invoice request interaction
 
@@ -503,7 +503,7 @@ Mutations:
 
 Tests:
 
-- Extend `_utils/billing-state.test.ts` for the product four-state groupings.
+- Extend `_utils/overview/billing-state.test.ts` for the product four-state groupings.
 - Cover mixed-signal precedence: trial eligible + incomplete checkout, pending invoice + trial available, paid active + stale trial data.
 - Cover normalised checkout statuses, including `inComplete`/`incomplete`.
 - Cover inactive trial + inactive order mapping to create subscription grouping.

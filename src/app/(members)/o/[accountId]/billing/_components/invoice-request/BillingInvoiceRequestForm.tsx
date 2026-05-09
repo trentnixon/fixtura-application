@@ -1,5 +1,11 @@
+import {
+  TypographyCaption,
+  TypographyDataLabel,
+  TypographyErrorText,
+  TypographyLabel,
+  TypographySuccessText,
+} from "@/components/typography";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 
 import { BillingInvoiceRequestFormTierRadios } from "./BillingInvoiceRequestFormTierRadios";
 import {
@@ -7,10 +13,10 @@ import {
   billingInvoiceRequestFormIds,
   billingInvoiceRequestInputClass,
   billingInvoiceRequestTextareaClass,
-} from "../../_constants/billingInvoiceRequest";
-import { localBillingInvoiceDatetimeInputMin } from "../../_utils/billingInvoiceRequest";
+} from "../../_constants/invoice-request/billingInvoiceRequest";
+import { localBillingInvoiceDatetimeInputMin } from "../../_utils/invoice-request/billingInvoiceRequest";
 
-import type { BillingInvoiceRequestFormProps } from "../../_types/billingInvoiceRequest";
+import type { BillingInvoiceRequestFormProps } from "../../_types/invoice-request/billingInvoiceRequest";
 
 export function BillingInvoiceRequestForm({
   tiers,
@@ -39,9 +45,9 @@ export function BillingInvoiceRequestForm({
   return (
     <>
       {submitSuccessMessage ? (
-        <p className="text-muted-foreground text-sm" role="status">
+        <TypographySuccessText role="status" tone="muted">
           {submitSuccessMessage}
-        </p>
+        </TypographySuccessText>
       ) : null}
 
       <BillingInvoiceRequestFormTierRadios
@@ -51,10 +57,12 @@ export function BillingInvoiceRequestForm({
       />
 
       <div className="grid max-w-md gap-2">
-        <Label htmlFor={ids.requestedStart}>
+        <TypographyLabel htmlFor={ids.requestedStart}>
           {startCopy.label}{" "}
-          <span className="text-muted-foreground font-normal">{startCopy.hintLocalUtc}</span>
-        </Label>
+          <TypographyDataLabel as="span" className="font-normal">
+            {startCopy.hintLocalUtc}
+          </TypographyDataLabel>
+        </TypographyLabel>
         <input
           id={ids.requestedStart}
           type="datetime-local"
@@ -63,12 +71,12 @@ export function BillingInvoiceRequestForm({
           onChange={(ev) => onRequestedStartLocalChange(ev.target.value)}
           className={billingInvoiceRequestInputClass}
         />
-        <p className="text-muted-foreground text-xs">{startCopy.help}</p>
+        <TypographyCaption>{startCopy.help}</TypographyCaption>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
         <div className="grid gap-2">
-          <Label htmlFor={ids.contactName}>{copy.billingContactName}</Label>
+          <TypographyLabel htmlFor={ids.contactName}>{copy.billingContactName}</TypographyLabel>
           <input
             id={ids.contactName}
             type="text"
@@ -79,7 +87,7 @@ export function BillingInvoiceRequestForm({
           />
         </div>
         <div className="grid gap-2">
-          <Label htmlFor={ids.billingEmail}>{copy.billingEmail}</Label>
+          <TypographyLabel htmlFor={ids.billingEmail}>{copy.billingEmail}</TypographyLabel>
           <input
             id={ids.billingEmail}
             type="email"
@@ -92,7 +100,7 @@ export function BillingInvoiceRequestForm({
       </div>
 
       <div className="grid gap-2">
-        <Label htmlFor={ids.organisationName}>{copy.organisationName}</Label>
+        <TypographyLabel htmlFor={ids.organisationName}>{copy.organisationName}</TypographyLabel>
         <input
           id={ids.organisationName}
           type="text"
@@ -104,7 +112,7 @@ export function BillingInvoiceRequestForm({
       </div>
 
       <div className="grid gap-2">
-        <Label htmlFor={ids.notes}>{copy.notesOptional}</Label>
+        <TypographyLabel htmlFor={ids.notes}>{copy.notesOptional}</TypographyLabel>
         <textarea
           id={ids.notes}
           value={notes}
@@ -113,11 +121,7 @@ export function BillingInvoiceRequestForm({
         />
       </div>
 
-      {submitError ? (
-        <p className="text-destructive text-sm" role="alert">
-          {submitError}
-        </p>
-      ) : null}
+      {submitError ? <TypographyErrorText role="alert">{submitError}</TypographyErrorText> : null}
 
       <div>
         <Button type="button" disabled={!canSubmit} onClick={() => void onSubmit()}>

@@ -1,9 +1,14 @@
 "use client";
 
+import {
+  TypographyCardDescription,
+  TypographyCardTitle,
+  TypographyErrorText,
+} from "@/components/typography";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
-import type { BillingAvailableTiersErrorCardProps } from "../../_types/billingAvailableTiersUi";
+import type { BillingAvailableTiersErrorCardProps } from "../../_types/available-tiers/billingAvailableTiersUi";
 
 export function BillingAvailableTiersErrorCard({
   title,
@@ -14,13 +19,11 @@ export function BillingAvailableTiersErrorCard({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="font-brand text-lg">{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
+        <TypographyCardTitle className="font-brand">{title}</TypographyCardTitle>
+        <TypographyCardDescription>{description}</TypographyCardDescription>
       </CardHeader>
       <CardContent>
-        <p className="text-destructive text-sm" role="alert">
-          {errorMessage}
-        </p>
+        <TypographyErrorText role="alert">{errorMessage}</TypographyErrorText>
         <Button type="button" variant="outline" className="mt-3" onClick={() => void onRetry()}>
           Try again
         </Button>

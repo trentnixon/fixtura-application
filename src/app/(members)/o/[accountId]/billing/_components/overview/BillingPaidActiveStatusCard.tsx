@@ -1,17 +1,25 @@
+import {
+  TypographyCaption,
+  TypographyCardDescription,
+  TypographyCardTitle,
+  TypographyDataLabel,
+  TypographyDataValue,
+  TypographyMuted,
+} from "@/components/typography";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
-import { BILLING_PAID_ACTIVE_STATUS_COPY } from "../../_constants/billingPaidActiveStatus";
-import { BILLING_TRIAL_DETAILS_COPY } from "../../_constants/billingTrialDetails";
-import { buildPaidActiveStatusCardViewModel } from "../../_utils/billingOverviewStatusCards";
+import { BILLING_PAID_ACTIVE_STATUS_COPY } from "../../_constants/overview/billingPaidActiveStatus";
+import { BILLING_TRIAL_DETAILS_COPY } from "../../_constants/trial/billingTrialDetails";
+import { buildPaidActiveStatusCardViewModel } from "../../_utils/overview/billingOverviewStatusCards";
+import { formatBillingDateLong } from "../../_utils/overview/formatBillingDisplay";
 import {
   billingTrialDetailsBadgeLabel,
   billingTrialDetailsBadgeVariant,
   formatPaidPeriodDaysRemainingLine,
-} from "../../_utils/billingTrialDetails";
-import { formatBillingDateLong } from "../../_utils/formatBillingDisplay";
+} from "../../_utils/trial/billingTrialDetails";
 
-import type { BillingPaidActiveStatusCardProps } from "../../_types/billingSections";
+import type { BillingPaidActiveStatusCardProps } from "../../_types/overview/billingSections";
 
 export function BillingPaidActiveStatusCard({
   activeOrder,
@@ -27,18 +35,20 @@ export function BillingPaidActiveStatusCard({
       <div className="from-primary via-brand-secondary to-brand-accent h-2 w-full bg-linear-to-r" />
       <CardHeader>
         <div className="flex flex-wrap items-center gap-2">
-          <CardTitle className="font-brand text-lg">Billing status</CardTitle>
+          <TypographyCardTitle className="font-brand">Billing status</TypographyCardTitle>
           <Badge variant={billingTrialDetailsBadgeVariant(uiMode)}>
             {billingTrialDetailsBadgeLabel(uiMode)}
           </Badge>
         </div>
-        <CardDescription>{BILLING_PAID_ACTIVE_STATUS_COPY.cardDescription}</CardDescription>
+        <TypographyCardDescription>
+          {BILLING_PAID_ACTIVE_STATUS_COPY.cardDescription}
+        </TypographyCardDescription>
       </CardHeader>
       <CardContent className="grid gap-4 text-sm">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-muted-foreground text-sm font-medium">
+          <TypographyDataLabel as="span" className="font-medium">
             {BILLING_TRIAL_DETAILS_COPY.assetProcessEnabledLabel}
-          </span>
+          </TypographyDataLabel>
           <Badge
             variant="secondary"
             className="bg-success-600 hover:bg-success-600/90 border-transparent text-white"
@@ -49,19 +59,27 @@ export function BillingPaidActiveStatusCard({
 
         {hasPeriodBounds && startAt && endAt ? (
           <div className="border-border border-t pt-3">
-            {tierLabel ? <p className="text-foreground mb-3 font-medium">{tierLabel}</p> : null}
+            {tierLabel ? (
+              <TypographyDataValue as="p" className="mb-3">
+                {tierLabel}
+              </TypographyDataValue>
+            ) : null}
             <dl className="text-muted-foreground grid gap-3 sm:grid-cols-2">
               <div>
-                <dt className="text-foreground text-xs font-medium">
+                <TypographyDataLabel as="dt" className="text-foreground font-medium">
                   {BILLING_PAID_ACTIVE_STATUS_COPY.periodStartedLabel}
-                </dt>
-                <dd className="mt-1 tabular-nums">{formatBillingDateLong(startAt)}</dd>
+                </TypographyDataLabel>
+                <TypographyDataValue as="dd" className="mt-1">
+                  {formatBillingDateLong(startAt)}
+                </TypographyDataValue>
               </div>
               <div>
-                <dt className="text-foreground text-xs font-medium">
+                <TypographyDataLabel as="dt" className="text-foreground font-medium">
                   {BILLING_PAID_ACTIVE_STATUS_COPY.periodEndsLabel}
-                </dt>
-                <dd className="mt-1 tabular-nums">{formatBillingDateLong(endAt)}</dd>
+                </TypographyDataLabel>
+                <TypographyDataValue as="dd" className="mt-1">
+                  {formatBillingDateLong(endAt)}
+                </TypographyDataValue>
               </div>
             </dl>
             {remainingPercent != null ? (
@@ -82,17 +100,21 @@ export function BillingPaidActiveStatusCard({
               </div>
             ) : null}
             {daysRemaining != null ? (
-              <p className="text-muted-foreground mt-3 text-sm">
+              <TypographyMuted className="mt-3">
                 {formatPaidPeriodDaysRemainingLine(daysRemaining)}
-              </p>
+              </TypographyMuted>
             ) : null}
           </div>
         ) : (
           <div className="border-border border-t pt-3">
-            {tierLabel ? <p className="text-foreground mb-3 font-medium">{tierLabel}</p> : null}
-            <p className="text-muted-foreground text-xs" role="status">
+            {tierLabel ? (
+              <TypographyDataValue as="p" className="mb-3">
+                {tierLabel}
+              </TypographyDataValue>
+            ) : null}
+            <TypographyCaption role="status">
               {BILLING_PAID_ACTIVE_STATUS_COPY.noOrderDates}
-            </p>
+            </TypographyCaption>
           </div>
         )}
       </CardContent>

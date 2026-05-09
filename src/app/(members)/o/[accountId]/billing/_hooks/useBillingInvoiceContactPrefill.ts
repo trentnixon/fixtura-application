@@ -6,7 +6,7 @@ import {
   useAccountOrganisationContext,
 } from "@/lib/api/hooks/account/useAccountOrganisationContext";
 
-import { getBillingInvoicePrefillValues } from "../_utils/billingInvoiceRequestPrefill";
+import { getBillingInvoicePrefillValues } from "../_utils/invoice-request/billingInvoiceRequestPrefill";
 
 type StringSetter = Dispatch<SetStateAction<string>>;
 

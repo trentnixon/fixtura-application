@@ -5,7 +5,7 @@ import {
   BillingDebugPanelRow,
   BillingDebugPanelSectionTitle,
 } from "../_components/debug/BillingDebugPanelRows";
-import { BILLING_DEBUG_PANEL_SHELL_CLASS } from "../_constants/billingDebugPanel";
+import { BILLING_DEBUG_PANEL_SHELL_CLASS } from "../_constants/debug/billingDebugPanel";
 import { useBillingDevToolsVisible } from "../_hooks/useBillingDebugPanel";
 
 import type { SubscriptionTierCategory } from "@/types/api/account";

@@ -1,4 +1,4 @@
-import { formatMoney } from "../../../_utils/formatBillingDisplay";
+import { formatMoney } from "../../../_utils/overview/formatBillingDisplay";
 import {
   PLAN_TIER_CARD_DESCRIPTION_MAX_LENGTH,
   PLAN_TIER_CARD_LABELS,

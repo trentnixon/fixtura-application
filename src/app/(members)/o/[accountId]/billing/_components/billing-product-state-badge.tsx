@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
 import { useBillingProductStateSnapshot } from "../_hooks/useBillingProductStateSnapshot";
-import { billingProductStateBadgeSurfaceClass } from "../_utils/billingProductStateDisplay";
+import { billingProductStateBadgeSurfaceClass } from "../_utils/overview/billingProductStateDisplay";
 
 type BillingProductStateBadgeProps = {
   accountId: string;

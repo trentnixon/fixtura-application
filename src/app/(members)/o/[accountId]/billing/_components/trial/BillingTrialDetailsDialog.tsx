@@ -10,10 +10,10 @@ import {
 } from "@/components/ui/dialog";
 
 import { TrialDetailsBody } from "./TrialDetailsBody";
-import { BILLING_TRIAL_DETAILS_COPY } from "../../_constants/billingTrialDetails";
-import { billingTrialDetailsButtonLabel } from "../../_utils/billingTrialDetails";
+import { BILLING_TRIAL_DETAILS_COPY } from "../../_constants/trial/billingTrialDetails";
+import { billingTrialDetailsButtonLabel } from "../../_utils/trial/billingTrialDetails";
 
-import type { BillingTrialDetailsDialogProps } from "../../_types/billingTrialDetails";
+import type { BillingTrialDetailsDialogProps } from "../../_types/trial/billingTrialDetails";
 
 export function BillingTrialDetailsDialog({
   trial,

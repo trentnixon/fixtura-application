@@ -2,19 +2,25 @@
 
 import Link from "next/link";
 
+import {
+  TypographyCardDescription,
+  TypographyCardTitle,
+  TypographyErrorText,
+  TypographyEyebrow,
+} from "@/components/typography";
 import { Button } from "@/components/ui/button";
-import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardHeader } from "@/components/ui/card";
 
-import { BILLING_SUPPORT_EMAIL } from "../../_constants/billingSupport";
+import { BILLING_SUPPORT_EMAIL } from "../../_constants/support/billingSupport";
 import { useBillingPaymentPendingBannerActions } from "../../_hooks/useBillingPaymentPendingBannerActions";
+import { resolveWithdrawableInvoiceRequestId } from "../../_utils/invoice-request/resolveWithdrawableInvoiceRequestId";
 import {
   isInvoiceIssuedCheckout,
   paymentPendingBannerCopy,
-} from "../../_utils/billingPaymentPending";
-import { resolveDeletablePendingOrderId } from "../../_utils/resolveDeletablePendingOrderId";
-import { resolveWithdrawableInvoiceRequestId } from "../../_utils/resolveWithdrawableInvoiceRequestId";
+} from "../../_utils/payment-pending/billingPaymentPending";
+import { resolveDeletablePendingOrderId } from "../../_utils/payment-pending/resolveDeletablePendingOrderId";
 
-import type { BillingPaymentPendingBannerProps } from "../../_types/billingPaymentPendingBanner";
+import type { BillingPaymentPendingBannerProps } from "../../_types/overview/billingPaymentPendingBanner";
 
 /**
  * Top-of-page hero for `billingUiMode === "payment_pending"`: invoice request in flight or checkout/payment incomplete.
@@ -56,11 +62,11 @@ export function BillingPaymentPendingBanner({
       <div className="flex flex-col md:flex-row">
         <div className="flex-1">
           <CardHeader>
-            <p className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
-              {eyebrow}
-            </p>
-            <CardTitle className="text-primary font-brand mt-2 text-xl">{title}</CardTitle>
-            <CardDescription>{body}</CardDescription>
+            <TypographyEyebrow>{eyebrow}</TypographyEyebrow>
+            <TypographyCardTitle className="text-primary font-brand mt-2">
+              {title}
+            </TypographyCardTitle>
+            <TypographyCardDescription>{body}</TypographyCardDescription>
           </CardHeader>
         </div>
         <div className="bg-muted/30 flex w-full flex-col justify-center gap-3 border-t p-6 md:w-64 md:border-t-0 md:border-l">
@@ -115,19 +121,19 @@ export function BillingPaymentPendingBanner({
             <a href={`mailto:${BILLING_SUPPORT_EMAIL}`}>Email support</a>
           </Button>
           {withdrawInvoiceError ? (
-            <p className="text-destructive text-xs" role="alert">
+            <TypographyErrorText className="text-xs" role="alert">
               {withdrawInvoiceError}
-            </p>
+            </TypographyErrorText>
           ) : null}
           {discardError ? (
-            <p className="text-destructive text-xs" role="alert">
+            <TypographyErrorText className="text-xs" role="alert">
               {discardError}
-            </p>
+            </TypographyErrorText>
           ) : null}
           {resumeError ? (
-            <p className="text-destructive text-xs" role="alert">
+            <TypographyErrorText className="text-xs" role="alert">
               {resumeError}
-            </p>
+            </TypographyErrorText>
           ) : null}
         </div>
       </div>

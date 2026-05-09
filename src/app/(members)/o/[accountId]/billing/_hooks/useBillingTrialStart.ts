@@ -2,12 +2,12 @@ import { useMemo, useState } from "react";
 
 import { usePostAccountBillingStartTrial } from "@/lib/api/hooks/account/usePostAccountBillingStartTrial";
 
+import { canStartTrial } from "../_core/billing-state";
 import {
   getBillingTrialScheduleLabelsForStartToday,
   messageFromBillingTrialStartFailure,
   parseBillingTrialStartResponseMessage,
-} from "../_utils/billingTrialStart";
-import { canStartTrial } from "../core/billing-state";
+} from "../_utils/trial/billingTrialStart";
 
 export function useBillingTrialStart(
   accountId: string,

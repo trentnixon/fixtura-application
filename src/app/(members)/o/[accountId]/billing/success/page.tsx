@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 
 import { accountScopedRoutes } from "@/lib/config/account-routes";
 
-import { BILLING_CHECKOUT_RETURN_PARAM } from "../_constants/billingCheckoutReturnParams";
+import { BILLING_CHECKOUT_RETURN_PARAM } from "../_constants/checkout/billingCheckoutReturnParams";
 
 function firstString(value: string | string[] | undefined): string | null {
   if (value === undefined) return null;

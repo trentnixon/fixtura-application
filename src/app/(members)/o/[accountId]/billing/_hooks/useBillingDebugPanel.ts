@@ -3,11 +3,11 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
+import { getBillingDebugSnapshot, type BillingDebugSnapshot } from "../_core/billing-state";
 import {
   buildBillingDebugFunnelGates,
   type BillingDebugFunnelGates,
-} from "../_utils/billingDebugPanel";
-import { getBillingDebugSnapshot, type BillingDebugSnapshot } from "../core/billing-state";
+} from "../_utils/debug/billingDebugPanel";
 
 import type { AccountBillingOrderHistoryDto, AccountBillingSummaryV1 } from "@/types/api/account";
 

@@ -1,5 +1,10 @@
 "use client";
 
+import {
+  TypographyCaption,
+  TypographyDialogDescription,
+  TypographyErrorText,
+} from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,10 +18,10 @@ import {
 import {
   BILLING_TRIAL_START_COPY,
   BILLING_TRIAL_START_DURATION_DAYS,
-} from "../../_constants/billingTrialStart";
-import { shouldShowBillingTrialStartPlanHint } from "../../_utils/billingTrialStart";
+} from "../../_constants/trial/billingTrialStart";
+import { shouldShowBillingTrialStartPlanHint } from "../../_utils/trial/billingTrialStart";
 
-import type { BillingTrialStartConfirmDialogProps } from "../../_types/billingTrialStart";
+import type { BillingTrialStartConfirmDialogProps } from "../../_types/trial/billingTrialStart";
 
 export function BillingTrialStartConfirmDialog({
   open,
@@ -36,29 +41,27 @@ export function BillingTrialStartConfirmDialog({
           <DialogTitle>{BILLING_TRIAL_START_COPY.confirmTitle}</DialogTitle>
           <DialogDescription id="billing-trial-confirm-description" asChild>
             <div className="[&_strong]:text-foreground space-y-2">
-              <p>
+              <TypographyDialogDescription as="p" className="text-inherit">
                 {BILLING_TRIAL_START_COPY.confirmDescriptionPrefix}{" "}
                 <strong>{BILLING_TRIAL_START_DURATION_DAYS} days</strong>{" "}
                 {BILLING_TRIAL_START_COPY.confirmDescriptionSuffix}
-              </p>
+              </TypographyDialogDescription>
               {trialSchedule ? (
-                <p>
+                <TypographyDialogDescription as="p" className="text-inherit">
                   {BILLING_TRIAL_START_COPY.confirmStartsLabel}{" "}
                   <strong>{trialSchedule.startLabel}</strong>.{" "}
                   {BILLING_TRIAL_START_COPY.confirmEndsLabel}{" "}
                   <strong>{trialSchedule.endLabel}</strong>.
-                </p>
+                </TypographyDialogDescription>
               ) : null}
             </div>
           </DialogDescription>
         </DialogHeader>
         {errorMessage ? (
           <div className="text-destructive space-y-1 px-1 text-sm" role="alert">
-            <p>{errorMessage}</p>
+            <TypographyErrorText className="text-inherit">{errorMessage}</TypographyErrorText>
             {showTrialPlanHint ? (
-              <p className="text-muted-foreground text-xs">
-                {BILLING_TRIAL_START_COPY.dialogTrialPlanHint}
-              </p>
+              <TypographyCaption>{BILLING_TRIAL_START_COPY.dialogTrialPlanHint}</TypographyCaption>
             ) : null}
           </div>
         ) : null}

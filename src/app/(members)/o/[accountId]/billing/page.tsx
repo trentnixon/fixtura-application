@@ -4,7 +4,7 @@ import { BrandedLoader } from "@/components/ui/branded-loader";
 import { PageHeader } from "@/components/ui/container";
 
 import { BillingProductStateBadge } from "./_components/billing-product-state-badge";
-import { BillingContent } from "./overview/billing-content";
+import { BillingContent } from "./overview/_components/BillingContent";
 
 export default async function Page({ params }: { params: Promise<{ accountId: string }> }) {
   const { accountId } = await params;

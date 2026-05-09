@@ -1,6 +1,12 @@
 "use client";
 
-import { TypographyMuted } from "@/components/typography";
+import {
+  TypographyCaption,
+  TypographyDataValue,
+  TypographyMuted,
+  TypographyOverline,
+  TypographySubsectionTitle,
+} from "@/components/typography";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -29,11 +35,13 @@ export function PlanTierCard({ tier, selected, onSelect }: PlanTierCardProps) {
           <div className="min-w-0 space-y-3">
             <div className="space-y-2">
               <Badge variant="outline">{tier.category}</Badge>
-              <div className="text-primary text-lg leading-snug font-semibold">{tier.name}</div>
+              <TypographySubsectionTitle as="div" className="text-primary leading-snug">
+                {tier.name}
+              </TypographySubsectionTitle>
               {display.metaLine ? (
-                <p className="text-muted-foreground text-xs leading-snug font-medium">
+                <TypographyCaption className="leading-snug font-medium">
                   {display.metaLine}
-                </p>
+                </TypographyCaption>
               ) : null}
             </div>
 
@@ -44,9 +52,9 @@ export function PlanTierCard({ tier, selected, onSelect }: PlanTierCardProps) {
             ) : null}
 
             {display.sponsorAssetLine ? (
-              <p className="text-muted-foreground text-[0.65rem] leading-snug">
+              <TypographyCaption className="text-[0.65rem] leading-snug">
                 {display.sponsorAssetLine}
-              </p>
+              </TypographyCaption>
             ) : null}
           </div>
 
@@ -54,19 +62,17 @@ export function PlanTierCard({ tier, selected, onSelect }: PlanTierCardProps) {
             <div className="grid gap-3">
               {display.weekly ? (
                 <div>
-                  <p className="text-muted-foreground text-xs font-medium uppercase">
-                    {PLAN_TIER_CARD_LABELS.perWeek}
-                  </p>
-                  <p className="text-primary text-lg font-semibold tabular-nums">
+                  <TypographyOverline>{PLAN_TIER_CARD_LABELS.perWeek}</TypographyOverline>
+                  <TypographyDataValue as="p" className="text-primary text-lg">
                     {display.weekly}
-                  </p>
+                  </TypographyDataValue>
                 </div>
               ) : null}
               <div>
-                <p className="text-muted-foreground text-xs font-medium uppercase">
-                  {PLAN_TIER_CARD_LABELS.totalCost}
-                </p>
-                <p className="text-lg font-semibold tabular-nums">{display.price}</p>
+                <TypographyOverline>{PLAN_TIER_CARD_LABELS.totalCost}</TypographyOverline>
+                <TypographyDataValue as="p" className="text-lg">
+                  {display.price}
+                </TypographyDataValue>
               </div>
             </div>
 

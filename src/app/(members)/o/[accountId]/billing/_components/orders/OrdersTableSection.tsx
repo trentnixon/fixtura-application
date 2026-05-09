@@ -1,11 +1,15 @@
-import { CardDescription, CardTitle } from "@/components/ui/card";
+import {
+  TypographyBodySmall,
+  TypographyCardDescription,
+  TypographyCardTitle,
+} from "@/components/typography";
 import { ErrorState } from "@/components/ui/error-state";
 import { AUTH_ERROR_MESSAGES } from "@/lib/auth/auth-errors";
 
 import { OrdersTable } from "./OrdersTable";
-import { ordersTableSectionCopy } from "../../_constants/ordersTableSection";
+import { ordersTableSectionCopy } from "../../_constants/orders/ordersTableSection";
 
-import type { OrdersTableSectionProps } from "../../_types/ordersTableSection";
+import type { OrdersTableSectionProps } from "../../_types/orders/ordersTableSection";
 
 export function OrdersTableSection({
   orders,
@@ -16,8 +20,12 @@ export function OrdersTableSection({
   return (
     <div className="bg-muted/35 flex flex-col gap-6 rounded-lg border border-transparent p-5">
       <div className="space-y-1.5">
-        <CardTitle className="font-brand text-lg">{ordersTableSectionCopy.cardTitle}</CardTitle>
-        <CardDescription>{ordersTableSectionCopy.cardDescription}</CardDescription>
+        <TypographyCardTitle className="font-brand">
+          {ordersTableSectionCopy.cardTitle}
+        </TypographyCardTitle>
+        <TypographyCardDescription>
+          {ordersTableSectionCopy.cardDescription}
+        </TypographyCardDescription>
       </div>
       {loadError ? (
         <ErrorState
@@ -26,9 +34,7 @@ export function OrdersTableSection({
           onRetry={onRetry}
         />
       ) : orders.length === 0 ? (
-        <p className="text-muted-foreground text-sm" role="status">
-          {ordersTableSectionCopy.emptyState}
-        </p>
+        <TypographyBodySmall role="status">{ordersTableSectionCopy.emptyState}</TypographyBodySmall>
       ) : (
         <OrdersTable orders={orders} activeOrder={activeOrder} />
       )}

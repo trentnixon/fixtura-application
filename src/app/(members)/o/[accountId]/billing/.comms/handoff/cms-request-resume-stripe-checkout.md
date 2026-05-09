@@ -166,9 +166,9 @@ Pick **one** and document in Strapi/runbooks:
 | Area                                        | Location                                                                                          |
 | ------------------------------------------- | ------------------------------------------------------------------------------------------------- |
 | Payment pending banner                      | `src/app/(members)/o/[accountId]/billing/_components/banners/BillingPaymentPendingBanner.tsx`     |
-| Banner copy / Stripe variant                | `src/app/(members)/o/[accountId]/billing/_utils/billingPaymentPending.ts`                         |
-| Billing overview lifecycle (return markers) | `src/app/(members)/o/[accountId]/billing/_hooks/useBillingOverviewLifecycle.ts`                   |
-| Return param names                          | `src/app/(members)/o/[accountId]/billing/_constants/billingCheckoutReturnParams.ts`               |
+| Banner copy / Stripe variant                | `src/app/(members)/o/[accountId]/billing/_utils/payment-pending/billingPaymentPending.ts`         |
+| Billing overview lifecycle (return markers) | `src/app/(members)/o/[accountId]/billing/overview/_hooks/useBillingOverviewLifecycle.ts`          |
+| Return param names                          | `src/app/(members)/o/[accountId]/billing/_constants/checkout/billingCheckoutReturnParams.ts`      |
 | Start checkout (client)                     | `src/lib/api/hooks/account/usePostAccountBillingCheckout.ts`                                      |
 | Handoff examples                            | `src/app/(members)/o/[accountId]/billing/.comms/handoff/frontend-billing-api-contract-handoff.md` |
 

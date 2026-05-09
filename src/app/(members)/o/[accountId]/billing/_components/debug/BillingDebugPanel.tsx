@@ -2,6 +2,8 @@
 
 import { useMemo } from "react";
 
+import { TypographyDataLabel } from "@/components/typography";
+
 import {
   BillingDebugPanelBoolRow,
   BillingDebugPanelRow,
@@ -11,15 +13,15 @@ import {
   BILLING_DEBUG_DERIVATION_FLAG_KEYS,
   BILLING_DEBUG_PANEL_SHELL_CLASS,
   BILLING_DEBUG_SUMMARY_SLICE_KEYS,
-} from "../../_constants/billingDebugPanel";
+} from "../../_constants/debug/billingDebugPanel";
 import { useBillingDebugPanel } from "../../_hooks/useBillingDebugPanel";
 import {
   collectBillingDebugPanelExtraEntries,
   resolveBillingDebugPanelFetchStatus,
-} from "../../_utils/billingDebugPanel";
-import { formatBillingDebugSnapshotValue } from "../../_utils/formatBillingDebugSnapshotValue";
+} from "../../_utils/debug/billingDebugPanel";
+import { formatBillingDebugSnapshotValue } from "../../_utils/debug/formatBillingDebugSnapshotValue";
 
-import type { BillingDebugPanelProps } from "../../_types/billingDebugPanel";
+import type { BillingDebugPanelProps } from "../../_types/debug/billingDebugPanel";
 
 export function BillingDebugPanel({
   accountId,
@@ -46,7 +48,12 @@ export function BillingDebugPanel({
     <details className={`${BILLING_DEBUG_PANEL_SHELL_CLASS} mt-6 p-4`} open={false}>
       <summary className="cursor-pointer text-emerald-400 select-none">
         Dev: billing state
-        {contextLabel ? <span className="text-emerald-600"> — {contextLabel}</span> : null}
+        {contextLabel ? (
+          <TypographyDataLabel as="span" className="text-emerald-600">
+            {" "}
+            â€” {contextLabel}
+          </TypographyDataLabel>
+        ) : null}
       </summary>
 
       <div className="border-border mt-3 space-y-4 border-t pt-3">
@@ -59,7 +66,7 @@ export function BillingDebugPanel({
           <div>
             <BillingDebugPanelSectionTitle>Context</BillingDebugPanelSectionTitle>
             {extraEntries.map(([k, v]) => (
-              <BillingDebugPanelRow key={k} label={k} value={v === null ? "—" : String(v)} />
+              <BillingDebugPanelRow key={k} label={k} value={v === null ? "â€”" : String(v)} />
             ))}
           </div>
         ) : null}

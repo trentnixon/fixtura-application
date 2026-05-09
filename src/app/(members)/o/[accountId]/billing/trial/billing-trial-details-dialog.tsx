@@ -6,8 +6,8 @@ export {
   billingTrialDetailsButtonLabel,
   billingTrialDetailsTriggerState,
   hasMeaningfulActiveOrder,
-} from "../_utils/billingTrialDetails";
+} from "../_utils/trial/billingTrialDetails";
 export type {
   BillingTrialDetailsDialogProps,
   BillingTrialDetailsTriggerOptions,
-} from "../_types/billingTrialDetails";
+} from "../_types/trial/billingTrialDetails";

@@ -1,8 +1,14 @@
 "use client";
 
+import {
+  TypographyCaption,
+  TypographyCardDescription,
+  TypographyCardTitle,
+  TypographyErrorText,
+  TypographyLabel,
+} from "@/components/typography";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 import { BillingPlanCheckoutFormTierRadios } from "./BillingPlanCheckoutFormTierRadios";
 import {
@@ -32,8 +38,8 @@ export function BillingPlanCheckoutForm({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="font-brand text-lg">{copy.choosePlanTitle}</CardTitle>
-        <CardDescription>{copy.choosePlanDescription}</CardDescription>
+        <TypographyCardTitle className="font-brand">{copy.choosePlanTitle}</TypographyCardTitle>
+        <TypographyCardDescription>{copy.choosePlanDescription}</TypographyCardDescription>
       </CardHeader>
       <CardContent className="grid gap-6">
         <BillingPlanCheckoutFormTierRadios
@@ -43,7 +49,7 @@ export function BillingPlanCheckoutForm({
         />
 
         <div className="grid max-w-xs gap-2">
-          <Label htmlFor={ids.startDate}>{copy.startDate.label}</Label>
+          <TypographyLabel htmlFor={ids.startDate}>{copy.startDate.label}</TypographyLabel>
           <input
             id={ids.startDate}
             type="date"
@@ -52,18 +58,14 @@ export function BillingPlanCheckoutForm({
             onChange={(ev) => onStartDateChange(ev.target.value)}
             className={billingPlanCheckoutDateInputClass}
           />
-          <p className="text-muted-foreground text-xs">{copy.startDate.hint}</p>
+          <TypographyCaption>{copy.startDate.hint}</TypographyCaption>
         </div>
 
         {checkoutError ? (
-          <p className="text-destructive text-sm" role="alert">
-            {checkoutError}
-          </p>
+          <TypographyErrorText role="alert">{checkoutError}</TypographyErrorText>
         ) : null}
         {missingCheckoutUrl ? (
-          <p className="text-destructive text-sm" role="alert">
-            {copy.missingCheckoutUrl}
-          </p>
+          <TypographyErrorText role="alert">{copy.missingCheckoutUrl}</TypographyErrorText>
         ) : null}
 
         <div>

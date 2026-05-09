@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 
 import { useBillingProductStateSnapshot } from "../../billing/_hooks/useBillingProductStateSnapshot";
-import { billingProductStateToneClass } from "../../billing/_utils/billingProductStateDisplay";
+import { billingProductStateToneClass } from "../../billing/_utils/overview/billingProductStateDisplay";
 
 type DashboardBillingStatusProps = {
   accountId: string;

@@ -1,16 +1,16 @@
 import { TableCell, TableRow } from "@/components/ui/table";
 
 import { OrdersTableInvoiceActions } from "./OrdersTableInvoiceActions";
-import { ordersTableSectionCopy } from "../../_constants/ordersTableSection";
+import { ordersTableSectionCopy } from "../../_constants/orders/ordersTableSection";
 import {
   getHistoryOrderStatus,
   getHistoryOrderSubscriptionDayCount,
   parseHistoryOrderTotal,
-} from "../../_utils/billingHistoryOrderUtils";
-import { formatBillingDateTable, formatMoney } from "../../_utils/formatBillingDisplay";
-import { getOrdersTableInvoiceLinks } from "../../_utils/ordersTableSectionTableUtils";
+} from "../../_utils/orders/billingHistoryOrderUtils";
+import { getOrdersTableInvoiceLinks } from "../../_utils/orders/ordersTableSectionTableUtils";
+import { formatBillingDateTable, formatMoney } from "../../_utils/overview/formatBillingDisplay";
 
-import type { OrdersTableRowProps } from "../../_types/ordersTableSection";
+import type { OrdersTableRowProps } from "../../_types/orders/ordersTableSection";
 
 export function OrdersTableRow({ order, activeOrder }: OrdersTableRowProps) {
   const { hostedInvoiceUrl, invoicePdfUrl } = getOrdersTableInvoiceLinks(order, activeOrder);

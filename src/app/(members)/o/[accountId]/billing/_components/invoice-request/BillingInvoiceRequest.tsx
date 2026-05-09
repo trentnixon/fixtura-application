@@ -1,17 +1,18 @@
 "use client";
 
+import { TypographyCardDescription, TypographyCardTitle } from "@/components/typography";
 import { BrandedLoader } from "@/components/ui/branded-loader";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { isAccountBillingAvailableTiersGatewayRedirect } from "@/lib/api/hooks/account/useAccountBillingAvailableTiers";
 import { AUTH_ERROR_MESSAGES } from "@/lib/auth/auth-errors";
 
 import { BillingInvoiceRequestForm } from "./BillingInvoiceRequestForm";
 import { useBillingInvoiceRequest } from "../../_hooks/useBillingInvoiceRequest";
-import { shouldShowInvoiceRequest } from "../../_utils/billingInvoiceRequest";
+import { shouldShowInvoiceRequest } from "../../_utils/invoice-request/billingInvoiceRequest";
 import { BillingAvailableTiersErrorCard } from "../available-tiers/BillingAvailableTiersErrorCard";
 import { BillingAvailableTiersRedirectStatus } from "../available-tiers/BillingAvailableTiersRedirectStatus";
 
-import type { BillingInvoiceRequestProps } from "../../_types/billingInvoiceRequest";
+import type { BillingInvoiceRequestProps } from "../../_types/invoice-request/billingInvoiceRequest";
 
 export function BillingInvoiceRequest({
   accountId,
@@ -84,11 +85,11 @@ export function BillingInvoiceRequest({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="font-brand text-lg">Request an online invoice</CardTitle>
-        <CardDescription>
+        <TypographyCardTitle className="font-brand">Request an online invoice</TypographyCardTitle>
+        <TypographyCardDescription>
           Submit your plan and contact details. We will raise the invoice manually and send it to
           you; it will also appear with your outstanding billing items.
-        </CardDescription>
+        </TypographyCardDescription>
       </CardHeader>
       <CardContent className="grid gap-6">
         <BillingInvoiceRequestForm

@@ -4,7 +4,7 @@
 
 After **Stripe Checkout**, the user must land on a URL the frontend recognises so it can **invalidate TanStack Query caches** and **refetch `GET /billing`** (and available tiers), per [frontend-billing-api-contract-handoff.md](./frontend-billing-api-contract-handoff.md) (“On return from Stripe, refresh `GET /billing`”).
 
-Canonical query-parameter names are defined in code: [`core/billing-checkout-return.ts`](../../core/billing-checkout-return.ts).
+Canonical query-parameter names are defined in code: [`core/billing-checkout-return.ts`](../../_core/billing-checkout-return.ts).
 
 ## Recommended patterns
 

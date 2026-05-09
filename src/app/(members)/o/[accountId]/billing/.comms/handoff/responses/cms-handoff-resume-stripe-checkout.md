@@ -140,6 +140,6 @@ JSON body:
 | Area                         | Location                                                                                      |
 | ---------------------------- | --------------------------------------------------------------------------------------------- |
 | Payment pending banner       | `src/app/(members)/o/[accountId]/billing/_components/banners/BillingPaymentPendingBanner.tsx` |
-| Banner copy / Stripe variant | `src/app/(members)/o/[accountId]/billing/_utils/billingPaymentPending.ts`                     |
-| Billing overview lifecycle   | `src/app/(members)/o/[accountId]/billing/_hooks/useBillingOverviewLifecycle.ts`               |
+| Banner copy / Stripe variant | `src/app/(members)/o/[accountId]/billing/_utils/payment-pending/billingPaymentPending.ts`     |
+| Billing overview lifecycle   | `src/app/(members)/o/[accountId]/billing/overview/_hooks/useBillingOverviewLifecycle.ts`      |
 | Start checkout (client)      | `src/lib/api/hooks/account/usePostAccountBillingCheckout.ts`                                  |

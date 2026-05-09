@@ -10,13 +10,13 @@ import {
 } from "@/lib/api/hooks/account/useAccountBillingOrders";
 import { isValidAccountIdSegment } from "@/lib/config/account-routes";
 
-import { labelForBillingProductState } from "../_utils/billingProductStateDisplay";
 import {
   deriveBillingProductState,
   deriveBillingUiMode,
   type BillingProductState,
   type BillingUiMode,
-} from "../core/billing-state";
+} from "../_core/billing-state";
+import { labelForBillingProductState } from "../_utils/overview/billingProductStateDisplay";
 
 export type BillingProductStateSnapshot =
   | { status: "loading" }

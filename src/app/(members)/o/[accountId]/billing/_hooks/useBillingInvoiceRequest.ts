@@ -15,7 +15,7 @@ import {
   isBillingInvoiceRequestRequiredFilled,
   isBillingInvoiceRequestedStartValid,
   parseBillingInvoiceStartLocal,
-} from "../_utils/billingInvoiceRequest";
+} from "../_utils/invoice-request/billingInvoiceRequest";
 
 export function useBillingInvoiceRequest(accountId: string, enabled: boolean) {
   const [selectedTierId, setSelectedTierId] = useState<string | null>(null);

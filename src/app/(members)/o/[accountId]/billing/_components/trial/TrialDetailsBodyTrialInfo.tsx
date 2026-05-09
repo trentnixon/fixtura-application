@@ -1,7 +1,9 @@
 "use client";
 
+import { TypographyCaption, TypographyDataValue, TypographyMuted } from "@/components/typography";
 import { Badge } from "@/components/ui/badge";
 
+import { formatBillingDateRangeLine } from "../../_utils/overview/formatBillingDisplay";
 import {
   billingTrialDetailsBadgeLabel,
   billingTrialDetailsBadgeVariant,
@@ -9,10 +11,9 @@ import {
   billingTrialEligibleCaption,
   billingTrialTierDisplayLabel,
   formatTrialDaysRemainingLine,
-} from "../../_utils/billingTrialDetails";
-import { formatBillingDateRangeLine } from "../../_utils/formatBillingDisplay";
+} from "../../_utils/trial/billingTrialDetails";
 
-import type { TrialDetailsBodyTrialInfoProps } from "../../_types/billingTrialDetails";
+import type { TrialDetailsBodyTrialInfoProps } from "../../_types/trial/billingTrialDetails";
 
 export function TrialDetailsBodyTrialInfo({ trial, uiMode }: TrialDetailsBodyTrialInfoProps) {
   const daysRemaining = billingTrialDetailsDaysRemainingForDisplay(uiMode, trial);
@@ -21,12 +22,22 @@ export function TrialDetailsBodyTrialInfo({ trial, uiMode }: TrialDetailsBodyTri
 
   return (
     <>
-      {tierLabel ? <p className="text-foreground mb-2 font-medium">{tierLabel}</p> : null}
-      <p>{formatBillingDateRangeLine(trial.startDate, trial.endDate)}</p>
-      {daysRemaining != null ? (
-        <p className="mt-2 text-xs">{formatTrialDaysRemainingLine(daysRemaining)}</p>
+      {tierLabel ? (
+        <TypographyDataValue as="p" className="mb-2">
+          {tierLabel}
+        </TypographyDataValue>
       ) : null}
-      {eligibleCaption ? <p className="mt-1 text-xs">{eligibleCaption}</p> : null}
+      <TypographyMuted>
+        {formatBillingDateRangeLine(trial.startDate, trial.endDate)}
+      </TypographyMuted>
+      {daysRemaining != null ? (
+        <TypographyCaption className="mt-2">
+          {formatTrialDaysRemainingLine(daysRemaining)}
+        </TypographyCaption>
+      ) : null}
+      {eligibleCaption ? (
+        <TypographyCaption className="mt-1">{eligibleCaption}</TypographyCaption>
+      ) : null}
       <Badge className="mt-2" variant={billingTrialDetailsBadgeVariant(uiMode)}>
         {billingTrialDetailsBadgeLabel(uiMode)}
       </Badge>

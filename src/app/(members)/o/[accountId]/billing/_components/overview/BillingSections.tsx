@@ -1,9 +1,9 @@
 import { BillingActiveTrialStatusCard } from "./BillingActiveTrialStatusCard";
 import { BillingPaidActiveStatusCard } from "./BillingPaidActiveStatusCard";
-import { buildBillingSectionsViewModel } from "../../_utils/billingOverviewStatusCards";
+import { buildBillingSectionsViewModel } from "../../_utils/overview/billingOverviewStatusCards";
 import { OrdersTableSection } from "../orders/OrdersTableSection";
 
-import type { BillingSectionsProps } from "../../_types/billingSections";
+import type { BillingSectionsProps } from "../../_types/overview/billingSections";
 
 export function BillingSections({
   data,

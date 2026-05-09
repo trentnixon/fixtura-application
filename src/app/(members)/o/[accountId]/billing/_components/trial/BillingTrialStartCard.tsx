@@ -1,17 +1,25 @@
 "use client";
 
+import {
+  TypographyBodySmall,
+  TypographyCaption,
+  TypographyCardDescription,
+  TypographyCardTitle,
+  TypographyErrorText,
+  TypographyEyebrow,
+} from "@/components/typography";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 import { BillingTrialStartConfirmDialog } from "./BillingTrialStartConfirmDialog";
 import {
   BILLING_TRIAL_START_COPY,
   BILLING_TRIAL_START_DURATION_DAYS,
-} from "../../_constants/billingTrialStart";
+} from "../../_constants/trial/billingTrialStart";
 import { useBillingTrialStart } from "../../_hooks/useBillingTrialStart";
-import { shouldShowBillingTrialStartPlanHint } from "../../_utils/billingTrialStart";
+import { shouldShowBillingTrialStartPlanHint } from "../../_utils/trial/billingTrialStart";
 
-import type { BillingTrialStartCardProps } from "../../_types/billingTrialStart";
+import type { BillingTrialStartCardProps } from "../../_types/trial/billingTrialStart";
 
 export function BillingTrialStartCard({
   accountId,
@@ -43,40 +51,38 @@ export function BillingTrialStartCard({
         <div className="flex flex-col md:flex-row">
           <div className="flex-1">
             <CardHeader>
-              <p className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
-                {BILLING_TRIAL_START_COPY.cardEyebrow}
-              </p>
-              <CardTitle className="text-primary font-brand mt-2 text-xl">
+              <TypographyEyebrow>{BILLING_TRIAL_START_COPY.cardEyebrow}</TypographyEyebrow>
+              <TypographyCardTitle className="text-primary font-brand mt-2">
                 {BILLING_TRIAL_START_COPY.cardTitlePrefix} {BILLING_TRIAL_START_DURATION_DAYS}{" "}
                 {BILLING_TRIAL_START_COPY.cardTitleSuffix}
-              </CardTitle>
-              <CardDescription>{BILLING_TRIAL_START_COPY.cardDescription}</CardDescription>
+              </TypographyCardTitle>
+              <TypographyCardDescription>
+                {BILLING_TRIAL_START_COPY.cardDescription}
+              </TypographyCardDescription>
             </CardHeader>
-            <CardContent className="text-muted-foreground space-y-2 text-sm">
+            <CardContent className="space-y-2">
               {feedback ? (
-                <p
+                <TypographyBodySmall
                   className="border-border text-foreground rounded-md border px-3 py-2 text-sm"
                   role="status"
                 >
                   {feedback}
-                </p>
+                </TypographyBodySmall>
               ) : null}
               {errorMessage && !confirmOpen ? (
-                <p className="text-destructive text-sm" role="alert">
+                <TypographyErrorText role="alert">
                   {errorMessage}
                   {showCardTrialPlanHint ? (
-                    <span className="text-muted-foreground mt-1 block text-xs">
+                    <TypographyCaption as="span" className="mt-1 block">
                       {BILLING_TRIAL_START_COPY.cardTrialPlanHint}
-                    </span>
+                    </TypographyCaption>
                   ) : null}
-                </p>
+                </TypographyErrorText>
               ) : null}
             </CardContent>
           </div>
           <div className="bg-muted/30 flex w-full flex-col justify-center gap-3 border-t p-6 md:w-64 md:border-t-0 md:border-l">
-            <p className="text-muted-foreground text-xs">
-              {BILLING_TRIAL_START_COPY.noPaymentRequired}
-            </p>
+            <TypographyCaption>{BILLING_TRIAL_START_COPY.noPaymentRequired}</TypographyCaption>
             <Button type="button" variant="accent" onClick={openConfirmDialog}>
               {BILLING_TRIAL_START_COPY.startButtonLabel}
             </Button>

@@ -1,9 +1,13 @@
 "use client";
 
+"use client";
+
+import { TypographyBodySmall } from "@/components/typography";
+
 export function BillingAvailableTiersRedirectStatus() {
   return (
-    <div className="text-muted-foreground grid gap-2 text-center text-sm" role="status">
-      <p>Redirecting...</p>
+    <div className="grid gap-2 text-center" role="status">
+      <TypographyBodySmall>Redirecting...</TypographyBodySmall>
     </div>
   );
 }
