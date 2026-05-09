@@ -72,7 +72,7 @@ export function DashboardContent({ accountId }: { accountId: string }) {
 
   return (
     <div className="grid gap-10">
-      <DashboardHeader model={model} />
+      <DashboardHeader accountId={accountId} model={model} />
 
       <section className="grid gap-4" aria-labelledby="dashboard-kpis-heading">
         <h2 id="dashboard-kpis-heading" className="sr-only">

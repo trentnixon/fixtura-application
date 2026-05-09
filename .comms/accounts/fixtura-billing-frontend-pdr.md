@@ -259,7 +259,6 @@ type CreateInvoiceRequest = {
     country: string;
   };
 
-  purchaseOrderNumber?: string;
   notes?: string;
 };
 ```

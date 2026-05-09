@@ -16,6 +16,7 @@ Use this when reconciling **staging JSON** with types in [`src/types/api/account
 | Start trial            | `POST …/billing/start-trial`      | `{ trialId?, status?, message? }`                    | `StartAccountBillingTrialResponse`                                     |
 | Invoice requests list  | `GET …/billing/invoice-requests`  | `{ invoiceRequests: [...] }`                         | `AccountBillingInvoiceRequestsResponse`, `InvoiceRequestSummary`       |
 | Invoice request submit | `POST …/billing/invoice-requests` | `{ invoiceRequestId, status, submittedAt, message }` | `CreateInvoiceRequestResponse`, `PostAccountBillingInvoiceRequestBody` |
+| Orders by account      | `GET …/billing/orders`            | `{ accountId, orders, meta }`                        | `AccountBillingOrdersResponse`, `AccountBillingOrderHistoryDto`        |
 
 ## Prerequisites
 
@@ -51,6 +52,16 @@ Use this when reconciling **staging JSON** with types in [`src/types/api/account
 | Auth failure         | Expired/invalid session (or logout mid-flow)                                                                                                                                                                                                      |                   | Login / session refresh; no stuck spinners                                                       |
 | Responsive — mobile  | ~375px width: billing page, checkout card, invoice form                                                                                                                                                                                           |                   | Readable, no bad overflow, tappable controls                                                     |
 | Responsive — desktop | Wide viewport: same surfaces                                                                                                                                                                                                                      |                   | Layout acceptable                                                                                |
+
+## Staff — immediate Stripe invoice (wizard)
+
+Uses **direct Strapi** `POST /api/orders/stripe/create-invoice` from a Next **server action** (cookie JWT). Prerequisites: CMS route deployed; staff role has `createStripeInvoice`; tester user matches **staff/eligible** UX gate (`availableActions.canCreateStripeInvoice` or staff-like role — see `.comms/Stripe/planning/fe-wizard-generate-invoice-planning.md`).
+
+| Check                                                                                                           | Pass / Fail / N/A | Notes |
+| --------------------------------------------------------------------------------------------------------------- | ----------------- | ----- |
+| Wizard step **4 · invoice path**: **Generate Stripe invoice** returns 200; polling surfaces **Pay online** link |                   |       |
+| Hosted invoice loads in Stripe test mode                                                                        |                   |       |
+| After pay: `invoice.paid` webhook; app poll shows paid / refreshed `GET …/billing`                              |                   |       |
 
 ## Optional
 

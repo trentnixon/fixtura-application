@@ -19,9 +19,9 @@ class SpamSuppressionStore {
   private forgotEmailStore: Map<string, AuthAttempt> = new Map();
 
   // Thresholds from [.comms/login-forgot-password-spam-suppression.md]
-  private readonly LOGIN_IP_LIMIT = 5; // per minute
+  private readonly LOGIN_IP_LIMIT = 50; // per minute
   private readonly LOGIN_IP_WINDOW = 60 * 1000;
-  private readonly LOGIN_EMAIL_LIMIT = 10; // per 15 minutes
+  private readonly LOGIN_EMAIL_LIMIT = 50; // per 15 minutes
   private readonly LOGIN_EMAIL_WINDOW = 15 * 60 * 1000;
 
   private readonly FORGOT_IP_LIMIT = 3; // per 15 minutes

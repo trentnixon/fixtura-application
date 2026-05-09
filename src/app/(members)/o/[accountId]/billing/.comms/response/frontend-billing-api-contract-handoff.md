@@ -4,7 +4,13 @@
 
 This is the frontend-facing handoff for account-scoped billing v1.
 
-Use this for implementation. Use `src/api/account/types/billing-contract-v1.d.ts` as the canonical TypeScript source.
+Use this for implementation.
+
+**Canonical TypeScript shapes for account billing live in this repo at [`src/types/api/account.ts`](../../../../../../../types/api/account.ts)** (`AvailableBillingTier`, `AccountBillingSummaryV1`, etc.).
+
+**Available tiers wire shape:** authoritative CMS→FE contract is [`frontend-handoff-billing-available-tiers.md`](./frontend-handoff-billing-available-tiers.md) — **camelCase v1** `{ tiers: AvailableBillingTier[] }`. Any older PascalCase tier examples (`Name`, `Title`, `stripe_price_id`) are **superseded** by that document.
+
+**Open request to CMS (pending backend):** [Discard / delete pending order](../handoff/cms-request-delete-pending-order.md) — account-scoped mutation so members can remove in-flight unpaid orders and unblock new checkout/invoice flows.
 
 ## Required Frontend Context
 
@@ -18,14 +24,15 @@ All routes below are account-scoped and require the authenticated user to own th
 
 ## Endpoints
 
-| Need                   | Method | Path                                            | Response                                                |
-| ---------------------- | ------ | ----------------------------------------------- | ------------------------------------------------------- |
-| Billing summary        | GET    | `/accounts/:accountId/billing`                  | `{ data: BillingSummary }`                              |
-| Available tiers        | GET    | `/accounts/:accountId/billing/available-tiers`  | `{ tiers: AvailableBillingTier[] }`                     |
-| Start Stripe checkout  | POST   | `/accounts/:accountId/billing/checkout`         | `CreateCheckoutResponse`                                |
-| Start free trial       | POST   | `/accounts/:accountId/billing/start-trial`      | `{ trialId: string; status: string; message?: string }` |
-| List invoice requests  | GET    | `/accounts/:accountId/billing/invoice-requests` | `{ invoiceRequests: InvoiceRequestSummary[] }`          |
-| Submit invoice request | POST   | `/accounts/:accountId/billing/invoice-requests` | `CreateInvoiceRequestResponse`                          |
+| Need                   | Method | Path                                                                     | Response                                                       |
+| ---------------------- | ------ | ------------------------------------------------------------------------ | -------------------------------------------------------------- |
+| Billing summary        | GET    | `/accounts/:accountId/billing`                                           | `{ data: BillingSummary }`                                     |
+| Available tiers        | GET    | `/accounts/:accountId/billing/available-tiers`                           | `{ tiers: AvailableBillingTier[] }`                            |
+| Start Stripe checkout  | POST   | `/accounts/:accountId/billing/checkout`                                  | `CreateCheckoutResponse`                                       |
+| Start free trial       | POST   | `/accounts/:accountId/billing/start-trial`                               | `{ trialId: string; status: string; message?: string }`        |
+| List invoice requests  | GET    | `/accounts/:accountId/billing/invoice-requests`                          | `{ invoiceRequests: InvoiceRequestSummary[] }`                 |
+| Submit invoice request | POST   | `/accounts/:accountId/billing/invoice-requests`                          | `CreateInvoiceRequestResponse`                                 |
+| Cancel invoice request | POST   | `/accounts/:accountId/billing/invoice-requests/:invoiceRequestId/cancel` | `CancelInvoiceRequestResponse` (`noOp` when already cancelled) |
 
 ## Auth And Permissions
 
@@ -37,14 +44,15 @@ Authorization: Bearer <jwt>
 
 Backend Users & Permissions scopes:
 
-| Endpoint                         | Scope                                                   |
-| -------------------------------- | ------------------------------------------------------- |
-| `GET /billing`                   | `api::account.account.getAccountBilling`                |
-| `GET /billing/available-tiers`   | `api::account.account.getAccountBillingAvailableTiers`  |
-| `POST /billing/checkout`         | `api::account.account.postAccountBillingCheckout`       |
-| `POST /billing/start-trial`      | `api::account.account.postAccountBillingStartTrial`     |
-| `GET /billing/invoice-requests`  | `api::account.account.getAccountBillingInvoiceRequests` |
-| `POST /billing/invoice-requests` | `api::account.account.postAccountBillingInvoiceRequest` |
+| Endpoint                                                  | Scope                                                         |
+| --------------------------------------------------------- | ------------------------------------------------------------- |
+| `GET /billing`                                            | `api::account.account.getAccountBilling`                      |
+| `GET /billing/available-tiers`                            | `api::account.account.getAccountBillingAvailableTiers`        |
+| `POST /billing/checkout`                                  | `api::account.account.postAccountBillingCheckout`             |
+| `POST /billing/start-trial`                               | `api::account.account.postAccountBillingStartTrial`           |
+| `GET /billing/invoice-requests`                           | `api::account.account.getAccountBillingInvoiceRequests`       |
+| `POST /billing/invoice-requests`                          | `api::account.account.postAccountBillingInvoiceRequest`       |
+| `POST /billing/invoice-requests/:invoiceRequestId/cancel` | `api::account.account.postAccountBillingCancelInvoiceRequest` |
 
 ## Billing Summary
 
@@ -93,6 +101,8 @@ Response:
 ```
 
 Use this for plan selection. Tiers are already filtered for the account where possible.
+
+**Full field list, behaviour, error codes, and TypeScript:** see **[`frontend-handoff-billing-available-tiers.md`](./frontend-handoff-billing-available-tiers.md)** (camelCase v1 — `name`, `category`, `daysInPass`, `priceByWeekInPass`, `includedAssetTypes`, etc.). Do not implement against legacy PascalCase tier keys for this endpoint.
 
 ## Start Stripe Checkout
 
@@ -155,7 +165,6 @@ Content-Type: application/json
     "postcode": "2000",
     "country": "AU"
   },
-  "purchaseOrderNumber": "PO-123",
   "notes": ""
 }
 ```

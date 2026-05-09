@@ -5,6 +5,7 @@ import { normalizeErrorFieldToString } from "@/lib/api/normalize-error-field";
 export type AccountBillingStrapiSubpath =
   | "available-tiers"
   | "checkout"
+  | "checkout/resume"
   | "invoice-requests"
   | "start-trial";
 
@@ -55,6 +56,64 @@ export async function forwardOrdersByAccountToStrapi(
     },
     cache: "no-store",
   });
+}
+
+/** Strapi: POST /api/accounts/:accountId/billing/orders/:orderId/delete */
+export function strapiAccountBillingOrderDeleteUrl(
+  strapiUrl: string,
+  accountId: string,
+  orderId: string,
+): string {
+  const base = `${strapiUrl}/api/accounts/${encodeURIComponent(accountId)}/billing/orders/${encodeURIComponent(orderId)}/delete`;
+  return base;
+}
+
+export async function forwardAccountBillingOrderDeleteToStrapi(
+  strapiUrl: string,
+  accountId: string,
+  orderId: string,
+  token: string,
+  init: RequestInit,
+): Promise<Response> {
+  return fetch(strapiAccountBillingOrderDeleteUrl(strapiUrl, accountId, orderId), {
+    ...init,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: "application/json",
+      ...(init.headers ?? {}),
+    },
+    cache: "no-store",
+  });
+}
+
+/** Strapi: POST /api/accounts/:accountId/billing/invoice-requests/:invoiceRequestId/cancel */
+export function strapiAccountBillingInvoiceRequestCancelUrl(
+  strapiUrl: string,
+  accountId: string,
+  invoiceRequestId: string,
+): string {
+  return `${strapiUrl}/api/accounts/${encodeURIComponent(accountId)}/billing/invoice-requests/${encodeURIComponent(invoiceRequestId)}/cancel`;
+}
+
+export async function forwardAccountBillingInvoiceRequestCancelToStrapi(
+  strapiUrl: string,
+  accountId: string,
+  invoiceRequestId: string,
+  token: string,
+  init: RequestInit,
+): Promise<Response> {
+  return fetch(
+    strapiAccountBillingInvoiceRequestCancelUrl(strapiUrl, accountId, invoiceRequestId),
+    {
+      ...init,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        ...(init.headers ?? {}),
+      },
+      cache: "no-store",
+    },
+  );
 }
 
 export async function jsonFromStrapiResponse(strapiRes: Response): Promise<unknown> {

@@ -3,12 +3,13 @@
 import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { BrandedLoader } from "@/components/ui/branded-loader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ErrorState } from "@/components/ui/error-state";
+import { ApiError } from "@/lib/api/client/api-error";
 import {
   isAccountBillingGatewayRedirect,
   useAccountBilling,
@@ -21,6 +22,7 @@ import {
   isAccountBillingOrdersGatewayRedirect,
   useAccountBillingOrders,
 } from "@/lib/api/hooks/account/useAccountBillingOrders";
+import { usePostAccountBillingCancelInvoiceRequest } from "@/lib/api/hooks/account/usePostAccountBillingCancelInvoiceRequest";
 import { queryKeys } from "@/lib/api/query/query-keys";
 import { AUTH_ERROR_MESSAGES } from "@/lib/auth/auth-errors";
 import { isValidAccountIdSegment } from "@/lib/config/account-routes";
@@ -29,7 +31,8 @@ import {
   selectOrganisationUrlWithReason,
 } from "@/lib/config/gateway-reasons";
 
-import { BillingDebugPanel } from "../billing-debug-panel";
+import { getHistoryOrderStatus } from "../_utils/billingHistoryOrderUtils";
+import { BillingDebugPanel } from "../debug/billing-debug-panel";
 
 import type {
   AccountBillingOrderDto,
@@ -57,10 +60,6 @@ function parseHistoryOrderTotal(total: string | null): number | null {
   if (total == null || String(total).trim() === "") return null;
   const n = Number.parseFloat(String(total));
   return Number.isFinite(n) ? n : null;
-}
-
-function getHistoryOrderStatus(order: AccountBillingOrderHistoryDto): string {
-  return order.stripeStatus ?? order.paymentStatus ?? order.checkoutStatus ?? "—";
 }
 
 /** Prefer row matching billing summary active order, then active flag, then newest (first in list). */
@@ -168,7 +167,15 @@ function ActiveOrderSection({ order }: { order: AccountBillingOrderDto }) {
   );
 }
 
-function InvoiceRequestRow({ req }: { req: InvoiceRequestSummary }) {
+function InvoiceRequestRow({
+  req,
+  onWithdraw,
+  withdrawPending = false,
+}: {
+  req: InvoiceRequestSummary;
+  onWithdraw?: () => void;
+  withdrawPending?: boolean;
+}) {
   return (
     <li className="border-border rounded-lg border p-4">
       <dl className="grid gap-1 text-sm">
@@ -199,6 +206,19 @@ function InvoiceRequestRow({ req }: { req: InvoiceRequestSummary }) {
         {req.message ? (
           <div className="pt-1">
             <p className="text-muted-foreground text-xs">{req.message}</p>
+          </div>
+        ) : null}
+        {onWithdraw ? (
+          <div className="pt-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              disabled={withdrawPending}
+              onClick={() => void onWithdraw()}
+            >
+              {withdrawPending ? "Withdrawing…" : "Withdraw request"}
+            </Button>
           </div>
         ) : null}
       </dl>
@@ -273,6 +293,26 @@ export function BillingHistoryContent({ accountId }: { accountId: string }) {
   const queryClient = useQueryClient();
   const redirectingRef = useRef(false);
   const segmentOk = isValidAccountIdSegment(accountId);
+  const cancelInvoiceReq = usePostAccountBillingCancelInvoiceRequest(accountId);
+  const [invoiceWithdrawError, setInvoiceWithdrawError] = useState<string | null>(null);
+
+  const withdrawInvoiceRequestRow = useCallback(
+    async (req: InvoiceRequestSummary) => {
+      const raw = req.invoiceRequestId ?? (req.id != null ? String(req.id) : "");
+      const id = raw.trim();
+      if (!id) return;
+      if (!window.confirm("Withdraw this invoice request? You can submit a new one later.")) return;
+      setInvoiceWithdrawError(null);
+      try {
+        await cancelInvoiceReq.mutateAsync(id);
+      } catch (e) {
+        setInvoiceWithdrawError(
+          e instanceof ApiError ? e.message : "Something went wrong. Try again.",
+        );
+      }
+    },
+    [cancelInvoiceReq],
+  );
 
   const billingQ = useAccountBilling(accountId, { enabled: segmentOk });
   const invoiceReqQ = useAccountBillingInvoiceRequests(accountId, { enabled: segmentOk });
@@ -540,6 +580,11 @@ export function BillingHistoryContent({ accountId }: { accountId: string }) {
           <CardDescription>History from GET /billing/invoice-requests.</CardDescription>
         </CardHeader>
         <CardContent>
+          {invoiceWithdrawError ? (
+            <p className="text-destructive mb-3 text-sm" role="alert">
+              {invoiceWithdrawError}
+            </p>
+          ) : null}
           {invoiceRequests.length === 0 ? (
             <p className="text-muted-foreground text-sm" role="status">
               No invoice requests yet.
@@ -547,7 +592,18 @@ export function BillingHistoryContent({ accountId }: { accountId: string }) {
           ) : (
             <ul className="grid gap-3">
               {invoiceRequests.map((req, idx) => (
-                <InvoiceRequestRow key={String(req.invoiceRequestId ?? req.id ?? idx)} req={req} />
+                <InvoiceRequestRow
+                  key={String(req.invoiceRequestId ?? req.id ?? idx)}
+                  req={req}
+                  withdrawPending={cancelInvoiceReq.isPending}
+                  {...(req.canWithdraw === true
+                    ? {
+                        onWithdraw: () => {
+                          void withdrawInvoiceRequestRow(req);
+                        },
+                      }
+                    : {})}
+                />
               ))}
             </ul>
           )}
@@ -557,6 +613,7 @@ export function BillingHistoryContent({ accountId }: { accountId: string }) {
         accountId={accountId}
         contextLabel="History"
         summary={summary}
+        orders={ordersList}
         isSummaryLoading={false}
         extra={{
           invoiceRequestsCount: invoiceRequests.length,

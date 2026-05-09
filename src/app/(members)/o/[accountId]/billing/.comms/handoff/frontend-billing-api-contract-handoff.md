@@ -4,7 +4,13 @@
 
 This is the frontend-facing handoff for account-scoped billing v1.
 
-Use this for implementation. Use `src/api/account/types/billing-contract-v1.d.ts` as the canonical TypeScript source.
+Use this for implementation.
+
+**Canonical TypeScript shapes for account billing live in this repo at [`src/types/api/account.ts`](../../../../../../../types/api/account.ts)** (`AvailableBillingTier`, `AccountBillingSummaryV1`, etc.).
+
+**Available tiers wire shape:** authoritative CMS→FE contract is [`../response/frontend-handoff-billing-available-tiers.md`](../response/frontend-handoff-billing-available-tiers.md) — **camelCase v1** `{ tiers: AvailableBillingTier[] }`. Legacy PascalCase tier examples are superseded by that document.
+
+**Open request to CMS (pending backend):** [Discard / delete pending order](./cms-request-delete-pending-order.md) — account-scoped mutation so members can remove in-flight unpaid orders and unblock new checkout/invoice flows.
 
 ## Required Frontend Context
 
@@ -92,6 +98,8 @@ Response:
 
 Use this for plan selection. Tiers are already filtered for the account where possible.
 
+**Full field list, behaviour, and TypeScript:** see **[`../response/frontend-handoff-billing-available-tiers.md`](../response/frontend-handoff-billing-available-tiers.md)**.
+
 ## Start Stripe Checkout
 
 Request:
@@ -134,6 +142,13 @@ Frontend flow:
 
 ## Submit Invoice Request
 
+**Invoice-request-only change summary (no other endpoints):** [`cms-handoff-invoice-request-online-only.md`](./cms-handoff-invoice-request-online-only.md).
+
+Online invoice requests are **digital only**: the member submits plan, start date, and invoice contact
+details. No postal billing address is required on the frontend. Strapi should accept `POST` bodies
+**without** `billingAddress` (optional field). Operations raises the invoice manually (e.g. Hnry) and
+the customer receives it by email; it also surfaces on the account billing / outstanding items UI.
+
 Request:
 
 ```http
@@ -147,16 +162,20 @@ Content-Type: application/json
   "billingContactName": "Jane Example",
   "billingEmail": "billing@example.com",
   "billingOrganisationName": "Example Assoc",
-  "billingAddress": {
-    "line1": "1 Test St",
-    "line2": "",
-    "city": "Sydney",
-    "state": "NSW",
-    "postcode": "2000",
-    "country": "AU"
-  },
-  "purchaseOrderNumber": "PO-123",
   "notes": ""
+}
+```
+
+Optional legacy field (omit for online-only):
+
+```json
+"billingAddress": {
+  "line1": "1 Test St",
+  "line2": "",
+  "city": "Sydney",
+  "state": "NSW",
+  "postcode": "2000",
+  "country": "AU"
 }
 ```
 

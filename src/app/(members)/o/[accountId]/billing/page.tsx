@@ -3,7 +3,8 @@ import { Suspense } from "react";
 import { BrandedLoader } from "@/components/ui/branded-loader";
 import { PageHeader } from "@/components/ui/container";
 
-import { BillingContent } from "./billing-content";
+import { BillingProductStateBadge } from "./_components/billing-product-state-badge";
+import { BillingContent } from "./overview/billing-content";
 
 export default async function Page({ params }: { params: Promise<{ accountId: string }> }) {
   const { accountId } = await params;
@@ -14,6 +15,7 @@ export default async function Page({ params }: { params: Promise<{ accountId: st
           title="Billing"
           description="Subscription and billing status for this organisation from your live account (one request refreshes plan, trial, access, and invoice-request state)."
         />
+        <BillingProductStateBadge accountId={accountId} />
       </div>
       <Suspense fallback={<BrandedLoader label="Loading billing" />}>
         <BillingContent accountId={accountId} />

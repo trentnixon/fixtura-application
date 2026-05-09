@@ -1,17 +1,20 @@
 import { TypographyPageDescription, TypographyPageTitle } from "@/components/typography";
 import { Badge } from "@/components/ui/badge";
 
+import { DashboardBillingStatus } from "./dashboard-billing-status";
+
 import type { DashboardViewModel } from "../dashboard-view-model";
 
 /** Matches kitchen-sink `page.header.brand.leading`: mark left, title stack, badges below. */
 type DashboardHeaderProps = {
+  accountId: string;
   model: Pick<
     DashboardViewModel,
     "organisationName" | "pageDescription" | "statusBadges" | "analytics" | "logoUrl"
   >;
 };
 
-export function DashboardHeader({ model }: DashboardHeaderProps) {
+export function DashboardHeader({ accountId, model }: DashboardHeaderProps) {
   const freshness =
     model.analytics?.meta.computedAt != null
       ? `Updated ${formatRelativeHint(model.analytics.meta.computedAt)}`
@@ -49,7 +52,8 @@ export function DashboardHeader({ model }: DashboardHeaderProps) {
           </TypographyPageDescription>
         </div>
       </div>
-      <div className="mt-6 flex flex-wrap gap-3">
+      <div className="mt-6 flex flex-wrap items-center gap-3">
+        <DashboardBillingStatus accountId={accountId} className="mr-1" />
         {model.statusBadges.map((b) => (
           <Badge key={b.label} variant={b.on ? "default" : "outline"}>
             {b.on ? b.label : `${b.label}: no`}

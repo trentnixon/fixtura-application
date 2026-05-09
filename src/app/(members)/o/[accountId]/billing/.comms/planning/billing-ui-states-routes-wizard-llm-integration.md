@@ -124,7 +124,7 @@ This precedence intentionally resolves mixed signals:
 - Paid entitlement beats free-trial eligibility.
 - Trial active is shown only after paid and free-trial-start cases are ruled out.
 
-If product wants a different precedence, change `billing-state.ts`, update `billing-state.test.ts`, then update this document.
+If product wants a different precedence, change `billing-state.ts`, update `_utils/billing-state.test.ts`, then update this document.
 
 ## Invoice request interaction
 
@@ -381,7 +381,7 @@ Important:
 - The wizard should call `POST /billing/checkout`, not create a local pending state.
 - The backend may create an incomplete order as part of checkout session creation, but the frontend observes it only through refetched `GET /billing`.
 
-For invoice request:
+For invoice request (online / digital; `billingAddress` omitted unless legacy CMS still requires it):
 
 ```ts
 postBillingInvoiceRequest({
@@ -390,8 +390,6 @@ postBillingInvoiceRequest({
   billingContactName,
   billingEmail,
   billingOrganisationName,
-  billingAddress,
-  purchaseOrderNumber,
   notes,
 });
 ```
@@ -505,7 +503,7 @@ Mutations:
 
 Tests:
 
-- Extend `billing-state.test.ts` for the product four-state groupings.
+- Extend `_utils/billing-state.test.ts` for the product four-state groupings.
 - Cover mixed-signal precedence: trial eligible + incomplete checkout, pending invoice + trial available, paid active + stale trial data.
 - Cover normalised checkout statuses, including `inComplete`/`incomplete`.
 - Cover inactive trial + inactive order mapping to create subscription grouping.

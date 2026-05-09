@@ -11,17 +11,15 @@ export default async function CreateBillingPage({
 }) {
   const { accountId } = await params;
   return (
-    <div className="grid gap-6">
-      <div>
-        <h1 className="font-brand text-2xl font-semibold capitalize">Create subscription</h1>
-        <p className="text-muted-foreground mt-1">
-          Choose a plan, start date, and payment path. Your billing status updates from the server
-          after each step.
-        </p>
+    <div className="mx-auto max-w-5xl px-4 pb-12 sm:px-6 lg:px-8">
+      <div className="bg-muted/35 grid gap-6 rounded-lg border border-transparent p-5 sm:p-6">
+        <div>
+          <h1 className="font-brand text-2xl font-semibold capitalize">Create Season Pass</h1>
+        </div>
+        <Suspense fallback={<BrandedLoader label="Loading" />}>
+          <CreateSubscriptionWizard accountId={accountId} />
+        </Suspense>
       </div>
-      <Suspense fallback={<BrandedLoader label="Loading" />}>
-        <CreateSubscriptionWizard accountId={accountId} />
-      </Suspense>
     </div>
   );
 }

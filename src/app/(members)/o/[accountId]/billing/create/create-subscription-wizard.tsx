@@ -1,15 +1,26 @@
 "use client";
 
 import { useQueryClient } from "@tanstack/react-query";
+import { addYears, format, startOfDay } from "date-fns";
+import { ChevronRight, CreditCard, FileText } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 
+import {
+  TypographyH2,
+  TypographyH3,
+  TypographyH4,
+  TypographyLarge,
+  TypographyMuted,
+} from "@/components/typography";
 import { BrandedLoader } from "@/components/ui/branded-loader";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ErrorState } from "@/components/ui/error-state";
 import { Label } from "@/components/ui/label";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { ApiError } from "@/lib/api/client/api-error";
 import {
   isAccountBillingGatewayRedirect,
@@ -19,9 +30,11 @@ import {
   isAccountBillingAvailableTiersGatewayRedirect,
   useAccountBillingAvailableTiers,
 } from "@/lib/api/hooks/account/useAccountBillingAvailableTiers";
+import { useAccountMe } from "@/lib/api/hooks/account/useAccountMe";
 import { usePostAccountBillingCheckout } from "@/lib/api/hooks/account/usePostAccountBillingCheckout";
 import { usePostAccountBillingInvoiceRequest } from "@/lib/api/hooks/account/usePostAccountBillingInvoiceRequest";
 import { queryKeys } from "@/lib/api/query/query-keys";
+import { accountApi } from "@/lib/api/services/account.api";
 import { AUTH_ERROR_MESSAGES } from "@/lib/auth/auth-errors";
 import { isValidAccountIdSegment } from "@/lib/config/account-routes";
 import {
@@ -30,25 +43,27 @@ import {
 } from "@/lib/config/gateway-reasons";
 import { cn } from "@/lib/utils";
 
-import { BillingDebugPanel } from "../billing-debug-panel";
-import { shouldShowInvoiceRequest } from "../billing-invoice-request";
-import { shouldShowPlanCheckout } from "../billing-plan-checkout";
-import { deriveBillingUiMode } from "../billing-state";
+import { CreateSubscriptionWizardStatePanel } from "./create-subscription-wizard-state-panel";
+import { PlanTierCard } from "../_components/plan-tier-card/PlanTierCard";
+import { useBillingInvoiceContactPrefill } from "../_hooks/useBillingInvoiceContactPrefill";
+import { formatMoney } from "../_utils/formatBillingDisplay";
+import { extractHostedInvoiceFromOrderPayload } from "../_utils/hostedInvoiceFromOrderPayload";
+import {
+  computePassEndDateYyyyMmDd,
+  parseBillingIsoToCalendarDate,
+} from "../_utils/passEndDateFromWizardStart";
+import { orderedDistinctSubscriptionCategories } from "../_utils/planTierCard";
+import { shouldShowStripeImmediateInvoiceCreate } from "../_utils/shouldShowStripeImmediateInvoice";
+import { deriveBillingUiMode } from "../core/billing-state";
+import { BillingDebugPanel } from "../debug/billing-debug-panel";
+import { shouldShowInvoiceRequest } from "../invoice-request/billing-invoice-request";
+import { shouldShowPlanCheckout } from "../plan-checkout/billing-plan-checkout";
+import { createStrapiStripeInvoice } from "./actions/create-stripe-invoice";
 
 import type {
-  AvailableBillingTier,
   PostAccountBillingInvoiceRequestBody,
+  SubscriptionTierCategory,
 } from "@/types/api/account";
-
-function formatMoney(amount: number | null, currency: string | null): string {
-  if (amount == null) return "—";
-  const c = currency?.trim() || "AUD";
-  try {
-    return new Intl.NumberFormat(undefined, { style: "currency", currency: c }).format(amount);
-  } catch {
-    return `${amount} ${c}`;
-  }
-}
 
 function localDateInputToday(): string {
   const d = new Date();
@@ -56,16 +71,6 @@ function localDateInputToday(): string {
   const m = String(d.getMonth() + 1).padStart(2, "0");
   const day = String(d.getDate()).padStart(2, "0");
   return `${y}-${m}-${day}`;
-}
-
-function truncateDescription(text: string, max: number): string {
-  const t = text.trim();
-  if (t.length <= max) return t;
-  return `${t.slice(0, max - 1)}…`;
-}
-
-function tierKey(tier: AvailableBillingTier): string {
-  return String(tier.id);
 }
 
 const inputClass =
@@ -87,22 +92,24 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
   const [selectedTierId, setSelectedTierId] = useState<string | null>(null);
   const [startDate, setStartDate] = useState("");
   const [paymentPath, setPaymentPath] = useState<PaymentPath | null>(null);
+  const [planCategoryFilter, setPlanCategoryFilter] = useState<SubscriptionTierCategory | null>(
+    null,
+  );
 
   const [billingContactName, setBillingContactName] = useState("");
   const [billingEmail, setBillingEmail] = useState("");
   const [billingOrganisationName, setBillingOrganisationName] = useState("");
-  const [line1, setLine1] = useState("");
-  const [line2, setLine2] = useState("");
-  const [city, setCity] = useState("");
-  const [stateField, setStateField] = useState("");
-  const [postcode, setPostcode] = useState("");
-  const [country, setCountry] = useState("");
-  const [purchaseOrderNumber, setPurchaseOrderNumber] = useState("");
   const [notes, setNotes] = useState("");
 
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const [invoiceError, setInvoiceError] = useState<string | null>(null);
   const [missingCheckoutUrl, setMissingCheckoutUrl] = useState(false);
+
+  const [stripeImmediateError, setStripeImmediateError] = useState<string | null>(null);
+  const [stripeImmediatePending, setStripeImmediatePending] = useState(false);
+  const [stripeHostedUrl, setStripeHostedUrl] = useState<string | null>(null);
+  const [stripeCreatedOrderId, setStripeCreatedOrderId] = useState<number | null>(null);
+  const [stripeInvoicePaidDetected, setStripeInvoicePaidDetected] = useState(false);
 
   const summary =
     billingQ.isSuccess && billingQ.data && !isAccountBillingGatewayRedirect(billingQ.data)
@@ -129,8 +136,61 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
   const tiersQ = useAccountBillingAvailableTiers(accountId, {
     enabled: segmentOk && summary != null && mode != null && !wizardBlocked,
   });
+
+  const tiersList = useMemo(() => {
+    if (
+      tiersQ.isSuccess &&
+      tiersQ.data &&
+      !isAccountBillingAvailableTiersGatewayRedirect(tiersQ.data)
+    ) {
+      return tiersQ.data.tiers;
+    }
+    return [];
+  }, [tiersQ.isSuccess, tiersQ.data]);
+
+  const orderedCategories = useMemo(
+    () => orderedDistinctSubscriptionCategories(tiersList),
+    [tiersList],
+  );
+  const showPlanCategoryToggle = orderedCategories.length > 1;
+  const effectivePlanCategory: SubscriptionTierCategory | null = showPlanCategoryToggle
+    ? (planCategoryFilter ?? orderedCategories[0] ?? null)
+    : null;
+
+  const displayTiers = useMemo(() => {
+    if (effectivePlanCategory == null) return tiersList;
+    return tiersList.filter((t) => t.category === effectivePlanCategory);
+  }, [tiersList, effectivePlanCategory]);
+
+  useEffect(() => {
+    if (!selectedTierId) return;
+    if (tiersList.length === 0) return;
+    const stillVisible = displayTiers.some((t) => t.id === selectedTierId);
+    if (!stillVisible) setSelectedTierId(null);
+  }, [tiersList.length, displayTiers, selectedTierId]);
+
   const checkoutMutation = usePostAccountBillingCheckout(accountId);
   const invoiceMutation = usePostAccountBillingInvoiceRequest(accountId);
+
+  const meEnabled = Boolean(segmentOk && summary != null && mode != null && !wizardBlocked);
+  const meQ = useAccountMe({ enabled: meEnabled });
+
+  const showStripeImmediateInvoice = useMemo(
+    () =>
+      shouldShowStripeImmediateInvoiceCreate({
+        availableActions: availableActions ?? null,
+        me: meQ.data?.data ?? null,
+      }),
+    [availableActions, meQ.data?.data],
+  );
+
+  useBillingInvoiceContactPrefill(
+    accountId,
+    Boolean(segmentOk && summary != null && mode != null && !wizardBlocked),
+    setBillingContactName,
+    setBillingEmail,
+    setBillingOrganisationName,
+  );
 
   const minDate = useMemo(() => localDateInputToday(), []);
 
@@ -163,6 +223,44 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
     });
     router.replace(selectOrganisationUrlWithReason(tiersQ.data.reason));
   }, [tiersQ.isSuccess, tiersQ.data, accountId, queryClient, router, segmentOk]);
+
+  useEffect(() => {
+    if (stripeCreatedOrderId == null || stripeInvoicePaidDetected) {
+      return;
+    }
+
+    let cancelled = false;
+    const maxMs = 120_000;
+    const started = Date.now();
+
+    const id = window.setInterval(() => {
+      void (async () => {
+        if (cancelled || Date.now() - started > maxMs) {
+          window.clearInterval(id);
+          return;
+        }
+        try {
+          const b = await accountApi.getAccountBilling(accountId);
+          const active = b.data.activeOrder;
+          if (active?.id === stripeCreatedOrderId && active.OrderPaid === true) {
+            setStripeInvoicePaidDetected(true);
+            void queryClient.invalidateQueries({ queryKey: queryKeys.account.billing(accountId) });
+            void queryClient.invalidateQueries({
+              queryKey: queryKeys.account.billingOrders(accountId),
+            });
+            window.clearInterval(id);
+          }
+        } catch {
+          /* ignore transient errors while polling */
+        }
+      })();
+    }, 2800);
+
+    return () => {
+      cancelled = true;
+      window.clearInterval(id);
+    };
+  }, [accountId, queryClient, stripeCreatedOrderId, stripeInvoicePaidDetected]);
 
   if (!segmentOk) {
     return (
@@ -326,8 +424,6 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
     );
   }
 
-  const { tiers } = tiersQ.data;
-
   if (!canCard && !canInvoice) {
     return (
       <>
@@ -354,6 +450,10 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
       </>
     );
   }
+
+  const today = startOfDay(new Date());
+  const endMonth = addYears(today, 5);
+  const selectedDate = parseBillingIsoToCalendarDate(startDate);
 
   const dateOk = startDate.length > 0 && startDate >= minDate;
 
@@ -405,19 +505,14 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
   const requiredInvoiceFilled =
     billingContactName.trim().length > 0 &&
     billingEmail.trim().length > 0 &&
-    billingOrganisationName.trim().length > 0 &&
-    line1.trim().length > 0 &&
-    city.trim().length > 0 &&
-    stateField.trim().length > 0 &&
-    postcode.trim().length > 0 &&
-    country.trim().length > 0;
+    billingOrganisationName.trim().length > 0;
 
   const canSubmitInvoice = Boolean(
     selectedTierId &&
     startOkInvoice &&
     requiredInvoiceFilled &&
     !invoiceMutation.isPending &&
-    tiers.length > 0,
+    tiersList.length > 0,
   );
 
   function buildInvoiceBody(): PostAccountBillingInvoiceRequestBody {
@@ -428,29 +523,13 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
     ) {
       throw new Error("Invalid form state");
     }
-    const billingAddress: PostAccountBillingInvoiceRequestBody["billingAddress"] = {
-      line1: line1.trim(),
-      city: city.trim(),
-      state: stateField.trim(),
-      postcode: postcode.trim(),
-      country: country.trim(),
-    };
-    const l2 = line2.trim();
-    if (l2.length > 0) {
-      billingAddress.line2 = l2;
-    }
     const body: PostAccountBillingInvoiceRequestBody = {
       subscriptionTierId: selectedTierId,
       requestedStartDate: startParsedForInvoice.toISOString(),
       billingContactName: billingContactName.trim(),
       billingEmail: billingEmail.trim(),
       billingOrganisationName: billingOrganisationName.trim(),
-      billingAddress,
     };
-    const po = purchaseOrderNumber.trim();
-    if (po.length > 0) {
-      body.purchaseOrderNumber = po;
-    }
     const n = notes.trim();
     if (n.length > 0) {
       body.notes = n;
@@ -479,98 +558,202 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
     }
   }
 
-  const selectedTier = tiers.find((t) => tierKey(t) === selectedTierId);
+  const selectedTier = tiersList.find((t) => t.id === selectedTierId);
+
+  const canSubmitStripeImmediate = Boolean(
+    showStripeImmediateInvoice &&
+    selectedTierId &&
+    dateOk &&
+    selectedTier &&
+    !stripeImmediatePending &&
+    tiersList.length > 0,
+  );
+
+  async function pollHostedInvoiceUrl(orderId: number): Promise<string | null> {
+    const delay = (ms: number) => new Promise((r) => setTimeout(r, ms));
+    for (let attempt = 0; attempt < 14; attempt++) {
+      if (attempt > 0) await delay(550);
+      try {
+        const billingRes = await accountApi.getAccountBilling(accountId);
+        const active = billingRes.data.activeOrder;
+        const hosted = active?.hosted_invoice_url?.trim();
+        if (active?.id === orderId && hosted) {
+          return hosted;
+        }
+
+        const ordersRes = await accountApi.getAccountBillingOrders(accountId);
+        const row = ordersRes.orders.find((o) => o.id === orderId);
+        if (row) {
+          const { hostedInvoiceUrl } = extractHostedInvoiceFromOrderPayload(
+            row as unknown as Record<string, unknown>,
+          );
+          if (hostedInvoiceUrl) {
+            return hostedInvoiceUrl;
+          }
+        }
+      } catch {
+        /* retry */
+      }
+    }
+    return null;
+  }
+
+  async function submitStripeImmediateInvoice() {
+    setStripeImmediateError(null);
+    setStripeHostedUrl(null);
+    setStripeCreatedOrderId(null);
+    setStripeInvoicePaidDetected(false);
+    if (!canSubmitStripeImmediate || !selectedTier || !selectedTierId) {
+      return;
+    }
+    let endDate: string;
+    try {
+      endDate = computePassEndDateYyyyMmDd(startDate, selectedTier.daysInPass);
+    } catch (err) {
+      setStripeImmediateError(err instanceof Error ? err.message : "Invalid dates.");
+      return;
+    }
+
+    setStripeImmediatePending(true);
+    try {
+      const res = await createStrapiStripeInvoice({
+        AccountID: accountId,
+        product_id: selectedTierId,
+        startDate,
+        endDate,
+      });
+      if (!res.ok) {
+        setStripeImmediateError(res.message);
+        return;
+      }
+      setStripeCreatedOrderId(res.orderId);
+      await queryClient.invalidateQueries({ queryKey: queryKeys.account.billing(accountId) });
+      await queryClient.invalidateQueries({ queryKey: queryKeys.account.billingOrders(accountId) });
+
+      const url = await pollHostedInvoiceUrl(res.orderId);
+      setStripeHostedUrl(url);
+      if (!url) {
+        setStripeImmediateError(
+          "Invoice was created but the Stripe payment link is not ready yet. Open Billing history or retry in a moment.",
+        );
+      }
+    } catch (e) {
+      if (e instanceof ApiError) {
+        setStripeImmediateError(e.message);
+      } else if (e instanceof Error) {
+        setStripeImmediateError(e.message);
+      } else {
+        setStripeImmediateError(AUTH_ERROR_MESSAGES.network);
+      }
+    } finally {
+      setStripeImmediatePending(false);
+    }
+  }
+  const displayTierIds = displayTiers.map((t) => t.id);
+  const selectedTierPreview = selectedTier
+    ? { id: selectedTier.id, name: selectedTier.name, category: selectedTier.category }
+    : null;
 
   return (
     <div className="grid gap-6">
-      <div className="text-muted-foreground flex flex-wrap items-center gap-2 text-xs">
-        <span>Step {step} of 4</span>
-        <span aria-hidden>·</span>
-        <Button type="button" variant="link" className="h-auto p-0 text-xs" asChild>
-          <Link href={`/o/${encodeURIComponent(accountId)}/billing`}>
-            Cancel and return to billing
-          </Link>
-        </Button>
-      </div>
-
       {step === 1 ? (
-        <Card>
-          <CardHeader>
-            <CardTitle className="font-brand text-lg">1. Select subscription tier</CardTitle>
-            <CardDescription>Choose the plan that fits this organisation.</CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-4">
-            {tiers.length === 0 ? (
+        <div className="bg-muted/35 rounded-lg border border-transparent p-5 sm:p-6">
+          <div className="space-y-1">
+            <h2 className="font-brand text-lg font-semibold">1. Select subscription tier</h2>
+            <p className="text-muted-foreground text-sm">
+              Choose the plan that fits this organisation.
+            </p>
+          </div>
+          <div className="mt-4 grid gap-4">
+            {tiersList.length === 0 ? (
               <p className="text-muted-foreground text-sm" role="status">
                 No plans are available for this account right now.
               </p>
             ) : (
-              <div className="grid gap-2" role="radiogroup" aria-label="Subscription tier">
-                {tiers.map((tier) => {
-                  const id = tierKey(tier);
-                  const selected = selectedTierId === id;
-                  const primaryLabel = tier.Name ?? id;
-                  return (
-                    <button
-                      key={id}
-                      type="button"
-                      role="radio"
-                      aria-checked={selected}
-                      onClick={() => setSelectedTierId(id)}
-                      className={cn(
-                        "border-border hover:bg-muted/40 rounded-lg border p-4 text-left transition-colors",
-                        selected && "border-primary ring-ring ring-2",
-                      )}
+              <div className="space-y-4">
+                {showPlanCategoryToggle && effectivePlanCategory ? (
+                  <div className="space-y-2">
+                    <Label className="text-xs font-medium">Organisation type</Label>
+                    <ToggleGroup
+                      type="single"
+                      variant="outline"
+                      spacing={0}
+                      value={effectivePlanCategory}
+                      onValueChange={(v) => {
+                        if (v === "Club" || v === "Association") setPlanCategoryFilter(v);
+                      }}
                     >
-                      <p className="text-foreground font-medium">{primaryLabel}</p>
-                      {tier.Title ? (
-                        <p className="text-muted-foreground mt-0.5 text-sm">{tier.Title}</p>
-                      ) : null}
-                      {tier.description ? (
-                        <p className="text-muted-foreground mt-2 text-xs leading-relaxed">
-                          {truncateDescription(tier.description, 220)}
-                        </p>
-                      ) : null}
-                      <p className="mt-2 text-sm font-medium tabular-nums">
-                        {formatMoney(tier.price ?? null, tier.currency ?? null)}
-                      </p>
-                    </button>
-                  );
-                })}
+                      <ToggleGroupItem value="Club" className="px-4">
+                        Club
+                      </ToggleGroupItem>
+                      <ToggleGroupItem value="Association" className="px-4">
+                        Association
+                      </ToggleGroupItem>
+                    </ToggleGroup>
+                  </div>
+                ) : null}
+                <div className="grid gap-3" role="radiogroup" aria-label="Subscription tier">
+                  {displayTiers.map((tier) => (
+                    <PlanTierCard
+                      key={tier.id}
+                      tier={tier}
+                      selected={selectedTierId === tier.id}
+                      onSelect={() => setSelectedTierId(tier.id)}
+                    />
+                  ))}
+                </div>
               </div>
             )}
-            <div>
+            <div className="flex justify-center">
               <Button
                 type="button"
-                disabled={!selectedTierId || tiers.length === 0}
+                disabled={!selectedTierId || tiersList.length === 0 || displayTiers.length === 0}
                 onClick={() => setStep(2)}
               >
                 Continue
               </Button>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       ) : null}
 
       {step === 2 ? (
-        <Card>
-          <CardHeader>
-            <CardTitle className="font-brand text-lg">2. Subscription start date</CardTitle>
-            <CardDescription>When should the subscription begin?</CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-4">
-            <div className="grid max-w-xs gap-2">
-              <Label htmlFor="wizard-start-date">Start date</Label>
-              <input
-                id="wizard-start-date"
-                type="date"
-                min={minDate}
-                value={startDate}
-                onChange={(ev) => setStartDate(ev.target.value)}
-                className={inputClass}
+        <div className="bg-muted/35 rounded-lg border border-transparent p-5 sm:p-6">
+          <div className="space-y-1">
+            <h2 className="font-brand text-lg font-semibold">2. Subscription start date</h2>
+            <p className="text-muted-foreground text-sm">When should the subscription begin?</p>
+          </div>
+
+          <div className="mt-4 grid gap-6 md:grid-cols-[auto_minmax(0,1fr)] md:items-start">
+            <div className="flex justify-center md:justify-start">
+              <Calendar
+                mode="single"
+                selected={selectedDate}
+                onSelect={(d) => setStartDate(d ? format(d, "yyyy-MM-dd") : "")}
+                captionLayout="dropdown"
+                startMonth={today}
+                endMonth={endMonth}
+                disabled={{ before: today }}
+                className="rounded-md border shadow"
               />
+            </div>
+
+            <div className="space-y-3">
+              <div className="min-h-5 text-center text-sm font-medium md:text-left">
+                {selectedDate ? (
+                  <p>
+                    Selected date:{" "}
+                    <span className="text-primary">{format(selectedDate, "PPP")}</span>
+                  </p>
+                ) : (
+                  <p className="text-muted-foreground">No date selected</p>
+                )}
+              </div>
               <p className="text-muted-foreground text-xs">Must be today or a future date.</p>
             </div>
+          </div>
+
+          <div className="mt-6 flex flex-wrap items-center justify-between gap-2 border-t pt-6">
             <div className="flex flex-wrap gap-2">
               <Button type="button" variant="outline" onClick={() => setStep(1)}>
                 Back
@@ -579,17 +762,28 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
                 Continue
               </Button>
             </div>
-          </CardContent>
-        </Card>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setStartDate("")}
+              disabled={!startDate}
+            >
+              Reset
+            </Button>
+          </div>
+        </div>
       ) : null}
 
       {step === 3 ? (
-        <Card>
-          <CardHeader>
-            <CardTitle className="font-brand text-lg">3. Payment path</CardTitle>
-            <CardDescription>Pay by card with Stripe, or request an invoice.</CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-4">
+        <div className="bg-muted/35 rounded-lg border border-transparent p-5 sm:p-6">
+          <div className="space-y-1">
+            <h2 className="font-brand text-lg font-semibold">3. Payment path</h2>
+            <p className="text-muted-foreground text-sm">
+              Pay by card with Stripe, or request an online invoice (no postal address needed).
+            </p>
+          </div>
+
+          <div className="mt-4 grid gap-4">
             <div className="grid gap-2" role="radiogroup" aria-label="Payment path">
               {canCard ? (
                 <button
@@ -598,14 +792,21 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
                   aria-checked={paymentPath === "card"}
                   onClick={() => setPaymentPath("card")}
                   className={cn(
-                    "border-border hover:bg-muted/40 rounded-lg border p-4 text-left transition-colors",
+                    "border-border hover:bg-muted/40 rounded-lg border bg-white p-4 text-left transition-colors dark:bg-black/20",
                     paymentPath === "card" && "border-primary ring-ring ring-2",
                   )}
                 >
-                  <p className="text-foreground font-medium">Card (Stripe Checkout)</p>
-                  <p className="text-muted-foreground mt-1 text-sm">
-                    Pay online; you will be redirected to Stripe.
-                  </p>
+                  <div className="flex items-start gap-4">
+                    <div className="bg-primary/10 text-primary flex size-12 items-center justify-center rounded-xl">
+                      <CreditCard className="size-6" aria-hidden />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-foreground font-medium">Card (Stripe Checkout)</p>
+                      <p className="text-muted-foreground mt-1 text-sm">
+                        Pay online; you will be redirected to Stripe.
+                      </p>
+                    </div>
+                  </div>
                 </button>
               ) : null}
               {canInvoice ? (
@@ -615,14 +816,21 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
                   aria-checked={paymentPath === "invoice"}
                   onClick={() => setPaymentPath("invoice")}
                   className={cn(
-                    "border-border hover:bg-muted/40 rounded-lg border p-4 text-left transition-colors",
+                    "border-border hover:bg-muted/40 rounded-lg border bg-white p-4 text-left transition-colors dark:bg-black/20",
                     paymentPath === "invoice" && "border-primary ring-ring ring-2",
                   )}
                 >
-                  <p className="text-foreground font-medium">Invoice request</p>
-                  <p className="text-muted-foreground mt-1 text-sm">
-                    Submit billing details for a pay-by-invoice quote.
-                  </p>
+                  <div className="flex items-start gap-4">
+                    <div className="bg-primary/10 text-primary flex size-12 items-center justify-center rounded-xl">
+                      <FileText className="size-6" aria-hidden />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-foreground font-medium">Online invoice request</p>
+                      <p className="text-muted-foreground mt-1 text-sm">
+                        We will email the invoice and it will show on your billing page.
+                      </p>
+                    </div>
+                  </div>
                 </button>
               ) : null}
             </div>
@@ -634,252 +842,461 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
                 Continue
               </Button>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       ) : null}
 
       {step === 4 && paymentPath === "card" ? (
-        <Card>
-          <CardHeader>
-            <CardTitle className="font-brand text-lg">4. Review and pay</CardTitle>
-            <CardDescription>Confirm your selection, then continue to Stripe.</CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-4 text-sm">
-            <dl className="grid gap-2">
-              <div className="flex justify-between gap-4">
-                <dt className="text-muted-foreground">Plan</dt>
-                <dd className="text-right font-medium">
-                  {selectedTier?.Name ?? selectedTierId ?? "—"}
-                </dd>
+        <div className="grid gap-6">
+          <div className="mx-auto w-full max-w-4xl space-y-2 text-center md:text-left">
+            <TypographyH3 className="font-brand text-lg tracking-tight">
+              4. Review and pay
+            </TypographyH3>
+            <TypographyMuted className="text-sm">
+              Confirm your plan and start date, then continue to Stripe Checkout to pay by card.
+            </TypographyMuted>
+          </div>
+
+          <div className="border-border bg-card mx-auto grid max-w-4xl grid-cols-1 gap-0 overflow-hidden rounded-4xl border shadow-2xl md:grid-cols-5">
+            <div className="bg-muted/40 border-border shrink-0 border-r p-10 md:col-span-2">
+              <div className="space-y-8">
+                <div className="flex items-center gap-3">
+                  <div className="bg-primary text-primary-foreground flex size-8 items-center justify-center rounded-lg">
+                    <CreditCard className="size-4" aria-hidden />
+                  </div>
+                  <TypographyLarge className="text-sm font-bold tracking-widest uppercase">
+                    Subscription overview
+                  </TypographyLarge>
+                </div>
+
+                <div className="space-y-6">
+                  <div className="space-y-2">
+                    <TypographyH4 className="text-muted-foreground text-xs font-bold tracking-widest uppercase">
+                      Selected plan
+                    </TypographyH4>
+                    <TypographyH3 className="text-primary text-xl font-bold italic">
+                      {selectedTier?.name ?? selectedTierId ?? "—"}
+                    </TypographyH3>
+                  </div>
+
+                  {selectedTier ? (
+                    <dl className="border-border/60 text-foreground/90 space-y-3 border-t pt-4 text-sm">
+                      {selectedTier.packageName?.trim() ? (
+                        <div className="space-y-0.5">
+                          <dt className="text-muted-foreground text-[0.65rem] font-bold tracking-widest uppercase">
+                            Package
+                          </dt>
+                          <dd>{selectedTier.packageName.trim()}</dd>
+                        </div>
+                      ) : null}
+                    </dl>
+                  ) : (
+                    <TypographyMuted className="text-xs leading-relaxed">
+                      Plan details will appear here once a tier is selected.
+                    </TypographyMuted>
+                  )}
+                </div>
+
+                <div className="pt-12 md:pt-20">
+                  <div className="border-border flex flex-col gap-1 border-t pt-6">
+                    <TypographyMuted className="text-xs font-bold tracking-widest uppercase">
+                      Total
+                    </TypographyMuted>
+                    <TypographyH2 className="text-primary text-3xl font-black tracking-tighter tabular-nums md:text-4xl">
+                      {selectedTier ? formatMoney(selectedTier.price, selectedTier.currency) : "—"}
+                    </TypographyH2>
+                  </div>
+                </div>
               </div>
-              <div className="flex justify-between gap-4">
-                <dt className="text-muted-foreground">Start date</dt>
-                <dd className="text-right">{startDate || "—"}</dd>
-              </div>
-            </dl>
-            {checkoutError ? (
-              <p className="text-destructive text-sm" role="alert">
-                {checkoutError}
-              </p>
-            ) : null}
-            {missingCheckoutUrl ? (
-              <p className="text-destructive text-sm" role="alert">
-                Checkout URL missing from the server response. Please try again or contact support.
-              </p>
-            ) : null}
-            <div className="flex flex-wrap gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setStep(canCard && canInvoice ? 3 : 2)}
-              >
-                Back
-              </Button>
-              <Button
-                type="button"
-                disabled={!selectedTierId || !dateOk || checkoutMutation.isPending}
-                onClick={() => void submitCardCheckout()}
-              >
-                {checkoutMutation.isPending ? "Starting checkout…" : "Continue to payment"}
-              </Button>
             </div>
-          </CardContent>
-        </Card>
+
+            <div className="bg-white p-10 md:col-span-3 dark:bg-black/20">
+              <div className="grid gap-6">
+                {selectedTier ? (
+                  <dl className="border-border/60 space-y-3 border-b pb-6 text-sm">
+                    {selectedTier.daysInPass > 0 ? (
+                      <div className="space-y-0.5">
+                        <dt className="text-muted-foreground text-[0.65rem] font-bold tracking-widest uppercase">
+                          Coverage
+                        </dt>
+                        <dd className="font-medium">{selectedTier.daysInPass} days in pass</dd>
+                      </div>
+                    ) : null}
+                    {selectedTier.priceByWeekInPass != null ? (
+                      <div className="space-y-0.5">
+                        <dt className="text-muted-foreground text-[0.65rem] font-bold tracking-widest uppercase">
+                          Per week
+                        </dt>
+                        <dd className="text-primary font-semibold tabular-nums">
+                          {formatMoney(selectedTier.priceByWeekInPass, selectedTier.currency)}/week
+                        </dd>
+                      </div>
+                    ) : null}
+                    <div className="space-y-0.5">
+                      <dt className="text-muted-foreground text-[0.65rem] font-bold tracking-widest uppercase">
+                        Start date
+                      </dt>
+                      <dd className="font-medium">
+                        {selectedDate != null ? format(selectedDate, "PPP") : startDate || "—"}
+                      </dd>
+                    </div>
+                  </dl>
+                ) : null}
+
+                {checkoutError ? (
+                  <p className="text-destructive text-sm" role="alert">
+                    {checkoutError}
+                  </p>
+                ) : null}
+                {missingCheckoutUrl ? (
+                  <p className="text-destructive text-sm" role="alert">
+                    Checkout URL missing from the server response. Please try again or contact
+                    support.
+                  </p>
+                ) : null}
+
+                <div className="flex flex-col gap-4">
+                  <Button
+                    type="button"
+                    variant="brand"
+                    size="lg"
+                    disabled={!selectedTierId || !dateOk || checkoutMutation.isPending}
+                    onClick={() => void submitCardCheckout()}
+                    className="shadow-primary/20 h-14 w-full text-lg font-black tracking-[0.2em] uppercase shadow-2xl"
+                  >
+                    {checkoutMutation.isPending ? "Starting checkout…" : "Continue to payment"}
+                    {!checkoutMutation.isPending ? (
+                      <ChevronRight className="ml-2 h-5 w-5" aria-hidden />
+                    ) : null}
+                  </Button>
+
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    className="text-muted-foreground w-full text-xs font-bold tracking-widest uppercase"
+                    onClick={() => setStep(canCard && canInvoice ? 3 : 2)}
+                  >
+                    Back
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       ) : null}
 
       {step === 4 && paymentPath === "invoice" ? (
-        <Card>
-          <CardHeader>
-            <CardTitle className="font-brand text-lg">
+        <div className="grid gap-6">
+          <div className="mx-auto w-full max-w-4xl space-y-2 text-center md:text-left">
+            <TypographyH3 className="font-brand text-lg tracking-tight">
               4. Review and submit invoice request
-            </CardTitle>
-            <CardDescription>
-              Requested start uses your chosen date (stored as ISO). Contact and address are
-              required.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-6">
-            <dl className="text-muted-foreground grid gap-1 text-sm">
-              <div className="flex justify-between gap-4">
-                <dt>Plan</dt>
-                <dd className="text-foreground text-right font-medium">
-                  {selectedTier?.Name ?? selectedTierId ?? "—"}
-                </dd>
-              </div>
-              <div className="flex justify-between gap-4">
-                <dt>Start date</dt>
-                <dd className="text-foreground text-right">{startDate || "—"}</dd>
-              </div>
-            </dl>
+            </TypographyH3>
+            <TypographyMuted className="text-sm">
+              Confirm your plan and start date, then add invoice contact details. Your request comes
+              to us; we raise the invoice (e.g. in Hnry) and send it to you. It will also appear
+              with your outstanding billing items.
+            </TypographyMuted>
+          </div>
 
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="grid gap-2">
-                <Label htmlFor="wizard-contact-name">Billing contact name</Label>
-                <input
-                  id="wizard-contact-name"
-                  type="text"
-                  autoComplete="name"
-                  value={billingContactName}
-                  onChange={(ev) => setBillingContactName(ev.target.value)}
-                  className={inputClass}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="wizard-billing-email">Billing email</Label>
-                <input
-                  id="wizard-billing-email"
-                  type="email"
-                  autoComplete="email"
-                  value={billingEmail}
-                  onChange={(ev) => setBillingEmail(ev.target.value)}
-                  className={inputClass}
-                />
+          <div className="border-border bg-card mx-auto grid max-w-4xl grid-cols-1 gap-0 overflow-hidden rounded-4xl border shadow-2xl md:grid-cols-5">
+            <div className="bg-muted/40 border-border shrink-0 border-r p-10 md:col-span-2">
+              <div className="space-y-8">
+                <div className="flex items-center gap-3">
+                  <div className="bg-primary text-primary-foreground flex size-8 items-center justify-center rounded-lg">
+                    <FileText className="size-4" aria-hidden />
+                  </div>
+                  <TypographyLarge className="text-sm font-bold tracking-widest uppercase">
+                    Subscription overview
+                  </TypographyLarge>
+                </div>
+
+                <div className="space-y-6">
+                  <div className="space-y-2">
+                    <TypographyH4 className="text-muted-foreground text-xs font-bold tracking-widest uppercase">
+                      Selected plan
+                    </TypographyH4>
+                    <TypographyH3 className="text-primary text-xl font-bold italic">
+                      {selectedTier?.name ?? selectedTierId ?? "—"}
+                    </TypographyH3>
+                  </div>
+
+                  {selectedTier ? (
+                    <dl className="border-border/60 text-foreground/90 space-y-3 border-t pt-4 text-sm">
+                      {selectedTier.packageName?.trim() ? (
+                        <div className="space-y-0.5">
+                          <dt className="text-muted-foreground text-[0.65rem] font-bold tracking-widest uppercase">
+                            Package
+                          </dt>
+                          <dd>{selectedTier.packageName.trim()}</dd>
+                        </div>
+                      ) : null}
+                      {selectedTier.daysInPass > 0 ? (
+                        <div className="space-y-0.5">
+                          <dt className="text-muted-foreground text-[0.65rem] font-bold tracking-widest uppercase">
+                            Coverage
+                          </dt>
+                          <dd>{selectedTier.daysInPass} days in pass</dd>
+                        </div>
+                      ) : null}
+                      {selectedTier.priceByWeekInPass != null ? (
+                        <div className="space-y-0.5">
+                          <dt className="text-muted-foreground text-[0.65rem] font-bold tracking-widest uppercase">
+                            Per week
+                          </dt>
+                          <dd className="text-primary font-semibold tabular-nums">
+                            {formatMoney(selectedTier.priceByWeekInPass, selectedTier.currency)}
+                            /week
+                          </dd>
+                        </div>
+                      ) : null}
+                      <div className="space-y-0.5">
+                        <dt className="text-muted-foreground text-[0.65rem] font-bold tracking-widest uppercase">
+                          Start date
+                        </dt>
+                        <dd className="font-medium">
+                          {selectedDate != null ? format(selectedDate, "PPP") : startDate || "—"}
+                        </dd>
+                      </div>
+                    </dl>
+                  ) : (
+                    <TypographyMuted className="text-xs leading-relaxed">
+                      Plan details will appear here once a tier is selected.
+                    </TypographyMuted>
+                  )}
+                </div>
+
+                <div className="pt-12 md:pt-20">
+                  <div className="border-border flex flex-col gap-1 border-t pt-6">
+                    <TypographyMuted className="text-xs font-bold tracking-widest uppercase">
+                      Total
+                    </TypographyMuted>
+                    <TypographyH2 className="text-primary text-3xl font-black tracking-tighter tabular-nums md:text-4xl">
+                      {selectedTier ? formatMoney(selectedTier.price, selectedTier.currency) : "—"}
+                    </TypographyH2>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div className="grid gap-2">
-              <Label htmlFor="wizard-org-name">Organisation name</Label>
-              <input
-                id="wizard-org-name"
-                type="text"
-                autoComplete="organization"
-                value={billingOrganisationName}
-                onChange={(ev) => setBillingOrganisationName(ev.target.value)}
-                className={inputClass}
-              />
-            </div>
+            <div className="bg-white p-10 md:col-span-3 dark:bg-black/20">
+              <div className="grid gap-6">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                  <div className="grid gap-2">
+                    <Label
+                      htmlFor="wizard-contact-name"
+                      className="text-xs font-bold tracking-wider uppercase opacity-60"
+                    >
+                      Billing contact name
+                    </Label>
+                    <input
+                      id="wizard-contact-name"
+                      type="text"
+                      autoComplete="name"
+                      value={billingContactName}
+                      onChange={(ev) => setBillingContactName(ev.target.value)}
+                      className={inputClass}
+                    />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label
+                      htmlFor="wizard-billing-email"
+                      className="text-xs font-bold tracking-wider uppercase opacity-60"
+                    >
+                      Billing email
+                    </Label>
+                    <input
+                      id="wizard-billing-email"
+                      type="email"
+                      autoComplete="email"
+                      value={billingEmail}
+                      onChange={(ev) => setBillingEmail(ev.target.value)}
+                      className={inputClass}
+                    />
+                  </div>
+                </div>
 
-            <fieldset className="grid gap-3">
-              <legend className="mb-1 text-sm font-medium">Billing address</legend>
-              <div className="grid gap-2">
-                <Label htmlFor="wizard-addr-line1">Address line 1</Label>
-                <input
-                  id="wizard-addr-line1"
-                  type="text"
-                  autoComplete="address-line1"
-                  value={line1}
-                  onChange={(ev) => setLine1(ev.target.value)}
-                  className={inputClass}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="wizard-addr-line2">Address line 2 (optional)</Label>
-                <input
-                  id="wizard-addr-line2"
-                  type="text"
-                  autoComplete="address-line2"
-                  value={line2}
-                  onChange={(ev) => setLine2(ev.target.value)}
-                  className={inputClass}
-                />
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2">
                 <div className="grid gap-2">
-                  <Label htmlFor="wizard-addr-city">City / suburb</Label>
+                  <Label
+                    htmlFor="wizard-org-name"
+                    className="text-xs font-bold tracking-wider uppercase opacity-60"
+                  >
+                    Organisation name
+                  </Label>
                   <input
-                    id="wizard-addr-city"
+                    id="wizard-org-name"
                     type="text"
-                    autoComplete="address-level2"
-                    value={city}
-                    onChange={(ev) => setCity(ev.target.value)}
+                    autoComplete="organization"
+                    value={billingOrganisationName}
+                    onChange={(ev) => setBillingOrganisationName(ev.target.value)}
                     className={inputClass}
                   />
                 </div>
+
                 <div className="grid gap-2">
-                  <Label htmlFor="wizard-addr-state">State / region</Label>
-                  <input
-                    id="wizard-addr-state"
-                    type="text"
-                    autoComplete="address-level1"
-                    value={stateField}
-                    onChange={(ev) => setStateField(ev.target.value)}
-                    className={inputClass}
+                  <Label
+                    htmlFor="wizard-notes"
+                    className="text-xs font-bold tracking-wider uppercase opacity-60"
+                  >
+                    Notes (optional)
+                  </Label>
+                  <textarea
+                    id="wizard-notes"
+                    value={notes}
+                    onChange={(ev) => setNotes(ev.target.value)}
+                    className={textareaClass}
                   />
+                </div>
+
+                {invoiceError ? (
+                  <p className="text-destructive text-sm" role="alert">
+                    {invoiceError}
+                  </p>
+                ) : null}
+
+                {showStripeImmediateInvoice ? (
+                  <div
+                    className="border-border bg-muted/30 rounded-lg border p-4"
+                    role="region"
+                    aria-label="Staff Stripe invoice generation"
+                  >
+                    <p className="text-foreground text-sm font-medium">
+                      Staff: immediate Stripe invoice
+                    </p>
+                    <p className="text-muted-foreground mt-1 text-xs">
+                      Creates the CMS order + Stripe invoice via Strapi (`POST
+                      /api/orders/stripe/create-invoice`). Open the hosted invoice to pay; this app
+                      will poll until the order is marked paid.
+                    </p>
+                    {stripeImmediateError ? (
+                      <p className="text-destructive mt-2 text-sm" role="alert">
+                        {stripeImmediateError}
+                      </p>
+                    ) : null}
+                    {stripeHostedUrl ? (
+                      <div className="mt-3 grid gap-2">
+                        <Button variant="brand" size="sm" className="w-full sm:w-auto" asChild>
+                          <a href={stripeHostedUrl} target="_blank" rel="noopener noreferrer">
+                            Pay online (hosted invoice)
+                          </a>
+                        </Button>
+                        {stripeInvoicePaidDetected ? (
+                          <div className="grid gap-2">
+                            <p className="text-primary text-sm font-medium" role="status">
+                              Payment recorded — you can return to billing.
+                            </p>
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="sm"
+                              className="w-full sm:w-auto"
+                              asChild
+                            >
+                              <Link href={`/o/${encodeURIComponent(accountId)}/billing`}>
+                                Back to billing
+                              </Link>
+                            </Button>
+                          </div>
+                        ) : (
+                          <p className="text-muted-foreground text-xs">
+                            Waiting for webhook confirmation after you pay… (up to ~2 minutes)
+                          </p>
+                        )}
+                      </div>
+                    ) : null}
+                    <div className="mt-3">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        disabled={!canSubmitStripeImmediate}
+                        onClick={() => void submitStripeImmediateInvoice()}
+                        className="w-full sm:w-auto"
+                      >
+                        {stripeImmediatePending ? "Generating invoice…" : "Generate Stripe invoice"}
+                      </Button>
+                    </div>
+                  </div>
+                ) : null}
+
+                <div className="flex flex-col gap-4">
+                  <Button
+                    type="button"
+                    variant="brand"
+                    size="lg"
+                    disabled={!canSubmitInvoice}
+                    onClick={() => void submitInvoiceRequest()}
+                    className="shadow-primary/20 h-14 w-full text-lg font-black tracking-[0.2em] uppercase shadow-2xl"
+                  >
+                    {invoiceMutation.isPending ? "Submitting…" : "Submit invoice request"}
+                    {!invoiceMutation.isPending ? (
+                      <ChevronRight className="ml-2 h-5 w-5" aria-hidden />
+                    ) : null}
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    className="text-muted-foreground w-full text-xs font-bold tracking-widest uppercase"
+                    onClick={() => setStep(canCard && canInvoice ? 3 : 2)}
+                  >
+                    Back
+                  </Button>
                 </div>
               </div>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="grid gap-2">
-                  <Label htmlFor="wizard-addr-postcode">Postcode</Label>
-                  <input
-                    id="wizard-addr-postcode"
-                    type="text"
-                    autoComplete="postal-code"
-                    value={postcode}
-                    onChange={(ev) => setPostcode(ev.target.value)}
-                    className={inputClass}
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="wizard-addr-country">Country</Label>
-                  <input
-                    id="wizard-addr-country"
-                    type="text"
-                    autoComplete="country-name"
-                    value={country}
-                    onChange={(ev) => setCountry(ev.target.value)}
-                    className={inputClass}
-                  />
-                </div>
-              </div>
-            </fieldset>
-
-            <div className="grid gap-2">
-              <Label htmlFor="wizard-po">Purchase order (optional)</Label>
-              <input
-                id="wizard-po"
-                type="text"
-                value={purchaseOrderNumber}
-                onChange={(ev) => setPurchaseOrderNumber(ev.target.value)}
-                className={inputClass}
-              />
             </div>
-
-            <div className="grid gap-2">
-              <Label htmlFor="wizard-notes">Notes (optional)</Label>
-              <textarea
-                id="wizard-notes"
-                value={notes}
-                onChange={(ev) => setNotes(ev.target.value)}
-                className={textareaClass}
-              />
-            </div>
-
-            {invoiceError ? (
-              <p className="text-destructive text-sm" role="alert">
-                {invoiceError}
-              </p>
-            ) : null}
-
-            <div className="flex flex-wrap gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setStep(canCard && canInvoice ? 3 : 2)}
-              >
-                Back
-              </Button>
-              <Button
-                type="button"
-                disabled={!canSubmitInvoice}
-                onClick={() => void submitInvoiceRequest()}
-              >
-                {invoiceMutation.isPending ? "Submitting…" : "Submit invoice request"}
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       ) : null}
+
+      <div className="text-muted-foreground flex flex-wrap items-center gap-2 text-xs">
+        <span>Step {step} of 4</span>
+        <span aria-hidden>·</span>
+        <Button type="button" variant="link" className="h-auto p-0 text-xs" asChild>
+          <Link href={`/o/${encodeURIComponent(accountId)}/billing`}>
+            Cancel and return to billing
+          </Link>
+        </Button>
+      </div>
+      <CreateSubscriptionWizardStatePanel
+        step={step}
+        selectedTierId={selectedTierId}
+        startDate={startDate}
+        paymentPath={paymentPath}
+        planCategoryFilter={planCategoryFilter}
+        effectivePlanCategory={effectivePlanCategory}
+        showPlanCategoryToggle={showPlanCategoryToggle}
+        orderedCategories={orderedCategories}
+        tiersListLength={tiersList.length}
+        displayTiersLength={displayTiers.length}
+        displayTierIds={displayTierIds}
+        selectedTierPreview={selectedTierPreview}
+        canCard={canCard}
+        canInvoice={canInvoice}
+        wizardBlocked={wizardBlocked}
+        billingUiMode={mode}
+        minDate={minDate}
+        dateOk={dateOk}
+        startOkInvoice={startOkInvoice}
+        requiredInvoiceFilled={requiredInvoiceFilled}
+        canSubmitInvoice={canSubmitInvoice}
+        tiersQueryStatus={tiersQ.status}
+        tiersQueryFetchStatus={tiersQ.fetchStatus}
+        checkoutPending={checkoutMutation.isPending}
+        invoicePending={invoiceMutation.isPending}
+        checkoutError={checkoutError}
+        invoiceError={invoiceError}
+        missingCheckoutUrl={missingCheckoutUrl}
+        showStripeImmediateInvoice={showStripeImmediateInvoice}
+        stripeImmediatePending={stripeImmediatePending}
+        stripeImmediateError={stripeImmediateError}
+        stripeHostedUrl={stripeHostedUrl}
+        stripeCreatedOrderId={stripeCreatedOrderId}
+        stripeInvoicePaidDetected={stripeInvoicePaidDetected}
+      />
       <BillingDebugPanel
         accountId={accountId}
         contextLabel="Create subscription"
         summary={summary}
         isSummaryLoading={false}
-        extra={{
-          step,
-          canCard,
-          canInvoice,
-          tiersCount: tiers.length,
-        }}
       />
     </div>
   );

@@ -2,6 +2,12 @@ import { ONBOARDING_SETUP_STATUS_TIMEOUT_MS } from "@/lib/config/onboarding";
 
 import { apiClient } from "../client/fetch-client";
 import { appRoutes } from "../routes/route-definitions";
+import {
+  normalizeCreateCheckoutResponse,
+  normalizeDeletePendingOrderResponse,
+  normalizeResumeCheckoutResponse,
+} from "../utils/normalize-billing-checkout-post-response";
+import { normalizeCancelInvoiceRequestResponse } from "../utils/normalize-cancel-invoice-request-response";
 
 import type {
   AccountAnalyticsOverviewParams,
@@ -28,6 +34,7 @@ import type {
   AccountSponsorsResponse,
   CreateFirstAccountRequestBody,
   CreateFirstAccountResponse,
+  DeletePendingOrderResponse,
   OnboardingLookupsAssociationsResponse,
   OnboardingLookupsClubsResponse,
   OnboardingLookupsOrganisationTypesResponse,
@@ -44,7 +51,7 @@ import type {
   UpdateOnboardingStep3Response,
   UploadOnboardingStep2LogoResponse,
   ConfirmOnboardingResponse,
-  CreateCheckoutResponse,
+  CancelInvoiceRequestResponse,
   CreateInvoiceRequestResponse,
   TriggerAssociationSingleScrapeRequest,
   TriggerAssociationSingleScrapeSuccessResponse,
@@ -70,6 +77,7 @@ import type {
   PostAccountSecurityPasswordBody,
   PostAccountSecurityPasswordResponse,
   PostAccountBillingCheckoutRequest,
+  PostAccountBillingCheckoutResumeRequest,
   PostAccountBillingInvoiceRequestBody,
   StartAccountBillingTrialResponse,
 } from "@/types/api/account";
@@ -255,9 +263,23 @@ export const accountApi = {
   },
 
   /** Start Stripe Checkout session for the account. */
-  postAccountBillingCheckout: (accountId: string, body: PostAccountBillingCheckoutRequest) => {
+  postAccountBillingCheckout: async (
+    accountId: string,
+    body: PostAccountBillingCheckoutRequest,
+  ) => {
     const path = `${appRoutes.accounts.billingCheckout.path}/${encodeURIComponent(accountId)}/billing/checkout`;
-    return apiClient.post<CreateCheckoutResponse>(path, body);
+    const raw = await apiClient.post<unknown>(path, body);
+    return normalizeCreateCheckoutResponse(raw);
+  },
+
+  /** Resume Stripe Checkout for a pending order (same session URL if open, else rebuild). */
+  postAccountBillingCheckoutResume: async (
+    accountId: string,
+    body: PostAccountBillingCheckoutResumeRequest,
+  ) => {
+    const path = `${appRoutes.accounts.billingCheckoutResume.path}/${encodeURIComponent(accountId)}/billing/checkout/resume`;
+    const raw = await apiClient.post<unknown>(path, body);
+    return normalizeResumeCheckoutResponse(raw);
   },
 
   /** Invoice payment request history for the account. */
@@ -275,6 +297,16 @@ export const accountApi = {
     return apiClient.post<CreateInvoiceRequestResponse>(path, body);
   },
 
+  /** Withdraw / cancel an invoice request while CMS allows (submitted / under_review). */
+  postAccountBillingCancelInvoiceRequest: async (
+    accountId: string,
+    invoiceRequestId: string,
+  ): Promise<CancelInvoiceRequestResponse> => {
+    const path = `${appRoutes.accounts.billingInvoiceRequestCancel.path}/${encodeURIComponent(accountId)}/billing/invoice-requests/${encodeURIComponent(invoiceRequestId)}/cancel`;
+    const raw = await apiClient.post<unknown>(path, {});
+    return normalizeCancelInvoiceRequestResponse(raw);
+  },
+
   /** Assign free trial when CMS marks account eligible (`billingStatus=trial_available` + action flag). */
   postAccountBillingStartTrial: (accountId: string) => {
     const path = `${appRoutes.accounts.billingStartTrial.path}/${encodeURIComponent(accountId)}/billing/start-trial`;
@@ -285,6 +317,16 @@ export const accountApi = {
   getAccountBillingOrders: (accountId: string) => {
     const path = `${appRoutes.accounts.billingOrders.path}/${encodeURIComponent(accountId)}/billing/orders`;
     return apiClient.get<AccountBillingOrdersResponse>(path);
+  },
+
+  /** Soft-expire pending Stripe checkout order (discard attempt). */
+  postAccountBillingDeletePendingOrder: async (
+    accountId: string,
+    orderId: string,
+  ): Promise<DeletePendingOrderResponse> => {
+    const path = `${appRoutes.accounts.billingOrdersDeletePending.path}/${encodeURIComponent(accountId)}/billing/orders/${encodeURIComponent(orderId)}/delete`;
+    const raw = await apiClient.post<unknown>(path, {});
+    return normalizeDeletePendingOrderResponse(raw);
   },
 
   /** Phase 3: template, theme, and template_option for branding / preview flows. */

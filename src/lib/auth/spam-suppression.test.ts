@@ -38,9 +38,18 @@ describe("spamSuppression", () => {
     spamSuppression.recordFailure(ip, email);
     spamSuppression.recordFailure(ip, email);
 
+    // Progressive backoff (counts 4–5): throttle but still allow attempt after delay.
+    expect(spamSuppression.checkLogin(ip, email)).toMatchObject({
+      allowed: true,
+      delayMs: 2000,
+    });
+
+    spamSuppression.recordFailure(ip, email);
+
+    // Count ≥ 6: cooldown blocks further login on this IP (login store, not forgot-password).
     expect(spamSuppression.checkLogin(ip, email)).toMatchObject({
       allowed: false,
-      reason: "ip_rate_limit",
+      reason: "ip_cooldown",
     });
   });
 });

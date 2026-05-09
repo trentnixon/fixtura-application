@@ -334,6 +334,16 @@ export const appRoutes = {
       description: "POST append /{accountId}/billing/checkout — Start Stripe checkout session",
       domain: "account",
     },
+    billingCheckoutResume: {
+      key: "accounts.billing-checkout-resume",
+      method: "POST",
+      path: ACCOUNTS_API_BASE,
+      authRequired: true,
+      status: "ready",
+      description:
+        "POST append /{accountId}/billing/checkout/resume — Resume Stripe checkout (pending order)",
+      domain: "account",
+    },
     billingInvoiceRequests: {
       key: "accounts.billing-invoice-requests",
       method: "GET",
@@ -342,6 +352,16 @@ export const appRoutes = {
       status: "ready",
       description:
         "GET + POST append /{accountId}/billing/invoice-requests — list and submit invoice payment requests",
+      domain: "account",
+    },
+    billingInvoiceRequestCancel: {
+      key: "accounts.billing-invoice-request-cancel",
+      method: "POST",
+      path: ACCOUNTS_API_BASE,
+      authRequired: true,
+      status: "ready",
+      description:
+        "POST append /{accountId}/billing/invoice-requests/{invoiceRequestId}/cancel — member withdraw invoice request (BFF → Strapi)",
       domain: "account",
     },
     billingStartTrial: {
@@ -362,6 +382,16 @@ export const appRoutes = {
       status: "ready",
       description:
         "GET append /{accountId}/billing/orders — full order history (BFF → Strapi /api/orders/account/:accountId)",
+      domain: "account",
+    },
+    billingOrdersDeletePending: {
+      key: "accounts.billing-orders-delete-pending",
+      method: "POST",
+      path: ACCOUNTS_API_BASE,
+      authRequired: true,
+      status: "ready",
+      description:
+        "POST append /{accountId}/billing/orders/{orderId}/delete — discard pending Stripe checkout order (BFF → Strapi)",
       domain: "account",
     },
     /** W1: PATCH append /{accountId}/onboarding/step-1 — Step 1 organisation + permission. */

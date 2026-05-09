@@ -7,6 +7,7 @@ import {
   jsonFromStrapiResponse,
   nextResponseFromStrapi,
 } from "@/app/api/accounts/[accountId]/billing/_billing-strapi-proxy";
+import { normalizeInvoiceRequestPostBody } from "@/app/api/accounts/[accountId]/billing/invoice-requests/normalize-invoice-request-post-body";
 import { AUTH_COOKIE_NAME } from "@/lib/auth/auth-constants";
 import { isValidAccountIdSegment } from "@/lib/config/account-routes";
 import { getStrapiUrl } from "@/lib/config/env";
@@ -91,6 +92,11 @@ export async function POST(request: Request, context: RouteContext) {
     return NextResponse.json({ error: "Body must be a JSON object" }, { status: 400 });
   }
 
+  const normalized = normalizeInvoiceRequestPostBody(body as Record<string, unknown>);
+  if (!normalized.ok) {
+    return NextResponse.json({ error: normalized.message }, { status: 400 });
+  }
+
   try {
     const strapiRes = await forwardAccountBillingToStrapi(
       guard.strapiUrl,
@@ -102,7 +108,7 @@ export async function POST(request: Request, context: RouteContext) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify(normalized.body),
       },
     );
 

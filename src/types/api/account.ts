@@ -904,18 +904,42 @@ export interface AccountAnalyticsOverviewResponse {
 
 /** --- Account billing v1 (Strapi handoff: frontend-billing-api-contract-handoff.md) --- */
 
-/** Tier row from GET /accounts/:id/billing/available-tiers. */
+/** Club vs Association tier category (GET …/billing/available-tiers camelCase v1). */
+export type SubscriptionTierCategory = "Club" | "Association";
+
+/**
+ * Tier row from GET /accounts/:id/billing/available-tiers — camelCase v1 wire shape.
+ * @see src/app/(members)/o/[accountId]/billing/.comms/response/frontend-handoff-billing-available-tiers.md
+ */
 export interface AvailableBillingTier {
-  id: string | number;
-  Name?: string;
-  Title?: string | null;
-  SubTitle?: string | null;
-  description?: string | null;
-  price?: number | null;
-  currency?: string | null;
-  stripe_product_id?: string | null;
-  stripe_price_id?: string | null;
-  isActive?: boolean;
+  id: string;
+  name: string;
+  description: string;
+  category: SubscriptionTierCategory;
+  price: number;
+  currency: string;
+  daysInPass: number;
+  priceByWeekInPass?: number;
+  isActive: boolean;
+  includeSponsors: boolean;
+  includedAssetTypes: string[];
+  packageName?: string;
+  stripePriceId?: string;
+}
+
+/** Payment rail for a pending `currentPlan` row on GET billing summary (in-flight order). */
+export type BillingPaymentChannel = "stripe" | "invoice";
+
+/**
+ * `currentPlan` on GET /api/accounts/:accountId/billing — catalog tier plus pending-order context.
+ * `orderId` / `paymentChannel` are non-null only when there is no paid-in-window `activeOrder`
+ * but an in-flight checkout or invoice order exists (per CMS contract).
+ */
+export interface BillingSummaryCurrentPlan extends AvailableBillingTier {
+  /** Pending order driving this `currentPlan`; null when there is none. */
+  orderId: string | null;
+  /** Channel for that pending order; null when there is none. */
+  paymentChannel: BillingPaymentChannel | null;
 }
 
 export interface BillingTrialSummaryV1 {
@@ -935,6 +959,8 @@ export interface InvoiceRequestSummary {
   message?: string | null;
   subscriptionTierId?: string | null;
   requestedStartDate?: string | null;
+  /** When false or omitted and canWithdrawInvoiceRequest is used, FE treats as not withdrawable. */
+  canWithdraw?: boolean;
 }
 
 export interface BillingInvoiceAddressRequest {
@@ -961,6 +987,27 @@ export interface CreateCheckoutResponse {
   orderId: string;
 }
 
+/** POST /billing/checkout/resume — body (orderId required per CMS v1). */
+export interface PostAccountBillingCheckoutResumeRequest {
+  orderId: string;
+}
+
+/** POST /billing/checkout/resume — response. */
+export interface ResumeCheckoutResponse {
+  orderId: string;
+  checkoutSessionId: string;
+  checkoutUrl?: string;
+  reusedExisting: boolean;
+}
+
+/** POST /billing/orders/:orderId/delete — discard pending Stripe checkout (CMS v1). */
+export interface DeletePendingOrderResponse {
+  orderId: string;
+  noOp: boolean;
+  checkoutStatus?: string;
+  stripeSessionExpired?: boolean;
+}
+
 export interface AccountBillingInvoiceRequestsResponse {
   invoiceRequests: InvoiceRequestSummary[];
 }
@@ -971,8 +1018,8 @@ export interface PostAccountBillingInvoiceRequestBody {
   billingContactName: string;
   billingEmail: string;
   billingOrganisationName: string;
-  billingAddress: BillingInvoiceAddressRequest;
-  purchaseOrderNumber?: string;
+  /** Omit for online-only invoice requests (no postal billing address). CMS must accept absence. */
+  billingAddress?: BillingInvoiceAddressRequest;
   notes?: string;
 }
 
@@ -981,6 +1028,14 @@ export interface CreateInvoiceRequestResponse {
   status: "submitted";
   submittedAt: string;
   message: string;
+}
+
+/** POST …/billing/invoice-requests/:invoiceRequestId/cancel — withdraw / cancel invoice request (CMS v1). */
+export interface CancelInvoiceRequestResponse {
+  invoiceRequestId: string;
+  noOp: boolean;
+  status?: string;
+  message?: string;
 }
 
 /** POST …/billing/start-trial — CMS assigns trial; extend when Strapi stabilises envelope. */
@@ -1055,11 +1110,11 @@ export interface AccountBillingOrderDto {
 export interface AccountBillingSummaryV1 {
   billingStatus: string;
   accessStatus: string;
-  currentPlan: AvailableBillingTier | null;
+  currentPlan: BillingSummaryCurrentPlan | null;
   trial: BillingTrialSummaryV1 | null;
   activeOrder: AccountBillingOrderDto | null;
   latestInvoiceRequest: InvoiceRequestSummary | null;
-  /** When omitted by the API, treat as `{}`. */
+  /** e.g. canWithdrawInvoiceRequest, canDeletePendingOrder, canStartCheckout — CMS billing v1. */
   availableActions?: Partial<Record<string, boolean>>;
 }
 
