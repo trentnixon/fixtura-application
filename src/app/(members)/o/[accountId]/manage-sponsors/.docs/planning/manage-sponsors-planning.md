@@ -2,7 +2,14 @@
 
 ## Goal
 
-Turn `/o/[accountId]/manage-sponsors` into the single sponsor-management workspace where users can:
+Turn the sponsor feature into a small route cluster where:
+
+- `/o/[accountId]/manage-sponsors` is the sponsor overview workspace
+- `/o/[accountId]/add-sponsor` is the dedicated single-sponsor creation flow
+- `/o/[accountId]/manage-sponsors/assign` is the dedicated assignment flow
+- `/o/[accountId]/manage-sponsors/archive` is the archive area
+
+Across those routes, users should be able to:
 
 - manage a pool of sponsor records in one place
 - upload, crop, replace, and remove sponsor logos
@@ -31,6 +38,38 @@ So the mental model is:
 3. targeting decides where sponsor applies
 4. archive removes sponsor from the pool
 5. delete permanently removes archived sponsor
+
+## Screen Flow Correction
+
+Sponsor creation/editing and sponsor assignment should be treated as different jobs.
+
+Updated UX rule:
+
+- sponsor create/edit screen handles sponsor details and logo only
+- sponsor assignment screen handles asset positions and entity assignment only
+- users should not assign sponsors while creating or editing the sponsor record
+
+This keeps the flow much clearer:
+
+1. open the sponsor overview
+2. add a sponsor from a dedicated add-sponsor route
+3. confirm the new sponsor upload
+4. return to sponsor overview
+5. assign sponsor to asset position
+6. assign sponsor to entity
+
+## Preview Requirement
+
+At every stage of this feature, we should aim to provide strong preview data and visuals for sponsorship positions.
+
+This is important for:
+
+- understanding which sponsor is assigned where
+- checking primary vs ranked placement quickly
+- confirming sponsor-to-entity assignment decisions
+- reducing mistakes before save/archive actions
+
+This can be staged later in implementation, but it should remain a core product requirement rather than an optional enhancement.
 
 ## Business Rules
 
@@ -135,6 +174,8 @@ This feature should become a small route cluster:
 
 ```text
 /o/[accountId]/manage-sponsors
+/o/[accountId]/add-sponsor
+/o/[accountId]/manage-sponsors/assign
 /o/[accountId]/manage-sponsors/archive
 ```
 
@@ -144,11 +185,44 @@ This feature should become a small route cluster:
 
 Purpose:
 
-- manage active and inactive sponsors in the pool
-- edit sponsor details
-- upload/crop logos
-- manage placement
-- manage targeting
+- overview the state of sponsors
+- quick-view the sponsor pool
+- access archive
+- navigate to add sponsor
+- navigate to sponsor assignment
+
+This route should now behave as the overview page only.
+
+### Add sponsor route
+
+`/o/[accountId]/add-sponsor`
+
+Purpose:
+
+- add one sponsor at a time
+- upload and crop sponsor logo
+- enter sponsor details
+- confirm the sponsor save/upload
+- return to the overview once the sponsor has been created
+
+Rules:
+
+- this route is only for creating a new sponsor
+- it should not include sponsor pool browsing
+- it should not include sponsor assignment
+- it should not include archive actions beyond normal page navigation
+
+### Assignment route
+
+`/o/[accountId]/manage-sponsors/assign`
+
+Purpose:
+
+- assign sponsor to asset position
+- assign sponsor to entity
+- manage global primary position
+- manage ranked sponsor positions
+- manage team / grade / competition assignment
 
 ### Archive route
 
@@ -167,6 +241,8 @@ This keeps the main route focused on the active working pool and moves destructi
 ```text
 src/app/(members)/o/[accountId]/manage-sponsors/
   page.tsx
+  assign/
+    page.tsx
   archive/
     page.tsx
   _components/
@@ -197,6 +273,7 @@ src/app/(members)/o/[accountId]/manage-sponsors/
       sponsor-unsaved-changes-dialog.tsx
 
     placement/
+      sponsor-assignment-workspace.tsx
       sponsor-placement-panel.tsx
       sponsor-primary-slot-card.tsx
       sponsor-ranked-slots-list.tsx
@@ -237,15 +314,77 @@ src/app/(members)/o/[accountId]/manage-sponsors/
 
   .docs/
     manage-sponsors-planning.md
+
+src/app/(members)/o/[accountId]/add-sponsor/
+  page.tsx
+  _components/
+    add-sponsor-screen.tsx
+    add-sponsor-header.tsx
+    add-sponsor-form.tsx
+    add-sponsor-logo-card.tsx
+    add-sponsor-save-dialog.tsx
+    add-sponsor-success-preview.tsx
+  _hooks/
+    use-add-sponsor.ts
 ```
 
 ## Layout Options
 
 There are 3 strong layout patterns for this feature.
 
-### Option A: 3-column workspace
+### Option A: split workflow routes
 
-This is the recommended default.
+This is now the recommended default.
+
+```text
+Route 1: Manage sponsors overview
+---------------------------------------------------------
+ Header
+ [Manage sponsors] [Assign sponsors] [Archive] [Add sponsor]
+---------------------------------------------------------
+ Overview
+ - sponsor state summary
+ - sponsor pool quick view
+ - edit existing sponsor entry point
+---------------------------------------------------------
+
+Route 2: Add sponsor
+---------------------------------------------------------
+ Header
+ [Add sponsor] [Back to overview]
+---------------------------------------------------------
+ Add sponsor workflow
+ - logo upload and crop
+ - sponsor details
+ - save / confirm
+ - preview of the new sponsor
+---------------------------------------------------------
+
+Route 3: Assign sponsors
+---------------------------------------------------------
+ Header
+ [Assign sponsors] [Back to sponsor pool]
+---------------------------------------------------------
+ Left / Top
+ - list of available positions
+ - sponsor selector with preview
+---------------------------------------------------------
+ Right / Bottom
+ - entity assignment lists
+ - team / grade / competition selectors
+---------------------------------------------------------
+```
+
+Why this is strongest:
+
+- new sponsor creation becomes a dedicated intention
+- sponsor details stay separate from asset assignment
+- users can focus on sponsor creation without pool or placement noise
+- assignment becomes a dedicated workflow with clearer intent
+
+### Option B: 3-column workspace
+
+This is now a fallback option only if we decide not to split the route yet.
 
 ```text
 ---------------------------------------------------------
@@ -319,25 +458,72 @@ Tradeoff:
 
 ## Recommended Page Layout
 
-Use:
+Use the split workflow.
 
-- Option A on desktop
-- Option B behavior on tablet
-- stacked cards or tabs on mobile
+### Main screen: sponsor management
 
-### Desktop shell
+This is the overview and pool management route.
 
-```text
----------------------------------------------------------
- Header
- [Manage sponsors] [Archive] [Add sponsor] [Save changes]
----------------------------------------------------------
- Left column          Center column         Right column
- Sponsor pool         Selected sponsor      Placement + targeting
----------------------------------------------------------
-```
+Features:
 
-### Header content
+- sponsor pool quick-view grid/list
+- sponsor archive entry point
+- sponsor state overview
+- entry point to add sponsor
+
+This screen should focus on:
+
+- sponsor state
+- sponsor pool quick review
+- editing existing sponsors
+
+It should not be where asset positions or entity assignment are managed.
+
+It should also no longer be where a brand new sponsor is created.
+
+### Add sponsor screen
+
+This is the dedicated route for creating a single sponsor.
+
+Features:
+
+- upload sponsor logo
+- crop / replace / remove sponsor logo
+- enter sponsor details
+- confirm sponsor save
+- show the new sponsor preview after save
+
+This screen should focus on:
+
+- single-sponsor creation only
+- confirmation of the created sponsor
+- a clean way back to the overview
+
+It should not include:
+
+- sponsor pool
+- sponsor overview stats
+- assignment UI
+- archive workflow
+
+### Assignment screen: assign sponsors to asset
+
+This is the only place where sponsor assignment happens.
+
+Features:
+
+- list of available positions
+- sponsor selector for each position
+- sponsor name and image preview in the selector
+- entity assignment controls
+
+Examples:
+
+- `Primary position 1` -> choose sponsor from pool
+- ranked position list -> choose sponsor from pool
+- team / grade / competition assignment -> choose entity from list
+
+### Main screen header content
 
 The header should include:
 
@@ -351,53 +537,59 @@ The header should include:
 - actions:
   - `Add sponsor`
   - `View archive`
-  - `Save changes`
+  - `Assign sponsors`
 
-### Left column: sponsor pool rail
+### Add sponsor header content
+
+The header should include:
+
+- title: `Add sponsor`
+- helper copy explaining single-sponsor creation
+- actions:
+  - `Back to overview`
+
+### Main screen layout
+
+Recommended regions:
+
+- sponsor state summary
+- sponsor pool quick-view section
+
+### Add sponsor screen layout
+
+Recommended regions:
+
+- add sponsor header
+- sponsor logo upload/crop
+- sponsor details form
+- save confirmation
+- post-save sponsor preview
+
+### Sponsor pool quick view
 
 Purpose:
 
-- navigation between sponsors
-- overview of the pool
-- status visibility
+- fast overview of what exists in the pool
+- quick checks on logos, names, and current state
+- not the primary place for assignment
 
-Recommended sections:
+Recommended presentation:
 
-- quick stats
-- search
-- filters
-- sponsor list
-
-Recommended filters:
-
-- all
-- active
-- inactive
-- placed
-- unassigned
-- primary
-
-Recommended sponsor card content:
-
+- grid or featured list view
 - logo thumbnail
 - sponsor name
-- active/inactive badge
-- primary badge if present
-- rank badge if present
-- targeting summary such as:
-  - `All teams`
-  - `3 grades`
-  - `2 competitions`
-- placement state such as:
-  - `Unassigned`
-  - `Primary`
-  - `Rank 4`
+- active / inactive
+- placement summary
+- optional quick edit entry point
 
-### Center column: sponsor editor canvas
+### Sponsor create/edit area
 
 Purpose:
 
-- edit the selected sponsor record
+- update sponsor logo
+- update sponsor details
+- crop and replace logo
+- remove logo
 
 Recommended card order:
 
@@ -421,62 +613,62 @@ Recommended status guidance:
 
 The archive action should sit at the bottom of the editor, away from save actions.
 
-### Right column: assignment rail
+### Add sponsor area
 
-Split the right column into 2 cards:
+Purpose:
 
-1. placement
-2. targeting
+- create one sponsor
+- confirm the upload/save result
 
-This keeps:
+Recommended card order:
 
-- “is this sponsor usable?”
-- “where does it apply?”
+1. sponsor logo upload/crop
+2. sponsor details
+3. save / confirm
+4. resulting sponsor preview
 
-visually separate.
+Recommended rule:
 
-### Placement card
+- after save, keep the user on the dedicated add-sponsor route until they choose to return to overview
 
-Controls:
+### Assignment screen layout
 
-- `Primary sponsor` selector
-- ranked positions list
-- assign/remove rank
-- reorder rank
+The assignment route should contain two major areas:
 
-Rules to show in UI:
+1. asset position assignment
+2. entity assignment
 
-- only one primary sponsor per account
-- there may be no primary sponsor
-- rank positions must be unique
-- up to 30 ranked slots
-- inactive sponsors cannot occupy active placements
+### Asset position assignment
 
-### Targeting card
+This is where we assign sponsors to positions.
 
-Controls:
+Rules:
 
-- assignment mode:
-  - `Global`
-  - `Specific entities`
+- this is the only place we assign sponsors to positions
+- sponsor create/edit should not assign positions
+- the selector should show sponsor name and logo preview
 
-Global meaning:
+Example pattern:
 
-- sponsor applies everywhere for that account
+- `Primary position 1`
+- sponsor select next to it
+- preview name + image in the selected state
 
-Specific meaning:
+### Entity assignment
 
-- club accounts:
-  - team selection
-- association accounts grouped by competition:
-  - competition selection
-- association accounts grouped by grade:
-  - grade selection
+This is where we assign sponsors to teams / grades / competitions.
 
-Recommended helper copy:
+Rules:
 
-- `Sponsors can stay in the pool without being assigned.`
-- `Only placed sponsors are available for output use.`
+- this is the only place we assign sponsors to entities
+- club accounts assign to teams
+- association accounts assign to grades or competitions based on grouping mode
+
+UI pattern:
+
+- entity list selector
+- choose team / grade / competition
+- same model as sponsor selection, just using entity options
 
 ## Archive Page Layout
 
@@ -514,10 +706,19 @@ Owns:
 - sponsor pool loading
 - org context loading
 - grouping mode derivation
-- selected sponsor id
-- dirty state
-- save coordination
+- selected sponsor id for pool editing
+- save coordination for existing sponsors
 - archive coordination
+
+### `add-sponsor-screen.tsx`
+
+Owns:
+
+- single-sponsor creation flow
+- shared cropper integration for new sponsors
+- sponsor create form state
+- save confirmation
+- post-save preview state
 
 ### `sponsor-library-panel.tsx`
 
@@ -540,6 +741,7 @@ Owns:
 
 Owns:
 
+- assignment-route position controls
 - primary assignment
 - ranked list assignment
 - rank validation
@@ -548,6 +750,7 @@ Owns:
 
 Owns:
 
+- assignment-route entity controls
 - org-type-aware targeting UI
 - grouping-aware association targeting
 - entity selection
@@ -674,9 +877,10 @@ Reuse existing account + season-hub lookups where possible:
 Deliver:
 
 - new workspace shell
+- add-sponsor route shell
 - archive route
 - sponsor pool rail
-- editor shell
+- existing sponsor editor shell
 - placement shell
 - targeting shell
 
@@ -684,12 +888,12 @@ Deliver:
 
 Deliver:
 
-- create sponsor
-- edit sponsor
+- add-sponsor entry point from overview
+- existing sponsor selection and editing
 - logo upload/crop
 - save sponsor
 
-### Phase 3: placement
+### Phase 3: assignment
 
 Deliver:
 
@@ -697,7 +901,7 @@ Deliver:
 - ranked position assignment
 - rank validation
 
-### Phase 4: targeting
+### Phase 4: entity targeting
 
 Deliver:
 
@@ -728,10 +932,10 @@ Deliver:
 The best first implementation slice is:
 
 1. add the route shell and archive route
-2. replace the current read-only layout with the sponsor-pool workspace shell
-3. build the left sponsor pool rail
-4. build the selected sponsor editor shell
-5. build the right placement and targeting shells
+2. add the assignment route shell
+3. replace the current read-only layout with the sponsor-pool workspace shell
+4. build the sponsor editor shell for logo/details only
+5. build the assignment screen shell for positions and entities
 6. add a simple archive view shell
 
 This gives us the correct structure before every save action is wired.

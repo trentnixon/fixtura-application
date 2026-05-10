@@ -1,8 +1,48 @@
 # Phase 2: Sponsor Pool And Navigation
 
+## Status
+
+Completed
+
+## Route Split Follow-up
+
+Phase 2 is functionally complete for the overview experience, but its add-sponsor entry task now needs a route-level adjustment.
+
+What stays valid:
+
+- sponsor pool summary cards
+- sponsor pool search and filtering
+- sponsor card selection
+- sponsor pool as the overview library
+
+What changes:
+
+- `Add sponsor` should navigate to `/add-sponsor`
+- overview should no longer enter local draft-creation mode
+
+## Implementation Notes
+
+Phase 2 has now been landed in the route shell.
+
+Implemented:
+
+- sponsor pool summary cards
+- sponsor pool search
+- sponsor pool filter state
+- sponsor card navigation
+- overview-level sponsor browsing patterns
+
+Delivered files include:
+
+- `src/app/(members)/o/[accountId]/manage-sponsors/_hooks/use-manage-sponsors-workspace.ts`
+- `src/app/(members)/o/[accountId]/manage-sponsors/_components/library/sponsor-library-panel.tsx`
+- `src/app/(members)/o/[accountId]/manage-sponsors/_components/library/sponsor-library-search.tsx`
+- `src/app/(members)/o/[accountId]/manage-sponsors/_components/library/sponsor-library-filters.tsx`
+- `src/app/(members)/o/[accountId]/manage-sponsors/_components/sponsor-pool-summary-cards.tsx`
+
 ## Goal
 
-Make the sponsor pool easy to scan, filter, and navigate.
+Make the sponsor overview and sponsor pool easy to scan, filter, and navigate.
 
 ## Outcomes
 
@@ -54,13 +94,24 @@ Acceptance criteria:
 
 Description:
 
-- allow users to create a new sponsor from the main workspace
+- allow users to launch sponsor creation from the overview route
 
 Deliverables:
 
 - `Add sponsor` action
-- new sponsor draft state
+- route transition to `/add-sponsor`
 
 Acceptance criteria:
 
-- users can enter sponsor creation flow without leaving the route
+- users can enter sponsor creation flow from the overview route
+
+Refactor acceptance:
+
+- clicking `Add sponsor` leaves the overview route
+- sponsor pool remains available only for overview and existing-sponsor editing
+
+## Phase Exit Check
+
+- sponsor pool feels like a usable library: complete
+- users can find sponsors quickly: complete
+- unassigned sponsors are clearly visible: complete

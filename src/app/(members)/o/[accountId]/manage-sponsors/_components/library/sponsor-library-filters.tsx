@@ -14,17 +14,27 @@ const FILTERS: Array<{ value: ManageSponsorsLibraryFilter; label: string }> = [
 export function SponsorLibraryFilters({
   activeFilter,
   onChange,
+  disabled = false,
 }: {
   activeFilter: ManageSponsorsLibraryFilter;
   onChange: (value: ManageSponsorsLibraryFilter) => void;
+  disabled?: boolean;
 }) {
   return (
     <div className="flex flex-wrap gap-2">
       {FILTERS.map((filter) => (
-        <button key={filter.value} type="button" onClick={() => onChange(filter.value)}>
+        <button
+          key={filter.value}
+          type="button"
+          onClick={() => onChange(filter.value)}
+          disabled={disabled}
+        >
           <Badge
             variant={activeFilter === filter.value ? "secondary" : "outline"}
-            className={cn(activeFilter === filter.value && "ring-primary/20 ring-2")}
+            className={cn(
+              activeFilter === filter.value && "ring-primary/20 ring-2",
+              disabled && "opacity-60",
+            )}
           >
             {filter.label}
           </Badge>

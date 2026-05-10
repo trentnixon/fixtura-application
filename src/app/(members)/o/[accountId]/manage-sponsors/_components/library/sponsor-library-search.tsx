@@ -5,9 +5,11 @@ import { Input } from "@/components/ui/input";
 export function SponsorLibrarySearch({
   value,
   onChange,
+  disabled = false,
 }: {
   value: string;
   onChange: (value: string) => void;
+  disabled?: boolean;
 }) {
   return (
     <div className="relative">
@@ -17,6 +19,7 @@ export function SponsorLibrarySearch({
         onChange={(event) => onChange(event.target.value)}
         placeholder="Search sponsor pool"
         className="pl-9"
+        disabled={disabled}
       />
     </div>
   );

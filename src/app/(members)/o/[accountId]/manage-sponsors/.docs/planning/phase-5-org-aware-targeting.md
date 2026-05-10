@@ -1,14 +1,30 @@
 # Phase 5: Org-Aware Targeting
 
+## Status
+
+Upcoming
+
+## Phase 5 Build Focus
+
+This phase is the second half of the dedicated sponsor assignment screen.
+
+Primary focus:
+
+1. assign sponsor to entity from the assignment route
+2. show entity lists based on org type
+3. keep entity assignment separate from sponsor create/edit
+4. summarize targeting clearly after assignment
+
 ## Goal
 
-Target sponsors correctly based on account type and grouping mode.
+Target sponsors correctly based on account type and grouping mode from the dedicated assignment flow.
 
 ## Outcomes
 
 - club accounts assign sponsors to teams
 - association accounts assign sponsors by competition or grade
 - targeting rules are visible and enforced
+- entity assignment lives only in the assignment workflow
 
 ## Tasks
 
@@ -16,7 +32,7 @@ Target sponsors correctly based on account type and grouping mode.
 
 Description:
 
-- support `Global` vs `Specific entities`
+- support `Global` vs `Specific entities` in the assignment route
 
 Deliverables:
 
@@ -33,7 +49,7 @@ Acceptance criteria:
 
 Description:
 
-- support sponsor assignment to teams for club accounts
+- support sponsor assignment to teams for club accounts from the assignment screen
 
 Deliverables:
 
@@ -50,7 +66,7 @@ Acceptance criteria:
 
 Description:
 
-- support sponsor assignment by competition or grade depending on grouping mode
+- support sponsor assignment by competition or grade depending on grouping mode from the assignment screen
 
 Deliverables:
 
@@ -68,7 +84,7 @@ Acceptance criteria:
 
 Description:
 
-- summarize targeting choices and enforce targeting rules
+- summarize targeting choices and enforce targeting rules in the assignment screen
 
 Deliverables:
 

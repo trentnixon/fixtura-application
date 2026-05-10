@@ -1,5 +1,14 @@
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
+import { Archive, CircleOff, FolderKanban, PenSquare, Rows3 } from "lucide-react";
+
+import { Surface } from "@/components/ui/container";
+
+import type { ReactNode } from "react";
+
+type SummaryItem = {
+  label: string;
+  value: number;
+  icon: ReactNode;
+};
 
 export function SponsorPoolSummaryCards({
   stats,
@@ -13,28 +22,48 @@ export function SponsorPoolSummaryCards({
     drafts: number;
   };
 }) {
-  const items = [
-    { label: "Total sponsors", value: stats.total },
-    { label: "Placed", value: stats.placed },
-    { label: "Unassigned", value: stats.unassigned },
-    { label: "Inactive", value: stats.inactive },
-    { label: "Drafts", value: stats.drafts },
+  const items: SummaryItem[] = [
+    {
+      label: "Total sponsors",
+      value: stats.total,
+      icon: <FolderKanban className="size-4" aria-hidden />,
+    },
+    {
+      label: "Placed",
+      value: stats.placed,
+      icon: <Rows3 className="size-4" aria-hidden />,
+    },
+    {
+      label: "Unassigned",
+      value: stats.unassigned,
+      icon: <Archive className="size-4" aria-hidden />,
+    },
+    {
+      label: "Inactive",
+      value: stats.inactive,
+      icon: <CircleOff className="size-4" aria-hidden />,
+    },
+    {
+      label: "Drafts",
+      value: stats.drafts,
+      icon: <PenSquare className="size-4" aria-hidden />,
+    },
   ];
 
   return (
     <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
       {items.map((item) => (
-        <Card key={item.label} className="shadow-sm">
-          <CardContent className="flex items-center justify-between px-5 py-4">
-            <div className="space-y-1">
-              <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-                {item.label}
-              </p>
-              <p className="text-2xl font-semibold">{item.value}</p>
-            </div>
-            <Badge variant="secondary">{item.value}</Badge>
-          </CardContent>
-        </Card>
+        <Surface key={item.label} className="flex min-h-20 items-center justify-between gap-4 py-4">
+          <div className="flex min-w-0 items-baseline gap-3">
+            <span className="text-4xl leading-none font-bold tabular-nums">{item.value}</span>
+            <span className="text-muted-foreground truncate text-sm font-semibold tracking-tight uppercase">
+              {item.label}
+            </span>
+          </div>
+          <div className="bg-primary/10 text-primary flex size-9 shrink-0 items-center justify-center rounded-lg">
+            {item.icon}
+          </div>
+        </Surface>
       ))}
     </div>
   );

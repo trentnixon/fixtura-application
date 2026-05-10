@@ -2,11 +2,22 @@
 
 ## Goal
 
-Set up the route architecture and workspace shell for the sponsor pool.
+Set up the route architecture and workspace shell for the sponsor overview, add-sponsor flow, and archive/assignment routes.
+
+## Route Split Follow-up
+
+Phase 1 was originally completed against the older inline-create model.
+
+Because the route direction has changed, Phase 1 now also includes a structural refactor:
+
+- move new-sponsor creation out of `/manage-sponsors`
+- introduce `/add-sponsor` as a first-class account route
+- keep `/manage-sponsors` focused on overview responsibilities only
 
 ## Outcomes
 
 - main sponsor workspace route is structured correctly
+- dedicated add-sponsor route exists
 - archive route exists
 - read-only sponsor page is replaced by a real workspace shell
 
@@ -16,19 +27,26 @@ Set up the route architecture and workspace shell for the sponsor pool.
 
 Description:
 
-- confirm main route and archive route structure
-- prepare route-level shells for active pool and archive
+- confirm overview, add-sponsor, assignment, and archive route structure
+- prepare route-level shells for active pool, add sponsor, assignment, and archive
 
 Deliverables:
 
 - `/manage-sponsors`
+- `/add-sponsor`
+- `/manage-sponsors/assign`
 - `/manage-sponsors/archive`
 - route-level structure aligned with account-scoped route conventions
 
 Acceptance criteria:
 
-- both routes resolve under the account-scoped members area
+- all routes resolve under the account-scoped members area
 - route responsibilities are clearly separated
+
+Refactor acceptance:
+
+- `/manage-sponsors` no longer owns inline draft-creation state
+- `/add-sponsor` exists as a standalone route shell
 
 ### Task 1.2: Scaffold feature folders and shared types
 
@@ -58,12 +76,29 @@ Description:
 
 Deliverables:
 
-- header shell
-- left pool rail shell
-- center editor shell
-- right assignment shell
+- overview header shell
+- overview pool rail shell
+- add-sponsor shell
+- assignment shell
 
 Acceptance criteria:
 
 - page no longer renders as a simple read-only list
-- layout matches the approved sponsor workspace direction
+- layout matches the approved split-route sponsor direction
+
+### Task 1.4: Refactor inline create shell into add-sponsor route
+
+Description:
+
+- extract the current inline new-sponsor UI state into the dedicated add-sponsor route
+
+Deliverables:
+
+- `/add-sponsor/page.tsx`
+- add-sponsor route header shell
+- add-sponsor route workspace shell
+
+Acceptance criteria:
+
+- creating a sponsor is no longer an in-page mode inside `/manage-sponsors`
+- add-sponsor route can render independently of the overview layout

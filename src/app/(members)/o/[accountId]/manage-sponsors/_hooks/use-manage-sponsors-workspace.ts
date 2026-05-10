@@ -16,34 +16,20 @@ import {
   selectOrganisationUrlWithReason,
 } from "@/lib/config/gateway-reasons";
 
-import { mapAccountSponsorToWorkspaceSponsor } from "../_utils/sponsor-display";
+import {
+  isLocalSponsorId,
+  readLocalSponsors,
+  upsertLocalSponsor,
+} from "../_utils/local-sponsor-storage";
+import {
+  mapAccountSponsorToWorkspaceSponsor,
+  refreshWorkspaceSponsorDerivedFields,
+} from "../_utils/sponsor-display";
 
 import type {
   ManageSponsorsLibraryFilter,
   ManageSponsorsWorkspaceSponsor,
 } from "../_types/manage-sponsors";
-
-function createDraftSponsor(nextDraftNumber: number): ManageSponsorsWorkspaceSponsor {
-  return {
-    id: `draft-${nextDraftNumber}`,
-    name: `New sponsor ${nextDraftNumber}`,
-    tagline: null,
-    description: null,
-    url: null,
-    startDate: null,
-    endDate: null,
-    isActive: false,
-    isPrimary: false,
-    rank: null,
-    hasLogo: false,
-    logoUrl: null,
-    logoAlt: null,
-    allocationCount: 0,
-    placementLabel: "Unassigned",
-    usageLabel: "Draft sponsor",
-    isDraft: true,
-  };
-}
 
 export function useManageSponsorsWorkspace(accountId: string) {
   const router = useRouter();
@@ -51,7 +37,8 @@ export function useManageSponsorsWorkspace(accountId: string) {
   const redirectingRef = useRef(false);
   const segmentOk = isValidAccountIdSegment(accountId);
   const q = useAccountSponsors(accountId, { enabled: segmentOk });
-  const [draftSponsors, setDraftSponsors] = useState<ManageSponsorsWorkspaceSponsor[]>([]);
+  const objectUrlsRef = useRef<Set<string>>(new Set());
+  const [workspaceSponsors, setWorkspaceSponsors] = useState<ManageSponsorsWorkspaceSponsor[]>([]);
   const [selectedSponsorId, setSelectedSponsorId] = useState<number | string | null>(null);
   const [searchValue, setSearchValue] = useState("");
   const [activeFilter, setActiveFilter] = useState<ManageSponsorsLibraryFilter>("all");
@@ -75,17 +62,42 @@ export function useManageSponsorsWorkspace(accountId: string) {
     router.replace(selectOrganisationUrlWithReason(q.data.reason));
   }, [q.isSuccess, q.data, accountId, queryClient, router, segmentOk]);
 
-  const sponsors = useMemo(() => {
+  const serverSponsors = useMemo(() => {
     if (!q.isSuccess || !q.data || isAccountSponsorsGatewayRedirect(q.data)) return [];
     return q.data.data.items.map(mapAccountSponsorToWorkspaceSponsor);
   }, [q.data, q.isSuccess]);
 
-  const allSponsors = useMemo(() => [...draftSponsors, ...sponsors], [draftSponsors, sponsors]);
+  useEffect(() => {
+    setWorkspaceSponsors(readLocalSponsors(accountId));
+  }, [accountId]);
+
+  useEffect(() => {
+    if (serverSponsors.length === 0) return;
+
+    setWorkspaceSponsors((current) => {
+      const currentById = new Map(current.map((sponsor) => [String(sponsor.id), sponsor]));
+      const localSponsors = current.filter((sponsor) => isLocalSponsorId(sponsor.id));
+      const mergedServerSponsors = serverSponsors.map(
+        (sponsor) => currentById.get(String(sponsor.id)) ?? sponsor,
+      );
+      return [...localSponsors, ...mergedServerSponsors];
+    });
+  }, [accountId, serverSponsors]);
+
+  useEffect(() => {
+    const objectUrls = objectUrlsRef.current;
+    return () => {
+      for (const url of objectUrls) {
+        URL.revokeObjectURL(url);
+      }
+      objectUrls.clear();
+    };
+  }, []);
 
   const filteredSponsors = useMemo(() => {
     const search = searchValue.trim().toLowerCase();
 
-    return allSponsors.filter((sponsor) => {
+    return workspaceSponsors.filter((sponsor) => {
       const matchesSearch =
         search.length === 0 ||
         sponsor.name.toLowerCase().includes(search) ||
@@ -106,10 +118,10 @@ export function useManageSponsorsWorkspace(accountId: string) {
           return true;
       }
     });
-  }, [activeFilter, allSponsors, searchValue]);
+  }, [activeFilter, searchValue, workspaceSponsors]);
 
   useEffect(() => {
-    if (allSponsors.length === 0) {
+    if (workspaceSponsors.length === 0) {
       setSelectedSponsorId(null);
       return;
     }
@@ -118,28 +130,28 @@ export function useManageSponsorsWorkspace(accountId: string) {
       if (current != null && filteredSponsors.some((sponsor) => sponsor.id === current)) {
         return current;
       }
-      if (current != null && allSponsors.some((sponsor) => sponsor.id === current)) {
+      if (current != null && workspaceSponsors.some((sponsor) => sponsor.id === current)) {
         return current;
       }
-      return filteredSponsors[0]?.id ?? allSponsors[0]?.id ?? null;
+      return filteredSponsors[0]?.id ?? workspaceSponsors[0]?.id ?? null;
     });
-  }, [allSponsors, filteredSponsors]);
+  }, [filteredSponsors, workspaceSponsors]);
 
   const selectedSponsor = useMemo(
-    () => allSponsors.find((sponsor) => sponsor.id === selectedSponsorId) ?? null,
-    [allSponsors, selectedSponsorId],
+    () => workspaceSponsors.find((sponsor) => sponsor.id === selectedSponsorId) ?? null,
+    [selectedSponsorId, workspaceSponsors],
   );
 
   const stats = useMemo(() => {
-    const total = allSponsors.length;
-    const placed = allSponsors.filter(
+    const total = workspaceSponsors.length;
+    const placed = workspaceSponsors.filter(
       (sponsor) => sponsor.isPrimary || sponsor.rank != null,
     ).length;
-    const unassigned = allSponsors.filter(
+    const unassigned = workspaceSponsors.filter(
       (sponsor) => !sponsor.isPrimary && sponsor.rank == null,
     ).length;
-    const inactive = allSponsors.filter((sponsor) => !sponsor.isActive).length;
-    const drafts = allSponsors.filter((sponsor) => sponsor.isDraft).length;
+    const inactive = workspaceSponsors.filter((sponsor) => !sponsor.isActive).length;
+    const drafts = workspaceSponsors.filter((sponsor) => sponsor.isDraft).length;
 
     return {
       total,
@@ -149,16 +161,155 @@ export function useManageSponsorsWorkspace(accountId: string) {
       archived: 0,
       drafts,
     };
-  }, [allSponsors]);
+  }, [workspaceSponsors]);
 
-  function addSponsorDraft() {
-    setDraftSponsors((current) => {
-      const next = createDraftSponsor(current.length + 1);
-      setSelectedSponsorId(next.id);
-      return [next, ...current];
-    });
-    setActiveFilter("all");
-    setSearchValue("");
+  function saveSponsorEdits(params: {
+    sponsorId: number | string;
+    name: string;
+    tagline: string | null;
+    description: string | null;
+    url: string | null;
+    isActive: boolean;
+    logoFile: File | null;
+    clearLogo: boolean;
+  }) {
+    setWorkspaceSponsors((current) =>
+      current
+        .map((sponsor) => {
+          if (sponsor.id !== params.sponsorId) return sponsor;
+
+          let nextLogoUrl = sponsor.logoUrl;
+          let nextHasLogo = sponsor.hasLogo;
+
+          if (params.clearLogo) {
+            if (nextLogoUrl?.startsWith("blob:")) {
+              URL.revokeObjectURL(nextLogoUrl);
+              objectUrlsRef.current.delete(nextLogoUrl);
+            }
+            nextLogoUrl = null;
+            nextHasLogo = false;
+          } else if (params.logoFile) {
+            if (nextLogoUrl?.startsWith("blob:")) {
+              URL.revokeObjectURL(nextLogoUrl);
+              objectUrlsRef.current.delete(nextLogoUrl);
+            }
+            nextLogoUrl = URL.createObjectURL(params.logoFile);
+            objectUrlsRef.current.add(nextLogoUrl);
+            nextHasLogo = true;
+          }
+
+          return refreshWorkspaceSponsorDerivedFields({
+            ...sponsor,
+            name: params.name.trim(),
+            tagline: params.tagline,
+            description: params.description,
+            url: params.url,
+            isActive: params.isActive,
+            isPrimary: params.isActive ? sponsor.isPrimary : false,
+            rank: params.isActive ? sponsor.rank : null,
+            hasLogo: nextHasLogo,
+            logoUrl: nextLogoUrl,
+            logoAlt: params.name.trim() || sponsor.logoAlt,
+            isDraft: false,
+          });
+        })
+        .map(refreshWorkspaceSponsorDerivedFields),
+    );
+
+    const existing = workspaceSponsors.find((sponsor) => sponsor.id === params.sponsorId);
+    if (existing && isLocalSponsorId(existing.id)) {
+      let nextLogoUrl = existing.logoUrl;
+      let nextHasLogo = existing.hasLogo;
+
+      if (params.clearLogo) {
+        nextLogoUrl = null;
+        nextHasLogo = false;
+      } else if (params.logoFile) {
+        nextLogoUrl = URL.createObjectURL(params.logoFile);
+        objectUrlsRef.current.add(nextLogoUrl);
+        nextHasLogo = true;
+      }
+
+      upsertLocalSponsor(
+        accountId,
+        refreshWorkspaceSponsorDerivedFields({
+          ...existing,
+          name: params.name.trim(),
+          tagline: params.tagline,
+          description: params.description,
+          url: params.url,
+          isActive: params.isActive,
+          isPrimary: params.isActive ? existing.isPrimary : false,
+          rank: params.isActive ? existing.rank : null,
+          hasLogo: nextHasLogo,
+          logoUrl: nextLogoUrl,
+          logoAlt: params.name.trim() || existing.logoAlt,
+          isDraft: false,
+        }),
+      );
+    }
+  }
+
+  function setPrimarySponsor(sponsorId: number | string) {
+    setWorkspaceSponsors((current) =>
+      current.map((sponsor) => {
+        if (sponsor.id === sponsorId) {
+          if (!sponsor.isActive || !sponsor.hasLogo) return sponsor;
+          return refreshWorkspaceSponsorDerivedFields({ ...sponsor, isPrimary: true });
+        }
+        if (!sponsor.isPrimary) return sponsor;
+        return refreshWorkspaceSponsorDerivedFields({ ...sponsor, isPrimary: false });
+      }),
+    );
+  }
+
+  function clearPrimarySponsor() {
+    setWorkspaceSponsors((current) =>
+      current.map((sponsor) =>
+        sponsor.isPrimary
+          ? refreshWorkspaceSponsorDerivedFields({ ...sponsor, isPrimary: false })
+          : sponsor,
+      ),
+    );
+  }
+
+  function assignSponsorRank(sponsorId: number | string, rank: number) {
+    if (!Number.isInteger(rank) || rank < 1 || rank > 30) return false;
+
+    let didAssign = false;
+    setWorkspaceSponsors((current) =>
+      current.map((sponsor) => {
+        if (sponsor.id === sponsorId) {
+          if (!sponsor.isActive) return sponsor;
+          didAssign = true;
+          return refreshWorkspaceSponsorDerivedFields({ ...sponsor, rank });
+        }
+        if (sponsor.rank === rank) {
+          return refreshWorkspaceSponsorDerivedFields({ ...sponsor, rank: null });
+        }
+        return sponsor;
+      }),
+    );
+    return didAssign;
+  }
+
+  function removeSponsorRank(sponsorId: number | string) {
+    setWorkspaceSponsors((current) =>
+      current.map((sponsor) =>
+        sponsor.id === sponsorId
+          ? refreshWorkspaceSponsorDerivedFields({ ...sponsor, rank: null })
+          : sponsor,
+      ),
+    );
+  }
+
+  function moveSponsorRank(sponsorId: number | string, direction: "up" | "down") {
+    const sponsor = workspaceSponsors.find((item) => item.id === sponsorId);
+    if (!sponsor?.rank) return false;
+
+    const nextRank = direction === "up" ? sponsor.rank - 1 : sponsor.rank + 1;
+    if (nextRank < 1 || nextRank > 30) return false;
+    return assignSponsorRank(sponsorId, nextRank);
   }
 
   return {
@@ -169,7 +320,7 @@ export function useManageSponsorsWorkspace(accountId: string) {
     errorMessage:
       q.isError && q.error instanceof Error ? q.error.message : AUTH_ERROR_MESSAGES.network,
     sponsors: filteredSponsors,
-    allSponsors,
+    workspaceSponsors,
     stats,
     selectedSponsor,
     selectedSponsorId,
@@ -178,7 +329,12 @@ export function useManageSponsorsWorkspace(accountId: string) {
     setSearchValue,
     activeFilter,
     setActiveFilter,
-    addSponsorDraft,
+    saveSponsorEdits,
+    setPrimarySponsor,
+    clearPrimarySponsor,
+    assignSponsorRank,
+    removeSponsorRank,
+    moveSponsorRank,
     refetch: q.refetch,
   };
 }

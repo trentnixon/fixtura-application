@@ -13,6 +13,8 @@ const SEG = {
   templateBuilder: "template-builder",
   mediaGallery: "media-gallery",
   manageSponsors: "manage-sponsors",
+  addSponsor: "add-sponsor",
+  manageSponsorsAssign: "manage-sponsors/assign",
   manageSponsorsArchive: "manage-sponsors/archive",
   billing: "billing",
   billingSuccess: "billing/success",
@@ -35,6 +37,8 @@ export const accountScopedRoutes = {
   templateBuilder: (accountId: string | number) => scoped(accountId, SEG.templateBuilder),
   mediaGallery: (accountId: string | number) => scoped(accountId, SEG.mediaGallery),
   manageSponsors: (accountId: string | number) => scoped(accountId, SEG.manageSponsors),
+  addSponsor: (accountId: string | number) => scoped(accountId, SEG.addSponsor),
+  manageSponsorsAssign: (accountId: string | number) => scoped(accountId, SEG.manageSponsorsAssign),
   manageSponsorsArchive: (accountId: string | number) =>
     scoped(accountId, SEG.manageSponsorsArchive),
   billing: (accountId: string | number) => scoped(accountId, SEG.billing),

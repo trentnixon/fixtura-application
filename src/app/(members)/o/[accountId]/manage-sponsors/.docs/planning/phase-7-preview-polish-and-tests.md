@@ -4,6 +4,16 @@
 
 Make the feature understandable, safe, and release-ready.
 
+## Preview Priority Note
+
+Preview quality is important to this feature overall.
+
+By this phase, preview should not just exist, it should be genuinely useful for:
+
+- checking sponsorship position choices
+- checking sponsor/entity assignment
+- visually confirming primary and ranked placement decisions
+
 ## Outcomes
 
 - sponsor behavior is easier to understand
