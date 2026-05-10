@@ -24,7 +24,7 @@ export const billingInvoiceRequestFormCopy = {
   organisationName: "Organisation name",
   notesOptional: "Notes (optional)",
   submit: "Submit invoice request",
-  submitting: "Submittingâ€¦",
+  submitting: "Submitting¦",
 } as const;
 
 export const billingInvoiceRequestInputClass =

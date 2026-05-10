@@ -10,6 +10,6 @@ export const BILLING_CHECKOUT_RETURN_PARAM = {
   sessionId: "session_id",
   /** Alternative name if the backend emits it */
   checkoutSessionId: "checkout_session_id",
-  /** Explicit outcome: `success` | `cancelled` â€” set by CMS if not using session_id */
+  /** Explicit outcome: `success` | `cancelled` – set by CMS if not using session_id */
   billingCheckout: "billing_checkout",
 } as const;

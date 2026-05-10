@@ -265,7 +265,7 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
   if (!segmentOk) {
     return (
       <div className="text-muted-foreground grid gap-2 text-center text-sm" role="status">
-        <p>Redirecting…</p>
+        <p>Redirecting...</p>
         <BillingDebugPanel
           accountId={accountId}
           contextLabel="Create subscription"
@@ -294,7 +294,7 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
   if (billingQ.isSuccess && billingQ.data && isAccountBillingGatewayRedirect(billingQ.data)) {
     return (
       <div className="text-muted-foreground grid gap-2 text-center text-sm" role="status">
-        <p>Redirecting…</p>
+        <p>Redirecting...</p>
         <BillingDebugPanel
           accountId={accountId}
           contextLabel="Create subscription"
@@ -341,7 +341,7 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
   if (wizardBlocked || mode == null) {
     return (
       <div className="text-muted-foreground grid gap-2 text-center text-sm" role="status">
-        <p>Redirecting…</p>
+        <p>Redirecting...</p>
         <BillingDebugPanel
           accountId={accountId}
           contextLabel="Create subscription"
@@ -375,7 +375,7 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
   ) {
     return (
       <div className="text-muted-foreground grid gap-2 text-center text-sm" role="status">
-        <p>Redirecting…</p>
+        <p>Redirecting...</p>
         <BillingDebugPanel
           accountId={accountId}
           contextLabel="Create subscription"
@@ -559,6 +559,17 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
   }
 
   const selectedTier = tiersList.find((t) => t.id === selectedTierId);
+  const selectedTierName = selectedTier?.name ?? selectedTierId ?? "-";
+  const selectedTierCoverage =
+    selectedTier && selectedTier.daysInPass > 0
+      ? `${selectedTier.daysInPass} days in pass`
+      : "Duration set by selected pass";
+  const paymentMethodLabel =
+    paymentPath === "invoice" ? "Online invoice request" : "Card via Stripe Checkout";
+  const paymentMethodDescription =
+    paymentPath === "invoice"
+      ? "We will email the invoice and show it on your billing page."
+      : "You will be redirected to Stripe to pay securely by card.";
 
   const canSubmitStripeImmediate = Boolean(
     showStripeImmediateInvoice &&
@@ -659,9 +670,10 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
       {step === 1 ? (
         <div className="bg-muted/35 rounded-lg border border-transparent p-5 sm:p-6">
           <div className="space-y-1">
-            <h2 className="font-brand text-lg font-semibold">1. Select subscription tier</h2>
+            <h2 className="font-brand text-lg font-semibold">1. Choose Season Pass</h2>
             <p className="text-muted-foreground text-sm">
-              Choose the plan that fits this organisation.
+              Choose the pass timeframe and coverage that fits this organisation. The selected pass
+              controls the coverage window shown again before payment.
             </p>
           </div>
           <div className="mt-4 grid gap-4">
@@ -779,7 +791,7 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
           <div className="space-y-1">
             <h2 className="font-brand text-lg font-semibold">3. Payment path</h2>
             <p className="text-muted-foreground text-sm">
-              Pay by card with Stripe, or request an online invoice (no postal address needed).
+              Choose how this Season Pass should be paid for.
             </p>
           </div>
 
@@ -875,7 +887,7 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
                       Selected plan
                     </TypographyH4>
                     <TypographyH3 className="text-primary text-xl font-bold italic">
-                      {selectedTier?.name ?? selectedTierId ?? "—"}
+                      {selectedTierName}
                     </TypographyH3>
                   </div>
 
@@ -903,7 +915,7 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
                       Total
                     </TypographyMuted>
                     <TypographyH2 className="text-primary text-3xl font-black tracking-tighter tabular-nums md:text-4xl">
-                      {selectedTier ? formatMoney(selectedTier.price, selectedTier.currency) : "—"}
+                      {selectedTier ? formatMoney(selectedTier.price, selectedTier.currency) : "-"}
                     </TypographyH2>
                   </div>
                 </div>
@@ -914,14 +926,12 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
               <div className="grid gap-6">
                 {selectedTier ? (
                   <dl className="border-border/60 space-y-3 border-b pb-6 text-sm">
-                    {selectedTier.daysInPass > 0 ? (
-                      <div className="space-y-0.5">
-                        <dt className="text-muted-foreground text-[0.65rem] font-bold tracking-widest uppercase">
-                          Coverage
-                        </dt>
-                        <dd className="font-medium">{selectedTier.daysInPass} days in pass</dd>
-                      </div>
-                    ) : null}
+                    <div className="space-y-0.5">
+                      <dt className="text-muted-foreground text-[0.65rem] font-bold tracking-widest uppercase">
+                        Coverage
+                      </dt>
+                      <dd className="font-medium">{selectedTierCoverage}</dd>
+                    </div>
                     {selectedTier.priceByWeekInPass != null ? (
                       <div className="space-y-0.5">
                         <dt className="text-muted-foreground text-[0.65rem] font-bold tracking-widest uppercase">
@@ -937,8 +947,15 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
                         Start date
                       </dt>
                       <dd className="font-medium">
-                        {selectedDate != null ? format(selectedDate, "PPP") : startDate || "—"}
+                        {selectedDate != null ? format(selectedDate, "PPP") : startDate || "-"}
                       </dd>
+                    </div>
+                    <div className="space-y-0.5">
+                      <dt className="text-muted-foreground text-[0.65rem] font-bold tracking-widest uppercase">
+                        Payment method
+                      </dt>
+                      <dd className="font-medium">{paymentMethodLabel}</dd>
+                      <dd className="text-muted-foreground text-xs">{paymentMethodDescription}</dd>
                     </div>
                   </dl>
                 ) : null}
@@ -964,7 +981,7 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
                     onClick={() => void submitCardCheckout()}
                     className="shadow-primary/20 h-14 w-full text-lg font-black tracking-[0.2em] uppercase shadow-2xl"
                   >
-                    {checkoutMutation.isPending ? "Starting checkout…" : "Continue to payment"}
+                    {checkoutMutation.isPending ? "Starting checkout..." : "Continue to payment"}
                     {!checkoutMutation.isPending ? (
                       <ChevronRight className="ml-2 h-5 w-5" aria-hidden />
                     ) : null}
@@ -1016,7 +1033,7 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
                       Selected plan
                     </TypographyH4>
                     <TypographyH3 className="text-primary text-xl font-bold italic">
-                      {selectedTier?.name ?? selectedTierId ?? "—"}
+                      {selectedTierName}
                     </TypographyH3>
                   </div>
 
@@ -1030,14 +1047,12 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
                           <dd>{selectedTier.packageName.trim()}</dd>
                         </div>
                       ) : null}
-                      {selectedTier.daysInPass > 0 ? (
-                        <div className="space-y-0.5">
-                          <dt className="text-muted-foreground text-[0.65rem] font-bold tracking-widest uppercase">
-                            Coverage
-                          </dt>
-                          <dd>{selectedTier.daysInPass} days in pass</dd>
-                        </div>
-                      ) : null}
+                      <div className="space-y-0.5">
+                        <dt className="text-muted-foreground text-[0.65rem] font-bold tracking-widest uppercase">
+                          Coverage
+                        </dt>
+                        <dd>{selectedTierCoverage}</dd>
+                      </div>
                       {selectedTier.priceByWeekInPass != null ? (
                         <div className="space-y-0.5">
                           <dt className="text-muted-foreground text-[0.65rem] font-bold tracking-widest uppercase">
@@ -1054,7 +1069,16 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
                           Start date
                         </dt>
                         <dd className="font-medium">
-                          {selectedDate != null ? format(selectedDate, "PPP") : startDate || "—"}
+                          {selectedDate != null ? format(selectedDate, "PPP") : startDate || "-"}
+                        </dd>
+                      </div>
+                      <div className="space-y-0.5">
+                        <dt className="text-muted-foreground text-[0.65rem] font-bold tracking-widest uppercase">
+                          Payment method
+                        </dt>
+                        <dd className="font-medium">{paymentMethodLabel}</dd>
+                        <dd className="text-muted-foreground text-xs">
+                          {paymentMethodDescription}
                         </dd>
                       </div>
                     </dl>
@@ -1071,7 +1095,7 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
                       Total
                     </TypographyMuted>
                     <TypographyH2 className="text-primary text-3xl font-black tracking-tighter tabular-nums md:text-4xl">
-                      {selectedTier ? formatMoney(selectedTier.price, selectedTier.currency) : "—"}
+                      {selectedTier ? formatMoney(selectedTier.price, selectedTier.currency) : "-"}
                     </TypographyH2>
                   </div>
                 </div>
@@ -1182,7 +1206,7 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
                         {stripeInvoicePaidDetected ? (
                           <div className="grid gap-2">
                             <p className="text-primary text-sm font-medium" role="status">
-                              Payment recorded — you can return to billing.
+                              Payment recorded - you can return to billing.
                             </p>
                             <Button
                               type="button"
@@ -1198,7 +1222,7 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
                           </div>
                         ) : (
                           <p className="text-muted-foreground text-xs">
-                            Waiting for webhook confirmation after you pay… (up to ~2 minutes)
+                            Waiting for webhook confirmation after you pay... (up to ~2 minutes)
                           </p>
                         )}
                       </div>
@@ -1212,7 +1236,9 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
                         onClick={() => void submitStripeImmediateInvoice()}
                         className="w-full sm:w-auto"
                       >
-                        {stripeImmediatePending ? "Generating invoice…" : "Generate Stripe invoice"}
+                        {stripeImmediatePending
+                          ? "Generating invoice..."
+                          : "Generate Stripe invoice"}
                       </Button>
                     </div>
                   </div>
@@ -1227,7 +1253,7 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
                     onClick={() => void submitInvoiceRequest()}
                     className="shadow-primary/20 h-14 w-full text-lg font-black tracking-[0.2em] uppercase shadow-2xl"
                   >
-                    {invoiceMutation.isPending ? "Submitting…" : "Submit invoice request"}
+                    {invoiceMutation.isPending ? "Submitting..." : "Submit invoice request"}
                     {!invoiceMutation.isPending ? (
                       <ChevronRight className="ml-2 h-5 w-5" aria-hidden />
                     ) : null}
@@ -1249,7 +1275,7 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
 
       <div className="text-muted-foreground flex flex-wrap items-center gap-2 text-xs">
         <span>Step {step} of 4</span>
-        <span aria-hidden>·</span>
+        <span aria-hidden>.</span>
         <Button type="button" variant="link" className="h-auto p-0 text-xs" asChild>
           <Link href={`/o/${encodeURIComponent(accountId)}/billing`}>
             Cancel and return to billing

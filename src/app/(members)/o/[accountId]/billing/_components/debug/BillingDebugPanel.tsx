@@ -50,8 +50,7 @@ export function BillingDebugPanel({
         Dev: billing state
         {contextLabel ? (
           <TypographyDataLabel as="span" className="text-emerald-600">
-            {" "}
-            â€” {contextLabel}
+            {contextLabel}
           </TypographyDataLabel>
         ) : null}
       </summary>
@@ -66,7 +65,7 @@ export function BillingDebugPanel({
           <div>
             <BillingDebugPanelSectionTitle>Context</BillingDebugPanelSectionTitle>
             {extraEntries.map(([k, v]) => (
-              <BillingDebugPanelRow key={k} label={k} value={v === null ? "â€”" : String(v)} />
+              <BillingDebugPanelRow key={k} label={k} value={v === null ? "–" : String(v)} />
             ))}
           </div>
         ) : null}

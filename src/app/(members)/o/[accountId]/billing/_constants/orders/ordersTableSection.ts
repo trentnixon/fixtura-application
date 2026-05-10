@@ -3,7 +3,7 @@ export const ordersTableSectionCopy = {
   cardDescription: "Current and previous annual billing orders.",
   errorTitle: "Could not load orders",
   emptyState: "No orders available yet.",
-  missingName: "â€”",
+  missingName: "–",
   planColumn: "Plan",
   actionsColumn: "Actions",
   viewHostedInvoice: "View invoice",
