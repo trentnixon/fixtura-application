@@ -13,6 +13,7 @@ const SEG = {
   templateBuilder: "template-builder",
   mediaGallery: "media-gallery",
   manageSponsors: "manage-sponsors",
+  manageSponsorsArchive: "manage-sponsors/archive",
   billing: "billing",
   billingSuccess: "billing/success",
   billingCancel: "billing/cancel",
@@ -34,6 +35,8 @@ export const accountScopedRoutes = {
   templateBuilder: (accountId: string | number) => scoped(accountId, SEG.templateBuilder),
   mediaGallery: (accountId: string | number) => scoped(accountId, SEG.mediaGallery),
   manageSponsors: (accountId: string | number) => scoped(accountId, SEG.manageSponsors),
+  manageSponsorsArchive: (accountId: string | number) =>
+    scoped(accountId, SEG.manageSponsorsArchive),
   billing: (accountId: string | number) => scoped(accountId, SEG.billing),
   billingSuccess: (accountId: string | number) => scoped(accountId, SEG.billingSuccess),
   billingCancel: (accountId: string | number) => scoped(accountId, SEG.billingCancel),
@@ -56,7 +59,7 @@ export function isValidRenderIdSegment(segment: string): boolean {
 }
 
 /**
- * Parse `/o/{accountId}/...` → accountId or null if not a scoped members path.
+ * Parse `/o/{accountId}/...` -> accountId or null if not a scoped members path.
  */
 export function parseAccountScopePath(
   pathname: string,
