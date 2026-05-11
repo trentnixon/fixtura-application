@@ -17,6 +17,7 @@ export function ManageSponsorsWorkspace({ accountId }: { accountId: string }) {
     isError,
     errorMessage,
     sponsors,
+    workspaceSponsors,
     stats,
     selectedSponsorId,
     setSelectedSponsorId,
@@ -31,6 +32,8 @@ export function ManageSponsorsWorkspace({ accountId }: { accountId: string }) {
     return <ManageSponsorsLoadingState />;
   }
 
+  const hasAnySponsors = workspaceSponsors.length > 0;
+
   return (
     <ManageSponsorsShell>
       <ManageSponsorsHeader accountId={accountId} />
@@ -39,11 +42,15 @@ export function ManageSponsorsWorkspace({ accountId }: { accountId: string }) {
       {isError ? (
         <ManageSponsorsErrorState description={errorMessage} onRetry={() => void refetch()} />
       ) : null}
-      {!isLoading && !isError ? <SponsorPoolSummaryCards stats={stats} /> : null}
-      {!isLoading && !isError ? <SponsorAssignmentEntryCard accountId={accountId} /> : null}
-      {!isLoading && !isError && sponsors.length === 0 ? <ManageSponsorsEmptyState /> : null}
+      {!isLoading && !isError && hasAnySponsors ? <SponsorPoolSummaryCards stats={stats} /> : null}
+      {!isLoading && !isError && hasAnySponsors ? (
+        <SponsorAssignmentEntryCard accountId={accountId} />
+      ) : null}
+      {!isLoading && !isError && !hasAnySponsors ? (
+        <ManageSponsorsEmptyState accountId={accountId} />
+      ) : null}
 
-      {!isLoading && !isError && sponsors.length > 0 ? (
+      {!isLoading && !isError && hasAnySponsors ? (
         <div className="grid gap-6">
           <SponsorLibraryPanel
             sponsors={sponsors}

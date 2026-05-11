@@ -11,7 +11,6 @@ import {
 } from "@/components/media/image-uploader-crop";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -22,7 +21,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import {
   LOGO_MIN_OUTPUT_HEIGHT_PX,
   LOGO_MIN_OUTPUT_WIDTH_PX,
@@ -30,8 +28,6 @@ import {
   LOGO_MIN_SOURCE_WIDTH_PX,
 } from "@/features/branding/components/brand-logo-workspace/logo-save-validation";
 import { SELECTABLE_LOGO_CROP_PRESETS } from "@/lib/media/selectable-logo-crop-presets";
-
-import { formatSponsorDateLabel } from "../../_utils/sponsor-display";
 
 import type { ManageSponsorsWorkspaceSponsor } from "../../_types/manage-sponsors";
 
@@ -130,7 +126,6 @@ export function SponsorEditorSheet({
   }, [sponsor]);
 
   const savedLogoUrl = sponsor?.logoUrl ?? null;
-  const effectiveLogoPreview = clearLogo ? null : (logoPreviewUrl ?? savedLogoUrl);
   const isCreateMode = mode === "create";
 
   const logoChangeKind = useMemo(
@@ -173,11 +168,6 @@ export function SponsorEditorSheet({
     setLogoCropMeta(null);
     setLogoPreviewUrl(null);
     setLastSessionSource(undefined);
-  }
-
-  function handleRemoveLogo() {
-    handleLogoReset();
-    setClearLogo(true);
   }
 
   function validateBeforeSave(): string | null {
@@ -256,8 +246,8 @@ export function SponsorEditorSheet({
   }, [logoPreviewUrl]);
 
   return (
-    <Card className="shadow-sm">
-      <CardContent className="pt-6">
+    <div className="grid gap-6">
+      <div>
         {sponsor ? (
           <div className="grid gap-6">
             <section className="grid gap-4">
@@ -265,156 +255,71 @@ export function SponsorEditorSheet({
                 <div className="bg-primary-950 border-b border-white/15 px-6 py-5 text-white">
                   <p className="text-xl leading-none font-semibold text-white">Sponsor logo</p>
                   <p className="mt-2 text-sm leading-relaxed text-white/80">
-                    This follows the same application layout and shared cropper path used by the
-                    `brand-logo` route.
+                    Upload and crop a square sponsor logo so it displays cleanly across your account
+                    experience.
                   </p>
                 </div>
-                <div className="grid gap-6 px-6 py-6">
-                  <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-                    <div className="min-w-0 space-y-2">
-                      <p className="text-base font-semibold">Logo status</p>
-                      <p className="text-muted-foreground text-sm">
-                        A logo is required before this sponsor can be marked active.
-                      </p>
-                    </div>
-                    <div className="flex shrink-0 flex-col gap-4 sm:flex-row sm:gap-6">
-                      <div className="flex flex-col gap-1 sm:items-end">
-                        <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase sm:text-right">
-                          Saved on sponsor
-                        </p>
-                        {savedLogoUrl && !clearLogo ? (
-                          <img
-                            src={savedLogoUrl}
-                            alt=""
-                            className="size-20 rounded-md object-contain sm:ml-auto"
-                          />
-                        ) : (
-                          <div className="flex flex-col items-center gap-2 sm:items-end">
-                            <div className="border-muted-foreground/25 bg-muted/40 text-muted-foreground flex size-20 items-center justify-center rounded-lg border border-dashed text-[10px] font-medium tracking-wide uppercase">
-                              Logo
-                            </div>
-                            <p className="text-muted-foreground text-sm sm:text-right">
-                              No saved logo
-                            </p>
-                          </div>
-                        )}
+                <div className="grid gap-6 px-6 py-6 lg:grid-cols-12">
+                  <div className="grid gap-6 lg:col-span-7">
+                    <ImageUploaderCrop
+                      aspect={1}
+                      aspectPresets={[...SELECTABLE_LOGO_CROP_PRESETS]}
+                      defaultAspectPresetIndex={0}
+                      hideAspectPresetOnUploader
+                      label=""
+                      maxFileSizeMb={8}
+                      editableSourceUrl={!clearLogo ? savedLogoUrl : null}
+                      minSourceWidth={LOGO_MIN_SOURCE_WIDTH_PX}
+                      minSourceHeight={LOGO_MIN_SOURCE_HEIGHT_PX}
+                      minOutputWidth={LOGO_MIN_OUTPUT_WIDTH_PX}
+                      minOutputHeight={LOGO_MIN_OUTPUT_HEIGHT_PX}
+                      onComplete={handleLogoCropComplete}
+                      onReset={handleLogoReset}
+                    />
+
+                    {logoChangeKind === "replacement" ? (
+                      <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+                        <Badge variant="outline">{changeKindLabel(logoChangeKind)}</Badge>
                       </div>
-                      {effectiveLogoPreview ? (
-                        <div className="flex flex-col gap-1 sm:items-end">
-                          <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase sm:text-right">
-                            Working preview
-                          </p>
-                          <img
-                            src={effectiveLogoPreview}
-                            alt=""
-                            className="border-border ring-primary/30 size-20 rounded-md border object-contain ring-2 sm:ml-auto"
-                          />
-                        </div>
-                      ) : null}
+                    ) : null}
+
+                    <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+                      PNG, JPEG, or WebP up to 8MB. Source image must be at least 500x500px and
+                      cropped output must be at least 400x400px.
                     </div>
                   </div>
 
-                  <ImageUploaderCrop
-                    aspect={1}
-                    aspectPresets={[...SELECTABLE_LOGO_CROP_PRESETS]}
-                    defaultAspectPresetIndex={0}
-                    hideAspectPresetOnUploader
-                    label=""
-                    maxFileSizeMb={8}
-                    editableSourceUrl={!clearLogo ? savedLogoUrl : null}
-                    minSourceWidth={LOGO_MIN_SOURCE_WIDTH_PX}
-                    minSourceHeight={LOGO_MIN_SOURCE_HEIGHT_PX}
-                    minOutputWidth={LOGO_MIN_OUTPUT_WIDTH_PX}
-                    minOutputHeight={LOGO_MIN_OUTPUT_HEIGHT_PX}
-                    showValidationHints
-                    onComplete={handleLogoCropComplete}
-                    onReset={handleLogoReset}
-                  />
-
-                  <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:justify-end">
-                    {(savedLogoUrl || logoPreviewUrl) && !clearLogo ? (
-                      <Button type="button" variant="outline" onClick={handleRemoveLogo}>
-                        Remove logo
-                      </Button>
-                    ) : null}
-                    <Badge variant="outline">{changeKindLabel(logoChangeKind)}</Badge>
+                  <div className="grid content-start gap-4 lg:col-span-5">
+                    <div className="grid gap-4">
+                      <div className="grid gap-2">
+                        <Label htmlFor="sponsor-name">Sponsor name</Label>
+                        <Input
+                          id="sponsor-name"
+                          value={name}
+                          onChange={(event) => setName(event.target.value)}
+                          placeholder="Sponsor name"
+                        />
+                      </div>
+                      <label className="flex items-center gap-3 rounded-xl border px-4 py-3 text-sm">
+                        <input
+                          type="checkbox"
+                          className="accent-[var(--primary)]"
+                          checked={isActive}
+                          onChange={(event) => setIsActive(event.target.checked)}
+                        />
+                        <span>Mark sponsor active</span>
+                      </label>
+                      <div className="flex flex-wrap items-center gap-2">
+                        {sponsor.isDraft ? <Badge variant="secondary">Draft sponsor</Badge> : null}
+                        {isActive ? (
+                          <Badge variant="secondary">Active</Badge>
+                        ) : (
+                          <Badge variant="outline">Inactive</Badge>
+                        )}
+                        <Badge variant="outline">{sponsor.placementLabel}</Badge>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </section>
-
-            <section className="grid gap-4 rounded-xl border p-4">
-              <div className="flex flex-wrap items-center gap-2">
-                <h2 className="font-brand text-xl font-semibold">{sponsor.name}</h2>
-                {sponsor.isDraft ? <Badge variant="secondary">Draft sponsor</Badge> : null}
-                {isActive ? (
-                  <Badge variant="secondary">Active</Badge>
-                ) : (
-                  <Badge variant="outline">Inactive</Badge>
-                )}
-                <Badge variant="outline">{sponsor.placementLabel}</Badge>
-              </div>
-              <div className="grid gap-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="sponsor-name">Sponsor name</Label>
-                  <Input
-                    id="sponsor-name"
-                    value={name}
-                    onChange={(event) => setName(event.target.value)}
-                    placeholder="Sponsor name"
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="sponsor-tagline">Tagline</Label>
-                  <Input
-                    id="sponsor-tagline"
-                    value={tagline}
-                    onChange={(event) => setTagline(event.target.value)}
-                    placeholder="Short sponsor tagline"
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="sponsor-url">Website URL</Label>
-                  <Input
-                    id="sponsor-url"
-                    value={url}
-                    onChange={(event) => setUrl(event.target.value)}
-                    placeholder="https://example.com"
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="sponsor-description">Description</Label>
-                  <Textarea
-                    id="sponsor-description"
-                    value={description}
-                    onChange={(event) => setDescription(event.target.value)}
-                    placeholder="Sponsor description"
-                    rows={5}
-                  />
-                </div>
-                <label className="flex items-center gap-3 rounded-xl border px-4 py-3 text-sm">
-                  <input
-                    type="checkbox"
-                    className="accent-[var(--primary)]"
-                    checked={isActive}
-                    onChange={(event) => setIsActive(event.target.checked)}
-                  />
-                  <span>Mark sponsor active</span>
-                </label>
-                <div className="text-muted-foreground grid gap-2 text-sm">
-                  <p>
-                    <span className="font-medium">Pool state:</span>{" "}
-                    {isCreateMode
-                      ? "New sponsor being created from the dedicated add sponsor flow"
-                      : sponsor.isDraft
-                        ? "Draft sponsor created locally in the pool"
-                        : "Published sponsor from the current account feed"}
-                  </p>
-                  <p>
-                    <span className="font-medium">Dates:</span>{" "}
-                    {formatSponsorDateLabel(sponsor.startDate)} -{" "}
-                    {formatSponsorDateLabel(sponsor.endDate)}
-                  </p>
                 </div>
               </div>
             </section>
@@ -426,9 +331,9 @@ export function SponsorEditorSheet({
               : "Select a sponsor from the pool to inspect it."}
           </p>
         )}
-      </CardContent>
+      </div>
       {sponsor ? (
-        <CardFooter className="flex flex-col gap-3 border-t px-6 pt-6 pb-6">
+        <div className="flex flex-col gap-3 border-t pt-6">
           <div className="flex w-full flex-col gap-2 sm:flex-row sm:flex-wrap sm:justify-end">
             {!isCreateMode ? (
               <Button type="button" variant="secondary" disabled>
@@ -444,7 +349,7 @@ export function SponsorEditorSheet({
               Sponsor saved locally at {confirmedAt}.
             </PersistentFieldFeedback>
           ) : null}
-        </CardFooter>
+        </div>
       ) : null}
 
       <Dialog open={saveDialogOpen} onOpenChange={setSaveDialogOpen}>
@@ -504,6 +409,6 @@ export function SponsorEditorSheet({
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </Card>
+    </div>
   );
 }
