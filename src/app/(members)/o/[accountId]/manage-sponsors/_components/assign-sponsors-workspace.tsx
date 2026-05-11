@@ -45,7 +45,9 @@ export function AssignSponsorsWorkspace({ accountId }: { accountId: string }) {
       {isError ? (
         <ManageSponsorsErrorState description={errorMessage} onRetry={() => void refetch()} />
       ) : null}
-      {!isLoading && !isError && sponsors.length === 0 ? <ManageSponsorsEmptyState /> : null}
+      {!isLoading && !isError && sponsors.length === 0 ? (
+        <ManageSponsorsEmptyState accountId={accountId} />
+      ) : null}
 
       {!isLoading && !isError && sponsors.length > 0 ? (
         <div className="grid gap-6 xl:grid-cols-[18rem_minmax(0,1fr)]">
@@ -59,15 +61,19 @@ export function AssignSponsorsWorkspace({ accountId }: { accountId: string }) {
             onFilterChange={setActiveFilter}
           />
           <div className="grid gap-6">
-            <SponsorPlacementPanel
-              sponsors={workspaceSponsors}
-              onSetPrimarySponsor={setPrimarySponsor}
-              onClearPrimarySponsor={clearPrimarySponsor}
-              onAssignRank={assignSponsorRank}
-              onRemoveRank={removeSponsorRank}
-              onMoveRank={moveSponsorRank}
-            />
-            <SponsorTargetingPanel sponsor={selectedSponsor} />
+            <div id="sponsor-assign-positions" className="scroll-mt-6">
+              <SponsorPlacementPanel
+                sponsors={workspaceSponsors}
+                onSetPrimarySponsor={setPrimarySponsor}
+                onClearPrimarySponsor={clearPrimarySponsor}
+                onAssignRank={assignSponsorRank}
+                onRemoveRank={removeSponsorRank}
+                onMoveRank={moveSponsorRank}
+              />
+            </div>
+            <div id="sponsor-assign-entities" className="scroll-mt-6">
+              <SponsorTargetingPanel sponsor={selectedSponsor} />
+            </div>
           </div>
         </div>
       ) : null}

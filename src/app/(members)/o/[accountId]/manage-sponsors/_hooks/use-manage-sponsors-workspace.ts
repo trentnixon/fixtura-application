@@ -151,7 +151,6 @@ export function useManageSponsorsWorkspace(accountId: string) {
       (sponsor) => !sponsor.isPrimary && sponsor.rank == null,
     ).length;
     const inactive = workspaceSponsors.filter((sponsor) => !sponsor.isActive).length;
-    const drafts = workspaceSponsors.filter((sponsor) => sponsor.isDraft).length;
 
     return {
       total,
@@ -159,7 +158,6 @@ export function useManageSponsorsWorkspace(accountId: string) {
       unassigned,
       inactive,
       archived: 0,
-      drafts,
     };
   }, [workspaceSponsors]);
 

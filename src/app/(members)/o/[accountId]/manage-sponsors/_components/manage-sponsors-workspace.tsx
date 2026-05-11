@@ -42,9 +42,15 @@ export function ManageSponsorsWorkspace({ accountId }: { accountId: string }) {
       {isError ? (
         <ManageSponsorsErrorState description={errorMessage} onRetry={() => void refetch()} />
       ) : null}
-      {!isLoading && !isError && hasAnySponsors ? <SponsorPoolSummaryCards stats={stats} /> : null}
       {!isLoading && !isError && hasAnySponsors ? (
-        <SponsorAssignmentEntryCard accountId={accountId} />
+        <div className="grid grid-cols-12 gap-6">
+          <div className="col-span-12 lg:col-span-7">
+            <SponsorPoolSummaryCards stats={stats} />
+          </div>
+          <div className="col-span-12 lg:col-span-5">
+            <SponsorAssignmentEntryCard accountId={accountId} />
+          </div>
+        </div>
       ) : null}
       {!isLoading && !isError && !hasAnySponsors ? (
         <ManageSponsorsEmptyState accountId={accountId} />

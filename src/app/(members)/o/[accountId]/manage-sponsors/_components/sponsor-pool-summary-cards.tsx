@@ -1,14 +1,6 @@
-import { Archive, CircleOff, FolderKanban, PenSquare, Rows3 } from "lucide-react";
+import { FolderKanban } from "lucide-react";
 
-import { Surface } from "@/components/ui/container";
-
-import type { ReactNode } from "react";
-
-type SummaryItem = {
-  label: string;
-  value: number;
-  icon: ReactNode;
-};
+import { TypographyH4, TypographyMuted } from "@/components/typography";
 
 export function SponsorPoolSummaryCards({
   stats,
@@ -19,52 +11,36 @@ export function SponsorPoolSummaryCards({
     unassigned: number;
     inactive: number;
     archived: number;
-    drafts: number;
   };
 }) {
-  const items: SummaryItem[] = [
-    {
-      label: "Total sponsors",
-      value: stats.total,
-      icon: <FolderKanban className="size-4" aria-hidden />,
-    },
-    {
-      label: "Placed",
-      value: stats.placed,
-      icon: <Rows3 className="size-4" aria-hidden />,
-    },
-    {
-      label: "Unassigned",
-      value: stats.unassigned,
-      icon: <Archive className="size-4" aria-hidden />,
-    },
-    {
-      label: "Inactive",
-      value: stats.inactive,
-      icon: <CircleOff className="size-4" aria-hidden />,
-    },
-    {
-      label: "Drafts",
-      value: stats.drafts,
-      icon: <PenSquare className="size-4" aria-hidden />,
-    },
+  const metrics: Array<[string, number]> = [
+    ["Total sponsors", stats.total],
+    ["Placed", stats.placed],
+    ["Unassigned", stats.unassigned],
+    ["Inactive", stats.inactive],
   ];
 
   return (
-    <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
-      {items.map((item) => (
-        <Surface key={item.label} className="flex min-h-20 items-center justify-between gap-4 py-4">
-          <div className="flex min-w-0 items-baseline gap-3">
-            <span className="text-4xl leading-none font-bold tabular-nums">{item.value}</span>
-            <span className="text-muted-foreground truncate text-sm font-semibold tracking-tight uppercase">
-              {item.label}
-            </span>
+    <div className="bg-card text-card-foreground ring-border rounded-xl border-none p-5 shadow-sm ring-1">
+      <div className="flex min-w-0 flex-wrap items-start justify-between gap-3">
+        <div className="min-w-0 space-y-1">
+          <TypographyH4 className="text-sm font-semibold">Sponsor pool summary</TypographyH4>
+          <TypographyMuted className="text-xs">
+            Counts across your organisation&apos;s sponsor library.
+          </TypographyMuted>
+        </div>
+        <div className="shrink-0">
+          <FolderKanban className="text-primary size-5" aria-hidden />
+        </div>
+      </div>
+      <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        {metrics.map(([label, value]) => (
+          <div key={label} className="space-y-1">
+            <div className="text-2xl font-semibold tracking-tight tabular-nums">{value}</div>
+            <TypographyMuted className="text-xs">{label}</TypographyMuted>
           </div>
-          <div className="bg-primary/10 text-primary flex size-9 shrink-0 items-center justify-center rounded-lg">
-            {item.icon}
-          </div>
-        </Surface>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
