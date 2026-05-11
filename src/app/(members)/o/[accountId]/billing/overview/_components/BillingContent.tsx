@@ -8,6 +8,7 @@ import { BillingOverviewStatusState } from "./BillingOverviewStatusState";
 import { BillingEndingBanner } from "../../_components/banners/BillingEndingBanner";
 import { BillingPaymentPendingBanner } from "../../_components/banners/BillingPaymentPendingBanner";
 import { CheckoutReturnBanner } from "../../_components/banners/CheckoutReturnBanner";
+import { BillingProductStateBadge } from "../../_components/billing-product-state-badge";
 import { BillingSections } from "../../_components/overview/BillingSections";
 import { BillingDebugPanel } from "../../debug/billing-debug-panel";
 import { BillingCreateSeasonPassCard } from "../../season-pass/billing-create-season-pass-card";
@@ -40,13 +41,20 @@ export function BillingContent({ accountId }: { accountId: string }) {
         />
       ) : null}
 
-      <BillingOverviewActions
-        billingUiMode={state.billingUiMode}
-        billingSummary={state.billingSummary}
-        trialDetailsTrigger={state.trialDetailsTrigger}
-        historyHref={state.historyHref}
-        createHref={state.createHref}
-      />
+      <div
+        className="border-border bg-muted/30 flex flex-wrap items-center justify-between gap-3 rounded-lg border px-4 py-3"
+        role="region"
+        aria-label="Billing status and actions"
+      >
+        <BillingProductStateBadge accountId={accountId} />
+        <BillingOverviewActions
+          billingUiMode={state.billingUiMode}
+          billingSummary={state.billingSummary}
+          trialDetailsTrigger={state.trialDetailsTrigger}
+          historyHref={state.historyHref}
+          createHref={state.createHref}
+        />
+      </div>
 
       {state.billingUiMode === "access_denied" || state.billingUiMode === "unknown" ? (
         <Card>

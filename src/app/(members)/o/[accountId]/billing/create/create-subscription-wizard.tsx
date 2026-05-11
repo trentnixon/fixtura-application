@@ -2,25 +2,14 @@
 
 import { useQueryClient } from "@tanstack/react-query";
 import { addYears, format, startOfDay } from "date-fns";
-import { ChevronRight, CreditCard, FileText } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import {
-  TypographyH2,
-  TypographyH3,
-  TypographyH4,
-  TypographyLarge,
-  TypographyMuted,
-} from "@/components/typography";
 import { BrandedLoader } from "@/components/ui/branded-loader";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ErrorState } from "@/components/ui/error-state";
-import { Label } from "@/components/ui/label";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { ApiError } from "@/lib/api/client/api-error";
 import {
   isAccountBillingGatewayRedirect,
@@ -41,13 +30,18 @@ import {
   SELECT_ORG_GATEWAY_REASON,
   selectOrganisationUrlWithReason,
 } from "@/lib/config/gateway-reasons";
-import { cn } from "@/lib/utils";
 
+import { ReviewCardPaymentStep } from "./_components/ReviewCardPaymentStep";
+import { ReviewInvoiceRequestStep } from "./_components/ReviewInvoiceRequestStep";
+import { SelectPaymentMethodStep } from "./_components/SelectPaymentMethodStep";
+import { SelectStartDateStep } from "./_components/SelectStartDateStep";
+import { SelectTimeframeStep } from "./_components/SelectTimeframeStep";
 import { CreateSubscriptionWizardStatePanel } from "./create-subscription-wizard-state-panel";
-import { PlanTierCard } from "../_components/plan-tier-card/PlanTierCard";
 import { deriveBillingUiMode } from "../_core/billing-state";
 import { useBillingInvoiceContactPrefill } from "../_hooks/useBillingInvoiceContactPrefill";
+import { useCreateSubscriptionReviewDisplay } from "./_hooks/useCreateSubscriptionReviewDisplay";
 import { createStrapiStripeInvoice } from "./actions/create-stripe-invoice";
+import { shouldShowPlanCheckout } from "../_utils/create-subscription/checkoutActionGate";
 import {
   computePassEndDateYyyyMmDd,
   parseBillingIsoToCalendarDate,
@@ -55,11 +49,10 @@ import {
 import { orderedDistinctSubscriptionCategories } from "../_utils/create-subscription/planTierCard";
 import { shouldShowStripeImmediateInvoiceCreate } from "../_utils/create-subscription/shouldShowStripeImmediateInvoice";
 import { extractHostedInvoiceFromOrderPayload } from "../_utils/orders/hostedInvoiceFromOrderPayload";
-import { formatMoney } from "../_utils/overview/formatBillingDisplay";
 import { BillingDebugPanel } from "../debug/billing-debug-panel";
 import { shouldShowInvoiceRequest } from "../invoice-request/billing-invoice-request";
-import { shouldShowPlanCheckout } from "../plan-checkout/billing-plan-checkout";
 
+import type { PaymentPath } from "./_types/createSubscriptionWizard";
 import type {
   PostAccountBillingInvoiceRequestBody,
   SubscriptionTierCategory,
@@ -72,14 +65,6 @@ function localDateInputToday(): string {
   const day = String(d.getDate()).padStart(2, "0");
   return `${y}-${m}-${day}`;
 }
-
-const inputClass =
-  "border-input bg-background ring-offset-background focus-visible:ring-ring flex h-10 w-full rounded-full border px-4 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50";
-
-const textareaClass =
-  "border-input bg-background ring-offset-background focus-visible:ring-ring min-h-[88px] w-full rounded-lg border px-4 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50";
-
-type PaymentPath = "card" | "invoice";
 
 export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
   const router = useRouter();
@@ -193,6 +178,13 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
   );
 
   const minDate = useMemo(() => localDateInputToday(), []);
+  const selectedTier = tiersList.find((t) => t.id === selectedTierId);
+  const { selectedTierName, selectedTierCoverage, paymentMethodLabel, paymentMethodDescription } =
+    useCreateSubscriptionReviewDisplay({
+      selectedTier,
+      selectedTierId,
+      paymentPath,
+    });
 
   useEffect(() => {
     redirectingRef.current = false;
@@ -558,19 +550,6 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
     }
   }
 
-  const selectedTier = tiersList.find((t) => t.id === selectedTierId);
-  const selectedTierName = selectedTier?.name ?? selectedTierId ?? "-";
-  const selectedTierCoverage =
-    selectedTier && selectedTier.daysInPass > 0
-      ? `${selectedTier.daysInPass} days in pass`
-      : "Duration set by selected pass";
-  const paymentMethodLabel =
-    paymentPath === "invoice" ? "Online invoice request" : "Card via Stripe Checkout";
-  const paymentMethodDescription =
-    paymentPath === "invoice"
-      ? "We will email the invoice and show it on your billing page."
-      : "You will be redirected to Stripe to pay securely by card.";
-
   const canSubmitStripeImmediate = Boolean(
     showStripeImmediateInvoice &&
     selectedTierId &&
@@ -668,609 +647,94 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
   return (
     <div className="grid gap-6">
       {step === 1 ? (
-        <div className="bg-muted/35 rounded-lg border border-transparent p-5 sm:p-6">
-          <div className="space-y-1">
-            <h2 className="font-brand text-lg font-semibold">1. Choose Season Pass</h2>
-            <p className="text-muted-foreground text-sm">
-              Choose the pass timeframe and coverage that fits this organisation. The selected pass
-              controls the coverage window shown again before payment.
-            </p>
-          </div>
-          <div className="mt-4 grid gap-4">
-            {tiersList.length === 0 ? (
-              <p className="text-muted-foreground text-sm" role="status">
-                No plans are available for this account right now.
-              </p>
-            ) : (
-              <div className="space-y-4">
-                {showPlanCategoryToggle && effectivePlanCategory ? (
-                  <div className="space-y-2">
-                    <Label className="text-xs font-medium">Organisation type</Label>
-                    <ToggleGroup
-                      type="single"
-                      variant="outline"
-                      spacing={0}
-                      value={effectivePlanCategory}
-                      onValueChange={(v) => {
-                        if (v === "Club" || v === "Association") setPlanCategoryFilter(v);
-                      }}
-                    >
-                      <ToggleGroupItem value="Club" className="px-4">
-                        Club
-                      </ToggleGroupItem>
-                      <ToggleGroupItem value="Association" className="px-4">
-                        Association
-                      </ToggleGroupItem>
-                    </ToggleGroup>
-                  </div>
-                ) : null}
-                <div className="grid gap-3" role="radiogroup" aria-label="Subscription tier">
-                  {displayTiers.map((tier) => (
-                    <PlanTierCard
-                      key={tier.id}
-                      tier={tier}
-                      selected={selectedTierId === tier.id}
-                      onSelect={() => setSelectedTierId(tier.id)}
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
-            <div className="flex justify-center">
-              <Button
-                type="button"
-                disabled={!selectedTierId || tiersList.length === 0 || displayTiers.length === 0}
-                onClick={() => setStep(2)}
-              >
-                Continue
-              </Button>
-            </div>
-          </div>
-        </div>
+        <SelectTimeframeStep
+          tiersListLength={tiersList.length}
+          displayTiers={displayTiers}
+          selectedTierId={selectedTierId}
+          showPlanCategoryToggle={showPlanCategoryToggle}
+          effectivePlanCategory={effectivePlanCategory}
+          onPlanCategoryChange={setPlanCategoryFilter}
+          onSelectTierId={setSelectedTierId}
+          onContinue={() => setStep(2)}
+        />
       ) : null}
 
       {step === 2 ? (
-        <div className="bg-muted/35 rounded-lg border border-transparent p-5 sm:p-6">
-          <div className="space-y-1">
-            <h2 className="font-brand text-lg font-semibold">2. Subscription start date</h2>
-            <p className="text-muted-foreground text-sm">When should the subscription begin?</p>
-          </div>
-
-          <div className="mt-4 grid gap-6 md:grid-cols-[auto_minmax(0,1fr)] md:items-start">
-            <div className="flex justify-center md:justify-start">
-              <Calendar
-                mode="single"
-                selected={selectedDate}
-                onSelect={(d) => setStartDate(d ? format(d, "yyyy-MM-dd") : "")}
-                captionLayout="dropdown"
-                startMonth={today}
-                endMonth={endMonth}
-                disabled={{ before: today }}
-                className="rounded-md border shadow"
-              />
-            </div>
-
-            <div className="space-y-3">
-              <div className="min-h-5 text-center text-sm font-medium md:text-left">
-                {selectedDate ? (
-                  <p>
-                    Selected date:{" "}
-                    <span className="text-primary">{format(selectedDate, "PPP")}</span>
-                  </p>
-                ) : (
-                  <p className="text-muted-foreground">No date selected</p>
-                )}
-              </div>
-              <p className="text-muted-foreground text-xs">Must be today or a future date.</p>
-            </div>
-          </div>
-
-          <div className="mt-6 flex flex-wrap items-center justify-between gap-2 border-t pt-6">
-            <div className="flex flex-wrap gap-2">
-              <Button type="button" variant="outline" onClick={() => setStep(1)}>
-                Back
-              </Button>
-              <Button type="button" disabled={!dateOk} onClick={advancePastStep2}>
-                Continue
-              </Button>
-            </div>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setStartDate("")}
-              disabled={!startDate}
-            >
-              Reset
-            </Button>
-          </div>
-        </div>
+        <SelectStartDateStep
+          selectedDate={selectedDate}
+          daysInPass={selectedTier?.daysInPass}
+          today={today}
+          endMonth={endMonth}
+          startDate={startDate}
+          dateOk={dateOk}
+          onStartDateChange={setStartDate}
+          onBack={() => setStep(1)}
+          onContinue={advancePastStep2}
+        />
       ) : null}
 
       {step === 3 ? (
-        <div className="bg-muted/35 rounded-lg border border-transparent p-5 sm:p-6">
-          <div className="space-y-1">
-            <h2 className="font-brand text-lg font-semibold">3. Payment path</h2>
-            <p className="text-muted-foreground text-sm">
-              Choose how this Season Pass should be paid for.
-            </p>
-          </div>
-
-          <div className="mt-4 grid gap-4">
-            <div className="grid gap-2" role="radiogroup" aria-label="Payment path">
-              {canCard ? (
-                <button
-                  type="button"
-                  role="radio"
-                  aria-checked={paymentPath === "card"}
-                  onClick={() => setPaymentPath("card")}
-                  className={cn(
-                    "border-border hover:bg-muted/40 rounded-lg border bg-white p-4 text-left transition-colors dark:bg-black/20",
-                    paymentPath === "card" && "border-primary ring-ring ring-2",
-                  )}
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="bg-primary/10 text-primary flex size-12 items-center justify-center rounded-xl">
-                      <CreditCard className="size-6" aria-hidden />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-foreground font-medium">Card (Stripe Checkout)</p>
-                      <p className="text-muted-foreground mt-1 text-sm">
-                        Pay online; you will be redirected to Stripe.
-                      </p>
-                    </div>
-                  </div>
-                </button>
-              ) : null}
-              {canInvoice ? (
-                <button
-                  type="button"
-                  role="radio"
-                  aria-checked={paymentPath === "invoice"}
-                  onClick={() => setPaymentPath("invoice")}
-                  className={cn(
-                    "border-border hover:bg-muted/40 rounded-lg border bg-white p-4 text-left transition-colors dark:bg-black/20",
-                    paymentPath === "invoice" && "border-primary ring-ring ring-2",
-                  )}
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="bg-primary/10 text-primary flex size-12 items-center justify-center rounded-xl">
-                      <FileText className="size-6" aria-hidden />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-foreground font-medium">Online invoice request</p>
-                      <p className="text-muted-foreground mt-1 text-sm">
-                        We will email the invoice and it will show on your billing page.
-                      </p>
-                    </div>
-                  </div>
-                </button>
-              ) : null}
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <Button type="button" variant="outline" onClick={() => setStep(2)}>
-                Back
-              </Button>
-              <Button type="button" disabled={paymentPath == null} onClick={() => setStep(4)}>
-                Continue
-              </Button>
-            </div>
-          </div>
-        </div>
+        <SelectPaymentMethodStep
+          canCard={canCard}
+          canInvoice={canInvoice}
+          paymentPath={paymentPath}
+          onPaymentPathChange={setPaymentPath}
+          onBack={() => setStep(2)}
+          onContinue={() => setStep(4)}
+        />
       ) : null}
 
       {step === 4 && paymentPath === "card" ? (
-        <div className="grid gap-6">
-          <div className="mx-auto w-full max-w-4xl space-y-2 text-center md:text-left">
-            <TypographyH3 className="font-brand text-lg tracking-tight">
-              4. Review and pay
-            </TypographyH3>
-            <TypographyMuted className="text-sm">
-              Confirm your plan and start date, then continue to Stripe Checkout to pay by card.
-            </TypographyMuted>
-          </div>
-
-          <div className="border-border bg-card mx-auto grid max-w-4xl grid-cols-1 gap-0 overflow-hidden rounded-4xl border shadow-2xl md:grid-cols-5">
-            <div className="bg-muted/40 border-border shrink-0 border-r p-10 md:col-span-2">
-              <div className="space-y-8">
-                <div className="flex items-center gap-3">
-                  <div className="bg-primary text-primary-foreground flex size-8 items-center justify-center rounded-lg">
-                    <CreditCard className="size-4" aria-hidden />
-                  </div>
-                  <TypographyLarge className="text-sm font-bold tracking-widest uppercase">
-                    Subscription overview
-                  </TypographyLarge>
-                </div>
-
-                <div className="space-y-6">
-                  <div className="space-y-2">
-                    <TypographyH4 className="text-muted-foreground text-xs font-bold tracking-widest uppercase">
-                      Selected plan
-                    </TypographyH4>
-                    <TypographyH3 className="text-primary text-xl font-bold italic">
-                      {selectedTierName}
-                    </TypographyH3>
-                  </div>
-
-                  {selectedTier ? (
-                    <dl className="border-border/60 text-foreground/90 space-y-3 border-t pt-4 text-sm">
-                      {selectedTier.packageName?.trim() ? (
-                        <div className="space-y-0.5">
-                          <dt className="text-muted-foreground text-[0.65rem] font-bold tracking-widest uppercase">
-                            Package
-                          </dt>
-                          <dd>{selectedTier.packageName.trim()}</dd>
-                        </div>
-                      ) : null}
-                    </dl>
-                  ) : (
-                    <TypographyMuted className="text-xs leading-relaxed">
-                      Plan details will appear here once a tier is selected.
-                    </TypographyMuted>
-                  )}
-                </div>
-
-                <div className="pt-12 md:pt-20">
-                  <div className="border-border flex flex-col gap-1 border-t pt-6">
-                    <TypographyMuted className="text-xs font-bold tracking-widest uppercase">
-                      Total
-                    </TypographyMuted>
-                    <TypographyH2 className="text-primary text-3xl font-black tracking-tighter tabular-nums md:text-4xl">
-                      {selectedTier ? formatMoney(selectedTier.price, selectedTier.currency) : "-"}
-                    </TypographyH2>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white p-10 md:col-span-3 dark:bg-black/20">
-              <div className="grid gap-6">
-                {selectedTier ? (
-                  <dl className="border-border/60 space-y-3 border-b pb-6 text-sm">
-                    <div className="space-y-0.5">
-                      <dt className="text-muted-foreground text-[0.65rem] font-bold tracking-widest uppercase">
-                        Coverage
-                      </dt>
-                      <dd className="font-medium">{selectedTierCoverage}</dd>
-                    </div>
-                    {selectedTier.priceByWeekInPass != null ? (
-                      <div className="space-y-0.5">
-                        <dt className="text-muted-foreground text-[0.65rem] font-bold tracking-widest uppercase">
-                          Per week
-                        </dt>
-                        <dd className="text-primary font-semibold tabular-nums">
-                          {formatMoney(selectedTier.priceByWeekInPass, selectedTier.currency)}/week
-                        </dd>
-                      </div>
-                    ) : null}
-                    <div className="space-y-0.5">
-                      <dt className="text-muted-foreground text-[0.65rem] font-bold tracking-widest uppercase">
-                        Start date
-                      </dt>
-                      <dd className="font-medium">
-                        {selectedDate != null ? format(selectedDate, "PPP") : startDate || "-"}
-                      </dd>
-                    </div>
-                    <div className="space-y-0.5">
-                      <dt className="text-muted-foreground text-[0.65rem] font-bold tracking-widest uppercase">
-                        Payment method
-                      </dt>
-                      <dd className="font-medium">{paymentMethodLabel}</dd>
-                      <dd className="text-muted-foreground text-xs">{paymentMethodDescription}</dd>
-                    </div>
-                  </dl>
-                ) : null}
-
-                {checkoutError ? (
-                  <p className="text-destructive text-sm" role="alert">
-                    {checkoutError}
-                  </p>
-                ) : null}
-                {missingCheckoutUrl ? (
-                  <p className="text-destructive text-sm" role="alert">
-                    Checkout URL missing from the server response. Please try again or contact
-                    support.
-                  </p>
-                ) : null}
-
-                <div className="flex flex-col gap-4">
-                  <Button
-                    type="button"
-                    variant="brand"
-                    size="lg"
-                    disabled={!selectedTierId || !dateOk || checkoutMutation.isPending}
-                    onClick={() => void submitCardCheckout()}
-                    className="shadow-primary/20 h-14 w-full text-lg font-black tracking-[0.2em] uppercase shadow-2xl"
-                  >
-                    {checkoutMutation.isPending ? "Starting checkout..." : "Continue to payment"}
-                    {!checkoutMutation.isPending ? (
-                      <ChevronRight className="ml-2 h-5 w-5" aria-hidden />
-                    ) : null}
-                  </Button>
-
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    className="text-muted-foreground w-full text-xs font-bold tracking-widest uppercase"
-                    onClick={() => setStep(canCard && canInvoice ? 3 : 2)}
-                  >
-                    Back
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <ReviewCardPaymentStep
+          selectedTier={selectedTier}
+          selectedTierName={selectedTierName}
+          selectedTierCoverage={selectedTierCoverage}
+          selectedStartDateLabel={
+            selectedDate != null ? format(selectedDate, "PPP") : startDate || "-"
+          }
+          paymentMethodLabel={paymentMethodLabel}
+          paymentMethodDescription={paymentMethodDescription}
+          checkoutError={checkoutError}
+          missingCheckoutUrl={missingCheckoutUrl}
+          canSubmit={Boolean(selectedTierId && dateOk && !checkoutMutation.isPending)}
+          isPending={checkoutMutation.isPending}
+          onSubmit={() => void submitCardCheckout()}
+          onBack={() => setStep(canCard && canInvoice ? 3 : 2)}
+        />
       ) : null}
 
       {step === 4 && paymentPath === "invoice" ? (
-        <div className="grid gap-6">
-          <div className="mx-auto w-full max-w-4xl space-y-2 text-center md:text-left">
-            <TypographyH3 className="font-brand text-lg tracking-tight">
-              4. Review and submit invoice request
-            </TypographyH3>
-            <TypographyMuted className="text-sm">
-              Confirm your plan and start date, then add invoice contact details. Your request comes
-              to us; we raise the invoice (e.g. in Hnry) and send it to you. It will also appear
-              with your outstanding billing items.
-            </TypographyMuted>
-          </div>
-
-          <div className="border-border bg-card mx-auto grid max-w-4xl grid-cols-1 gap-0 overflow-hidden rounded-4xl border shadow-2xl md:grid-cols-5">
-            <div className="bg-muted/40 border-border shrink-0 border-r p-10 md:col-span-2">
-              <div className="space-y-8">
-                <div className="flex items-center gap-3">
-                  <div className="bg-primary text-primary-foreground flex size-8 items-center justify-center rounded-lg">
-                    <FileText className="size-4" aria-hidden />
-                  </div>
-                  <TypographyLarge className="text-sm font-bold tracking-widest uppercase">
-                    Subscription overview
-                  </TypographyLarge>
-                </div>
-
-                <div className="space-y-6">
-                  <div className="space-y-2">
-                    <TypographyH4 className="text-muted-foreground text-xs font-bold tracking-widest uppercase">
-                      Selected plan
-                    </TypographyH4>
-                    <TypographyH3 className="text-primary text-xl font-bold italic">
-                      {selectedTierName}
-                    </TypographyH3>
-                  </div>
-
-                  {selectedTier ? (
-                    <dl className="border-border/60 text-foreground/90 space-y-3 border-t pt-4 text-sm">
-                      {selectedTier.packageName?.trim() ? (
-                        <div className="space-y-0.5">
-                          <dt className="text-muted-foreground text-[0.65rem] font-bold tracking-widest uppercase">
-                            Package
-                          </dt>
-                          <dd>{selectedTier.packageName.trim()}</dd>
-                        </div>
-                      ) : null}
-                      <div className="space-y-0.5">
-                        <dt className="text-muted-foreground text-[0.65rem] font-bold tracking-widest uppercase">
-                          Coverage
-                        </dt>
-                        <dd>{selectedTierCoverage}</dd>
-                      </div>
-                      {selectedTier.priceByWeekInPass != null ? (
-                        <div className="space-y-0.5">
-                          <dt className="text-muted-foreground text-[0.65rem] font-bold tracking-widest uppercase">
-                            Per week
-                          </dt>
-                          <dd className="text-primary font-semibold tabular-nums">
-                            {formatMoney(selectedTier.priceByWeekInPass, selectedTier.currency)}
-                            /week
-                          </dd>
-                        </div>
-                      ) : null}
-                      <div className="space-y-0.5">
-                        <dt className="text-muted-foreground text-[0.65rem] font-bold tracking-widest uppercase">
-                          Start date
-                        </dt>
-                        <dd className="font-medium">
-                          {selectedDate != null ? format(selectedDate, "PPP") : startDate || "-"}
-                        </dd>
-                      </div>
-                      <div className="space-y-0.5">
-                        <dt className="text-muted-foreground text-[0.65rem] font-bold tracking-widest uppercase">
-                          Payment method
-                        </dt>
-                        <dd className="font-medium">{paymentMethodLabel}</dd>
-                        <dd className="text-muted-foreground text-xs">
-                          {paymentMethodDescription}
-                        </dd>
-                      </div>
-                    </dl>
-                  ) : (
-                    <TypographyMuted className="text-xs leading-relaxed">
-                      Plan details will appear here once a tier is selected.
-                    </TypographyMuted>
-                  )}
-                </div>
-
-                <div className="pt-12 md:pt-20">
-                  <div className="border-border flex flex-col gap-1 border-t pt-6">
-                    <TypographyMuted className="text-xs font-bold tracking-widest uppercase">
-                      Total
-                    </TypographyMuted>
-                    <TypographyH2 className="text-primary text-3xl font-black tracking-tighter tabular-nums md:text-4xl">
-                      {selectedTier ? formatMoney(selectedTier.price, selectedTier.currency) : "-"}
-                    </TypographyH2>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white p-10 md:col-span-3 dark:bg-black/20">
-              <div className="grid gap-6">
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                  <div className="grid gap-2">
-                    <Label
-                      htmlFor="wizard-contact-name"
-                      className="text-xs font-bold tracking-wider uppercase opacity-60"
-                    >
-                      Billing contact name
-                    </Label>
-                    <input
-                      id="wizard-contact-name"
-                      type="text"
-                      autoComplete="name"
-                      value={billingContactName}
-                      onChange={(ev) => setBillingContactName(ev.target.value)}
-                      className={inputClass}
-                    />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label
-                      htmlFor="wizard-billing-email"
-                      className="text-xs font-bold tracking-wider uppercase opacity-60"
-                    >
-                      Billing email
-                    </Label>
-                    <input
-                      id="wizard-billing-email"
-                      type="email"
-                      autoComplete="email"
-                      value={billingEmail}
-                      onChange={(ev) => setBillingEmail(ev.target.value)}
-                      className={inputClass}
-                    />
-                  </div>
-                </div>
-
-                <div className="grid gap-2">
-                  <Label
-                    htmlFor="wizard-org-name"
-                    className="text-xs font-bold tracking-wider uppercase opacity-60"
-                  >
-                    Organisation name
-                  </Label>
-                  <input
-                    id="wizard-org-name"
-                    type="text"
-                    autoComplete="organization"
-                    value={billingOrganisationName}
-                    onChange={(ev) => setBillingOrganisationName(ev.target.value)}
-                    className={inputClass}
-                  />
-                </div>
-
-                <div className="grid gap-2">
-                  <Label
-                    htmlFor="wizard-notes"
-                    className="text-xs font-bold tracking-wider uppercase opacity-60"
-                  >
-                    Notes (optional)
-                  </Label>
-                  <textarea
-                    id="wizard-notes"
-                    value={notes}
-                    onChange={(ev) => setNotes(ev.target.value)}
-                    className={textareaClass}
-                  />
-                </div>
-
-                {invoiceError ? (
-                  <p className="text-destructive text-sm" role="alert">
-                    {invoiceError}
-                  </p>
-                ) : null}
-
-                {showStripeImmediateInvoice ? (
-                  <div
-                    className="border-border bg-muted/30 rounded-lg border p-4"
-                    role="region"
-                    aria-label="Staff Stripe invoice generation"
-                  >
-                    <p className="text-foreground text-sm font-medium">
-                      Staff: immediate Stripe invoice
-                    </p>
-                    <p className="text-muted-foreground mt-1 text-xs">
-                      Creates the CMS order + Stripe invoice via Strapi (`POST
-                      /api/orders/stripe/create-invoice`). Open the hosted invoice to pay; this app
-                      will poll until the order is marked paid.
-                    </p>
-                    {stripeImmediateError ? (
-                      <p className="text-destructive mt-2 text-sm" role="alert">
-                        {stripeImmediateError}
-                      </p>
-                    ) : null}
-                    {stripeHostedUrl ? (
-                      <div className="mt-3 grid gap-2">
-                        <Button variant="brand" size="sm" className="w-full sm:w-auto" asChild>
-                          <a href={stripeHostedUrl} target="_blank" rel="noopener noreferrer">
-                            Pay online (hosted invoice)
-                          </a>
-                        </Button>
-                        {stripeInvoicePaidDetected ? (
-                          <div className="grid gap-2">
-                            <p className="text-primary text-sm font-medium" role="status">
-                              Payment recorded - you can return to billing.
-                            </p>
-                            <Button
-                              type="button"
-                              variant="outline"
-                              size="sm"
-                              className="w-full sm:w-auto"
-                              asChild
-                            >
-                              <Link href={`/o/${encodeURIComponent(accountId)}/billing`}>
-                                Back to billing
-                              </Link>
-                            </Button>
-                          </div>
-                        ) : (
-                          <p className="text-muted-foreground text-xs">
-                            Waiting for webhook confirmation after you pay... (up to ~2 minutes)
-                          </p>
-                        )}
-                      </div>
-                    ) : null}
-                    <div className="mt-3">
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        disabled={!canSubmitStripeImmediate}
-                        onClick={() => void submitStripeImmediateInvoice()}
-                        className="w-full sm:w-auto"
-                      >
-                        {stripeImmediatePending
-                          ? "Generating invoice..."
-                          : "Generate Stripe invoice"}
-                      </Button>
-                    </div>
-                  </div>
-                ) : null}
-
-                <div className="flex flex-col gap-4">
-                  <Button
-                    type="button"
-                    variant="brand"
-                    size="lg"
-                    disabled={!canSubmitInvoice}
-                    onClick={() => void submitInvoiceRequest()}
-                    className="shadow-primary/20 h-14 w-full text-lg font-black tracking-[0.2em] uppercase shadow-2xl"
-                  >
-                    {invoiceMutation.isPending ? "Submitting..." : "Submit invoice request"}
-                    {!invoiceMutation.isPending ? (
-                      <ChevronRight className="ml-2 h-5 w-5" aria-hidden />
-                    ) : null}
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    className="text-muted-foreground w-full text-xs font-bold tracking-widest uppercase"
-                    onClick={() => setStep(canCard && canInvoice ? 3 : 2)}
-                  >
-                    Back
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <ReviewInvoiceRequestStep
+          accountId={accountId}
+          selectedTier={selectedTier}
+          selectedTierName={selectedTierName}
+          selectedTierCoverage={selectedTierCoverage}
+          selectedStartDateLabel={
+            selectedDate != null ? format(selectedDate, "PPP") : startDate || "-"
+          }
+          paymentMethodLabel={paymentMethodLabel}
+          paymentMethodDescription={paymentMethodDescription}
+          billingContactName={billingContactName}
+          billingEmail={billingEmail}
+          billingOrganisationName={billingOrganisationName}
+          notes={notes}
+          onBillingContactNameChange={setBillingContactName}
+          onBillingEmailChange={setBillingEmail}
+          onBillingOrganisationNameChange={setBillingOrganisationName}
+          onNotesChange={setNotes}
+          invoiceError={invoiceError}
+          showStripeImmediateInvoice={showStripeImmediateInvoice}
+          stripeImmediateError={stripeImmediateError}
+          stripeHostedUrl={stripeHostedUrl}
+          stripeInvoicePaidDetected={stripeInvoicePaidDetected}
+          stripeImmediatePending={stripeImmediatePending}
+          canSubmitStripeImmediate={canSubmitStripeImmediate}
+          onSubmitStripeImmediateInvoice={() => void submitStripeImmediateInvoice()}
+          canSubmitInvoice={canSubmitInvoice}
+          invoicePending={invoiceMutation.isPending}
+          onSubmitInvoice={() => void submitInvoiceRequest()}
+          onBack={() => setStep(canCard && canInvoice ? 3 : 2)}
+        />
       ) : null}
 
       <div className="text-muted-foreground flex flex-wrap items-center gap-2 text-xs">

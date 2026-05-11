@@ -78,10 +78,10 @@ Problem:
 The wizard contains mojibake such as:
 
 ```txt
-Redirectingâ€¦
-Starting checkoutâ€¦
-â€”
-Â·
+Redirecting mojibake
+Starting checkout mojibake
+Broken dash mojibake
+Broken middle-dot mojibake
 ```
 
 These should display as normal punctuation or ASCII equivalents. Current output will look broken to users.
@@ -102,7 +102,7 @@ Payment recorded - you can return to billing.
 
 Implementation notes:
 
-- Search the billing feature for mojibake patterns: `â`, `Â`, `€`, `�`.
+- Search the billing feature for mojibake patterns and replacement characters.
 - Replace with ASCII unless the file already intentionally uses Unicode.
 - Add a small lint/check script later if this keeps recurring after copied docs or generated content.
 
@@ -417,16 +417,16 @@ Tasks:
 
 Suggested priority: High.
 
-### Phase 2: Consolidate And Refactor
+### Phase 2: Consolidate And Refactor - implementation done
 
 Goal: make the implementation easier to maintain before adding more purchase options.
 
 Tasks:
 
-- [ ] Declare `/billing/create` canonical.
-- [ ] Audit/remove or deprecate old `plan-checkout` UI.
-- [ ] Extract wizard step components and hooks.
-- [ ] Preserve existing tests and add helper tests for extracted state logic.
+- [x] Declare `/billing/create` canonical.
+- [x] Audit/remove or deprecate old `plan-checkout` UI.
+- [x] Extract wizard step components and hooks.
+- [x] Preserve existing tests and add helper tests for extracted state logic.
 
 Suggested priority: High.
 
@@ -469,18 +469,36 @@ Phase 2 acceptance criteria:
 - Existing card checkout and invoice request behavior still works.
 - Existing billing tests pass, and any new helper logic has targeted test coverage.
 
-### Phase 3: Timeframe / Cadence Product Alignment
+### Phase 3: Timeframe Display Refinement
 
-Goal: make timeframe selection explicit and backend-correct.
+Goal: make the fixed Season Pass timeframe obvious without adding a redundant cadence selector.
+
+Product decision:
+
+```txt
+There are only three Season Pass tiers:
+1. 1 month
+2. 3 months
+3. 12 months
+```
+
+The selected tier already contains the pass duration. The subscription window should be derived
+from:
+
+```txt
+selected start date + selected tier daysInPass
+```
+
+Do not add a separate monthly/annual/cadence selector unless the product model changes.
 
 Tasks:
 
-- Confirm backend representation for timeframe/cadence.
-- Update Step 1 naming and grouping.
-- Add cadence selector only if supported by tier rows or confirmed API contract.
-- Update docs and tests to match confirmed model.
+- Ensure the three fixed tiers are labelled clearly as 1 month, 3 months, and 12 months.
+- Show the derived subscription window in review: start date through calculated end date.
+- Keep Step 1 as tier selection; do not add another timeframe/cadence control.
+- Add/update helper tests for timeframe/end-date display where useful.
 
-Suggested priority: Medium-high.
+Suggested priority: Low-medium, because the main selection model is already correct.
 
 ### Phase 4: Post-Purchase And Recovery UX
 

@@ -37,6 +37,9 @@ const NAMING_RULES = [
   "card.surface.settings",
   "card.metric.compact",
   "card.metric.comparison-card",
+  "card.metric.comparison-card.body-prose",
+  "card.metric.comparison-card.body-checklist",
+  "card.metric.comparison-card.body-inline-meta",
   "card.composite.split-action",
   "card.feedback.soft.info",
   "card.grid.default.org-initials",
@@ -647,6 +650,113 @@ export default function CardsPage() {
                     <TypographyMuted className="flex items-center gap-1 text-xs">
                       <ArrowDownRight className="text-destructive size-3.5 shrink-0" aria-hidden />
                       Gap to target reduced by 13 items.
+                    </TypographyMuted>
+                  }
+                />
+              </div>
+
+              <div className="space-y-4">
+                <CardReferenceName name="card.metric.comparison-card.body-prose" />
+                <TypographyMuted className="font-mono text-xs tracking-widest uppercase">
+                  Comparison card shell — prose body
+                </TypographyMuted>
+                <MetricComparisonCard
+                  layout="card"
+                  title="Season coverage"
+                  icon={<FileText className="text-primary size-5" aria-hidden />}
+                  body={
+                    <div className="space-y-3">
+                      <p className="text-sm leading-relaxed">
+                        Fixtures are generated for every grade that has a published draw. Hidden
+                        grades stay out of exports until you publish them.
+                      </p>
+                      <TypographyMuted className="text-xs leading-relaxed">
+                        Last synced 12 minutes ago. Changes from your association feed apply on the
+                        next sync window.
+                      </TypographyMuted>
+                    </div>
+                  }
+                  footer={
+                    <TypographyMuted className="text-xs">
+                      Tip: publish grades in bulk from the competition settings sheet.
+                    </TypographyMuted>
+                  }
+                />
+              </div>
+
+              <div className="space-y-4">
+                <CardReferenceName name="card.metric.comparison-card.body-checklist" />
+                <TypographyMuted className="font-mono text-xs tracking-widest uppercase">
+                  Comparison card shell — checklist body
+                </TypographyMuted>
+                <MetricComparisonCard
+                  layout="card"
+                  title="Before you go live"
+                  icon={<ListChecks className="text-primary size-5" aria-hidden />}
+                  body={
+                    <ul className="space-y-2.5 text-sm">
+                      <li className="flex gap-2">
+                        <CircleCheck className="text-success mt-0.5 size-4 shrink-0" aria-hidden />
+                        <span>Billing contact and ABN on file.</span>
+                      </li>
+                      <li className="flex gap-2">
+                        <CircleCheck className="text-success mt-0.5 size-4 shrink-0" aria-hidden />
+                        <span>At least one published competition with fixtures.</span>
+                      </li>
+                      <li className="flex gap-2">
+                        <Clock
+                          className="text-muted-foreground mt-0.5 size-4 shrink-0"
+                          aria-hidden
+                        />
+                        <span className="text-muted-foreground">
+                          Sponsor logos optional — add later from assets.
+                        </span>
+                      </li>
+                    </ul>
+                  }
+                  footer={
+                    <div className="flex flex-wrap items-center gap-2 text-xs">
+                      <span className="text-muted-foreground">2 of 3 complete</span>
+                      <span className="bg-muted text-muted-foreground rounded-md px-2 py-0.5 font-medium">
+                        Est. 4 min left
+                      </span>
+                    </div>
+                  }
+                />
+              </div>
+
+              <div className="space-y-4">
+                <CardReferenceName name="card.metric.comparison-card.body-inline-meta" />
+                <TypographyMuted className="font-mono text-xs tracking-widest uppercase">
+                  Comparison card shell — inline meta + action
+                </TypographyMuted>
+                <MetricComparisonCard
+                  layout="card"
+                  title="Invoice delivery"
+                  icon={<ClipboardCheck className="text-primary size-5" aria-hidden />}
+                  body={
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                      <p className="text-muted-foreground max-w-md text-sm leading-relaxed">
+                        Invoices are emailed to the organisation billing address. CC additional
+                        recipients from billing settings.
+                      </p>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="shrink-0 self-start"
+                      >
+                        Manage recipients
+                      </Button>
+                    </div>
+                  }
+                  footer={
+                    <TypographyMuted className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
+                      <span>Next run · 04 May, 06:00 AEST</span>
+                      <span className="hidden sm:inline" aria-hidden>
+                        ·
+                      </span>
+                      <span>PDF + CSV attached</span>
                     </TypographyMuted>
                   }
                 />

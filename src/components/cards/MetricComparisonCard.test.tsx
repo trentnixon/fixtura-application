@@ -27,4 +27,36 @@ describe("MetricComparisonCard", () => {
     expect(screen.getByTestId("metric-compare-card")).toBeInTheDocument();
     expect(screen.getByText("Content output")).toBeInTheDocument();
   });
+
+  it("renders body slot instead of the comparison grid when body is provided", () => {
+    render(
+      <MetricComparisonCard
+        layout="card"
+        title="Season coverage"
+        body={<p>Prose or structured content goes here.</p>}
+        footer={<span>Footer hint</span>}
+        data-testid="metric-body-card"
+      />,
+    );
+    expect(screen.getByTestId("metric-body-card")).toBeInTheDocument();
+    expect(screen.getByText("Prose or structured content goes here.")).toBeInTheDocument();
+    expect(screen.queryByText("Current")).not.toBeInTheDocument();
+    expect(screen.getByText("Footer hint")).toBeInTheDocument();
+  });
+
+  it("omits column label band when label is null and still renders values", () => {
+    render(
+      <MetricComparisonCard
+        title="Pick one"
+        layout="card"
+        primary={{ label: null, value: "Left" }}
+        secondary={{ label: null, value: "Right" }}
+        footer={<span>Footer hint</span>}
+      />,
+    );
+    expect(screen.queryByText("Current")).not.toBeInTheDocument();
+    expect(screen.getByText("Left")).toBeInTheDocument();
+    expect(screen.getByText("Right")).toBeInTheDocument();
+    expect(screen.getByText("Footer hint")).toBeInTheDocument();
+  });
 });

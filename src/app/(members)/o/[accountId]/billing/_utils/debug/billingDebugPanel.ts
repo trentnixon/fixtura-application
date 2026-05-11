@@ -1,5 +1,5 @@
 import { deriveBillingUiMode } from "../../_core/billing-state";
-import { shouldShowPlanCheckout } from "../../plan-checkout/_utils/billingPlanCheckout";
+import { shouldShowPlanCheckout } from "../create-subscription/checkoutActionGate";
 import { shouldShowInvoiceRequest } from "../invoice-request/billingInvoiceRequest";
 
 import type { AccountBillingOrderHistoryDto, AccountBillingSummaryV1 } from "@/types/api/account";

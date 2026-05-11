@@ -14,7 +14,7 @@ import {
   type BillingUiMode,
   type BillingProductState,
 } from "../../_core/billing-state";
-import { shouldShowPlanCheckout } from "../../plan-checkout/_utils/billingPlanCheckout";
+import { shouldShowPlanCheckout } from "../create-subscription/checkoutActionGate";
 import { buildBillingDebugFunnelGates } from "../debug/billingDebugPanel";
 import { shouldShowInvoiceRequest } from "../invoice-request/billingInvoiceRequest";
 

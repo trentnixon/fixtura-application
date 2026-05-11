@@ -1,5 +1,5 @@
+import { shouldShowPlanCheckout } from "../../_utils/create-subscription/checkoutActionGate";
 import { shouldShowInvoiceRequest } from "../../invoice-request/billing-invoice-request";
-import { shouldShowPlanCheckout } from "../../plan-checkout/billing-plan-checkout";
 
 import type { BillingUiMode } from "../../_core/billing-state";
 

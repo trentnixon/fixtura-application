@@ -1,5 +1,7 @@
 import type { AvailableBillingTier } from "@/types/api/account";
 
+export { shouldShowPlanCheckout } from "../../_utils/create-subscription/checkoutActionGate";
+
 export function formatBillingPlanCheckoutMoney(
   amount: number | null,
   currency: string | null,
@@ -35,28 +37,4 @@ export function truncateBillingPlanCheckoutDescription(text: string, max: number
 
 export function billingPlanCheckoutTierKey(tier: AvailableBillingTier): string {
   return String(tier.id);
-}
-
-/**
- * Show plan checkout when API explicitly allows it, or when `availableActions` is absent / empty
- * (flags not yet returned by CMS).
- * Strapi billing v1 may expose hosted checkout via `canStartCheckout` / `can_start_checkout`.
- */
-export function shouldShowPlanCheckout(
-  actions: Partial<Record<string, boolean>> | undefined,
-): boolean {
-  if (actions == null) {
-    return true;
-  }
-  if (
-    actions["canCheckout"] === true ||
-    actions["can_checkout"] === true ||
-    actions["canSubscribe"] === true ||
-    actions["can_subscribe"] === true ||
-    actions["canStartCheckout"] === true ||
-    actions["can_start_checkout"] === true
-  ) {
-    return true;
-  }
-  return Object.keys(actions).length === 0;
 }
