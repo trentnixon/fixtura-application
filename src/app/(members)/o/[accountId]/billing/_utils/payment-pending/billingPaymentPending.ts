@@ -46,7 +46,7 @@ function orderHistoryRowIndicatesPaymentPending(row: AccountBillingOrderHistoryD
 }
 
 /**
- * Active order checkout has moved past “preparing invoice” — invoice was sent; payment not complete.
+ * Active order checkout has moved past "preparing invoice" - invoice was sent; payment not complete.
  * When GET /billing omits `activeOrder`, pass `orders` from GET /orders/account so `invoice_issued` is visible.
  */
 export function isInvoiceIssuedCheckout(
@@ -145,8 +145,8 @@ export function paymentPendingBannerCopy(
     return {
       variant: "invoice",
       eyebrow: "Invoice issued",
-      title: "We've sent your invoice — awaiting payment",
-      body: "Your invoice has been issued to the billing contact on your request. Please complete payment using the instructions in that email. If you did not receive it, check spam or contact support. Your organisation's access will activate once payment is received.",
+      title: "We've sent your invoice - awaiting payment",
+      body: "Your invoice has been issued to the billing contact on your request. Complete payment using the instructions in that email. If it has not arrived, check spam or contact support. Your organisation's access will activate once payment is received.",
     };
   }
 
@@ -156,13 +156,13 @@ export function paymentPendingBannerCopy(
       variant,
       eyebrow: "Invoice request pending",
       title: "We're preparing your invoice",
-      body: "We've received your plan and contact details. Our team is creating your invoice; when it's ready, we'll send it to the billing email you used on the request form. After the invoice is processed, your organisation's access will become active and your subscription will begin from the start date you selected.",
+      body: "We've received your pass and billing details. Our team is creating the invoice now. When it is ready, we will send it to the billing email from your request. Access activates once payment is received, using the start date you selected.",
     };
   }
   return {
     variant,
     eyebrow: "Payment pending",
     title: "Your checkout or payment isn't finished yet",
-    body: "We're still waiting for your payment to complete. If you were paying by card, use Continue payment. You can also open Create subscription. For help, use billing history or contact support.",
+    body: "We are still waiting for payment to complete. If you were paying by card, use Continue payment to reopen checkout. If this attempt is no longer needed, discard it where available. Contact support if the payment path is unclear.",
   };
 }

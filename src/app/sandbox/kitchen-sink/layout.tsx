@@ -22,6 +22,7 @@ const NAV_LINKS = [
   { href: `${K}/forms`, label: "Forms" },
   { href: `${K}/dialogs`, label: "Dialogs" },
   { href: `${K}/tables`, label: "Tables" },
+  { href: `${K}/tabber`, label: "Tabber" },
   { href: `${K}/popovers`, label: "Popovers" },
   { href: `${K}/loading`, label: "Loading" },
   { href: `${K}/lists`, label: "Lists" },

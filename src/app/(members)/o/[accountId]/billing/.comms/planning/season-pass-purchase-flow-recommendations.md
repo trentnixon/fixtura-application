@@ -500,18 +500,174 @@ Tasks:
 
 Suggested priority: Low-medium, because the main selection model is already correct.
 
-### Phase 4: Post-Purchase And Recovery UX
+### Phase 4: Post-Purchase And Recovery UX - implementation done
 
 Goal: reduce user uncertainty after invoice/checkout events.
 
 Tasks:
 
-- Add invoice request confirmation state.
-- Improve payment retry/pending guidance.
-- Add support notes for unavailable plan/payment actions.
-- Consider future manage-billing/customer-portal work only after API contract is confirmed.
+- [x] Add invoice request confirmation state.
+- [x] Improve payment retry/pending guidance.
+- [x] Add support notes for unavailable plan/payment actions.
+- [x] Keep future manage-billing/customer-portal work deferred until API contract is confirmed.
 
 Suggested priority: Medium.
+
+#### Phase 4 Delivery Plan
+
+Recommended execution order:
+
+```txt
+4.1 Invoice request confirmation
+4.2 Payment pending / retry guidance
+4.3 Unavailable plan or payment-path support notes
+4.4 Customer portal decision note only, unless API contract changes
+```
+
+#### 4.1 Invoice Request Confirmation State
+
+Goal:
+
+After a successful invoice request submission, show a clear success state instead of immediately
+returning the user to billing without confirmation.
+
+Recommended UX:
+
+- Replace the immediate route jump after a successful invoice request with an in-flow success panel.
+- Show:
+  - confirmation title
+  - short explanation of what happens next
+  - selected pass / start-date summary if still useful
+  - primary action: `Back to billing`
+  - secondary action: `View billing history`
+- Keep billing and invoice-request queries invalidated/refetched before or while showing the success
+  state.
+
+Suggested implementation scope:
+
+- Extend create wizard state with an `invoiceSubmitted` or equivalent success state.
+- Add a focused `InvoiceRequestSubmittedState` component.
+- Reuse existing selected pass/start-date/payment display helpers where possible.
+- Keep `router.replace(...)` available as a user action, not the only completion behavior.
+
+Acceptance criteria:
+
+- Successful invoice request shows an explicit confirmation panel.
+- Billing/invoice queries are still refreshed.
+- User can choose to return to billing or open billing history.
+- Repeat submit is prevented while the success state is shown.
+- Error behavior remains unchanged for failed invoice requests.
+
+#### 4.2 Payment Retry And Pending Guidance
+
+Goal:
+
+Make interrupted, failed, or pending payment states more actionable so the user understands what to
+do next.
+
+Recommended UX:
+
+- Review current `payment_pending` surfaces and make next actions explicit.
+- Ensure pending guidance clearly distinguishes:
+  - Stripe checkout started but incomplete
+  - invoice request submitted / under review
+  - invoice issued but not yet paid
+- Where already supported by the backend, surface:
+  - resume Stripe checkout
+  - discard pending Stripe checkout
+  - withdraw invoice request
+- Improve fallback support copy when the backend does not expose a self-service next step.
+
+Suggested implementation scope:
+
+- Audit `BillingPaymentPendingBanner` and related pending-action utilities/hooks.
+- Review `billingPaymentPending.ts` copy and branch labels.
+- Add or refine CTA labels/help text only where existing backend actions already support the action.
+- Avoid creating new backend-dependent actions in Phase 4.
+
+Acceptance criteria:
+
+- Pending states explain what is happening in plain language.
+- Available recovery actions are visible and specific.
+- States with no self-service action provide support guidance instead of dead-end copy.
+- Existing pending-order and invoice-withdraw flows continue to work.
+
+#### 4.3 Support Notes For Unavailable Plan Or Payment Actions
+
+Goal:
+
+When checkout or invoice options are unavailable, explain that cleanly without exposing backend
+internals.
+
+Recommended UX:
+
+- In the create flow, improve the existing `No subscription actions available` state.
+- Add safe, user-facing copy for cases such as:
+  - card checkout unavailable
+  - invoice requests unavailable
+  - no plans available for this account
+- Prefer one concise support note over noisy technical status text.
+
+Suggested implementation scope:
+
+- Update the create wizard unavailable-action card.
+- Review any empty/error states around plan selection and payment availability.
+- Reuse shared support-language constants if the billing feature already has a pattern.
+
+Acceptance criteria:
+
+- Unavailable-action states are understandable without API knowledge.
+- Users are told what they can do next.
+- No internal action keys, permission names, or raw backend concepts leak into user copy.
+
+#### 4.4 Customer Portal / Manage Billing Decision
+
+Goal:
+
+Keep the boundary explicit: do not build customer portal or manage-billing flows until the API
+contract is confirmed.
+
+Recommended handling:
+
+- Keep this as a documented deferred decision.
+- Do not add placeholder UI that implies functionality does exist.
+- If Product changes direction later, reopen with a separate scoped implementation plan covering:
+  - endpoint contract
+  - auth/ownership checks
+  - return handling
+  - QA requirements
+
+Acceptance criteria:
+
+- Current UI does not imply a portal flow exists.
+- Docs remain clear that customer portal is deferred.
+
+#### Phase 4 Suggested Task Breakdown
+
+Implementation batch A:
+
+- Add invoice request success state.
+- Add tests for success-state transition and rendered actions.
+
+Implementation batch B:
+
+- Audit and refine payment pending/retry messaging.
+- Add or update utility tests for pending-state branch copy if logic changes.
+
+Implementation batch C:
+
+- Improve unavailable plan/payment support notes.
+- Update staging QA checklist with the new recovery and confirmation states.
+
+Suggested verification:
+
+- `npm run typecheck`
+- Focused lint on changed billing files
+- Focused Vitest for any new helper/state utilities
+- Manual browser QA for:
+  - invoice request success
+  - payment pending / resume / withdraw states
+  - unavailable action states
 
 ### Phase 5: E2E Coverage
 

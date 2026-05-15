@@ -43,6 +43,7 @@ export type CreateSubscriptionWizardStatePanelProps = {
   checkoutError: string | null;
   invoiceError: string | null;
   missingCheckoutUrl: boolean;
+  invoiceSubmitted?: boolean;
   /** Staff-only Stripe immediate invoice panel (wizard step 4, invoice path). */
   showStripeImmediateInvoice: boolean;
   stripeImmediatePending: boolean;
@@ -154,6 +155,9 @@ export function CreateSubscriptionWizardStatePanel(props: CreateSubscriptionWiza
           <BillingDebugPanelRow label="checkoutError" value={props.checkoutError ?? "null"} />
           <BillingDebugPanelRow label="invoiceError" value={props.invoiceError ?? "null"} />
           <BillingDebugPanelBoolRow label="missingCheckoutUrl" value={props.missingCheckoutUrl} />
+          {props.invoiceSubmitted !== undefined ? (
+            <BillingDebugPanelBoolRow label="invoiceSubmitted" value={props.invoiceSubmitted} />
+          ) : null}
         </div>
 
         <div>

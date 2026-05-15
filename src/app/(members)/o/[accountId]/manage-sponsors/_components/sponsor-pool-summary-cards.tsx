@@ -9,7 +9,6 @@ export function SponsorPoolSummaryCards({
     total: number;
     placed: number;
     unassigned: number;
-    inactive: number;
     archived: number;
   };
 }) {
@@ -17,7 +16,7 @@ export function SponsorPoolSummaryCards({
     ["Total sponsors", stats.total],
     ["Placed", stats.placed],
     ["Unassigned", stats.unassigned],
-    ["Inactive", stats.inactive],
+    ["Archived", stats.archived],
   ];
 
   return (

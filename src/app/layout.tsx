@@ -33,9 +33,10 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${jakartaSans.variable} ${interFont.variable} ${geistMono.variable} bg-background text-foreground min-h-screen font-sans antialiased`}
+        suppressHydrationWarning
       >
         <QueryProvider>
           <TooltipProvider delayDuration={0}>{children}</TooltipProvider>

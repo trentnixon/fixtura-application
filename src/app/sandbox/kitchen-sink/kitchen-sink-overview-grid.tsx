@@ -7,6 +7,7 @@ import {
   FormInput,
   Heading1,
   LayoutGrid,
+  LayoutTemplate,
   List,
   Loader2,
   MessageSquare,
@@ -125,6 +126,14 @@ const SECTIONS: {
     href: `${K}/tables`,
     linkLabel: "View Tables",
     icon: Table,
+  },
+  {
+    title: "Tabber",
+    description:
+      "Tabbed views for related content: triggers, panels, and patterns for dense members-area screens.",
+    href: `${K}/tabber`,
+    linkLabel: "View Tabber",
+    icon: LayoutTemplate,
   },
   {
     title: "Popovers",

@@ -1,6 +1,8 @@
-import { AssignSponsorsWorkspace } from "../_components/assign-sponsors-workspace";
+import { redirect } from "next/navigation";
+
+import { accountScopedRoutes } from "@/lib/config/account-routes";
 
 export default async function Page({ params }: { params: Promise<{ accountId: string }> }) {
   const { accountId } = await params;
-  return <AssignSponsorsWorkspace accountId={accountId} />;
+  redirect(accountScopedRoutes.manageSponsorsAssignPosition(accountId));
 }

@@ -24,11 +24,11 @@ export function ManageSponsorsEmptyState({ accountId }: { accountId: string }) {
         </TypographyMuted>
       </CardContent>
       <CardFooter className="flex justify-center gap-2 px-6 pb-6">
-        <Button asChild>
+        <Button variant="accent" asChild>
           <Link href={accountScopedRoutes.addSponsor(accountId)}>Add your first sponsor</Link>
         </Button>
-        <Button variant="ghost" asChild>
-          <Link href={accountScopedRoutes.manageSponsorsAssign(accountId)}>
+        <Button variant="brandPrimaryOutline" asChild>
+          <Link href={accountScopedRoutes.manageSponsorsAssignPosition(accountId)}>
             <CircleAlert className="size-4" aria-hidden />
             How assignment works
           </Link>

@@ -59,4 +59,17 @@ describe("MetricComparisonCard", () => {
     expect(screen.getByText("Right")).toBeInTheDocument();
     expect(screen.getByText("Footer hint")).toBeInTheDocument();
   });
+
+  it("omits footer wrapper when footer is not provided", () => {
+    const { container } = render(
+      <MetricComparisonCard
+        layout="card"
+        title="No footer card"
+        body={<p>Main only</p>}
+        data-testid="metric-no-footer"
+      />,
+    );
+    expect(container.querySelector('[data-slot="card-footer"]')).not.toBeInTheDocument();
+    expect(screen.getByText("Main only")).toBeInTheDocument();
+  });
 });

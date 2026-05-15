@@ -301,7 +301,17 @@ export const appRoutes = {
       authRequired: true,
       status: "ready",
       description:
-        "GET append /{accountId}/sponsors — published sponsors for the account (slim DTOs; logo + sponsorship allocations)",
+        "GET|POST append /{accountId}/sponsors — list (GET); create sponsor (POST). PATCH|DELETE append /{accountId}/sponsors/{sponsorId}. POST multipart append …/upload. See app-handoff-account-sponsors-and-allocations-crud.md",
+      domain: "account",
+    },
+    sponsorEntityTargets: {
+      key: "accounts.sponsor-entity-targets",
+      method: "GET",
+      path: ACCOUNTS_API_BASE,
+      authRequired: true,
+      status: "ready",
+      description:
+        "GET append /{accountId}/sponsor-entity-targets — account-scoped catalogue of sponsor-assignable club/team/grade targets",
       domain: "account",
     },
     /** Billing v1 only: do not add client routes for legacy Strapi `/orders` or `/subscription-tiers`; use account billing keys below. */

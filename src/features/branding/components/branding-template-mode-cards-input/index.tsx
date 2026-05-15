@@ -2,7 +2,6 @@
 
 import { TypographyMuted } from "@/components/typography";
 
-import { CONTRAST_SELECTOR_FOOTER_COPY } from "./_consts";
 import { useBrandingTemplateModeCardsInputState } from "./_hooks";
 import { ContrastSelectorCard } from "./contrast-selector-card";
 import { ModeGridCards } from "./mode-grid-cards";
@@ -59,25 +58,19 @@ export function BrandingTemplateModeCardsInput({
       );
     case "ready":
       return (
-        <ContrastSelectorCard
-          footer={
-            <>
-              <TypographyMuted className="text-sm leading-relaxed">
-                {CONTRAST_SELECTOR_FOOTER_COPY}
-              </TypographyMuted>
-              <TypographyMuted className="text-sm leading-relaxed lg:hidden">
-                Preview the changes below
-              </TypographyMuted>
-            </>
-          }
-        >
-          <ModeGridCards
-            modes={state.modes}
-            selectValue={state.selectValue}
-            setSelectedId={state.setSelectedId}
-            brandPrimaryHex={brandPrimaryHex}
-            brandSecondaryHex={brandSecondaryHex}
-          />
+        <ContrastSelectorCard>
+          <div className="space-y-5">
+            <ModeGridCards
+              modes={state.modes}
+              selectValue={state.selectValue}
+              setSelectedId={state.setSelectedId}
+              brandPrimaryHex={brandPrimaryHex}
+              brandSecondaryHex={brandSecondaryHex}
+            />
+            <TypographyMuted className="text-sm leading-relaxed lg:hidden">
+              Preview the changes below
+            </TypographyMuted>
+          </div>
         </ContrastSelectorCard>
       );
   }

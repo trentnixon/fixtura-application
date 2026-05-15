@@ -11,16 +11,13 @@ export function SponsorPreviewPanel({
   return (
     <Card className="shadow-sm">
       <CardHeader>
-        <CardTitle>Preview panel</CardTitle>
-        <CardDescription>
-          This is the Phase 1 preview shell for how the selected sponsor may appear in output
-          contexts.
-        </CardDescription>
+        <CardTitle>Sponsor preview</CardTitle>
+        <CardDescription>Review how this sponsor may appear in sponsor placements.</CardDescription>
       </CardHeader>
       <CardContent>
         {sponsor ? (
           <div className="grid gap-4">
-            <div className="bg-muted flex min-h-40 items-center justify-center rounded-xl border">
+            <div className="flex min-h-40 items-center justify-center rounded-xl border bg-white">
               {sponsor.logoUrl ? (
                 <img
                   src={sponsor.logoUrl}
@@ -28,17 +25,15 @@ export function SponsorPreviewPanel({
                   className="max-h-24 max-w-[12rem] object-contain"
                 />
               ) : (
-                <span className="text-muted-foreground text-sm">Logo preview placeholder</span>
+                <span className="text-muted-foreground text-sm">No logo uploaded</span>
               )}
             </div>
             <div className="flex flex-wrap gap-2">
               <Badge>{sponsor.placementLabel}</Badge>
-              <Badge variant="outline">{sponsor.usageLabel}</Badge>
-              {sponsor.isActive ? (
-                <Badge variant="secondary">Active</Badge>
-              ) : (
-                <Badge variant="outline">Inactive</Badge>
-              )}
+              {sponsor.usageLabel.trim().length > 0 ? (
+                <Badge variant="outline">{sponsor.usageLabel}</Badge>
+              ) : null}
+              {!sponsor.isActive ? <Badge variant="outline">Archived</Badge> : null}
             </div>
           </div>
         ) : (

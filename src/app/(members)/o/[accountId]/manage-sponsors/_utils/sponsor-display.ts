@@ -1,3 +1,5 @@
+import { countPositionSlotAllocationsForSponsor } from "./sponsorship-allocation-general";
+
 import type { ManageSponsorsWorkspaceSponsor } from "../_types/manage-sponsors";
 import type { AccountSponsorDto } from "@/types/api/account";
 
@@ -16,28 +18,27 @@ function getAccountSponsorPlacementLabel(sponsor: AccountSponsorDto): string {
 function getAccountSponsorUsageLabel(sponsor: AccountSponsorDto): string {
   if (sponsor.isPrimary) return "Global placement";
   if (sponsor.order != null) return "Ranked end screen";
-  if (sponsor.sponsorshipAllocations.length > 0) return "Allocation data present";
+  if (sponsor.sponsorshipAllocations.length > 0) return "Placements assigned";
   return "Pool only";
 }
 
-export function getWorkspaceSponsorPlacementLabel(
-  sponsor: Pick<ManageSponsorsWorkspaceSponsor, "isPrimary" | "rank">,
-): string {
-  if (sponsor.isPrimary) return "Primary";
-  if (sponsor.rank != null) return `Rank ${sponsor.rank}`;
+export function getWorkspaceSponsorPlacementLabel(sponsor: ManageSponsorsWorkspaceSponsor): string {
+  const posCount = countPositionSlotAllocationsForSponsor(sponsor);
+  if (posCount > 0) {
+    return posCount === 1 ? "1 assigned slot" : `${posCount} assigned slots`;
+  }
+  if (sponsor.isPrimary) return "Primary (legacy)";
   return "Unassigned";
 }
 
-export function getWorkspaceSponsorUsageLabel(
-  sponsor: Pick<
-    ManageSponsorsWorkspaceSponsor,
-    "isDraft" | "isPrimary" | "rank" | "allocationCount"
-  >,
-): string {
+export function getWorkspaceSponsorUsageLabel(sponsor: ManageSponsorsWorkspaceSponsor): string {
   if (sponsor.isDraft) return "Draft sponsor";
-  if (sponsor.isPrimary) return "Global placement";
-  if (sponsor.rank != null) return "Ranked end screen";
-  if (sponsor.allocationCount > 0) return "Allocation data present";
+  const posCount = countPositionSlotAllocationsForSponsor(sponsor);
+  if (posCount > 0) {
+    return "";
+  }
+  if (sponsor.isPrimary) return "Global placement (legacy)";
+  if (sponsor.allocationCount > 0) return "Placements assigned";
   return "Pool only";
 }
 
@@ -68,6 +69,7 @@ export function mapAccountSponsorToWorkspaceSponsor(
     hasLogo: Boolean(sponsor.logo?.url),
     logoUrl: sponsor.logo?.url ?? null,
     logoAlt: sponsor.logo?.alternativeText ?? sponsor.name,
+    sponsorshipAllocations: sponsor.sponsorshipAllocations,
     allocationCount: sponsor.sponsorshipAllocations.length,
     placementLabel: getAccountSponsorPlacementLabel(sponsor),
     usageLabel: getAccountSponsorUsageLabel(sponsor),

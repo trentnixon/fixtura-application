@@ -28,6 +28,24 @@ export const queryKeys = {
     mediaLibraryItem: (accountId: string, mediaId: string) =>
       ["account", "media-library", accountId, mediaId] as const,
     sponsors: (accountId: string) => ["account", "sponsors", accountId] as const,
+    sponsorEntityTargets: (accountId: string) =>
+      ["account", "sponsor-entity-targets", accountId] as const,
+    sponsorAllocationsGeneral: (accountId: string, sponsorId: number) =>
+      ["account", "sponsor-allocations-general", accountId, sponsorId] as const,
+    sponsorAllocationsEntity: (
+      accountId: string,
+      sponsorId: number,
+      entityType: string,
+      entityId: number,
+    ) =>
+      [
+        "account",
+        "sponsor-allocations-entity",
+        accountId,
+        sponsorId,
+        entityType,
+        entityId,
+      ] as const,
     billing: (accountId: string) => ["account", "billing", accountId] as const,
     billingAvailableTiers: (accountId: string) =>
       ["account", "billing-available-tiers", accountId] as const,

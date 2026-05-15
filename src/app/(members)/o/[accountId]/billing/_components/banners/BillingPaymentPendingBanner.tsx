@@ -118,7 +118,7 @@ export function BillingPaymentPendingBanner({
             </Button>
           ) : null}
           <Button type="button" variant="outline" size="sm" asChild>
-            <a href={`mailto:${BILLING_SUPPORT_EMAIL}`}>Email support</a>
+            <a href={`mailto:${BILLING_SUPPORT_EMAIL}`}>Contact billing support</a>
           </Button>
           {withdrawInvoiceError ? (
             <TypographyErrorText className="text-xs" role="alert">

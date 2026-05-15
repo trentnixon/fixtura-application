@@ -274,7 +274,7 @@ src/app/(members)/o/[accountId]/manage-sponsors/
 
     placement/
       sponsor-assignment-workspace.tsx
-      sponsor-placement-panel.tsx
+      sponsor-slot-placement-panel.tsx
       sponsor-primary-slot-card.tsx
       sponsor-ranked-slots-list.tsx
       sponsor-rank-row.tsx
@@ -737,14 +737,12 @@ Owns:
 - cropper integration
 - validation
 
-### `sponsor-placement-panel.tsx`
+### `sponsor-slot-placement-panel.tsx`
 
 Owns:
 
-- assignment-route position controls
-- primary assignment
-- ranked list assignment
-- rank validation
+- assignment-route position controls (general allocation slots)
+- per-slot sponsor select, assign, clear
 
 ### `sponsor-targeting-panel.tsx`
 

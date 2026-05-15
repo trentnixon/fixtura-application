@@ -252,6 +252,14 @@ export function ImageUploaderCrop({
     return aspectLabel;
   }, [aspectLabel, aspectPresets, hasPresets, selectedPresetIndex]);
 
+  /** Hint under the dropzone: avoid implying a single ratio when presets are only in the crop dialog. */
+  const dropzoneAspectHint = useMemo(() => {
+    if (aspectPresets && aspectPresets.length > 1 && hideAspectPresetOnUploader) {
+      return "Pick a crop ratio in the next step";
+    }
+    return effectiveLabel ?? null;
+  }, [aspectPresets, effectiveLabel, hideAspectPresetOnUploader]);
+
   const resolvedMaxMb = maxFileSizeMb ?? maxSizeMb;
 
   const validationHintLine = useMemo(() => {
@@ -612,11 +620,11 @@ export function ImageUploaderCrop({
                 ? "Checking image…"
                 : isDragActive
                   ? "Drop image here"
-                  : "Drag and drop an image, or click to browse"}
+                  : "Drop an image here, or click to browse"}
             </TypographyBodySmall>
             <TypographyFinePrint tone="muted" className="mt-1 text-sm">
               PNG, JPEG, WebP · max {resolvedMaxMb} MB
-              {effectiveLabel ? ` · ${effectiveLabel}` : ""}
+              {dropzoneAspectHint ? ` · ${dropzoneAspectHint}` : ""}
             </TypographyFinePrint>
           </div>
         </div>
@@ -644,13 +652,13 @@ export function ImageUploaderCrop({
             className="bg-muted max-h-64 w-full rounded-lg object-contain"
           />
           <div className="flex flex-wrap gap-2">
-            <Button type="button" variant="outline" size="sm" onClick={reset}>
+            <Button type="button" variant="brandPrimaryOutline" size="sm" onClick={reset}>
               Clear
             </Button>
-            <Button type="button" variant="default" size="sm" onClick={handleRecrop}>
+            <Button type="button" variant="brandPrimary" size="sm" onClick={handleRecrop}>
               Recrop
             </Button>
-            <Button type="button" variant="outline" size="sm" onClick={reset}>
+            <Button type="button" variant="brandOutline" size="sm" onClick={reset}>
               Replace image
             </Button>
           </div>

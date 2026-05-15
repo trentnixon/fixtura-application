@@ -82,6 +82,20 @@ Use this addendum for the Season Pass purchase polish pass added on 2026-05-10.
 | Single payment method | Account with only card or only invoice available still shows the resolved payment method on the review step.    |                   |       |
 | Mobile polish         | At ~375px width, Step 1 and both review steps remain readable with no text overflow or clipped primary actions. |                   |       |
 
+## Phase 4 confirmation and recovery UX
+
+Use this addendum for the post-purchase and pending-payment polish added on 2026-05-12.
+
+| Area                        | Scenario                                                                                                       | Pass / Fail / N/A | Notes |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------- | ----------------- | ----- |
+| Invoice request success     | Submit invoice request; show in-flow confirmation with Back to billing and View billing history actions.       |                   |       |
+| Confirmation persistence    | After submit/refetch, confirmation remains visible instead of immediately redirecting away from the wizard.    |                   |       |
+| Pending Stripe guidance     | Checkout-pending banner explains resume/discard options clearly where available.                               |                   |       |
+| Pending invoice guidance    | Invoice request pending and invoice issued copy explain what happens next in plain language.                   |                   |       |
+| Support CTA                 | Pending-payment banner shows Contact billing support CTA.                                                      |                   |       |
+| No purchase paths available | Create flow explains when Season Pass actions are unavailable and gives billing/support guidance.              |                   |       |
+| No plans available          | Empty plan list explains that no Season Pass plans are currently available and points to support/billing next. |                   |       |
+
 ## Engineering verification (repo, local)
 
 | Check                                                                               | Pass / Fail / N/A | Notes |

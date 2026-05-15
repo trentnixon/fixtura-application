@@ -13,10 +13,12 @@ export type MetricComparisonColumn = {
 type MetricComparisonCardBase = {
   title: React.ReactNode;
   icon?: React.ReactNode;
-  footer: React.ReactNode;
+  footer?: React.ReactNode;
   /** Band layout: `surface` matches settings-style Surface; `card` uses CardHeader/Content/Footer. */
   layout?: "surface" | "card";
   headerClassName?: string;
+  /** Applied to the title/icon flex row inside the header (e.g. `items-start` for multi-line titles). */
+  titleRowClassName?: string;
   bodyClassName?: string;
   footerClassName?: string;
 };
@@ -114,6 +116,7 @@ export function MetricComparisonCard({
   footer,
   layout = "surface",
   headerClassName,
+  titleRowClassName,
   bodyClassName,
   footerClassName,
   className,
@@ -136,7 +139,7 @@ export function MetricComparisonCard({
     );
 
   const headerInner = (
-    <div className="flex items-center justify-between gap-4">
+    <div className={cn("flex items-center justify-between gap-4", titleRowClassName)}>
       {typeof title === "string" ? (
         <TypographyH4 className="text-sm font-semibold">{title}</TypographyH4>
       ) : (
@@ -145,6 +148,8 @@ export function MetricComparisonCard({
       {icon}
     </div>
   );
+
+  const showFooter = footer != null;
 
   if (layout === "card") {
     return (
@@ -155,14 +160,16 @@ export function MetricComparisonCard({
           {headerInner}
         </CardHeader>
         <CardContent className={cn("pt-6 pb-6", bodyClassName)}>{bodySection}</CardContent>
-        <CardFooter
-          className={cn(
-            "bg-muted/20 border-border text-muted-foreground flex w-full min-w-0 flex-col items-stretch border-t pt-6 pb-6",
-            footerClassName,
-          )}
-        >
-          {footer}
-        </CardFooter>
+        {showFooter ? (
+          <CardFooter
+            className={cn(
+              "bg-muted/20 border-border text-muted-foreground flex w-full min-w-0 flex-col items-stretch border-t pt-6 pb-6",
+              footerClassName,
+            )}
+          >
+            {footer}
+          </CardFooter>
+        ) : null}
       </Card>
     );
   }
@@ -178,14 +185,16 @@ export function MetricComparisonCard({
         {headerInner}
       </div>
       <div className={cn("p-6", bodyClassName)}>{bodySection}</div>
-      <div
-        className={cn(
-          "bg-muted/20 border-border text-muted-foreground flex items-center border-t px-6 py-4 text-xs",
-          footerClassName,
-        )}
-      >
-        {footer}
-      </div>
+      {showFooter ? (
+        <div
+          className={cn(
+            "bg-muted/20 border-border text-muted-foreground flex items-center border-t px-6 py-4 text-xs",
+            footerClassName,
+          )}
+        >
+          {footer}
+        </div>
+      ) : null}
     </Surface>
   );
 }

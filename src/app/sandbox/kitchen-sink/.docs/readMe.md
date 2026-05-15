@@ -33,6 +33,7 @@ We have established a high-end, glassmorphism-inspired design system characteriz
 ### 3. Layout & Navigation
 
 - **`navigation`**: References for breadcrumbs, top-level navigation menus, and menubars.
+- **`tabber`**: Tab groups (Radix Tabs) for switching related panes without navigation.
 - **`cards`**: Versatile containers for dashboard modules, feed items, and statistics.
 - **`tables`**: Visual guides for basic data lists and advanced data grids with integrated toolbars and sorting.
 

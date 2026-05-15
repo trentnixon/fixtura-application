@@ -9,5 +9,5 @@ export function ManageSponsorsShell({
   className?: string;
   children: ReactNode;
 }) {
-  return <section className={cn("grid gap-6", className)}>{children}</section>;
+  return <section className={cn("grid gap-4", className)}>{children}</section>;
 }

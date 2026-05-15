@@ -102,6 +102,7 @@ export function SaveBrandingDialog({
           </Button>
           <Button
             type="button"
+            variant="brand"
             disabled={!colorsReady || isPending}
             onClick={() => void onConfirm()}
           >

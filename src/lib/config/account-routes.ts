@@ -15,6 +15,8 @@ const SEG = {
   manageSponsors: "manage-sponsors",
   addSponsor: "add-sponsor",
   manageSponsorsAssign: "manage-sponsors/assign",
+  manageSponsorsAssignPosition: "manage-sponsors/assign/position",
+  manageSponsorsAssignEntity: "manage-sponsors/assign/entity",
   manageSponsorsArchive: "manage-sponsors/archive",
   billing: "billing",
   billingSuccess: "billing/success",
@@ -39,6 +41,10 @@ export const accountScopedRoutes = {
   manageSponsors: (accountId: string | number) => scoped(accountId, SEG.manageSponsors),
   addSponsor: (accountId: string | number) => scoped(accountId, SEG.addSponsor),
   manageSponsorsAssign: (accountId: string | number) => scoped(accountId, SEG.manageSponsorsAssign),
+  manageSponsorsAssignPosition: (accountId: string | number) =>
+    scoped(accountId, SEG.manageSponsorsAssignPosition),
+  manageSponsorsAssignEntity: (accountId: string | number) =>
+    scoped(accountId, SEG.manageSponsorsAssignEntity),
   manageSponsorsArchive: (accountId: string | number) =>
     scoped(accountId, SEG.manageSponsorsArchive),
   billing: (accountId: string | number) => scoped(accountId, SEG.billing),

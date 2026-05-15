@@ -170,6 +170,16 @@ describe("Button", () => {
     expect(button.getAttribute("class")).toContain("brand-secondary");
   });
 
+  it("applies brandPrimary variant", () => {
+    render(
+      <Button variant="brandPrimary" data-testid="button">
+        Brand primary
+      </Button>,
+    );
+    const button = screen.getByTestId("button");
+    expect(button.getAttribute("class")).toContain("brand-primary");
+  });
+
   it("applies accent variant", () => {
     render(
       <Button variant="accent" data-testid="button">

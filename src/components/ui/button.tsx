@@ -19,9 +19,19 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "border-transparent text-primary underline-offset-4 shadow-none hover:translate-y-0 hover:border-transparent hover:bg-transparent hover:shadow-none hover:underline dark:hover:border-transparent",
         brand: "bg-[var(--brand-secondary)] text-white hover:bg-[var(--brand-secondary)]/90",
+        brandOutline:
+          "border-[var(--brand-secondary)] bg-background text-[var(--brand-secondary)] shadow-xs hover:bg-brand-secondary/15 hover:border-[var(--brand-secondary)] dark:border-[var(--brand-secondary)] dark:bg-input/30 dark:hover:bg-brand-secondary/20",
+        brandPrimary:
+          "bg-[var(--brand-primary)] text-primary-foreground hover:bg-[var(--brand-primary)]/90",
+        brandPrimaryOutline:
+          "border-[var(--brand-primary)] bg-background text-[var(--brand-primary)] shadow-xs hover:bg-brand/15 hover:border-[var(--brand-primary)] dark:border-[var(--brand-primary)] dark:bg-input/30 dark:hover:bg-brand/20",
         accent: "bg-[var(--brand-accent)] text-white hover:bg-[var(--brand-accent)]/90",
         accentOutline:
           "border-[var(--brand-accent)] bg-background text-[var(--brand-accent)] shadow-xs hover:bg-brand-accent/15 hover:border-[var(--brand-accent)] dark:border-[var(--brand-accent)] dark:bg-input/30 dark:hover:bg-brand-accent/20",
+        success:
+          "bg-[var(--success-600)] text-white hover:bg-[var(--success-600)]/90 focus-visible:ring-[color-mix(in_oklch,var(--success-600),transparent_75%)]",
+        successOutline:
+          "border-[var(--success-600)] bg-background text-[var(--success-600)] shadow-xs hover:bg-[color-mix(in_oklch,var(--success-600),transparent_92%)] hover:border-[var(--success-600)] dark:bg-input/30 dark:hover:bg-[color-mix(in_oklch,var(--success-600),transparent_88%)]",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

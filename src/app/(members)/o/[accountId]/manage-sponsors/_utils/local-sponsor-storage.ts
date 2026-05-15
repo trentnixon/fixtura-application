@@ -33,6 +33,15 @@ export function readLocalSponsors(accountId: string): ManageSponsorsWorkspaceSpo
       .map((item) =>
         refreshWorkspaceSponsorDerivedFields({
           ...item,
+          sponsorshipAllocations: Array.isArray(item.sponsorshipAllocations)
+            ? item.sponsorshipAllocations
+            : [],
+          allocationCount:
+            typeof item.allocationCount === "number"
+              ? item.allocationCount
+              : Array.isArray(item.sponsorshipAllocations)
+                ? item.sponsorshipAllocations.length
+                : 0,
           isDraft: false,
         }),
       );
@@ -51,4 +60,13 @@ export function upsertLocalSponsor(accountId: string, sponsor: ManageSponsorsWor
   const next = current.filter((item) => item.id !== sponsor.id);
   next.unshift(refreshWorkspaceSponsorDerivedFields({ ...sponsor, isDraft: false }));
   writeLocalSponsors(accountId, next);
+}
+
+export function removeLocalSponsor(accountId: string, sponsorId: number | string) {
+  if (!isLocalSponsorId(sponsorId)) return;
+  const current = readLocalSponsors(accountId);
+  writeLocalSponsors(
+    accountId,
+    current.filter((item) => item.id !== sponsorId),
+  );
 }

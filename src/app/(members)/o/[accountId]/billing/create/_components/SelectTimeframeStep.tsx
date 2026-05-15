@@ -41,7 +41,8 @@ export function SelectTimeframeStep({
       <div className="mt-4 grid gap-4">
         {tiersListLength === 0 ? (
           <p className="text-muted-foreground text-sm" role="status">
-            No plans are available for this account right now.
+            No Season Pass plans are available for this account right now. Return to billing or
+            contact support if you expected purchase options here.
           </p>
         ) : (
           <div className="space-y-4">

@@ -1,3 +1,4 @@
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -13,8 +14,11 @@ export function AddSponsorHeader({ accountId }: { accountId: string }) {
       <div className="flex w-full flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
         <div />
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-          <Button variant="outline" asChild>
-            <Link href={accountScopedRoutes.manageSponsors(accountId)}>Back to overview</Link>
+          <Button variant="brandOutline" asChild>
+            <Link href={accountScopedRoutes.manageSponsors(accountId)}>
+              <ArrowLeft aria-hidden />
+              Back to overview
+            </Link>
           </Button>
         </div>
       </div>

@@ -530,6 +530,76 @@ export interface AccountSponsorsResponse {
   data: AccountSponsorsData;
 }
 
+/** POST /api/accounts/:accountId/sponsors — optional fields omit → Strapi defaults (handoff). */
+export interface PostAccountSponsorBody {
+  name: string;
+  url?: string | null;
+  startDate?: string | null;
+  endDate?: string | null;
+  isActive?: boolean;
+  isPrimary?: boolean;
+  tagline?: string | null;
+  order?: number | null;
+  description?: string | null;
+  isVideo?: boolean;
+  isArticle?: boolean;
+  logoMediaId?: number | null;
+}
+
+/** PATCH /api/accounts/:accountId/sponsors/:sponsorId — partial; explicit null clears (handoff). */
+export type PatchAccountSponsorBody = Partial<Omit<PostAccountSponsorBody, "name">> & {
+  name?: string;
+};
+
+/** Sponsor create/update/upload response (custom CRUD). */
+export interface AccountSponsorMutationResponse {
+  data: AccountSponsorDto;
+}
+
+/** GET …/allocations/general | …/entity/… list envelope. */
+export interface AccountSponsorAllocationsListResponse {
+  data: {
+    items: AccountSponsorshipAllocation[];
+  };
+}
+
+/** POST/PATCH allocation mutation envelope. */
+export interface AccountSponsorAllocationMutationResponse {
+  data: AccountSponsorshipAllocation;
+}
+
+/** Path param for entity-scoped allocations. */
+export type AccountSponsorEntityType = "club" | "team" | "grade";
+
+export interface AccountSponsorEntityTarget {
+  type: AccountSponsorEntityType;
+  id: number;
+  name: string;
+  label: string;
+  group?: string | null;
+  groupLabel?: string | null;
+  meta?: {
+    clubId?: number | null;
+    clubName?: string | null;
+    gradeIds?: number[];
+    gradeNames?: string[];
+    competitionId?: number | null;
+    competitionName?: string | null;
+    [key: string]: unknown;
+  } | null;
+}
+
+export interface AccountSponsorEntityTargetsResponse {
+  data: {
+    account: {
+      id: number;
+      accountType: string | null;
+      groupAssetsBy: boolean;
+    };
+    targets: AccountSponsorEntityTarget[];
+  };
+}
+
 /** Template slice on GET /api/accounts/:accountId/branding (Phase 3). */
 export interface AccountBrandingTemplate {
   id: number;

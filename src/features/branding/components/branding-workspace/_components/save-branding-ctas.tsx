@@ -37,6 +37,7 @@ export function SaveBrandingCtas({
     <div className={wrapperClassName}>
       <Button
         type="button"
+        variant="brand"
         className={buttonClassName}
         disabled={!colorsReady || isPending}
         onClick={onOpenSaveDialog}

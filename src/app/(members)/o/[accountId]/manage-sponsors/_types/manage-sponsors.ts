@@ -1,3 +1,5 @@
+import type { AccountSponsorshipAllocation } from "@/types/api/account";
+
 export type ManageSponsorsWorkspaceSponsor = {
   id: number | string;
   name: string;
@@ -12,10 +14,11 @@ export type ManageSponsorsWorkspaceSponsor = {
   hasLogo: boolean;
   logoUrl: string | null;
   logoAlt: string | null;
+  sponsorshipAllocations: AccountSponsorshipAllocation[];
   allocationCount: number;
   placementLabel: string;
   usageLabel: string;
   isDraft: boolean;
 };
 
-export type ManageSponsorsLibraryFilter = "all" | "placed" | "unassigned" | "primary" | "inactive";
+export type ManageSponsorsLibraryFilter = "all" | "placed" | "unassigned" | "primary";

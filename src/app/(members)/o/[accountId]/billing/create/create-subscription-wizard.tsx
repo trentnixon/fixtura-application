@@ -31,6 +31,7 @@ import {
   selectOrganisationUrlWithReason,
 } from "@/lib/config/gateway-reasons";
 
+import { InvoiceRequestSubmittedState } from "./_components/InvoiceRequestSubmittedState";
 import { ReviewCardPaymentStep } from "./_components/ReviewCardPaymentStep";
 import { ReviewInvoiceRequestStep } from "./_components/ReviewInvoiceRequestStep";
 import { SelectPaymentMethodStep } from "./_components/SelectPaymentMethodStep";
@@ -88,6 +89,7 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
 
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const [invoiceError, setInvoiceError] = useState<string | null>(null);
+  const [invoiceSubmitted, setInvoiceSubmitted] = useState(false);
   const [missingCheckoutUrl, setMissingCheckoutUrl] = useState(false);
 
   const [stripeImmediateError, setStripeImmediateError] = useState<string | null>(null);
@@ -111,12 +113,13 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
 
   useEffect(() => {
     if (!segmentOk || !summary || mode == null) return;
+    if (invoiceSubmitted) return;
     if (redirectingRef.current) return;
     if (wizardBlocked) {
       redirectingRef.current = true;
       router.replace(`/o/${encodeURIComponent(accountId)}/billing`);
     }
-  }, [accountId, mode, router, segmentOk, summary, wizardBlocked]);
+  }, [accountId, invoiceSubmitted, mode, router, segmentOk, summary, wizardBlocked]);
 
   const tiersQ = useAccountBillingAvailableTiers(accountId, {
     enabled: segmentOk && summary != null && mode != null && !wizardBlocked,
@@ -178,6 +181,10 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
   );
 
   const minDate = useMemo(() => localDateInputToday(), []);
+  const today = startOfDay(new Date());
+  const endMonth = addYears(today, 5);
+  const selectedDate = parseBillingIsoToCalendarDate(startDate);
+  const dateOk = startDate.length > 0 && startDate >= minDate;
   const selectedTier = tiersList.find((t) => t.id === selectedTierId);
   const { selectedTierName, selectedTierCoverage, paymentMethodLabel, paymentMethodDescription } =
     useCreateSubscriptionReviewDisplay({
@@ -330,6 +337,28 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
     );
   }
 
+  if (invoiceSubmitted) {
+    return (
+      <div className="grid gap-6">
+        <InvoiceRequestSubmittedState
+          accountId={accountId}
+          selectedTierName={selectedTierName}
+          selectedTierCoverage={selectedTierCoverage}
+          selectedStartDateLabel={
+            selectedDate != null ? format(selectedDate, "PPP") : startDate || "-"
+          }
+        />
+        <BillingDebugPanel
+          accountId={accountId}
+          contextLabel="Create subscription"
+          summary={summary}
+          isSummaryLoading={false}
+          extra={{ invoiceSubmitted: true }}
+        />
+      </div>
+    );
+  }
+
   if (wizardBlocked || mode == null) {
     return (
       <div className="text-muted-foreground grid gap-2 text-center text-sm" role="status">
@@ -423,7 +452,9 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
           <CardHeader>
             <CardTitle className="font-brand text-lg">No subscription actions available</CardTitle>
             <CardDescription>
-              This account cannot start card checkout or an invoice request from the API right now.
+              This account cannot start an online Season Pass purchase right now. Return to billing
+              for the current account status, or contact support if you expected card checkout or an
+              invoice request to be available.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -442,12 +473,6 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
       </>
     );
   }
-
-  const today = startOfDay(new Date());
-  const endMonth = addYears(today, 5);
-  const selectedDate = parseBillingIsoToCalendarDate(startDate);
-
-  const dateOk = startDate.length > 0 && startDate >= minDate;
 
   function advancePastStep2() {
     if (canCard && !canInvoice) {
@@ -534,11 +559,11 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
     if (!canSubmitInvoice) return;
     try {
       await invoiceMutation.mutateAsync(buildInvoiceBody());
-      void queryClient.invalidateQueries({ queryKey: queryKeys.account.billing(accountId) });
-      void queryClient.invalidateQueries({
+      await queryClient.invalidateQueries({ queryKey: queryKeys.account.billing(accountId) });
+      await queryClient.invalidateQueries({
         queryKey: queryKeys.account.billingInvoiceRequests(accountId),
       });
-      router.replace(`/o/${encodeURIComponent(accountId)}/billing`);
+      setInvoiceSubmitted(true);
     } catch (e) {
       if (e instanceof ApiError) {
         setInvoiceError(e.message);
@@ -646,7 +671,18 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
 
   return (
     <div className="grid gap-6">
-      {step === 1 ? (
+      {invoiceSubmitted ? (
+        <InvoiceRequestSubmittedState
+          accountId={accountId}
+          selectedTierName={selectedTierName}
+          selectedTierCoverage={selectedTierCoverage}
+          selectedStartDateLabel={
+            selectedDate != null ? format(selectedDate, "PPP") : startDate || "-"
+          }
+        />
+      ) : null}
+
+      {!invoiceSubmitted && step === 1 ? (
         <SelectTimeframeStep
           tiersListLength={tiersList.length}
           displayTiers={displayTiers}
@@ -659,7 +695,7 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
         />
       ) : null}
 
-      {step === 2 ? (
+      {!invoiceSubmitted && step === 2 ? (
         <SelectStartDateStep
           selectedDate={selectedDate}
           daysInPass={selectedTier?.daysInPass}
@@ -673,7 +709,7 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
         />
       ) : null}
 
-      {step === 3 ? (
+      {!invoiceSubmitted && step === 3 ? (
         <SelectPaymentMethodStep
           canCard={canCard}
           canInvoice={canInvoice}
@@ -684,7 +720,7 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
         />
       ) : null}
 
-      {step === 4 && paymentPath === "card" ? (
+      {!invoiceSubmitted && step === 4 && paymentPath === "card" ? (
         <ReviewCardPaymentStep
           selectedTier={selectedTier}
           selectedTierName={selectedTierName}
@@ -703,7 +739,7 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
         />
       ) : null}
 
-      {step === 4 && paymentPath === "invoice" ? (
+      {!invoiceSubmitted && step === 4 && paymentPath === "invoice" ? (
         <ReviewInvoiceRequestStep
           accountId={accountId}
           selectedTier={selectedTier}
@@ -737,15 +773,17 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
         />
       ) : null}
 
-      <div className="text-muted-foreground flex flex-wrap items-center gap-2 text-xs">
-        <span>Step {step} of 4</span>
-        <span aria-hidden>.</span>
-        <Button type="button" variant="link" className="h-auto p-0 text-xs" asChild>
-          <Link href={`/o/${encodeURIComponent(accountId)}/billing`}>
-            Cancel and return to billing
-          </Link>
-        </Button>
-      </div>
+      {!invoiceSubmitted ? (
+        <div className="text-muted-foreground flex flex-wrap items-center gap-2 text-xs">
+          <span>Step {step} of 4</span>
+          <span aria-hidden>.</span>
+          <Button type="button" variant="link" className="h-auto p-0 text-xs" asChild>
+            <Link href={`/o/${encodeURIComponent(accountId)}/billing`}>
+              Cancel and return to billing
+            </Link>
+          </Button>
+        </div>
+      ) : null}
       <CreateSubscriptionWizardStatePanel
         step={step}
         selectedTierId={selectedTierId}
@@ -775,6 +813,7 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
         checkoutError={checkoutError}
         invoiceError={invoiceError}
         missingCheckoutUrl={missingCheckoutUrl}
+        invoiceSubmitted={invoiceSubmitted}
         showStripeImmediateInvoice={showStripeImmediateInvoice}
         stripeImmediatePending={stripeImmediatePending}
         stripeImmediateError={stripeImmediateError}

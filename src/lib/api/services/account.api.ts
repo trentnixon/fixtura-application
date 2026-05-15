@@ -12,6 +12,12 @@ import { normalizeCancelInvoiceRequestResponse } from "../utils/normalize-cancel
 import type {
   AccountAnalyticsOverviewParams,
   AccountAnalyticsOverviewResponse,
+  AccountSponsorAllocationMutationResponse,
+  AccountSponsorAllocationsListResponse,
+  AccountSponsorEntityType,
+  AccountSponsorEntityTargetsResponse,
+  AccountSponsorMutationResponse,
+  AccountSponsorsResponse,
   AllTemplateOptionsParams,
   AllTemplateOptionsResponse,
   AssetListForSelectionResponse,
@@ -31,7 +37,8 @@ import type {
   AccountRendersListResponse,
   AccountSchedulerResponse,
   AccountSettingsResponse,
-  AccountSponsorsResponse,
+  PatchAccountSponsorBody,
+  PostAccountSponsorBody,
   CreateFirstAccountRequestBody,
   CreateFirstAccountResponse,
   DeletePendingOrderResponse,
@@ -81,6 +88,16 @@ import type {
   PostAccountBillingInvoiceRequestBody,
   StartAccountBillingTrialResponse,
 } from "@/types/api/account";
+
+function accountSponsorsPath(accountId: string, ...segments: (string | number)[]) {
+  const base = `${appRoutes.accounts.sponsors.path}/${encodeURIComponent(accountId)}/sponsors`;
+  if (segments.length === 0) return base;
+  return `${base}/${segments.map((s) => encodeURIComponent(String(s))).join("/")}`;
+}
+
+function accountSponsorEntityTargetsPath(accountId: string) {
+  return `${appRoutes.accounts.sponsorEntityTargets.path}/${encodeURIComponent(accountId)}/sponsor-entity-targets`;
+}
 
 /**
  * Domain-specific service for account related API calls.
@@ -246,9 +263,127 @@ export const accountApi = {
 
   /** Published sponsors for the account (handoff get-account-sponsors). */
   getAccountSponsors: (accountId: string) => {
-    const path = `${appRoutes.accounts.sponsors.path}/${encodeURIComponent(accountId)}/sponsors`;
-    return apiClient.get<AccountSponsorsResponse>(path);
+    return apiClient.get<AccountSponsorsResponse>(accountSponsorsPath(accountId));
   },
+
+  /** Account-scoped catalogue of sponsor-assignable entity targets. */
+  getAccountSponsorEntityTargets: (accountId: string) =>
+    apiClient.get<AccountSponsorEntityTargetsResponse>(accountSponsorEntityTargetsPath(accountId)),
+
+  /** Create sponsor — custom Strapi route (BFF). */
+  postAccountSponsor: (accountId: string, body: PostAccountSponsorBody) =>
+    apiClient.post<AccountSponsorMutationResponse>(accountSponsorsPath(accountId), body),
+
+  /** Partial update sponsor; explicit null clears nullable fields (handoff). */
+  patchAccountSponsor: (accountId: string, sponsorId: number, body: PatchAccountSponsorBody) =>
+    apiClient.patch<AccountSponsorMutationResponse>(
+      accountSponsorsPath(accountId, sponsorId),
+      body,
+    ),
+
+  /** Delete sponsor (cascades allocations on Strapi). */
+  deleteAccountSponsor: (accountId: string, sponsorId: number) =>
+    apiClient.delete<unknown>(accountSponsorsPath(accountId, sponsorId)),
+
+  /** Multipart logo attach (field `file` or `files`). */
+  postAccountSponsorLogoUpload: (accountId: string, sponsorId: number, formData: FormData) =>
+    apiClient.postFormData<AccountSponsorMutationResponse>(
+      accountSponsorsPath(accountId, sponsorId, "upload"),
+      formData,
+    ),
+
+  getAccountSponsorAllocationsGeneral: (accountId: string, sponsorId: number) =>
+    apiClient.get<AccountSponsorAllocationsListResponse>(
+      accountSponsorsPath(accountId, sponsorId, "allocations", "general"),
+    ),
+
+  postAccountSponsorAllocationGeneral: (accountId: string, sponsorId: number, body: unknown) =>
+    apiClient.post<AccountSponsorAllocationMutationResponse>(
+      accountSponsorsPath(accountId, sponsorId, "allocations", "general"),
+      body,
+    ),
+
+  patchAccountSponsorAllocationGeneral: (
+    accountId: string,
+    sponsorId: number,
+    allocationId: number,
+    body: unknown,
+  ) =>
+    apiClient.patch<AccountSponsorAllocationMutationResponse>(
+      accountSponsorsPath(accountId, sponsorId, "allocations", "general", allocationId),
+      body,
+    ),
+
+  deleteAccountSponsorAllocationGeneral: (
+    accountId: string,
+    sponsorId: number,
+    allocationId: number,
+  ) =>
+    apiClient.delete<unknown>(
+      accountSponsorsPath(accountId, sponsorId, "allocations", "general", allocationId),
+    ),
+
+  getAccountSponsorAllocationsEntity: (
+    accountId: string,
+    sponsorId: number,
+    entityType: AccountSponsorEntityType,
+    entityId: number,
+  ) =>
+    apiClient.get<AccountSponsorAllocationsListResponse>(
+      accountSponsorsPath(accountId, sponsorId, "allocations", "entity", entityType, entityId),
+    ),
+
+  postAccountSponsorAllocationEntity: (
+    accountId: string,
+    sponsorId: number,
+    entityType: AccountSponsorEntityType,
+    entityId: number,
+    body: unknown,
+  ) =>
+    apiClient.post<AccountSponsorAllocationMutationResponse>(
+      accountSponsorsPath(accountId, sponsorId, "allocations", "entity", entityType, entityId),
+      body,
+    ),
+
+  patchAccountSponsorAllocationEntity: (
+    accountId: string,
+    sponsorId: number,
+    entityType: AccountSponsorEntityType,
+    entityId: number,
+    allocationId: number,
+    body: unknown,
+  ) =>
+    apiClient.patch<AccountSponsorAllocationMutationResponse>(
+      accountSponsorsPath(
+        accountId,
+        sponsorId,
+        "allocations",
+        "entity",
+        entityType,
+        entityId,
+        allocationId,
+      ),
+      body,
+    ),
+
+  deleteAccountSponsorAllocationEntity: (
+    accountId: string,
+    sponsorId: number,
+    entityType: AccountSponsorEntityType,
+    entityId: number,
+    allocationId: number,
+  ) =>
+    apiClient.delete<unknown>(
+      accountSponsorsPath(
+        accountId,
+        sponsorId,
+        "allocations",
+        "entity",
+        entityType,
+        entityId,
+        allocationId,
+      ),
+    ),
 
   /** Billing v1 summary for the account (handoff frontend-billing-api-contract-handoff.md). */
   getAccountBilling: (accountId: string) => {
