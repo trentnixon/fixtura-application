@@ -24,32 +24,23 @@ import {
   upsertLocalSponsor,
 } from "../_utils/local-sponsor-storage";
 import {
-  mapAccountSponsorToWorkspaceSponsor,
-  refreshWorkspaceSponsorDerivedFields,
-} from "../_utils/sponsor-display";
-import {
-  sponsorHasPoolPlacement,
-  sponsorHasPrimaryPositionSlot,
-} from "../_utils/sponsorship-allocation-general";
+  buildServerSponsorPatchBody,
+  buildUpdatedLocalSponsor,
+  getFilteredWorkspaceSponsors,
+  getWorkspaceSponsorStats,
+  invalidateSponsors,
+  isNumericServerSponsorId,
+} from "../_utils/manage-sponsors-workspace";
+import { mapAccountSponsorToWorkspaceSponsor } from "../_utils/sponsor-display";
 
+import type { SponsorEditorSaveParams } from "../_components/editor/_types/sponsor-editor";
 import type {
   ManageSponsorsLibraryFilter,
   ManageSponsorsWorkspaceSponsor,
 } from "../_types/manage-sponsors";
-import type { PatchAccountSponsorBody } from "@/types/api/account";
+import type { ManageSponsorsWorkspaceResult } from "../_types/manage-sponsors-workspace";
 
-function isNumericServerSponsorId(id: number | string): id is number {
-  return typeof id === "number" && Number.isInteger(id) && id > 0;
-}
-
-async function invalidateSponsors(
-  accountId: string,
-  queryClient: ReturnType<typeof useQueryClient>,
-) {
-  await queryClient.invalidateQueries({ queryKey: queryKeys.account.sponsors(accountId) });
-}
-
-export function useManageSponsorsWorkspace(accountId: string) {
+export function useManageSponsorsWorkspace(accountId: string): ManageSponsorsWorkspaceResult {
   const router = useRouter();
   const queryClient = useQueryClient();
   const redirectingRef = useRef(false);
@@ -108,69 +99,23 @@ export function useManageSponsorsWorkspace(accountId: string) {
   }, []);
 
   const filteredSponsors = useMemo(() => {
-    const search = searchValue.trim().toLowerCase();
-
-    return workspaceSponsors.filter((sponsor) => {
-      if (!sponsor.isActive) return false;
-
-      const matchesSearch =
-        search.length === 0 ||
-        sponsor.name.toLowerCase().includes(search) ||
-        sponsor.tagline?.toLowerCase().includes(search) === true;
-
-      if (!matchesSearch) return false;
-
-      switch (activeFilter) {
-        case "placed":
-          return sponsorHasPoolPlacement(sponsor);
-        case "unassigned":
-          return !sponsorHasPoolPlacement(sponsor);
-        case "primary":
-          return sponsor.isPrimary || sponsorHasPrimaryPositionSlot(sponsor);
-        default:
-          return true;
-      }
+    return getFilteredWorkspaceSponsors({
+      sponsors: workspaceSponsors,
+      searchValue,
+      activeFilter,
     });
   }, [activeFilter, searchValue, workspaceSponsors]);
 
-  const stats = useMemo(() => {
-    const total = workspaceSponsors.length;
-    const placed = workspaceSponsors.filter((sponsor) => sponsorHasPoolPlacement(sponsor)).length;
-    const unassigned = workspaceSponsors.filter(
-      (sponsor) => !sponsorHasPoolPlacement(sponsor),
-    ).length;
-    const archived = workspaceSponsors.filter((sponsor) => !sponsor.isActive).length;
+  const stats = useMemo(() => getWorkspaceSponsorStats(workspaceSponsors), [workspaceSponsors]);
 
-    return {
-      total,
-      placed,
-      unassigned,
-      archived,
-    };
-  }, [workspaceSponsors]);
-
-  async function saveSponsorEdits(params: {
-    sponsorId: number | string;
-    name: string;
-    tagline: string | null;
-    description: string | null;
-    url: string | null;
-    isActive: boolean;
-    logoFile: File | null;
-    clearLogo: boolean;
-  }) {
+  async function saveSponsorEdits(params: SponsorEditorSaveParams) {
     if (isNumericServerSponsorId(params.sponsorId)) {
       const sponsorId = params.sponsorId;
-      const body: PatchAccountSponsorBody = {
-        name: params.name.trim(),
-        tagline: params.tagline,
-        description: params.description,
-        url: params.url,
-        isActive: params.isActive,
-        ...(params.isActive ? {} : { isPrimary: false, order: null }),
-        ...(params.clearLogo ? { logoMediaId: null as number | null } : {}),
-      };
-      await accountApi.patchAccountSponsor(accountId, sponsorId, body);
+      await accountApi.patchAccountSponsor(
+        accountId,
+        sponsorId,
+        buildServerSponsorPatchBody(params),
+      );
 
       if (params.logoFile) {
         const formData = new FormData();
@@ -186,83 +131,20 @@ export function useManageSponsorsWorkspace(accountId: string) {
     }
 
     if (isLocalSponsorId(params.sponsorId)) {
-      setWorkspaceSponsors((current) =>
-        current
-          .map((sponsor) => {
-            if (sponsor.id !== params.sponsorId) return sponsor;
-
-            let nextLogoUrl = sponsor.logoUrl;
-            let nextHasLogo = sponsor.hasLogo;
-
-            if (params.clearLogo) {
-              if (nextLogoUrl?.startsWith("blob:")) {
-                URL.revokeObjectURL(nextLogoUrl);
-                objectUrlsRef.current.delete(nextLogoUrl);
-              }
-              nextLogoUrl = null;
-              nextHasLogo = false;
-            } else if (params.logoFile) {
-              if (nextLogoUrl?.startsWith("blob:")) {
-                URL.revokeObjectURL(nextLogoUrl);
-                objectUrlsRef.current.delete(nextLogoUrl);
-              }
-              nextLogoUrl = URL.createObjectURL(params.logoFile);
-              objectUrlsRef.current.add(nextLogoUrl);
-              nextHasLogo = true;
-            }
-
-            return refreshWorkspaceSponsorDerivedFields({
-              ...sponsor,
-              name: params.name.trim(),
-              tagline: params.tagline,
-              description: params.description,
-              url: params.url,
-              isActive: params.isActive,
-              isPrimary: params.isActive ? sponsor.isPrimary : false,
-              rank: params.isActive ? sponsor.rank : null,
-              hasLogo: nextHasLogo,
-              logoUrl: nextLogoUrl,
-              logoAlt: params.name.trim() || sponsor.logoAlt,
-              isDraft: false,
-              sponsorshipAllocations: sponsor.sponsorshipAllocations,
-            });
-          })
-          .map(refreshWorkspaceSponsorDerivedFields),
-      );
-
       const existing = workspaceSponsors.find((sponsor) => sponsor.id === params.sponsorId);
       if (!existing || !isLocalSponsorId(existing.id)) return;
 
-      let nextLogoUrl = existing.logoUrl;
-      let nextHasLogo = existing.hasLogo;
+      const updatedSponsor = buildUpdatedLocalSponsor({
+        sponsor: existing,
+        saveParams: params,
+        objectUrls: objectUrlsRef.current,
+      });
 
-      if (params.clearLogo) {
-        nextLogoUrl = null;
-        nextHasLogo = false;
-      } else if (params.logoFile) {
-        nextLogoUrl = URL.createObjectURL(params.logoFile);
-        objectUrlsRef.current.add(nextLogoUrl);
-        nextHasLogo = true;
-      }
-
-      upsertLocalSponsor(
-        accountId,
-        refreshWorkspaceSponsorDerivedFields({
-          ...existing,
-          name: params.name.trim(),
-          tagline: params.tagline,
-          description: params.description,
-          url: params.url,
-          isActive: params.isActive,
-          isPrimary: params.isActive ? existing.isPrimary : false,
-          rank: params.isActive ? existing.rank : null,
-          hasLogo: nextHasLogo,
-          logoUrl: nextLogoUrl,
-          logoAlt: params.name.trim() || existing.logoAlt,
-          isDraft: false,
-          sponsorshipAllocations: existing.sponsorshipAllocations,
-        }),
+      setWorkspaceSponsors((current) =>
+        current.map((sponsor) => (sponsor.id === params.sponsorId ? updatedSponsor : sponsor)),
       );
+
+      upsertLocalSponsor(accountId, updatedSponsor);
     }
   }
 
@@ -279,16 +161,43 @@ export function useManageSponsorsWorkspace(accountId: string) {
     if (isLocalSponsorId(sponsorId)) {
       const existing = workspaceSponsors.find((sponsor) => sponsor.id === sponsorId);
       if (!existing) return;
-      const restored = refreshWorkspaceSponsorDerivedFields({
-        ...existing,
-        isActive: true,
-        isPrimary: false,
-        rank: null,
+      const restored = buildUpdatedLocalSponsor({
+        sponsor: existing,
+        saveParams: {
+          sponsorId,
+          name: existing.name,
+          tagline: existing.tagline,
+          description: existing.description,
+          url: existing.url,
+          isActive: true,
+          logoFile: null,
+          clearLogo: false,
+        },
+        objectUrls: objectUrlsRef.current,
+      });
+      const resetPlacement = buildUpdatedLocalSponsor({
+        sponsor: {
+          ...existing,
+          ...restored,
+          isPrimary: false,
+          rank: null,
+        },
+        saveParams: {
+          sponsorId,
+          name: existing.name,
+          tagline: existing.tagline,
+          description: existing.description,
+          url: existing.url,
+          isActive: true,
+          logoFile: null,
+          clearLogo: false,
+        },
+        objectUrls: objectUrlsRef.current,
       });
       setWorkspaceSponsors((current) =>
-        current.map((sponsor) => (sponsor.id === sponsorId ? restored : sponsor)),
+        current.map((sponsor) => (sponsor.id === sponsorId ? resetPlacement : sponsor)),
       );
-      upsertLocalSponsor(accountId, restored);
+      upsertLocalSponsor(accountId, resetPlacement);
     }
   }
 

@@ -4,6 +4,14 @@ import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import {
+  EMPTY_SPONSOR_EDITOR_FORM_VALUES,
+  EMPTY_SPONSOR_EDITOR_LOGO_STATE,
+  INITIAL_SPONSOR_EDITOR_DIALOG_STATE,
+  getSponsorSavedToastDescription,
+  SPONSOR_EDITOR_ALREADY_ARCHIVED_MESSAGE,
+  SPONSOR_EDITOR_ARCHIVED_TOAST,
+} from "../_constants/sponsor-editor-sheet";
+import {
   buildSponsorEditorArchivePayload,
   buildSponsorEditorFormValues,
   buildSponsorEditorSavePayload,
@@ -17,14 +25,13 @@ import {
 } from "../_utils/sponsor-editor";
 
 import type {
+  SponsorEditorDialogState,
   SponsorEditorFormValues,
+  SponsorEditorLogoState,
   SponsorEditorSheetHookResult,
   SponsorEditorSheetProps,
 } from "../_types/sponsor-editor";
-import type {
-  ImageUploaderCropCompletePayload,
-  ImageUploaderCropSessionSource,
-} from "@/components/media/image-uploader-crop";
+import type { ImageUploaderCropCompletePayload } from "@/components/media/image-uploader-crop";
 
 export function useSponsorEditorSheet({
   sponsor,
@@ -32,41 +39,32 @@ export function useSponsorEditorSheet({
   onSaved,
   mode = "edit",
 }: SponsorEditorSheetProps): SponsorEditorSheetHookResult {
-  const [name, setName] = useState("");
-  const [tagline, setTagline] = useState("");
-  const [description, setDescription] = useState("");
-  const [url, setUrl] = useState("");
-  const [isActive, setIsActive] = useState(false);
-  const [logoFile, setLogoFile] = useState<File | null>(null);
-  const [logoPreviewUrl, setLogoPreviewUrl] = useState<string | null>(null);
-  const [clearLogo, setClearLogo] = useState(false);
-  const [lastSessionSource, setLastSessionSource] = useState<ImageUploaderCropSessionSource>();
-  const [saveDialogOpen, setSaveDialogOpen] = useState(false);
-  const [isConfirmSaving, setIsConfirmSaving] = useState(false);
-  const [archiveDialogOpen, setArchiveDialogOpen] = useState(false);
-  const [isArchiving, setIsArchiving] = useState(false);
-  const [confirmedAt, setConfirmedAt] = useState<string | null>(null);
+  const [formValues, setFormValues] = useState<SponsorEditorFormValues>(
+    EMPTY_SPONSOR_EDITOR_FORM_VALUES,
+  );
+  const [logoState, setLogoState] = useState<SponsorEditorLogoState>(
+    EMPTY_SPONSOR_EDITOR_LOGO_STATE,
+  );
+  const [dialogState, setDialogState] = useState<SponsorEditorDialogState>(
+    INITIAL_SPONSOR_EDITOR_DIALOG_STATE,
+  );
 
   useEffect(() => {
-    setConfirmedAt(null);
+    setDialogState((current) => ({ ...current, confirmedAt: null }));
   }, [sponsor?.id]);
 
   useEffect(() => {
-    const nextForm = buildSponsorEditorFormValues(sponsor);
-    setName(nextForm.name);
-    setTagline(nextForm.tagline);
-    setDescription(nextForm.description);
-    setUrl(nextForm.url);
-    setIsActive(nextForm.isActive);
-    setLogoFile(null);
-    setLogoPreviewUrl(null);
-    setClearLogo(false);
-    setLastSessionSource(undefined);
+    setFormValues(buildSponsorEditorFormValues(sponsor));
+    setLogoState(EMPTY_SPONSOR_EDITOR_LOGO_STATE);
   }, [sponsor]);
 
   const savedLogoUrl = sponsor?.logoUrl ?? null;
   const isCreateMode = mode === "create";
   const isEditMode = mode === "edit";
+  const { name, url, isActive } = formValues;
+  const { logoFile, logoPreviewUrl, clearLogo, lastSessionSource } = logoState;
+  const { saveDialogOpen, isConfirmSaving, archiveDialogOpen, isArchiving, confirmedAt } =
+    dialogState;
 
   const logoChangeKind = useMemo(
     () =>
@@ -79,11 +77,6 @@ export function useSponsorEditorSheet({
   );
 
   const showSavedLogoAboveCard = Boolean(savedLogoUrl) && !clearLogo && logoFile === null;
-
-  const formValues = useMemo<SponsorEditorFormValues>(
-    () => ({ name, tagline, description, url, isActive }),
-    [description, isActive, name, tagline, url],
-  );
 
   const isDirty = isSponsorEditorDirty({
     sponsor,
@@ -101,17 +94,22 @@ export function useSponsorEditorSheet({
   function handleLogoCropComplete(payload: ImageUploaderCropCompletePayload) {
     const nextPreviewUrl = URL.createObjectURL(payload.file);
     revokeLogoPreviewUrl();
-    setLogoFile(payload.file);
-    setLogoPreviewUrl(nextPreviewUrl);
-    setClearLogo(false);
-    setLastSessionSource(payload.sessionSource);
+    setLogoState({
+      logoFile: payload.file,
+      logoPreviewUrl: nextPreviewUrl,
+      clearLogo: false,
+      lastSessionSource: payload.sessionSource,
+    });
   }
 
   function handleLogoReset() {
     revokeLogoPreviewUrl();
-    setLogoFile(null);
-    setLogoPreviewUrl(null);
-    setLastSessionSource(undefined);
+    setLogoState((current) => ({
+      ...current,
+      logoFile: null,
+      logoPreviewUrl: null,
+      lastSessionSource: undefined,
+    }));
   }
 
   function handleOpenSave() {
@@ -128,13 +126,13 @@ export function useSponsorEditorSheet({
       toast.error(error);
       return;
     }
-    setSaveDialogOpen(true);
+    setDialogState((current) => ({ ...current, saveDialogOpen: true }));
   }
 
   async function handleConfirmSave() {
     if (!sponsor) return;
 
-    setIsConfirmSaving(true);
+    setDialogState((current) => ({ ...current, isConfirmSaving: true }));
     try {
       await Promise.resolve(
         onSaveSponsor(
@@ -148,24 +146,26 @@ export function useSponsorEditorSheet({
       );
     } catch (error) {
       toast.error(sponsorEditorSaveErrorMessage(error));
-      setIsConfirmSaving(false);
+      setDialogState((current) => ({ ...current, isConfirmSaving: false }));
       return;
     }
 
-    setSaveDialogOpen(false);
-    setIsConfirmSaving(false);
-    setLogoFile(null);
-    setLastSessionSource(undefined);
-    setClearLogo(false);
     revokeLogoPreviewUrl();
-    setLogoPreviewUrl(null);
-    setConfirmedAt(getConfirmedTimeStamp());
+    setDialogState((current) => ({
+      ...current,
+      saveDialogOpen: false,
+      isConfirmSaving: false,
+      confirmedAt: getConfirmedTimeStamp(),
+    }));
+    setLogoState((current) => ({
+      ...current,
+      logoFile: null,
+      logoPreviewUrl: null,
+      clearLogo: false,
+      lastSessionSource: undefined,
+    }));
     toast.success("Sponsor saved", {
-      description: isCreateMode
-        ? "New sponsor was created on your account."
-        : sponsor.isDraft
-          ? "Draft sponsor changes were saved."
-          : "Sponsor updates were saved.",
+      description: getSponsorSavedToastDescription(mode, sponsor.isDraft),
     });
     onSaved?.();
   }
@@ -173,7 +173,7 @@ export function useSponsorEditorSheet({
   function handleOpenArchive() {
     if (!sponsor) return;
     if (!sponsor.isActive) {
-      toast.info("This sponsor is already archived.");
+      toast.info(SPONSOR_EDITOR_ALREADY_ARCHIVED_MESSAGE);
       return;
     }
 
@@ -182,13 +182,13 @@ export function useSponsorEditorSheet({
       toast.error(error);
       return;
     }
-    setArchiveDialogOpen(true);
+    setDialogState((current) => ({ ...current, archiveDialogOpen: true }));
   }
 
   async function handleConfirmArchive() {
     if (!sponsor) return;
 
-    setIsArchiving(true);
+    setDialogState((current) => ({ ...current, isArchiving: true }));
     try {
       await Promise.resolve(
         onSaveSponsor(
@@ -200,20 +200,26 @@ export function useSponsorEditorSheet({
       );
     } catch (error) {
       toast.error(sponsorEditorArchiveErrorMessage(error));
-      setIsArchiving(false);
+      setDialogState((current) => ({ ...current, isArchiving: false }));
       return;
     }
 
-    setArchiveDialogOpen(false);
-    setIsArchiving(false);
-    setIsActive(false);
-    setLogoFile(null);
-    setLastSessionSource(undefined);
     revokeLogoPreviewUrl();
-    setLogoPreviewUrl(null);
-    setConfirmedAt(getConfirmedTimeStamp());
-    toast.success("Sponsor archived", {
-      description: "This sponsor is now archived on your account.",
+    setFormValues((current) => ({ ...current, isActive: false }));
+    setDialogState((current) => ({
+      ...current,
+      archiveDialogOpen: false,
+      isArchiving: false,
+      confirmedAt: getConfirmedTimeStamp(),
+    }));
+    setLogoState((current) => ({
+      ...current,
+      logoFile: null,
+      logoPreviewUrl: null,
+      lastSessionSource: undefined,
+    }));
+    toast.success(SPONSOR_EDITOR_ARCHIVED_TOAST.title, {
+      description: SPONSOR_EDITOR_ARCHIVED_TOAST.description,
     });
     onSaved?.();
   }
@@ -229,9 +235,9 @@ export function useSponsorEditorSheet({
   return {
     form: {
       name,
-      setName,
+      setName: (value) => setFormValues((current) => ({ ...current, name: value })),
       isActive,
-      setIsActive,
+      setIsActive: (value) => setFormValues((current) => ({ ...current, isActive: value })),
     },
     logo: {
       savedLogoUrl,
@@ -252,14 +258,14 @@ export function useSponsorEditorSheet({
     },
     saveDialog: {
       open: saveDialogOpen,
-      setOpen: setSaveDialogOpen,
+      setOpen: (open) => setDialogState((current) => ({ ...current, saveDialogOpen: open })),
       isSaving: isConfirmSaving,
       handleOpen: handleOpenSave,
       handleConfirm: handleConfirmSave,
     },
     archiveDialog: {
       open: archiveDialogOpen,
-      setOpen: setArchiveDialogOpen,
+      setOpen: (open) => setDialogState((current) => ({ ...current, archiveDialogOpen: open })),
       isArchiving,
       handleOpen: handleOpenArchive,
       handleConfirm: handleConfirmArchive,

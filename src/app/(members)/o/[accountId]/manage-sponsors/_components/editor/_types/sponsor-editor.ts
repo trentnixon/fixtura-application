@@ -34,6 +34,21 @@ export type SponsorEditorFormValues = {
   isActive: boolean;
 };
 
+export type SponsorEditorLogoState = {
+  logoFile: File | null;
+  logoPreviewUrl: string | null;
+  clearLogo: boolean;
+  lastSessionSource: ImageUploaderCropSessionSource | undefined;
+};
+
+export type SponsorEditorDialogState = {
+  saveDialogOpen: boolean;
+  isConfirmSaving: boolean;
+  archiveDialogOpen: boolean;
+  isArchiving: boolean;
+  confirmedAt: string | null;
+};
+
 export type SponsorEditorSavePayloadInput = {
   sponsor: ManageSponsorsWorkspaceSponsor;
   form: SponsorEditorFormValues;

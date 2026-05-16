@@ -1,12 +1,12 @@
-import type { useManageSponsorsWorkspace } from "../../../_hooks/use-manage-sponsors-workspace";
 import type { ManageSponsorsWorkspaceSponsor } from "../../../_types/manage-sponsors";
+import type { ManageSponsorsWorkspaceResult } from "../../../_types/manage-sponsors-workspace";
 import type { SponsorEditorSaveParams } from "../../editor/_types/sponsor-editor";
 
 export type ManageSponsorsWorkspaceProps = {
   accountId: string;
 };
 
-export type ManageSponsorsWorkspaceState = ReturnType<typeof useManageSponsorsWorkspace>;
+export type ManageSponsorsWorkspaceState = ManageSponsorsWorkspaceResult;
 
 export type ManageSponsorsWorkspaceContentProps = ManageSponsorsWorkspaceProps & {
   workspace: ManageSponsorsWorkspaceState;
