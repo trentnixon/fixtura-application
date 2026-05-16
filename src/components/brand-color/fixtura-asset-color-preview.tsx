@@ -71,10 +71,21 @@ export function FixturaAssetColorPreview({
       body={
         <>
           <div className="space-y-3 px-6 pt-6 pb-4">
-            <TypographyMuted className="text-sm leading-relaxed">
-              {previewNote ??
-                "This asset preview is a guide to how you would like contrast to work; it may change depending on the template selected."}
-            </TypographyMuted>
+            {previewNote == null ? (
+              <>
+                <p className="text-sm leading-relaxed">
+                  This asset preview is a guide to how you would like contrast to work; it may
+                  change depending on the template selected.
+                </p>
+                <TypographyMuted className="text-xs leading-relaxed">
+                  Colours and template mode follow your branding settings.
+                </TypographyMuted>
+              </>
+            ) : typeof previewNote === "string" ? (
+              <p className="text-sm leading-relaxed">{previewNote}</p>
+            ) : (
+              <div className="space-y-3">{previewNote}</div>
+            )}
           </div>
 
           <div className="min-w-0">

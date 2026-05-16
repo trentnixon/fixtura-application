@@ -21,12 +21,12 @@ import {
   useAccountSettings,
 } from "@/lib/api/hooks/account/useAccountSettings";
 
-import { DashboardAccountSummary } from "./_components/dashboard-account-summary";
 import { DashboardActivityTable } from "./_components/dashboard-activity-table";
-import { DashboardBrandingSummary } from "./_components/dashboard-branding-summary";
+import { DashboardCategorySection } from "./_components/dashboard-category-section";
 import { DashboardDevPayloads } from "./_components/dashboard-dev-payloads";
 import { DashboardHeader } from "./_components/dashboard-header";
 import { DashboardKpiStrip } from "./_components/dashboard-kpi-strip";
+import { DashboardOrganisationRouteCards } from "./_components/dashboard-organisation-route-cards";
 import { buildDashboardViewModel } from "./dashboard-view-model";
 
 export function DashboardContent({ accountId }: { accountId: string }) {
@@ -71,34 +71,42 @@ export function DashboardContent({ accountId }: { accountId: string }) {
   const pctComplete = model.metricsPct?.percentageCompleteRenders;
 
   return (
-    <div className="grid gap-10">
+    <div className="grid gap-12">
       <DashboardHeader accountId={accountId} model={model} />
 
-      <section className="grid gap-4" aria-labelledby="dashboard-kpis-heading">
-        <h2 id="dashboard-kpis-heading" className="sr-only">
-          Activity snapshot
-        </h2>
+      <DashboardCategorySection
+        title="Overview"
+        description="Activity snapshot and render metrics for this organisation."
+      >
         <DashboardKpiStrip
           isPending={analytics.isPending}
           rollup={model.rollup}
           percentageComplete={pctComplete}
         />
-      </section>
+      </DashboardCategorySection>
 
-      <div className="grid gap-8 lg:grid-cols-[1fr_minmax(280px,340px)] lg:items-start">
+      <DashboardCategorySection
+        title="Organisation"
+        description="Go to the pages where you manage branding, logo, sponsors, and season."
+      >
+        <DashboardOrganisationRouteCards
+          accountId={accountId}
+          model={model}
+          brandingPending={branding.isPending}
+          organisationPending={organisationContext.isPending}
+        />
+      </DashboardCategorySection>
+
+      <DashboardCategorySection
+        title="Assets"
+        description="Settings, templates, media, and bundles — daily activity from renders and downloads."
+      >
         <DashboardActivityTable
           isPending={analytics.isPending}
           series={model.series}
           totalRenders={model.rollup?.totalRenders ?? 0}
         />
-        <DashboardAccountSummary
-          model={model}
-          settingsPending={settings.isPending}
-          orgPending={organisationContext.isPending}
-        />
-      </div>
-
-      <DashboardBrandingSummary model={model} isPending={branding.isPending} />
+      </DashboardCategorySection>
 
       {showDevPayloads ? (
         <DashboardDevPayloads

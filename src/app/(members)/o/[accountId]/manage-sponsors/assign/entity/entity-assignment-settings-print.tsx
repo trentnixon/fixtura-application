@@ -9,8 +9,8 @@ import {
   useAccountSponsorEntityTargets,
 } from "@/lib/api/hooks/account/useAccountSponsorEntityTargets";
 
-import { AssignSponsorsHeader } from "../../_components/assign-sponsors-header";
-import { ManageSponsorsShell } from "../../_components/manage-sponsors-shell";
+import { AssignSponsorsHeader } from "../../_components/assignment/assign-sponsors-header";
+import { ManageSponsorsShell } from "../../_components/shared/manage-sponsors-shell";
 
 import type { ReactNode } from "react";
 

@@ -1,13 +1,13 @@
 "use client";
 
-import { SponsorEditorCurrentLogoBanner } from "./sheet/sponsor-editor-current-logo-banner";
-import { SponsorEditorEmptyState } from "./sheet/sponsor-editor-empty-state";
-import { SponsorEditorFormCard } from "./sheet/sponsor-editor-form-card";
-import { SponsorEditorArchiveDialog } from "./sponsor-editor-archive-dialog";
-import { SponsorEditorSaveDialog } from "./sponsor-editor-save-dialog";
-import { useSponsorEditorSheet } from "../../_hooks/use-sponsor-editor-sheet";
+import { SponsorEditorCurrentLogoBanner } from "./_components/sheet/sponsor-editor-current-logo-banner";
+import { SponsorEditorEmptyState } from "./_components/sheet/sponsor-editor-empty-state";
+import { SponsorEditorFormCard } from "./_components/sheet/sponsor-editor-form-card";
+import { SponsorEditorArchiveDialog } from "./_components/sponsor-editor-archive-dialog";
+import { SponsorEditorSaveDialog } from "./_components/sponsor-editor-save-dialog";
+import { useSponsorEditorSheet } from "./_hooks/use-sponsor-editor-sheet";
 
-import type { SponsorEditorSheetProps } from "../../_types/sponsor-editor";
+import type { SponsorEditorSheetProps } from "./_types/sponsor-editor";
 
 export function SponsorEditorSheet(props: SponsorEditorSheetProps) {
   const { sponsor } = props;

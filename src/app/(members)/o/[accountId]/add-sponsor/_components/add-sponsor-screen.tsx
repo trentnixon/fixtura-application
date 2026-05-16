@@ -1,9 +1,9 @@
 "use client";
 
 import { SponsorEditorSheet } from "@/app/(members)/o/[accountId]/manage-sponsors/_components/editor/sponsor-editor-sheet";
-import { ManageSponsorsErrorState } from "@/app/(members)/o/[accountId]/manage-sponsors/_components/manage-sponsors-error-state";
-import { ManageSponsorsLoadingState } from "@/app/(members)/o/[accountId]/manage-sponsors/_components/manage-sponsors-loading-state";
-import { ManageSponsorsShell } from "@/app/(members)/o/[accountId]/manage-sponsors/_components/manage-sponsors-shell";
+import { ManageSponsorsErrorState } from "@/app/(members)/o/[accountId]/manage-sponsors/_components/shared/manage-sponsors-error-state";
+import { ManageSponsorsLoadingState } from "@/app/(members)/o/[accountId]/manage-sponsors/_components/shared/manage-sponsors-loading-state";
+import { ManageSponsorsShell } from "@/app/(members)/o/[accountId]/manage-sponsors/_components/shared/manage-sponsors-shell";
 import { TypographySectionDescription, TypographySectionTitle } from "@/components/typography";
 
 import { AddSponsorHeader } from "./add-sponsor-header";
