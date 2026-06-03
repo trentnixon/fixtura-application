@@ -1,6 +1,7 @@
 "use client";
 
-import { TypographyH3, TypographyP } from "@/components/typography";
+import { Network } from "lucide-react";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { isAccountSponsorEntityTargetsGatewayRedirect } from "@/lib/api/hooks/account/useAccountSponsorEntityTargets";
 import { cn } from "@/lib/utils";
@@ -19,6 +20,10 @@ import {
 import { useSponsorEntityAssignmentPanel } from "./_hooks/use-sponsor-entity-assignment-panel";
 import { resolveEntityPreviewTargets } from "./_utils/sponsor-entity-assignment-panel";
 import { SponsorEntityAssetPreview } from "./sponsor-entity-asset-preview";
+import {
+  MANAGE_SPONSORS_CONTAINER_HEADER_CLASS_NAME,
+  ManageSponsorsContainerHeaderTitle,
+} from "../shared/manage-sponsors-container-header-title";
 
 import type {
   SponsorEntityAssignmentActions,
@@ -52,9 +57,11 @@ export function SponsorEntityAssignmentPanel({
       <div
         className={cn("grid gap-5", "lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] lg:items-start")}
       >
-        <div className="w-full min-w-0">
+        <div className="bg-card text-card-foreground ring-border w-full min-w-0 overflow-hidden rounded-2xl border-none shadow-xl ring-1">
           <SponsorEntityAssignmentPanelHeader />
-          <SponsorEntityAssignmentTabs state={state} actions={actions} />
+          <div className="p-5">
+            <SponsorEntityAssignmentTabs state={state} actions={actions} />
+          </div>
         </div>
 
         <SponsorEntityAssignmentSidebar
@@ -84,17 +91,12 @@ export function SponsorEntityAssignmentPanel({
 
 function SponsorEntityAssignmentPanelHeader() {
   return (
-    <div className="mb-4 max-w-3xl space-y-2">
-      <TypographyH3 className="text-lg font-semibold tracking-tight">
-        Assign sponsors to entities
-      </TypographyH3>
-      <TypographyP className="text-muted-foreground text-sm leading-relaxed">
-        Sponsors you assign to a club, team, or grade are used whenever that entity appears on
-        screen in your graphics and videos. Use{" "}
-        <strong className="text-foreground font-medium">Assign</strong> to pick sponsors per row,
-        and <strong className="text-foreground font-medium">Preview</strong> to check the look with
-        your branding template.
-      </TypographyP>
+    <div className={MANAGE_SPONSORS_CONTAINER_HEADER_CLASS_NAME}>
+      <ManageSponsorsContainerHeaderTitle
+        icon={<Network className="size-5" aria-hidden />}
+        title="Assign sponsors to entities"
+        description="Assign sponsors to clubs, teams, or grades for entity-specific graphics and videos."
+      />
     </div>
   );
 }

@@ -40,7 +40,7 @@ export function SeasonGradeSyncDialog({
         <DialogHeader>
           <DialogTitle>Resync this grade?</DialogTitle>
           <DialogDescription>
-            This pulls the latest data for this grade from your season source. It can take a few
+            This pulls the latest tracked data for this grade from your source. It can take a few
             minutes. We&apos;ll refresh this page right away; counts and fixtures may still update
             as processing finishes; use Sync again later if something looks out of date.
           </DialogDescription>

@@ -1,6 +1,7 @@
 "use client";
 
-import { TypographyH3, TypographyP } from "@/components/typography";
+import { MapPinned } from "lucide-react";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 
@@ -14,6 +15,10 @@ import {
 } from "./_constants/sponsor-slot-placement-panel";
 import { useSponsorSlotPlacementPanel } from "./_hooks/use-sponsor-slot-placement-panel";
 import { SponsorPositionAssetPreview } from "./sponsor-position-asset-preview";
+import {
+  MANAGE_SPONSORS_CONTAINER_HEADER_CLASS_NAME,
+  ManageSponsorsContainerHeaderTitle,
+} from "../shared/manage-sponsors-container-header-title";
 
 import type {
   SponsorSlotPlacementActions,
@@ -29,9 +34,11 @@ export function SponsorSlotPlacementPanel({ accountId, sponsors }: SponsorSlotPl
       <div
         className={cn("grid gap-5", "lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] lg:items-start")}
       >
-        <div className="w-full min-w-0">
+        <div className="bg-card text-card-foreground ring-border w-full min-w-0 overflow-hidden rounded-2xl border-none shadow-xl ring-1">
           <SponsorSlotPlacementPanelHeader />
-          <SponsorSlotPlacementTabs state={state} actions={actions} />
+          <div className="p-5">
+            <SponsorSlotPlacementTabs state={state} actions={actions} />
+          </div>
         </div>
 
         <SponsorSlotPlacementSidebar
@@ -64,21 +71,12 @@ export function SponsorSlotPlacementPanel({ accountId, sponsors }: SponsorSlotPl
 
 function SponsorSlotPlacementPanelHeader() {
   return (
-    <div className="mb-4 max-w-3xl space-y-2">
-      <TypographyH3 className="text-lg font-semibold tracking-tight">
-        Assign sponsors to positions
-      </TypographyH3>
-      <TypographyP className="text-muted-foreground text-sm leading-relaxed">
-        Map your active sponsors to fixed account-wide slots so graphics and videos know who to
-        show. <strong className="text-foreground font-medium">Primary</strong> positions (up to
-        four) are your headline placements: they can appear throughout your videos and images and
-        sit at the top of the sponsor list on end screens.{" "}
-        <strong className="text-foreground font-medium">General</strong> positions add more sponsors
-        in order, typically on final end screens and in matching images. Use{" "}
-        <strong className="text-foreground font-medium">Assign</strong> to fill or change slots, and{" "}
-        <strong className="text-foreground font-medium">Preview</strong> to see how placements look
-        with your branding template.
-      </TypographyP>
+    <div className={MANAGE_SPONSORS_CONTAINER_HEADER_CLASS_NAME}>
+      <ManageSponsorsContainerHeaderTitle
+        icon={<MapPinned className="size-5" aria-hidden />}
+        title="Assign sponsors to positions"
+        description="Map active sponsors to fixed account-wide slots for graphics and videos."
+      />
     </div>
   );
 }

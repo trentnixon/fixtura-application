@@ -12,7 +12,6 @@ type UseSeasonGradeFixtureFiltersArgs = {
 };
 
 export function useSeasonGradeFixtureFilters({ rows }: UseSeasonGradeFixtureFiltersArgs) {
-  const [search, setSearch] = useState("");
   const [team, setTeam] = useState<string>(SEASON_FILTER_ALL);
   const [venue, setVenue] = useState<string>(SEASON_FILTER_ALL);
   const [date, setDate] = useState<string>(SEASON_FILTER_ALL);
@@ -24,22 +23,20 @@ export function useSeasonGradeFixtureFilters({ rows }: UseSeasonGradeFixtureFilt
     () =>
       filterSeasonGradeFixtureRows(
         rows,
-        { search, team, venue, date, status },
+        { team, venue, date, status },
         SEASON_FILTER_ALL,
         SEASON_GRADE_FIXTURE_STATUS_EMPTY,
       ),
-    [rows, search, team, venue, date, status],
+    [rows, team, venue, date, status],
   );
 
   const hasActiveFilters =
     team !== SEASON_FILTER_ALL ||
     venue !== SEASON_FILTER_ALL ||
     date !== SEASON_FILTER_ALL ||
-    status !== SEASON_FILTER_ALL ||
-    search.trim().length > 0;
+    status !== SEASON_FILTER_ALL;
 
   const clearFilters = () => {
-    setSearch("");
     setTeam(SEASON_FILTER_ALL);
     setVenue(SEASON_FILTER_ALL);
     setDate(SEASON_FILTER_ALL);
@@ -47,8 +44,6 @@ export function useSeasonGradeFixtureFilters({ rows }: UseSeasonGradeFixtureFilt
   };
 
   return {
-    search,
-    setSearch,
     team,
     setTeam,
     venue,

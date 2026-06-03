@@ -2,9 +2,9 @@
 
 import { Settings } from "lucide-react";
 
-import { MetricComparisonCard } from "@/components/cards";
 import { TypographyMuted } from "@/components/typography";
 import { Button } from "@/components/ui/button";
+import { PageHeader, Surface } from "@/components/ui/container";
 import {
   Select,
   SelectContent,
@@ -57,8 +57,13 @@ export function AccountSettingsPreferences({
     openSaveDialog,
   } = useAccountSettingsPreferencesState({ accountId, payload });
 
+  const orgName =
+    payload.onboardingOrganisationName?.trim() ||
+    [payload.FirstName, payload.LastName].filter(Boolean).join(" ").trim() ||
+    "Organisation";
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-8">
       {saveForbidden ? (
         <div
           role="alert"
@@ -84,38 +89,79 @@ export function AccountSettingsPreferences({
         </div>
       ) : null}
 
-      <MetricComparisonCard
-        className="shadow-sm"
-        layout="card"
-        headerClassName="px-4 py-4 sm:px-5"
-        bodyClassName="p-0"
-        footerClassName="px-4 py-4 sm:px-5"
-        title="Settings"
-        icon={<Settings className="text-primary size-5 shrink-0" aria-hidden />}
-        body={
-          <div>
-            <div className="space-y-3 px-6 pt-6 pb-6">
-              <p className="text-sm leading-relaxed">
-                Manage delivery and bundle preferences for your organisation.
-              </p>
-              <TypographyMuted className="text-xs leading-relaxed">
-                {isClub ? "Club" : "Association"}
-                {" · "}
-                {payload.Sport}
-              </TypographyMuted>
-            </div>
+      <div className="space-y-4">
+        <PageHeader
+          title={orgName}
+          description="Organisation preferences for delivery, grouping, and generated bundle assets."
+        />
+      </div>
 
-            <ul>
+      <Surface className="overflow-hidden p-0">
+        <div className="bg-primary-950 flex w-full items-start gap-3 border-b border-white/15 px-6 py-5 text-white">
+          <span className="mt-0.5 shrink-0 text-white/90">
+            <Settings className="size-5" aria-hidden />
+          </span>
+          <div>
+            <p className="text-xl leading-none font-semibold text-white">Organisation settings</p>
+            <p className="mt-2 text-sm leading-relaxed text-white/80">
+              How generated bundles are delivered, grouped, and displayed.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <div className="space-y-3 px-6 pt-6 pb-6">
+            <p className="text-sm leading-relaxed">
+              Manage delivery and bundle preferences for your organisation.
+            </p>
+            <TypographyMuted className="text-xs leading-relaxed">
+              {isClub ? "Club" : "Association"}
+              {" · "}
+              {payload.Sport}
+            </TypographyMuted>
+          </div>
+
+          <ul>
+            <SettingsSelectRow
+              id={settingsPrefId("deliveryWeekdayKey")}
+              title="Bundle delivery day"
+              description={`Weekly bundles target this delivery day - about ${daysUntilNextDelivery(draft.deliveryWeekdayKey)} days until the next cycle from today.${!hasParsableDeliveryFromServer ? " Could not resolve your saved weekday from CMS (name/id); the selection defaults until you save." : ""}`}
+              disabled={mutation.isPending}
+            >
+              <Select
+                value={draft.deliveryWeekdayKey}
+                onValueChange={(next) =>
+                  setDraft((prev) => ({ ...prev, deliveryWeekdayKey: next as WeekdayKey }))
+                }
+                disabled={mutation.isPending || saveForbidden}
+              >
+                <SelectTrigger className="h-9 rounded-xl">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {WEEKDAY_OPTIONS.map((d) => (
+                    <SelectItem key={d.key} value={d.key}>
+                      {d.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </SettingsSelectRow>
+
+            {showAssocGrouping ? (
               <SettingsSelectRow
-                id={settingsPrefId("deliveryWeekdayKey")}
-                title="Bundle delivery day"
-                description={`Weekly bundles target this delivery day — about ${daysUntilNextDelivery(draft.deliveryWeekdayKey)} days until the next cycle from today.${!hasParsableDeliveryFromServer ? " Could not resolve your saved weekday from CMS (name/id); the selection defaults until you save." : ""}`}
-                disabled={mutation.isPending}
+                id={settingsPrefId("competitionsGroupedBy")}
+                title="Competitions grouped by"
+                description="Association preference - organise competition lists by competition or grade."
+                disabled={mutation.isPending || saveForbidden}
               >
                 <Select
-                  value={draft.deliveryWeekdayKey}
+                  value={draft.competitionsGroupedBy}
                   onValueChange={(next) =>
-                    setDraft((prev) => ({ ...prev, deliveryWeekdayKey: next as WeekdayKey }))
+                    setDraft((prev) => ({
+                      ...prev,
+                      competitionsGroupedBy: next as CompetitionGroupingKey,
+                    }))
                   }
                   disabled={mutation.isPending || saveForbidden}
                 >
@@ -123,108 +169,78 @@ export function AccountSettingsPreferences({
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {WEEKDAY_OPTIONS.map((d) => (
-                      <SelectItem key={d.key} value={d.key}>
-                        {d.label}
-                      </SelectItem>
-                    ))}
+                    <SelectItem value="competition">Competition</SelectItem>
+                    <SelectItem value="grade">Grade</SelectItem>
                   </SelectContent>
                 </Select>
               </SettingsSelectRow>
+            ) : null}
 
-              {showAssocGrouping ? (
-                <SettingsSelectRow
-                  id={settingsPrefId("competitionsGroupedBy")}
-                  title="Competitions grouped by"
-                  description="Association preference — organise competition lists by competition or grade."
-                  disabled={mutation.isPending || saveForbidden}
-                >
-                  <Select
-                    value={draft.competitionsGroupedBy}
-                    onValueChange={(next) =>
-                      setDraft((prev) => ({
-                        ...prev,
-                        competitionsGroupedBy: next as CompetitionGroupingKey,
-                      }))
-                    }
-                    disabled={mutation.isPending || saveForbidden}
-                  >
-                    <SelectTrigger className="h-9 rounded-xl">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="competition">Competition</SelectItem>
-                      <SelectItem value="grade">Grade</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </SettingsSelectRow>
-              ) : null}
+            <SettingsToggleRow
+              id={settingsPrefId("includeJuniorSurnames")}
+              title={
+                <span className="text-sm leading-snug font-medium">
+                  {draft.includeJuniorSurnames
+                    ? "Junior surnames included"
+                    : "Junior surnames not included"}{" "}
+                  <span className="text-muted-foreground font-medium">· In assets</span>
+                </span>
+              }
+              description="Turn this off to omit junior players' surnames on bundle assets - for example when your club or association prefers not to publish them on junior outputs. Turn on to include surnames in those bundle assets."
+              checked={draft.includeJuniorSurnames}
+              disabled={mutation.isPending || saveForbidden}
+              onCheckedChange={(next) =>
+                setDraft((prev) => ({
+                  ...prev,
+                  includeJuniorSurnames: next,
+                }))
+              }
+            />
 
+            {showClubSplitSeniors ? (
               <SettingsToggleRow
-                id={settingsPrefId("includeJuniorSurnames")}
-                title={
-                  <span className="text-sm leading-snug font-medium">
-                    {draft.includeJuniorSurnames
-                      ? "Junior surnames included"
-                      : "Junior surnames not included"}{" "}
-                    <span className="text-muted-foreground font-medium">· In assets</span>
-                  </span>
-                }
-                description="Turn this off to omit junior players’ surnames on bundle assets — for example when your club or association prefers not to publish them on junior outputs. Turn on to include surnames in those bundle assets."
-                checked={draft.includeJuniorSurnames}
+                id={settingsPrefId("splitSeniorsAndMasters")}
+                title={<span className="text-sm font-medium">Split seniors and masters</span>}
+                description="Club preference - separates seniors and masters into distinct bundle groups when enabled."
+                checked={draft.splitSeniorsAndMasters}
                 disabled={mutation.isPending || saveForbidden}
                 onCheckedChange={(next) =>
-                  setDraft((prev) => ({
-                    ...prev,
-                    includeJuniorSurnames: next,
-                  }))
+                  setDraft((prev) => ({ ...prev, splitSeniorsAndMasters: next }))
                 }
               />
+            ) : null}
+          </ul>
 
-              {showClubSplitSeniors ? (
-                <SettingsToggleRow
-                  id={settingsPrefId("splitSeniorsAndMasters")}
-                  title={<span className="text-sm font-medium">Split seniors and masters</span>}
-                  description="Club preference — separates seniors and masters into distinct bundle groups when enabled."
-                  checked={draft.splitSeniorsAndMasters}
-                  disabled={mutation.isPending || saveForbidden}
-                  onCheckedChange={(next) =>
-                    setDraft((prev) => ({ ...prev, splitSeniorsAndMasters: next }))
-                  }
-                />
-              ) : null}
-            </ul>
-          </div>
-        }
-        footer={
-          <div className="flex w-full min-w-0 flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
-            <TypographyMuted className="text-xs">
-              {!hasChanges
-                ? "All preferences match saved values."
-                : canSubmit
-                  ? "Review changes before saving."
-                  : "Adjust a preference above — some choices may be ignored until the CMS recognises new fields."}
-            </TypographyMuted>
-            <div className="flex flex-wrap gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                disabled={mutation.isPending || !hasChanges || saveForbidden}
-                onClick={() => setDraft(baselineDraft)}
-              >
-                Reset
-              </Button>
-              <Button
-                type="button"
-                disabled={saveDisabled || saveForbidden}
-                onClick={openSaveDialog}
-              >
-                {mutation.isPending ? "Saving…" : "Save settings"}
-              </Button>
+          <div className="border-border px-6 py-4">
+            <div className="flex w-full min-w-0 flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
+              <TypographyMuted className="text-xs">
+                {!hasChanges
+                  ? "All preferences match saved values."
+                  : canSubmit
+                    ? "Review changes before saving."
+                    : "Adjust a preference above - some choices may be ignored until the CMS recognises new fields."}
+              </TypographyMuted>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={mutation.isPending || !hasChanges || saveForbidden}
+                  onClick={() => setDraft(baselineDraft)}
+                >
+                  Reset
+                </Button>
+                <Button
+                  type="button"
+                  disabled={saveDisabled || saveForbidden}
+                  onClick={openSaveDialog}
+                >
+                  {mutation.isPending ? "Saving..." : "Save settings"}
+                </Button>
+              </div>
             </div>
           </div>
-        }
-      />
+        </div>
+      </Surface>
 
       <SaveSettingsDialog
         open={saveDialogOpen}

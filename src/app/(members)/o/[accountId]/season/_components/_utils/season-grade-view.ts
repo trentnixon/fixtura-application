@@ -11,6 +11,83 @@ import type {
 } from "../_types";
 import type { SeasonHubFixtureListItem } from "@/types/api/season-hub";
 
+const DEFAULT_FIXTURE_LOOKBACK_DAYS = 7;
+const DEFAULT_FIXTURE_LOOKAHEAD_DAYS = 7;
+
+function parseFixtureCalendarDay(value: string | null | undefined): Date | null {
+  if (value == null || value.trim() === "") {
+    return null;
+  }
+
+  const ymd = /^(\d{4})-(\d{2})-(\d{2})/.exec(value.trim());
+  if (ymd) {
+    const year = Number(ymd[1]);
+    const month = Number(ymd[2]) - 1;
+    const day = Number(ymd[3]);
+    const localDay = new Date(year, month, day);
+    return Number.isNaN(localDay.getTime()) ? null : localDay;
+  }
+
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) {
+    return null;
+  }
+
+  return new Date(parsed.getFullYear(), parsed.getMonth(), parsed.getDate());
+}
+
+function startOfLocalDay(value: Date): Date {
+  return new Date(value.getFullYear(), value.getMonth(), value.getDate());
+}
+
+export function buildSeasonGradeFixtureBuckets(
+  rows: SeasonHubFixtureListItem[],
+  now: Date = new Date(),
+): {
+  previousRows: SeasonHubFixtureListItem[];
+  upcomingRows: SeasonHubFixtureListItem[];
+  allPreviousRows: SeasonHubFixtureListItem[];
+  allUpcomingRows: SeasonHubFixtureListItem[];
+} {
+  const today = startOfLocalDay(now);
+  const lookback = startOfLocalDay(now);
+  lookback.setDate(lookback.getDate() - DEFAULT_FIXTURE_LOOKBACK_DAYS);
+  const horizon = startOfLocalDay(now);
+  horizon.setDate(horizon.getDate() + DEFAULT_FIXTURE_LOOKAHEAD_DAYS);
+
+  const previousRows: SeasonHubFixtureListItem[] = [];
+  const upcomingRows: SeasonHubFixtureListItem[] = [];
+  const allPreviousRows: SeasonHubFixtureListItem[] = [];
+  const allUpcomingRows: SeasonHubFixtureListItem[] = [];
+
+  for (const fixture of rows) {
+    const fixtureDay = parseFixtureCalendarDay(fixture.date);
+    if (fixtureDay == null) {
+      continue;
+    }
+
+    if (fixtureDay < today) {
+      allPreviousRows.push(fixture);
+      if (fixtureDay >= lookback) {
+        previousRows.push(fixture);
+      }
+      continue;
+    }
+
+    allUpcomingRows.push(fixture);
+    if (fixtureDay <= horizon) {
+      upcomingRows.push(fixture);
+    }
+  }
+
+  return {
+    previousRows,
+    upcomingRows,
+    allPreviousRows,
+    allUpcomingRows,
+  };
+}
+
 export function buildSeasonGradeDisplayModel({
   gradeRaw,
   gradeId,
@@ -151,27 +228,7 @@ export function filterSeasonGradeFixtureRows(
   filterAllValue: string,
   statusEmptyValue: string,
 ): SeasonHubFixtureListItem[] {
-  const normalizedFixtureSearch = filters.search.trim().toLocaleLowerCase();
-
   return rows.filter((fixture) => {
-    if (normalizedFixtureSearch.length > 0) {
-      const searchable = [
-        fixture.teams.home ?? "",
-        fixture.teams.away ?? "",
-        fixture.round ?? "",
-        fixture.date ?? "",
-        fixture.status ?? "",
-        fixture.type ?? "",
-        fixture.venue.ground ?? "",
-        String(fixture.id),
-      ]
-        .join(" ")
-        .toLocaleLowerCase();
-      if (!searchable.includes(normalizedFixtureSearch)) {
-        return false;
-      }
-    }
-
     if (filters.team !== filterAllValue) {
       const home = fixture.teams.home?.trim() ?? "";
       const away = fixture.teams.away?.trim() ?? "";

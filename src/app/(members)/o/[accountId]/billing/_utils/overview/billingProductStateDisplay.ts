@@ -4,7 +4,7 @@ import type { BillingProductState } from "../../_core/billing-state";
 export function labelForBillingProductState(state: BillingProductState): string {
   switch (state) {
     case "active_account":
-      return "Active account";
+      return "Processing enabled";
     case "pending":
       return "Pending";
     case "activate_trial":

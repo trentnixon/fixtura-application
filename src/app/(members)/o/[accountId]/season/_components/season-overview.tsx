@@ -53,7 +53,7 @@ export function SeasonOverview({ accountId }: { accountId: string }) {
   if (anyError && firstError) {
     return (
       <ErrorState
-        title="Could not load season"
+        title="Could not load Vision"
         description={firstError instanceof Error ? firstError.message : "Something went wrong."}
         onRetry={() => {
           void recon.refetch();

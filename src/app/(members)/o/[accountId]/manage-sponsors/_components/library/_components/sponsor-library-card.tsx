@@ -50,7 +50,7 @@ export function SponsorLibraryCard({
               </div>
               <Button
                 type="button"
-                variant="brandPrimary"
+                variant="successOutline"
                 size="sm"
                 disabled={disabled}
                 onClick={(event) => {

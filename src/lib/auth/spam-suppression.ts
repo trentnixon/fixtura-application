@@ -136,7 +136,7 @@ class SpamSuppressionStore {
     this.updateEntry(this.loginEmailStore, normalizedEmail, now, this.LOGIN_EMAIL_WINDOW);
 
     // Logs for security monitoring
-    this.logSuspiciousActivity(ip, normalizedEmail, "failed_login");
+    this.logFailedLoginAttempt(ip, normalizedEmail);
   }
 
   /**
@@ -217,14 +217,15 @@ class SpamSuppressionStore {
     this.forgotEmailStore.clear();
   }
 
-  private logSuspiciousActivity(ip: string, email: string, event: string) {
-    console.log(
-      `[AUTH_SPAM_BLOCK] ${event} - IP: ${ip}, Email: ${email}, Time: ${new Date().toISOString()}`,
-    );
-    // Optional: Send to Sentry for monitoring
+  private logFailedLoginAttempt(ip: string, email: string) {
+    if (process.env.NODE_ENV === "development") {
+      console.log(
+        `[AUTH_FAILED_LOGIN] IP: ${ip}, Email: ${email}, Time: ${new Date().toISOString()}`,
+      );
+    }
     Sentry.addBreadcrumb({
       category: "auth",
-      message: `Suspicious activity: ${event} for ${email} from ${ip}`,
+      message: `Failed login for ${email} from ${ip}`,
       level: "warning",
     });
   }

@@ -21,12 +21,12 @@ The current structure is healthy enough to refactor incrementally. The main risk
 
 ## Current Inventory
 
-There are 23 TSX files in `_sections`:
+There are 27 TSX files in `_sections`:
 
 - Overview: `season-overview-header.tsx`, `season-overview-summary-section.tsx`, `season-overview-empty-states.tsx`, `season-overview-sync-dialog.tsx`, `season-overview-competition-card.tsx`, `season-overview-tracked-competitions-section.tsx`
 - Competition detail: `season-competition-detail-header.tsx`, `season-competition-coverage-summary-section.tsx`, `season-competition-sync-grades-dialog.tsx`, `season-competition-tracked-grades-section.tsx`
 - Grade detail: `season-grade-view-header.tsx`, `season-grade-coverage-summary-section.tsx`, `season-grade-sync-dialog.tsx`, `season-grade-fixtures-section.tsx`, `season-grade-fixtures-toolbar.tsx`, `season-grade-fixtures-table.tsx`
-- Fixture detail: `season-fixture-view-header.tsx`, `season-fixture-match-summary-section.tsx`, `season-fixture-grade-context-section.tsx`, `season-fixture-context-meta-section.tsx`, `season-fixture-grade-fixtures-error-banner.tsx`, `season-fixture-outputs-section.tsx`, `season-fixture-teams-section.tsx`
+- Fixture detail: `season-fixture-view-header.tsx`, `season-fixture-detail-tabs-section.tsx` (Match / Scorecard / Teams / Outputs — `tabber.pill.borderless.default`), `season-fixture-match-summary-section.tsx`, `season-fixture-scorecards-section.tsx`, `season-fixture-scorecard-table.tsx`, `season-fixture-grade-context-section.tsx`, `season-fixture-context-meta-section.tsx`, `season-fixture-content-note-section.tsx`, `season-fixture-grade-fixtures-error-banner.tsx`, `season-fixture-outputs-section.tsx`, `season-fixture-teams-section.tsx`, `season-fixture-result-sync-dialog.tsx`. External Scorecard link and Back live in the header; sidebar actions section removed.
 
 Supporting code already exists in:
 
@@ -43,6 +43,7 @@ Supporting code already exists in:
 - `_utils/season-fixture.ts`
 - `_utils/season-fixture-display.ts`
 - `_utils/season-fixture-view-model.ts`
+- `_utils/season-fixture-detail-model.ts`
 - `_utils/season-competition.ts`
 - `_utils/season-record.ts`
 - `_constants/season-copy.ts`

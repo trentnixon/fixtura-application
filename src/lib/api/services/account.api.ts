@@ -12,6 +12,10 @@ import { normalizeCancelInvoiceRequestResponse } from "../utils/normalize-cancel
 import type {
   AccountAnalyticsOverviewParams,
   AccountAnalyticsOverviewResponse,
+  AccountClubLogosDirectoryResponse,
+  PatchAccountClubLogoBody,
+  PatchAccountClubLogoResponse,
+  UploadAccountClubLogoResponse,
   AccountSponsorAllocationMutationResponse,
   AccountSponsorAllocationsListResponse,
   AccountSponsorEntityType,
@@ -70,6 +74,8 @@ import type {
   TriggerGradesLookupTeamsSingleScrapeSuccessResponse,
   TriggerFixtureDiscoveryGradeRequest,
   TriggerFixtureDiscoveryGradeSuccessResponse,
+  TriggerResultSingleScrapeRequest,
+  TriggerResultSingleScrapeSuccessResponse,
   OnboardingStateResponse,
   PatchAccountBrandingBody,
   PatchAccountBrandingSuccess,
@@ -97,6 +103,16 @@ function accountSponsorsPath(accountId: string, ...segments: (string | number)[]
 
 function accountSponsorEntityTargetsPath(accountId: string) {
   return `${appRoutes.accounts.sponsorEntityTargets.path}/${encodeURIComponent(accountId)}/sponsor-entity-targets`;
+}
+
+function accountClubLogosDirectoryPath(accountId: string) {
+  return `${appRoutes.accounts.clubLogosDirectory.path}/${encodeURIComponent(accountId)}/club-logos-directory`;
+}
+
+function accountClubLogoPath(accountId: string, clubId: number, ...segments: string[]) {
+  const base = `${appRoutes.accounts.clubLogo.path}/${encodeURIComponent(accountId)}/clubs/${encodeURIComponent(String(clubId))}/logo`;
+  if (segments.length === 0) return base;
+  return `${base}/${segments.join("/")}`;
 }
 
 /**
@@ -269,6 +285,24 @@ export const accountApi = {
   /** Account-scoped catalogue of sponsor-assignable entity targets. */
   getAccountSponsorEntityTargets: (accountId: string) =>
     apiClient.get<AccountSponsorEntityTargetsResponse>(accountSponsorEntityTargetsPath(accountId)),
+
+  /** Association club directory for Club Logos route (competitive scope, CMS handoff). */
+  getAccountClubLogosDirectory: (accountId: string) =>
+    apiClient.get<AccountClubLogosDirectoryResponse>(accountClubLogosDirectoryPath(accountId)),
+
+  /** M1: logo file upload for association-managed club logo — returns media id for W2. */
+  uploadAccountClubLogo: (accountId: string, clubId: number, file: File) => {
+    const formData = new FormData();
+    formData.set("file", file);
+    return apiClient.postFormData<UploadAccountClubLogoResponse>(
+      accountClubLogoPath(accountId, clubId, "upload"),
+      formData,
+    );
+  },
+
+  /** W2: persist or clear club logo link (association scope; club id in path). */
+  patchAccountClubLogo: (accountId: string, clubId: number, body: PatchAccountClubLogoBody) =>
+    apiClient.patch<PatchAccountClubLogoResponse>(accountClubLogoPath(accountId, clubId), body),
 
   /** Create sponsor — custom Strapi route (BFF). */
   postAccountSponsor: (accountId: string, body: PostAccountSponsorBody) =>
@@ -591,6 +625,13 @@ export const accountApi = {
   triggerFixtureDiscoveryGrade: (body: TriggerFixtureDiscoveryGradeRequest) =>
     apiClient.post<TriggerFixtureDiscoveryGradeSuccessResponse>(
       appRoutes.grade.triggerFixtureDiscovery.path,
+      body,
+    ),
+
+  /** Queue single fixture result scrape (Strapi game-meta-data document id). */
+  triggerResultSingleScrape: (body: TriggerResultSingleScrapeRequest) =>
+    apiClient.post<TriggerResultSingleScrapeSuccessResponse>(
+      appRoutes.gameMetaData.triggerResultSingleScrape.path,
       body,
     ),
 };

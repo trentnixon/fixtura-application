@@ -34,6 +34,10 @@ import {
   LOGO_MIN_SOURCE_WIDTH_PX,
 } from "./logo-save-validation";
 import { onboardingStep2LogoErrorMessage } from "./onboarding-step2-logo-error-message";
+import {
+  BRANDING_CONTAINER_HEADER_CLASS_NAME,
+  BrandingContainerHeaderTitle,
+} from "../branding-container-header-title";
 
 import type { AccountBrandingData } from "@/types/api/account";
 
@@ -211,10 +215,17 @@ export function BrandLogoWorkspace({ accountId, data }: BrandLogoWorkspaceProps)
       >
         <div className="w-full min-w-0">
           <MetricComparisonCard
-            className="w-full min-w-0 gap-0 overflow-hidden p-0 shadow-sm"
+            className="ring-border w-full min-w-0 rounded-2xl border-none shadow-xl ring-1"
             layout="card"
-            title="Upload logo"
-            icon={<ImageUp className="text-primary size-5 shrink-0" aria-hidden />}
+            headerClassName={BRANDING_CONTAINER_HEADER_CLASS_NAME}
+            titleRowClassName="items-start"
+            title={
+              <BrandingContainerHeaderTitle
+                icon={<ImageUp className="size-5" aria-hidden />}
+                title="1. Upload logo"
+                description="Add or replace your organisation logo, then crop it for generated assets."
+              />
+            }
             body={
               <div className="space-y-5">
                 <div className="space-y-3">

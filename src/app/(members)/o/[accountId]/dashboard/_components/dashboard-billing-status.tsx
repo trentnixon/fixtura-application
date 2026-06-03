@@ -1,24 +1,33 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
 import { useBillingProductStateSnapshot } from "../../billing/_hooks/useBillingProductStateSnapshot";
-import { billingProductStateToneClass } from "../../billing/_utils/overview/billingProductStateDisplay";
+import { billingProductStateBadgeSurfaceClass } from "../../billing/_utils/overview/billingProductStateDisplay";
 
 type DashboardBillingStatusProps = {
   accountId: string;
   className?: string;
 };
 
-/** Same derivation as the billing page status badge, as inline text. Use the hook for custom UI. */
+/** Billing product state as an outline badge (matches billing page chip styles). */
 export function DashboardBillingStatus({ accountId, className }: DashboardBillingStatusProps) {
   const snapshot = useBillingProductStateSnapshot(accountId);
 
   if (snapshot.status === "loading") {
     return (
-      <span className={cn("text-muted-foreground text-sm", className)} aria-busy>
+      <Badge
+        variant="outline"
+        className={cn(
+          "text-xs font-medium",
+          "border-border bg-muted/40 text-muted-foreground",
+          className,
+        )}
+        aria-busy
+      >
         Billing status…
-      </span>
+      </Badge>
     );
   }
 
@@ -29,11 +38,16 @@ export function DashboardBillingStatus({ accountId, className }: DashboardBillin
   const { label, productState } = snapshot;
 
   return (
-    <span
-      className={cn("text-sm font-medium", billingProductStateToneClass(productState), className)}
+    <Badge
+      variant="outline"
+      className={cn(
+        "text-xs font-medium",
+        billingProductStateBadgeSurfaceClass(productState),
+        className,
+      )}
       aria-label={`Billing status: ${label}`}
     >
       {label}
-    </span>
+    </Badge>
   );
 }

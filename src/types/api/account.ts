@@ -600,6 +600,35 @@ export interface AccountSponsorEntityTargetsResponse {
   };
 }
 
+/** GET /api/accounts/:accountId/club-logos-directory — association club logos directory (CMS handoff). */
+export interface AccountClubLogosDirectoryClub {
+  id: number;
+  name: string;
+  logoUrl?: string | null;
+}
+
+export interface AccountClubLogosDirectoryResponse {
+  data: {
+    clubs: AccountClubLogosDirectoryClub[];
+  };
+}
+
+/** M1 — POST /api/accounts/:accountId/clubs/:clubId/logo/upload */
+export interface UploadAccountClubLogoResponse {
+  data: {
+    id: number;
+  };
+}
+
+/** W2 — PATCH /api/accounts/:accountId/clubs/:clubId/logo */
+export type PatchAccountClubLogoBody = {
+  logoMediaId?: number | null;
+};
+
+export interface PatchAccountClubLogoResponse {
+  data: AccountClubLogosDirectoryClub;
+}
+
 /** Template slice on GET /api/accounts/:accountId/branding (Phase 3). */
 export interface AccountBrandingTemplate {
   id: number;
@@ -1346,6 +1375,25 @@ export interface TriggerFixtureDiscoveryGradeSuccessResponse {
   message: string;
   queueName: "fixture_discovery" | string;
   gradeId: number;
+}
+
+/** POST /api/game-meta-data/trigger-result-single-scrape */
+export interface TriggerResultSingleScrapeRequest {
+  cmsFixtureId: number;
+  url?: string;
+  sport?: string;
+  dryRun?: boolean;
+  metadataOnly?: boolean;
+}
+
+export interface TriggerResultSingleScrapeSuccessResponse {
+  success: boolean;
+  jobId: string;
+  bullJobId: number | string;
+  runId: string;
+  cmsFixtureId: number;
+  queueName: "scrape:result-single";
+  message: string;
 }
 
 export interface StrapiErrorResponse {

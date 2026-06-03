@@ -5,6 +5,10 @@ import { MetricComparisonCard } from "@/components/cards";
 import { SponsorLibraryCard } from "./_components/sponsor-library-card";
 import { SponsorLibraryMetricsFooter } from "./_components/sponsor-library-metrics-footer";
 import { SponsorLibraryToolbar } from "./sponsor-library-toolbar";
+import {
+  MANAGE_SPONSORS_CONTAINER_HEADER_CLASS_NAME,
+  ManageSponsorsContainerHeaderTitle,
+} from "../shared/manage-sponsors-container-header-title";
 
 import type { SponsorLibraryPanelProps, SponsorPoolStats } from "./_types/sponsor-library";
 
@@ -22,13 +26,18 @@ export function SponsorLibraryPanel({
 }: SponsorLibraryPanelProps) {
   return (
     <MetricComparisonCard
-      className="h-full min-h-0 shadow-sm"
+      className="ring-border h-full min-h-0 rounded-2xl border-none shadow-xl ring-1"
       layout="card"
-      headerClassName="px-4 py-4 sm:px-5"
+      headerClassName={MANAGE_SPONSORS_CONTAINER_HEADER_CLASS_NAME}
       bodyClassName="px-4 py-4 sm:px-5"
       footerClassName="items-center px-4 py-4 sm:px-5"
-      title="Sponsor pool"
-      icon={<FolderKanban className="text-primary size-5 shrink-0" aria-hidden />}
+      title={
+        <ManageSponsorsContainerHeaderTitle
+          icon={<FolderKanban className="size-5" aria-hidden />}
+          title="Sponsor pool"
+          description="Search, filter, and update the active sponsors available for your assets."
+        />
+      }
       body={
         <div className="space-y-3">
           <div className="grid gap-3">
@@ -49,7 +58,7 @@ export function SponsorLibraryPanel({
                 No sponsors match the current search or filter.
               </div>
             ) : null}
-            <ul className="grid grid-cols-2 gap-4 lg:grid-cols-4 xl:grid-cols-5">
+            <ul className="grid grid-cols-2 gap-4 lg:grid-cols-4">
               {sponsors.map((sponsor) => (
                 <SponsorLibraryCard
                   key={sponsor.id}

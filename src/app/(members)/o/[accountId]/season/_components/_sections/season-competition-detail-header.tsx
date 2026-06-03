@@ -45,7 +45,7 @@ export function SeasonCompetitionDetailHeader({
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link href={seasonOverviewHref}>Season</Link>
+                <Link href={seasonOverviewHref}>Vision</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
@@ -99,7 +99,7 @@ export function SeasonCompetitionDetailHeader({
               ) : (
                 <RefreshCw className="size-4" aria-hidden />
               )}
-              Reload Your Season
+              Refresh Vision
             </Button>
             <Button
               type="button"

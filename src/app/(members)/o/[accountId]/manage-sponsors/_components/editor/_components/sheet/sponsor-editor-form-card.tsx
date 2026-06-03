@@ -2,6 +2,10 @@
 
 import { Image } from "lucide-react";
 
+import {
+  MANAGE_SPONSORS_CONTAINER_HEADER_CLASS_NAME,
+  ManageSponsorsContainerHeaderTitle,
+} from "@/app/(members)/o/[accountId]/manage-sponsors/_components/shared/manage-sponsors-container-header-title";
 import { MetricComparisonCard } from "@/components/cards";
 import { TypographyMuted } from "@/components/typography";
 
@@ -33,10 +37,16 @@ export function SponsorEditorFormCard({
   return (
     <section className="grid gap-4">
       <MetricComparisonCard
-        className="min-w-0 shadow-sm"
+        className="ring-border min-w-0 rounded-2xl border-none shadow-xl ring-1"
         layout="card"
-        title="Sponsor logo"
-        icon={<Image className="text-primary size-5 shrink-0" aria-hidden />}
+        headerClassName={MANAGE_SPONSORS_CONTAINER_HEADER_CLASS_NAME}
+        title={
+          <ManageSponsorsContainerHeaderTitle
+            icon={<Image className="size-5" aria-hidden />}
+            title="Sponsor logo"
+            description="Upload, crop, and name the sponsor so it can be used across placements."
+          />
+        }
         body={
           <div className="space-y-6">
             <p className="text-sm leading-relaxed">
@@ -63,27 +73,22 @@ export function SponsorEditorFormCard({
                 />
               </div>
             ) : (
-              <div className="grid min-w-0 gap-6 md:grid-cols-12">
-                <div className="grid min-w-0 md:col-span-7">
-                  <SponsorEditorLogoUploadBlock
-                    savedLogoUrl={savedLogoUrl}
-                    clearLogo={clearLogo}
-                    logoChangeKind={logoChangeKind}
-                    showFileFormatCallout={isCreateMode}
-                    onLogoCropComplete={onLogoCropComplete}
-                    onLogoReset={onLogoReset}
-                  />
-                </div>
-
-                <div className="grid min-w-0 content-start md:col-span-5">
-                  <SponsorEditorNameFieldsBlock
-                    sponsor={sponsor}
-                    name={name}
-                    onNameChange={onNameChange}
-                    isActive={isActive}
-                    onActiveChange={onActiveChange}
-                  />
-                </div>
+              <div className="grid min-w-0 gap-6">
+                <SponsorEditorLogoUploadBlock
+                  savedLogoUrl={savedLogoUrl}
+                  clearLogo={clearLogo}
+                  logoChangeKind={logoChangeKind}
+                  showFileFormatCallout={isCreateMode}
+                  onLogoCropComplete={onLogoCropComplete}
+                  onLogoReset={onLogoReset}
+                />
+                <SponsorEditorNameFieldsBlock
+                  sponsor={sponsor}
+                  name={name}
+                  onNameChange={onNameChange}
+                  isActive={isActive}
+                  onActiveChange={onActiveChange}
+                />
               </div>
             )}
 

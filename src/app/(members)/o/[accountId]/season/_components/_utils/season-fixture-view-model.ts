@@ -5,6 +5,7 @@ import {
   resolveFixtureHeadline,
   unwrapSeasonHubFixturePayload,
 } from "./season-fixture";
+import { buildSeasonFixtureDetailDisplay } from "./season-fixture-detail-model";
 import { formatFixtureDateDisplay } from "./season-fixture-display";
 import { pickString } from "./season-record";
 
@@ -175,7 +176,7 @@ export function buildSeasonFixtureViewModel(
   const meta = payloadRecord ? asRecord(payloadRecord["meta"]) : undefined;
   const context = payloadRecord ? asRecord(payloadRecord["context"]) : undefined;
 
-  const headline = resolveFixtureHeadline(fixtureRecord, fixtureId);
+  const headline = resolveFixtureHeadline(fixtureRecord as UnknownRecord | undefined, fixtureId);
 
   const teamsNested = fixtureRecord ? asRecord(fixtureRecord["teams"]) : undefined;
   const homeSideRec = teamsNested ? asRecord(teamsNested["home"]) : undefined;
@@ -209,7 +210,7 @@ export function buildSeasonFixtureViewModel(
     fixtureRecord && typeof fixtureRecord["status"] === "string"
       ? (fixtureRecord["status"] as string)
       : undefined;
-  const gameId = pickGameId(fixtureRecord);
+  const gameId = pickGameId(fixtureRecord as UnknownRecord | undefined);
 
   const venueRec = fixtureRecord ? asRecord(fixtureRecord["venue"]) : undefined;
   const venueGround = venueRec ? pickString(venueRec, ["ground", "name", "label"]) : undefined;
@@ -258,8 +259,8 @@ export function buildSeasonFixtureViewModel(
   if (Array.isArray(clubRaw) && clubRaw.length > 0) {
     const names = clubRaw
       .map((c) =>
-        c && typeof c === "object" && !Array.isArray(c)
-          ? pickString(c as UnknownRecord, ["name"])
+        c && typeof c === "object" && !Array.isArray(c) && typeof c.name === "string"
+          ? c.name.trim()
           : undefined,
       )
       .filter((n): n is string => Boolean(n && n.trim()));
@@ -273,11 +274,21 @@ export function buildSeasonFixtureViewModel(
   const adminCtx = context ? asRecord(context["admin"]) : undefined;
   pushIf("Published", pickString(adminCtx ?? {}, ["publishedAt"]));
   pushIf("Updated", pickString(adminCtx ?? {}, ["updatedAt"]));
-  const validationRec = meta ? asRecord(meta["validation"]) : undefined;
-  pushIf("Data quality", pickString(validationRec ?? {}, ["status"]));
+  const detailDisplay = buildSeasonFixtureDetailDisplay(payloadRecord ?? undefined, fixtureRecord);
+  const validationSummary = detailDisplay.validationSummary;
+  if (validationSummary?.overallScore != null && validationSummary.status) {
+    pushIf("Data quality", `${validationSummary.overallScore} — ${validationSummary.status}`);
+  } else if (validationSummary?.status) {
+    pushIf("Data quality", validationSummary.status);
+  } else {
+    const validationRec = meta ? asRecord(meta["validation"]) : undefined;
+    pushIf("Data quality", pickString(validationRec ?? {}, ["status"]));
+  }
 
   const hasOutputs =
-    Boolean(renderStatus && Object.keys(renderStatus).length > 0) || downloadEntries.length > 0;
+    detailDisplay.renderEntries.length > 0 ||
+    downloadEntries.length > 0 ||
+    Boolean(renderStatus && Object.keys(renderStatus).length > 0);
 
   const headerContextParts = [
     round,
@@ -295,7 +306,7 @@ export function buildSeasonFixtureViewModel(
     : undefined;
 
   return {
-    fixtureRecord,
+    fixtureRecord: fixtureRecord as UnknownRecord | undefined,
     gradeContext,
     teamsData,
     teamSides,
@@ -328,5 +339,25 @@ export function buildSeasonFixtureViewModel(
     contextMetaRows,
     hasOutputs,
     headerContextLine,
+    isFinished: detailDisplay.isFinished,
+    ...(detailDisplay.matchResult.resultStatement
+      ? { resultStatement: detailDisplay.matchResult.resultStatement }
+      : {}),
+    ...(detailDisplay.matchResult.tossLine ? { tossLine: detailDisplay.matchResult.tossLine } : {}),
+    inningsScorecards: detailDisplay.inningsScorecards,
+    ...(detailDisplay.validationSummary
+      ? { validationSummary: detailDisplay.validationSummary }
+      : {}),
+    renderEntries: detailDisplay.renderEntries,
+    ...(detailDisplay.homeLogoUrl !== undefined ? { homeLogoUrl: detailDisplay.homeLogoUrl } : {}),
+    ...(detailDisplay.awayLogoUrl !== undefined ? { awayLogoUrl: detailDisplay.awayLogoUrl } : {}),
+    ...(detailDisplay.associationLogoUrl !== undefined
+      ? { associationLogoUrl: detailDisplay.associationLogoUrl }
+      : {}),
+    hasScorecardTables: detailDisplay.hasScorecardTables,
+    showScorecardSection:
+      detailDisplay.hasScorecardTables ||
+      Boolean(detailDisplay.matchResult.resultStatement?.trim()),
+    ...(detailDisplay.contentNote ? { contentNote: detailDisplay.contentNote } : {}),
   };
 }

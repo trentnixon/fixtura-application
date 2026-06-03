@@ -1,18 +1,18 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
+import { useMemo, useState } from "react";
 
 import { ErrorState } from "@/components/ui/error-state";
+import { useTriggerResultSingleScrape } from "@/lib/api/hooks/account/useTriggerResultSingleScrape";
 import { useSeasonHubFixture, useSeasonHubGradeFixtures } from "@/lib/api/hooks/season-hub";
+import { toastError, toastSuccess } from "@/lib/notify";
 
 import { SEASON_LOADING_COPY } from "./_constants";
 import { useSeasonFixtureViewModel } from "./_hooks";
-import { SeasonFixtureContextMetaSection } from "./_sections/season-fixture-context-meta-section";
-import { SeasonFixtureGradeContextSection } from "./_sections/season-fixture-grade-context-section";
+import { SeasonFixtureDetailTabsSection } from "./_sections/season-fixture-detail-tabs-section";
 import { SeasonFixtureGradeFixturesErrorBanner } from "./_sections/season-fixture-grade-fixtures-error-banner";
-import { SeasonFixtureMatchSummarySection } from "./_sections/season-fixture-match-summary-section";
-import { SeasonFixtureOutputsSection } from "./_sections/season-fixture-outputs-section";
-import { SeasonFixtureTeamsSection } from "./_sections/season-fixture-teams-section";
+import { SeasonFixtureResultSyncDialog } from "./_sections/season-fixture-result-sync-dialog";
 import { SeasonFixtureViewHeader } from "./_sections/season-fixture-view-header";
 import {
   buildSeasonCompetitionHref,
@@ -21,6 +21,7 @@ import {
 } from "./_utils";
 
 import type { SeasonFixtureViewProps } from "./_types";
+import type { TriggerResultSingleScrapeRequest } from "@/types/api/account";
 
 export function SeasonFixtureView({
   accountId,
@@ -44,15 +45,40 @@ export function SeasonFixtureView({
 
   const fixtureModel = useSeasonFixtureViewModel(fixture.data, gradeId, fixtureId, competitionId);
 
+  const cmsFixtureNumericId = Number.parseInt(fixtureId, 10);
+  const canQueueResultSync = Number.isInteger(cmsFixtureNumericId) && cmsFixtureNumericId > 0;
+  const resultSingle = useTriggerResultSingleScrape(accountId, competitionId, gradeId, fixtureId);
+  const [resultSyncDialogOpen, setResultSyncDialogOpen] = useState(false);
+
+  const resultSyncPayload = useMemo((): TriggerResultSingleScrapeRequest => {
+    return { cmsFixtureId: cmsFixtureNumericId };
+  }, [cmsFixtureNumericId]);
+
   const isFetching = fixture.isFetching || gradeFixtures.isFetching;
 
   const seasonBase = buildSeasonOverviewHref(accountId);
   const competitionHref = buildSeasonCompetitionHref(accountId, competitionId);
   const gradeHref = buildSeasonGradeHref(accountId, competitionId, gradeId);
 
-  const handleSync = () => {
+  const handleRefetch = () => {
     void fixture.refetch();
     void gradeFixtures.refetch();
+  };
+
+  const handleConfirmResultSync = async () => {
+    if (!canQueueResultSync) {
+      return;
+    }
+    try {
+      await resultSingle.mutateAsync({ cmsFixtureId: cmsFixtureNumericId });
+      toastSuccess(
+        "Result scrape queued",
+        "This may take about 30–60 seconds. Data will update after processing.",
+      );
+      setResultSyncDialogOpen(false);
+    } catch (error) {
+      toastError(error, "Could not queue result scrape");
+    }
   };
 
   if (fixture.isError && fixture.error) {
@@ -62,7 +88,7 @@ export function SeasonFixtureView({
         description={
           fixture.error instanceof Error ? fixture.error.message : "Something went wrong."
         }
-        onRetry={handleSync}
+        onRetry={handleRefetch}
       />
     );
   }
@@ -85,18 +111,20 @@ export function SeasonFixtureView({
         gradeHref={gradeHref}
         model={fixtureModel}
         isFetching={isFetching}
-        onSync={handleSync}
+        isSyncMutating={resultSingle.isPending}
+        canQueueResultSync={canQueueResultSync}
+        onOpenSync={() => setResultSyncDialogOpen(true)}
       />
 
-      <SeasonFixtureMatchSummarySection model={fixtureModel} />
+      <SeasonFixtureResultSyncDialog
+        open={resultSyncDialogOpen}
+        onOpenChange={setResultSyncDialogOpen}
+        isSyncMutating={resultSingle.isPending}
+        payload={resultSyncPayload}
+        onConfirm={handleConfirmResultSync}
+      />
 
-      <SeasonFixtureGradeContextSection model={fixtureModel} gradeHref={gradeHref} />
-
-      <SeasonFixtureTeamsSection model={fixtureModel} />
-
-      <SeasonFixtureOutputsSection model={fixtureModel} />
-
-      <SeasonFixtureContextMetaSection model={fixtureModel} />
+      <SeasonFixtureDetailTabsSection model={fixtureModel} />
 
       {gradeFixtures.isError ? (
         <SeasonFixtureGradeFixturesErrorBanner

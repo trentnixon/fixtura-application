@@ -1,3 +1,9 @@
+import {
+  isSeasonHubFixtureDetailBody,
+  type SeasonHubFixtureDetailBody,
+  type SeasonHubFixtureDetailFixture,
+} from "@/types/api/season-hub";
+
 import type { UnknownRecord } from "../_types";
 
 function isNonArrayObject(value: unknown): value is UnknownRecord {
@@ -49,7 +55,7 @@ function isFlattenedFixtureDto(rec: UnknownRecord): boolean {
  * - `{ data: { fixture, ... } }` (same pattern as other season-hub `data` wrappers)
  * - Chains like `{ data: { json: { ... } } }` or `{ json: { data: { ... } } }`
  */
-export function unwrapSeasonHubFixturePayload(payload: unknown): UnknownRecord | undefined {
+function unwrapSeasonHubFixturePayloadInternal(payload: unknown): UnknownRecord | undefined {
   if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
     return undefined;
   }
@@ -103,6 +109,16 @@ export function unwrapSeasonHubFixturePayload(payload: unknown): UnknownRecord |
   return Object.keys(cur).length > 0 ? cur : undefined;
 }
 
+export function unwrapSeasonHubFixturePayload(
+  payload: unknown,
+): SeasonHubFixtureDetailBody | undefined {
+  const unwrapped = unwrapSeasonHubFixturePayloadInternal(payload);
+  if (unwrapped && isSeasonHubFixtureDetailBody(unwrapped)) {
+    return unwrapped;
+  }
+  return undefined;
+}
+
 export function fixtureTeamSideLabel(side: unknown): string {
   return teamSideName(side) ?? "—";
 }
@@ -120,19 +136,19 @@ function teamSideName(value: unknown): string | undefined {
   return undefined;
 }
 
-export function extractFixtureRecord(payload: unknown): UnknownRecord | undefined {
-  const root = unwrapSeasonHubFixturePayload(payload);
+export function extractFixtureRecord(payload: unknown): SeasonHubFixtureDetailFixture | undefined {
+  const root = unwrapSeasonHubFixturePayloadInternal(payload);
   if (!root) {
     return undefined;
   }
 
   const fixture = root["fixture"];
   if (fixture && typeof fixture === "object" && !Array.isArray(fixture)) {
-    return fixture as UnknownRecord;
+    return fixture as unknown as SeasonHubFixtureDetailFixture;
   }
 
   if (isFlattenedFixtureDto(root)) {
-    return root;
+    return root as unknown as SeasonHubFixtureDetailFixture;
   }
 
   return undefined;

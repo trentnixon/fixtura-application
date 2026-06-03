@@ -19,6 +19,10 @@ import {
   /*   SidebarMenuButton,
     SidebarMenuItem, */
 } from "@/components/ui/sidebar";
+import {
+  isAccountOrganisationContextGatewayRedirect,
+  useAccountOrganisationContext,
+} from "@/lib/api/hooks/account/useAccountOrganisationContext";
 
 export function AppSidebar({
   navMode,
@@ -30,8 +34,21 @@ export function AppSidebar({
 }) {
   const scopedUser = useAppSidebarUser(navMode, accountId);
 
+  const scopedOrgCtx = useAccountOrganisationContext(
+    navMode === "scoped" && accountId ? accountId : "",
+    { enabled: navMode === "scoped" && Boolean(accountId) },
+  );
+
+  const accountTypeFromOrg =
+    scopedOrgCtx.data && !isAccountOrganisationContextGatewayRedirect(scopedOrgCtx.data)
+      ? scopedOrgCtx.data.data.account_type
+      : undefined;
+
   const gatewayNavSections = [{ items: getGatewayNavItems() }];
-  const scopedNavSections = getScopedNavSections(accountId);
+  const scopedNavSections = getScopedNavSections(
+    accountId,
+    accountTypeFromOrg === undefined ? undefined : { accountType: accountTypeFromOrg },
+  );
 
   return (
     <Sidebar collapsible="offcanvas" {...props}>

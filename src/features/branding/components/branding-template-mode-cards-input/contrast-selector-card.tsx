@@ -3,8 +3,11 @@
 import { Contrast } from "lucide-react";
 
 import { MetricComparisonCard } from "@/components/cards";
-import { TypographyH4, TypographyMuted } from "@/components/typography";
 
+import {
+  BRANDING_CONTAINER_HEADER_CLASS_NAME,
+  BrandingContainerHeaderTitle,
+} from "../branding-container-header-title";
 import { CONTRAST_SELECTOR_BYLINE_COPY } from "./_consts";
 
 import type { ContrastSelectorCardProps } from "./_types";
@@ -16,18 +19,17 @@ export function ContrastSelectorCard({
 }: ContrastSelectorCardProps) {
   return (
     <MetricComparisonCard
-      className="w-full min-w-0 shadow-sm"
+      className="ring-border w-full min-w-0 rounded-2xl border-none shadow-xl ring-1"
       layout="card"
+      headerClassName={BRANDING_CONTAINER_HEADER_CLASS_NAME}
       titleRowClassName="items-start"
       title={
-        <div className="min-w-0 flex-1 space-y-1.5">
-          <TypographyH4 className="text-sm font-semibold">2. Contrast selector</TypographyH4>
-          <TypographyMuted className="text-muted-foreground max-w-none text-xs leading-relaxed">
-            {CONTRAST_SELECTOR_BYLINE_COPY}
-          </TypographyMuted>
-        </div>
+        <BrandingContainerHeaderTitle
+          icon={<Contrast className="size-5" aria-hidden />}
+          title="2. Contrast selector"
+          description={CONTRAST_SELECTOR_BYLINE_COPY}
+        />
       }
-      icon={<Contrast className="text-primary mt-0.5 size-5 shrink-0" aria-hidden />}
       body={
         <div className="space-y-5">
           {headerDescription ? <div className="space-y-3">{headerDescription}</div> : null}

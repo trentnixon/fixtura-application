@@ -1,6 +1,8 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Goal } from "lucide-react";
+
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useAccountSponsorAllocationsGeneral } from "@/lib/api/hooks/account/useAccountSponsorAllocationsGeneral";
 
 import { SelectedSponsorPlacementSummary } from "./_components/selected-sponsor-placement-summary";
@@ -8,6 +10,10 @@ import { SponsorPlacementOptionsCard } from "./_components/sponsor-placement-opt
 import { SponsorPlacementSummaryCard } from "./_components/sponsor-placement-summary-card";
 import { SPONSOR_TARGETING_PANEL_COPY } from "./_constants/sponsor-targeting-panel";
 import { allocationKind } from "./_utils/sponsor-targeting";
+import {
+  MANAGE_SPONSORS_CONTAINER_HEADER_CLASS_NAME,
+  ManageSponsorsContainerHeaderTitle,
+} from "../shared/manage-sponsors-container-header-title";
 
 import type { SponsorTargetingPanelProps } from "./_types/sponsor-targeting";
 
@@ -30,12 +36,15 @@ export function SponsorTargetingPanel({ accountId, sponsor }: SponsorTargetingPa
   const refreshedPositionCount = generalQuery.data?.data.items.length ?? null;
 
   return (
-    <Card className="shadow-sm">
-      <CardHeader>
-        <CardTitle>{SPONSOR_TARGETING_PANEL_COPY.title}</CardTitle>
-        <CardDescription>{SPONSOR_TARGETING_PANEL_COPY.description}</CardDescription>
+    <Card className="ring-border overflow-hidden rounded-2xl border-none p-0 shadow-xl ring-1">
+      <CardHeader className={MANAGE_SPONSORS_CONTAINER_HEADER_CLASS_NAME}>
+        <ManageSponsorsContainerHeaderTitle
+          icon={<Goal className="size-5" aria-hidden />}
+          title={SPONSOR_TARGETING_PANEL_COPY.title}
+          description={SPONSOR_TARGETING_PANEL_COPY.description}
+        />
       </CardHeader>
-      <CardContent className="grid gap-4 text-sm">
+      <CardContent className="grid gap-4 px-6 py-6 text-sm">
         <SponsorPlacementOptionsCard
           title={SPONSOR_TARGETING_PANEL_COPY.optionsTitle}
           description={SPONSOR_TARGETING_PANEL_COPY.optionsDescription}

@@ -126,11 +126,17 @@ export function ModeGridCards({
                 "!font-semibold",
               )}
               visual={
-                contrastVariant === "dark" || contrastVariant === "dark-alt" ? (
+                contrastVariant === "dark" ? (
                   <GridCardVisualSlot
                     visual="add"
                     emphasis="strong"
                     className="border-white/40 bg-white/10! text-white!"
+                  />
+                ) : contrastVariant === "dark-alt" ? (
+                  <GridCardVisualSlot
+                    visual="add"
+                    emphasis="strong"
+                    className="border-zinc-700 bg-zinc-900! text-zinc-300!"
                   />
                 ) : (
                   <GridCardVisualSlot visual="add" emphasis="strong" />

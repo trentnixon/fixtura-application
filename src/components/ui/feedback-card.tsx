@@ -127,7 +127,7 @@ export type FeedbackCardProps = {
   label: string;
   title: string;
   description: string;
-  primaryCta: string;
+  primaryCta?: string;
   secondaryCta?: string;
   metadata?: string;
   showDismiss?: boolean;
@@ -165,6 +165,7 @@ export function FeedbackCard({
       : kind === "critical" || kind === "error"
         ? "destructive"
         : "brand";
+  const showFooter = Boolean(primaryCta || secondaryCta);
 
   return (
     <Card className={cn("h-full gap-0 py-0", variantCardClass(kind, visualVariant), className)}>
@@ -211,26 +212,30 @@ export function FeedbackCard({
         </CardContent>
       ) : null}
 
-      <CardFooter className={cn("mt-auto px-6 pb-6", footerClass)}>
-        <Button
-          type="button"
-          variant={primaryBtnVariant === "brand" ? "brand" : primaryBtnVariant}
-          className={cn(visualVariant === "strong" && secondaryCta ? "min-w-36" : "")}
-          onClick={onPrimaryAction}
-        >
-          {primaryCta}
-        </Button>
-        {secondaryCta ? (
-          <Button
-            type="button"
-            variant={visualVariant === "strong" ? "outline" : "ghost"}
-            size="default"
-            onClick={onSecondaryAction}
-          >
-            {secondaryCta}
-          </Button>
-        ) : null}
-      </CardFooter>
+      {showFooter ? (
+        <CardFooter className={cn("mt-auto px-6 pb-6", footerClass)}>
+          {primaryCta ? (
+            <Button
+              type="button"
+              variant={primaryBtnVariant === "brand" ? "brand" : primaryBtnVariant}
+              className={cn(visualVariant === "strong" && secondaryCta ? "min-w-36" : "")}
+              onClick={onPrimaryAction}
+            >
+              {primaryCta}
+            </Button>
+          ) : null}
+          {secondaryCta ? (
+            <Button
+              type="button"
+              variant={visualVariant === "strong" ? "outline" : "ghost"}
+              size="default"
+              onClick={onSecondaryAction}
+            >
+              {secondaryCta}
+            </Button>
+          ) : null}
+        </CardFooter>
+      ) : null}
     </Card>
   );
 }

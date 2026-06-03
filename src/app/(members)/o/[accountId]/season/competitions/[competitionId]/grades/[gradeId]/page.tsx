@@ -10,7 +10,7 @@ export async function generateMetadata({
   const { accountId } = await params;
   return buildPageMetadata({
     title: "Grade",
-    description: `Season hub grade for account ${accountId}.`,
+    description: `Vision grade for account ${accountId}.`,
   });
 }
 

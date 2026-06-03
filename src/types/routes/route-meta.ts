@@ -29,5 +29,6 @@ export interface AppRouteDefinition {
     | "club"
     | "competition"
     | "grade"
+    | "game-meta-data"
     | "admin";
 }

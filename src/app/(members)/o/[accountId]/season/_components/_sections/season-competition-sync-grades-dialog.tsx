@@ -33,11 +33,10 @@ export function SeasonCompetitionSyncGradesDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Sync grades for Your Season?</DialogTitle>
+          <DialogTitle>Sync grades in Vision?</DialogTitle>
           <DialogDescription>
-            This starts a background sync of grades for this competition in Your Season. It may take
-            a few minutes. Use Reload Your Season afterward to see the latest list; updates will not
-            appear instantly.
+            This starts a background sync of grades for this competition. It may take a few minutes.
+            Use Refresh Vision afterward to see the latest list; updates will not appear instantly.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>

@@ -50,5 +50,7 @@ export function SeasonOnboardingShell({ accountId, children }: SeasonOnboardingS
     );
   }
 
-  return <>{children}</>;
+  return (
+    <div className="mx-auto grid max-w-[88rem] gap-6 px-4 pb-12 sm:px-6 lg:px-8">{children}</div>
+  );
 }

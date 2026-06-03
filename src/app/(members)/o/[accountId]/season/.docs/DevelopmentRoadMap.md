@@ -2,6 +2,7 @@
 
 ## Current Focus
 
+- Fixture detail page now shows in-app scorecards, result/toss, validation, and render entries (TKT-2026-008).
 - Validate dynamic org sync trigger behavior across association and club accounts.
 - Confirm queued sync outcomes in season UI after strict org-type endpoint mapping.
 - Exercise competition detail **Refresh grades** against CMS after deploy; confirm hub lists update after queue processing.
@@ -9,6 +10,7 @@
 
 ## Completed
 
+- TKT-2026-008: Fixture detail UI — scorecards, typed match/validation/render display from season-hub fixture detail payload.
 - TKT-2026-001: Added frontend integration path for association single-scrape trigger via app BFF route.
 - TKT-2026-004: Added club single-scrape route plumbing via app BFF route and reusable client hook.
 - TKT-2026-006: Implemented org-aware sync orchestration hook with strict Association/Club endpoint routing and trigger-only confirm flow.

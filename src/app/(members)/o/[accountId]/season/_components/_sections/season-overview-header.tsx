@@ -35,7 +35,7 @@ export function SeasonOverviewHeader({
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>Season</BreadcrumbPage>
+              <BreadcrumbPage>Vision</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -43,11 +43,11 @@ export function SeasonOverviewHeader({
         <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-2">
             <h1 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">
-              Season overview
+              Fixtura Vision
             </h1>
             <p className="text-muted-foreground max-w-3xl text-sm">
-              Review tracked competitions, grades, teams, and fixtures for this organisation before
-              opening a competition.
+              Your synced season in one place — browse your competitions, grades, teams, and
+              fixtures to confirm what Fixtura has loaded.
             </p>
           </div>
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center">

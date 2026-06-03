@@ -46,7 +46,7 @@ export function SponsorSlotPlacementSidebar({
 
   return (
     <div className="flex min-w-0 flex-col gap-4 lg:sticky lg:top-6">
-      <div className="bg-background overflow-hidden rounded-lg border">
+      <div className="bg-card text-card-foreground ring-border overflow-hidden rounded-2xl border-none shadow-xl ring-1">
         <div className="bg-muted flex flex-col gap-2.5 px-3 py-2.5">
           <SponsorPlacementMetricGroup
             title="Position slots"
@@ -79,7 +79,7 @@ export function SponsorSlotPlacementSidebar({
           ) : null}
         </div>
         <Separator />
-        <div className="flex flex-col gap-3 px-5 pt-0 pb-4">
+        <div className="flex flex-col gap-3 px-5 pt-4 pb-4">
           <Input
             type="search"
             value={sponsorSearchQuery}

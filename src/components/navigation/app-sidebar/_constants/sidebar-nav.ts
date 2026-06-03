@@ -1,10 +1,11 @@
 import {
+  IconBuilding,
   IconBuildingPlus,
   IconCamera,
   IconDashboard,
+  IconEye,
   IconFileDescription,
   IconFolder,
-  IconListDetails,
   IconMoneybag,
   IconPalette,
   IconPhoto,
@@ -13,6 +14,7 @@ import {
 } from "@tabler/icons-react";
 
 import { accountScopedRoutes } from "@/lib/config/account-routes";
+import { CLUB_ACCOUNT_TYPE_ID } from "@/lib/config/onboarding";
 import { ROUTES } from "@/lib/config/routes";
 
 import type {
@@ -27,8 +29,14 @@ export function getGatewayNavItems(): NavMainItem[] {
   ];
 }
 
-export function getScopedNavSections(accountId: string | undefined): NavMainSection[] {
+export function getScopedNavSections(
+  accountId: string | undefined,
+  options?: { accountType?: number | null },
+): NavMainSection[] {
   if (accountId == null) return [];
+
+  const showClubLogosNav =
+    options?.accountType !== undefined && options.accountType !== CLUB_ACCOUNT_TYPE_ID;
 
   return [
     {
@@ -57,27 +65,17 @@ export function getScopedNavSections(accountId: string | undefined): NavMainSect
       ],
     }, */
     {
-      label: "Organisation",
+      label: "Bundles",
       items: [
         {
-          title: "Branding",
-          url: accountScopedRoutes.branding(accountId),
-          icon: IconPalette,
+          title: "Bundles",
+          url: accountScopedRoutes.bundles(accountId),
+          icon: IconFolder,
         },
         {
-          title: "Logo",
-          url: accountScopedRoutes.brandLogo(accountId),
-          icon: IconPhoto,
-        },
-        {
-          title: "Sponsors",
-          url: accountScopedRoutes.manageSponsors(accountId),
-          icon: IconMoneybag,
-        },
-        {
-          title: "Season",
+          title: "Vision",
           url: accountScopedRoutes.season(accountId),
-          icon: IconListDetails,
+          icon: IconEye,
         },
       ],
     },
@@ -99,10 +97,34 @@ export function getScopedNavSections(accountId: string | undefined): NavMainSect
           url: accountScopedRoutes.mediaGallery(accountId),
           icon: IconCamera,
         },
+      ],
+    },
+    {
+      label: "Organisation",
+      items: [
         {
-          title: "Bundles",
-          url: accountScopedRoutes.bundles(accountId),
-          icon: IconFolder,
+          title: "Branding",
+          url: accountScopedRoutes.branding(accountId),
+          icon: IconPalette,
+        },
+        {
+          title: "Logo",
+          url: accountScopedRoutes.brandLogo(accountId),
+          icon: IconPhoto,
+        },
+        ...(showClubLogosNav
+          ? [
+              {
+                title: "Club Logos",
+                url: accountScopedRoutes.clubLogos(accountId),
+                icon: IconBuilding,
+              },
+            ]
+          : []),
+        {
+          title: "Sponsors",
+          url: accountScopedRoutes.manageSponsors(accountId),
+          icon: IconMoneybag,
         },
       ],
     },

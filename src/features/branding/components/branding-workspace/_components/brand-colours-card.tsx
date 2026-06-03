@@ -4,11 +4,15 @@ import { Palette } from "lucide-react";
 
 import { BrandColorField, PersistentFieldFeedback } from "@/components/brand-color";
 import { MetricComparisonCard } from "@/components/cards";
-import { TypographyH4, TypographyMuted } from "@/components/typography";
+import { TypographyMuted } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { GridCard, GridCardVisualSlot } from "@/components/ui/grid-card";
 import { cn } from "@/lib/utils";
 
+import {
+  BRANDING_CONTAINER_HEADER_CLASS_NAME,
+  BrandingContainerHeaderTitle,
+} from "../../branding-container-header-title";
 import { cmsThemeRowColours } from "../_utils";
 
 import type { ColourSourceMode, UseBrandingWorkspaceResult } from "../_types";
@@ -232,21 +236,26 @@ export function BrandColoursCard({
 
   return (
     <MetricComparisonCard
-      className="w-full min-w-0 shadow-sm"
+      className="ring-border w-full min-w-0 rounded-2xl border-none shadow-xl ring-1"
       layout="card"
+      headerClassName={BRANDING_CONTAINER_HEADER_CLASS_NAME}
       titleRowClassName="items-start"
       title={
-        <div className="min-w-0 flex-1 space-y-1.5">
-          <TypographyH4 className="text-sm font-semibold">1. Brand colours</TypographyH4>
-          {interactive && colourSourceMode === "custom" ? (
-            <TypographyMuted className="text-muted-foreground max-w-none text-xs leading-relaxed">
-              Choose the colours that represent your organisation. Fine-tune primary and secondary
-              using the fields below.
-            </TypographyMuted>
-          ) : null}
-        </div>
+        <BrandingContainerHeaderTitle
+          icon={<Palette className="size-5" aria-hidden />}
+          title="1. Brand colours"
+          description={
+            interactive && colourSourceMode === "custom" ? (
+              <>
+                Choose the colours that represent your organisation. Fine-tune primary and secondary
+                using the fields below.
+              </>
+            ) : (
+              "Choose from presets or create your own organisation palette."
+            )
+          }
+        />
       }
-      icon={<Palette className="text-primary mt-0.5 size-5 shrink-0" aria-hidden />}
       body={body}
       footer={footer}
     />

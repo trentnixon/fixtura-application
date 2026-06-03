@@ -5,10 +5,11 @@ import { type ReactNode, useRef } from "react";
 
 import { MetricComparisonCard } from "@/components/cards";
 import {
+  templateModeUsesDarkCopyOnDarkSurface,
+  templateModeUsesDarkCopyOnLightSurface,
   templateModeUsesDarkLogoBackdrop,
   templateModeUsesDarkTitlesOnGradient,
 } from "@/components/pickers/template-mode/_utils";
-import { TypographyMuted } from "@/components/typography";
 import { tryNormalizeHex } from "@/lib/brand-color";
 import { cn } from "@/lib/utils";
 
@@ -58,15 +59,36 @@ export function FixturaAssetColorPreview({
     ? "text-zinc-950 drop-shadow-[0_1px_2px_rgba(255,255,255,0.5)]"
     : "text-white drop-shadow-sm";
 
-  /** Dark preset (`dark` / `dark-alt`): dark surfaces + light copy on discs; light preset: light surfaces + dark copy. */
+  /** Dark presets: dark containers — Dark uses light copy, Dark Alt uses dark copy. Light presets mirror on white surfaces. */
   const darkSurfacePreset = templateModeUsesDarkLogoBackdrop(templateModeSlug);
+  const lightSurfaceDarkCopy = templateModeUsesDarkCopyOnLightSurface(templateModeSlug);
+  const darkSurfaceDarkCopy = templateModeUsesDarkCopyOnDarkSurface(templateModeSlug);
+  const lightSurfaceCopyClass = lightSurfaceDarkCopy
+    ? "text-zinc-950"
+    : "text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.45)]";
+  const darkSurfaceCopyClass = darkSurfaceDarkCopy
+    ? "text-zinc-950 drop-shadow-[0_1px_2px_rgba(255,255,255,0.45)]"
+    : "text-white";
 
   return (
     <MetricComparisonCard
-      className={cn("min-w-0 shadow-sm", className)}
+      className={cn("ring-border min-w-0 rounded-2xl border-none shadow-xl ring-1", className)}
       layout="card"
-      title="Asset preview"
-      icon={<LayoutTemplate className="text-primary size-5 shrink-0" aria-hidden />}
+      headerClassName="bg-zinc-950 border-zinc-900/80 text-white px-6 py-5"
+      titleRowClassName="items-start"
+      title={
+        <div className="flex w-full items-start gap-3">
+          <span className="mt-0.5 shrink-0 text-zinc-400">
+            <LayoutTemplate className="size-5" aria-hidden />
+          </span>
+          <div className="min-w-0">
+            <p className="text-xl leading-none font-semibold text-white">Asset preview</p>
+            <p className="mt-2 text-sm leading-relaxed text-zinc-400">
+              Colours and template mode follow your branding settings.
+            </p>
+          </div>
+        </div>
+      }
       bodyClassName="p-0"
       body={
         <>
@@ -77,9 +99,6 @@ export function FixturaAssetColorPreview({
                   This asset preview is a guide to how you would like contrast to work; it may
                   change depending on the template selected.
                 </p>
-                <TypographyMuted className="text-xs leading-relaxed">
-                  Colours and template mode follow your branding settings.
-                </TypographyMuted>
               </>
             ) : typeof previewNote === "string" ? (
               <p className="text-sm leading-relaxed">{previewNote}</p>
@@ -134,7 +153,7 @@ export function FixturaAssetColorPreview({
                   <p
                     className={cn(
                       "text-xs font-medium",
-                      darkSurfacePreset ? "text-white" : "text-zinc-950",
+                      darkSurfacePreset ? darkSurfaceCopyClass : lightSurfaceCopyClass,
                     )}
                   >
                     Home 42 — Away 38
@@ -144,8 +163,8 @@ export function FixturaAssetColorPreview({
                   className={cn(
                     "rounded-md px-3 py-2 shadow-sm",
                     darkSurfacePreset
-                      ? "border border-white/10 bg-zinc-950 text-white"
-                      : "border border-black/10 bg-white text-zinc-950",
+                      ? cn("border border-white/10 bg-zinc-950", darkSurfaceCopyClass)
+                      : cn("border border-black/10 bg-white", lightSurfaceCopyClass),
                   )}
                 >
                   <p className="text-[11px] font-medium">Match summary</p>
@@ -159,9 +178,7 @@ export function FixturaAssetColorPreview({
                   <p
                     className={cn(
                       "text-[10px] font-medium",
-                      darkSurfacePreset
-                        ? "text-white/90"
-                        : "text-zinc-950 drop-shadow-[0_1px_2px_rgba(255,255,255,0.45)]",
+                      darkSurfacePreset ? darkSurfaceCopyClass : lightSurfaceCopyClass,
                     )}
                   >
                     Fixtura

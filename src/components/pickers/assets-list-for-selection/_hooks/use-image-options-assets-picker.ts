@@ -19,7 +19,20 @@ import {
 } from "../_utils";
 import { useAssetPickerSelection } from "./use-asset-picker-selection";
 
-export function useImageOptionsAssetsPicker() {
+export type UseImageOptionsAssetsPickerOptions = {
+  /**
+   * When set, assets are filtered to this API `Sport` string only (no "All sports").
+   * Used when sport is implied by context (e.g. organisation).
+   */
+  lockSportFilterTo?: string | null;
+};
+
+export function useImageOptionsAssetsPicker(options?: UseImageOptionsAssetsPickerOptions) {
+  const lockKey =
+    options?.lockSportFilterTo != null && options.lockSportFilterTo.trim() !== ""
+      ? options.lockSportFilterTo.trim()
+      : null;
+
   const queryClient = useQueryClient();
   const q = useAssetsListForSelection();
   const { selectedId, setSelectedId } = useAssetPickerSelection();
@@ -36,10 +49,12 @@ export function useImageOptionsAssetsPicker() {
 
   const [sportFilter, setSportFilter] = useState<string>(DEFAULT_SPORT_FILTER_KEY);
 
+  const effectiveSportFilter = lockKey ?? sportFilter;
+
   const filteredAssets = useMemo(() => {
-    if (sportFilter === ALL_SPORTS_KEY) return assets;
-    return assets.filter((a) => (a.Sport ?? NO_SPORT_KEY) === sportFilter);
-  }, [assets, sportFilter]);
+    if (effectiveSportFilter === ALL_SPORTS_KEY) return assets;
+    return assets.filter((a) => (a.Sport ?? NO_SPORT_KEY) === effectiveSportFilter);
+  }, [assets, effectiveSportFilter]);
 
   const assetsBySportAll = useMemo(() => groupAssetsBySport(assets), [assets]);
   const assetsBySport = useMemo(() => groupAssetsBySport(filteredAssets), [filteredAssets]);
@@ -80,11 +95,12 @@ export function useImageOptionsAssetsPicker() {
   const rawAssetCount = q.data?.data?.length ?? 0;
 
   useEffect(() => {
+    if (lockKey) return;
     if (sportFilter === ALL_SPORTS_KEY) return;
     if (assets.length === 0) return;
     const valid = new Set(sportFilterOptions.map((o) => o.key));
     if (!valid.has(sportFilter)) setSportFilter(ALL_SPORTS_KEY);
-  }, [sportFilter, sportFilterOptions, assets.length]);
+  }, [lockKey, sportFilter, sportFilterOptions, assets.length]);
 
   return {
     q,
@@ -92,6 +108,9 @@ export function useImageOptionsAssetsPicker() {
     sportFilterOptions,
     sportFilter,
     setSportFilter,
+    /** When `lockKey` is set, filtering uses this value (read-only for UI). */
+    effectiveSportFilter,
+    isSportFilterLocked: lockKey !== null,
     filteredAssets,
     assetsBySportAll,
     assetsBySport,

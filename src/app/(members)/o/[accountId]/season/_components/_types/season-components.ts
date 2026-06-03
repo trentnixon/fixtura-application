@@ -91,7 +91,6 @@ export type SeasonGradeFixtureFilterOptions = {
 };
 
 export type SeasonGradeFixtureFilterValues = {
-  search: string;
   team: string;
   venue: string;
   date: string;
@@ -112,6 +111,41 @@ export type SeasonFixtureDownloadEntry = {
 export type SeasonFixtureContextMetaRow = {
   label: string;
   value: string;
+};
+
+export type SeasonFixtureInningsDisplay = {
+  key: string;
+  battingTitle: string;
+  bowlingTitle: string;
+  battingHeaders: string[];
+  battingRows: string[][];
+  bowlingHeaders: string[];
+  bowlingRows: string[][];
+  hasFallOfWickets: boolean;
+};
+
+export type SeasonFixtureMatchResultDisplay = {
+  resultStatement?: string;
+  tossLine?: string;
+};
+
+export type SeasonFixtureRenderEntry = {
+  id: number;
+  status: string;
+  processedAt?: string;
+  kind: "upcoming" | "result";
+};
+
+export type SeasonFixtureValidationDisplay = {
+  overallScore?: number;
+  status?: string;
+  breakdown: { key: string; label: string; value: number }[];
+};
+
+export type SeasonFixtureContentNote = {
+  hasBasePrompt: boolean;
+  hasUpcomingFixturePrompt: boolean;
+  summaryLines: string[];
 };
 
 export type SeasonFixtureViewModel = {
@@ -148,4 +182,16 @@ export type SeasonFixtureViewModel = {
   contextMetaRows: SeasonFixtureContextMetaRow[];
   hasOutputs: boolean;
   headerContextLine: string | null;
+  isFinished: boolean;
+  resultStatement?: string;
+  tossLine?: string;
+  inningsScorecards: SeasonFixtureInningsDisplay[];
+  validationSummary?: SeasonFixtureValidationDisplay;
+  renderEntries: SeasonFixtureRenderEntry[];
+  homeLogoUrl?: string | null;
+  awayLogoUrl?: string | null;
+  associationLogoUrl?: string | null;
+  hasScorecardTables: boolean;
+  showScorecardSection: boolean;
+  contentNote?: SeasonFixtureContentNote;
 };

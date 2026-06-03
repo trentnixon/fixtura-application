@@ -50,7 +50,7 @@ export function useSeasonCompetitionGradesSyncAction({
         });
         toastSuccess(
           "Grade sync started",
-          "This may take a few minutes. Use Reload Your Season to see the latest list after processing finishes.",
+          "This may take a few minutes. Use Refresh Vision to see the latest list after processing finishes.",
         );
         onOpenChange(false);
       } catch (error) {

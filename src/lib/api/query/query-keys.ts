@@ -30,6 +30,8 @@ export const queryKeys = {
     sponsors: (accountId: string) => ["account", "sponsors", accountId] as const,
     sponsorEntityTargets: (accountId: string) =>
       ["account", "sponsor-entity-targets", accountId] as const,
+    clubLogosDirectory: (accountId: string) =>
+      ["account", "club-logos-directory", accountId] as const,
     sponsorAllocationsGeneral: (accountId: string, sponsorId: number) =>
       ["account", "sponsor-allocations-general", accountId, sponsorId] as const,
     sponsorAllocationsEntity: (

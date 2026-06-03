@@ -9,6 +9,8 @@ const TITLE_WHITE_ON_GRADIENT = "font-medium text-white drop-shadow-[0_1px_2px_r
 const TITLE_WHITE_ON_LIGHT_SURFACE =
   "font-medium text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.45)]";
 const TITLE_BLACK = "font-medium text-zinc-950";
+const TITLE_BLACK_ON_DARK_SURFACE =
+  "font-medium text-zinc-950 drop-shadow-[0_1px_2px_rgba(255,255,255,0.35)]";
 const TITLE_WHITE_ON_DARK = "font-medium text-white";
 
 /** Infer preset from Strapi slug (hyphens; underscores normalised). */
@@ -30,10 +32,22 @@ export function templateModeUsesDarkLogoBackdrop(slug: string | null | undefined
   return v === "dark" || v === "dark-alt";
 }
 
-/** Hero lines on brand gradient: dark titles for Light Alt + Dark; white for Light + Dark Alt (+ unknown). */
+/** Hero lines on brand gradient: dark titles for Light + Dark Alt; white for Light Alt + Dark (+ unknown). */
 export function templateModeUsesDarkTitlesOnGradient(slug: string | null | undefined): boolean {
   const v = templateModeContrastVariant(slug ?? null);
-  return v === "light-alt" || v === "dark";
+  return v === "light" || v === "dark-alt";
+}
+
+/** Copy on white/light row surfaces: dark for Light (+ unknown); light for Light Alt. */
+export function templateModeUsesDarkCopyOnLightSurface(slug: string | null | undefined): boolean {
+  const v = templateModeContrastVariant(slug ?? null);
+  return v === "light" || v === "unknown";
+}
+
+/** Copy on dark row surfaces: light for Dark; dark for Dark Alt. */
+export function templateModeUsesDarkCopyOnDarkSurface(slug: string | null | undefined): boolean {
+  const v = templateModeContrastVariant(slug ?? null);
+  return v === "dark-alt";
 }
 
 /** Primary label style — matches contrast semantics with optional brand gradient behind. */
@@ -43,13 +57,13 @@ export function templateModeContrastTitleClass(
 ): string {
   switch (variant) {
     case "light":
-      return gradientFill ? TITLE_WHITE_ON_GRADIENT : TITLE_WHITE_ON_LIGHT_SURFACE;
+      return TITLE_BLACK;
     case "light-alt":
-      return TITLE_BLACK;
+      return gradientFill ? TITLE_WHITE_ON_GRADIENT : TITLE_WHITE_ON_LIGHT_SURFACE;
     case "dark":
-      return TITLE_BLACK;
-    case "dark-alt":
       return gradientFill ? TITLE_WHITE_ON_GRADIENT : TITLE_WHITE_ON_DARK;
+    case "dark-alt":
+      return gradientFill ? TITLE_BLACK : TITLE_BLACK_ON_DARK_SURFACE;
     default:
       return gradientFill ? TITLE_WHITE_ON_GRADIENT : "font-medium text-foreground";
   }
@@ -86,10 +100,10 @@ export function templateModeContrastSelectedLabelClass(
   gradientFill: boolean,
 ): string {
   if (gradientFill) {
-    if (variant === "light-alt" || variant === "dark") return "text-xs font-medium text-zinc-950";
+    if (variant === "light" || variant === "dark-alt") return "text-xs font-medium text-zinc-950";
     return "text-xs font-medium text-white/95";
   }
-  if (variant === "dark-alt") return "text-xs font-medium text-white/95";
+  if (variant === "dark-alt") return "text-xs font-medium text-zinc-400";
   if (variant === "dark") return "text-xs font-medium text-emerald-400";
   return "text-xs font-medium text-primary";
 }

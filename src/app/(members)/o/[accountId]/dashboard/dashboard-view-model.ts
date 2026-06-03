@@ -11,14 +11,8 @@ import type {
   AccountSummary,
 } from "@/types/api/account";
 
-export type DashboardStatusBadge = {
-  label: string;
-  on: boolean;
-};
-
 export type DashboardViewModel = {
   organisationName: string;
-  pageDescription: string;
   sport: string | null;
   accountType: number | null;
   logoUrl: string | null;
@@ -30,7 +24,6 @@ export type DashboardViewModel = {
   rollup: AccountAnalyticsRollup | null;
   metricsPct: AccountAnalyticsMetricsAsPercentageOfCost | null;
   series: AccountAnalyticsOverviewSeriesPoint[];
-  statusBadges: DashboardStatusBadge[];
 };
 
 function findAccountRow(
@@ -53,12 +46,6 @@ function fallbackNameFromAccountRow(row: AccountSummary | undefined): string | n
   const ln = row.LastName?.trim() ?? "";
   const full = `${fn} ${ln}`.trim();
   return full || null;
-}
-
-function formatShortDate(iso: string): string {
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
 }
 
 export function buildDashboardViewModel({
@@ -87,36 +74,12 @@ export function buildDashboardViewModel({
   const logoRaw = orgDetails?.ParentLogo?.trim() || branding?.onboardingLogo?.url?.trim() || "";
   const logoUrl = logoRaw || null;
 
-  const descParts: string[] = [];
-  if (sport) descParts.push(sport);
-  if (accountType != null) descParts.push(`Account type ${accountType}`);
-  if (analytics?.meta) {
-    const { from, to } = analytics.meta;
-    descParts.push(`${formatShortDate(from)} – ${formatShortDate(to)}`);
-  } else {
-    descParts.push("Your Fixtura account overview");
-  }
-  const pageDescription = descParts.join(" · ");
-
-  const settingsBadges: DashboardStatusBadge[] = settings
-    ? [
-        { label: "Active", on: settings.isActive },
-        { label: "Setup complete", on: settings.isSetup },
-        { label: "Updating", on: settings.isUpdating },
-        {
-          label: "Permission given",
-          on: settings.isPermissionGiven === true,
-        },
-      ]
-    : [];
-
   const rollup = analytics?.data.rollup ?? null;
   const series = analytics?.data.series ?? [];
   const metricsPct = analytics?.data.metricsAsPercentageOfCost ?? null;
 
   return {
     organisationName,
-    pageDescription,
     sport,
     accountType,
     logoUrl,
@@ -128,6 +91,5 @@ export function buildDashboardViewModel({
     rollup,
     metricsPct,
     series,
-    statusBadges: settingsBadges,
   };
 }

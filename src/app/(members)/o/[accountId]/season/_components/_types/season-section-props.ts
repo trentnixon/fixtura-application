@@ -7,7 +7,10 @@ import type {
   SeasonOverviewCompetitionRow,
   UnknownRecord,
 } from "./season-components";
-import type { TriggerGradesCompsSingleScrapeRequest } from "@/types/api/account";
+import type {
+  TriggerGradesCompsSingleScrapeRequest,
+  TriggerResultSingleScrapeRequest,
+} from "@/types/api/account";
 import type {
   SeasonHubFixtureListItem,
   SeasonHubReconResponse,
@@ -162,8 +165,16 @@ export type SeasonGradeFixturesSectionProps = {
   fixturesCountFromGrade: number | undefined;
   fixtureRows: SeasonHubFixtureListItem[];
   filteredRows: SeasonHubFixtureListItem[];
-  search: string;
-  setSearch: (value: string) => void;
+  previousRows: SeasonHubFixtureListItem[];
+  upcomingRows: SeasonHubFixtureListItem[];
+  previousDefaultCount: number;
+  upcomingDefaultCount: number;
+  allPreviousCount: number;
+  allUpcomingCount: number;
+  showAllPrevious: boolean;
+  setShowAllPrevious: (value: boolean) => void;
+  showAllUpcoming: boolean;
+  setShowAllUpcoming: (value: boolean) => void;
   team: string;
   setTeam: (value: string) => void;
   venue: string;
@@ -178,8 +189,6 @@ export type SeasonGradeFixturesSectionProps = {
 };
 
 export type SeasonGradeFixturesToolbarProps = {
-  search: string;
-  onSearchChange: (value: string) => void;
   team: string;
   onTeamChange: (value: string) => void;
   venue: string;
@@ -191,8 +200,7 @@ export type SeasonGradeFixturesToolbarProps = {
   options: SeasonGradeFixtureFilterOptions;
   hasActiveFilters: boolean;
   onClearFilters: () => void;
-  filteredCount: number;
-  totalCount: number;
+  showFilterFields: boolean;
 };
 
 export type SeasonGradeFixturesTableProps = {
@@ -209,7 +217,21 @@ export type SeasonFixtureViewHeaderProps = {
   gradeHref: string;
   model: SeasonFixtureViewModel;
   isFetching: boolean;
-  onSync: () => void;
+  isSyncMutating: boolean;
+  canQueueResultSync: boolean;
+  onOpenSync: () => void;
+};
+
+export type SeasonFixtureResultSyncDialogProps = {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  isSyncMutating: boolean;
+  payload: TriggerResultSingleScrapeRequest;
+  onConfirm: () => void | Promise<void>;
+};
+
+export type SeasonFixtureDetailTabsSectionProps = {
+  model: SeasonFixtureViewModel;
 };
 
 export type SeasonFixtureMatchSummarySectionProps = {
@@ -218,7 +240,6 @@ export type SeasonFixtureMatchSummarySectionProps = {
 
 export type SeasonFixtureGradeContextSectionProps = {
   model: SeasonFixtureViewModel;
-  gradeHref: string;
 };
 
 export type SeasonFixtureContextMetaSectionProps = {
@@ -234,5 +255,13 @@ export type SeasonFixtureOutputsSectionProps = {
 };
 
 export type SeasonFixtureTeamsSectionProps = {
+  model: SeasonFixtureViewModel;
+};
+
+export type SeasonFixtureScorecardsSectionProps = {
+  model: SeasonFixtureViewModel;
+};
+
+export type SeasonFixtureContentNoteSectionProps = {
   model: SeasonFixtureViewModel;
 };

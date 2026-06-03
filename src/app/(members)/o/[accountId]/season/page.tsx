@@ -3,8 +3,9 @@
 import { SeasonOverview } from "./_components/season-overview";
 
 export const metadata = buildPageMetadata({
-  title: "Season",
-  description: "Explore competitions, grades, and fixtures for your organisation.",
+  title: "Fixtura Vision",
+  description:
+    "Your synced season in one place — browse competitions, grades, teams, and fixtures.",
 });
 
 export default async function SeasonPage({ params }: { params: Promise<{ accountId: string }> }) {

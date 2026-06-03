@@ -1,0 +1,35 @@
+export const CLUB_LOGOS_SCREEN_COPY = {
+  redirecting: "Redirecting…",
+  loadingLabel: "Loading club logos",
+  errorTitle: "Could not load account settings",
+  pageTitle: "Club logos",
+  pageDescription:
+    "Manage logos for clubs in your association. Select a club to upload or replace its logo.",
+  directoryLoadingLabel: "Loading clubs from your season scope",
+  directoryErrorTitle: "Could not load club list",
+  directoryErrorFallback: "Something went wrong while loading the club directory.",
+  directoryNoLogoLabel: "No logo",
+  directoryHasLogoLabel: "Logo ready",
+  directoryRedirecting: "Redirecting…",
+  directoryUpdateLogoAction: "Update logo",
+  directoryAddLogoAction: "Add logo",
+  directoryReplaceLogoAction: "Replace logo",
+  directorySearchPlaceholder: "Search clubs",
+  directoryGridViewLabel: "Grid view",
+  directoryListViewLabel: "List view",
+  directoryNoFilteredResults: "No clubs match that search. Try another term.",
+  directoryEmpty:
+    "No clubs were returned for this account yet. When competitions and grades include teams linked to clubs, they will appear here.",
+  editorLoadingLabel: "Loading club",
+  editorErrorTitle: "Could not load club logo",
+  invalidClubId: "The club id in the URL is not valid.",
+  clubNotFound: "This club is not in your association directory or may have been removed.",
+  strapiIdLabel: "Strapi ID",
+  removeUploadedLogoAction: "Remove uploaded logo",
+  removeUploadedLogoDialogTitle: "Remove uploaded logo?",
+  removeUploadedLogoDialogDescription:
+    "This clears the Fixtura logo you uploaded for this club. A PlayHQ or parent organisation logo may still appear in the list and previews.",
+  removeUploadedLogoSuccessTitle: "Uploaded logo removed",
+  removeUploadedLogoSuccessDescription:
+    "Your uploaded Fixtura logo was cleared. A PlayHQ or parent logo may still be shown.",
+} as const;

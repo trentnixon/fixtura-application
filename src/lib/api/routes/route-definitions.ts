@@ -314,6 +314,26 @@ export const appRoutes = {
         "GET append /{accountId}/sponsor-entity-targets — account-scoped catalogue of sponsor-assignable club/team/grade targets",
       domain: "account",
     },
+    clubLogosDirectory: {
+      key: "accounts.club-logos-directory",
+      method: "GET",
+      path: ACCOUNTS_API_BASE,
+      authRequired: true,
+      status: "ready",
+      description:
+        "GET append /{accountId}/club-logos-directory — association club directory for Club Logos UI (competitive scope)",
+      domain: "account",
+    },
+    clubLogo: {
+      key: "accounts.club-logo",
+      method: "PATCH",
+      path: ACCOUNTS_API_BASE,
+      authRequired: true,
+      status: "ready",
+      description:
+        "POST multipart append /{accountId}/clubs/{clubId}/logo/upload (M1); PATCH append /{accountId}/clubs/{clubId}/logo (W2 logoMediaId) — association club logo stewardship",
+      domain: "account",
+    },
     /** Billing v1 only: do not add client routes for legacy Strapi `/orders` or `/subscription-tiers`; use account billing keys below. */
     billing: {
       key: "accounts.billing",
@@ -707,6 +727,18 @@ export const appRoutes = {
       description:
         "POST — queue competition-wide teams lookup for all grades (CMS scrape:grades-lookup-teams-single; BFF proxy)",
       domain: "competition",
+    },
+  },
+  gameMetaData: {
+    triggerResultSingleScrape: {
+      key: "game-meta-data.trigger-result-single-scrape",
+      method: "POST",
+      path: "/api/game-meta-data/trigger-result-single-scrape",
+      authRequired: true,
+      status: "ready",
+      description:
+        "POST — queue single fixture result scrape (CMS scrape:result-single; BFF proxy)",
+      domain: "game-meta-data",
     },
   },
   admin: {

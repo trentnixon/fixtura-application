@@ -4,6 +4,7 @@ import { postLogoutRequest } from "@/lib/auth/logout-client";
 import { getSessionInvalidRedirectUrl } from "@/lib/config/auth-redirect";
 
 import { ApiError } from "./api-error";
+import { shouldHandle401AsSessionInvalid } from "./session-invalid-401";
 
 type FetchInit = NonNullable<Parameters<typeof globalThis.fetch>[1]>;
 
@@ -72,7 +73,7 @@ export async function apiRequest<TResponse, TBody = unknown>(
       };
     }
 
-    if (response.status === 401) {
+    if (response.status === 401 && shouldHandle401AsSessionInvalid(path)) {
       await handleUnauthorized();
       // Throw to stop execution flow, though location change will trigger soon
       throw new ApiError({

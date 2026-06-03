@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader2, RefreshCw } from "lucide-react";
+import { ExternalLink, Loader2, RefreshCw } from "lucide-react";
 import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
@@ -27,10 +27,12 @@ export function SeasonFixtureViewHeader({
   gradeHref,
   model,
   isFetching,
-  onSync,
+  isSyncMutating,
+  canQueueResultSync,
+  onOpenSync,
 }: SeasonFixtureViewHeaderProps) {
   return (
-    <header className="border-border border-b pb-8">
+    <header className="border-border border-b pb-6">
       <div className="space-y-4">
         <Breadcrumb>
           <BreadcrumbList>
@@ -42,7 +44,7 @@ export function SeasonFixtureViewHeader({
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link href={seasonBase}>Season</Link>
+                <Link href={seasonBase}>Vision</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
@@ -69,10 +71,13 @@ export function SeasonFixtureViewHeader({
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
           <div className="min-w-0 space-y-2">
+            <p className="text-primary text-xs font-semibold tracking-wider uppercase">
+              Fixture detail
+            </p>
             <div className="flex flex-wrap items-start gap-3">
-              <h1 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">
+              <h1 className="font-heading text-2xl font-bold tracking-tight sm:text-3xl">
                 {model.headline}
               </h1>
               {model.status && model.status.trim().length > 0 ? (
@@ -94,8 +99,21 @@ export function SeasonFixtureViewHeader({
             <Button variant="outline" asChild>
               <Link href={gradeHref}>Back</Link>
             </Button>
-            <Button variant="accent" disabled={isFetching} onClick={onSync}>
-              {isFetching ? (
+            {model.scorecardUrl ? (
+              <Button variant="accent" asChild>
+                <a href={model.scorecardUrl} target="_blank" rel="noreferrer">
+                  <ExternalLink className="size-4" aria-hidden />
+                  Scorecard
+                </a>
+              </Button>
+            ) : null}
+            <Button
+              type="button"
+              variant="accent"
+              disabled={isFetching || isSyncMutating || !canQueueResultSync}
+              onClick={onOpenSync}
+            >
+              {isFetching || isSyncMutating ? (
                 <Loader2 className="size-4 animate-spin" aria-hidden />
               ) : (
                 <RefreshCw className="size-4" aria-hidden />

@@ -13,16 +13,14 @@ import type { DashboardViewModel } from "../dashboard-view-model";
 
 type DashboardOrganisationRouteCardsProps = {
   accountId: string;
-  model: Pick<DashboardViewModel, "branding" | "orgDetails" | "organisationName">;
+  model: Pick<DashboardViewModel, "branding">;
   brandingPending: boolean;
-  organisationPending: boolean;
 };
 
 export function DashboardOrganisationRouteCards({
   accountId,
   model,
   brandingPending,
-  organisationPending,
 }: DashboardOrganisationRouteCardsProps) {
   const sponsorsQuery = useAccountSponsors(accountId);
   const seasonStatsQuery = useSeasonHubStats(accountId);
@@ -43,9 +41,8 @@ export function DashboardOrganisationRouteCards({
 
   const pendingByCard = {
     Branding: brandingPending,
-    Logo: brandingPending || organisationPending,
     Sponsors: sponsorsQuery.isPending,
-    Season: seasonStatsQuery.isPending,
+    Vision: seasonStatsQuery.isPending,
   } as const;
 
   return (

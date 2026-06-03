@@ -1,7 +1,9 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
+import { useMemo } from "react";
 
+import { resolveTemplateModeSlugFromBranding } from "@/features/remotion-asset-preview";
 import {
   isAccountAnalyticsOverviewGatewayRedirect,
   useAccountAnalyticsOverview,
@@ -20,8 +22,10 @@ import {
   isAccountSettingsGatewayRedirect,
   useAccountSettings,
 } from "@/lib/api/hooks/account/useAccountSettings";
+import { useTemplateModesUi } from "@/lib/api/hooks/template-modes/useTemplateModesUi";
 
 import { DashboardActivityTable } from "./_components/dashboard-activity-table";
+import { DashboardAssetPreviewPanel } from "./_components/dashboard-asset-preview-panel";
 import { DashboardCategorySection } from "./_components/dashboard-category-section";
 import { DashboardDevPayloads } from "./_components/dashboard-dev-payloads";
 import { DashboardHeader } from "./_components/dashboard-header";
@@ -68,32 +72,45 @@ export function DashboardContent({ accountId }: { accountId: string }) {
     analytics: analyticsResponse,
   });
 
-  const pctComplete = model.metricsPct?.percentageCompleteRenders;
+  const templateModesQuery = useTemplateModesUi();
+  const templateModeSlug = useMemo(
+    () => resolveTemplateModeSlugFromBranding(model.branding, templateModesQuery.data?.data ?? []),
+    [model.branding, templateModesQuery.data],
+  );
 
   return (
     <div className="grid gap-12">
-      <DashboardHeader accountId={accountId} model={model} />
-
-      <DashboardCategorySection
-        title="Overview"
-        description="Activity snapshot and render metrics for this organisation."
-      >
-        <DashboardKpiStrip
-          isPending={analytics.isPending}
-          rollup={model.rollup}
-          percentageComplete={pctComplete}
-        />
-      </DashboardCategorySection>
+      <div className="mt-0 grid gap-6">
+        <DashboardHeader accountId={accountId} model={model} />
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[7fr_3fr] lg:items-stretch">
+          <div className="min-w-0">
+            <DashboardAssetPreviewPanel
+              accountId={accountId}
+              sport={model.sport}
+              branding={model.branding}
+              logoUrl={model.logoUrl}
+              templateModeSlug={templateModeSlug}
+            />
+          </div>
+          <div className="min-w-0">
+            <DashboardKpiStrip
+              accountId={accountId}
+              isPending={analytics.isPending}
+              rollup={model.rollup}
+              analyticsMeta={model.analytics?.meta ?? null}
+            />
+          </div>
+        </div>
+      </div>
 
       <DashboardCategorySection
         title="Organisation"
-        description="Go to the pages where you manage branding, logo, sponsors, and season."
+        description="Go to the pages where you manage branding, sponsors, and Vision."
       >
         <DashboardOrganisationRouteCards
           accountId={accountId}
           model={model}
           brandingPending={branding.isPending}
-          organisationPending={organisationContext.isPending}
         />
       </DashboardCategorySection>
 

@@ -4,6 +4,7 @@
 - TKT-2026-004
 - TKT-2026-005
 - TKT-2026-006
+- TKT-2026-008
 
 ---
 
@@ -202,3 +203,27 @@ Cover request validation and upstream passthrough behavior for `POST /api/club/t
 ## Constraints, Risks, Assumptions
 
 - Route test harness must align with existing Next route testing conventions in this repo.
+
+---
+
+ID: TKT-2026-008
+Status: Completed
+Priority: High
+Owner: Frontend Team
+Created: 2026-06-03
+Updated: 2026-06-03
+Related: Roadmap-SeasonRoute
+
+---
+
+## Overview
+
+Surface typed season-hub fixture detail data (scorecards, result, toss, validation, renders) on the member fixture page.
+
+## What We Need to Do
+
+Enrich fixture detail UI using `SeasonHubFixtureDetailBody` without new API calls.
+
+## Completion Summary
+
+Added `season-fixture-detail-model` mappers, scorecard tables section, match summary result/toss/logos, typed render list and validation breakdown, content note section, unit tests, and route-lab dedupe to shared view model and sections.

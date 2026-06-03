@@ -1,9 +1,6 @@
 "use client";
 
-import { Search } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -18,8 +15,6 @@ import { formatFixtureDateDisplay } from "../_utils";
 import type { SeasonGradeFixturesToolbarProps } from "../_types";
 
 export function SeasonGradeFixturesToolbar({
-  search,
-  onSearchChange,
   team,
   onTeamChange,
   venue,
@@ -31,40 +26,24 @@ export function SeasonGradeFixturesToolbar({
   options,
   hasActiveFilters,
   onClearFilters,
-  filteredCount,
-  totalCount,
+  showFilterFields,
 }: SeasonGradeFixturesToolbarProps) {
   return (
-    <div className="bg-muted/35 flex flex-col gap-4 border-b px-4 py-3">
-      <div className="flex flex-col items-stretch justify-between gap-4 sm:flex-row sm:items-center">
-        <div className="relative w-full sm:max-w-80">
-          <Search className="text-muted-foreground absolute top-2.5 left-3 h-4 w-4" aria-hidden />
-          <Input
-            value={search}
-            onChange={(event) => onSearchChange(event.target.value)}
-            placeholder="Search fixtures..."
-            className="h-9 rounded-lg pl-10"
-            aria-label="Search fixtures"
-          />
+    <div className="flex flex-col gap-4 px-4 py-3">
+      {hasActiveFilters ? (
+        <div className="flex justify-end">
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="h-9 shrink-0"
+            onClick={onClearFilters}
+          >
+            Clear filters
+          </Button>
         </div>
-        <div className="flex flex-col items-stretch gap-2 sm:flex-row sm:items-center sm:justify-end">
-          {hasActiveFilters ? (
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              className="h-9 shrink-0"
-              onClick={onClearFilters}
-            >
-              Clear filters
-            </Button>
-          ) : null}
-          <p className="text-muted-foreground text-sm sm:text-right">
-            Showing {filteredCount} of {totalCount} fixtures
-          </p>
-        </div>
-      </div>
-      {totalCount > 0 ? (
+      ) : null}
+      {showFilterFields ? (
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-1.5">
             <p className="text-muted-foreground text-xs font-medium">Team</p>

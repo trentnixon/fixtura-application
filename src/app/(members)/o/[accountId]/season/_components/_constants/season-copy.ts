@@ -1,5 +1,5 @@
 export const SEASON_LOADING_COPY = {
-  season: "Loading season…",
+  season: "Loading Vision…",
   competition: "Loading competition…",
   grades: "Loading grades…",
   grade: "Loading grade…",
@@ -9,9 +9,9 @@ export const SEASON_LOADING_COPY = {
 } as const;
 
 export const SEASON_ONBOARDING_COPY = {
-  title: "Season is almost ready",
+  title: "Vision is almost ready",
   description:
-    "We are still preparing your organisation. Season access will unlock once setup is finished.",
+    "We are still preparing your organisation. Vision will unlock once setup is finished.",
 } as const;
 
 export const SEASON_FILTER_ALL = "all" as const;

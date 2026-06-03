@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { isValidAccountIdSegment, parseAccountScopePath } from "./account-routes";
+import {
+  accountScopedRoutes,
+  isValidAccountIdSegment,
+  isValidRenderIdSegment,
+  parseAccountScopePath,
+} from "./account-routes";
 
 describe("account-routes", () => {
   describe("isValidAccountIdSegment", () => {
@@ -34,6 +39,19 @@ describe("account-routes", () => {
       expect(parseAccountScopePath("/dashboard")).toBeNull();
       expect(parseAccountScopePath("/o/0/dashboard")).toBeNull();
       expect(parseAccountScopePath("/o/abc/dashboard")).toBeNull();
+    });
+  });
+
+  describe("accountScopedRoutes.bundlesRender", () => {
+    it("builds scoped bundles detail URL", () => {
+      expect(accountScopedRoutes.bundlesRender(319, 1001)).toBe("/o/319/bundles/1001");
+    });
+  });
+
+  describe("isValidRenderIdSegment", () => {
+    it("matches account id segment rules", () => {
+      expect(isValidRenderIdSegment("1001")).toBe(true);
+      expect(isValidRenderIdSegment("0")).toBe(false);
     });
   });
 });

@@ -10,6 +10,7 @@ const SEG = {
   bundles: "bundles",
   branding: "branding",
   brandLogo: "brand-logo",
+  clubLogos: "club-logos",
   templateBuilder: "template-builder",
   mediaGallery: "media-gallery",
   manageSponsors: "manage-sponsors",
@@ -34,8 +35,13 @@ export const accountScopedRoutes = {
   dashboard: (accountId: string | number) => scoped(accountId, SEG.dashboard),
   settings: (accountId: string | number) => scoped(accountId, SEG.settings),
   bundles: (accountId: string | number) => scoped(accountId, SEG.bundles),
+  bundlesRender: (accountId: string | number, renderId: string | number) =>
+    `${scoped(accountId, SEG.bundles)}/${encodeURIComponent(String(renderId))}`,
   branding: (accountId: string | number) => scoped(accountId, SEG.branding),
   brandLogo: (accountId: string | number) => scoped(accountId, SEG.brandLogo),
+  clubLogos: (accountId: string | number) => scoped(accountId, SEG.clubLogos),
+  clubLogo: (accountId: string | number, clubId: string | number) =>
+    `${scoped(accountId, SEG.clubLogos)}/${encodeURIComponent(String(clubId))}`,
   templateBuilder: (accountId: string | number) => scoped(accountId, SEG.templateBuilder),
   mediaGallery: (accountId: string | number) => scoped(accountId, SEG.mediaGallery),
   manageSponsors: (accountId: string | number) => scoped(accountId, SEG.manageSponsors),

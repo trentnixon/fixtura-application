@@ -1,6 +1,11 @@
 "use client";
 
+import { LayoutGrid, List } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+
 import { TypographyBodySmall, TypographyCaption } from "@/components/typography";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SectionBlock } from "@/components/ui/section";
@@ -11,12 +16,27 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { cn } from "@/lib/utils";
 
 import { SEASON_FILTER_ALL, SEASON_OVERVIEW_COVERAGE_OPTIONS } from "../_constants";
+import { buildSeasonCompetitionHref, isSeasonStatusActive } from "../_utils";
 import { SeasonEmptyPanel } from "../season-empty-panel";
 import { SeasonOverviewCompetitionCard } from "./season-overview-competition-card";
 
 import type { SeasonOverviewTrackedCompetitionsSectionProps } from "../_types";
+
+type CompetitionViewMode = "cards" | "table";
+
+const COMPETITION_VIEW_MODE_STORAGE_KEY = "fixtura:season-overview:competitions-view";
 
 export function SeasonOverviewTrackedCompetitionsSection({
   accountId,
@@ -41,29 +61,66 @@ export function SeasonOverviewTrackedCompetitionsSection({
   sortedCompetitionRows,
   filteredCompetitionRows,
 }: SeasonOverviewTrackedCompetitionsSectionProps) {
+  const [viewMode, setViewMode] = useState<CompetitionViewMode>("table");
+
+  useEffect(() => {
+    const storedViewMode = window.localStorage.getItem(COMPETITION_VIEW_MODE_STORAGE_KEY);
+    if (storedViewMode === "cards" || storedViewMode === "table") {
+      setViewMode(storedViewMode);
+    }
+  }, []);
+
+  const handleViewModeChange = (value: string) => {
+    if (value !== "cards" && value !== "table") {
+      return;
+    }
+
+    setViewMode(value);
+    window.localStorage.setItem(COMPETITION_VIEW_MODE_STORAGE_KEY, value);
+  };
+
   return (
     <SectionBlock variant="inset" spacing="sm">
       <div>
         <TypographyBodySmall className="font-semibold">Tracked competitions</TypographyBodySmall>
         <TypographyCaption className="mt-1">
-          Verify season hub coverage for each competition before drilling into grades and fixtures.
+          Review what Vision has tracked for each competition before drilling into grades and
+          fixtures.
         </TypographyCaption>
       </div>
 
       {competitionsUnavailable ? (
         <SeasonEmptyPanel
           title="Competitions are not available"
-          description="Season hub is not exposing competition listings for this account. You can still use other members areas; ask your administrator if competitions should appear here."
+          description="Vision is not exposing competition listings for this account. You can still use other members areas; ask your administrator if competitions should appear here."
         />
       ) : null}
 
       {!competitionsUnavailable && sortedCompetitionRows.length > 0 ? (
         <>
-          <div className="flex justify-end">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <TypographyCaption>
               Showing {filteredCompetitionRows.length} of {sortedCompetitionRows.length}{" "}
               competitions
             </TypographyCaption>
+            <ToggleGroup
+              type="single"
+              value={viewMode}
+              onValueChange={handleViewModeChange}
+              variant="outline"
+              size="sm"
+              aria-label="Competition display"
+              className="self-start sm:self-auto"
+            >
+              <ToggleGroupItem value="cards" aria-label="Show card grid">
+                <LayoutGrid className="size-4" aria-hidden />
+                Cards
+              </ToggleGroupItem>
+              <ToggleGroupItem value="table" aria-label="Show table list">
+                <List className="size-4" aria-hidden />
+                Table
+              </ToggleGroupItem>
+            </ToggleGroup>
           </div>
           <div className="grid gap-3 lg:grid-cols-[minmax(220px,1fr)_auto]">
             <Input
@@ -150,7 +207,7 @@ export function SeasonOverviewTrackedCompetitionsSection({
               Clear filters
             </Button>
           </div>
-        ) : (
+        ) : viewMode === "cards" ? (
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
             {filteredCompetitionRows.map((competition) => (
               <SeasonOverviewCompetitionCard
@@ -159,6 +216,78 @@ export function SeasonOverviewTrackedCompetitionsSection({
                 competition={competition}
               />
             ))}
+          </div>
+        ) : (
+          <div className="bg-background border-primary/10 overflow-hidden rounded-lg border">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-primary-950 hover:bg-primary-950 border-b border-white/15">
+                  <TableHead className="min-w-64 text-white/90">Competition</TableHead>
+                  <TableHead className="text-white/90">Season</TableHead>
+                  <TableHead className="text-white/90">Association</TableHead>
+                  <TableHead className="text-right text-white/90">Grades</TableHead>
+                  <TableHead className="text-right text-white/90">Teams</TableHead>
+                  <TableHead className="text-right text-white/90">Fixtures</TableHead>
+                  <TableHead className="text-white/90">Status</TableHead>
+                  <TableHead className="text-right text-white/90">View</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredCompetitionRows.map((competition) => {
+                  const statusLabel = competition.status ?? "Unknown";
+                  const isActive = isSeasonStatusActive(statusLabel);
+                  const href = buildSeasonCompetitionHref(accountId, competition.id);
+
+                  return (
+                    <TableRow
+                      key={`row-${competition.id}`}
+                      className="hover:bg-primary/5 transition-colors"
+                    >
+                      <TableCell className="max-w-80">
+                        <div className="flex min-w-0 flex-col gap-0.5">
+                          <span className="truncate text-sm font-medium">
+                            {competition.name ?? "Unnamed competition"}
+                          </span>
+                          <span className="text-muted-foreground text-xs">
+                            Competition #{competition.id}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-muted-foreground max-w-36 truncate text-sm">
+                        {competition.season ?? "No season"}
+                      </TableCell>
+                      <TableCell className="text-muted-foreground max-w-52 truncate text-sm">
+                        {competition.association.name ?? "Association"}
+                      </TableCell>
+                      <TableCell className="text-right font-mono text-sm tabular-nums">
+                        {competition.counts.grades}
+                      </TableCell>
+                      <TableCell className="text-right font-mono text-sm tabular-nums">
+                        {competition.counts.teams}
+                      </TableCell>
+                      <TableCell className="text-right font-mono text-sm tabular-nums">
+                        {competition.counts.fixtures}
+                      </TableCell>
+                      <TableCell>
+                        <Badge
+                          className={cn(
+                            "border-transparent text-white hover:opacity-90",
+                            isActive ? "bg-success-600" : "bg-error-600",
+                          )}
+                        >
+                          {statusLabel}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Button variant="accent" size="compact" asChild>
+                          <Link href={href}>Open</Link>
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
           </div>
         )
       ) : null}

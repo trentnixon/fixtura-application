@@ -14,7 +14,7 @@ import { SeasonGradeCoverageSummarySection } from "./_sections/season-grade-cove
 import { SeasonGradeFixturesSection } from "./_sections/season-grade-fixtures-section";
 import { SeasonGradeSyncDialog } from "./_sections/season-grade-sync-dialog";
 import { SeasonGradeViewHeader } from "./_sections/season-grade-view-header";
-import { buildSeasonCompetitionHref } from "./_utils";
+import { buildSeasonCompetitionHref, buildSeasonGradeFixtureBuckets } from "./_utils";
 
 import type { SeasonGradeViewProps } from "./_types";
 
@@ -29,6 +29,8 @@ export function SeasonGradeView({ accountId, competitionId, gradeId }: SeasonGra
   const canQueueCombinedSync = canQueueTeamsRefresh && canQueueFixturesRefresh;
   const isSyncMutating = teamsLookup.isPending || fixtureDiscovery.isPending;
   const [syncDialogOpen, setSyncDialogOpen] = useState(false);
+  const [showAllPrevious, setShowAllPrevious] = useState(false);
+  const [showAllUpcoming, setShowAllUpcoming] = useState(false);
 
   const grade = useSeasonHubGrade(accountId, gradeId, { competitionId, enabled: Boolean(gradeId) });
   const fixtures = useSeasonHubGradeFixtures(accountId, gradeId, {
@@ -54,8 +56,6 @@ export function SeasonGradeView({ accountId, competitionId, gradeId }: SeasonGra
   );
 
   const {
-    search,
-    setSearch,
     team,
     setTeam,
     venue,
@@ -69,6 +69,21 @@ export function SeasonGradeView({ accountId, competitionId, gradeId }: SeasonGra
     hasActiveFilters,
     clearFilters,
   } = useSeasonGradeFixtureFilters({ rows: fixtureRows });
+  const fixtureBuckets = useMemo(
+    () => buildSeasonGradeFixtureBuckets(filteredRows),
+    [filteredRows],
+  );
+  const previousRows = showAllPrevious
+    ? fixtureBuckets.allPreviousRows
+    : fixtureBuckets.previousRows;
+  const upcomingRows = showAllUpcoming
+    ? fixtureBuckets.allUpcomingRows
+    : fixtureBuckets.upcomingRows;
+  const clearFixtureFilters = () => {
+    clearFilters();
+    setShowAllPrevious(false);
+    setShowAllUpcoming(false);
+  };
 
   const competitionHref = buildSeasonCompetitionHref(accountId, competitionId);
 
@@ -136,8 +151,16 @@ export function SeasonGradeView({ accountId, competitionId, gradeId }: SeasonGra
         fixturesCountFromGrade={fixturesCountFromGrade}
         fixtureRows={fixtureRows}
         filteredRows={filteredRows}
-        search={search}
-        setSearch={setSearch}
+        previousRows={previousRows}
+        upcomingRows={upcomingRows}
+        previousDefaultCount={fixtureBuckets.previousRows.length}
+        upcomingDefaultCount={fixtureBuckets.upcomingRows.length}
+        allPreviousCount={fixtureBuckets.allPreviousRows.length}
+        allUpcomingCount={fixtureBuckets.allUpcomingRows.length}
+        showAllPrevious={showAllPrevious}
+        setShowAllPrevious={setShowAllPrevious}
+        showAllUpcoming={showAllUpcoming}
+        setShowAllUpcoming={setShowAllUpcoming}
         team={team}
         setTeam={setTeam}
         venue={venue}
@@ -147,8 +170,8 @@ export function SeasonGradeView({ accountId, competitionId, gradeId }: SeasonGra
         status={status}
         setStatus={setStatus}
         options={options}
-        hasActiveFilters={hasActiveFilters}
-        clearFilters={clearFilters}
+        hasActiveFilters={hasActiveFilters || showAllPrevious || showAllUpcoming}
+        clearFilters={clearFixtureFilters}
       />
     </div>
   );

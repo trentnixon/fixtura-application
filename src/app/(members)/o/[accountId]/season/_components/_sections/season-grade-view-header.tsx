@@ -41,7 +41,7 @@ export function SeasonGradeViewHeader({
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link href={accountScopedRoutes.season(accountId)}>Season</Link>
+                <Link href={accountScopedRoutes.season(accountId)}>Vision</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />

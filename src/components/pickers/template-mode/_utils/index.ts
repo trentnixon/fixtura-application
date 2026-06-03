@@ -4,6 +4,8 @@ export {
   templateModeContrastSurfaceClass,
   templateModeContrastTitleClass,
   templateModeContrastVariant,
+  templateModeUsesDarkCopyOnDarkSurface,
+  templateModeUsesDarkCopyOnLightSurface,
   templateModeUsesDarkLogoBackdrop,
   templateModeUsesDarkTitlesOnGradient,
   type TemplateModeContrastVariant,

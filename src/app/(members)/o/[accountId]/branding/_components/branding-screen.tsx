@@ -39,7 +39,7 @@ export function BrandingScreen({ accountId }: BrandingScreenProps) {
   }
 
   return (
-    <div className="grid gap-6">
+    <div className="mx-auto grid max-w-[88rem] gap-6 px-4 pb-12 sm:px-6 lg:px-8">
       <BrandingWorkspace
         key={accountId}
         accountId={accountId}

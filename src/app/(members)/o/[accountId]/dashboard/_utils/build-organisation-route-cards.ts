@@ -1,11 +1,10 @@
-import { IconListDetails, IconMoneybag, IconPalette, IconPhoto } from "@tabler/icons-react";
+import { IconEye, IconMoneybag, IconPalette } from "@tabler/icons-react";
 
 import { accountScopedRoutes } from "@/lib/config/account-routes";
 
 import type {
   DashboardRouteActiveRatio,
   DashboardRouteChecklistItem,
-  DashboardRouteLogoPreview,
   DashboardRoutePaletteSwatch,
 } from "../_components/dashboard-route-list-card";
 import type { DashboardViewModel } from "../dashboard-view-model";
@@ -45,7 +44,6 @@ function extractBrandingPaletteSwatches(
 
 type ChecklistItemExtras = {
   swatches?: DashboardRoutePaletteSwatch[];
-  logoPreview?: DashboardRouteLogoPreview;
   activeRatio?: DashboardRouteActiveRatio;
 };
 
@@ -65,14 +63,13 @@ export function buildOrganisationRouteCards({
   seasonSummary,
 }: {
   accountId: string;
-  model: Pick<DashboardViewModel, "branding" | "orgDetails" | "organisationName">;
+  model: Pick<DashboardViewModel, "branding">;
   sponsors: AccountSponsorDto[] | null;
   seasonSummary: SeasonHubStatsResponse["data"]["summary"] | null;
 }): OrganisationRouteCardConfig[] {
-  const { branding, orgDetails, organisationName } = model;
+  const { branding } = model;
   const templateName = branding?.template?.name?.trim();
   const paletteSwatches = extractBrandingPaletteSwatches(branding);
-  const logoUrl = orgDetails?.ParentLogo?.trim() || branding?.onboardingLogo?.url?.trim() || null;
 
   const sponsorItems = sponsors ?? [];
   const activeSponsors = sponsorItems.filter((s) => s.isActive);
@@ -101,27 +98,6 @@ export function buildOrganisationRouteCards({
       ],
     },
     {
-      title: "Logo",
-      description: "Upload and manage your organisation logo.",
-      href: accountScopedRoutes.brandLogo(accountId),
-      ctaLabel: "Open logo",
-      headerIcon: IconPhoto,
-      items: [
-        checklistItem(
-          logoUrl ? "Logo on file" : "No logo uploaded",
-          Boolean(logoUrl),
-          logoUrl
-            ? {
-                logoPreview: {
-                  url: logoUrl,
-                  alt: `${organisationName} logo`,
-                },
-              }
-            : undefined,
-        ),
-      ],
-    },
-    {
       title: "Sponsors",
       description: "Sponsor pool, placements, and assignments.",
       href: accountScopedRoutes.manageSponsors(accountId),
@@ -144,11 +120,11 @@ export function buildOrganisationRouteCards({
       ],
     },
     {
-      title: "Season",
-      description: "Competitions, grades, and fixtures.",
+      title: "Vision",
+      description: "Competitions, grades, and fixtures Fixtura tracks for this organisation.",
       href: accountScopedRoutes.season(accountId),
-      ctaLabel: "Open season",
-      headerIcon: IconListDetails,
+      ctaLabel: "Open Vision",
+      headerIcon: IconEye,
       items: [
         checklistItem(
           competitions > 0

@@ -11,14 +11,15 @@ export type WeekdayKey =
   | "saturday"
   | "sunday";
 
+/** `dateIndex` matches `Date#getDay()` — Sunday `0` … Saturday `6` (not CMS ids `1`–`7`). */
 export const WEEKDAY_OPTIONS: { key: WeekdayKey; label: string; dateIndex: number }[] = [
-  { key: "sunday", label: "Sunday", dateIndex: 1 },
-  { key: "monday", label: "Monday", dateIndex: 2 },
-  { key: "tuesday", label: "Tuesday", dateIndex: 3 },
-  { key: "wednesday", label: "Wednesday", dateIndex: 4 },
-  { key: "thursday", label: "Thursday", dateIndex: 5 },
-  { key: "friday", label: "Friday", dateIndex: 6 },
-  { key: "saturday", label: "Saturday", dateIndex: 7 },
+  { key: "sunday", label: "Sunday", dateIndex: 0 },
+  { key: "monday", label: "Monday", dateIndex: 1 },
+  { key: "tuesday", label: "Tuesday", dateIndex: 2 },
+  { key: "wednesday", label: "Wednesday", dateIndex: 3 },
+  { key: "thursday", label: "Thursday", dateIndex: 4 },
+  { key: "friday", label: "Friday", dateIndex: 5 },
+  { key: "saturday", label: "Saturday", dateIndex: 6 },
 ];
 
 /**
@@ -116,9 +117,9 @@ export function weekdayKeyFromDaysOfWeekRelation(
   return weekdayKeyFromCmsDaysOfWeekId(rawId);
 }
 
+/** Days until the next occurrence of `target` (0 = today). */
 export function daysUntilNextDelivery(target: WeekdayKey, now = new Date()): number {
-  const today = now.getDay(); // 0 (Sun) -> 6 (Sat)
+  const today = now.getDay();
   const targetIndex = WEEKDAY_OPTIONS.find((o) => o.key === target)?.dateIndex ?? 0;
-  const delta = (targetIndex - today + 7) % 7;
-  return delta === 0 ? 7 : delta;
+  return (targetIndex - today + 7) % 7;
 }

@@ -17,7 +17,7 @@ export function SeasonOverviewSummarySection({
           variant="kicker"
           className="text-sm font-semibold tracking-normal text-slate-900 normal-case"
         >
-          Season summary
+          Tracking summary
         </SectionLabel>
         {statsData?.freshness?.lastUpdatedAt ? (
           <Badge

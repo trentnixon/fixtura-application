@@ -705,7 +705,7 @@ Suggested caching behavior:
 
 - confirm app bearer token is available for `season-hub`
 - implement API client wrappers for all current routes
-- implement types for `recon`, `stats`, competitions, grade fixtures, and fixture detail
+- implement types for `recon`, `stats`, competitions, grade fixtures, and fixture detail (fixture detail: `src/types/api/season-hub.ts`; contract sample: `src/types/api/__fixtures__/season-hub-fixture-detail-81411.json`)
 - build overview page from `recon` + `stats` + `competitions`
 - use canonical fixture route for deep links
 - support server error states using `SEASON_HUB_*` codes

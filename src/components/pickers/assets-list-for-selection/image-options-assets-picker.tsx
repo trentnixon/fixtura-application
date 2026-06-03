@@ -27,6 +27,10 @@ type ImageOptionsAssetsPickerProps = {
   isSelect?: boolean;
   /** Show a list of assets. */
   isList?: boolean;
+  /**
+   * Organisation (or other) sport: locks asset list to this sport and hides the Sport filter.
+   */
+  organisationSport?: string | null;
 };
 
 /** Self-contained: loads assets, sport filter, TanStack selection, grouped select, list, and detail. */
@@ -34,12 +38,18 @@ export function ImageOptionsAssetsPicker({
   compact = false,
   isSelect = false,
   isList = false,
+  organisationSport = null,
 }: ImageOptionsAssetsPickerProps) {
+  const lockSportFilterTo =
+    organisationSport != null && organisationSport.trim() !== "" ? organisationSport : null;
+
   const {
     assets,
     sportFilterOptions,
     sportFilter,
     setSportFilter,
+    effectiveSportFilter,
+    isSportFilterLocked,
     filteredAssets,
     assetsBySportAll,
     assetsBySport,
@@ -49,21 +59,28 @@ export function ImageOptionsAssetsPicker({
     showTypeBesideName,
     rawAssetCount,
     setSelectedId,
-  } = useImageOptionsAssetsPicker();
+  } = useImageOptionsAssetsPicker(lockSportFilterTo !== null ? { lockSportFilterTo } : undefined);
 
   return (
     <div className="space-y-4">
       <p className="text-muted-foreground text-xs" role="status">
-        {sportFilter !== ALL_SPORTS_KEY
+        {effectiveSportFilter !== ALL_SPORTS_KEY
           ? `Showing ${filteredAssets.length} of ${assets.length} Image Options asset${assets.length === 1 ? "" : "s"}`
           : `${assets.length} Image Options asset${assets.length === 1 ? "" : "s"} (published only)`}
-        {assets.length > 0 && sportFilter === ALL_SPORTS_KEY && assetsBySportAll.length > 0 ? (
+        {assets.length > 0 &&
+        effectiveSportFilter === ALL_SPORTS_KEY &&
+        assetsBySportAll.length > 0 ? (
           <span className="text-muted-foreground/90">
             {" "}
             · {assetsBySportAll.map((g) => `${g.label}: ${g.items.length}`).join(" · ")}
           </span>
         ) : null}
-        {sportFilter !== ALL_SPORTS_KEY && filteredAssets.length > 0 ? (
+        {isSportFilterLocked && lockSportFilterTo !== null ? (
+          <span className="text-muted-foreground/90"> · {lockSportFilterTo}</span>
+        ) : null}
+        {!isSportFilterLocked &&
+        effectiveSportFilter !== ALL_SPORTS_KEY &&
+        filteredAssets.length > 0 ? (
           <span className="text-muted-foreground/90"> · sport filter active</span>
         ) : null}
       </p>
@@ -76,30 +93,34 @@ export function ImageOptionsAssetsPicker({
         </TypographyMuted>
       ) : filteredAssets.length === 0 ? (
         <TypographyMuted className="text-sm">
-          No Image Options assets for this sport. Choose another sport or All sports.
+          {lockSportFilterTo !== null
+            ? `No Image Options assets for ${lockSportFilterTo}.`
+            : "No Image Options assets for this sport. Choose another sport or All sports."}
         </TypographyMuted>
       ) : (
         <div className={cn("grid gap-6", !compact && "md:grid-cols-2")}>
           <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="asset-picker-sport-filter">Sport</Label>
-              <Select
-                value={sportFilter}
-                onValueChange={setSportFilter}
-                disabled={assets.length === 0}
-              >
-                <SelectTrigger id="asset-picker-sport-filter" className="w-full">
-                  <SelectValue placeholder="Choose a sport" />
-                </SelectTrigger>
-                <SelectContent>
-                  {sportFilterOptions.map((opt) => (
-                    <SelectItem key={opt.key} value={opt.key}>
-                      {opt.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+            {!isSportFilterLocked ? (
+              <div className="space-y-2">
+                <Label htmlFor="asset-picker-sport-filter">Sport</Label>
+                <Select
+                  value={sportFilter}
+                  onValueChange={setSportFilter}
+                  disabled={assets.length === 0}
+                >
+                  <SelectTrigger id="asset-picker-sport-filter" className="w-full">
+                    <SelectValue placeholder="Choose a sport" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {sportFilterOptions.map((opt) => (
+                      <SelectItem key={opt.key} value={opt.key}>
+                        {opt.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            ) : null}
 
             {isSelect && (
               <div className="space-y-2">
@@ -141,7 +162,7 @@ export function ImageOptionsAssetsPicker({
             {isList && (
               <div className="space-y-3">
                 <TypographyMuted className="text-xs font-semibold tracking-wide uppercase">
-                  {sportFilter === ALL_SPORTS_KEY ? "By sport" : "Assets"}
+                  {effectiveSportFilter === ALL_SPORTS_KEY ? "By sport" : "Assets"}
                 </TypographyMuted>
                 <div className="space-y-4">
                   {assetsBySport.map((group) => (
