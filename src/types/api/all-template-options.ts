@@ -3,6 +3,8 @@
  * @see .comms/API/handoff-all-template-options.md
  */
 
+import type { TemplateUseBackground } from "./template-options";
+
 /** Success body from ctx.send */
 export interface AllTemplateOptionsResponse {
   data: AllTemplateOptionsPayload;
@@ -151,7 +153,8 @@ export interface TemplateCategoryRef {
 /** Current template-option row for forms (mapCurrentSelection) */
 export interface CurrentTemplateSelection {
   id: number;
-  useBackground: boolean | null;
+  /** CMS enum string; legacy boolean may appear until GET is aligned. */
+  useBackground: TemplateUseBackground | boolean | null;
   templateCategory: TemplateCategoryRef | null;
   templatePalette: TemplatePaletteItem | null;
   templateGradient: TemplateGradientItem | null;

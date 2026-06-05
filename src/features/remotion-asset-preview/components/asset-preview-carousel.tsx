@@ -34,6 +34,7 @@ export type AssetPreviewCarouselProps = {
   /** Passed to `CardCarousel` / `CarouselContent` inner flex (e.g. clear negative margin, height). */
   contentClassName?: string;
   itemClassName?: string;
+  thumbnailFrameClassName?: string;
 };
 
 export function AssetPreviewCarousel({
@@ -47,6 +48,7 @@ export function AssetPreviewCarousel({
   bodyClassName,
   contentClassName,
   itemClassName,
+  thumbnailFrameClassName,
 }: AssetPreviewCarouselProps) {
   const { status } = state;
 
@@ -210,6 +212,7 @@ export function AssetPreviewCarousel({
               durationInFrames={state.durationInFrames}
               frameToDisplay={target.frameToDisplay}
               frameKey={`${mediaKey}-thumb-${index}-${target.desired}`}
+              aspectFrameClassName={thumbnailFrameClassName}
             />
           </CardContent>
         </Card>

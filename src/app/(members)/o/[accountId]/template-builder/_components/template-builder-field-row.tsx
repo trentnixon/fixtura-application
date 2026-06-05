@@ -1,0 +1,132 @@
+"use client";
+
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+import {
+  TEMPLATE_BUILDER_UNSET_VALUE,
+  optionIdToSelectValue,
+  selectValueToOptionId,
+  selectValueToUseBackground,
+} from "../_utils/template-builder-select-value";
+
+import type { TemplateUseBackground } from "@/types/api/template-options";
+
+export interface TemplateBuilderSelectOption {
+  value: string;
+  label: string;
+}
+
+export function TemplateBuilderRelationFieldRow({
+  fieldId,
+  label,
+  selectValue,
+  options,
+  isChanged,
+  onValueChange,
+  allowUnset = true,
+  selectPlaceholder = "Select...",
+}: {
+  fieldId: string;
+  label: string;
+  /** When undefined, the select shows `selectPlaceholder` (no unset option). */
+  selectValue: string | undefined;
+  options: TemplateBuilderSelectOption[];
+  isChanged: boolean;
+  onValueChange: (id: number | null) => void;
+  /** When false, only catalog options are shown; reverting means choosing the original setting again. */
+  allowUnset?: boolean;
+  selectPlaceholder?: string;
+}) {
+  return (
+    <div className="border-border/60 grid gap-2 border-b pb-4 last:border-0 last:pb-0">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <Label htmlFor={fieldId} className="text-sm font-medium">
+          {label}
+        </Label>
+        {isChanged ? (
+          <span className="text-xs font-medium text-amber-600 dark:text-amber-500">Changed</span>
+        ) : (
+          <span className="text-muted-foreground text-xs">Unchanged</span>
+        )}
+      </div>
+      <Select
+        value={selectValue ?? ""}
+        onValueChange={(v) => onValueChange(selectValueToOptionId(v))}
+      >
+        <SelectTrigger id={fieldId} className="w-full">
+          <SelectValue placeholder={selectPlaceholder} />
+        </SelectTrigger>
+        <SelectContent>
+          {allowUnset ? <SelectItem value={TEMPLATE_BUILDER_UNSET_VALUE}>Unset</SelectItem> : null}
+          {options.map((opt) => (
+            <SelectItem key={opt.value} value={opt.value}>
+              {opt.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
+  );
+}
+
+export function TemplateBuilderUseBackgroundFieldRow({
+  fieldId,
+  selectValue,
+  options,
+  isChanged,
+  onValueChange,
+}: {
+  fieldId: string;
+  selectValue: string;
+  options: TemplateBuilderSelectOption[];
+  isChanged: boolean;
+  onValueChange: (value: TemplateUseBackground | null) => void;
+}) {
+  return (
+    <div className="border-border/60 grid gap-2 border-b pb-4 last:border-0 last:pb-0">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <Label htmlFor={fieldId} className="text-sm font-medium">
+          Use background
+        </Label>
+        {isChanged ? (
+          <span className="text-xs font-medium text-amber-600 dark:text-amber-500">Changed</span>
+        ) : (
+          <span className="text-muted-foreground text-xs">Unchanged</span>
+        )}
+      </div>
+      <Select
+        value={selectValue}
+        onValueChange={(v) => onValueChange(selectValueToUseBackground(v))}
+      >
+        <SelectTrigger id={fieldId} className="w-full">
+          <SelectValue placeholder="Select..." />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value={TEMPLATE_BUILDER_UNSET_VALUE}>Unset</SelectItem>
+          {options.map((opt) => (
+            <SelectItem key={opt.value} value={opt.value}>
+              {opt.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
+  );
+}
+
+export function buildRelationSelectOptions<T extends { id: number }>(
+  items: T[],
+  formatLabel: (item: T) => string,
+): TemplateBuilderSelectOption[] {
+  return items.map((item) => ({
+    value: optionIdToSelectValue(item.id),
+    label: formatLabel(item),
+  }));
+}

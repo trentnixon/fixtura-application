@@ -274,6 +274,16 @@ export const appRoutes = {
         "GET append /{accountId}/all-template-options — full published template catalog + optional currentSelection (.comms/API/handoff-all-template-options.md)",
       domain: "account",
     },
+    templateOptions: {
+      key: "accounts.template-options",
+      method: "PUT",
+      path: ACCOUNTS_API_BASE,
+      authRequired: true,
+      status: "ready",
+      description:
+        "PUT append /{accountId}/template-options — persist template-option row (Phase 4 flat body; Strapi put-template-options)",
+      domain: "account",
+    },
     mediaLibrary: {
       key: "accounts.media-library",
       method: "GET",

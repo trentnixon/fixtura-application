@@ -19,6 +19,7 @@ import { DashboardAssetPreviewBrandingDebug } from "./dashboard-asset-preview-br
 import { DashboardOverviewCarousel } from "./dashboard-overview-carousel";
 
 import type { AccountBrandingData } from "@/types/api/account";
+import type { ReactNode } from "react";
 
 type DashboardAssetPreviewPanelProps = {
   accountId: string;
@@ -26,6 +27,10 @@ type DashboardAssetPreviewPanelProps = {
   branding: AccountBrandingData | null;
   logoUrl: string | null;
   templateModeSlug: string | null;
+  debugPlacement?: "carousel" | "below" | "none";
+  showAssetPicker?: boolean;
+  previewTitle?: ReactNode;
+  compactPreview?: boolean;
 };
 
 export function DashboardAssetPreviewPanel({
@@ -34,6 +39,10 @@ export function DashboardAssetPreviewPanel({
   branding,
   logoUrl,
   templateModeSlug,
+  debugPlacement = "carousel",
+  showAssetPicker = true,
+  previewTitle,
+  compactPreview = false,
 }: DashboardAssetPreviewPanelProps) {
   const imageOptions = useImageOptionsAssetsPicker(
     sport != null && sport.trim() !== "" ? { lockSportFilterTo: sport } : undefined,
@@ -75,11 +84,11 @@ export function DashboardAssetPreviewPanel({
     [accountSponsors, branding, templateModeSlug],
   );
 
-  const showAssetPicker = isCricketSport(sport);
+  const shouldShowAssetPicker = showAssetPicker && isCricketSport(sport);
 
   return (
     <div className="flex h-full min-h-0 flex-col gap-4">
-      {showAssetPicker ? (
+      {shouldShowAssetPicker ? (
         <div className="shrink-0 space-y-2">
           <TypographyMuted className="text-xs font-semibold tracking-wide uppercase">
             Asset / composition
@@ -90,9 +99,19 @@ export function DashboardAssetPreviewPanel({
       <div className="flex min-h-0 min-w-0 flex-1 flex-col">
         <DashboardOverviewCarousel
           remotionPreviewState={remotionAssetPreview}
-          brandingSettingsDebug={brandingSettingsDebug}
+          brandingSettingsDebug={debugPlacement === "carousel" ? brandingSettingsDebug : null}
+          title={previewTitle}
+          compact={compactPreview}
         />
       </div>
+      {debugPlacement === "below" ? (
+        <div className="border-border bg-muted/35 shrink-0 space-y-2 rounded-lg border p-3">
+          <p className="text-muted-foreground text-[0.65rem] font-semibold tracking-wide uppercase">
+            User settings (debug)
+          </p>
+          {brandingSettingsDebug}
+        </div>
+      ) : null}
     </div>
   );
 }

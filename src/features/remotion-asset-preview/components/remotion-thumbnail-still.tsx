@@ -14,7 +14,7 @@ import { FixturaTemplateScene } from "@/vendor/fixtura-remotion-assets/preview";
 import type { FixturaDataset } from "@/vendor/fixtura-remotion-assets/preview";
 
 /** Composition-sized frame so the still has non-zero height without relying on a tall flex ancestor (Embla viewport is often `h-auto`). */
-const aspectFrameClassName =
+const defaultAspectFrameClassName =
   "relative mx-auto w-full min-w-0 max-w-full max-h-[min(78vh,720px)] aspect-[1080/1350] overflow-hidden rounded-xl";
 
 export type RemotionThumbnailStillProps = {
@@ -24,6 +24,7 @@ export type RemotionThumbnailStillProps = {
   /** Stable key for Remotion `Thumbnail` remounts (e.g. template + composition + frame). */
   frameKey: string;
   className?: string;
+  aspectFrameClassName?: string;
 };
 
 export function RemotionThumbnailStill({
@@ -32,10 +33,11 @@ export function RemotionThumbnailStill({
   frameToDisplay,
   frameKey,
   className,
+  aspectFrameClassName,
 }: RemotionThumbnailStillProps) {
   return (
     <div className={cn("flex min-h-0 w-full min-w-0 justify-center", className)}>
-      <div className={aspectFrameClassName}>
+      <div className={cn(defaultAspectFrameClassName, aspectFrameClassName)}>
         <div
           data-remotion-preview-root
           className="not-prose absolute inset-0 min-h-0 min-w-0 overflow-hidden"

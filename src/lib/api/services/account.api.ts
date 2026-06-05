@@ -94,6 +94,10 @@ import type {
   PostAccountBillingInvoiceRequestBody,
   StartAccountBillingTrialResponse,
 } from "@/types/api/account";
+import type {
+  PutTemplateOptionsBody,
+  PutTemplateOptionsSuccess,
+} from "@/types/api/template-options";
 
 function accountSponsorsPath(accountId: string, ...segments: (string | number)[]) {
   const base = `${appRoutes.accounts.sponsors.path}/${encodeURIComponent(accountId)}/sponsors`;
@@ -511,6 +515,15 @@ export const accountApi = {
   patchAccountBranding: (accountId: string, body: PatchAccountBrandingBody) => {
     const path = `${appRoutes.accounts.branding.path}/${encodeURIComponent(accountId)}/branding`;
     return apiClient.patch<PatchAccountBrandingSuccess>(path, body);
+  },
+
+  /**
+   * Persist template-option selections (flat Phase 4 body).
+   * @see src/app/(members)/o/[accountId]/template-builder/.comms/response/handoff-put-template-options.md
+   */
+  putTemplateOptions: (accountId: string, body: PutTemplateOptionsBody) => {
+    const path = `${appRoutes.accounts.templateOptions.path}/${encodeURIComponent(accountId)}/template-options`;
+    return apiClient.put<PutTemplateOptionsSuccess>(path, body);
   },
 
   /** Full template catalog + optional currentSelection. @see .comms/API/handoff-all-template-options.md */

@@ -2,20 +2,43 @@
 
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import { ImageOptionsAssetsPicker } from "@/components/pickers/assets-list-for-selection";
 import { BrandedLoader } from "@/components/ui/branded-loader";
+import { Button } from "@/components/ui/button";
 import { ErrorState } from "@/components/ui/error-state";
+import {
+  isCricketSport,
+  resolveTemplateModeSlugFromBranding,
+} from "@/features/remotion-asset-preview";
 import {
   isAccountBrandingGatewayRedirect,
   useAccountBranding,
 } from "@/lib/api/hooks/account/useAccountBranding";
 import { useAccountMe } from "@/lib/api/hooks/account/useAccountMe";
 import {
+  isAccountOrganisationContextGatewayRedirect,
+  useAccountOrganisationContext,
+} from "@/lib/api/hooks/account/useAccountOrganisationContext";
+import {
+  isAccountSettingsGatewayRedirect,
+  useAccountSettings,
+} from "@/lib/api/hooks/account/useAccountSettings";
+import {
+  isAccountSponsorsGatewayRedirect,
+  useAccountSponsors,
+} from "@/lib/api/hooks/account/useAccountSponsors";
+import {
   isAllTemplateOptionsGatewayRedirect,
   useAllTemplateOptions,
 } from "@/lib/api/hooks/account/useAllTemplateOptions";
+import {
+  getPutTemplateOptionsErrorMessage,
+  usePutTemplateOptions,
+} from "@/lib/api/hooks/account/usePutTemplateOptions";
 import { useTemplateCategoriesListForSelection } from "@/lib/api/hooks/account/useTemplateCategoriesListForSelection";
+import { useTemplateModesUi } from "@/lib/api/hooks/template-modes/useTemplateModesUi";
 import { queryKeys } from "@/lib/api/query/query-keys";
 import { AUTH_ERROR_MESSAGES } from "@/lib/auth/auth-errors";
 import { isValidAccountIdSegment } from "@/lib/config/account-routes";
@@ -24,8 +47,47 @@ import {
   selectOrganisationUrlWithReason,
 } from "@/lib/config/gateway-reasons";
 
-import { AllTemplateOptionsDump } from "./all-template-options-dump";
-import { TemplateCategoriesListForSelectionDump } from "./template-categories-list-for-selection-dump";
+import { buildTemplateBuilderPreviewBranding } from "./_utils/template-builder-preview-branding";
+import { mapTemplateBuilderEditorStateToPutBody } from "./_utils/template-builder-save-payload";
+import { TemplateBuilderEditor } from "./template-builder-editor";
+import { DashboardAssetPreviewBrandingDebug } from "../dashboard/_components/dashboard-asset-preview-branding-debug";
+import { DashboardAssetPreviewPanel } from "../dashboard/_components/dashboard-asset-preview-panel";
+import { buildDashboardViewModel } from "../dashboard/dashboard-view-model";
+
+import type { TemplateBuilderEditorState } from "./_utils/template-builder-editor-state";
+import type {
+  TemplateBuilderEditorActionsSnapshot,
+  TemplateBuilderEditorDebugSnapshot,
+} from "./template-builder-editor";
+import type { ReactNode } from "react";
+
+function TemplateBuilderSection({
+  title,
+  children,
+  className,
+}: {
+  title?: ReactNode;
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <section
+      className={[
+        "border-border bg-card text-card-foreground grid gap-4 rounded-lg border p-4 shadow-sm sm:p-5",
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
+    >
+      {title ? (
+        <h2 className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
+          {title}
+        </h2>
+      ) : null}
+      {children}
+    </section>
+  );
+}
 
 function removeAllTemplateOptionsQueriesForAccount(
   queryClient: ReturnType<typeof useQueryClient>,
@@ -47,6 +109,10 @@ export function TemplateBuilderContent({ accountId }: { accountId: string }) {
   const segmentOk = isValidAccountIdSegment(accountId);
   const me = useAccountMe({ enabled: segmentOk });
   const brandingQ = useAccountBranding(accountId, { enabled: segmentOk });
+  const settingsQ = useAccountSettings(accountId, { enabled: segmentOk });
+  const organisationContextQ = useAccountOrganisationContext(accountId, { enabled: segmentOk });
+  const sponsorsQ = useAccountSponsors(accountId);
+  const templateModesQuery = useTemplateModesUi();
 
   const templateOptionIdForCatalog = useMemo(() => {
     if (!segmentOk) return null;
@@ -69,6 +135,110 @@ export function TemplateBuilderContent({ accountId }: { accountId: string }) {
   const templateCategoriesListQ = useTemplateCategoriesListForSelection({
     enabled: segmentOk,
   });
+
+  const putTemplateOptions = usePutTemplateOptions(accountId);
+  const [saveSuccess, setSaveSuccess] = useState(false);
+  const [previewDraftState, setPreviewDraftState] = useState<TemplateBuilderEditorState | null>(
+    null,
+  );
+  const [debugSnapshot, setDebugSnapshot] = useState<TemplateBuilderEditorDebugSnapshot | null>(
+    null,
+  );
+  const [editorActions, setEditorActions] = useState<TemplateBuilderEditorActionsSnapshot | null>(
+    null,
+  );
+
+  const settingsData =
+    settingsQ.data && !isAccountSettingsGatewayRedirect(settingsQ.data)
+      ? settingsQ.data.data
+      : null;
+
+  const organisationContextData =
+    organisationContextQ.data &&
+    !isAccountOrganisationContextGatewayRedirect(organisationContextQ.data)
+      ? organisationContextQ.data.data
+      : null;
+
+  const accountSponsors =
+    sponsorsQ.data && !isAccountSponsorsGatewayRedirect(sponsorsQ.data)
+      ? sponsorsQ.data.data.items
+      : null;
+
+  const brandingData =
+    brandingQ.data && !isAccountBrandingGatewayRedirect(brandingQ.data)
+      ? brandingQ.data.data
+      : null;
+
+  const catalogPayload =
+    catalogQ.isSuccess && catalogQ.data && !isAllTemplateOptionsGatewayRedirect(catalogQ.data)
+      ? catalogQ.data.data
+      : null;
+
+  const previewBranding = useMemo(
+    () =>
+      buildTemplateBuilderPreviewBranding({
+        branding: brandingData,
+        catalog: catalogPayload,
+        categoryOptions: templateCategoriesListQ.data?.data ?? null,
+        draft: previewDraftState,
+      }),
+    [brandingData, catalogPayload, previewDraftState, templateCategoriesListQ.data],
+  );
+
+  const dashboardPreviewModel = useMemo(
+    () =>
+      buildDashboardViewModel({
+        accountId,
+        me: me.data,
+        settings: settingsData,
+        branding: previewBranding,
+        organisationContext: organisationContextData,
+        analytics: null,
+      }),
+    [accountId, me.data, organisationContextData, previewBranding, settingsData],
+  );
+
+  const templateModeSlug = useMemo(
+    () =>
+      resolveTemplateModeSlugFromBranding(
+        dashboardPreviewModel.branding,
+        templateModesQuery.data?.data ?? [],
+      ),
+    [dashboardPreviewModel.branding, templateModesQuery.data],
+  );
+
+  const clearSaveFeedback = useCallback(() => {
+    setSaveSuccess(false);
+    putTemplateOptions.reset();
+  }, [putTemplateOptions]);
+
+  const handleSaveDraft = useCallback(
+    async (draft: TemplateBuilderEditorState) => {
+      const body = mapTemplateBuilderEditorStateToPutBody(draft);
+      await putTemplateOptions.mutateAsync(body);
+      setSaveSuccess(true);
+    },
+    [putTemplateOptions],
+  );
+
+  const saveError = putTemplateOptions.isError
+    ? getPutTemplateOptionsErrorMessage(putTemplateOptions.error)
+    : null;
+
+  const editorSave = useMemo(
+    () => ({
+      onSaveDraft: handleSaveDraft,
+      isSaving: putTemplateOptions.isPending,
+      saveError,
+      saveSuccess,
+      onClearSaveFeedback: clearSaveFeedback,
+    }),
+    [clearSaveFeedback, handleSaveDraft, putTemplateOptions.isPending, saveError, saveSuccess],
+  );
+
+  const handleEditorActionsChange = useCallback((actions: TemplateBuilderEditorActionsSnapshot) => {
+    setEditorActions(actions);
+  }, []);
 
   useEffect(() => {
     redirectingRef.current = false;
@@ -143,56 +313,121 @@ export function TemplateBuilderContent({ accountId }: { accountId: string }) {
     return null;
   }
 
-  const payload = brandingQ.data.data;
-  const templateLabel = payload.template?.frontEndName ?? payload.template?.name ?? null;
-  const themeLabel = payload.theme?.name ?? null;
-  const templateOptionIdLabel =
-    payload.templateOptionId !== undefined && payload.templateOptionId !== null
-      ? String(payload.templateOptionId)
-      : "—";
+  const changedFieldsLabel =
+    debugSnapshot && debugSnapshot.changedFields.length > 0
+      ? debugSnapshot.changedFields.join(", ")
+      : "-";
 
   return (
     <div className="grid gap-6">
-      <div className="border-border bg-card text-card-foreground grid max-w-lg gap-4 rounded-lg border p-6 text-sm shadow-sm">
-        <p className="text-muted-foreground">
-          Read-only preview from the CMS branding endpoint. Custom template flags live on Settings.
-        </p>
-        <dl className="grid gap-3">
-          <div className="grid gap-0.5">
-            <dt className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-              Template
-            </dt>
-            <dd>
-              {templateLabel ?? (payload.template ? `ID ${payload.template.id}` : "None linked")}
-            </dd>
+      <div className="grid min-h-screen content-start gap-4">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          {isCricketSport(dashboardPreviewModel.sport) ? (
+            <ImageOptionsAssetsPicker
+              compact
+              inline
+              isSelect
+              organisationSport={dashboardPreviewModel.sport}
+            />
+          ) : (
+            <p className="text-muted-foreground pb-2 text-sm">
+              No selectable assets for this sport.
+            </p>
+          )}
+
+          <div className="ml-auto flex shrink-0 flex-wrap items-center gap-2 pb-0.5">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={editorActions?.onReset}
+              disabled={!editorActions || editorActions.isSaving}
+            >
+              Reset to saved
+            </Button>
+            <Button
+              type="button"
+              variant="success"
+              size="sm"
+              disabled={!editorActions || !editorActions.isDirty || editorActions.isSaving}
+              onClick={editorActions?.onSave}
+            >
+              {editorActions?.saveLabel ?? "No changes"}
+            </Button>
           </div>
-          <div className="grid gap-0.5">
-            <dt className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-              Theme
-            </dt>
-            <dd>{themeLabel ?? (payload.theme ? `ID ${payload.theme.id}` : "None")}</dd>
-          </div>
-          <div className="grid gap-0.5">
-            <dt className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-              Template option
-            </dt>
-            <dd>{payload.template_option ? "Configured" : "None"}</dd>
-          </div>
-          <div className="grid gap-0.5">
-            <dt className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-              templateOptionId (CMS)
-            </dt>
-            <dd>{templateOptionIdLabel}</dd>
-          </div>
-        </dl>
+        </div>
+
+        <div className="h-[60vh] max-h-[42rem] min-h-[28rem] min-w-0">
+          <DashboardAssetPreviewPanel
+            accountId={accountId}
+            sport={dashboardPreviewModel.sport}
+            branding={dashboardPreviewModel.branding}
+            logoUrl={dashboardPreviewModel.logoUrl}
+            templateModeSlug={templateModeSlug}
+            debugPlacement="none"
+            previewTitle={null}
+            compactPreview
+            showAssetPicker={false}
+          />
+        </div>
+
+        {catalogPayload ? (
+          <TemplateBuilderEditor
+            payload={catalogPayload}
+            categoryOptions={templateCategoriesListQ.data?.data ?? null}
+            branding={brandingData}
+            save={editorSave}
+            onDraftStateChange={setPreviewDraftState}
+            onDebugStateChange={setDebugSnapshot}
+            onActionsChange={handleEditorActionsChange}
+          />
+        ) : (
+          <p className="text-muted-foreground text-sm">Loading template options...</p>
+        )}
       </div>
 
-      <AllTemplateOptionsDump
-        catalogQuery={catalogQ}
-        templateOptionIdUsed={templateOptionIdForCatalog}
-      />
+      <TemplateBuilderSection title="Debugger">
+        <dl className="grid gap-3 text-sm sm:grid-cols-3">
+          <div className="grid gap-0.5">
+            <dt className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+              Dirty
+            </dt>
+            <dd>{debugSnapshot?.isDirty ? "Yes" : "No"}</dd>
+          </div>
+          <div className="grid gap-0.5">
+            <dt className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+              Changed count
+            </dt>
+            <dd>{debugSnapshot?.changedCount ?? 0}</dd>
+          </div>
+          <div className="grid gap-0.5">
+            <dt className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+              Changed fields
+            </dt>
+            <dd className="text-xs">{changedFieldsLabel}</dd>
+          </div>
+        </dl>
+        {debugSnapshot ? (
+          <pre className="bg-muted text-muted-foreground max-h-72 overflow-auto rounded-md p-3 text-xs">
+            {JSON.stringify(
+              {
+                savedState: debugSnapshot.savedState,
+                draftState: debugSnapshot.draftState,
+              },
+              null,
+              2,
+            )}
+          </pre>
+        ) : null}
+      </TemplateBuilderSection>
 
-      <TemplateCategoriesListForSelectionDump query={templateCategoriesListQ} />
+      <TemplateBuilderSection title="User settings (debug)">
+        <DashboardAssetPreviewBrandingDebug
+          branding={dashboardPreviewModel.branding}
+          templateModeSlug={templateModeSlug}
+          accountSponsors={accountSponsors}
+        />
+      </TemplateBuilderSection>
     </div>
   );
 }

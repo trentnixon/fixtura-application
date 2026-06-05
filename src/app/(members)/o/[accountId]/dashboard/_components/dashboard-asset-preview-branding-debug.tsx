@@ -5,7 +5,9 @@ import { useMemo, type ReactNode } from "react";
 import { readTemplateModeId } from "@/features/branding/components/branding-workspace/_utils";
 import {
   buildClubSponsorsPayloadFromAccountSponsors,
+  readRemotionGradientFromBranding,
   readRemotionModeFromBrandingThemeJson,
+  readRemotionPaletteKeyFromBranding,
 } from "@/features/remotion-asset-preview";
 import { resolveAccountTemplateCategorySlug } from "@/lib/branding/resolve-account-template-category-slug";
 import { themeColoursFromAccountBrandingTheme } from "@/lib/branding/theme-colours-from-account";
@@ -115,17 +117,30 @@ export function DashboardAssetPreviewBrandingDebug({
     optRec?.["useBackground"] as string | undefined,
   );
 
-  const gradient = themeObj?.["gradient"] ?? optRec?.["gradient"];
+  const gradientRaw = themeObj?.["gradient"] ?? optRec?.["gradient"];
+  const gradientObject = asRecord(gradientRaw);
+  const gradientCatalogLabel = pickFirstString(
+    gradientObject?.["name"] as string | undefined,
+    gradientObject?.["type"] != null && gradientObject?.["direction"] != null
+      ? `${String(gradientObject["type"])} / ${String(gradientObject["direction"])}`
+      : undefined,
+    typeof gradientRaw === "string" ? gradientRaw : undefined,
+  );
+  const remotionGradient = readRemotionGradientFromBranding(branding);
   const pattern = themeObj?.["pattern"] ?? optRec?.["pattern"];
   const particle = themeObj?.["particle"] ?? optRec?.["particle"];
   const noise = themeObj?.["noise"] ?? optRec?.["noise"];
   const texture = themeObj?.["texture"] ?? optRec?.["texture"];
   const video = themeObj?.["video"] ?? optRec?.["video"];
   const image = themeObj?.["image"] ?? optRec?.["image"];
-  const paletteName = pickFirstString(
+  const paletteObject = optRec != null ? asRecord(optRec["palette"]) : null;
+  const paletteCatalogLabel = pickFirstString(
+    paletteObject?.["name"] as string | undefined,
+    paletteObject?.["value"] as string | undefined,
     themeObj?.["palette"] as string | undefined,
-    optRec?.["palette"] as string | undefined,
+    typeof optRec?.["palette"] === "string" ? optRec["palette"] : undefined,
   );
+  const remotionPaletteKey = readRemotionPaletteKeyFromBranding(branding);
 
   const sponsorsFromTheme = themeObj?.["sponsors"];
   const sponsorsFromOption = optRec?.["sponsors"];
@@ -190,7 +205,8 @@ export function DashboardAssetPreviewBrandingDebug({
       </DebugRow>
       <DebugRow label="Template mode slug (CMS)">{templateModeSlug ?? "—"}</DebugRow>
       <DebugRow label="→ Remotion variation mode">{remotionMode ?? "—"}</DebugRow>
-      <DebugRow label="Palette label">{paletteName ?? "—"}</DebugRow>
+      <DebugRow label="Palette (catalog)">{paletteCatalogLabel ?? "—"}</DebugRow>
+      <DebugRow label="→ Remotion palette key">{remotionPaletteKey ?? "—"}</DebugRow>
       <DebugRow label="Colours (resolved)">
         <span className="flex flex-col gap-1">
           <ColourSwatch hex={palette.primary} label="Primary" />
@@ -235,7 +251,15 @@ export function DashboardAssetPreviewBrandingDebug({
       <DebugRow label="Sponsors (theme JSON)">{fmtJson(sponsorsFromTheme, 160)}</DebugRow>
       <DebugRow label="Sponsors (template_option)">{fmtJson(sponsorsFromOption, 160)}</DebugRow>
       <DebugRow label="useBackground (background type)">{useBackground ?? "—"}</DebugRow>
-      <DebugRow label="Gradient">{gradient != null ? fmtJson(gradient) : "—"}</DebugRow>
+      <DebugRow label="Gradient (catalog)">{gradientCatalogLabel ?? "—"}</DebugRow>
+      <DebugRow label="→ Remotion gradient">
+        {remotionGradient != null
+          ? `${remotionGradient.type} / ${remotionGradient.direction}`
+          : "—"}
+      </DebugRow>
+      <DebugRow label="Gradient (raw JSON)">
+        {gradientRaw != null ? fmtJson(gradientRaw) : "—"}
+      </DebugRow>
       <DebugRow label="Pattern">{pattern != null ? fmtJson(pattern) : "—"}</DebugRow>
       <DebugRow label="Particle">{particle != null ? fmtJson(particle) : "—"}</DebugRow>
       <DebugRow label="Noise">{noise != null ? fmtJson(noise) : "—"}</DebugRow>

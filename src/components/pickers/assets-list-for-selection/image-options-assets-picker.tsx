@@ -27,6 +27,8 @@ type ImageOptionsAssetsPickerProps = {
   isSelect?: boolean;
   /** Show a list of assets. */
   isList?: boolean;
+  /** Compact single-row layout for dense toolbars. */
+  inline?: boolean;
   /**
    * Organisation (or other) sport: locks asset list to this sport and hides the Sport filter.
    */
@@ -38,6 +40,7 @@ export function ImageOptionsAssetsPicker({
   compact = false,
   isSelect = false,
   isList = false,
+  inline = false,
   organisationSport = null,
 }: ImageOptionsAssetsPickerProps) {
   const lockSportFilterTo =
@@ -62,8 +65,8 @@ export function ImageOptionsAssetsPicker({
   } = useImageOptionsAssetsPicker(lockSportFilterTo !== null ? { lockSportFilterTo } : undefined);
 
   return (
-    <div className="space-y-4">
-      <p className="text-muted-foreground text-xs" role="status">
+    <div className={cn(inline ? "grid max-w-md min-w-[18rem] gap-1" : "space-y-4")}>
+      <p className={cn("text-muted-foreground text-xs", inline && "order-2")} role="status">
         {effectiveSportFilter !== ALL_SPORTS_KEY
           ? `Showing ${filteredAssets.length} of ${assets.length} Image Options asset${assets.length === 1 ? "" : "s"}`
           : `${assets.length} Image Options asset${assets.length === 1 ? "" : "s"} (published only)`}
@@ -98,10 +101,10 @@ export function ImageOptionsAssetsPicker({
             : "No Image Options assets for this sport. Choose another sport or All sports."}
         </TypographyMuted>
       ) : (
-        <div className={cn("grid gap-6", !compact && "md:grid-cols-2")}>
-          <div className="space-y-4">
+        <div className={cn(inline ? "order-1" : "grid gap-6", !compact && "md:grid-cols-2")}>
+          <div className={cn(inline ? "flex flex-wrap items-end gap-3" : "space-y-4")}>
             {!isSportFilterLocked ? (
-              <div className="space-y-2">
+              <div className={cn(inline ? "grid min-w-40 gap-1" : "space-y-2")}>
                 <Label htmlFor="asset-picker-sport-filter">Sport</Label>
                 <Select
                   value={sportFilter}
@@ -123,7 +126,7 @@ export function ImageOptionsAssetsPicker({
             ) : null}
 
             {isSelect && (
-              <div className="space-y-2">
+              <div className={cn(inline ? "grid min-w-56 flex-1 gap-1" : "space-y-2")}>
                 <Label htmlFor="asset-picker-asset-select">Select asset</Label>
                 <Select
                   value={selectValue}

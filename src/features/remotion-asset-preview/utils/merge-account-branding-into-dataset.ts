@@ -3,8 +3,17 @@ import { resolveAccountTemplateCategorySlug } from "@/lib/branding/resolve-accou
 import { themeColoursFromAccountBrandingTheme } from "@/lib/branding/theme-colours-from-account";
 
 import { buildClubSponsorsPayloadFromAccountSponsors } from "./build-club-sponsors-payload-from-account-sponsors";
+import {
+  readRemotionBackgroundAssetsPatch,
+  REMOTION_BACKGROUND_TV_KEYS,
+} from "./read-remotion-background-assets-from-branding";
+import { readRemotionGradientFromBranding } from "./read-remotion-gradient-from-branding";
 import { readRemotionModeFromBrandingThemeJson } from "./read-remotion-mode-from-branding-theme";
+import { readRemotionPaletteKeyFromBranding } from "./read-remotion-palette-key-from-branding";
+import { readUseBackgroundFromAccountBranding } from "./read-use-background-from-account-branding";
 import { templateModeSlugToRemotionMode } from "./template-mode-to-remotion-mode";
+
+export { readUseBackgroundFromAccountBranding } from "./read-use-background-from-account-branding";
 
 import type { AccountBrandingData, AccountSponsorDto } from "@/types/api/account";
 import type { FixturaDataset } from "@/vendor/fixtura-remotion-assets/preview";
@@ -30,19 +39,6 @@ function ensureRecord(parent: Record<string, unknown>, key: string): Record<stri
   return next;
 }
 
-/** `useBackground` selects the background pipeline (e.g. Solid, Graphics); lives on `theme.theme` or `template_option`. */
-function readUseBackgroundFromAccountBranding(
-  branding: AccountBrandingData | null | undefined,
-): string | null {
-  const slices = [branding?.theme?.theme, branding?.template_option];
-  for (const row of slices) {
-    if (row == null || typeof row !== "object" || Array.isArray(row)) continue;
-    const raw = (row as Record<string, unknown>)["useBackground"];
-    if (typeof raw === "string" && raw.trim() !== "") return raw.trim();
-  }
-  return null;
-}
-
 /**
  * Clone example dataset and apply account branding (template, theme, logo, template mode).
  */
@@ -54,17 +50,17 @@ export function mergeAccountBrandingIntoDataset(
   const { template, usedFallback } = resolveRemotionTemplateFromSlug(
     resolveAccountTemplateCategorySlug(input.branding),
   );
-  const palette = themeColoursFromAccountBrandingTheme(input.branding?.theme ?? null);
+  const themeColours = themeColoursFromAccountBrandingTheme(input.branding?.theme ?? null);
 
   const videoMeta = ensureRecord(next, "videoMeta");
   const video = ensureRecord(videoMeta, "video");
   const appearance = ensureRecord(video, "appearance");
   appearance["template"] = template;
   appearance["theme"] = {
-    primary: palette.primary,
-    secondary: palette.secondary,
-    dark: palette.dark,
-    white: palette.white,
+    primary: themeColours.primary,
+    secondary: themeColours.secondary,
+    dark: themeColours.dark,
+    white: themeColours.white,
   };
 
   const club = ensureRecord(videoMeta, "club");
@@ -89,6 +85,28 @@ export function mergeAccountBrandingIntoDataset(
   const useBackground = readUseBackgroundFromAccountBranding(input.branding);
   if (useBackground !== null) {
     templateVariation["useBackground"] = useBackground;
+  }
+
+  const paletteKey = readRemotionPaletteKeyFromBranding(input.branding);
+  if (paletteKey !== null) {
+    templateVariation["palette"] = paletteKey;
+  }
+
+  const gradient = readRemotionGradientFromBranding(input.branding);
+  if (gradient !== null) {
+    templateVariation["gradient"] = gradient;
+  }
+
+  const backgroundPatch = readRemotionBackgroundAssetsPatch(input.branding);
+  for (const key of REMOTION_BACKGROUND_TV_KEYS) {
+    if (!(key in backgroundPatch)) {
+      delete templateVariation[key];
+    }
+  }
+  for (const [key, value] of Object.entries(backgroundPatch)) {
+    if (value != null) {
+      templateVariation[key] = value;
+    }
   }
 
   return { data: next as FixturaDataset, usedTemplateFallback: usedFallback };

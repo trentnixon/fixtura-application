@@ -212,6 +212,58 @@ describe("mergeAccountBrandingIntoDataset", () => {
     expect(tv["mode"]).toBe("dark");
   });
 
+  it("copies template_option palette into templateVariation over example default", () => {
+    const base = minimalDataset();
+    const dataRec = base as unknown as Record<string, unknown>;
+    const vm = dataRec["videoMeta"] as Record<string, unknown>;
+    const video = vm["video"] as Record<string, unknown>;
+    const tv = video["templateVariation"] as Record<string, unknown>;
+    tv["palette"] = "primary";
+
+    const b = brandingFixture({
+      template_option: {
+        palette: { id: 2, name: "Analogous", value: "analogous" },
+      },
+    });
+    const { data } = mergeAccountBrandingIntoDataset(base, {
+      branding: b,
+      logoUrl: null,
+      templateModeSlug: null,
+    });
+
+    const mergedRec = data as unknown as Record<string, unknown>;
+    const mergedVm = mergedRec["videoMeta"] as Record<string, unknown>;
+    const mergedVideo = mergedVm["video"] as Record<string, unknown>;
+    const mergedTv = mergedVideo["templateVariation"] as Record<string, unknown>;
+    expect(mergedTv["palette"]).toBe("analogous");
+  });
+
+  it("copies template_option gradient into templateVariation over example default", () => {
+    const base = minimalDataset();
+    const dataRec = base as unknown as Record<string, unknown>;
+    const vm = dataRec["videoMeta"] as Record<string, unknown>;
+    const video = vm["video"] as Record<string, unknown>;
+    const tv = video["templateVariation"] as Record<string, unknown>;
+    tv["gradient"] = { type: "primary", direction: "HORIZONTAL" };
+
+    const b = brandingFixture({
+      template_option: {
+        gradient: { id: 5, name: "Secondary vertical", type: "secondary", direction: "VERTICAL" },
+      },
+    });
+    const { data } = mergeAccountBrandingIntoDataset(base, {
+      branding: b,
+      logoUrl: null,
+      templateModeSlug: null,
+    });
+
+    const mergedRec = data as unknown as Record<string, unknown>;
+    const mergedVm = mergedRec["videoMeta"] as Record<string, unknown>;
+    const mergedVideo = mergedVm["video"] as Record<string, unknown>;
+    const mergedTv = mergedVideo["templateVariation"] as Record<string, unknown>;
+    expect(mergedTv["gradient"]).toEqual({ type: "secondary", direction: "VERTICAL" });
+  });
+
   it("copies useBackground into templateVariation", () => {
     const base = minimalDataset();
     const b = brandingFixture({
@@ -231,6 +283,105 @@ describe("mergeAccountBrandingIntoDataset", () => {
     const video = vm["video"] as Record<string, unknown>;
     const tv = video["templateVariation"] as Record<string, unknown>;
     expect(tv["useBackground"]).toBe("Graphics");
+  });
+
+  it("copies template_option texture into templateVariation over example default", () => {
+    const base = minimalDataset();
+    const dataRec = base as unknown as Record<string, unknown>;
+    const vm = dataRec["videoMeta"] as Record<string, unknown>;
+    const video = vm["video"] as Record<string, unknown>;
+    const tv = video["templateVariation"] as Record<string, unknown>;
+    tv["texture"] = {
+      name: "Print Texture",
+      url: "https://example.com/default-texture.png",
+    };
+
+    const b = brandingFixture({
+      template_option: {
+        useBackground: "Texture",
+        texture: {
+          id: 9,
+          name: "Halftone",
+          opacity: 0.5,
+          blendMode: "screen",
+          texture: {
+            id: 1,
+            url: "https://cdn.example/draft-texture.png",
+            width: null,
+            height: null,
+            mime: null,
+            alternativeText: null,
+          },
+        },
+      },
+    });
+
+    const { data } = mergeAccountBrandingIntoDataset(base, {
+      branding: b,
+      logoUrl: null,
+      templateModeSlug: null,
+    });
+
+    const mergedRec = data as unknown as Record<string, unknown>;
+    const mergedVm = mergedRec["videoMeta"] as Record<string, unknown>;
+    const mergedVideo = mergedVm["video"] as Record<string, unknown>;
+    const mergedTv = mergedVideo["templateVariation"] as Record<string, unknown>;
+    expect(mergedTv["texture"]).toMatchObject({
+      name: "Halftone",
+      url: "https://cdn.example/draft-texture.png",
+    });
+    expect(mergedTv["noise"]).toBeUndefined();
+  });
+
+  it("copies template_option noise into templateVariation for Graphics", () => {
+    const base = minimalDataset();
+    const b = brandingFixture({
+      template_option: {
+        useBackground: "Graphics",
+        noise: { id: 6, name: "Grain", noiseType: "grain" },
+      },
+    });
+    const { data } = mergeAccountBrandingIntoDataset(base, {
+      branding: b,
+      logoUrl: null,
+      templateModeSlug: null,
+    });
+
+    const mergedRec = data as unknown as Record<string, unknown>;
+    const mergedVm = mergedRec["videoMeta"] as Record<string, unknown>;
+    const mergedVideo = mergedVm["video"] as Record<string, unknown>;
+    const mergedTv = mergedVideo["templateVariation"] as Record<string, unknown>;
+    expect(mergedTv["noise"]).toEqual({ type: "grain" });
+    expect(mergedTv["texture"]).toBeUndefined();
+  });
+
+  it("removes example texture when useBackground is Gradient", () => {
+    const base = minimalDataset();
+    const dataRec = base as unknown as Record<string, unknown>;
+    const vm = dataRec["videoMeta"] as Record<string, unknown>;
+    const video = vm["video"] as Record<string, unknown>;
+    const tv = video["templateVariation"] as Record<string, unknown>;
+    tv["texture"] = { name: "Stale", url: "https://example.com/stale.png" };
+
+    const b = brandingFixture({
+      template_option: {
+        useBackground: "Gradient",
+        gradient: { id: 5, name: "Primary", type: "primary", direction: "HORIZONTAL" },
+      },
+    });
+
+    const { data } = mergeAccountBrandingIntoDataset(base, {
+      branding: b,
+      logoUrl: null,
+      templateModeSlug: null,
+    });
+
+    const mergedRec = data as unknown as Record<string, unknown>;
+    const mergedVm = mergedRec["videoMeta"] as Record<string, unknown>;
+    const mergedVideo = mergedVm["video"] as Record<string, unknown>;
+    const mergedTv = mergedVideo["templateVariation"] as Record<string, unknown>;
+    expect(mergedTv["texture"]).toBeUndefined();
+    expect(mergedTv["gradient"]).toEqual({ type: "primary", direction: "HORIZONTAL" });
   });
 
   it("resolves template from template_option.category when template row is null", () => {
