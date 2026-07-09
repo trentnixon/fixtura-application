@@ -111,8 +111,8 @@ export function SeasonFixtureView({
         gradeHref={gradeHref}
         model={fixtureModel}
         isFetching={isFetching}
-        isSyncMutating={resultSingle.isPending}
         canQueueResultSync={canQueueResultSync}
+        onReload={handleRefetch}
         onOpenSync={() => setResultSyncDialogOpen(true)}
       />
 

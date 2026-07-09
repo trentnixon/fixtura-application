@@ -4,14 +4,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import { ImageOptionsAssetsPicker } from "@/components/pickers/assets-list-for-selection";
 import { BrandedLoader } from "@/components/ui/branded-loader";
-import { Button } from "@/components/ui/button";
 import { ErrorState } from "@/components/ui/error-state";
-import {
-  isCricketSport,
-  resolveTemplateModeSlugFromBranding,
-} from "@/features/remotion-asset-preview";
+import { resolveTemplateModeSlugFromBranding } from "@/features/remotion-asset-preview";
 import {
   isAccountBrandingGatewayRedirect,
   useAccountBranding,
@@ -47,18 +42,15 @@ import {
   selectOrganisationUrlWithReason,
 } from "@/lib/config/gateway-reasons";
 
+import { TemplateBuilderPreviewPanel } from "./_components/template-builder-preview-panel";
 import { buildTemplateBuilderPreviewBranding } from "./_utils/template-builder-preview-branding";
 import { mapTemplateBuilderEditorStateToPutBody } from "./_utils/template-builder-save-payload";
 import { TemplateBuilderEditor } from "./template-builder-editor";
 import { DashboardAssetPreviewBrandingDebug } from "../dashboard/_components/dashboard-asset-preview-branding-debug";
-import { DashboardAssetPreviewPanel } from "../dashboard/_components/dashboard-asset-preview-panel";
 import { buildDashboardViewModel } from "../dashboard/dashboard-view-model";
 
 import type { TemplateBuilderEditorState } from "./_utils/template-builder-editor-state";
-import type {
-  TemplateBuilderEditorActionsSnapshot,
-  TemplateBuilderEditorDebugSnapshot,
-} from "./template-builder-editor";
+import type { TemplateBuilderEditorDebugSnapshot } from "./template-builder-editor";
 import type { ReactNode } from "react";
 
 function TemplateBuilderSection({
@@ -144,10 +136,6 @@ export function TemplateBuilderContent({ accountId }: { accountId: string }) {
   const [debugSnapshot, setDebugSnapshot] = useState<TemplateBuilderEditorDebugSnapshot | null>(
     null,
   );
-  const [editorActions, setEditorActions] = useState<TemplateBuilderEditorActionsSnapshot | null>(
-    null,
-  );
-
   const settingsData =
     settingsQ.data && !isAccountSettingsGatewayRedirect(settingsQ.data)
       ? settingsQ.data.data
@@ -207,6 +195,21 @@ export function TemplateBuilderContent({ accountId }: { accountId: string }) {
     [dashboardPreviewModel.branding, templateModesQuery.data],
   );
 
+  const previewConfig = useMemo(
+    () => ({
+      sport: dashboardPreviewModel.sport,
+      branding: dashboardPreviewModel.branding,
+      logoUrl: dashboardPreviewModel.logoUrl,
+      templateModeSlug,
+    }),
+    [
+      dashboardPreviewModel.branding,
+      dashboardPreviewModel.logoUrl,
+      dashboardPreviewModel.sport,
+      templateModeSlug,
+    ],
+  );
+
   const clearSaveFeedback = useCallback(() => {
     setSaveSuccess(false);
     putTemplateOptions.reset();
@@ -235,10 +238,6 @@ export function TemplateBuilderContent({ accountId }: { accountId: string }) {
     }),
     [clearSaveFeedback, handleSaveDraft, putTemplateOptions.isPending, saveError, saveSuccess],
   );
-
-  const handleEditorActionsChange = useCallback((actions: TemplateBuilderEditorActionsSnapshot) => {
-    setEditorActions(actions);
-  }, []);
 
   useEffect(() => {
     redirectingRef.current = false;
@@ -318,75 +317,31 @@ export function TemplateBuilderContent({ accountId }: { accountId: string }) {
       ? debugSnapshot.changedFields.join(", ")
       : "-";
 
+  const previewPanel = <TemplateBuilderPreviewPanel accountId={accountId} {...previewConfig} />;
+
   return (
     <div className="grid gap-6">
-      <div className="grid min-h-screen content-start gap-4">
-        <div className="flex flex-wrap items-end justify-between gap-3">
-          {isCricketSport(dashboardPreviewModel.sport) ? (
-            <ImageOptionsAssetsPicker
-              compact
-              inline
-              isSelect
-              organisationSport={dashboardPreviewModel.sport}
-            />
-          ) : (
-            <p className="text-muted-foreground pb-2 text-sm">
-              No selectable assets for this sport.
-            </p>
-          )}
-
-          <div className="ml-auto flex shrink-0 flex-wrap items-center gap-2 pb-0.5">
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={editorActions?.onReset}
-              disabled={!editorActions || editorActions.isSaving}
-            >
-              Reset to saved
-            </Button>
-            <Button
-              type="button"
-              variant="success"
-              size="sm"
-              disabled={!editorActions || !editorActions.isDirty || editorActions.isSaving}
-              onClick={editorActions?.onSave}
-            >
-              {editorActions?.saveLabel ?? "No changes"}
-            </Button>
-          </div>
-        </div>
-
-        <div className="h-[60vh] max-h-[42rem] min-h-[28rem] min-w-0">
-          <DashboardAssetPreviewPanel
-            accountId={accountId}
-            sport={dashboardPreviewModel.sport}
-            branding={dashboardPreviewModel.branding}
-            logoUrl={dashboardPreviewModel.logoUrl}
-            templateModeSlug={templateModeSlug}
-            debugPlacement="none"
-            previewTitle={null}
-            compactPreview
-            showAssetPicker={false}
-          />
-        </div>
-
+      <div className="grid min-h-screen content-start gap-3">
         {catalogPayload ? (
           <TemplateBuilderEditor
+            accountId={accountId}
             payload={catalogPayload}
             categoryOptions={templateCategoriesListQ.data?.data ?? null}
             branding={brandingData}
             save={editorSave}
+            previewConfig={previewConfig}
             onDraftStateChange={setPreviewDraftState}
             onDebugStateChange={setDebugSnapshot}
-            onActionsChange={handleEditorActionsChange}
           />
         ) : (
-          <p className="text-muted-foreground text-sm">Loading template options...</p>
+          <>
+            {previewPanel}
+            <p className="text-muted-foreground text-sm">Loading template options...</p>
+          </>
         )}
       </div>
 
-      <TemplateBuilderSection title="Debugger">
+      <TemplateBuilderSection title="Debugger" className="hidden">
         <dl className="grid gap-3 text-sm sm:grid-cols-3">
           <div className="grid gap-0.5">
             <dt className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
@@ -421,7 +376,7 @@ export function TemplateBuilderContent({ accountId }: { accountId: string }) {
         ) : null}
       </TemplateBuilderSection>
 
-      <TemplateBuilderSection title="User settings (debug)">
+      <TemplateBuilderSection title="User settings (debug)" className="hidden">
         <DashboardAssetPreviewBrandingDebug
           branding={dashboardPreviewModel.branding}
           templateModeSlug={templateModeSlug}

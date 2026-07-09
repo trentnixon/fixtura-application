@@ -3,7 +3,6 @@
 import { useState } from "react";
 
 import { ApiError } from "@/lib/api/client/api-error";
-import { usePostAccountBillingCancelInvoiceRequest } from "@/lib/api/hooks/account/usePostAccountBillingCancelInvoiceRequest";
 import { usePostAccountBillingCheckoutResume } from "@/lib/api/hooks/account/usePostAccountBillingCheckoutResume";
 import { usePostAccountBillingDeletePendingOrder } from "@/lib/api/hooks/account/usePostAccountBillingDeletePendingOrder";
 
@@ -11,7 +10,7 @@ type UseBillingPaymentPendingBannerActionsOptions = {
   accountId: string;
   orderId: string | null;
   deletableOrderId: string | null;
-  withdrawableInvoiceRequestId: string | null;
+  withdrawPending?: boolean;
 };
 
 const FALLBACK_ERROR_MESSAGE = "Something went wrong. Try again.";
@@ -26,19 +25,16 @@ export function useBillingPaymentPendingBannerActions({
   accountId,
   orderId,
   deletableOrderId,
-  withdrawableInvoiceRequestId,
+  withdrawPending = false,
 }: UseBillingPaymentPendingBannerActionsOptions) {
   const resume = usePostAccountBillingCheckoutResume(accountId);
   const discard = usePostAccountBillingDeletePendingOrder(accountId);
-  const cancelInvoiceRequest = usePostAccountBillingCancelInvoiceRequest(accountId);
   const [resumeError, setResumeError] = useState<string | null>(null);
   const [discardError, setDiscardError] = useState<string | null>(null);
-  const [withdrawInvoiceError, setWithdrawInvoiceError] = useState<string | null>(null);
 
   const resetErrors = () => {
     setResumeError(null);
     setDiscardError(null);
-    setWithdrawInvoiceError(null);
   };
 
   const onContinuePayment = async () => {
@@ -66,26 +62,13 @@ export function useBillingPaymentPendingBannerActions({
     }
   };
 
-  const onWithdrawInvoiceRequest = async () => {
-    if (!withdrawableInvoiceRequestId) return;
-    resetErrors();
-    try {
-      await cancelInvoiceRequest.mutateAsync(withdrawableInvoiceRequestId);
-    } catch (error) {
-      setWithdrawInvoiceError(billingActionErrorMessage(error));
-    }
-  };
-
   return {
-    billingActionPending: resume.isPending || discard.isPending || cancelInvoiceRequest.isPending,
-    cancelInvoiceRequest,
+    billingActionPending: resume.isPending || discard.isPending || withdrawPending,
     discard,
     discardError,
     onContinuePayment,
     onDiscardPendingOrder,
-    onWithdrawInvoiceRequest,
     resume,
     resumeError,
-    withdrawInvoiceError,
   };
 }

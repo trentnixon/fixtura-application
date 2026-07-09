@@ -18,15 +18,21 @@ export type BuildThumbnailFrameTargetsResult = {
 export function buildThumbnailFrameTargets(
   data: FixturaDataset,
   durationInFrames: number,
+  maxFrameTargets?: number,
 ): BuildThumbnailFrameTargetsResult {
   const { frames: desiredThumbFrames, fromDataset: usesDatasetFrames } =
     getSandboxThumbnailFramesFromData(data, REMOTION_SANDBOX_PREVIEW_THUMBNAIL_FRAME);
 
-  const targets = desiredThumbFrames.map((desired) => {
+  const limitedDesiredThumbFrames =
+    maxFrameTargets != null && maxFrameTargets > 0
+      ? desiredThumbFrames.slice(0, maxFrameTargets)
+      : desiredThumbFrames;
+
+  const targets = limitedDesiredThumbFrames.map((desired) => {
     const frameToDisplay = durationInFrames > 0 ? Math.min(desired, durationInFrames - 1) : 0;
     const wasClamped = durationInFrames > 0 && desired > durationInFrames - 1;
     return { desired, frameToDisplay, wasClamped };
   });
 
-  return { targets, fromDataset: usesDatasetFrames, desiredThumbFrames };
+  return { targets, fromDataset: usesDatasetFrames, desiredThumbFrames: limitedDesiredThumbFrames };
 }

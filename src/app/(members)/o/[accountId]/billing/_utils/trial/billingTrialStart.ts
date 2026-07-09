@@ -4,6 +4,30 @@ import { AUTH_ERROR_MESSAGES } from "@/lib/auth/auth-errors";
 
 import { BILLING_TRIAL_START_DURATION_DAYS } from "../../_constants/trial/billingTrialStart";
 
+import type { AccountOrganisationContextData } from "@/types/api/account";
+
+const BILLING_TRIAL_ACCOUNT_NAME_FALLBACK = "your organisation";
+
+export function resolveBillingTrialAccountName(
+  orgContextData: AccountOrganisationContextData | undefined,
+): string {
+  return orgContextData?.accountOrganisationDetails?.Name?.trim() ?? "";
+}
+
+export function formatBillingTrialStartCardDescription(accountName: string): string {
+  const owner = accountName.trim() || BILLING_TRIAL_ACCOUNT_NAME_FALLBACK;
+  const possessive =
+    owner === BILLING_TRIAL_ACCOUNT_NAME_FALLBACK ? "your organisation's" : `${owner}'s`;
+
+  return `Start ${possessive} trial with no upfront payment. Explore automated content, scheduled delivery, and premium workflow tools.`;
+}
+
+export function formatBillingTrialStartConfirmDescription(accountName: string): string {
+  const subject = accountName.trim() || "Your organisation";
+
+  return `${subject} will get full Fixtura access for ${BILLING_TRIAL_START_DURATION_DAYS} days. You will not be charged today, and no payment details are required to start.`;
+}
+
 export function formatBillingTrialStartBannerDate(date: Date) {
   return date.toLocaleDateString("en-AU", {
     weekday: "long",

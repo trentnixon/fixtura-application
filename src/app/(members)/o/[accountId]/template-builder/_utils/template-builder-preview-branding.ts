@@ -1,3 +1,5 @@
+import { resolveRemotionNoiseFromCatalogNoise } from "@/features/remotion-asset-preview/utils/read-remotion-noise-from-catalog";
+
 import { applyBackgroundVisibilityToEditorState } from "./template-builder-field-visibility";
 
 import type { TemplateBuilderEditorState } from "./template-builder-editor-state";
@@ -6,6 +8,7 @@ import type {
   AllTemplateOptionsPayload,
   TemplateCategoryCatalogItem,
   TemplateModeItem,
+  TemplateNoiseItem,
 } from "@/types/api/all-template-options";
 
 function findById<T extends { id: number }>(items: T[], id: number | null): T | null {
@@ -35,6 +38,40 @@ function modeSlug(mode: TemplateModeItem | null): string | null {
   return mode?.slug?.trim() || mode?.name?.trim() || null;
 }
 
+function resolveNoiseCatalogItem(
+  catalog: AllTemplateOptionsPayload,
+  noiseId: number | null,
+): TemplateNoiseItem | null {
+  if (noiseId === null) return null;
+
+  const fromCatalog = findById(catalog.noises, noiseId);
+  const fromCurrent =
+    catalog.currentSelection?.templateNoise?.id === noiseId
+      ? catalog.currentSelection.templateNoise
+      : null;
+
+  if (fromCatalog === null) return fromCurrent;
+  if (fromCurrent === null) return fromCatalog;
+
+  return {
+    id: fromCatalog.id,
+    name: fromCatalog.name ?? fromCurrent.name,
+    noiseType: fromCatalog.noiseType ?? fromCurrent.noiseType,
+  };
+}
+
+function enrichNoiseForPreview(noise: TemplateNoiseItem | null): TemplateNoiseItem | null {
+  if (noise === null) return null;
+
+  const resolved = resolveRemotionNoiseFromCatalogNoise(noise);
+  if (resolved === null) return noise;
+
+  return {
+    ...noise,
+    noiseType: resolved.type,
+  };
+}
+
 function mergeTemplateOptionDraft(
   current: AccountBrandingTemplateOption | null,
   draft: TemplateBuilderEditorState,
@@ -48,7 +85,7 @@ function mergeTemplateOptionDraft(
   const palette = findById(catalog.palettes, draft.templatePaletteId);
   const gradient = findById(catalog.gradients, draft.templateGradientId);
   const image = findById(catalog.images, draft.templateImageId);
-  const noise = findById(catalog.noises, draft.templateNoiseId);
+  const noise = enrichNoiseForPreview(resolveNoiseCatalogItem(catalog, draft.templateNoiseId));
   const particle = findById(catalog.particles, draft.templateParticleId);
   const pattern = findById(catalog.patterns, draft.templatePatternId);
   const texture = findById(catalog.textures, draft.templateTextureId);

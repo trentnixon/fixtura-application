@@ -14,6 +14,7 @@ import {
 import { toast } from "sonner";
 
 import { InlineAlert } from "@/components/auth/actions";
+import { MetricComparisonCard } from "@/components/cards";
 import { TypographyFinePrint } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -26,8 +27,6 @@ import {
 import { useUpdateOnboardingStep3 } from "@/lib/api/hooks/account/useUpdateOnboardingStep3";
 import { useCurrentUser } from "@/lib/api/hooks/auth/useCurrentUser";
 import { ROUTES } from "@/lib/config/routes";
-
-import { OnboardingSection } from "./onboarding-section";
 
 import type { UpdateOnboardingStep3Body } from "@/types/api/account";
 
@@ -229,64 +228,89 @@ export const WizardStepContact = forwardRef<WizardStepContactHandle, WizardStepC
     }
 
     return (
-      <div className="flex flex-col gap-4">
-        <OnboardingSection title="Contact name" titleId={contactNameSectionId}>
-          <div className="grid gap-2 sm:grid-cols-2">
+      <div className="flex flex-col gap-6">
+        <MetricComparisonCard
+          layout="card"
+          data-card="card.metric.comparison-card.body-prose"
+          className="ring-border w-full min-w-0 rounded-2xl border-none shadow-xl ring-1"
+          title={
+            <span id={contactNameSectionId} className="text-sm font-semibold">
+              Contact name
+            </span>
+          }
+          body={
             <div className="grid gap-2">
-              <Label htmlFor="contact-first-name">First name</Label>
-              <Input
-                id="contact-first-name"
-                autoComplete="given-name"
-                maxLength={W3_MAX_NAME}
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="contact-last-name">Last name</Label>
-              <Input
-                id="contact-last-name"
-                autoComplete="family-name"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-              />
-            </div>
-          </div>
-        </OnboardingSection>
-        <OnboardingSection title="Weekly assets email" titleId={deliverySectionId}>
-          <div className="grid gap-2">
-            <TypographyFinePrint className="text-muted-foreground">
-              Enter the email address you would like the assets delivered to each week.
-            </TypographyFinePrint>
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-end">
-              <div className="grid min-w-0 flex-1 gap-2">
-                <Label htmlFor="contact-assets-delivery-email">Email for weekly assets</Label>
-                <Input
-                  id="contact-assets-delivery-email"
-                  type="email"
-                  autoComplete="email"
-                  inputMode="email"
-                  maxLength={MAX_ASSETS_DELIVERY_EMAIL}
-                  value={assetsDeliveryEmail}
-                  onChange={(e) => setAssetsDeliveryEmail(e.target.value)}
-                  placeholder="name@example.com"
-                />
+              <TypographyFinePrint className="text-muted-foreground">
+                Enter the name we should use as the operational contact for this account.
+              </TypographyFinePrint>
+              <div className="grid gap-2 sm:grid-cols-2">
+                <div className="grid gap-2">
+                  <Label htmlFor="contact-first-name">First name (required)</Label>
+                  <Input
+                    id="contact-first-name"
+                    autoComplete="given-name"
+                    maxLength={W3_MAX_NAME}
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="contact-last-name">Last name (optional)</Label>
+                  <Input
+                    id="contact-last-name"
+                    autoComplete="family-name"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                  />
+                </div>
               </div>
-              <Button
-                type="button"
-                variant="outline"
-                className="shrink-0 sm:mb-0.5"
-                disabled={!emailDisplay}
-                onClick={() => setAssetsDeliveryEmail(emailDisplay)}
-              >
-                Send to Me
-              </Button>
             </div>
-            <TypographyFinePrint className="text-muted-foreground">
-              This can differ from your sign-in email if you want weekly assets sent somewhere else.
-            </TypographyFinePrint>
-          </div>
-        </OnboardingSection>
+          }
+        />
+        <MetricComparisonCard
+          layout="card"
+          data-card="card.metric.comparison-card.body-prose"
+          className="ring-border w-full min-w-0 rounded-2xl border-none shadow-xl ring-1"
+          title={
+            <span id={deliverySectionId} className="text-sm font-semibold">
+              Weekly assets email
+            </span>
+          }
+          body={
+            <div className="grid gap-2">
+              <TypographyFinePrint className="text-muted-foreground">
+                Enter the email address where we should send your weekly assets.
+              </TypographyFinePrint>
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-end">
+                <div className="grid min-w-0 flex-1 gap-2">
+                  <Label htmlFor="contact-assets-delivery-email">Email address (required)</Label>
+                  <Input
+                    id="contact-assets-delivery-email"
+                    type="email"
+                    autoComplete="email"
+                    inputMode="email"
+                    maxLength={MAX_ASSETS_DELIVERY_EMAIL}
+                    value={assetsDeliveryEmail}
+                    onChange={(e) => setAssetsDeliveryEmail(e.target.value)}
+                    placeholder="name@example.com"
+                  />
+                </div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="shrink-0 sm:mb-0.5"
+                  disabled={!emailDisplay}
+                  onClick={() => setAssetsDeliveryEmail(emailDisplay)}
+                >
+                  Send to Me
+                </Button>
+              </div>
+              <TypographyFinePrint className="text-muted-foreground">
+                This can be different from your sign-in email.
+              </TypographyFinePrint>
+            </div>
+          }
+        />
       </div>
     );
   },

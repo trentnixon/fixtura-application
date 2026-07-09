@@ -57,8 +57,6 @@ export type SeasonEmptyPanelProps = {
 
 export type UnknownRecord = Record<string, unknown>;
 
-export type CoverageFilter = "all" | "has-fixtures" | "no-fixtures" | "has-grades" | "no-grades";
-
 export type SeasonOverviewCompetitionRow = {
   id: string | number;
   name: string | null;

@@ -54,7 +54,7 @@ function FixtureTimelinePanel({
         {canExpand ? (
           <Button
             type="button"
-            variant="outline"
+            variant="accentOutline"
             size="sm"
             className="shrink-0"
             onClick={() => onShowAllChange(!showAll)}
@@ -64,7 +64,7 @@ function FixtureTimelinePanel({
         ) : null}
       </div>
       {rows.length === 0 ? (
-        <div className="px-4 py-8">
+        <div className="px-4 py-8 text-center">
           <p className="text-muted-foreground text-sm">{emptyLabel}</p>
         </div>
       ) : (
@@ -182,7 +182,11 @@ export function SeasonGradeFixturesSection({
                     onShowAllChange={setShowAllPrevious}
                     expandLabel={`View all ${allPreviousCount} previous`}
                     collapseLabel="Show past 7 days"
-                    emptyLabel="No previous fixtures match the current filter."
+                    emptyLabel={
+                      showAllPrevious
+                        ? "No previous fixtures match the current filter."
+                        : "No previous fixtures in the past 7 days match the current filter."
+                    }
                   />
                 </TabsContent>
                 <TabsContent value="upcoming" className="mt-0">

@@ -4,6 +4,7 @@ import {
   normalizeTemplateGradientDirectionToRemotionKey,
   normalizeTemplateGradientTypeToRemotionKey,
   readRemotionGradientFromBranding,
+  resolveRemotionGradientFromCatalogGradient,
 } from "./read-remotion-gradient-from-branding";
 
 import type { AccountBrandingData } from "@/types/api/account";
@@ -31,6 +32,13 @@ describe("normalizeTemplateGradientTypeToRemotionKey", () => {
     expect(normalizeTemplateGradientTypeToRemotionKey("radial")).toBeNull();
     expect(normalizeTemplateGradientTypeToRemotionKey("not-a-gradient")).toBeNull();
     expect(normalizeTemplateGradientTypeToRemotionKey(null)).toBeNull();
+  });
+
+  it("maps CMS display labels with reversed word order", () => {
+    expect(normalizeTemplateGradientTypeToRemotionKey("Radial Primary")).toBe("primaryRadial");
+    expect(normalizeTemplateGradientTypeToRemotionKey("Radial Secondary")).toBe("secondaryRadial");
+    expect(normalizeTemplateGradientTypeToRemotionKey("Conic Gradient")).toBe("conicGradient");
+    expect(normalizeTemplateGradientTypeToRemotionKey("Mesh Gradient")).toBe("meshGradient");
   });
 });
 
@@ -132,8 +140,7 @@ describe("readRemotionGradientFromBranding", () => {
     });
   });
 
-  it("returns null when gradient is missing, partial, or invalid", () => {
-    expect(readRemotionGradientFromBranding(null)).toBeNull();
+  it("defaults direction to HORIZONTAL when type resolves but direction is missing", () => {
     expect(
       readRemotionGradientFromBranding({
         id: 1,
@@ -141,7 +148,49 @@ describe("readRemotionGradientFromBranding", () => {
         theme: null,
         template_option: { gradient: { type: "primary" } },
       } as unknown as AccountBrandingData),
-    ).toBeNull();
+    ).toEqual({
+      type: "primary",
+      direction: "HORIZONTAL",
+    });
+  });
+
+  it("resolves CMS catalog gradient names for radial, conic, and mesh", () => {
+    expect(
+      resolveRemotionGradientFromCatalogGradient({
+        id: 1,
+        name: "Radial Primary",
+        type: null,
+        direction: null,
+      }),
+    ).toEqual({ type: "primaryRadial", direction: "HORIZONTAL" });
+    expect(
+      resolveRemotionGradientFromCatalogGradient({
+        id: 2,
+        name: "Radial Secondary",
+        type: null,
+        direction: null,
+      }),
+    ).toEqual({ type: "secondaryRadial", direction: "HORIZONTAL" });
+    expect(
+      resolveRemotionGradientFromCatalogGradient({
+        id: 3,
+        name: "Conic Gradient",
+        type: null,
+        direction: null,
+      }),
+    ).toEqual({ type: "conicGradient", direction: "HORIZONTAL" });
+    expect(
+      resolveRemotionGradientFromCatalogGradient({
+        id: 4,
+        name: "Mesh Gradient",
+        type: null,
+        direction: null,
+      }),
+    ).toEqual({ type: "meshGradient", direction: "HORIZONTAL" });
+  });
+
+  it("returns null when gradient is missing, partial, or invalid", () => {
+    expect(readRemotionGradientFromBranding(null)).toBeNull();
     expect(
       readRemotionGradientFromBranding({
         id: 1,

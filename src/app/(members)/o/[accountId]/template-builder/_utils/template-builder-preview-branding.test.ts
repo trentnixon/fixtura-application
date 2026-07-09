@@ -146,6 +146,40 @@ describe("buildTemplateBuilderPreviewBranding", () => {
     expect(preview?.template_option?.gradientId).toBe(4);
   });
 
+  it("enriches selected noise with normalized Remotion type for preview", () => {
+    const preview = buildTemplateBuilderPreviewBranding({
+      branding,
+      catalog: {
+        ...catalog,
+        noises: [{ id: 12, name: "Triangle Swarm", noiseType: null }],
+        currentSelection: {
+          id: 269,
+          useBackground: "Graphics",
+          templateCategory: null,
+          templatePalette: null,
+          templateGradient: null,
+          templateImage: null,
+          templateNoise: { id: 12, name: "Triangle Swarm", noiseType: "triangleSwarm" },
+          templateParticle: null,
+          templatePattern: null,
+          templateTexture: null,
+          templateVideo: null,
+          templateMode: null,
+        },
+      },
+      draft: {
+        ...draft,
+        templateNoiseId: 12,
+      },
+    });
+
+    expect(preview?.template_option?.noise).toEqual({
+      id: 12,
+      name: "Triangle Swarm",
+      noiseType: "triangleSwarm",
+    });
+  });
+
   it("falls back to saved branding before catalog or draft exists", () => {
     expect(
       buildTemplateBuilderPreviewBranding({

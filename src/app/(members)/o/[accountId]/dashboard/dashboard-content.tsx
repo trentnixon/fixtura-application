@@ -1,6 +1,5 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 
 import { resolveTemplateModeSlugFromBranding } from "@/features/remotion-asset-preview";
@@ -13,7 +12,6 @@ import {
   useAccountBranding,
 } from "@/lib/api/hooks/account/useAccountBranding";
 import { useAccountMe } from "@/lib/api/hooks/account/useAccountMe";
-import { useAccountOrganisation } from "@/lib/api/hooks/account/useAccountOrganisation";
 import {
   isAccountOrganisationContextGatewayRedirect,
   useAccountOrganisationContext,
@@ -24,27 +22,21 @@ import {
 } from "@/lib/api/hooks/account/useAccountSettings";
 import { useTemplateModesUi } from "@/lib/api/hooks/template-modes/useTemplateModesUi";
 
-import { DashboardActivityTable } from "./_components/dashboard-activity-table";
 import { DashboardAssetPreviewPanel } from "./_components/dashboard-asset-preview-panel";
-import { DashboardCategorySection } from "./_components/dashboard-category-section";
-import { DashboardDevPayloads } from "./_components/dashboard-dev-payloads";
+import { DashboardBillingRouteCard } from "./_components/dashboard-billing-route-card";
+import { DashboardBrandingRouteCard } from "./_components/dashboard-branding-route-card";
 import { DashboardHeader } from "./_components/dashboard-header";
 import { DashboardKpiStrip } from "./_components/dashboard-kpi-strip";
-import { DashboardOrganisationRouteCards } from "./_components/dashboard-organisation-route-cards";
+import { DashboardSponsorsRouteCard } from "./_components/dashboard-sponsors-route-card";
+import { DashboardVisionRouteCard } from "./_components/dashboard-vision-route-card";
 import { buildDashboardViewModel } from "./dashboard-view-model";
 
 export function DashboardContent({ accountId }: { accountId: string }) {
-  const searchParams = useSearchParams();
-  /** Dev/staging: show JSON dumps in development or when `?debug=1`. */
-  const showDevPayloads =
-    process.env.NODE_ENV === "development" || searchParams.get("debug") === "1";
-
   const me = useAccountMe();
   const settings = useAccountSettings(accountId);
   const branding = useAccountBranding(accountId);
   const organisationContext = useAccountOrganisationContext(accountId);
   const analytics = useAccountAnalyticsOverview(accountId);
-  const legacy = useAccountOrganisation(accountId);
 
   const settingsData =
     settings.data && !isAccountSettingsGatewayRedirect(settings.data) ? settings.data.data : null;
@@ -82,59 +74,31 @@ export function DashboardContent({ accountId }: { accountId: string }) {
     <div className="grid gap-12">
       <div className="mt-0 grid gap-6">
         <DashboardHeader accountId={accountId} model={model} />
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[7fr_3fr] lg:items-stretch">
-          <div className="min-w-0">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[7fr_3fr] lg:items-start">
+          <div className="flex min-w-0 flex-col gap-6">
             <DashboardAssetPreviewPanel
               accountId={accountId}
               sport={model.sport}
               branding={model.branding}
               logoUrl={model.logoUrl}
               templateModeSlug={templateModeSlug}
+              debugPlacement="none"
             />
+            <DashboardBrandingRouteCard accountId={accountId} logoUrl={model.logoUrl} />
+            <DashboardVisionRouteCard accountId={accountId} />
           </div>
-          <div className="min-w-0">
+          <div className="flex min-w-0 flex-col gap-6">
+            <DashboardBillingRouteCard accountId={accountId} />
             <DashboardKpiStrip
               accountId={accountId}
               isPending={analytics.isPending}
               rollup={model.rollup}
               analyticsMeta={model.analytics?.meta ?? null}
             />
+            <DashboardSponsorsRouteCard accountId={accountId} />
           </div>
         </div>
       </div>
-
-      <DashboardCategorySection
-        title="Organisation"
-        description="Go to the pages where you manage branding, sponsors, and Vision."
-      >
-        <DashboardOrganisationRouteCards
-          accountId={accountId}
-          model={model}
-          brandingPending={branding.isPending}
-        />
-      </DashboardCategorySection>
-
-      <DashboardCategorySection
-        title="Assets"
-        description="Settings, templates, media, and bundles — daily activity from renders and downloads."
-      >
-        <DashboardActivityTable
-          isPending={analytics.isPending}
-          series={model.series}
-          totalRenders={model.rollup?.totalRenders ?? 0}
-        />
-      </DashboardCategorySection>
-
-      {showDevPayloads ? (
-        <DashboardDevPayloads
-          me={me}
-          settings={settings}
-          branding={branding}
-          organisationContext={organisationContext}
-          analytics={analytics}
-          legacy={legacy}
-        />
-      ) : null}
     </div>
   );
 }

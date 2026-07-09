@@ -9,7 +9,7 @@ import {
   sortSeasonOverviewCompetitionRows,
 } from "../_utils";
 
-import type { CoverageFilter, SeasonOverviewCompetitionRow } from "../_types";
+import type { SeasonOverviewCompetitionRow } from "../_types";
 
 type UseSeasonOverviewFiltersArgs = {
   rows: SeasonOverviewCompetitionRow[];
@@ -20,7 +20,6 @@ export function useSeasonOverviewFilters({ rows }: UseSeasonOverviewFiltersArgs)
   const [statusFilter, setStatusFilter] = useState<string>(SEASON_FILTER_ALL);
   const [seasonFilter, setSeasonFilter] = useState<string>(SEASON_FILTER_ALL);
   const [associationFilter, setAssociationFilter] = useState<string>(SEASON_FILTER_ALL);
-  const [coverageFilter, setCoverageFilter] = useState<CoverageFilter>(SEASON_FILTER_ALL);
 
   const sortedCompetitionRows = useMemo(() => sortSeasonOverviewCompetitionRows(rows), [rows]);
 
@@ -36,29 +35,17 @@ export function useSeasonOverviewFilters({ rows }: UseSeasonOverviewFiltersArgs)
         statusFilter,
         seasonFilter,
         associationFilter,
-        coverageFilter,
         filterAllValue: SEASON_FILTER_ALL,
       }),
-    [
-      associationFilter,
-      coverageFilter,
-      searchQuery,
-      seasonFilter,
-      sortedCompetitionRows,
-      statusFilter,
-    ],
+    [associationFilter, searchQuery, seasonFilter, sortedCompetitionRows, statusFilter],
   );
 
   const hasActiveFilters =
     searchQuery.trim().length > 0 ||
     statusFilter !== SEASON_FILTER_ALL ||
     seasonFilter !== SEASON_FILTER_ALL ||
-    associationFilter !== SEASON_FILTER_ALL ||
-    coverageFilter !== SEASON_FILTER_ALL;
+    associationFilter !== SEASON_FILTER_ALL;
 
-  const setCoverageFilterValue = (value: string) => {
-    setCoverageFilter(value as CoverageFilter);
-  };
   const setStatusFilterValue = (value: string) => {
     setStatusFilter(value);
   };
@@ -74,7 +61,6 @@ export function useSeasonOverviewFilters({ rows }: UseSeasonOverviewFiltersArgs)
     setStatusFilter(SEASON_FILTER_ALL);
     setSeasonFilter(SEASON_FILTER_ALL);
     setAssociationFilter(SEASON_FILTER_ALL);
-    setCoverageFilter(SEASON_FILTER_ALL);
   };
 
   return {
@@ -86,8 +72,6 @@ export function useSeasonOverviewFilters({ rows }: UseSeasonOverviewFiltersArgs)
     setSeasonFilter: setSeasonFilterValue,
     associationFilter,
     setAssociationFilter: setAssociationFilterValue,
-    coverageFilter,
-    setCoverageFilter: setCoverageFilterValue,
     sortedCompetitionRows,
     filteredCompetitionRows,
     statusOptions,

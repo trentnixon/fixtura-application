@@ -13,6 +13,7 @@ export function ManageSponsorsHeader({ accountId }: ManageSponsorsHeaderProps) {
 
   return (
     <PageHeader
+      className="mb-2"
       title={MANAGE_SPONSORS_HEADER_COPY.title}
       description={MANAGE_SPONSORS_HEADER_COPY.description}
     >

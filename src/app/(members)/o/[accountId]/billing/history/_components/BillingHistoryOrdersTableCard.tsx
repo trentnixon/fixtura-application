@@ -1,41 +1,43 @@
+import { Receipt } from "lucide-react";
+
 import {
   TypographyBodySmall,
-  TypographyCardDescription,
-  TypographyCardTitle,
   TypographyTableCell,
   TypographyTableHeading,
 } from "@/components/typography";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ErrorState } from "@/components/ui/error-state";
 import { AUTH_ERROR_MESSAGES } from "@/lib/auth/auth-errors";
 
+import { AccountSectionShell } from "../../../account/_components/AccountSectionShell";
+import { OrdersTableInvoiceActions } from "../../_components/orders/OrdersTableInvoiceActions";
+import { ordersTableSectionCopy } from "../../_constants/orders/ordersTableSection";
 import { getHistoryOrderStatus } from "../../_utils/orders/billingHistoryOrderUtils";
-import {
-  formatBillingHistoryDate,
-  formatBillingHistoryMoney,
-  parseBillingHistoryOrderTotal,
-} from "../_utils/formatBillingHistory";
+import { resolveHistoryOrderTotalForDisplay } from "../../_utils/orders/billingHistoryOrderUtils";
+import { getOrdersTableInvoiceLinks } from "../../_utils/orders/ordersTableSectionTableUtils";
+import { formatBillingDateTable } from "../../_utils/overview/formatBillingDisplay";
+import { formatBillingHistoryMoney } from "../_utils/formatBillingHistory";
 
-import type { AccountBillingOrderHistoryDto } from "@/types/api/account";
+import type { AccountBillingOrderDto, AccountBillingOrderHistoryDto } from "@/types/api/account";
 
 export function BillingHistoryOrdersTableCard({
   orders,
+  activeOrder,
   loadError,
   onRetry,
 }: {
   orders: AccountBillingOrderHistoryDto[];
+  activeOrder: AccountBillingOrderDto | null;
   loadError: Error | null;
   onRetry: () => void;
 }) {
   return (
-    <Card>
-      <CardHeader>
-        <TypographyCardTitle className="font-brand">Order history</TypographyCardTitle>
-        <TypographyCardDescription>
-          All orders for this account (newest first).
-        </TypographyCardDescription>
-      </CardHeader>
-      <CardContent className="grid gap-4">
+    <AccountSectionShell
+      title="Order history"
+      description="All orders for this account (newest first)."
+      icon={<Receipt className="size-5" aria-hidden />}
+      headerTone="brand"
+    >
+      <div className="px-6 py-5">
         {loadError ? (
           <ErrorState
             title="Could not load orders"
@@ -45,48 +47,60 @@ export function BillingHistoryOrdersTableCard({
         ) : orders.length === 0 ? (
           <TypographyBodySmall role="status">No orders recorded yet.</TypographyBodySmall>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[640px] text-sm">
+          <div className="-mx-2 overflow-x-auto">
+            <table className="w-full min-w-[560px] text-sm">
               <thead>
                 <tr className="border-border border-b text-left">
-                  <TypographyTableHeading className="px-3 py-2">ID</TypographyTableHeading>
                   <TypographyTableHeading className="px-3 py-2">Plan</TypographyTableHeading>
                   <TypographyTableHeading className="px-3 py-2">Started</TypographyTableHeading>
                   <TypographyTableHeading className="px-3 py-2">Total</TypographyTableHeading>
                   <TypographyTableHeading className="px-3 py-2">Status</TypographyTableHeading>
+                  <TypographyTableHeading className="px-3 py-2 text-right">
+                    {ordersTableSectionCopy.actionsColumn}
+                  </TypographyTableHeading>
                 </tr>
               </thead>
               <tbody>
-                {orders.map((order, index) => (
-                  <tr
-                    key={`${order.id}-${index}`}
-                    className="border-border/70 border-b last:border-b-0"
-                  >
-                    <TypographyTableCell className="px-3 py-2 font-mono text-xs">
-                      {order.id}
-                    </TypographyTableCell>
-                    <TypographyTableCell className="px-3 py-2">
-                      {order.subscriptionTier?.name ?? "—"}
-                    </TypographyTableCell>
-                    <TypographyTableCell className="px-3 py-2">
-                      {formatBillingHistoryDate(order.startAt ?? null)}
-                    </TypographyTableCell>
-                    <TypographyTableCell className="px-3 py-2 tabular-nums">
-                      {formatBillingHistoryMoney(
-                        parseBillingHistoryOrderTotal(order.total),
-                        order.currency,
-                      )}
-                    </TypographyTableCell>
-                    <TypographyTableCell className="px-3 py-2">
-                      {getHistoryOrderStatus(order)}
-                    </TypographyTableCell>
-                  </tr>
-                ))}
+                {orders.map((order, index) => {
+                  const { hostedInvoiceUrl, invoicePdfUrl } = getOrdersTableInvoiceLinks(
+                    order,
+                    activeOrder,
+                  );
+
+                  return (
+                    <tr
+                      key={`${order.id}-${index}`}
+                      className="border-border/70 border-b last:border-b-0"
+                    >
+                      <TypographyTableCell className="px-3 py-2">
+                        {order.subscriptionTier?.name ?? "—"}
+                      </TypographyTableCell>
+                      <TypographyTableCell className="px-3 py-2">
+                        {formatBillingDateTable(order.startAt)}
+                      </TypographyTableCell>
+                      <TypographyTableCell className="px-3 py-2 tabular-nums">
+                        {formatBillingHistoryMoney(
+                          resolveHistoryOrderTotalForDisplay(order),
+                          order.currency,
+                        )}
+                      </TypographyTableCell>
+                      <TypographyTableCell className="px-3 py-2">
+                        {getHistoryOrderStatus(order)}
+                      </TypographyTableCell>
+                      <TypographyTableCell className="px-3 py-2 text-right">
+                        <OrdersTableInvoiceActions
+                          hostedInvoiceUrl={hostedInvoiceUrl}
+                          invoicePdfUrl={invoicePdfUrl}
+                        />
+                      </TypographyTableCell>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </AccountSectionShell>
   );
 }

@@ -114,11 +114,10 @@ describe("season-fixture-tabs", () => {
         away: { name: "B", playerLines: ["P3"] },
       },
       hasOutputs: true,
-      renderEntries: [{ id: 1, kind: "video", status: "done", processedAt: "" }],
       downloadEntries: [{ label: "PDF", href: "https://example.com" }],
     });
     expect(formatFixtureTabLabel("teams", model)).toBe("Teams (3)");
-    expect(formatFixtureTabLabel("outputs", model)).toBe("Outputs (2)");
+    expect(formatFixtureTabLabel("outputs", model)).toBe("Outputs (1)");
     expect(formatFixtureTabLabel("match", model)).toBe("Match");
   });
 });

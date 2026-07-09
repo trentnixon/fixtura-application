@@ -26,7 +26,7 @@ function createNewSponsorDraft(): ManageSponsorsWorkspaceSponsor {
 
   return {
     id: `local-${nonce}`,
-    name: "New sponsor",
+    name: "",
     tagline: null,
     description: null,
     url: null,

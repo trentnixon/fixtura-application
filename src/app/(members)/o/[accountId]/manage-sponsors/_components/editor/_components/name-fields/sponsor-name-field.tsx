@@ -11,9 +11,11 @@ import {
 export function SponsorNameField({
   name,
   onNameChange,
+  placeholder = SPONSOR_EDITOR_NAME_FIELDS_COPY.namePlaceholder,
 }: {
   name: string;
   onNameChange: (value: string) => void;
+  placeholder?: string;
 }) {
   return (
     <div className="grid gap-2">
@@ -24,7 +26,7 @@ export function SponsorNameField({
         id={SPONSOR_EDITOR_NAME_FIELD_ID}
         value={name}
         onChange={(event) => onNameChange(event.target.value)}
-        placeholder={SPONSOR_EDITOR_NAME_FIELDS_COPY.namePlaceholder}
+        placeholder={placeholder}
       />
     </div>
   );

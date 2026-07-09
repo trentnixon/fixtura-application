@@ -25,9 +25,11 @@ export function AccountSectionShell({
         <span className={cn("mt-0.5 shrink-0", toneStyles.iconClassName)}>{icon}</span>
         <div>
           <p className={ACCOUNT_SECTION_SHELL_TITLE_CLASS_NAME}>{title}</p>
-          <p className={cn("mt-2 text-sm leading-relaxed", toneStyles.descriptionClassName)}>
-            {description}
-          </p>
+          {description ? (
+            <p className={cn("mt-2 text-sm leading-relaxed", toneStyles.descriptionClassName)}>
+              {description}
+            </p>
+          ) : null}
         </div>
       </div>
       {children}

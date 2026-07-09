@@ -39,6 +39,7 @@ export function useRemotionAssetPreview({
   templateModeSlug,
   exampleCompositionId = null,
   accountSponsors = null,
+  maxFrameTargets,
   enabled = true,
 }: RemotionAssetPreviewInput): RemotionAssetPreviewState {
   const datasetPath = useMemo(
@@ -114,9 +115,9 @@ export function useRemotionAssetPreview({
     if (merged === null) {
       return { targets: [] as ThumbnailFrameTarget[], fromDataset: false };
     }
-    const built = buildThumbnailFrameTargets(merged.data, durationInFrames);
+    const built = buildThumbnailFrameTargets(merged.data, durationInFrames, maxFrameTargets);
     return { targets: built.targets, fromDataset: built.fromDataset };
-  }, [merged, durationInFrames]);
+  }, [merged, durationInFrames, maxFrameTargets]);
 
   return useMemo((): RemotionAssetPreviewState => {
     if (!enabled) {

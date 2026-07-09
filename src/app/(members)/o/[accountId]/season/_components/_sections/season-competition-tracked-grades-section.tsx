@@ -63,14 +63,7 @@ export function SeasonCompetitionTrackedGradesSection({
   };
 
   return (
-    <SectionBlock variant="inset" spacing="sm">
-      <div>
-        <p className="text-sm font-semibold">Tracked grades</p>
-        <p className="text-muted-foreground mt-1 text-xs">
-          Open a grade to confirm teams, fixtures, and fixture-level drill-downs for this
-          competition.
-        </p>
-      </div>
+    <SectionBlock spacing="sm">
       {gradesPending ? (
         <p className="text-muted-foreground text-sm">{SEASON_LOADING_COPY.grades}</p>
       ) : null}
@@ -197,13 +190,13 @@ export function SeasonCompetitionTrackedGradesSection({
                     <TableHead className="text-white/90">Age group</TableHead>
                     <TableHead className="text-right text-white/90">Teams</TableHead>
                     <TableHead className="text-right text-white/90">Fixtures</TableHead>
-                    <TableHead className="text-white/90">Status</TableHead>
                     <TableHead className="text-right text-white/90">View</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredGradeRows.map((grade) => {
-                    const gradeIsActive = isSeasonStatusActive(grade.status);
+                    const statusLabel = grade.status ?? "Unknown";
+                    const gradeIsActive = isSeasonStatusActive(statusLabel);
                     const gradeHref = buildSeasonGradeHref(accountId, competitionId, grade.id);
 
                     return (
@@ -212,9 +205,16 @@ export function SeasonCompetitionTrackedGradesSection({
                         className="hover:bg-primary/5 transition-colors"
                       >
                         <TableCell className="max-w-80">
-                          <div className="flex min-w-0 flex-col gap-0.5">
+                          <div className="flex min-w-0 items-center gap-2">
+                            <span
+                              className={cn(
+                                "size-2 shrink-0 rounded-full",
+                                gradeIsActive ? "bg-success-600" : "bg-error-600",
+                              )}
+                              title={statusLabel}
+                              aria-label={`Status: ${statusLabel}`}
+                            />
                             <span className="truncate text-sm font-medium">{grade.name}</span>
-                            <span className="text-muted-foreground text-xs">Grade #{grade.id}</span>
                           </div>
                         </TableCell>
                         <TableCell className="text-muted-foreground max-w-36 truncate text-sm">
@@ -228,16 +228,6 @@ export function SeasonCompetitionTrackedGradesSection({
                         </TableCell>
                         <TableCell className="text-right font-mono text-sm tabular-nums">
                           {grade.fixtureCount}
-                        </TableCell>
-                        <TableCell>
-                          <Badge
-                            className={cn(
-                              "border-transparent text-white hover:opacity-90",
-                              gradeIsActive ? "bg-success-600" : "bg-error-600",
-                            )}
-                          >
-                            {grade.status}
-                          </Badge>
                         </TableCell>
                         <TableCell className="text-right">
                           <Button variant="accent" size="compact" asChild>

@@ -67,6 +67,34 @@ function spacedLabelToCamelCase(label: string): string {
     .join("");
 }
 
+function normalizeGradientLabelForAlias(value: string): string {
+  return value.trim().toLowerCase().replace(/\s+/g, " ");
+}
+
+/** CMS display labels that do not camelCase to Remotion keys (e.g. Radial Primary → primaryRadial). */
+const GRADIENT_TYPE_LABEL_ALIASES: Record<string, RemotionGradientTypeKey> = {
+  radialprimary: "primaryRadial",
+  "radial primary": "primaryRadial",
+  radialsecondary: "secondaryRadial",
+  "radial secondary": "secondaryRadial",
+  conic: "conicGradient",
+  "conic gradient": "conicGradient",
+  mesh: "meshGradient",
+  "mesh gradient": "meshGradient",
+  hardstop: "hardStopGradient",
+  "hard stop": "hardStopGradient",
+  "hard stop gradient": "hardStopGradient",
+  primaryadvanced: "primaryAdvanced",
+  "primary advanced": "primaryAdvanced",
+  secondaryadvanced: "secondaryAdvanced",
+  "secondary advanced": "secondaryAdvanced",
+};
+
+function lookupGradientTypeAlias(candidate: string): RemotionGradientTypeKey | null {
+  const normalized = normalizeGradientLabelForAlias(candidate);
+  return GRADIENT_TYPE_LABEL_ALIASES[normalized] ?? null;
+}
+
 /**
  * Maps a CMS gradient `type` or `name` to a Remotion `templateVariation.gradient.type` key.
  * Does not accept CSS gradient kinds (`linear`, `radial`, `conic`) — those belong on Texture overlay path.
@@ -96,6 +124,9 @@ export function normalizeTemplateGradientTypeToRemotionKey(
   for (const key of REMOTION_GRADIENT_TYPE_KEYS) {
     if (key.toLowerCase() === camelLower) return key;
   }
+
+  const alias = lookupGradientTypeAlias(trimmed);
+  if (alias !== null) return alias;
 
   return null;
 }
@@ -167,10 +198,16 @@ function resolveFromGradientField(gradient: unknown): RemotionTemplateVariationG
   const type = resolveTypeFromGradientField(gradient);
   if (type === null) return null;
 
-  const direction = resolveDirectionFromGradientField(gradient);
-  if (direction === null) return null;
+  const direction = resolveDirectionFromGradientField(gradient) ?? "HORIZONTAL";
 
   return { type, direction };
+}
+
+/** Resolve a CMS gradient catalog row or template_option.gradient object for Remotion preview. */
+export function resolveRemotionGradientFromCatalogGradient(
+  gradient: unknown,
+): RemotionTemplateVariationGradient | null {
+  return resolveFromGradientField(gradient);
 }
 
 /**

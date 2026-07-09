@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { TypographyBodySmall, TypographyCaption } from "@/components/typography";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SectionBlock } from "@/components/ui/section";
@@ -27,7 +26,7 @@ import {
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/lib/utils";
 
-import { SEASON_FILTER_ALL, SEASON_OVERVIEW_COVERAGE_OPTIONS } from "../_constants";
+import { SEASON_FILTER_ALL } from "../_constants";
 import { buildSeasonCompetitionHref, isSeasonStatusActive } from "../_utils";
 import { SeasonEmptyPanel } from "../season-empty-panel";
 import { SeasonOverviewCompetitionCard } from "./season-overview-competition-card";
@@ -51,8 +50,6 @@ export function SeasonOverviewTrackedCompetitionsSection({
   setSeasonFilter,
   associationFilter,
   setAssociationFilter,
-  coverageFilter,
-  setCoverageFilter,
   statusOptions,
   seasonOptions,
   associationOptions,
@@ -80,15 +77,7 @@ export function SeasonOverviewTrackedCompetitionsSection({
   };
 
   return (
-    <SectionBlock variant="inset" spacing="sm">
-      <div>
-        <TypographyBodySmall className="font-semibold">Tracked competitions</TypographyBodySmall>
-        <TypographyCaption className="mt-1">
-          Review what Vision has tracked for each competition before drilling into grades and
-          fixtures.
-        </TypographyCaption>
-      </div>
-
+    <SectionBlock variant="plain" spacing="sm">
       {competitionsUnavailable ? (
         <SeasonEmptyPanel
           title="Competitions are not available"
@@ -169,18 +158,6 @@ export function SeasonOverviewTrackedCompetitionsSection({
                   ))}
                 </SelectContent>
               </Select>
-              <Select value={coverageFilter} onValueChange={(value) => setCoverageFilter(value)}>
-                <SelectTrigger className="w-[180px] min-w-[140px]">
-                  <SelectValue placeholder="Coverage" />
-                </SelectTrigger>
-                <SelectContent>
-                  {SEASON_OVERVIEW_COVERAGE_OPTIONS.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
               {hasActiveFilters ? (
                 <Button variant="outline" size="sm" onClick={clearFilters}>
                   Clear filters
@@ -223,12 +200,11 @@ export function SeasonOverviewTrackedCompetitionsSection({
               <TableHeader>
                 <TableRow className="bg-primary-950 hover:bg-primary-950 border-b border-white/15">
                   <TableHead className="min-w-64 text-white/90">Competition</TableHead>
-                  <TableHead className="text-white/90">Season</TableHead>
                   <TableHead className="text-white/90">Association</TableHead>
+                  <TableHead className="text-white/90">Season</TableHead>
                   <TableHead className="text-right text-white/90">Grades</TableHead>
                   <TableHead className="text-right text-white/90">Teams</TableHead>
                   <TableHead className="text-right text-white/90">Fixtures</TableHead>
-                  <TableHead className="text-white/90">Status</TableHead>
                   <TableHead className="text-right text-white/90">View</TableHead>
                 </TableRow>
               </TableHeader>
@@ -244,20 +220,25 @@ export function SeasonOverviewTrackedCompetitionsSection({
                       className="hover:bg-primary/5 transition-colors"
                     >
                       <TableCell className="max-w-80">
-                        <div className="flex min-w-0 flex-col gap-0.5">
+                        <div className="flex min-w-0 items-center gap-2">
+                          <span
+                            className={cn(
+                              "size-2 shrink-0 rounded-full",
+                              isActive ? "bg-success-600" : "bg-error-600",
+                            )}
+                            title={statusLabel}
+                            aria-label={`Status: ${statusLabel}`}
+                          />
                           <span className="truncate text-sm font-medium">
                             {competition.name ?? "Unnamed competition"}
                           </span>
-                          <span className="text-muted-foreground text-xs">
-                            Competition #{competition.id}
-                          </span>
                         </div>
-                      </TableCell>
-                      <TableCell className="text-muted-foreground max-w-36 truncate text-sm">
-                        {competition.season ?? "No season"}
                       </TableCell>
                       <TableCell className="text-muted-foreground max-w-52 truncate text-sm">
                         {competition.association.name ?? "Association"}
+                      </TableCell>
+                      <TableCell className="text-muted-foreground max-w-36 truncate text-sm">
+                        {competition.season ?? "No season"}
                       </TableCell>
                       <TableCell className="text-right font-mono text-sm tabular-nums">
                         {competition.counts.grades}
@@ -267,16 +248,6 @@ export function SeasonOverviewTrackedCompetitionsSection({
                       </TableCell>
                       <TableCell className="text-right font-mono text-sm tabular-nums">
                         {competition.counts.fixtures}
-                      </TableCell>
-                      <TableCell>
-                        <Badge
-                          className={cn(
-                            "border-transparent text-white hover:opacity-90",
-                            isActive ? "bg-success-600" : "bg-error-600",
-                          )}
-                        >
-                          {statusLabel}
-                        </Badge>
                       </TableCell>
                       <TableCell className="text-right">
                         <Button variant="accent" size="compact" asChild>

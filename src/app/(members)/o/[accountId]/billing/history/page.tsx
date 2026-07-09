@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 
-import { TypographyPageDescription, TypographyPageTitle } from "@/components/typography";
 import { BrandedLoader } from "@/components/ui/branded-loader";
+import { PageHeader } from "@/components/ui/container";
 
 import { BillingHistoryContent } from "./_components/BillingHistoryContent";
 
@@ -12,12 +12,12 @@ export default async function BillingHistoryPage({
 }) {
   const { accountId } = await params;
   return (
-    <div className="grid gap-6">
-      <div className="space-y-1">
-        <TypographyPageTitle className="font-brand capitalize">Billing history</TypographyPageTitle>
-        <TypographyPageDescription className="mt-1 max-w-none text-base">
-          Order history, invoice requests, and your current subscription row (from billing data).
-        </TypographyPageDescription>
+    <div className="mx-auto grid max-w-5xl gap-6 px-4 pb-12 sm:px-6 lg:px-8">
+      <div className="space-y-4">
+        <PageHeader
+          title="Billing history"
+          description="Order history, invoice requests, and subscription status for this organisation."
+        />
       </div>
       <Suspense fallback={<BrandedLoader label="Loading history" />}>
         <BillingHistoryContent accountId={accountId} />

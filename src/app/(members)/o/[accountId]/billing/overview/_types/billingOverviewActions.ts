@@ -6,6 +6,5 @@ export type BillingOverviewActionsProps = {
   billingUiMode: BillingUiMode;
   billingSummary: AccountBillingSummaryV1;
   trialDetailsTrigger: ReturnType<typeof billingTrialDetailsTriggerState>;
-  historyHref: string;
   createHref: string;
 };

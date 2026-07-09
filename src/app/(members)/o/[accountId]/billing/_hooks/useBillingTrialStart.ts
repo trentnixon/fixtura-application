@@ -1,5 +1,9 @@
 import { useMemo, useState } from "react";
 
+import {
+  isAccountOrganisationContextGatewayRedirect,
+  useAccountOrganisationContext,
+} from "@/lib/api/hooks/account/useAccountOrganisationContext";
 import { usePostAccountBillingStartTrial } from "@/lib/api/hooks/account/usePostAccountBillingStartTrial";
 
 import { canStartTrial } from "../_core/billing-state";
@@ -7,6 +11,7 @@ import {
   getBillingTrialScheduleLabelsForStartToday,
   messageFromBillingTrialStartFailure,
   parseBillingTrialStartResponseMessage,
+  resolveBillingTrialAccountName,
 } from "../_utils/trial/billingTrialStart";
 
 export function useBillingTrialStart(
@@ -15,6 +20,7 @@ export function useBillingTrialStart(
   availableActions?: Partial<Record<string, boolean>>,
 ) {
   const mutation = usePostAccountBillingStartTrial(accountId);
+  const orgQ = useAccountOrganisationContext(accountId, { enabled: enabled && Boolean(accountId) });
   const [feedback, setFeedback] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -25,6 +31,13 @@ export function useBillingTrialStart(
     }
     return getBillingTrialScheduleLabelsForStartToday();
   }, [confirmOpen]);
+
+  const accountName = useMemo(() => {
+    if (!orgQ.isSuccess || !orgQ.data || isAccountOrganisationContextGatewayRedirect(orgQ.data)) {
+      return "";
+    }
+    return resolveBillingTrialAccountName(orgQ.data.data);
+  }, [orgQ.isSuccess, orgQ.data]);
 
   const visible = Boolean(enabled && canStartTrial(availableActions));
 
@@ -60,6 +73,7 @@ export function useBillingTrialStart(
     errorMessage,
     confirmOpen,
     trialSchedule,
+    accountName,
     handleConfirmDialogOpenChange,
     openConfirmDialog,
     confirmStartTrial,

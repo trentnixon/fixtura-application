@@ -33,6 +33,10 @@ type ImageOptionsAssetsPickerProps = {
    * Organisation (or other) sport: locks asset list to this sport and hides the Sport filter.
    */
   organisationSport?: string | null;
+  /** Hide the visible label above the asset select (use with `aria-label` on the trigger). */
+  hideSelectLabel?: boolean;
+  /** Hide the "Showing X of Y Image Options assets" status line. */
+  hideStatusSummary?: boolean;
 };
 
 /** Self-contained: loads assets, sport filter, TanStack selection, grouped select, list, and detail. */
@@ -42,6 +46,8 @@ export function ImageOptionsAssetsPicker({
   isList = false,
   inline = false,
   organisationSport = null,
+  hideSelectLabel = false,
+  hideStatusSummary = false,
 }: ImageOptionsAssetsPickerProps) {
   const lockSportFilterTo =
     organisationSport != null && organisationSport.trim() !== "" ? organisationSport : null;
@@ -66,27 +72,29 @@ export function ImageOptionsAssetsPicker({
 
   return (
     <div className={cn(inline ? "grid max-w-md min-w-[18rem] gap-1" : "space-y-4")}>
-      <p className={cn("text-muted-foreground text-xs", inline && "order-2")} role="status">
-        {effectiveSportFilter !== ALL_SPORTS_KEY
-          ? `Showing ${filteredAssets.length} of ${assets.length} Image Options asset${assets.length === 1 ? "" : "s"}`
-          : `${assets.length} Image Options asset${assets.length === 1 ? "" : "s"} (published only)`}
-        {assets.length > 0 &&
-        effectiveSportFilter === ALL_SPORTS_KEY &&
-        assetsBySportAll.length > 0 ? (
-          <span className="text-muted-foreground/90">
-            {" "}
-            · {assetsBySportAll.map((g) => `${g.label}: ${g.items.length}`).join(" · ")}
-          </span>
-        ) : null}
-        {isSportFilterLocked && lockSportFilterTo !== null ? (
-          <span className="text-muted-foreground/90"> · {lockSportFilterTo}</span>
-        ) : null}
-        {!isSportFilterLocked &&
-        effectiveSportFilter !== ALL_SPORTS_KEY &&
-        filteredAssets.length > 0 ? (
-          <span className="text-muted-foreground/90"> · sport filter active</span>
-        ) : null}
-      </p>
+      {hideStatusSummary ? null : (
+        <p className={cn("text-muted-foreground text-xs", inline && "order-2")} role="status">
+          {effectiveSportFilter !== ALL_SPORTS_KEY
+            ? `Showing ${filteredAssets.length} of ${assets.length} Image Options asset${assets.length === 1 ? "" : "s"}`
+            : `${assets.length} Image Options asset${assets.length === 1 ? "" : "s"} (published only)`}
+          {assets.length > 0 &&
+          effectiveSportFilter === ALL_SPORTS_KEY &&
+          assetsBySportAll.length > 0 ? (
+            <span className="text-muted-foreground/90">
+              {" "}
+              · {assetsBySportAll.map((g) => `${g.label}: ${g.items.length}`).join(" · ")}
+            </span>
+          ) : null}
+          {isSportFilterLocked && lockSportFilterTo !== null ? (
+            <span className="text-muted-foreground/90"> · {lockSportFilterTo}</span>
+          ) : null}
+          {!isSportFilterLocked &&
+          effectiveSportFilter !== ALL_SPORTS_KEY &&
+          filteredAssets.length > 0 ? (
+            <span className="text-muted-foreground/90"> · sport filter active</span>
+          ) : null}
+        </p>
+      )}
 
       {assets.length === 0 ? (
         <TypographyMuted className="text-sm">
@@ -127,13 +135,19 @@ export function ImageOptionsAssetsPicker({
 
             {isSelect && (
               <div className={cn(inline ? "grid min-w-56 flex-1 gap-1" : "space-y-2")}>
-                <Label htmlFor="asset-picker-asset-select">Select asset</Label>
+                {hideSelectLabel ? null : (
+                  <Label htmlFor="asset-picker-asset-select">Select asset</Label>
+                )}
                 <Select
                   value={selectValue}
                   onValueChange={(v) => setSelectedId(v)}
                   disabled={filteredAssets.length === 0}
                 >
-                  <SelectTrigger id="asset-picker-asset-select" className="w-full">
+                  <SelectTrigger
+                    id="asset-picker-asset-select"
+                    className="w-full"
+                    aria-label={hideSelectLabel ? "Select asset" : undefined}
+                  >
                     <SelectValue placeholder="Choose an asset" />
                   </SelectTrigger>
                   <SelectContent>

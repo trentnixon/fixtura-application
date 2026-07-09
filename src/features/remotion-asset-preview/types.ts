@@ -4,6 +4,8 @@ import type { FixturaDataset } from "@/vendor/fixtura-remotion-assets/preview";
 
 export type { ThumbnailFrameTarget };
 
+export type AssetPreviewDisplayMode = "thumbnails" | "video";
+
 export type RemotionAssetPreviewInput = {
   sport: string | null;
   branding: AccountBrandingData | null;
@@ -13,6 +15,8 @@ export type RemotionAssetPreviewInput = {
   exampleCompositionId?: string | null;
   /** When null, merge clears example `videoMeta.club.sponsors` until sponsors load. */
   accountSponsors?: AccountSponsorDto[] | null;
+  /** Cap carousel slides after dataset `frames` are resolved (omit = show all). */
+  maxFrameTargets?: number;
   enabled?: boolean;
 };
 

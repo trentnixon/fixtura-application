@@ -1,30 +1,86 @@
-import { IconEye, IconMoneybag, IconPalette } from "@tabler/icons-react";
-
 import { accountScopedRoutes } from "@/lib/config/account-routes";
 
-import type {
-  DashboardRouteActiveRatio,
-  DashboardRouteChecklistItem,
-  DashboardRoutePaletteSwatch,
-} from "../_components/dashboard-route-list-card";
-import type { DashboardViewModel } from "../dashboard-view-model";
-import type { AccountBrandingData, AccountSponsorDto } from "@/types/api/account";
-import type { SeasonHubStatsResponse } from "@/types/api/season-hub";
+import {
+  BILLING_ENDING_BANNER_DESCRIPTION_LEAD,
+  BILLING_ENDING_BANNER_TITLE,
+} from "../../billing/_constants/overview/billingEndingBanner";
+import {
+  billingEndingBannerPeriodEndTrail,
+  shouldShowBillingEndingBanner,
+} from "../../billing/_utils/overview/billingEndingBanner";
+import {
+  buildActiveTrialStatusCardViewModel,
+  buildPaidActiveStatusCardViewModel,
+} from "../../billing/_utils/overview/billingOverviewStatusCards";
+import { labelForBillingProductState } from "../../billing/_utils/overview/billingProductStateDisplay";
+import {
+  labelForAccessStatus,
+  labelForBillingStatus,
+  normalizeBillingCode,
+} from "../../billing/_utils/overview/billingSummaryLabels";
+import { formatBillingDateTable } from "../../billing/_utils/overview/formatBillingDisplay";
 
-export type OrganisationRouteCardConfig = {
+import type { BillingProductState, BillingUiMode } from "../../billing/_core/billing-state";
+import type {
+  AccountBillingOrderHistoryDto,
+  AccountBillingSummaryV1,
+  AccountBrandingData,
+  AccountSponsorDto,
+} from "@/types/api/account";
+
+export type BrandingRoutePaletteSwatch = {
+  key: string;
+  hex: string;
+};
+
+export type BrandingRouteCardView = {
+  title: string;
+  description: string;
+  logoUrl: string | null;
+  paletteSwatches: BrandingRoutePaletteSwatch[];
+};
+
+export type SponsorsRouteCardView = {
   title: string;
   description: string;
   href: string;
   ctaLabel: string;
-  headerIcon: typeof IconPalette;
-  items: DashboardRouteChecklistItem[];
+  poolCount: number;
+  activeCount: number;
+};
+
+export type BillingRouteCardMetric = {
+  label: string;
+  value: string;
+};
+
+export type BillingRouteCardDetailRow = {
+  label: string;
+  value: string;
+};
+
+export type BillingRouteCardView = {
+  title: string;
+  description: string;
+  href: string;
+  ctaLabel: string;
+  statusLabel: string;
+  productState: BillingProductState;
+  primaryMetric: BillingRouteCardMetric;
+  secondaryMetric: BillingRouteCardMetric | null;
+  detailRows: BillingRouteCardDetailRow[];
+  progressPercent: number | null;
+  progressAriaLabel: string | null;
+  showEndingNotice: boolean;
+  endingNoticeText: string | null;
+  bodyFallback: string | null;
 };
 
 const SWATCH_KEYS = ["primary", "secondary", "dark", "white"] as const;
 
 function extractBrandingPaletteSwatches(
   branding: AccountBrandingData | null,
-): DashboardRoutePaletteSwatch[] {
+): BrandingRoutePaletteSwatch[] {
   const theme = branding?.theme;
   const themeRecord =
     theme?.theme && typeof theme.theme === "object" && !Array.isArray(theme.theme)
@@ -32,7 +88,7 @@ function extractBrandingPaletteSwatches(
       : null;
   if (!themeRecord) return [];
 
-  const swatches: DashboardRoutePaletteSwatch[] = [];
+  const swatches: BrandingRoutePaletteSwatch[] = [];
   for (const key of SWATCH_KEYS) {
     const raw = themeRecord[key];
     if (typeof raw === "string" && /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(raw)) {
@@ -42,105 +98,200 @@ function extractBrandingPaletteSwatches(
   return swatches;
 }
 
-type ChecklistItemExtras = {
-  swatches?: DashboardRoutePaletteSwatch[];
-  activeRatio?: DashboardRouteActiveRatio;
-};
-
-function checklistItem(
-  label: string,
-  complete: boolean,
-  extras?: ChecklistItemExtras,
-): DashboardRouteChecklistItem {
-  if (!extras) return { label, complete };
-  return { label, complete, ...extras };
-}
-
-export function buildOrganisationRouteCards({
+export function buildSponsorsRouteCard({
   accountId,
-  model,
   sponsors,
-  seasonSummary,
 }: {
   accountId: string;
-  model: Pick<DashboardViewModel, "branding">;
   sponsors: AccountSponsorDto[] | null;
-  seasonSummary: SeasonHubStatsResponse["data"]["summary"] | null;
-}): OrganisationRouteCardConfig[] {
-  const { branding } = model;
-  const templateName = branding?.template?.name?.trim();
-  const paletteSwatches = extractBrandingPaletteSwatches(branding);
-
+}): SponsorsRouteCardView {
   const sponsorItems = sponsors ?? [];
-  const activeSponsors = sponsorItems.filter((s) => s.isActive);
+  const activeCount = sponsorItems.filter((sponsor) => sponsor.isActive).length;
 
-  const competitions = seasonSummary?.competitions ?? 0;
-  const grades = seasonSummary?.grades ?? 0;
-  const fixtures = seasonSummary?.fixtures ?? 0;
+  return {
+    title: "Sponsors",
+    description: "Sponsor pool, placements, and assignments.",
+    href: accountScopedRoutes.manageSponsors(accountId),
+    ctaLabel: "Manage sponsors",
+    poolCount: sponsorItems.length,
+    activeCount,
+  };
+}
 
-  return [
-    {
-      title: "Branding",
-      description: "Colours, templates, and theme.",
-      href: accountScopedRoutes.branding(accountId),
-      ctaLabel: "Open branding",
-      headerIcon: IconPalette,
-      items: [
-        checklistItem(
-          templateName ? `Template: ${templateName}` : "No template selected",
-          Boolean(templateName),
-        ),
-        checklistItem(
-          paletteSwatches.length > 0 ? "Palette colours" : "No palette colours set",
-          paletteSwatches.length > 0,
-          paletteSwatches.length > 0 ? { swatches: paletteSwatches } : undefined,
-        ),
-      ],
-    },
-    {
-      title: "Sponsors",
-      description: "Sponsor pool, placements, and assignments.",
-      href: accountScopedRoutes.manageSponsors(accountId),
-      ctaLabel: "Manage sponsors",
-      headerIcon: IconMoneybag,
-      items: [
-        checklistItem(
-          sponsorItems.length > 0
-            ? `${sponsorItems.length} sponsor${sponsorItems.length === 1 ? "" : "s"} in pool`
-            : "No sponsors in pool",
-          sponsorItems.length > 0,
-        ),
-        checklistItem(
-          "Active sponsors",
-          sponsorItems.length > 0 && activeSponsors.length > 0,
-          sponsorItems.length > 0
-            ? { activeRatio: { active: activeSponsors.length, total: sponsorItems.length } }
-            : undefined,
-        ),
-      ],
-    },
-    {
-      title: "Vision",
-      description: "Competitions, grades, and fixtures Fixtura tracks for this organisation.",
-      href: accountScopedRoutes.season(accountId),
-      ctaLabel: "Open Vision",
-      headerIcon: IconEye,
-      items: [
-        checklistItem(
-          competitions > 0
-            ? `${competitions} competition${competitions === 1 ? "" : "s"}`
-            : "No competitions",
-          competitions > 0,
-        ),
-        checklistItem(
-          grades > 0 ? `${grades} grade${grades === 1 ? "" : "s"}` : "No grades",
-          grades > 0,
-        ),
-        checklistItem(
-          fixtures > 0 ? `${fixtures} fixture${fixtures === 1 ? "" : "s"}` : "No fixtures",
-          fixtures > 0,
-        ),
-      ],
-    },
-  ];
+export function buildBrandingRouteCard({
+  branding,
+  logoUrl,
+}: {
+  branding: AccountBrandingData | null;
+  logoUrl: string | null;
+}): BrandingRouteCardView {
+  const paletteSwatches = extractBrandingPaletteSwatches(branding);
+  const resolvedLogoUrl = logoUrl?.trim() || branding?.onboardingLogo?.url?.trim() || null;
+
+  return {
+    title: "Look & feel",
+    description: "Logo and brand colours.",
+    logoUrl: resolvedLogoUrl,
+    paletteSwatches,
+  };
+}
+
+function formatDaysRemainingMetric(daysRemaining: number | null): string {
+  if (daysRemaining == null) return "—";
+  if (daysRemaining === 0) return "Last day";
+  return `${daysRemaining} day${daysRemaining === 1 ? "" : "s"}`;
+}
+
+function billingCreateHref(accountId: string): string {
+  return `/o/${encodeURIComponent(accountId)}/billing/create`;
+}
+
+function billingDetailRowsFromSummary(
+  billingSummary: AccountBillingSummaryV1,
+): BillingRouteCardDetailRow[] {
+  const rows: BillingRouteCardDetailRow[] = [];
+
+  const billingStatus = billingSummary.billingStatus?.trim();
+  if (billingStatus && normalizeBillingCode(billingStatus) !== "none") {
+    rows.push({
+      label: "Billing",
+      value: labelForBillingStatus(billingStatus),
+    });
+  }
+
+  const accessStatus = billingSummary.accessStatus?.trim();
+  if (accessStatus && normalizeBillingCode(accessStatus) !== "none") {
+    rows.push({
+      label: "Access",
+      value: labelForAccessStatus(accessStatus),
+    });
+  }
+
+  return rows;
+}
+
+export function buildBillingRouteCard({
+  accountId,
+  billingUiMode,
+  productState,
+  billingSummary,
+  orders,
+}: {
+  accountId: string;
+  billingUiMode: BillingUiMode;
+  productState: BillingProductState;
+  billingSummary: AccountBillingSummaryV1;
+  orders: AccountBillingOrderHistoryDto[];
+}): BillingRouteCardView {
+  const billingHref = accountScopedRoutes.billing(accountId);
+  const createHref = billingCreateHref(accountId);
+  const statusLabel = labelForBillingProductState(productState);
+
+  const activeOrder = billingSummary.activeOrder;
+  const showEndingNotice =
+    (billingUiMode === "paid_active" || billingUiMode === "active_trial") &&
+    activeOrder != null &&
+    shouldShowBillingEndingBanner(activeOrder);
+
+  const endingNoticeText = showEndingNotice
+    ? `${BILLING_ENDING_BANNER_TITLE}. ${BILLING_ENDING_BANNER_DESCRIPTION_LEAD}${billingEndingBannerPeriodEndTrail(activeOrder?.endOrderAt)}`
+    : null;
+
+  let primaryMetric: BillingRouteCardMetric = { label: "Status", value: statusLabel };
+  let secondaryMetric: BillingRouteCardMetric | null = null;
+  let detailRows = billingDetailRowsFromSummary(billingSummary);
+  let progressPercent: number | null = null;
+  let progressAriaLabel: string | null = null;
+  let bodyFallback: string | null = null;
+  let ctaLabel = "View billing";
+  let href = billingHref;
+
+  switch (billingUiMode) {
+    case "paid_active": {
+      const vm = buildPaidActiveStatusCardViewModel(
+        billingSummary.activeOrder,
+        billingSummary.currentPlan,
+        orders,
+      );
+      primaryMetric = { label: "Plan", value: vm.tierLabel ?? "—" };
+      secondaryMetric = {
+        label: "Remaining",
+        value: formatDaysRemainingMetric(vm.daysRemaining),
+      };
+      progressPercent = vm.remainingPercent;
+      progressAriaLabel =
+        vm.remainingPercent != null
+          ? `Time remaining in billing period: ${Math.round(vm.remainingPercent)} percent`
+          : null;
+      if (!vm.hasPeriodBounds && !vm.tierLabel) {
+        bodyFallback = "Billing period dates were not returned in this summary.";
+      } else if (vm.endAt) {
+        detailRows = [
+          ...detailRows,
+          { label: "Period ends", value: formatBillingDateTable(vm.endAt) },
+        ];
+      }
+      ctaLabel = "Manage billing";
+      break;
+    }
+    case "active_trial": {
+      const vm = buildActiveTrialStatusCardViewModel(billingSummary.trial);
+      primaryMetric = { label: "Trial", value: vm.tierLabel ?? "Active trial" };
+      secondaryMetric = {
+        label: "Remaining",
+        value: formatDaysRemainingMetric(vm.daysRemaining),
+      };
+      progressPercent = vm.remainingPercent;
+      progressAriaLabel =
+        vm.remainingPercent != null
+          ? `Trial time remaining: ${Math.round(vm.remainingPercent)} percent`
+          : null;
+      if (!billingSummary.trial) {
+        bodyFallback = "Trial dates were not returned in this summary.";
+      } else if (billingSummary.trial.endDate) {
+        detailRows = [
+          ...detailRows,
+          {
+            label: "Trial ends",
+            value: formatBillingDateTable(billingSummary.trial.endDate),
+          },
+        ];
+      }
+      break;
+    }
+    case "payment_pending":
+      ctaLabel = "Continue on billing";
+      break;
+    case "free_trial_available":
+      primaryMetric = { label: "Trial", value: "Available" };
+      ctaLabel = "Start trial";
+      break;
+    case "trial_expired":
+    case "no_billing":
+      primaryMetric = { label: "Processing", value: "Not enabled" };
+      ctaLabel = "Create subscription";
+      href = createHref;
+      break;
+    case "access_denied":
+    case "unknown":
+      primaryMetric = { label: "Status", value: "Access uncertain" };
+      break;
+  }
+
+  return {
+    title: "Billing",
+    description: "Subscription, trial, and payment status.",
+    href,
+    ctaLabel,
+    statusLabel,
+    productState,
+    primaryMetric,
+    secondaryMetric,
+    detailRows,
+    progressPercent,
+    progressAriaLabel,
+    showEndingNotice,
+    endingNoticeText,
+    bodyFallback,
+  };
 }

@@ -1,11 +1,9 @@
 import type {
-  SeasonCompetitionDetailMeta,
   SeasonCompetitionNormalizedGrade,
   SeasonFixtureViewModel,
   SeasonGradeDisplayModel,
   SeasonGradeFixtureFilterOptions,
   SeasonOverviewCompetitionRow,
-  UnknownRecord,
 } from "./season-components";
 import type {
   TriggerGradesCompsSingleScrapeRequest,
@@ -76,8 +74,6 @@ export type SeasonOverviewTrackedCompetitionsSectionProps = {
   setSeasonFilter: (value: string) => void;
   associationFilter: string;
   setAssociationFilter: (value: string) => void;
-  coverageFilter: string;
-  setCoverageFilter: (value: string) => void;
   statusOptions: string[];
   seasonOptions: string[];
   associationOptions: string[];
@@ -90,11 +86,8 @@ export type SeasonOverviewTrackedCompetitionsSectionProps = {
 export type SeasonCompetitionDetailHeaderProps = {
   accountId: string;
   competitionPageTitle: string;
-  competitionMeta: SeasonCompetitionDetailMeta | null;
   headerContextLine: string | null;
   timeframeLine: string | null;
-  competitionHeaderActive: boolean;
-  competitionStatus: string;
   seasonOverviewHref: string;
   isFetching: boolean;
   canQueueGradesRefresh: boolean;
@@ -133,10 +126,9 @@ export type SeasonGradeViewHeaderProps = {
   accountId: string;
   competitionHref: string;
   displayModel: SeasonGradeDisplayModel;
-  gradeRaw: UnknownRecord | undefined;
   isFetching: boolean;
-  isSyncMutating: boolean;
   canQueueCombinedSync: boolean;
+  onReload: () => void;
   onOpenSync: () => void;
 };
 
@@ -217,8 +209,8 @@ export type SeasonFixtureViewHeaderProps = {
   gradeHref: string;
   model: SeasonFixtureViewModel;
   isFetching: boolean;
-  isSyncMutating: boolean;
   canQueueResultSync: boolean;
+  onReload: () => void;
   onOpenSync: () => void;
 };
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { Archive, LayoutGrid, Plus, Target } from "lucide-react";
+import { LayoutGrid, Plus, Target } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -14,12 +14,6 @@ export function ManageSponsorsHeaderActions({
 }: ManageSponsorsHeaderActionsProps) {
   return (
     <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-      <Button variant="accent" asChild>
-        <Link href={accountScopedRoutes.addSponsor(accountId)}>
-          <Plus aria-hidden />
-          Add sponsor
-        </Link>
-      </Button>
       <Button variant="brandPrimaryOutline" asChild>
         <Link href={accountScopedRoutes.manageSponsorsAssignPosition(accountId)}>
           <LayoutGrid aria-hidden />
@@ -32,10 +26,10 @@ export function ManageSponsorsHeaderActions({
           {entityButtonLabel}
         </Link>
       </Button>
-      <Button variant="brandPrimaryOutline" asChild>
-        <Link href={accountScopedRoutes.manageSponsorsArchive(accountId)}>
-          <Archive aria-hidden />
-          View archive
+      <Button variant="success" asChild>
+        <Link href={accountScopedRoutes.addSponsor(accountId)}>
+          <Plus aria-hidden />
+          Add sponsor
         </Link>
       </Button>
     </div>

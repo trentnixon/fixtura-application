@@ -1,14 +1,23 @@
 "use client";
 
 import {
-  AssetPreviewCarousel,
+  AssetPreviewStage,
+  type AssetPreviewDisplayMode,
   type RemotionAssetPreviewState,
 } from "@/features/remotion-asset-preview";
+
+import {
+  DASHBOARD_PREVIEW_CAROUSEL_CONTENT_CLASS,
+  DASHBOARD_PREVIEW_CAROUSEL_ITEM_CLASS,
+  DASHBOARD_PREVIEW_ITEMS_IN_VIEW,
+  DASHBOARD_PREVIEW_REMOTION_ROOT_CLASS,
+} from "../_constants/dashboard-preview-layout";
 
 import type { ReactNode } from "react";
 
 type DashboardOverviewCarouselProps = {
   remotionPreviewState: RemotionAssetPreviewState;
+  displayMode: AssetPreviewDisplayMode;
   brandingSettingsDebug?: ReactNode;
   title?: ReactNode;
   compact?: boolean;
@@ -16,27 +25,34 @@ type DashboardOverviewCarouselProps = {
 
 export function DashboardOverviewCarousel({
   remotionPreviewState,
+  displayMode,
   brandingSettingsDebug,
   title,
   compact = false,
 }: DashboardOverviewCarouselProps) {
   return (
-    <AssetPreviewCarousel
+    <AssetPreviewStage
+      embedded={compact}
+      displayMode={displayMode}
       state={remotionPreviewState}
-      title={title}
+      title={compact ? (title ?? null) : title}
       brandingSettingsDebug={brandingSettingsDebug}
-      className="flex h-full min-h-0 max-w-none flex-1 flex-col"
+      itemsInView={compact ? DASHBOARD_PREVIEW_ITEMS_IN_VIEW : undefined}
+      opts={compact ? { align: "start" } : undefined}
+      className={
+        compact ? "w-full max-w-none min-w-0" : "flex h-full min-h-0 max-w-none flex-1 flex-col"
+      }
       surfaceClassName={
         compact
-          ? "flex h-full min-h-0 flex-col overflow-hidden rounded-none border-0 bg-transparent shadow-none ring-0"
+          ? "flex w-full min-w-0 flex-col overflow-hidden rounded-none border-0 bg-transparent shadow-none ring-0"
           : "flex h-full min-h-[min(50vh,420px)] flex-col"
       }
-      bodyClassName={compact ? "flex min-h-0 flex-1 flex-col p-0" : "flex min-h-0 flex-1 flex-col"}
-      /** Keep default `-ml-*` + item `pl-*` so slides have horizontal gutter; height fills the panel. */
-      contentClassName="-ml-2 h-full min-h-0 flex-1 md:-ml-4"
-      /** Horizontal padding = gap between slides; vertical padding off so the poster fills the slide top/bottom. */
-      itemClassName="basis-full !h-full !min-h-0 !py-0 !pt-0 !pb-0"
-      thumbnailFrameClassName={compact ? "rounded-none" : undefined}
+      bodyClassName={compact ? "flex min-h-0 flex-col !p-0" : "flex min-h-0 flex-1 flex-col"}
+      contentClassName={
+        compact ? DASHBOARD_PREVIEW_CAROUSEL_CONTENT_CLASS : "-ml-2 h-full min-h-0 flex-1 md:-ml-4"
+      }
+      itemClassName={compact ? DASHBOARD_PREVIEW_CAROUSEL_ITEM_CLASS : undefined}
+      thumbnailPreviewRootClassName={compact ? DASHBOARD_PREVIEW_REMOTION_ROOT_CLASS : undefined}
     />
   );
 }

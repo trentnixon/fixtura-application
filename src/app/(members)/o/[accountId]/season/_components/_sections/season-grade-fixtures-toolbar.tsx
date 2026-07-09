@@ -29,23 +29,10 @@ export function SeasonGradeFixturesToolbar({
   showFilterFields,
 }: SeasonGradeFixturesToolbarProps) {
   return (
-    <div className="flex flex-col gap-4 px-4 py-3">
-      {hasActiveFilters ? (
-        <div className="flex justify-end">
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            className="h-9 shrink-0"
-            onClick={onClearFilters}
-          >
-            Clear filters
-          </Button>
-        </div>
-      ) : null}
+    <div className="px-4 py-3">
       {showFilterFields ? (
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="space-y-1.5">
+        <div className="flex flex-wrap items-end gap-3">
+          <div className="min-w-[140px] flex-1 space-y-1.5 sm:max-w-[220px]">
             <p className="text-muted-foreground text-xs font-medium">Team</p>
             <Select value={team} onValueChange={onTeamChange}>
               <SelectTrigger className="h-9 w-full" aria-label="Filter by team">
@@ -61,7 +48,7 @@ export function SeasonGradeFixturesToolbar({
               </SelectContent>
             </Select>
           </div>
-          <div className="space-y-1.5">
+          <div className="min-w-[140px] flex-1 space-y-1.5 sm:max-w-[220px]">
             <p className="text-muted-foreground text-xs font-medium">Venue</p>
             <Select value={venue} onValueChange={onVenueChange}>
               <SelectTrigger className="h-9 w-full" aria-label="Filter by venue">
@@ -77,7 +64,7 @@ export function SeasonGradeFixturesToolbar({
               </SelectContent>
             </Select>
           </div>
-          <div className="space-y-1.5">
+          <div className="min-w-[140px] flex-1 space-y-1.5 sm:max-w-[220px]">
             <p className="text-muted-foreground text-xs font-medium">Date</p>
             <Select value={date} onValueChange={onDateChange}>
               <SelectTrigger className="h-9 w-full" aria-label="Filter by date">
@@ -93,7 +80,7 @@ export function SeasonGradeFixturesToolbar({
               </SelectContent>
             </Select>
           </div>
-          <div className="space-y-1.5">
+          <div className="min-w-[140px] flex-1 space-y-1.5 sm:max-w-[220px]">
             <p className="text-muted-foreground text-xs font-medium">Status</p>
             <Select value={status} onValueChange={onStatusChange}>
               <SelectTrigger className="h-9 w-full" aria-label="Filter by status">
@@ -109,6 +96,17 @@ export function SeasonGradeFixturesToolbar({
               </SelectContent>
             </Select>
           </div>
+          {hasActiveFilters ? (
+            <Button
+              type="button"
+              variant="warningOutline"
+              size="sm"
+              className="h-9 shrink-0"
+              onClick={onClearFilters}
+            >
+              Clear filters
+            </Button>
+          ) : null}
         </div>
       ) : null}
     </div>

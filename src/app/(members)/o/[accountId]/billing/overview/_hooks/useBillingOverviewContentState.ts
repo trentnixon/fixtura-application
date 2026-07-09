@@ -73,9 +73,17 @@ export type BillingOverviewState =
     }
   | BillingOverviewReadyState;
 
-export function useBillingOverviewContentState(accountId: string): BillingOverviewState {
+export type BillingOverviewContentStateResult = {
+  state: BillingOverviewState;
+  refetchBilling: () => void;
+};
+
+export function useBillingOverviewContentState(
+  accountId: string,
+): BillingOverviewContentStateResult {
   const segmentOk = isValidAccountIdSegment(accountId);
   const billingQuery = useAccountBilling(accountId, { enabled: segmentOk });
+  const refetchBilling = () => void billingQuery.refetch();
   const billingReady = Boolean(
     billingQuery.isSuccess &&
     billingQuery.data &&
@@ -92,17 +100,23 @@ export function useBillingOverviewContentState(accountId: string): BillingOvervi
 
   if (!segmentOk) {
     return {
-      kind: "invalid-account",
-      accountId,
-      checkoutReturnNotice: null,
+      state: {
+        kind: "invalid-account",
+        accountId,
+        checkoutReturnNotice: null,
+      },
+      refetchBilling,
     };
   }
 
   if (billingQuery.isPending) {
     return {
-      kind: "billing-loading",
-      accountId,
-      checkoutReturnNotice,
+      state: {
+        kind: "billing-loading",
+        accountId,
+        checkoutReturnNotice,
+      },
+      refetchBilling,
     };
   }
 
@@ -112,22 +126,28 @@ export function useBillingOverviewContentState(accountId: string): BillingOvervi
     isAccountBillingGatewayRedirect(billingQuery.data)
   ) {
     return {
-      kind: "billing-gateway-redirect",
-      accountId,
-      checkoutReturnNotice,
-      gatewayReason: billingQuery.data.reason,
+      state: {
+        kind: "billing-gateway-redirect",
+        accountId,
+        checkoutReturnNotice,
+        gatewayReason: billingQuery.data.reason,
+      },
+      refetchBilling,
     };
   }
 
   if (billingQuery.isError) {
     return {
-      kind: "billing-error",
-      accountId,
-      checkoutReturnNotice,
-      message:
-        billingQuery.error instanceof Error
-          ? billingQuery.error.message
-          : "A network error occurred while loading billing.",
+      state: {
+        kind: "billing-error",
+        accountId,
+        checkoutReturnNotice,
+        message:
+          billingQuery.error instanceof Error
+            ? billingQuery.error.message
+            : "A network error occurred while loading billing.",
+      },
+      refetchBilling,
     };
   }
 
@@ -137,9 +157,12 @@ export function useBillingOverviewContentState(accountId: string): BillingOvervi
     isAccountBillingGatewayRedirect(billingQuery.data)
   ) {
     return {
-      kind: "unexpected-empty",
-      accountId,
-      checkoutReturnNotice,
+      state: {
+        kind: "unexpected-empty",
+        accountId,
+        checkoutReturnNotice,
+      },
+      refetchBilling,
     };
   }
 
@@ -147,10 +170,13 @@ export function useBillingOverviewContentState(accountId: string): BillingOvervi
 
   if (ordersQuery.isPending) {
     return {
-      kind: "orders-loading",
-      accountId,
-      checkoutReturnNotice,
-      billingSummary,
+      state: {
+        kind: "orders-loading",
+        accountId,
+        checkoutReturnNotice,
+        billingSummary,
+      },
+      refetchBilling,
     };
   }
 
@@ -160,11 +186,14 @@ export function useBillingOverviewContentState(accountId: string): BillingOvervi
     isAccountBillingOrdersGatewayRedirect(ordersQuery.data)
   ) {
     return {
-      kind: "orders-gateway-redirect",
-      accountId,
-      checkoutReturnNotice,
-      billingSummary,
-      gatewayReason: ordersQuery.data.reason,
+      state: {
+        kind: "orders-gateway-redirect",
+        accountId,
+        checkoutReturnNotice,
+        billingSummary,
+        gatewayReason: ordersQuery.data.reason,
+      },
+      refetchBilling,
     };
   }
 
@@ -182,20 +211,23 @@ export function useBillingOverviewContentState(accountId: string): BillingOvervi
   const billingUiMode = deriveBillingUiMode(billingSummary, { orders: ordersPayload });
 
   return {
-    kind: "ready",
-    accountId,
-    segmentOk: true,
-    checkoutReturnNotice,
-    billingSummary,
-    billingUiMode,
-    ordersPayload,
-    ordersLoadError,
-    trialDetailsTrigger: billingTrialDetailsTriggerState(billingSummary, billingUiMode, {
-      orders: ordersPayload,
-    }),
-    historyHref: `/o/${encodeURIComponent(accountId)}/billing/history`,
-    createHref: `/o/${encodeURIComponent(accountId)}/billing/create`,
-    availableActions: billingSummary.availableActions,
-    refetchOrders: () => void ordersQuery.refetch(),
+    state: {
+      kind: "ready",
+      accountId,
+      segmentOk: true,
+      checkoutReturnNotice,
+      billingSummary,
+      billingUiMode,
+      ordersPayload,
+      ordersLoadError,
+      trialDetailsTrigger: billingTrialDetailsTriggerState(billingSummary, billingUiMode, {
+        orders: ordersPayload,
+      }),
+      historyHref: `/o/${encodeURIComponent(accountId)}/billing/history`,
+      createHref: `/o/${encodeURIComponent(accountId)}/billing/create`,
+      availableActions: billingSummary.availableActions,
+      refetchOrders: () => void ordersQuery.refetch(),
+    },
+    refetchBilling,
   };
 }

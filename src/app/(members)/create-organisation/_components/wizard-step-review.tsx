@@ -4,6 +4,7 @@ import Link from "next/link";
 import { forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo } from "react";
 
 import { InlineAlert } from "@/components/auth/actions";
+import { MetricComparisonCard } from "@/components/cards";
 import { Button } from "@/components/ui/button";
 import { ApiError } from "@/lib/api/client/api-error";
 import {
@@ -26,8 +27,6 @@ import { useOnboardingLookupThemes } from "@/lib/api/hooks/account/useOnboarding
 import { useCurrentUser } from "@/lib/api/hooks/auth/useCurrentUser";
 import { themeColoursForReviewStep } from "@/lib/branding/theme-colours-from-account";
 import { ROUTES } from "@/lib/config/routes";
-
-import { OnboardingSection } from "./onboarding-section";
 
 function errorMessageFromUnknown(e: unknown): string {
   if (e instanceof ApiError) {
@@ -70,6 +69,9 @@ function SummaryRow({ label, value }: { label: string; value: string }) {
     </div>
   );
 }
+
+const REVIEW_SECTION_CARD_CLASS_NAME =
+  "ring-border w-full min-w-0 rounded-2xl border-none shadow-xl ring-1";
 
 export const WizardStepReview = forwardRef<WizardStepReviewHandle, WizardStepReviewProps>(
   function WizardStepReview(
@@ -226,7 +228,7 @@ export const WizardStepReview = forwardRef<WizardStepReviewHandle, WizardStepRev
     }
 
     return (
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-6">
         {confirmMutation.isError ? (
           <InlineAlert
             message={errorMessageFromUnknown(confirmMutation.error)}
@@ -269,76 +271,108 @@ export const WizardStepReview = forwardRef<WizardStepReviewHandle, WizardStepRev
           />
         ) : null}
 
-        <OnboardingSection title="Organisation" titleId={orgSectionId}>
-          <dl className="flex flex-col gap-2">
-            <SummaryRow label="Name" value={organisationDisplayName} />
-            <SummaryRow label="Sport" value={sportLabel} />
-            <SummaryRow label="Organisation type" value={orgTypeLabel} />
-            <SummaryRow
-              label="Authorised to act"
-              value={settingsPayload?.isRightsHolder === true ? "Yes" : "No"}
-            />
-            <SummaryRow
-              label="Permission to fetch data"
-              value={settingsPayload?.isPermissionGiven === true ? "Yes" : "No"}
-            />
-          </dl>
-        </OnboardingSection>
-
-        <OnboardingSection title="Branding" titleId={brandSectionId}>
-          {brandingQuery.isError ? (
-            <p className="text-muted-foreground text-sm">Could not load branding.</p>
-          ) : (
-            <div className="flex flex-col gap-3">
-              <div className="flex flex-wrap items-center gap-3">
-                <span className="text-muted-foreground text-xs">Primary</span>
-                <span
-                  className="inline-block h-8 w-10 rounded border"
-                  style={{
-                    backgroundColor: reviewThemeColours.primary,
-                  }}
-                  title={reviewThemeColours.primary}
-                />
-                <span className="text-muted-foreground text-xs">Secondary</span>
-                <span
-                  className="inline-block h-8 w-10 rounded border"
-                  style={{
-                    backgroundColor: reviewThemeColours.secondary,
-                  }}
-                  title={reviewThemeColours.secondary}
-                />
-              </div>
-              {brandingPayload?.onboardingLogo?.url ? (
-                <div className="flex items-center gap-2">
-                  <span className="text-muted-foreground text-xs">Logo</span>
-                  <img
-                    src={brandingPayload.onboardingLogo.url}
-                    alt="Organisation logo"
-                    className="h-12 w-auto max-w-[140px] rounded border object-contain"
-                  />
-                </div>
-              ) : (
-                <p className="text-muted-foreground text-sm">No logo on file.</p>
-              )}
-            </div>
-          )}
-        </OnboardingSection>
-
-        <OnboardingSection title="Contact and delivery" titleId={contactSectionId}>
-          {settingsQuery.isError ? (
-            <p className="text-muted-foreground text-sm">Could not load contact fields.</p>
-          ) : (
+        <MetricComparisonCard
+          layout="card"
+          data-card="card.metric.comparison-card.body-prose"
+          className={REVIEW_SECTION_CARD_CLASS_NAME}
+          title={
+            <span id={orgSectionId} className="text-sm font-semibold">
+              Organisation
+            </span>
+          }
+          body={
             <dl className="flex flex-col gap-2">
-              <SummaryRow label="Email (sign-in)" value={primaryEmail} />
-              <SummaryRow label="First name" value={settingsPayload?.FirstName?.trim() ?? ""} />
-              <SummaryRow label="Last name" value={settingsPayload?.LastName?.trim() ?? ""} />
+              <SummaryRow label="Name" value={organisationDisplayName} />
+              <SummaryRow label="Sport" value={sportLabel} />
+              <SummaryRow label="Organisation type" value={orgTypeLabel} />
               <SummaryRow
-                label="Weekly assets email"
-                value={settingsPayload?.DeliveryAddress?.trim() ?? ""}
+                label="Authorised to act"
+                value={settingsPayload?.isRightsHolder === true ? "Yes" : "No"}
+              />
+              <SummaryRow
+                label="Permission to fetch data"
+                value={settingsPayload?.isPermissionGiven === true ? "Yes" : "No"}
               />
             </dl>
-          )}
-        </OnboardingSection>
+          }
+        />
+
+        <MetricComparisonCard
+          layout="card"
+          data-card="card.metric.comparison-card.body-prose"
+          className={REVIEW_SECTION_CARD_CLASS_NAME}
+          title={
+            <span id={brandSectionId} className="text-sm font-semibold">
+              Branding
+            </span>
+          }
+          body={
+            brandingQuery.isError ? (
+              <p className="text-muted-foreground text-sm">Could not load branding.</p>
+            ) : (
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                <div className="flex flex-col gap-2">
+                  <span className="text-muted-foreground text-xs font-medium">Primary</span>
+                  <span
+                    className="inline-block h-8 w-10 rounded border"
+                    style={{
+                      backgroundColor: reviewThemeColours.primary,
+                    }}
+                    title={reviewThemeColours.primary}
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <span className="text-muted-foreground text-xs font-medium">Secondary</span>
+                  <span
+                    className="inline-block h-8 w-10 rounded border"
+                    style={{
+                      backgroundColor: reviewThemeColours.secondary,
+                    }}
+                    title={reviewThemeColours.secondary}
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <span className="text-muted-foreground text-xs font-medium">Logo</span>
+                  {brandingPayload?.onboardingLogo?.url ? (
+                    <img
+                      src={brandingPayload.onboardingLogo.url}
+                      alt="Organisation logo"
+                      className="h-12 w-auto max-w-[140px] rounded border object-contain"
+                    />
+                  ) : (
+                    <span className="text-muted-foreground text-sm">No logo on file.</span>
+                  )}
+                </div>
+              </div>
+            )
+          }
+        />
+
+        <MetricComparisonCard
+          layout="card"
+          data-card="card.metric.comparison-card.body-prose"
+          className={REVIEW_SECTION_CARD_CLASS_NAME}
+          title={
+            <span id={contactSectionId} className="text-sm font-semibold">
+              Contact and delivery
+            </span>
+          }
+          body={
+            settingsQuery.isError ? (
+              <p className="text-muted-foreground text-sm">Could not load contact fields.</p>
+            ) : (
+              <dl className="flex flex-col gap-2">
+                <SummaryRow label="Email (sign-in)" value={primaryEmail} />
+                <SummaryRow label="First name" value={settingsPayload?.FirstName?.trim() ?? ""} />
+                <SummaryRow label="Last name" value={settingsPayload?.LastName?.trim() ?? ""} />
+                <SummaryRow
+                  label="Weekly assets email"
+                  value={settingsPayload?.DeliveryAddress?.trim() ?? ""}
+                />
+              </dl>
+            )
+          }
+        />
       </div>
     );
   },

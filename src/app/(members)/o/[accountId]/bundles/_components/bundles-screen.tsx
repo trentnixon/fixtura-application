@@ -5,6 +5,7 @@ import { Loader2 } from "lucide-react";
 import { TypographyMuted } from "@/components/typography";
 import { ErrorState } from "@/components/ui/error-state";
 
+import { BundlesActiveRunBanner } from "./bundles-active-run-banner";
 import { BundlesRenderListPanel } from "./bundles-render-list-panel";
 import { BundlesSchedulerStrip } from "./bundles-scheduler-strip";
 import { BundlesScreenHeader } from "./bundles-screen-header";
@@ -57,8 +58,9 @@ export function BundlesScreen({ accountId }: BundlesScreenProps) {
   return (
     <div className="mx-auto grid max-w-[112rem] gap-6 px-4 pb-12 sm:px-6 lg:px-8">
       <BundlesScreenHeader accountId={accountId} />
-      <BundlesSchedulerStrip accountId={accountId} />
+      <BundlesActiveRunBanner accountId={accountId} />
       <BundlesRenderListPanel accountId={accountId} />
+      <BundlesSchedulerStrip accountId={accountId} />
     </div>
   );
 }

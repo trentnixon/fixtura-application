@@ -15,6 +15,7 @@ import type { SponsorLibraryPanelProps, SponsorPoolStats } from "./_types/sponso
 export type { SponsorPoolStats };
 
 export function SponsorLibraryPanel({
+  accountId,
   sponsors,
   stats,
   searchValue,
@@ -58,7 +59,7 @@ export function SponsorLibraryPanel({
                 No sponsors match the current search or filter.
               </div>
             ) : null}
-            <ul className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+            <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {sponsors.map((sponsor) => (
                 <SponsorLibraryCard
                   key={sponsor.id}
@@ -71,7 +72,7 @@ export function SponsorLibraryPanel({
           </div>
         </div>
       }
-      footer={<SponsorLibraryMetricsFooter stats={stats} />}
+      footer={<SponsorLibraryMetricsFooter accountId={accountId} stats={stats} />}
     />
   );
 }

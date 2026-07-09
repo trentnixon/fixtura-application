@@ -19,7 +19,7 @@ export type AccountSectionShellStyle = {
 
 export type AccountSectionShellProps = {
   title: string;
-  description: string;
+  description?: string;
   icon: ReactNode;
   headerTone?: AccountSectionShellTone;
   children: ReactNode;

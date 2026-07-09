@@ -18,7 +18,6 @@ import {
   buildSeasonOverviewHref,
   extractCompetitionTitle,
   formatSeasonHubDate,
-  isSeasonStatusActive,
   pickString,
   resolveCompetitionTitle,
 } from "./_utils";
@@ -164,11 +163,6 @@ export function SeasonCompetitionDetail({
     return null;
   }, [competitionMeta]);
 
-  const competitionHeaderActive =
-    typeof competitionMeta?.isActive === "boolean"
-      ? competitionMeta.isActive
-      : isSeasonStatusActive(competitionStatus);
-
   const seasonOverviewHref = buildSeasonOverviewHref(accountId);
 
   const err = competition.error ?? grades.error;
@@ -199,11 +193,8 @@ export function SeasonCompetitionDetail({
       <SeasonCompetitionDetailHeader
         accountId={accountId}
         competitionPageTitle={competitionPageTitle}
-        competitionMeta={competitionMeta}
         headerContextLine={headerContextLine}
         timeframeLine={timeframeLine}
-        competitionHeaderActive={competitionHeaderActive}
-        competitionStatus={competitionStatus}
         seasonOverviewHref={seasonOverviewHref}
         isFetching={isFetching}
         canQueueGradesRefresh={canQueueGradesRefresh}

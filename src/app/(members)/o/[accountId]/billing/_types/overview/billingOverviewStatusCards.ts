@@ -4,11 +4,6 @@ export type ActiveTrialStatusCardViewModel = {
   tierLabel: string | null;
 };
 
-export type BillingSectionsViewModel<TActiveOrder> = {
-  meaningfulActiveOrder: TActiveOrder | null;
-  showOrdersSection: boolean;
-};
-
 export type PaidActiveStatusCardViewModel = {
   daysRemaining: number | null;
   endAt: string | null;

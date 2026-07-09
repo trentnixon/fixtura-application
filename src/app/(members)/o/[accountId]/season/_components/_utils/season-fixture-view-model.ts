@@ -285,10 +285,7 @@ export function buildSeasonFixtureViewModel(
     pushIf("Data quality", pickString(validationRec ?? {}, ["status"]));
   }
 
-  const hasOutputs =
-    detailDisplay.renderEntries.length > 0 ||
-    downloadEntries.length > 0 ||
-    Boolean(renderStatus && Object.keys(renderStatus).length > 0);
+  const hasOutputs = downloadEntries.length > 0;
 
   const headerContextParts = [
     round,

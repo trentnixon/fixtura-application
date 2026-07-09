@@ -61,3 +61,12 @@ export function buildSelectedDateWindowDisplay({
     endDateLabel: format(end, "PPP"),
   };
 }
+
+/** Muted hint above the coverage span, e.g. `365-day pass window`. */
+export function formatPassWindowHint(daysInPass: number | undefined): string | null {
+  if (daysInPass == null || daysInPass <= 0) {
+    return null;
+  }
+  const normalizedDays = Math.max(1, Math.floor(daysInPass));
+  return `${normalizedDays}-day pass window`;
+}

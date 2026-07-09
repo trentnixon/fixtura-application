@@ -18,11 +18,3 @@ export const SEASON_FILTER_ALL = "all" as const;
 
 /** Select value for fixtures with no status (grade view filters). */
 export const SEASON_GRADE_FIXTURE_STATUS_EMPTY = "__status_empty__" as const;
-
-export const SEASON_OVERVIEW_COVERAGE_OPTIONS = [
-  { value: "all", label: "All coverage" },
-  { value: "has-grades", label: "Has grades" },
-  { value: "no-grades", label: "No grades" },
-  { value: "has-fixtures", label: "Has fixtures" },
-  { value: "no-fixtures", label: "No fixtures" },
-] as const;

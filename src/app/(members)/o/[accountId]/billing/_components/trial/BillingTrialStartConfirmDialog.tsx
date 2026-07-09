@@ -19,7 +19,10 @@ import {
   BILLING_TRIAL_START_COPY,
   BILLING_TRIAL_START_DURATION_DAYS,
 } from "../../_constants/trial/billingTrialStart";
-import { shouldShowBillingTrialStartPlanHint } from "../../_utils/trial/billingTrialStart";
+import {
+  formatBillingTrialStartConfirmDescription,
+  shouldShowBillingTrialStartPlanHint,
+} from "../../_utils/trial/billingTrialStart";
 
 import type { BillingTrialStartConfirmDialogProps } from "../../_types/trial/billingTrialStart";
 
@@ -27,6 +30,7 @@ export function BillingTrialStartConfirmDialog({
   open,
   onOpenChange,
   trialSchedule,
+  accountName,
   errorMessage,
   isPending,
   onCancel,
@@ -38,13 +42,14 @@ export function BillingTrialStartConfirmDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md" aria-describedby="billing-trial-confirm-description">
         <DialogHeader>
-          <DialogTitle>{BILLING_TRIAL_START_COPY.confirmTitle}</DialogTitle>
+          <DialogTitle>
+            {BILLING_TRIAL_START_COPY.confirmTitlePrefix} {BILLING_TRIAL_START_DURATION_DAYS}
+            {BILLING_TRIAL_START_COPY.confirmTitleSuffix}
+          </DialogTitle>
           <DialogDescription id="billing-trial-confirm-description" asChild>
             <div className="[&_strong]:text-foreground space-y-2">
               <TypographyDialogDescription as="p" className="text-inherit">
-                {BILLING_TRIAL_START_COPY.confirmDescriptionPrefix}{" "}
-                <strong>{BILLING_TRIAL_START_DURATION_DAYS} days</strong>{" "}
-                {BILLING_TRIAL_START_COPY.confirmDescriptionSuffix}
+                {formatBillingTrialStartConfirmDescription(accountName)}
               </TypographyDialogDescription>
               {trialSchedule ? (
                 <TypographyDialogDescription as="p" className="text-inherit">

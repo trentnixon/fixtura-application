@@ -81,6 +81,67 @@ describe("readRemotionNoiseFromBranding", () => {
       ),
     ).toEqual({ type: "grain" });
   });
+
+  it("normalizes CMS display labels to Remotion noise keys", () => {
+    expect(
+      readRemotionNoiseFromBranding(
+        brandingFixture({
+          useBackground: "Graphics",
+          noise: { id: 7, name: "Floating Particles", noiseType: "Floating Particles" },
+        }),
+      ),
+    ).toEqual({ type: "floatingParticles" });
+  });
+
+  it("falls back to name when noiseType is missing", () => {
+    expect(
+      readRemotionNoiseFromBranding(
+        brandingFixture({
+          useBackground: "Graphics",
+          noise: { id: 8, name: "Floating Particles", noiseType: null },
+        }),
+      ),
+    ).toEqual({ type: "floatingParticles" });
+  });
+
+  it("maps particle and graphics noise variants from display labels", () => {
+    const cases = [
+      ["Dynamic Particles", "dynamicParticles"],
+      ["Triangle Swarm", "triangleSwarm"],
+      ["Digital Rain", "digitalRain"],
+      ["Spokes", "spokes"],
+      ["Wave", "wave"],
+    ] as const;
+
+    for (const [label, type] of cases) {
+      expect(
+        readRemotionNoiseFromBranding(
+          brandingFixture({
+            useBackground: "Graphics",
+            noise: { id: 1, name: label, noiseType: label },
+          }),
+        ),
+      ).toEqual({ type });
+    }
+  });
+
+  it("reads scheduler-style noise objects from theme", () => {
+    expect(
+      readRemotionNoiseFromBranding({
+        id: 1,
+        template: null,
+        theme: {
+          id: 2,
+          name: "Theme",
+          theme: {
+            useBackground: "Graphics",
+            noise: { type: "digitalRain" },
+          },
+        },
+        template_option: null,
+      }),
+    ).toEqual({ type: "digitalRain" });
+  });
 });
 
 describe("readRemotionParticleFromBranding", () => {

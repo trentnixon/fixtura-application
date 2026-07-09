@@ -1,11 +1,9 @@
 export const BUNDLES_RENDERS_PAGE_SIZE = 25;
 
 export const BUNDLES_RENDERS_LIST_COPY = {
-  title: "Recent renders",
-  description:
-    "Weekly bundle runs for your organisation. View a render in Fixtura or open it on your content hub.",
   columnStatus: "Status",
   columnCreated: "Created",
+  columnDaysAgo: "Days ago",
   columnAction: "Actions",
   viewOnAdminAction: "View Render",
   viewOnContentHubAction: "Go to Hub",
@@ -18,7 +16,7 @@ export const BUNDLES_RENDERS_LIST_COPY = {
   noMatchesOnPage: "No renders match this date range.",
   emptyTitle: "No renders yet",
   emptyBody:
-    "When your organisation completes a bundle run, it will appear here. Check your delivery schedule above.",
+    "When your organisation completes a bundle run, it will appear here. Check your delivery schedule below.",
   errorTitle: "Could not load renders",
   feedbackErrorLabel: "Error",
   feedbackInfoLabel: "Info",

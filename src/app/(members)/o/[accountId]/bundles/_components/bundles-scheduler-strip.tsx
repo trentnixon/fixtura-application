@@ -19,7 +19,7 @@ import {
   BundlesDeliveryScheduleSectionSkeleton,
 } from "./bundles-delivery-schedule-section";
 import { BUNDLES_SCREEN_COPY } from "../_consts";
-import { formatNextDeliveryCountdown } from "../_utils";
+import { formatNextDeliveryCountdown, resolveSchedulerRunStatus } from "../_utils";
 
 export function BundlesSchedulerStrip({ accountId }: { accountId: string }) {
   const router = useRouter();
@@ -73,12 +73,15 @@ export function BundlesSchedulerStrip({ accountId }: { accountId: string }) {
         BUNDLES_SCREEN_COPY.schedulerDeliveryDayUnknown;
   const nextDeliveryLabel =
     weekdayKey != null ? formatNextDeliveryCountdown(daysUntilNextDelivery(weekdayKey)) : "—";
+  const runStatus = resolveSchedulerRunStatus(schedulerDoc);
 
   return (
     <BundlesDeliveryScheduleSection
       settingsHref={settingsHref}
       deliveryDayLabel={deliveryDayLabel}
       nextDeliveryLabel={nextDeliveryLabel}
+      runStatusLabel={runStatus.label}
+      runStatusTone={runStatus.tone}
     />
   );
 }

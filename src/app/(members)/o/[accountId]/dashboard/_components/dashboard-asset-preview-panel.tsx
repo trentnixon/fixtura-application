@@ -1,5 +1,7 @@
 "use client";
 
+import { Play } from "lucide-react";
+import Link from "next/link";
 import { useMemo } from "react";
 
 import {
@@ -8,18 +10,24 @@ import {
 } from "@/components/pickers/assets-list-for-selection";
 import { DEFAULT_REMOTION_SANDBOX_COMPOSITION_ID } from "@/components/remotion/_constants/remotion-composition";
 import { isRemotionSandboxCricketCompositionId } from "@/components/remotion/_constants/remotion-datasets";
-import { TypographyMuted } from "@/components/typography";
 import { isCricketSport, useRemotionAssetPreview } from "@/features/remotion-asset-preview";
 import {
   isAccountSponsorsGatewayRedirect,
   useAccountSponsors,
 } from "@/lib/api/hooks/account/useAccountSponsors";
+import { accountScopedRoutes } from "@/lib/config/account-routes";
+import { cn } from "@/lib/utils";
 
 import { DashboardAssetPreviewBrandingDebug } from "./dashboard-asset-preview-branding-debug";
 import { DashboardOverviewCarousel } from "./dashboard-overview-carousel";
+import { AccountSectionShell } from "../../account/_components/AccountSectionShell";
 
 import type { AccountBrandingData } from "@/types/api/account";
 import type { ReactNode } from "react";
+
+/** Primary CTA in the asset preview toolbar. */
+const DASHBOARD_PREVIEW_CHANGE_TEMPLATE_CLASS =
+  "inline-flex h-auto min-h-0 shrink-0 items-center rounded-full border border-primary bg-primary px-4 py-1.5 text-xs text-primary-foreground shadow-none transition-colors hover:bg-primary/90 focus-visible:ring-ring focus-visible:ring-2 focus-visible:outline-none sm:px-6 sm:py-2 sm:text-sm";
 
 type DashboardAssetPreviewPanelProps = {
   accountId: string;
@@ -41,8 +49,8 @@ export function DashboardAssetPreviewPanel({
   templateModeSlug,
   debugPlacement = "carousel",
   showAssetPicker = true,
-  previewTitle,
-  compactPreview = false,
+  previewTitle = null,
+  compactPreview = true,
 }: DashboardAssetPreviewPanelProps) {
   const imageOptions = useImageOptionsAssetsPicker(
     sport != null && sport.trim() !== "" ? { lockSportFilterTo: sport } : undefined,
@@ -87,31 +95,51 @@ export function DashboardAssetPreviewPanel({
   const shouldShowAssetPicker = showAssetPicker && isCricketSport(sport);
 
   return (
-    <div className="flex h-full min-h-0 flex-col gap-4">
-      {shouldShowAssetPicker ? (
-        <div className="shrink-0 space-y-2">
-          <TypographyMuted className="text-xs font-semibold tracking-wide uppercase">
-            Asset / composition
-          </TypographyMuted>
-          <ImageOptionsAssetsPicker compact isSelect organisationSport={sport} />
+    <AccountSectionShell
+      title="Asset preview"
+      description="Live preview of your branded compositions."
+      icon={<Play className="size-5" aria-hidden />}
+      headerTone="brand"
+    >
+      <div className="flex flex-col px-6 pb-5">
+        <div className="w-full min-w-0 py-2">
+          <DashboardOverviewCarousel
+            remotionPreviewState={remotionAssetPreview}
+            displayMode="thumbnails"
+            brandingSettingsDebug={debugPlacement === "carousel" ? brandingSettingsDebug : null}
+            title={previewTitle}
+            compact={compactPreview}
+          />
         </div>
-      ) : null}
-      <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-        <DashboardOverviewCarousel
-          remotionPreviewState={remotionAssetPreview}
-          brandingSettingsDebug={debugPlacement === "carousel" ? brandingSettingsDebug : null}
-          title={previewTitle}
-          compact={compactPreview}
-        />
+
+        <div className="border-border flex flex-wrap items-center justify-between gap-x-4 gap-y-3 border-t pt-4">
+          {shouldShowAssetPicker ? (
+            <ImageOptionsAssetsPicker
+              compact
+              inline
+              isSelect
+              hideSelectLabel
+              hideStatusSummary
+              organisationSport={sport}
+            />
+          ) : null}
+          <Link
+            href={accountScopedRoutes.templateBuilder(accountId)}
+            className={cn(DASHBOARD_PREVIEW_CHANGE_TEMPLATE_CLASS, "ml-auto")}
+          >
+            Change template
+          </Link>
+        </div>
+
+        {debugPlacement === "below" ? (
+          <div className="border-border bg-muted/35 mt-4 shrink-0 space-y-2 rounded-lg border p-3">
+            <p className="text-muted-foreground text-[0.65rem] font-semibold tracking-wide uppercase">
+              User settings (debug)
+            </p>
+            {brandingSettingsDebug}
+          </div>
+        ) : null}
       </div>
-      {debugPlacement === "below" ? (
-        <div className="border-border bg-muted/35 shrink-0 space-y-2 rounded-lg border p-3">
-          <p className="text-muted-foreground text-[0.65rem] font-semibold tracking-wide uppercase">
-            User settings (debug)
-          </p>
-          {brandingSettingsDebug}
-        </div>
-      ) : null}
-    </div>
+    </AccountSectionShell>
   );
 }

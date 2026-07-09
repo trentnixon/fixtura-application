@@ -1,11 +1,9 @@
 import * as Sentry from "@sentry/nextjs";
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
+import { guardAccountStrapiRequest } from "@/lib/api/bff/guard-account-strapi-request";
 import { nextResponseFromStrapiFetch } from "@/lib/api/bff/next-response-from-strapi-fetch";
-import { AUTH_COOKIE_NAME } from "@/lib/auth/auth-constants";
-import { isValidAccountIdSegment } from "@/lib/config/account-routes";
-import { getStrapiUrl } from "@/lib/config/env";
+import { parseJsonBodyOrEmpty } from "@/lib/api/bff/parse-json-body-or-empty";
 
 type RouteContext = { params: Promise<{ accountId: string }> };
 
@@ -14,45 +12,24 @@ type RouteContext = { params: Promise<{ accountId: string }> };
  * @see .comms/onBoarding/app-handoff-onboarding-lifecycle-v1-integration.md
  */
 export async function POST(request: Request, context: RouteContext) {
-  const strapiUrl = getStrapiUrl();
-  const cookieStore = await cookies();
-  const token = cookieStore.get(AUTH_COOKIE_NAME)?.value;
   const { accountId } = await context.params;
+  const guard = await guardAccountStrapiRequest(accountId);
+  if (!guard.ok) return guard.response;
 
-  if (!token) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  if (!isValidAccountIdSegment(accountId)) {
-    return NextResponse.json({ error: "Invalid account id" }, { status: 400 });
-  }
-
-  if (!strapiUrl) {
-    return NextResponse.json({ error: "Service unavailable" }, { status: 503 });
-  }
-
-  let body: unknown = {};
-  const contentType = request.headers.get("content-type");
-  if (contentType?.includes("application/json")) {
-    try {
-      const text = await request.text();
-      body = text ? JSON.parse(text) : {};
-    } catch {
-      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
-    }
-  }
+  const parsed = await parseJsonBodyOrEmpty(request);
+  if (!parsed.ok) return parsed.response;
 
   try {
     const strapiRes = await fetch(
-      `${strapiUrl}/api/accounts/${encodeURIComponent(accountId)}/onboarding/retry-setup`,
+      `${guard.strapiUrl}/api/accounts/${encodeURIComponent(accountId)}/onboarding/retry-setup`,
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${guard.token}`,
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(body ?? {}),
+        body: JSON.stringify(parsed.body ?? {}),
         cache: "no-store",
       },
     );

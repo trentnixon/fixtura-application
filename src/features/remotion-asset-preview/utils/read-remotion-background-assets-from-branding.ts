@@ -1,3 +1,4 @@
+import { resolveRemotionNoiseFromCatalogNoise } from "./read-remotion-noise-from-catalog";
 import { readUseBackgroundFromAccountBranding } from "./read-use-background-from-account-branding";
 
 import type { AccountBrandingData } from "@/types/api/account";
@@ -150,13 +151,23 @@ export function readRemotionTextureFromBranding(
 export function readRemotionNoiseFromBranding(
   branding: AccountBrandingData | null | undefined,
 ): RemotionTemplateVariationNoise | null {
-  const row = readTemplateOptionField(branding, "noise") ?? readThemeField(branding, "noise");
-  if (row === null) return null;
+  const opt = branding?.template_option;
+  if (opt != null && typeof opt === "object" && !Array.isArray(opt)) {
+    const fromOption = resolveRemotionNoiseFromCatalogNoise(
+      (opt as Record<string, unknown>)["noise"],
+    );
+    if (fromOption !== null) return fromOption;
+  }
 
-  const type = pickString(row["noiseType"], row["type"]);
-  if (type === null) return null;
+  const themeRow = branding?.theme?.theme;
+  if (themeRow != null && typeof themeRow === "object" && !Array.isArray(themeRow)) {
+    const fromTheme = resolveRemotionNoiseFromCatalogNoise(
+      (themeRow as Record<string, unknown>)["noise"],
+    );
+    if (fromTheme !== null) return fromTheme;
+  }
 
-  return { type };
+  return null;
 }
 
 export function readRemotionParticleFromBranding(

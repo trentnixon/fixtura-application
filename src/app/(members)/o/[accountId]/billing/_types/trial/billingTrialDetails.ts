@@ -10,6 +10,8 @@ export type BillingTrialDetailsDialogProps = {
   trial: BillingTrialSummaryV1 | null | undefined;
   uiMode: BillingUiMode;
   emphasize: boolean;
+  /** Default `button` matches billing overview actions; `text` sits below Season Pass card. */
+  triggerVariant?: "button" | "text";
 };
 
 export type TrialDetailsBodyProps = {

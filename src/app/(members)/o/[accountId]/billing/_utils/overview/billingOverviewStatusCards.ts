@@ -7,13 +7,11 @@ import {
 import { resolvePaidSubscriptionPeriodBounds } from "../orders/billingHistoryOrderUtils";
 import {
   billingTrialTierDisplayLabel,
-  hasMeaningfulActiveOrder,
   paidSubscriptionTierDisplayLabel,
 } from "../trial/billingTrialDetails";
 
 import type {
   ActiveTrialStatusCardViewModel,
-  BillingSectionsViewModel,
   PaidActiveStatusCardViewModel,
 } from "../../_types/overview/billingOverviewStatusCards";
 import type {
@@ -33,17 +31,6 @@ export function buildActiveTrialStatusCardViewModel(
     daysRemaining: trialDaysRemaining(trial?.endDate ?? null),
     remainingPercent: elapsedPercent != null ? 100 - elapsedPercent : null,
     tierLabel: billingTrialTierDisplayLabel(trial),
-  };
-}
-
-export function buildBillingSectionsViewModel(
-  activeOrder: AccountBillingOrderDto | null,
-  orders: AccountBillingOrderHistoryDto[],
-  ordersLoadError: Error | null,
-): BillingSectionsViewModel<AccountBillingOrderDto> {
-  return {
-    meaningfulActiveOrder: hasMeaningfulActiveOrder(activeOrder) ? activeOrder : null,
-    showOrdersSection: orders.length > 0 || ordersLoadError != null,
   };
 }
 

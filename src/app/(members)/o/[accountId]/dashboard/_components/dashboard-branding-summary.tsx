@@ -49,8 +49,8 @@ export function DashboardBrandingSummary({ model, isPending }: DashboardBranding
   return (
     <SectionBlock variant="surface" spacing="md">
       <div className="space-y-1">
-        <SectionLabel>Branding</SectionLabel>
-        <TypographyMuted className="text-xs">Template, theme, and preview</TypographyMuted>
+        <SectionLabel>Look & feel</SectionLabel>
+        <TypographyMuted className="text-xs">Logo, colours, templates, and preview</TypographyMuted>
       </div>
 
       <div className="flex flex-col gap-6 lg:flex-row">

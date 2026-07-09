@@ -1,11 +1,11 @@
 "use client";
 
+import { ImageUp } from "lucide-react";
 import Link from "next/link";
 import {
   forwardRef,
   useCallback,
   useEffect,
-  useId,
   useImperativeHandle,
   useMemo,
   useRef,
@@ -13,17 +13,24 @@ import {
 } from "react";
 
 import { InlineAlert } from "@/components/auth/actions";
-import {
-  BrandColorField,
-  FixturaAssetColorPreview,
-  PersistentFieldFeedback,
-} from "@/components/brand-color";
+import { FixturaAssetColorPreview } from "@/components/brand-color";
+import { MetricComparisonCard } from "@/components/cards";
 import {
   ImageUploaderCrop,
   type ImageUploaderCropCompletePayload,
 } from "@/components/media/image-uploader-crop";
-import { TypographyBodySmall, TypographyFinePrint, TypographyLabel } from "@/components/typography";
-import { Button } from "@/components/ui/button";
+import { TypographyBodySmall, TypographyFinePrint } from "@/components/typography";
+import {
+  LOGO_MIN_OUTPUT_HEIGHT_PX,
+  LOGO_MIN_OUTPUT_WIDTH_PX,
+  LOGO_MIN_SOURCE_HEIGHT_PX,
+  LOGO_MIN_SOURCE_WIDTH_PX,
+} from "@/features/branding/components/brand-logo-workspace/logo-save-validation";
+import {
+  BRANDING_CONTAINER_HEADER_CLASS_NAME,
+  BrandingContainerHeaderTitle,
+} from "@/features/branding/components/branding-container-header-title";
+import { BrandColoursCard } from "@/features/branding/components/branding-workspace/_components/brand-colours-card";
 import { activeAccountSummaryFromMePayload } from "@/lib/account/account-me-rows";
 import { ApiError } from "@/lib/api/client/api-error";
 import {
@@ -33,13 +40,12 @@ import {
 import { useAccountMe } from "@/lib/api/hooks/account/useAccountMe";
 import { useCreateOnboardingStep2Theme } from "@/lib/api/hooks/account/useCreateOnboardingStep2Theme";
 import { useOnboardingLookupThemes } from "@/lib/api/hooks/account/useOnboardingLookupThemes";
+import { usePatchAccountBranding } from "@/lib/api/hooks/account/usePatchAccountBranding";
 import { useUpdateOnboardingStep2 } from "@/lib/api/hooks/account/useUpdateOnboardingStep2";
 import {
   bothColorsVeryDark,
   bothColorsVeryLight,
   colorsAreTooSimilar,
-  isWeakDarkOnBrandContrast,
-  isWeakWhiteOnBrandContrast,
   tryNormalizeHex,
 } from "@/lib/brand-color";
 import {
@@ -52,9 +58,12 @@ import { SELECTABLE_LOGO_CROP_PRESETS } from "@/lib/media/selectable-logo-crop-p
 import { buildOnboardingCustomThemeName } from "@/lib/onboarding/build-custom-theme-name";
 import { cn } from "@/lib/utils";
 
-import { OnboardingSection } from "./onboarding-section";
-
-import type { OnboardingThemeOption, UpdateOnboardingStep2Body } from "@/types/api/account";
+import type { ColourSourceMode } from "@/features/branding/components/branding-workspace/_types";
+import type {
+  CreateOnboardingStep2ThemeResponse,
+  OnboardingThemeOption,
+  UpdateOnboardingStep2Body,
+} from "@/types/api/account";
 
 export type WizardStepBrandingHandle = {
   submit: () => Promise<void>;
@@ -111,9 +120,6 @@ const SWATCH_FALLBACK_BY_ID: Record<number, { primary: string; secondary: string
   103: { primary: "#1E293B", secondary: "#94A3B8" },
 };
 
-const WHITE_ON_GRADIENT_WARNING = "White text may be difficult to read on parts of this gradient";
-const DARK_ON_GRADIENT_WARNING = "Dark text may be difficult to read on parts of this gradient";
-
 function errorMessageFromUnknown(e: unknown): string {
   if (e instanceof ApiError) {
     const d = e.details;
@@ -151,6 +157,11 @@ function resolveThemeRowColours(row: OnboardingThemeOption): {
   return { primary: "#64748B", secondary: "#94A3B8" };
 }
 
+function themeIdFromCreateThemeResponse(data: CreateOnboardingStep2ThemeResponse): number | null {
+  const id = data.data.id ?? data.data.themeId;
+  return typeof id === "number" && Number.isFinite(id) ? id : null;
+}
+
 export const WizardStepBranding = forwardRef<WizardStepBrandingHandle, WizardStepBrandingProps>(
   function WizardStepBranding({ accountId, onContinue, onPendingChange }, ref) {
     const brandingQuery = useAccountBranding(accountId, { enabled: Boolean(accountId) });
@@ -158,14 +169,17 @@ export const WizardStepBranding = forwardRef<WizardStepBrandingHandle, WizardSte
     const themesQuery = useOnboardingLookupThemes();
     const updateStep2 = useUpdateOnboardingStep2(accountId);
     const createTheme = useCreateOnboardingStep2Theme(accountId);
+    const patchBranding = usePatchAccountBranding(accountId);
 
-    const [brandingMode, setBrandingMode] = useState<BrandingMode>("default");
+    const [brandingMode, setBrandingMode] = useState<BrandingMode>("custom");
     const [selectedThemeId, setSelectedThemeId] = useState("");
     const [primaryColor, setPrimaryColor] = useState("#000000");
     const [secondaryColor, setSecondaryColor] = useState("#666666");
     const [colourDefaultPrimary, setColourDefaultPrimary] = useState("#000000");
     const [colourDefaultSecondary, setColourDefaultSecondary] = useState("#666666");
     const [validationError, setValidationError] = useState<string | null>(null);
+    const [_primaryValid, setPrimaryValid] = useState(true);
+    const [_secondaryValid, setSecondaryValid] = useState(true);
     const [logoFile, setLogoFile] = useState<File | null>(null);
     const [logoAssetPreviewBlobUrl, setLogoAssetPreviewBlobUrl] = useState<string | null>(null);
     const [logoUploaderKey, setLogoUploaderKey] = useState(0);
@@ -177,12 +191,19 @@ export const WizardStepBranding = forwardRef<WizardStepBrandingHandle, WizardSte
     } | null>(null);
     const brandingHydratedRef = useRef(false);
 
-    const themeColoursSectionId = useId();
-    const logoSectionId = useId();
+    const colourSourceMode: ColourSourceMode = brandingMode === "default" ? "premade" : "custom";
+
+    const brandingPalette = useMemo(
+      () => ({
+        primary: colourDefaultPrimary,
+        secondary: colourDefaultSecondary,
+      }),
+      [colourDefaultPrimary, colourDefaultSecondary],
+    );
 
     useEffect(() => {
-      onPendingChange?.(updateStep2.isPending || createTheme.isPending);
-    }, [updateStep2.isPending, createTheme.isPending, onPendingChange]);
+      onPendingChange?.(updateStep2.isPending || createTheme.isPending || patchBranding.isPending);
+    }, [updateStep2.isPending, createTheme.isPending, patchBranding.isPending, onPendingChange]);
 
     useEffect(() => {
       if (!logoFile) {
@@ -246,26 +267,28 @@ export const WizardStepBranding = forwardRef<WizardStepBrandingHandle, WizardSte
       const themeEntity = brandingPayload.data.theme;
 
       if (themeEntity?.id == null) {
-        setBrandingMode("default");
-        setSelectedThemeId(String(rows[0]!.id));
+        setBrandingMode("custom");
+        const row = rows[0];
+        if (row) {
+          const c = resolveThemeRowColours(row);
+          setPrimaryColor(c.primary);
+          setSecondaryColor(c.secondary);
+          setColourDefaultPrimary(c.primary);
+          setColourDefaultSecondary(c.secondary);
+          setSelectedThemeId(String(row.id));
+        }
         return;
       }
 
       const tid = themeEntity.id;
-      const inCatalogue = rows.some((t) => t.id === tid);
       setSelectedThemeId(String(tid));
 
-      if (inCatalogue) {
-        setBrandingMode("default");
-        return;
-      }
-
-      setBrandingMode("custom");
       const c = themeColoursFromAccountBrandingTheme(themeEntity);
       setPrimaryColor(c.primary);
       setSecondaryColor(c.secondary);
       setColourDefaultPrimary(c.primary);
       setColourDefaultSecondary(c.secondary);
+      setBrandingMode("custom");
       customSnapshotRef.current = {
         primary: c.primary,
         secondary: c.secondary,
@@ -330,18 +353,6 @@ export const WizardStepBranding = forwardRef<WizardStepBrandingHandle, WizardSte
       return out;
     }, [np, ns, duplicate]);
 
-    const previewReadabilityWarnings = useMemo(() => {
-      if (!np || !ns || duplicate) return [];
-      const out: string[] = [];
-      if (isWeakWhiteOnBrandContrast(np) || isWeakWhiteOnBrandContrast(ns)) {
-        out.push(WHITE_ON_GRADIENT_WARNING);
-      }
-      if (isWeakDarkOnBrandContrast(np) || isWeakDarkOnBrandContrast(ns)) {
-        out.push(DARK_ON_GRADIENT_WARNING);
-      }
-      return out;
-    }, [np, ns, duplicate]);
-
     const handleLogoCropComplete = useCallback((payload: ImageUploaderCropCompletePayload) => {
       setLogoFile(payload.file);
     }, []);
@@ -367,6 +378,16 @@ export const WizardStepBranding = forwardRef<WizardStepBrandingHandle, WizardSte
         setBrandingMode(mode);
       },
       [brandingMode, selectedRow, themeRows, applyDefaultModeFromRow],
+    );
+
+    const handleColourSourceModeChange = useCallback(
+      (next: ColourSourceMode) => {
+        if (next === "premade") {
+          setSelectedThemeId("");
+        }
+        handleBrandingModeChange(next === "premade" ? "default" : "custom");
+      },
+      [handleBrandingModeChange],
     );
 
     const submit = useCallback(async () => {
@@ -446,8 +467,12 @@ export const WizardStepBranding = forwardRef<WizardStepBrandingHandle, WizardSte
             dark: THEME_JSON_DEFAULT_DARK,
             white: THEME_JSON_DEFAULT_WHITE,
           });
-          themeIdForPatch = res.data.id;
-          setSelectedThemeId(String(res.data.id));
+          themeIdForPatch = themeIdFromCreateThemeResponse(res);
+          if (themeIdForPatch == null) {
+            setValidationError("Custom theme was created, but its id was missing. Try again.");
+            return;
+          }
+          setSelectedThemeId(String(themeIdForPatch));
         }
 
         const body: UpdateOnboardingStep2Body = {};
@@ -460,6 +485,19 @@ export const WizardStepBranding = forwardRef<WizardStepBrandingHandle, WizardSte
         }
 
         await updateStep2.mutateAsync(logoFile ? { file: logoFile, body } : { body });
+        if (!unchanged && themeIdForPatch != null) {
+          await patchBranding.mutateAsync({
+            themeId: themeIdForPatch,
+            palette: { primary: p, secondary: s },
+            theme: {
+              themeId: themeIdForPatch,
+              primary: p,
+              secondary: s,
+              dark: THEME_JSON_DEFAULT_DARK,
+              white: THEME_JSON_DEFAULT_WHITE,
+            },
+          });
+        }
         setLogoFile(null);
         setLogoUploaderKey((k) => k + 1);
         onContinue();
@@ -483,6 +521,7 @@ export const WizardStepBranding = forwardRef<WizardStepBrandingHandle, WizardSte
       secondaryColor,
       updateStep2,
       createTheme,
+      patchBranding,
       onContinue,
     ]);
 
@@ -529,167 +568,67 @@ export const WizardStepBranding = forwardRef<WizardStepBrandingHandle, WizardSte
         className={cn("grid gap-8", "lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] lg:items-start")}
       >
         <div className="flex min-w-0 flex-col gap-6">
-          <OnboardingSection title="Logo" titleId={logoSectionId}>
-            <TypographyFinePrint className="text-muted-foreground">
-              Upload and crop your logo.
-            </TypographyFinePrint>
-            {!logoFile && logoPreviewUrl ? (
-              <div className="flex flex-col gap-2">
-                <div className="border-border bg-muted relative flex h-24 w-24 items-center justify-center overflow-hidden rounded-md border">
-                  <img
-                    src={logoPreviewUrl}
-                    alt=""
-                    className="max-h-full max-w-full object-contain"
-                  />
-                </div>
-                {onboardingLogoUrl ? (
-                  <TypographyFinePrint className="text-muted-foreground">
-                    This is the logo saved for this account.
-                  </TypographyFinePrint>
-                ) : posterUrl && !onboardingLogoUrl ? (
-                  <TypographyFinePrint className="text-muted-foreground">
-                    Preview from your template until you upload a logo.
-                  </TypographyFinePrint>
-                ) : null}
-              </div>
-            ) : null}
-            <ImageUploaderCrop
-              key={`${accountId}-${logoUploaderKey}`}
-              aspect={1}
-              aspectPresets={[...SELECTABLE_LOGO_CROP_PRESETS]}
-              defaultAspectPresetIndex={0}
-              hideAspectPresetOnUploader
-              label=""
-              helperText="PNG, JPEG, or WebP up to 8MB. Choose a file to crop; you can change the aspect ratio in the dialog."
-              maxFileSizeMb={8}
-              onComplete={handleLogoCropComplete}
-              onReset={handleLogoUploaderReset}
-            />
-          </OnboardingSection>
-
-          <OnboardingSection title="Theme and colours" titleId={themeColoursSectionId}>
-            {validationError ? (
-              <InlineAlert message={validationError} variant="destructive" />
-            ) : null}
-
-            {themesLookupWarning ? (
-              <InlineAlert
-                message="We couldn't load the full theme list. You can still choose from the default themes below. Refresh the page if this keeps happening."
-                variant="warning"
+          <MetricComparisonCard
+            className="ring-border w-full min-w-0 rounded-2xl border-none shadow-xl ring-1"
+            layout="card"
+            headerClassName={BRANDING_CONTAINER_HEADER_CLASS_NAME}
+            titleRowClassName="items-start"
+            title={
+              <BrandingContainerHeaderTitle
+                icon={<ImageUp className="size-5" aria-hidden />}
+                title="Logo"
+                description="Add or replace your organisation logo, then crop it for generated assets."
               />
-            ) : null}
-
-            <div className="flex flex-col gap-2">
-              <TypographyFinePrint className="text-muted-foreground">
-                Start with a preset or build your own colour theme.
-              </TypographyFinePrint>
-              <div className="flex flex-wrap gap-2">
-                <Button
-                  type="button"
-                  size="sm"
-                  variant={brandingMode === "default" ? "default" : "outline"}
-                  onClick={() => handleBrandingModeChange("default")}
-                >
-                  Premade theme
-                </Button>
-                <Button
-                  type="button"
-                  size="sm"
-                  variant={brandingMode === "custom" ? "default" : "outline"}
-                  onClick={() => handleBrandingModeChange("custom")}
-                >
-                  Custom theme
-                </Button>
-              </div>
-            </div>
-
-            {brandingMode === "default" ? (
-              <div className="flex flex-col gap-2">
-                <TypographyLabel as="div">Choose a theme</TypographyLabel>
-                <TypographyFinePrint className="text-muted-foreground">
-                  Tap a row to select. The swatches show each theme's primary and secondary colours.
-                </TypographyFinePrint>
-                <div
-                  role="radiogroup"
-                  aria-label="Premade themes"
-                  className="divide-border overflow-hidden rounded-lg border"
-                >
-                  {themeRows.map((row) => {
-                    const sel = String(row.id) === selectedThemeId;
-                    const { primary, secondary } = resolveThemeRowColours(row);
-                    return (
-                      <button
-                        key={row.id}
-                        type="button"
-                        role="radio"
-                        aria-checked={sel}
-                        onClick={() => setSelectedThemeId(String(row.id))}
-                        className={cn(
-                          "hover:bg-muted/50 flex w-full items-center gap-4 px-4 py-3 text-left transition-colors",
-                          sel && "bg-muted",
-                        )}
-                      >
-                        <span className="flex shrink-0 gap-1.5" aria-hidden>
-                          <span
-                            className="border-border size-8 rounded-md border shadow-sm"
-                            style={{ backgroundColor: primary }}
-                          />
-                          <span
-                            className="border-border size-8 rounded-md border shadow-sm"
-                            style={{ backgroundColor: secondary }}
-                          />
-                        </span>
-                        <TypographyBodySmall as="span" className="min-w-0 font-medium">
-                          {row.label}
-                        </TypographyBodySmall>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            ) : (
-              <div className="max-w-xl space-y-6">
-                <BrandColorField
-                  label="Primary colour"
-                  description="Select your main brand colour."
-                  value={primaryColor}
-                  onChange={(v) => {
-                    setPrimaryColor(v);
-                  }}
-                  required
-                  requiredErrorMessage="Primary colour is required"
-                  showPreview={false}
-                  validateContrast={false}
-                  allowReset
-                  defaultValue={colourDefaultPrimary}
+            }
+            body={
+              <div className="space-y-5">
+                <ImageUploaderCrop
+                  key={`${accountId}-${logoUploaderKey}`}
+                  aspect={1}
+                  aspectPresets={[...SELECTABLE_LOGO_CROP_PRESETS]}
+                  defaultAspectPresetIndex={0}
+                  hideAspectPresetOnUploader
+                  label=""
+                  helperText={`PNG, JPEG, or WebP up to 8MB. Source at least ${LOGO_MIN_SOURCE_WIDTH_PX}×${LOGO_MIN_SOURCE_HEIGHT_PX}px; cropped output at least ${LOGO_MIN_OUTPUT_WIDTH_PX}×${LOGO_MIN_OUTPUT_HEIGHT_PX}px. You can change the aspect ratio in the crop dialog.`}
+                  maxFileSizeMb={8}
+                  minSourceWidth={LOGO_MIN_SOURCE_WIDTH_PX}
+                  minSourceHeight={LOGO_MIN_SOURCE_HEIGHT_PX}
+                  minOutputWidth={LOGO_MIN_OUTPUT_WIDTH_PX}
+                  minOutputHeight={LOGO_MIN_OUTPUT_HEIGHT_PX}
+                  onComplete={handleLogoCropComplete}
+                  onReset={handleLogoUploaderReset}
                 />
-                <BrandColorField
-                  label="Secondary colour"
-                  description="Choose a second colour that works with your primary colour."
-                  value={secondaryColor}
-                  onChange={(v) => {
-                    setSecondaryColor(v);
-                  }}
-                  required
-                  requiredErrorMessage="Secondary colour is required"
-                  showPreview={false}
-                  validateContrast={false}
-                  allowReset
-                  defaultValue={colourDefaultSecondary}
-                />
-                {duplicate ? (
-                  <PersistentFieldFeedback variant="error">
-                    Primary and secondary colours must be different
-                  </PersistentFieldFeedback>
-                ) : null}
-                {colourFormWarnings.map((msg, i) => (
-                  <PersistentFieldFeedback key={i} variant="warning">
-                    {msg}
-                  </PersistentFieldFeedback>
-                ))}
               </div>
-            )}
-          </OnboardingSection>
+            }
+          />
+
+          {validationError ? <InlineAlert message={validationError} variant="destructive" /> : null}
+
+          {themesLookupWarning ? (
+            <InlineAlert
+              message="We couldn't load the full theme list. You can still choose from the default themes below. Refresh the page if this keeps happening."
+              variant="warning"
+            />
+          ) : null}
+
+          <BrandColoursCard
+            interactive
+            palette={brandingPalette}
+            primary={primaryColor}
+            setPrimary={setPrimaryColor}
+            secondary={secondaryColor}
+            setSecondary={setSecondaryColor}
+            setPrimaryValid={setPrimaryValid}
+            setSecondaryValid={setSecondaryValid}
+            colourSourceMode={colourSourceMode}
+            selectedPremadeThemeId={selectedThemeId}
+            setSelectedPremadeThemeId={setSelectedThemeId}
+            themesQuery={themesQuery}
+            themeRows={themeRows}
+            duplicate={duplicate}
+            formWarnings={colourFormWarnings}
+            handleColourSourceModeChange={handleColourSourceModeChange}
+          />
         </div>
 
         <aside
@@ -701,11 +640,6 @@ export const WizardStepBranding = forwardRef<WizardStepBrandingHandle, WizardSte
             secondaryHex={previewSecondaryHex}
             logoSrc={assetPreviewLogoSrc}
           />
-          {previewReadabilityWarnings.map((msg, i) => (
-            <PersistentFieldFeedback key={i} variant="warning">
-              {msg}
-            </PersistentFieldFeedback>
-          ))}
         </aside>
       </div>
     );

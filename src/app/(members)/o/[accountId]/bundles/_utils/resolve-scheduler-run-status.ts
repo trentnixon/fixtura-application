@@ -27,7 +27,7 @@ export function resolveSchedulerRunStatus(
 
   return {
     label: "Idle",
-    description: "No bundle run is in progress — waiting for the next delivery cycle.",
+    description: "",
     tone: "neutral",
   };
 }

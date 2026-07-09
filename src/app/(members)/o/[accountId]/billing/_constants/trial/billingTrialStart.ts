@@ -2,17 +2,13 @@
 export const BILLING_TRIAL_START_DURATION_DAYS = 14;
 
 export const BILLING_TRIAL_START_COPY = {
-  cardEyebrow: "Limited-time free trial",
-  cardTitlePrefix: "Unlock Fixtura free for",
+  cardEyebrow: "14-day free trial",
+  cardTitlePrefix: "Try Fixtura free for",
   cardTitleSuffix: "days",
-  cardDescription:
-    "Launch your organisation's trial in seconds with no upfront payment. Explore premium automation, content delivery, and workflow tools today.",
-  noPaymentRequired: "No payment required to start.",
-  startButtonLabel: "Start my free trial",
-  confirmTitle: "Ready to start your free trial?",
-  confirmDescriptionPrefix: "You're one click away from",
-  confirmDescriptionSuffix:
-    "of premium Fixtura access for your organisation, completely free. No payment is taken here.",
+  noPaymentRequired: "No payment required.",
+  startButtonLabel: "Start free trial",
+  confirmTitlePrefix: "Start your",
+  confirmTitleSuffix: "-day free trial?",
   confirmStartsLabel: "Starts",
   confirmEndsLabel: "Ends",
   cancelButtonLabel: "Cancel",

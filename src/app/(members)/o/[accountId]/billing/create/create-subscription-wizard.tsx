@@ -37,7 +37,6 @@ import { ReviewInvoiceRequestStep } from "./_components/ReviewInvoiceRequestStep
 import { SelectPaymentMethodStep } from "./_components/SelectPaymentMethodStep";
 import { SelectStartDateStep } from "./_components/SelectStartDateStep";
 import { SelectTimeframeStep } from "./_components/SelectTimeframeStep";
-import { CreateSubscriptionWizardStatePanel } from "./create-subscription-wizard-state-panel";
 import { deriveBillingUiMode } from "../_core/billing-state";
 import { useBillingInvoiceContactPrefill } from "../_hooks/useBillingInvoiceContactPrefill";
 import { useCreateSubscriptionReviewDisplay } from "./_hooks/useCreateSubscriptionReviewDisplay";
@@ -50,7 +49,6 @@ import {
 import { orderedDistinctSubscriptionCategories } from "../_utils/create-subscription/planTierCard";
 import { shouldShowStripeImmediateInvoiceCreate } from "../_utils/create-subscription/shouldShowStripeImmediateInvoice";
 import { extractHostedInvoiceFromOrderPayload } from "../_utils/orders/hostedInvoiceFromOrderPayload";
-import { BillingDebugPanel } from "../debug/billing-debug-panel";
 import { shouldShowInvoiceRequest } from "../invoice-request/billing-invoice-request";
 
 import type { PaymentPath } from "./_types/createSubscriptionWizard";
@@ -265,42 +263,18 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
     return (
       <div className="text-muted-foreground grid gap-2 text-center text-sm" role="status">
         <p>Redirecting...</p>
-        <BillingDebugPanel
-          accountId={accountId}
-          contextLabel="Create subscription"
-          summary={null}
-          isSummaryLoading={false}
-          extra={{ validAccountSegment: false }}
-        />
       </div>
     );
   }
 
   if (billingQ.isPending) {
-    return (
-      <>
-        <BrandedLoader label="Loading billing" />
-        <BillingDebugPanel
-          accountId={accountId}
-          contextLabel="Create subscription"
-          summary={null}
-          isSummaryLoading
-        />
-      </>
-    );
+    return <BrandedLoader label="Loading billing" />;
   }
 
   if (billingQ.isSuccess && billingQ.data && isAccountBillingGatewayRedirect(billingQ.data)) {
     return (
       <div className="text-muted-foreground grid gap-2 text-center text-sm" role="status">
         <p>Redirecting...</p>
-        <BillingDebugPanel
-          accountId={accountId}
-          contextLabel="Create subscription"
-          summary={null}
-          isSummaryLoading={false}
-          extra={{ gateway: billingQ.data.reason }}
-        />
       </div>
     );
   }
@@ -308,54 +282,28 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
   if (billingQ.isError) {
     const err = billingQ.error;
     return (
-      <>
-        <ErrorState
-          title="Could not load billing"
-          description={err instanceof Error ? err.message : AUTH_ERROR_MESSAGES.network}
-          onRetry={() => void billingQ.refetch()}
-        />
-        <BillingDebugPanel
-          accountId={accountId}
-          contextLabel="Create subscription"
-          summary={null}
-          isSummaryLoading={false}
-          summaryError={err instanceof Error ? err.message : AUTH_ERROR_MESSAGES.network}
-        />
-      </>
-    );
-  }
-
-  if (!billingQ.isSuccess || !billingQ.data || isAccountBillingGatewayRedirect(billingQ.data)) {
-    return (
-      <BillingDebugPanel
-        accountId={accountId}
-        contextLabel="Create subscription"
-        summary={null}
-        isSummaryLoading={false}
-        extra={{ state: "billing_unexpected_empty" }}
+      <ErrorState
+        title="Could not load billing"
+        description={err instanceof Error ? err.message : AUTH_ERROR_MESSAGES.network}
+        onRetry={() => void billingQ.refetch()}
       />
     );
   }
 
+  if (!billingQ.isSuccess || !billingQ.data || isAccountBillingGatewayRedirect(billingQ.data)) {
+    return null;
+  }
+
   if (invoiceSubmitted) {
     return (
-      <div className="grid gap-6">
-        <InvoiceRequestSubmittedState
-          accountId={accountId}
-          selectedTierName={selectedTierName}
-          selectedTierCoverage={selectedTierCoverage}
-          selectedStartDateLabel={
-            selectedDate != null ? format(selectedDate, "PPP") : startDate || "-"
-          }
-        />
-        <BillingDebugPanel
-          accountId={accountId}
-          contextLabel="Create subscription"
-          summary={summary}
-          isSummaryLoading={false}
-          extra={{ invoiceSubmitted: true }}
-        />
-      </div>
+      <InvoiceRequestSubmittedState
+        accountId={accountId}
+        selectedTierName={selectedTierName}
+        selectedTierCoverage={selectedTierCoverage}
+        selectedStartDateLabel={
+          selectedDate != null ? format(selectedDate, "PPP") : startDate || "-"
+        }
+      />
     );
   }
 
@@ -363,30 +311,12 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
     return (
       <div className="text-muted-foreground grid gap-2 text-center text-sm" role="status">
         <p>Redirecting...</p>
-        <BillingDebugPanel
-          accountId={accountId}
-          contextLabel="Create subscription"
-          summary={summary}
-          isSummaryLoading={false}
-          extra={{ wizardBlocked, uiMode: mode ?? "null", step }}
-        />
       </div>
     );
   }
 
   if (tiersQ.isPending) {
-    return (
-      <>
-        <BrandedLoader label="Loading plans" />
-        <BillingDebugPanel
-          accountId={accountId}
-          contextLabel="Create subscription"
-          summary={summary}
-          isSummaryLoading={false}
-          extra={{ availableTiers: "loading" }}
-        />
-      </>
-    );
+    return <BrandedLoader label="Loading plans" />;
   }
 
   if (
@@ -397,13 +327,6 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
     return (
       <div className="text-muted-foreground grid gap-2 text-center text-sm" role="status">
         <p>Redirecting...</p>
-        <BillingDebugPanel
-          accountId={accountId}
-          contextLabel="Create subscription"
-          summary={summary}
-          isSummaryLoading={false}
-          extra={{ availableTiersGateway: tiersQ.data.reason }}
-        />
       </div>
     );
   }
@@ -411,21 +334,11 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
   if (tiersQ.isError) {
     const err = tiersQ.error;
     return (
-      <>
-        <ErrorState
-          title="Could not load plans"
-          description={err instanceof Error ? err.message : AUTH_ERROR_MESSAGES.network}
-          onRetry={() => void tiersQ.refetch()}
-        />
-        <BillingDebugPanel
-          accountId={accountId}
-          contextLabel="Create subscription"
-          summary={summary}
-          isSummaryLoading={false}
-          summaryError={err instanceof Error ? err.message : AUTH_ERROR_MESSAGES.network}
-          extra={{ availableTiers: "error" }}
-        />
-      </>
+      <ErrorState
+        title="Could not load plans"
+        description={err instanceof Error ? err.message : AUTH_ERROR_MESSAGES.network}
+        onRetry={() => void tiersQ.refetch()}
+      />
     );
   }
 
@@ -434,43 +347,26 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
     !tiersQ.data ||
     isAccountBillingAvailableTiersGatewayRedirect(tiersQ.data)
   ) {
-    return (
-      <BillingDebugPanel
-        accountId={accountId}
-        contextLabel="Create subscription"
-        summary={summary}
-        isSummaryLoading={false}
-        extra={{ state: "available_tiers_unexpected_empty" }}
-      />
-    );
+    return null;
   }
 
   if (!canCard && !canInvoice) {
     return (
-      <>
-        <Card>
-          <CardHeader>
-            <CardTitle className="font-brand text-lg">No subscription actions available</CardTitle>
-            <CardDescription>
-              This account cannot start an online Season Pass purchase right now. Return to billing
-              for the current account status, or contact support if you expected card checkout or an
-              invoice request to be available.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button type="button" variant="outline" asChild>
-              <Link href={`/o/${encodeURIComponent(accountId)}/billing`}>Back to billing</Link>
-            </Button>
-          </CardContent>
-        </Card>
-        <BillingDebugPanel
-          accountId={accountId}
-          contextLabel="Create subscription"
-          summary={summary}
-          isSummaryLoading={false}
-          extra={{ noCheckoutPath: true }}
-        />
-      </>
+      <Card>
+        <CardHeader>
+          <CardTitle className="font-brand text-lg">No subscription actions available</CardTitle>
+          <CardDescription>
+            This account cannot start an online Season Pass purchase right now. Return to billing
+            for the current account status, or contact support if you expected card checkout or an
+            invoice request to be available.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Button type="button" variant="outline" asChild>
+            <Link href={`/o/${encodeURIComponent(accountId)}/billing`}>Back to billing</Link>
+          </Button>
+        </CardContent>
+      </Card>
     );
   }
 
@@ -664,25 +560,9 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
       setStripeImmediatePending(false);
     }
   }
-  const displayTierIds = displayTiers.map((t) => t.id);
-  const selectedTierPreview = selectedTier
-    ? { id: selectedTier.id, name: selectedTier.name, category: selectedTier.category }
-    : null;
-
   return (
     <div className="grid gap-6">
-      {invoiceSubmitted ? (
-        <InvoiceRequestSubmittedState
-          accountId={accountId}
-          selectedTierName={selectedTierName}
-          selectedTierCoverage={selectedTierCoverage}
-          selectedStartDateLabel={
-            selectedDate != null ? format(selectedDate, "PPP") : startDate || "-"
-          }
-        />
-      ) : null}
-
-      {!invoiceSubmitted && step === 1 ? (
+      {step === 1 ? (
         <SelectTimeframeStep
           tiersListLength={tiersList.length}
           displayTiers={displayTiers}
@@ -695,7 +575,7 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
         />
       ) : null}
 
-      {!invoiceSubmitted && step === 2 ? (
+      {step === 2 ? (
         <SelectStartDateStep
           selectedDate={selectedDate}
           daysInPass={selectedTier?.daysInPass}
@@ -709,7 +589,7 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
         />
       ) : null}
 
-      {!invoiceSubmitted && step === 3 ? (
+      {step === 3 ? (
         <SelectPaymentMethodStep
           canCard={canCard}
           canInvoice={canInvoice}
@@ -720,7 +600,7 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
         />
       ) : null}
 
-      {!invoiceSubmitted && step === 4 && paymentPath === "card" ? (
+      {step === 4 && paymentPath === "card" ? (
         <ReviewCardPaymentStep
           selectedTier={selectedTier}
           selectedTierName={selectedTierName}
@@ -739,7 +619,7 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
         />
       ) : null}
 
-      {!invoiceSubmitted && step === 4 && paymentPath === "invoice" ? (
+      {step === 4 && paymentPath === "invoice" ? (
         <ReviewInvoiceRequestStep
           accountId={accountId}
           selectedTier={selectedTier}
@@ -773,60 +653,15 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
         />
       ) : null}
 
-      {!invoiceSubmitted ? (
-        <div className="text-muted-foreground flex flex-wrap items-center gap-2 text-xs">
-          <span>Step {step} of 4</span>
-          <span aria-hidden>.</span>
-          <Button type="button" variant="link" className="h-auto p-0 text-xs" asChild>
-            <Link href={`/o/${encodeURIComponent(accountId)}/billing`}>
-              Cancel and return to billing
-            </Link>
-          </Button>
-        </div>
-      ) : null}
-      <CreateSubscriptionWizardStatePanel
-        step={step}
-        selectedTierId={selectedTierId}
-        startDate={startDate}
-        paymentPath={paymentPath}
-        planCategoryFilter={planCategoryFilter}
-        effectivePlanCategory={effectivePlanCategory}
-        showPlanCategoryToggle={showPlanCategoryToggle}
-        orderedCategories={orderedCategories}
-        tiersListLength={tiersList.length}
-        displayTiersLength={displayTiers.length}
-        displayTierIds={displayTierIds}
-        selectedTierPreview={selectedTierPreview}
-        canCard={canCard}
-        canInvoice={canInvoice}
-        wizardBlocked={wizardBlocked}
-        billingUiMode={mode}
-        minDate={minDate}
-        dateOk={dateOk}
-        startOkInvoice={startOkInvoice}
-        requiredInvoiceFilled={requiredInvoiceFilled}
-        canSubmitInvoice={canSubmitInvoice}
-        tiersQueryStatus={tiersQ.status}
-        tiersQueryFetchStatus={tiersQ.fetchStatus}
-        checkoutPending={checkoutMutation.isPending}
-        invoicePending={invoiceMutation.isPending}
-        checkoutError={checkoutError}
-        invoiceError={invoiceError}
-        missingCheckoutUrl={missingCheckoutUrl}
-        invoiceSubmitted={invoiceSubmitted}
-        showStripeImmediateInvoice={showStripeImmediateInvoice}
-        stripeImmediatePending={stripeImmediatePending}
-        stripeImmediateError={stripeImmediateError}
-        stripeHostedUrl={stripeHostedUrl}
-        stripeCreatedOrderId={stripeCreatedOrderId}
-        stripeInvoicePaidDetected={stripeInvoicePaidDetected}
-      />
-      <BillingDebugPanel
-        accountId={accountId}
-        contextLabel="Create subscription"
-        summary={summary}
-        isSummaryLoading={false}
-      />
+      <div className="text-muted-foreground flex flex-wrap items-center gap-2 text-xs">
+        <span>Step {step} of 4</span>
+        <span aria-hidden>.</span>
+        <Button type="button" variant="link" className="h-auto p-0 text-xs" asChild>
+          <Link href={`/o/${encodeURIComponent(accountId)}/billing`}>
+            Cancel and return to billing
+          </Link>
+        </Button>
+      </div>
     </div>
   );
 }

@@ -1,9 +1,8 @@
 "use client";
 
-import { ExternalLink, Loader2, RefreshCw } from "lucide-react";
+import { ArrowLeft, CloudDownload, Loader2, RefreshCw } from "lucide-react";
 import Link from "next/link";
 
-import { Badge } from "@/components/ui/badge";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -14,9 +13,6 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { accountScopedRoutes } from "@/lib/config/account-routes";
-import { cn } from "@/lib/utils";
-
-import { fixtureStatusBadgeClass } from "../_utils";
 
 import type { SeasonFixtureViewHeaderProps } from "../_types";
 
@@ -27,12 +23,12 @@ export function SeasonFixtureViewHeader({
   gradeHref,
   model,
   isFetching,
-  isSyncMutating,
   canQueueResultSync,
+  onReload,
   onOpenSync,
 }: SeasonFixtureViewHeaderProps) {
   return (
-    <header className="border-border border-b pb-6">
+    <header className="border-border border-b pb-8">
       <div className="space-y-4">
         <Breadcrumb>
           <BreadcrumbList>
@@ -71,34 +67,30 @@ export function SeasonFixtureViewHeader({
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
           <div className="min-w-0 space-y-2">
-            <p className="text-primary text-xs font-semibold tracking-wider uppercase">
-              Fixture detail
-            </p>
-            <div className="flex flex-wrap items-start gap-3">
-              <h1 className="font-heading text-2xl font-bold tracking-tight sm:text-3xl">
-                {model.headline}
-              </h1>
-              {model.status && model.status.trim().length > 0 ? (
-                <Badge
-                  className={cn(
-                    "shrink-0 border-transparent text-white hover:opacity-90",
-                    fixtureStatusBadgeClass(model.status),
-                  )}
-                >
-                  {model.status}
-                </Badge>
-              ) : null}
-            </div>
+            <h1 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">
+              {model.headline}
+            </h1>
             {model.headerContextLine ? (
               <p className="text-muted-foreground max-w-3xl text-sm">{model.headerContextLine}</p>
             ) : null}
           </div>
           <div className="flex flex-col gap-2 sm:shrink-0 sm:flex-row sm:items-center">
-            <Button variant="outline" asChild>
-              <Link href={gradeHref}>Back</Link>
+            <Button variant="outline" size="icon" asChild>
+              <Link href={gradeHref} aria-label="Back to grade">
+                <ArrowLeft className="size-4" aria-hidden />
+              </Link>
             </Button>
+            <Button type="button" variant="outline" disabled={isFetching} onClick={onReload}>
+              {isFetching ? (
+                <Loader2 className="size-4 animate-spin" aria-hidden />
+              ) : (
+                <RefreshCw className="size-4" aria-hidden />
+              )}
+              Refresh
+            </Button>
+            {/* Scorecard CTA temporarily hidden
             {model.scorecardUrl ? (
               <Button variant="accent" asChild>
                 <a href={model.scorecardUrl} target="_blank" rel="noreferrer">
@@ -107,17 +99,14 @@ export function SeasonFixtureViewHeader({
                 </a>
               </Button>
             ) : null}
+            */}
             <Button
               type="button"
               variant="accent"
-              disabled={isFetching || isSyncMutating || !canQueueResultSync}
+              disabled={!canQueueResultSync}
               onClick={onOpenSync}
             >
-              {isFetching || isSyncMutating ? (
-                <Loader2 className="size-4 animate-spin" aria-hidden />
-              ) : (
-                <RefreshCw className="size-4" aria-hidden />
-              )}
+              <CloudDownload className="size-4" aria-hidden />
               Sync
             </Button>
           </div>

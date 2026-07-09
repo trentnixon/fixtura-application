@@ -13,6 +13,7 @@ export function usePatchAccountNotifications(accountId: string) {
     mutationFn: (body: PatchAccountNotificationsRequest) =>
       accountApi.patchAccountNotifications(accountId, body),
     onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: queryKeys.account.notifications(accountId) });
       await queryClient.invalidateQueries({ queryKey: queryKeys.account.settings(accountId) });
       await queryClient.invalidateQueries({ queryKey: queryKeys.account.scheduler(accountId) });
       await queryClient.invalidateQueries({ queryKey: queryKeys.account.me });

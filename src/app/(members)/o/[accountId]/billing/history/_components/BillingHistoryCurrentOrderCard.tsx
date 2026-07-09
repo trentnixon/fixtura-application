@@ -7,19 +7,42 @@ import {
 } from "@/components/typography";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
-import { getHistoryOrderStatus } from "../../_utils/orders/billingHistoryOrderUtils";
+import { OrdersTableInvoiceActions } from "../../_components/orders/OrdersTableInvoiceActions";
+import { BillingActiveTrialStatusCard } from "../../_components/overview/BillingActiveTrialStatusCard";
+import { BillingPaidActiveStatusCard } from "../../_components/overview/BillingPaidActiveStatusCard";
+import { deriveBillingUiMode } from "../../_core/billing-state";
+import {
+  getHistoryOrderStatus,
+  resolveHistoryOrderTotalForDisplay,
+  resolveSummaryOrderTotalForDisplay,
+} from "../../_utils/orders/billingHistoryOrderUtils";
+import {
+  extractInvoiceLinksFromSummaryOrder,
+  isStripePaymentChannel,
+  resolveHistoryOrderInvoiceLinks,
+} from "../../_utils/orders/orderInvoiceLinks";
 import {
   formatBillingHistoryDate,
   formatBillingHistoryMoney,
-  parseBillingHistoryOrderTotal,
 } from "../_utils/formatBillingHistory";
 import { pickHighlightedHistoryOrder } from "../_utils/pickHighlightedHistoryOrder";
 
-import type { AccountBillingOrderDto, AccountBillingOrderHistoryDto } from "@/types/api/account";
+import type {
+  AccountBillingOrderDto,
+  AccountBillingOrderHistoryDto,
+  AccountBillingSummaryV1,
+} from "@/types/api/account";
 
-function HistoryOrderDetailSection({ order }: { order: AccountBillingOrderHistoryDto }) {
+function HistoryOrderDetailSection({
+  order,
+  activeOrder,
+}: {
+  order: AccountBillingOrderHistoryDto;
+  activeOrder: AccountBillingOrderDto | null;
+}) {
   const tierLabel = order.subscriptionTier?.name ?? null;
   const status = getHistoryOrderStatus(order);
+  const invoiceLinks = resolveHistoryOrderInvoiceLinks(order, activeOrder);
 
   return (
     <dl className="grid gap-2">
@@ -54,7 +77,7 @@ function HistoryOrderDetailSection({ order }: { order: AccountBillingOrderHistor
           Total
         </TypographyDataLabel>
         <TypographyDataValue as="dd" className="text-right">
-          {formatBillingHistoryMoney(parseBillingHistoryOrderTotal(order.total), order.currency)}
+          {formatBillingHistoryMoney(resolveHistoryOrderTotalForDisplay(order), order.currency)}
         </TypographyDataValue>
       </div>
       <div className="flex flex-wrap justify-between gap-x-4 gap-y-1">
@@ -65,12 +88,23 @@ function HistoryOrderDetailSection({ order }: { order: AccountBillingOrderHistor
           {status}
         </TypographyDataLabel>
       </div>
+      {invoiceLinks.hostedInvoiceUrl || invoiceLinks.invoicePdfUrl ? (
+        <div className="pt-2">
+          <OrdersTableInvoiceActions
+            hostedInvoiceUrl={invoiceLinks.hostedInvoiceUrl}
+            invoicePdfUrl={invoiceLinks.invoicePdfUrl}
+          />
+        </div>
+      ) : null}
     </dl>
   );
 }
 
 function ActiveOrderSection({ order }: { order: AccountBillingOrderDto }) {
   const status = order.stripe_status ?? order.payment_status ?? "—";
+  const invoiceLinks = isStripePaymentChannel(order.payment_channel)
+    ? extractInvoiceLinksFromSummaryOrder(order)
+    : { hostedInvoiceUrl: null, invoicePdfUrl: null };
 
   return (
     <dl className="grid gap-2">
@@ -95,7 +129,7 @@ function ActiveOrderSection({ order }: { order: AccountBillingOrderDto }) {
           Total
         </TypographyDataLabel>
         <TypographyDataValue as="dd" className="text-right">
-          {formatBillingHistoryMoney(order.total, order.currency)}
+          {formatBillingHistoryMoney(resolveSummaryOrderTotalForDisplay(order), order.currency)}
         </TypographyDataValue>
       </div>
       <div className="flex flex-wrap justify-between gap-x-4 gap-y-1">
@@ -106,35 +140,19 @@ function ActiveOrderSection({ order }: { order: AccountBillingOrderDto }) {
           {status}
         </TypographyDataLabel>
       </div>
-      {order.hosted_invoice_url ? (
-        <div className="pt-1">
-          <a
-            href={order.hosted_invoice_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary text-sm underline-offset-4 hover:underline"
-          >
-            View hosted invoice
-          </a>
-        </div>
-      ) : null}
-      {order.invoice_pdf ? (
-        <div>
-          <a
-            href={order.invoice_pdf}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary text-sm underline-offset-4 hover:underline"
-          >
-            Download invoice PDF
-          </a>
+      {invoiceLinks.hostedInvoiceUrl || invoiceLinks.invoicePdfUrl ? (
+        <div className="pt-2">
+          <OrdersTableInvoiceActions
+            hostedInvoiceUrl={invoiceLinks.hostedInvoiceUrl}
+            invoicePdfUrl={invoiceLinks.invoicePdfUrl}
+          />
         </div>
       ) : null}
     </dl>
   );
 }
 
-export function BillingHistoryCurrentOrderCard({
+function LegacyCurrentOrderCard({
   activeOrder,
   orders,
 }: {
@@ -153,7 +171,7 @@ export function BillingHistoryCurrentOrderCard({
       </CardHeader>
       <CardContent>
         {highlightedOrder ? (
-          <HistoryOrderDetailSection order={highlightedOrder} />
+          <HistoryOrderDetailSection order={highlightedOrder} activeOrder={activeOrder ?? null} />
         ) : activeOrder ? (
           <ActiveOrderSection order={activeOrder} />
         ) : (
@@ -162,4 +180,31 @@ export function BillingHistoryCurrentOrderCard({
       </CardContent>
     </Card>
   );
+}
+
+/** Matches billing overview status cards when paid active or on trial; otherwise legacy order row. */
+export function BillingHistoryCurrentOrderCard({
+  summary,
+  orders,
+}: {
+  summary: AccountBillingSummaryV1;
+  orders: AccountBillingOrderHistoryDto[];
+}) {
+  const billingUiMode = deriveBillingUiMode(summary, { orders });
+
+  if (billingUiMode === "paid_active") {
+    return (
+      <BillingPaidActiveStatusCard
+        activeOrder={summary.activeOrder}
+        currentPlan={summary.currentPlan}
+        orders={orders}
+      />
+    );
+  }
+
+  if (billingUiMode === "active_trial") {
+    return <BillingActiveTrialStatusCard trial={summary.trial} />;
+  }
+
+  return <LegacyCurrentOrderCard activeOrder={summary.activeOrder} orders={orders} />;
 }

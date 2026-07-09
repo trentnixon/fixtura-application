@@ -34,6 +34,7 @@ export function ManageSponsorsWorkspaceContent({
   return (
     <div className="grid gap-4">
       <SponsorLibraryPanel
+        accountId={accountId}
         sponsors={workspace.sponsors}
         stats={workspace.stats}
         searchValue={workspace.searchValue}

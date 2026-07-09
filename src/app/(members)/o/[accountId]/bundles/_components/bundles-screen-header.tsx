@@ -15,7 +15,6 @@ import { Button } from "@/components/ui/button";
 import { accountScopedRoutes } from "@/lib/config/account-routes";
 import { buildBundlesHubAccountUrl } from "@/lib/config/bundles-hub";
 
-import { BundlesScreenHeaderRunStatus } from "./bundles-screen-header-run-status";
 import { BUNDLES_SCREEN_COPY } from "../_consts";
 
 type BundlesScreenHeaderProps = {
@@ -43,11 +42,10 @@ export function BundlesScreenHeader({ accountId }: BundlesScreenHeaderProps) {
           </BreadcrumbList>
         </Breadcrumb>
         <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-          <div className="min-w-0 space-y-2">
+          <div className="min-w-0">
             <h1 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">
               {BUNDLES_SCREEN_COPY.pageTitle}
             </h1>
-            <BundlesScreenHeaderRunStatus accountId={accountId} />
           </div>
           {accountHubUrl ? (
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center">

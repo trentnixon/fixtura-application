@@ -355,6 +355,27 @@ describe("mergeAccountBrandingIntoDataset", () => {
     expect(mergedTv["texture"]).toBeUndefined();
   });
 
+  it("normalizes Floating Particles noise label for Remotion preview", () => {
+    const base = minimalDataset();
+    const b = brandingFixture({
+      template_option: {
+        useBackground: "Graphics",
+        noise: { id: 10, name: "Floating Particles", noiseType: "Floating Particles" },
+      },
+    });
+    const { data } = mergeAccountBrandingIntoDataset(base, {
+      branding: b,
+      logoUrl: null,
+      templateModeSlug: null,
+    });
+
+    const mergedRec = data as unknown as Record<string, unknown>;
+    const mergedVm = mergedRec["videoMeta"] as Record<string, unknown>;
+    const mergedVideo = mergedVm["video"] as Record<string, unknown>;
+    const mergedTv = mergedVideo["templateVariation"] as Record<string, unknown>;
+    expect(mergedTv["noise"]).toEqual({ type: "floatingParticles" });
+  });
+
   it("removes example texture when useBackground is Gradient", () => {
     const base = minimalDataset();
     const dataRec = base as unknown as Record<string, unknown>;

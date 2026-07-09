@@ -3,8 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { cn } from "@/lib/utils";
 
 import { PlanTierCard } from "../../_components/plan-tier-card/PlanTierCard";
+import { planTierGridColumnClass } from "../../_utils/create-subscription/planTierCard";
 
 import type { AvailableBillingTier, SubscriptionTierCategory } from "@/types/api/account";
 
@@ -69,7 +71,11 @@ export function SelectTimeframeStep({
                 </ToggleGroup>
               </div>
             ) : null}
-            <div className="grid gap-3" role="radiogroup" aria-label="Subscription tier">
+            <div
+              className={cn("grid gap-3", planTierGridColumnClass(displayTiers.length))}
+              role="radiogroup"
+              aria-label="Subscription tier"
+            >
               {displayTiers.map((tier) => (
                 <PlanTierCard
                   key={tier.id}

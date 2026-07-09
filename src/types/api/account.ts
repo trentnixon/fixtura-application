@@ -305,7 +305,10 @@ export interface CreateOnboardingStep2ThemeBody {
 
 export interface CreateOnboardingStep2ThemeResponse {
   data: {
-    id: number;
+    /** Newer CMS/app shape. */
+    id?: number;
+    /** Legacy/CMS onboarding endpoint shape observed in BFF tests. */
+    themeId?: number;
     isPublic?: boolean;
     accountId?: number;
   };
@@ -395,7 +398,7 @@ export type PatchAccountSettingsRequest =
 /** Success envelope matches GET settings `data`. */
 export type PatchAccountSettingsResponse = AccountSettingsResponse;
 
-/** Notifications form shape: read from **`GET /api/account/me`** + scheduler; writes use **onboarding step-3** (contact) + **PATCH settings** (weekday). @see frontend-handoff-account-notifications.md */
+/** Notifications form shape: read from **`GET /api/accounts/:accountId/notifications`**; contact writes via **PATCH …/notifications**; weekday via **PATCH …/settings**. @see frontend-handoff-account-notifications.md */
 export interface AccountNotificationsData {
   bundleAddressedTo: string | null;
   deliveryEmail: string | null;
@@ -1286,6 +1289,14 @@ export interface AccountBillingOrderHistoryDto {
   stripeSubscriptionId: string | null;
   startAt: string | null;
   endAt: string | null;
+  /** Stripe hosted invoice page; present on some GET /orders rows. */
+  hostedInvoiceUrl?: string | null;
+  /** Stripe hosted invoice page when Strapi returns raw CMS field names. */
+  hosted_invoice_url?: string | null;
+  /** Stripe invoice PDF download URL; present on some GET /orders rows. */
+  invoicePdfUrl?: string | null;
+  /** Stripe invoice PDF download URL when Strapi returns raw CMS field names. */
+  invoice_pdf?: string | null;
   createdAt: string;
   updatedAt: string;
   subscriptionTier: AccountBillingOrderHistorySubscriptionTierDto | null;

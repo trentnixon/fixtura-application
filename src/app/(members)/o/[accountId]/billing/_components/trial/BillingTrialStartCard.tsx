@@ -17,7 +17,10 @@ import {
   BILLING_TRIAL_START_DURATION_DAYS,
 } from "../../_constants/trial/billingTrialStart";
 import { useBillingTrialStart } from "../../_hooks/useBillingTrialStart";
-import { shouldShowBillingTrialStartPlanHint } from "../../_utils/trial/billingTrialStart";
+import {
+  formatBillingTrialStartCardDescription,
+  shouldShowBillingTrialStartPlanHint,
+} from "../../_utils/trial/billingTrialStart";
 
 import type { BillingTrialStartCardProps } from "../../_types/trial/billingTrialStart";
 
@@ -36,6 +39,7 @@ export function BillingTrialStartCard({
     handleConfirmDialogOpenChange,
     openConfirmDialog,
     confirmStartTrial,
+    accountName,
   } = useBillingTrialStart(accountId, enabled, availableActions);
 
   if (!visible) {
@@ -57,7 +61,7 @@ export function BillingTrialStartCard({
                 {BILLING_TRIAL_START_COPY.cardTitleSuffix}
               </TypographyCardTitle>
               <TypographyCardDescription>
-                {BILLING_TRIAL_START_COPY.cardDescription}
+                {formatBillingTrialStartCardDescription(accountName)}
               </TypographyCardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
@@ -94,6 +98,7 @@ export function BillingTrialStartCard({
         open={confirmOpen}
         onOpenChange={handleConfirmDialogOpenChange}
         trialSchedule={trialSchedule}
+        accountName={accountName}
         errorMessage={errorMessage}
         isPending={mutation.isPending}
         onCancel={() => handleConfirmDialogOpenChange(false)}

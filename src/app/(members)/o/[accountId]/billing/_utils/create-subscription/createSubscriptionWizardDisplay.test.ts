@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   buildCreateSubscriptionReviewDisplay,
   buildSelectedDateWindowDisplay,
+  formatPassWindowHint,
 } from "../../create/_utils/createSubscriptionWizardDisplay";
 
 import type { AvailableBillingTier } from "@/types/api/account";
@@ -87,5 +88,16 @@ describe("buildSelectedDateWindowDisplay", () => {
         daysInPass: 30,
       }),
     ).toBeNull();
+  });
+});
+
+describe("formatPassWindowHint", () => {
+  it("formats tier length as a muted pass window hint", () => {
+    expect(formatPassWindowHint(365)).toBe("365-day pass window");
+  });
+
+  it("returns null when tier days are missing", () => {
+    expect(formatPassWindowHint(undefined)).toBeNull();
+    expect(formatPassWindowHint(0)).toBeNull();
   });
 });

@@ -1,25 +1,21 @@
 "use client";
 
-import { CardCarouselPanel } from "@/components/carousel";
+import {
+  CardCarouselPanel,
+  resolveCarouselEmbeddedGutterClasses,
+  resolveCarouselItemBasisClass,
+} from "@/components/carousel";
 import { TypographyMuted, TypographySectionDescription } from "@/components/typography";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 
 import { RemotionThumbnailStill } from "./remotion-thumbnail-still";
+import { previewMediaKeyFromData } from "../utils/preview-media-key-from-data";
 
 import type { RemotionAssetPreviewState } from "../types";
+import type { CarouselItemsInViewConfig } from "@/components/carousel";
 import type { ReactNode } from "react";
-
-function previewMediaKeyFromData(data: NonNullable<RemotionAssetPreviewState["data"]>): string {
-  const r = data as Record<string, unknown>;
-  const vm = r["videoMeta"] as Record<string, unknown> | undefined;
-  const video = vm?.["video"] as Record<string, unknown> | undefined;
-  const appearance = video?.["appearance"] as Record<string, unknown> | undefined;
-  const meta = video?.["metadata"] as Record<string, unknown> | undefined;
-  const template = typeof appearance?.["template"] === "string" ? appearance["template"] : "";
-  const comp = typeof meta?.["compositionId"] === "string" ? meta["compositionId"] : "";
-  return `${template}-${comp}`;
-}
 
 export type AssetPreviewCarouselProps = {
   state: RemotionAssetPreviewState;
@@ -35,6 +31,17 @@ export type AssetPreviewCarouselProps = {
   contentClassName?: string;
   itemClassName?: string;
   thumbnailFrameClassName?: string;
+  /** Surface-style classes on `[data-remotion-preview-root]` per still. */
+  thumbnailPreviewRootClassName?: string;
+  previousClassName?: string;
+  nextClassName?: string;
+  /** Slides visible in the viewport at once (embedded default: 1). */
+  itemsInView?: CarouselItemsInViewConfig;
+  /**
+   * Flat layout for template builder and other embedded contexts:
+   * no card chrome, no body padding, carousel fills the parent box.
+   */
+  embedded?: boolean;
 };
 
 export function AssetPreviewCarousel({
@@ -49,11 +56,25 @@ export function AssetPreviewCarousel({
   contentClassName,
   itemClassName,
   thumbnailFrameClassName,
+  thumbnailPreviewRootClassName,
+  previousClassName,
+  nextClassName,
+  itemsInView,
+  embedded = false,
+  opts: carouselOpts,
 }: AssetPreviewCarouselProps) {
   const { status } = state;
+  const resolvedItemsInView = itemsInView ?? (embedded ? 1 : undefined);
+  const embeddedGutterClasses = embedded
+    ? resolveCarouselEmbeddedGutterClasses(resolvedItemsInView)
+    : null;
+  const embeddedItemsInViewBasisClass = embedded
+    ? resolveCarouselItemBasisClass(resolvedItemsInView)
+    : undefined;
 
   const showSettingsDebug = brandingSettingsDebug != null;
   const headerDescriptionClassName = showSettingsDebug ? "max-w-none w-full" : undefined;
+  const resolvedTitle = embedded ? null : title;
 
   const wrapHeaderDescription = (inner: ReactNode | null): ReactNode | null => {
     if (!showSettingsDebug && !inner) return null;
@@ -72,28 +93,57 @@ export function AssetPreviewCarousel({
     );
   };
 
-  const optionalPanelClassNames = {
-    ...(className !== undefined ? { className } : {}),
-    ...(surfaceClassName !== undefined ? { surfaceClassName } : {}),
+  const resolvedThumbnailFrameClassName = cn(
+    embedded &&
+      !thumbnailFrameClassName &&
+      "mx-auto w-full max-w-full overflow-hidden rounded-lg aspect-[1080/1350] max-h-[min(78vh,720px)]",
+    thumbnailFrameClassName,
+  );
+
+  const carouselPanelProps = {
+    className: cn(embedded && "w-full max-w-none", className),
+    surfaceClassName: cn(
+      embedded && "border-0 bg-transparent p-0 shadow-none ring-0",
+      surfaceClassName,
+    ),
+    bodyClassName: cn(embedded && "!p-0 !px-0 !py-0", bodyClassName),
+    itemsInView: resolvedItemsInView,
+    contentClassName: cn(
+      embedded && "!ml-0",
+      embeddedGutterClasses?.contentClassName,
+      contentClassName,
+    ),
+    itemClassName: cn(
+      embedded && "!p-0 !pl-0",
+      embeddedGutterClasses?.itemClassName,
+      embedded && embeddedItemsInViewBasisClass == null && "basis-full",
+      embeddedItemsInViewBasisClass,
+      itemClassName,
+    ),
+    previousClassName: cn(embedded && "left-0 size-7 sm:-left-3 sm:size-8", previousClassName),
+    nextClassName: cn(embedded && "right-0 size-7 sm:-right-3 sm:size-8", nextClassName),
     ...(headerClassName !== undefined ? { headerClassName } : {}),
-    ...(bodyClassName !== undefined ? { bodyClassName } : {}),
-    ...(contentClassName !== undefined ? { contentClassName } : {}),
-    ...(itemClassName !== undefined ? { itemClassName } : {}),
     ...(headerDescriptionClassName !== undefined ? { headerDescriptionClassName } : {}),
+    opts: embedded ? { align: "center" as const, ...carouselOpts } : carouselOpts,
   };
 
   if (status === "unsupported-sport") {
     return (
       <CardCarouselPanel
-        {...optionalPanelClassNames}
-        title={title}
+        {...carouselPanelProps}
+        title={resolvedTitle}
         description={wrapHeaderDescription(
           description === undefined || description === null ? null : description,
         )}
         items={[1]}
         getItemKey={() => "unsupported"}
         renderItem={() => (
-          <div className="flex min-h-40 items-center justify-center p-4">
+          <div
+            className={cn(
+              "flex items-center justify-center",
+              embedded ? "w-full p-2" : "min-h-40 p-4",
+            )}
+          >
             <TypographyMuted className="text-center text-sm leading-relaxed">
               Preview is available for Cricket organisations. Your sport is not supported for this
               preview yet.
@@ -107,16 +157,32 @@ export function AssetPreviewCarousel({
   if (status === "loading") {
     return (
       <CardCarouselPanel
-        {...optionalPanelClassNames}
-        title={title}
+        {...carouselPanelProps}
+        title={resolvedTitle}
         description={wrapHeaderDescription(
           description === undefined || description === null ? null : description,
         )}
         items={[1]}
         getItemKey={() => "loading"}
         renderItem={() => (
-          <div className="flex min-h-[min(60vh,22rem)] items-center justify-center p-4">
-            <Skeleton className="mx-auto aspect-[1080/1350] w-full max-w-[min(100%,12rem)] rounded-md" />
+          <div
+            className={cn(
+              "flex items-center justify-center",
+              embedded ? "w-full p-0" : "min-h-[min(60vh,22rem)] p-4",
+            )}
+          >
+            {embedded ? (
+              <div className="flex w-full min-w-0 justify-center">
+                <Skeleton
+                  className={
+                    thumbnailPreviewRootClassName ??
+                    cn("mx-auto w-full", resolvedThumbnailFrameClassName)
+                  }
+                />
+              </div>
+            ) : (
+              <Skeleton className="mx-auto aspect-[1080/1350] w-full max-w-[min(100%,12rem)] rounded-md" />
+            )}
           </div>
         )}
       />
@@ -126,15 +192,20 @@ export function AssetPreviewCarousel({
   if (status === "error") {
     return (
       <CardCarouselPanel
-        {...optionalPanelClassNames}
-        title={title}
+        {...carouselPanelProps}
+        title={resolvedTitle}
         description={wrapHeaderDescription(
           description === undefined || description === null ? null : description,
         )}
         items={[1]}
         getItemKey={() => "error"}
         renderItem={() => (
-          <div className="text-destructive flex min-h-40 items-center justify-center p-4 text-sm">
+          <div
+            className={cn(
+              "text-destructive flex items-center justify-center text-sm",
+              embedded ? "w-full p-2" : "min-h-40 p-4",
+            )}
+          >
             {state.loadError ?? "Failed to load preview."}
           </div>
         )}
@@ -145,15 +216,20 @@ export function AssetPreviewCarousel({
   if (status !== "ready" || state.data === null || state.frameTargets.length === 0) {
     return (
       <CardCarouselPanel
-        {...optionalPanelClassNames}
-        title={title}
+        {...carouselPanelProps}
+        title={resolvedTitle}
         description={wrapHeaderDescription(
           description === undefined || description === null ? null : description,
         )}
         items={[1]}
         getItemKey={() => "empty"}
         renderItem={() => (
-          <div className="flex min-h-40 items-center justify-center p-4">
+          <div
+            className={cn(
+              "flex items-center justify-center",
+              embedded ? "w-full p-2" : "min-h-40 p-4",
+            )}
+          >
             <TypographyMuted className="text-center text-sm">No preview data.</TypographyMuted>
           </div>
         )}
@@ -199,24 +275,34 @@ export function AssetPreviewCarousel({
 
   return (
     <CardCarouselPanel
-      {...optionalPanelClassNames}
-      title={title}
-      description={wrapHeaderDescription(headerDescription)}
+      {...carouselPanelProps}
+      title={resolvedTitle}
+      description={wrapHeaderDescription(embedded ? null : headerDescription)}
       items={state.frameTargets}
       getItemKey={(_, index) => `${mediaKey}-f-${index}`}
-      renderItem={(target, index) => (
-        <Card className="flex h-full min-h-0 flex-col gap-0 border-0 bg-transparent py-0 shadow-none ring-0">
-          <CardContent className="flex h-full min-h-0 flex-1 flex-col !p-0">
-            <RemotionThumbnailStill
-              data={previewData}
-              durationInFrames={state.durationInFrames}
-              frameToDisplay={target.frameToDisplay}
-              frameKey={`${mediaKey}-thumb-${index}-${target.desired}`}
-              aspectFrameClassName={thumbnailFrameClassName}
-            />
-          </CardContent>
-        </Card>
-      )}
+      renderItem={(target, index) => {
+        const still = (
+          <RemotionThumbnailStill
+            data={previewData}
+            durationInFrames={state.durationInFrames}
+            frameToDisplay={target.frameToDisplay}
+            frameKey={`${mediaKey}-thumb-${index}-${target.desired}`}
+            className={embedded ? "w-auto min-w-0 shrink-0" : undefined}
+            aspectFrameClassName={
+              thumbnailPreviewRootClassName ? undefined : resolvedThumbnailFrameClassName
+            }
+            previewRootClassName={thumbnailPreviewRootClassName}
+          />
+        );
+
+        if (embedded) return still;
+
+        return (
+          <Card className="flex h-full min-h-0 flex-col gap-0 border-0 bg-transparent py-0 shadow-none ring-0">
+            <CardContent className="flex h-full min-h-0 flex-1 flex-col !p-0">{still}</CardContent>
+          </Card>
+        );
+      }}
     />
   );
 }

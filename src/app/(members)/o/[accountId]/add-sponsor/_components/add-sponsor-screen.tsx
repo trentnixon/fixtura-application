@@ -9,6 +9,7 @@ import { ManageSponsorsLoadingState } from "@/app/(members)/o/[accountId]/manage
 import { ManageSponsorsShell } from "@/app/(members)/o/[accountId]/manage-sponsors/_components/shared/manage-sponsors-shell";
 
 import { AddSponsorHeader } from "./add-sponsor-header";
+import { ADD_SPONSOR_SIDEBAR_COPY } from "../_constants/add-sponsor-sidebar";
 import { useAddSponsorScreen } from "../_hooks/use-add-sponsor-screen";
 
 export function AddSponsorScreen({ accountId }: { accountId: string }) {
@@ -39,18 +40,14 @@ export function AddSponsorScreen({ accountId }: { accountId: string }) {
               <div className="border-zinc-900/80 bg-zinc-950 px-6 py-5 text-white">
                 <ManageSponsorsContainerHeaderTitle
                   icon={<Handshake className="size-5" aria-hidden />}
-                  title="Add to sponsor pool"
-                  description="Create a sponsor record so it is ready for placement across your account assets."
+                  title={ADD_SPONSOR_SIDEBAR_COPY.title}
+                  description={ADD_SPONSOR_SIDEBAR_COPY.description}
                 />
               </div>
               <div className="space-y-3 px-6 py-5">
-                <p className="text-sm leading-relaxed">
-                  You are adding a sponsor to your sponsor pool. After saving, use Manage sponsors
-                  to assign them to fixed positions or account entities.
-                </p>
+                <p className="text-sm leading-relaxed">{ADD_SPONSOR_SIDEBAR_COPY.body}</p>
                 <p className="text-muted-foreground text-xs leading-relaxed">
-                  The sponsor logo and name are saved together, then become available for placement
-                  across generated assets.
+                  {ADD_SPONSOR_SIDEBAR_COPY.note}
                 </p>
               </div>
             </div>

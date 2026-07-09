@@ -60,7 +60,7 @@ export function formatFixtureTabLabel(
   }
 
   if (tab === "outputs" && model.hasOutputs) {
-    const count = model.renderEntries.length + model.downloadEntries.length;
+    const count = model.downloadEntries.length;
     if (count > 0) {
       return `${base} (${count})`;
     }

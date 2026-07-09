@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader2, RefreshCw } from "lucide-react";
+import { CloudDownload, Loader2, RefreshCw } from "lucide-react";
 import Link from "next/link";
 
 import {
@@ -64,7 +64,7 @@ export function SeasonOverviewHeader({
               {loading || orgSyncPending ? (
                 <Loader2 className="size-4 animate-spin" aria-hidden />
               ) : (
-                <RefreshCw className="size-4" aria-hidden />
+                <CloudDownload className="size-4" aria-hidden />
               )}
               Sync
             </Button>

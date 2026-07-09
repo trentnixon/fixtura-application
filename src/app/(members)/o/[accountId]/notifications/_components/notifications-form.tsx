@@ -31,76 +31,35 @@ import {
   equalNotificationsDraft,
   notificationsFieldId,
 } from "@/features/notifications/bundle-delivery-profile-shared";
-import {
-  cmsDaysOfWeekIdFromWeekdayKey,
-  type WeekdayKey,
-  weekdayLabel,
-} from "@/features/settings/bundle-delivery-weekdays";
+import { type WeekdayKey, weekdayLabel } from "@/features/settings/bundle-delivery-weekdays";
 import { ApiError } from "@/lib/api/client/api-error";
 import {
   isAccountOrganisationContextGatewayRedirect,
   useAccountOrganisationContext,
 } from "@/lib/api/hooks/account/useAccountOrganisationContext";
+import { usePatchAccountNotifications } from "@/lib/api/hooks/account/usePatchAccountNotifications";
 import { usePatchAccountSettings } from "@/lib/api/hooks/account/usePatchAccountSettings";
-import { useUpdateOnboardingStep3 } from "@/lib/api/hooks/account/useUpdateOnboardingStep3";
 import { toastError, toastSuccess } from "@/lib/notify";
 
-import type {
-  AccountNotificationsData,
-  PatchAccountSettingsBody,
-  UpdateOnboardingStep3Body,
-} from "@/types/api/account";
+import {
+  applyPartialSaveToSavedDraft,
+  getNotificationsSaveSuccessMessage,
+  getNotificationsSaveUserMessage,
+  isNotificationsSaveFullySuccessful,
+  runNotificationsSave,
+} from "../_utils/notifications-partial-save";
+import {
+  buildPatchAccountNotificationsBody,
+  dataToProfileDraft,
+  hasDeliveryDayChange,
+  hasParsableAssetDeliveryDay,
+  settingsPatchForDeliveryDay,
+} from "../_utils/notifications-save";
+import { validateNotificationsDeliveryEmailValue } from "../_utils/notifications-validation";
+
+import type { AccountNotificationsData } from "@/types/api/account";
 
 const FIELD_PREFIX = "members";
-
-function weekdayKeyFromApi(value: string | null): WeekdayKey | undefined {
-  if (!value) return undefined;
-  return WEEKDAY_OPTIONS.find((o) => o.key === value)?.key;
-}
-
-function dataToProfileDraft(d: AccountNotificationsData): NotificationsProfileDraft {
-  return {
-    bundleAddressedTo: d.bundleAddressedTo ?? "",
-    deliveryEmail: d.deliveryEmail ?? "",
-    assetDeliveryDay: weekdayKeyFromApi(d.assetDeliveryDay) ?? "sunday",
-  };
-}
-
-function dayBaselineFromData(d: AccountNotificationsData): WeekdayKey {
-  return weekdayKeyFromApi(d.assetDeliveryDay) ?? "sunday";
-}
-
-function normalizeEmailCompare(s: string): string {
-  return s.trim().toLowerCase();
-}
-
-function buildContactStep3Patch(
-  saved: AccountNotificationsData,
-  draft: NotificationsProfileDraft,
-): UpdateOnboardingStep3Body | null {
-  const out: UpdateOnboardingStep3Body = {};
-  const nextBundle = draft.bundleAddressedTo.trim();
-  const prevBundle = (saved.bundleAddressedTo ?? "").trim();
-  if (nextBundle !== prevBundle) {
-    out.firstName = nextBundle === "" ? null : nextBundle;
-  }
-  const nextEmail = normalizeEmailCompare(draft.deliveryEmail);
-  const prevEmail = normalizeEmailCompare(saved.deliveryEmail ?? "");
-  if (nextEmail !== prevEmail) {
-    const trimmed = draft.deliveryEmail.trim();
-    out.deliveryAddress = trimmed === "" ? null : trimmed;
-  }
-  if (Object.keys(out).length === 0) return null;
-  return out;
-}
-
-function settingsPatchForDeliveryDay(
-  draftDay: WeekdayKey,
-): Pick<PatchAccountSettingsBody, "daysOfTheWeekId" | "bundleDeliveryDay"> {
-  const id = cmsDaysOfWeekIdFromWeekdayKey(draftDay);
-  if (id !== undefined) return { daysOfTheWeekId: id };
-  return { bundleDeliveryDay: weekdayLabel(draftDay) };
-}
 
 export function NotificationsForm({
   accountId,
@@ -118,10 +77,10 @@ export function NotificationsForm({
       ? orgQ.data.data.accountOrganisationDetails.Name
       : "Organisation";
 
-  const hasParsableAssetDeliveryDay =
-    data.assetDeliveryDay != null && WEEKDAY_OPTIONS.some((o) => o.key === data.assetDeliveryDay);
+  const parsableAssetDeliveryDay = hasParsableAssetDeliveryDay(data);
+  const { bundleAddressedTo, deliveryEmail, assetDeliveryDay } = data;
 
-  const patchStep3 = useUpdateOnboardingStep3(accountId);
+  const patchNotifications = usePatchAccountNotifications(accountId);
   const patchSettings = usePatchAccountSettings(accountId);
 
   const [savedDraft, setSavedDraft] = useState<NotificationsProfileDraft>(() =>
@@ -130,18 +89,16 @@ export function NotificationsForm({
   const [draft, setDraft] = useState<NotificationsProfileDraft>(() => dataToProfileDraft(data));
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
   const [confirmedAt, setConfirmedAt] = useState<string | null>(null);
+  const [partialSaveAlert, setPartialSaveAlert] = useState<string | null>(null);
+  const [deliveryEmailError, setDeliveryEmailError] = useState<string | null>(null);
 
   useEffect(() => {
-    const next = dataToProfileDraft({
-      bundleAddressedTo: data.bundleAddressedTo,
-      deliveryEmail: data.deliveryEmail,
-      assetDeliveryDay: data.assetDeliveryDay,
-    });
+    const next = dataToProfileDraft({ bundleAddressedTo, deliveryEmail, assetDeliveryDay });
     setSavedDraft(next);
     setDraft(next);
-  }, [data.bundleAddressedTo, data.deliveryEmail, data.assetDeliveryDay]);
+  }, [bundleAddressedTo, deliveryEmail, assetDeliveryDay]);
 
-  const saving = patchStep3.isPending || patchSettings.isPending;
+  const saving = patchNotifications.isPending || patchSettings.isPending;
   const interactive = !saving;
   const fieldsEditable = interactive;
 
@@ -149,7 +106,7 @@ export function NotificationsForm({
   const saveDisabled = !interactive || !hasChanges;
 
   const contactSaveForbidden =
-    patchStep3.error instanceof ApiError && patchStep3.error.status === 403;
+    patchNotifications.error instanceof ApiError && patchNotifications.error.status === 403;
   const settingsSaveForbidden =
     patchSettings.error instanceof ApiError && patchSettings.error.status === 403;
 
@@ -160,35 +117,76 @@ export function NotificationsForm({
 
   function handleReset() {
     setDraft(dataToProfileDraft(data));
+    setDeliveryEmailError(null);
+    setPartialSaveAlert(null);
+  }
+
+  function validateDraftEmail(): boolean {
+    const { error } = validateNotificationsDeliveryEmailValue(draft.deliveryEmail);
+    setDeliveryEmailError(error);
+    return !error;
+  }
+
+  function handleOpenSaveDialog() {
+    if (!validateDraftEmail()) return;
+    setPartialSaveAlert(null);
+    setSaveDialogOpen(true);
   }
 
   async function handleConfirmSave() {
-    const contactPatch = buildContactStep3Patch(data, draft);
-    const dayChanged = dayBaselineFromData(data) !== draft.assetDeliveryDay;
+    if (!validateDraftEmail()) {
+      setSaveDialogOpen(false);
+      return;
+    }
+
+    const contactPatch = buildPatchAccountNotificationsBody(data, draft);
+    const dayChanged = hasDeliveryDayChange(data, draft);
 
     if (!contactPatch && !dayChanged) {
       setSaveDialogOpen(false);
       return;
     }
 
-    try {
-      if (contactPatch) {
-        await patchStep3.mutateAsync(contactPatch);
-      }
-      if (dayChanged) {
-        await patchSettings.mutateAsync(settingsPatchForDeliveryDay(draft.assetDeliveryDay));
-      }
+    const outcome = await runNotificationsSave({
+      contactPatch,
+      deliveryDayPatch: dayChanged ? settingsPatchForDeliveryDay(draft.assetDeliveryDay) : null,
+      patchContact: (body) => patchNotifications.mutateAsync(body),
+      patchDeliveryDay: (body) => patchSettings.mutateAsync(body),
+    });
+
+    const { toast, alert } = getNotificationsSaveUserMessage(outcome);
+
+    if (isNotificationsSaveFullySuccessful(outcome)) {
       const stamp = new Date().toLocaleTimeString(undefined, {
         hour: "2-digit",
         minute: "2-digit",
         second: "2-digit",
       });
       setConfirmedAt(stamp);
-      toastSuccess("Notification preferences saved");
+      setPartialSaveAlert(null);
       setSaveDialogOpen(false);
-    } catch (e) {
-      if (e instanceof ApiError && e.status === 403) return;
-      toastError(e, "Could not save");
+      const nextSaved = applyPartialSaveToSavedDraft(savedDraft, draft, outcome);
+      setSavedDraft(nextSaved);
+      setDraft(nextSaved);
+      if (toast === "success") {
+        toastSuccess(getNotificationsSaveSuccessMessage());
+      }
+      return;
+    }
+
+    const nextSaved = applyPartialSaveToSavedDraft(savedDraft, draft, outcome);
+    setSavedDraft(nextSaved);
+    setDraft(nextSaved);
+    setPartialSaveAlert(alert);
+    setSaveDialogOpen(false);
+
+    if (toast === "error") {
+      const mutationError = outcome.contactError ?? outcome.deliveryDayError;
+      if (mutationError && mutationError.status !== 403) {
+        toastError(mutationError, "Could not save");
+      } else if (alert) {
+        toastError(new Error(alert), "Could not save");
+      }
     }
   }
 
@@ -212,13 +210,23 @@ export function NotificationsForm({
           type="email"
           disabled={!fieldsEditable}
           value={draft.deliveryEmail}
-          onChange={(v) => setDraft((prev) => ({ ...prev, deliveryEmail: v }))}
+          onChange={(v) => {
+            setDeliveryEmailError(null);
+            setDraft((prev) => ({ ...prev, deliveryEmail: v }));
+          }}
         />
+        {deliveryEmailError ? (
+          <li className="border-border border-b px-6 pb-4">
+            <p role="alert" className="text-destructive text-sm">
+              {deliveryEmailError}
+            </p>
+          </li>
+        ) : null}
         <AccountSelectRow
           id={fieldId("assetDeliveryDay")}
           title="Asset delivery day"
           description={`Weekly generated assets are delivered on this day. Next delivery in ${daysUntilNextDelivery(draft.assetDeliveryDay)} days.${
-            !hasParsableAssetDeliveryDay
+            !parsableAssetDeliveryDay
               ? " Could not resolve your saved weekday from the server; the selection defaults until you save."
               : ""
           }`}
@@ -258,7 +266,7 @@ export function NotificationsForm({
             <Button type="button" variant="outline" disabled={!interactive} onClick={handleReset}>
               Reset
             </Button>
-            <Button type="button" disabled={saveDisabled} onClick={() => setSaveDialogOpen(true)}>
+            <Button type="button" disabled={saveDisabled} onClick={handleOpenSaveDialog}>
               {saving ? "Saving…" : "Save changes"}
             </Button>
           </div>
@@ -269,14 +277,22 @@ export function NotificationsForm({
 
   return (
     <div className="space-y-8">
+      {partialSaveAlert ? (
+        <div
+          role="alert"
+          className="rounded-lg border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-amber-950 dark:text-amber-100"
+        >
+          {partialSaveAlert}
+        </div>
+      ) : null}
+
       {contactSaveForbidden ? (
         <div
           role="alert"
           className="border-destructive/40 bg-destructive/10 text-destructive-foreground rounded-lg border px-4 py-3 text-sm"
         >
           Saving bundle addressee or delivery email is blocked (403): enable the{" "}
-          <strong>updateOnboardingStep3</strong> permission for your role in Strapi (contact /
-          delivery fields on the account).
+          <strong>saveAccountNotifications</strong> permission for your role in Strapi.
         </div>
       ) : null}
       {settingsSaveForbidden ? (
@@ -290,14 +306,14 @@ export function NotificationsForm({
       ) : null}
 
       {!contactSaveForbidden &&
-      patchStep3.isError &&
-      patchStep3.error instanceof ApiError &&
-      patchStep3.error.status !== 403 ? (
+      patchNotifications.isError &&
+      patchNotifications.error instanceof ApiError &&
+      patchNotifications.error.status !== 403 ? (
         <div
           role="alert"
           className="border-destructive/40 bg-destructive/10 rounded-lg border px-4 py-3 text-sm text-red-950 dark:text-red-100"
         >
-          <span className="font-medium">{patchStep3.error.message}</span>
+          <span className="font-medium">{patchNotifications.error.message}</span>
         </div>
       ) : null}
       {!settingsSaveForbidden &&

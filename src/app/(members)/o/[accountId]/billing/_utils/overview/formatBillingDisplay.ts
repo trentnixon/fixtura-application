@@ -49,5 +49,5 @@ export function formatBillingDateRangeLine(
   start: string | null | undefined,
   end: string | null | undefined,
 ): string {
-  return `${formatDateLabel(start ?? null)} — ${formatDateLabel(end ?? null)}`;
+  return `${formatBillingDateTable(start)} — ${formatBillingDateTable(end)}`;
 }

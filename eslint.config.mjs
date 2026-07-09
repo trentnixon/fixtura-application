@@ -50,6 +50,8 @@ export default [
         Blob: "readonly",
         Image: "readonly",
         HTMLImageElement: "readonly",
+        HTMLCanvasElement: "readonly",
+        CanvasRenderingContext2D: "readonly",
       },
     },
     plugins: {

@@ -25,6 +25,11 @@ export type RemotionThumbnailStillProps = {
   frameKey: string;
   className?: string;
   aspectFrameClassName?: string;
+  /**
+   * Surface + sizing on `[data-remotion-preview-root]` itself (fitted to the still).
+   * When set, skips the full-width aspect frame + absolute inset layout.
+   */
+  previewRootClassName?: string;
 };
 
 export function RemotionThumbnailStill({
@@ -34,7 +39,35 @@ export function RemotionThumbnailStill({
   frameKey,
   className,
   aspectFrameClassName,
+  previewRootClassName,
 }: RemotionThumbnailStillProps) {
+  const thumbnail = (
+    <Thumbnail
+      key={frameKey}
+      component={FixturaTemplateScene}
+      durationInFrames={durationInFrames}
+      compositionWidth={REMOTION_PREVIEW_COMPOSITION_WIDTH}
+      compositionHeight={REMOTION_PREVIEW_COMPOSITION_HEIGHT}
+      fps={REMOTION_PREVIEW_FPS}
+      inputProps={{ data }}
+      frameToDisplay={frameToDisplay}
+      style={{ width: "100%", height: "100%" }}
+    />
+  );
+
+  if (previewRootClassName != null) {
+    return (
+      <div className={cn("flex min-h-0 w-full min-w-0 justify-center", className)}>
+        <div
+          data-remotion-preview-root
+          className={cn("not-prose relative min-h-0 overflow-hidden", previewRootClassName)}
+        >
+          {thumbnail}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={cn("flex min-h-0 w-full min-w-0 justify-center", className)}>
       <div className={cn(defaultAspectFrameClassName, aspectFrameClassName)}>
@@ -42,17 +75,7 @@ export function RemotionThumbnailStill({
           data-remotion-preview-root
           className="not-prose absolute inset-0 min-h-0 min-w-0 overflow-hidden"
         >
-          <Thumbnail
-            key={frameKey}
-            component={FixturaTemplateScene}
-            durationInFrames={durationInFrames}
-            compositionWidth={REMOTION_PREVIEW_COMPOSITION_WIDTH}
-            compositionHeight={REMOTION_PREVIEW_COMPOSITION_HEIGHT}
-            fps={REMOTION_PREVIEW_FPS}
-            inputProps={{ data }}
-            frameToDisplay={frameToDisplay}
-            style={{ width: "100%", height: "100%" }}
-          />
+          {thumbnail}
         </div>
       </div>
     </div>

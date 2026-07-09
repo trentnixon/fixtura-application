@@ -45,15 +45,13 @@ export function SeasonGradeView({ accountId, competitionId, gradeId }: SeasonGra
   const fixtureRows = useMemo(() => fixtures.data?.data ?? [], [fixtures.data?.data]);
 
   const g = grade.data?.data;
-  const { fixturesCountFromGrade, fixturesEmpty, gradeRaw, displayModel } = useSeasonGradeViewState(
-    {
-      grade: g,
-      gradeId,
-      competitionId,
-      fixturesRows: fixtureRows,
-      fixturesPending: fixtures.isPending,
-    },
-  );
+  const { fixturesCountFromGrade, fixturesEmpty, displayModel } = useSeasonGradeViewState({
+    grade: g,
+    gradeId,
+    competitionId,
+    fixturesRows: fixtureRows,
+    fixturesPending: fixtures.isPending,
+  });
 
   const {
     team,
@@ -115,10 +113,12 @@ export function SeasonGradeView({ accountId, competitionId, gradeId }: SeasonGra
         accountId={accountId}
         competitionHref={competitionHref}
         displayModel={displayModel}
-        gradeRaw={gradeRaw}
         isFetching={isFetching}
-        isSyncMutating={isSyncMutating}
         canQueueCombinedSync={canQueueCombinedSync}
+        onReload={() => {
+          void grade.refetch();
+          void fixtures.refetch();
+        }}
         onOpenSync={() => setSyncDialogOpen(true)}
       />
 
@@ -135,11 +135,6 @@ export function SeasonGradeView({ accountId, competitionId, gradeId }: SeasonGra
           void fixtures.refetch();
           setSyncDialogOpen(false);
         }}
-      />
-
-      <SeasonGradeCoverageSummarySection
-        teamCount={displayModel.teamCount}
-        fixtureCount={displayModel.fixtureCount}
       />
 
       <SeasonGradeFixturesSection
@@ -172,6 +167,11 @@ export function SeasonGradeView({ accountId, competitionId, gradeId }: SeasonGra
         options={options}
         hasActiveFilters={hasActiveFilters || showAllPrevious || showAllUpcoming}
         clearFilters={clearFixtureFilters}
+      />
+
+      <SeasonGradeCoverageSummarySection
+        teamCount={displayModel.teamCount}
+        fixtureCount={displayModel.fixtureCount}
       />
     </div>
   );

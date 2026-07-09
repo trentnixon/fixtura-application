@@ -1,16 +1,15 @@
+import { FileText } from "lucide-react";
+
 import {
   TypographyBodySmall,
   TypographyCaption,
-  TypographyCardDescription,
-  TypographyCardTitle,
   TypographyDataLabel,
   TypographyDataValue,
-  TypographyErrorText,
 } from "@/components/typography";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
-import { formatBillingHistoryDate } from "../_utils/formatBillingHistory";
+import { AccountSectionShell } from "../../../account/_components/AccountSectionShell";
+import { formatBillingDateTable } from "../../_utils/overview/formatBillingDisplay";
 
 import type { InvoiceRequestSummary } from "@/types/api/account";
 
@@ -24,38 +23,24 @@ function InvoiceRequestRow({
   withdrawPending?: boolean;
 }) {
   return (
-    <li className="border-border rounded-lg border p-4">
+    <li className="border-border border-b px-6 py-4 last:border-b-0">
       <dl className="grid gap-1">
         <div className="flex flex-wrap justify-between gap-2">
-          <TypographyDataLabel as="dt">Request ID</TypographyDataLabel>
-          <TypographyDataValue as="dd" className="text-right font-mono text-xs">
-            {request.invoiceRequestId ?? request.id ?? "—"}
+          <TypographyDataLabel as="dt">Submitted</TypographyDataLabel>
+          <TypographyDataValue as="dd">
+            {formatBillingDateTable(request.submittedAt)}
+          </TypographyDataValue>
+        </div>
+        <div className="flex flex-wrap justify-between gap-2">
+          <TypographyDataLabel as="dt">Requested</TypographyDataLabel>
+          <TypographyDataValue as="dd">
+            {formatBillingDateTable(request.requestedStartDate)}
           </TypographyDataValue>
         </div>
         <div className="flex flex-wrap justify-between gap-2">
           <TypographyDataLabel as="dt">Status</TypographyDataLabel>
           <TypographyDataValue as="dd">{request.status ?? "—"}</TypographyDataValue>
         </div>
-        <div className="flex flex-wrap justify-between gap-2">
-          <TypographyDataLabel as="dt">Submitted</TypographyDataLabel>
-          <TypographyDataValue as="dd">
-            {formatBillingHistoryDate(request.submittedAt ?? null)}
-          </TypographyDataValue>
-        </div>
-        {request.requestedStartDate ? (
-          <div className="flex flex-wrap justify-between gap-2">
-            <TypographyDataLabel as="dt">Requested start</TypographyDataLabel>
-            <TypographyDataValue as="dd">
-              {formatBillingHistoryDate(request.requestedStartDate)}
-            </TypographyDataValue>
-          </div>
-        ) : null}
-        {request.subscriptionTierId ? (
-          <div className="flex flex-wrap justify-between gap-2">
-            <TypographyDataLabel as="dt">Tier</TypographyDataLabel>
-            <TypographyDataValue as="dd">{request.subscriptionTierId}</TypographyDataValue>
-          </div>
-        ) : null}
         {request.message ? (
           <div className="pt-1">
             <TypographyCaption>{request.message}</TypographyCaption>
@@ -81,33 +66,26 @@ function InvoiceRequestRow({
 
 export function BillingHistoryInvoiceRequestsCard({
   invoiceRequests,
-  invoiceWithdrawError,
   withdrawPending,
   onWithdraw,
 }: {
   invoiceRequests: InvoiceRequestSummary[];
-  invoiceWithdrawError: string | null;
   withdrawPending: boolean;
-  onWithdraw: (request: InvoiceRequestSummary) => Promise<void>;
+  onWithdraw: (request: InvoiceRequestSummary) => void;
 }) {
   return (
-    <Card>
-      <CardHeader>
-        <TypographyCardTitle className="font-brand">Invoice requests</TypographyCardTitle>
-        <TypographyCardDescription>
-          History from GET /billing/invoice-requests.
-        </TypographyCardDescription>
-      </CardHeader>
-      <CardContent>
-        {invoiceWithdrawError ? (
-          <TypographyErrorText className="mb-3" role="alert">
-            {invoiceWithdrawError}
-          </TypographyErrorText>
-        ) : null}
+    <AccountSectionShell
+      title="Invoice requests"
+      icon={<FileText className="size-5" aria-hidden />}
+      headerTone="slate"
+    >
+      <div className="px-0 pb-0">
         {invoiceRequests.length === 0 ? (
-          <TypographyBodySmall role="status">No invoice requests yet.</TypographyBodySmall>
+          <TypographyBodySmall className="px-6 py-5" role="status">
+            No invoice requests yet.
+          </TypographyBodySmall>
         ) : (
-          <ul className="grid gap-3">
+          <ul className="border-border divide-border divide-y border-t">
             {invoiceRequests.map((request, index) => (
               <InvoiceRequestRow
                 key={String(request.invoiceRequestId ?? request.id ?? index)}
@@ -122,7 +100,7 @@ export function BillingHistoryInvoiceRequestsCard({
             ))}
           </ul>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </AccountSectionShell>
   );
 }

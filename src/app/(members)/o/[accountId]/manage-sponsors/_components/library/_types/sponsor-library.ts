@@ -11,6 +11,7 @@ export type SponsorPoolStats = {
 };
 
 export type SponsorLibraryPanelProps = {
+  accountId: string;
   sponsors: ManageSponsorsWorkspaceSponsor[];
   stats: SponsorPoolStats;
   searchValue: string;

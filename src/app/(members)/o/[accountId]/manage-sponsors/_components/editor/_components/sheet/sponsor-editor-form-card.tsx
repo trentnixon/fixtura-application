@@ -49,10 +49,12 @@ export function SponsorEditorFormCard({
         }
         body={
           <div className="space-y-6">
-            <p className="text-sm leading-relaxed">
-              Upload a sponsor logo, choose an aspect ratio, and crop it so it displays cleanly
-              across your account experience.
-            </p>
+            {!isCreateMode ? (
+              <p className="text-sm leading-relaxed">
+                Upload a sponsor logo, choose an aspect ratio, and crop it so it displays cleanly
+                across your account experience.
+              </p>
+            ) : null}
 
             {isEditMode ? (
               <div className="grid min-w-0 gap-6">
@@ -70,6 +72,7 @@ export function SponsorEditorFormCard({
                   onNameChange={onNameChange}
                   isActive={isActive}
                   onActiveChange={onActiveChange}
+                  isCreateMode={isCreateMode}
                 />
               </div>
             ) : (
@@ -88,6 +91,7 @@ export function SponsorEditorFormCard({
                   onNameChange={onNameChange}
                   isActive={isActive}
                   onActiveChange={onActiveChange}
+                  isCreateMode={isCreateMode}
                 />
               </div>
             )}
@@ -104,10 +108,12 @@ export function SponsorEditorFormCard({
           </div>
         }
         footer={
-          <TypographyMuted className="text-xs leading-relaxed">
-            Match the crop ratio to sponsor placements, exports, and how the logo appears across
-            your account.
-          </TypographyMuted>
+          isCreateMode ? undefined : (
+            <TypographyMuted className="text-xs leading-relaxed">
+              Match the crop ratio to sponsor placements, exports, and how the logo appears across
+              your account.
+            </TypographyMuted>
+          )
         }
       />
     </section>

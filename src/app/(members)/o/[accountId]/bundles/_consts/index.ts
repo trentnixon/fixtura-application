@@ -4,16 +4,14 @@ export const BUNDLES_SCREEN_COPY = {
   errorTitle: "Could not load bundles",
   errorFallback: "Something went wrong while loading bundle information.",
   pageTitle: "Bundles",
-  schedulerRunStatusUnavailable:
-    "Run status is unavailable until a delivery schedule is linked to this account.",
   assetHubAction: "Asset Hub",
   schedulerTitle: "Delivery schedule",
+  schedulerSummaryEveryPrefix: "Every ",
+  schedulerSummarySeparator: " · ",
   schedulerNoSchedulerTitle: "No delivery schedule linked",
   schedulerNoSchedulerBody:
     "This account does not have a scheduler configured yet. Bundle delivery settings may still be managed in organisation settings.",
-  schedulerDeliveryDayLabel: "Delivery day",
   schedulerDeliveryDayUnknown: "Not set",
-  schedulerNextDeliveryLabel: "Next delivery",
   schedulerNextDeliveryToday: "Today",
   schedulerNextDeliveryInOneDay: "In 1 day",
   schedulerNextDeliveryInDaysPrefix: "In ",

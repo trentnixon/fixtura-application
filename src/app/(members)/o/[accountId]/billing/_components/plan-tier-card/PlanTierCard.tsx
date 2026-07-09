@@ -1,96 +1,80 @@
 "use client";
 
-import {
-  TypographyCaption,
-  TypographyDataValue,
-  TypographyMuted,
-  TypographyOverline,
-  TypographySubsectionTitle,
-} from "@/components/typography";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
-import { PLAN_TIER_CARD_LABELS } from "./_constants/planTierCard";
+import {
+  PLAN_TIER_CARD_LABELS,
+  planTierCardNameId,
+  planTierCardShellBaseClass,
+  planTierCardShellSelectedClass,
+} from "./_constants/planTierCard";
 import {
   buildPlanTierCardDisplay,
   selectBillingTierPlanButtonLabel,
 } from "./_utils/buildPlanTierCardDisplay";
 
 import type { PlanTierCardProps } from "./_types/planTierCard";
+import type { KeyboardEvent } from "react";
 
 export function PlanTierCard({ tier, selected, onSelect }: PlanTierCardProps) {
   const display = buildPlanTierCardDisplay(tier);
+  const nameId = planTierCardNameId(tier.id);
+
+  function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      onSelect();
+    }
+  }
 
   return (
     <Card
-      className={cn(
-        "ring-primary/20 bg-primary/5 transition-[box-shadow,ring]",
-        selected && "ring-primary ring-2",
-      )}
+      role="radio"
+      aria-checked={selected}
+      aria-labelledby={nameId}
+      tabIndex={selected ? 0 : -1}
+      onClick={onSelect}
+      onKeyDown={handleKeyDown}
+      className={cn(planTierCardShellBaseClass, selected && planTierCardShellSelectedClass)}
     >
-      <CardContent className="p-5 sm:p-6">
-        <div className="grid gap-5 md:grid-cols-[minmax(0,1fr)_16rem] md:items-start">
-          <div className="min-w-0 space-y-3">
-            <div className="space-y-2">
-              <Badge variant="outline">{tier.category}</Badge>
-              <TypographySubsectionTitle as="div" className="text-primary leading-snug">
-                {tier.name}
-              </TypographySubsectionTitle>
-              {display.metaLine ? (
-                <TypographyCaption className="leading-snug font-medium">
-                  {display.metaLine}
-                </TypographyCaption>
-              ) : null}
-            </div>
+      <CardHeader className="gap-1.5 pb-3">
+        <CardTitle id={nameId} className="text-primary text-lg leading-snug font-semibold">
+          {tier.name}
+        </CardTitle>
+        {display.metaLine ? (
+          <p className="text-muted-foreground truncate text-xs leading-snug font-medium">
+            {display.metaLine}
+          </p>
+        ) : null}
+      </CardHeader>
 
-            {display.description ? (
-              <TypographyMuted className="max-h-30 overflow-y-auto text-sm leading-relaxed">
-                {display.description}
-              </TypographyMuted>
-            ) : null}
-
-            {display.sponsorAssetLine ? (
-              <TypographyCaption className="text-[0.65rem] leading-snug">
-                {display.sponsorAssetLine}
-              </TypographyCaption>
-            ) : null}
-          </div>
-
-          <div className="border-border/60 flex flex-col gap-4 pt-4 md:border-l md:pt-0 md:pl-6">
-            <div className="grid gap-3">
-              {display.weekly ? (
-                <div>
-                  <TypographyOverline>{PLAN_TIER_CARD_LABELS.perWeek}</TypographyOverline>
-                  <TypographyDataValue as="p" className="text-primary text-lg">
-                    {display.weekly}
-                  </TypographyDataValue>
-                </div>
-              ) : null}
-              <div>
-                <TypographyOverline>{PLAN_TIER_CARD_LABELS.totalCost}</TypographyOverline>
-                <TypographyDataValue as="p" className="text-lg">
-                  {display.price}
-                </TypographyDataValue>
-              </div>
-            </div>
-
-            <Button
-              type="button"
-              variant="accent"
-              className="w-full"
-              onClick={() => {
-                onSelect();
-              }}
-            >
-              {selected
-                ? PLAN_TIER_CARD_LABELS.selected
-                : selectBillingTierPlanButtonLabel(tier.name)}
-            </Button>
-          </div>
+      <CardFooter className="mt-auto flex-col items-stretch gap-3 border-t pt-4 pb-6">
+        <div className="space-y-2">
+          {display.weekly ? (
+            <p className="text-muted-foreground text-sm font-normal tabular-nums">
+              {display.weekly}
+            </p>
+          ) : null}
+          <p className="text-primary text-2xl leading-none font-bold tracking-tight tabular-nums">
+            {display.price}
+          </p>
         </div>
-      </CardContent>
+        <Button
+          type="button"
+          variant="accent"
+          className="w-full"
+          tabIndex={-1}
+          aria-hidden
+          onClick={(event) => {
+            event.stopPropagation();
+            onSelect();
+          }}
+        >
+          {selected ? PLAN_TIER_CARD_LABELS.selected : selectBillingTierPlanButtonLabel(tier.name)}
+        </Button>
+      </CardFooter>
     </Card>
   );
 }

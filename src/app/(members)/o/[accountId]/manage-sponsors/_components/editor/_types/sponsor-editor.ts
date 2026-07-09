@@ -141,6 +141,7 @@ export type SponsorEditorNameFieldsBlockProps = {
   onNameChange: (value: string) => void;
   isActive: boolean;
   onActiveChange: (value: boolean) => void;
+  isCreateMode?: boolean;
 };
 
 export type SponsorLogoChangeInput = {

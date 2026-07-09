@@ -83,6 +83,7 @@ import type {
   PatchAccountSecurityLoginEmailResponse,
   PatchAccountSecurityProfileRequest,
   PatchAccountSecurityProfileResponse,
+  AccountNotificationsResponse,
   PatchAccountNotificationsRequest,
   PatchAccountNotificationsResponse,
   PatchAccountSettingsRequest,
@@ -237,6 +238,12 @@ export const accountApi = {
   patchAccountSettings: (accountId: string, body: PatchAccountSettingsRequest) => {
     const path = `${appRoutes.accounts.settings.path}/${encodeURIComponent(accountId)}/settings`;
     return apiClient.patch<PatchAccountSettingsResponse>(path, body);
+  },
+
+  /** Bundle addressee, delivery email, and derived asset delivery day. */
+  getAccountNotifications: (accountId: string) => {
+    const path = `${appRoutes.accounts.notifications.path}/${encodeURIComponent(accountId)}/notifications`;
+    return apiClient.get<AccountNotificationsResponse>(path);
   },
 
   patchAccountNotifications: (accountId: string, body: PatchAccountNotificationsRequest) => {

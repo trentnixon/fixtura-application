@@ -16,6 +16,13 @@ describe("formatSchedulerTime", () => {
   });
 });
 
+describe("formatDeliveryScheduleSummary", () => {
+  it("joins delivery day and countdown", async () => {
+    const { formatDeliveryScheduleSummary } = await import("./format-delivery-schedule-summary");
+    expect(formatDeliveryScheduleSummary("Tuesday", "In 2 days")).toBe("Every Tuesday · In 2 days");
+  });
+});
+
 describe("resolveSchedulerRunStatus", () => {
   it("prioritises rendering over queued", () => {
     expect(resolveSchedulerRunStatus({ isRendering: true, Queued: true }).label).toBe("Rendering");

@@ -5,7 +5,7 @@ import { ordersTableSectionCopy } from "../../_constants/orders/ordersTableSecti
 import {
   getHistoryOrderStatus,
   getHistoryOrderSubscriptionDayCount,
-  parseHistoryOrderTotal,
+  resolveHistoryOrderTotalForDisplay,
 } from "../../_utils/orders/billingHistoryOrderUtils";
 import { getOrdersTableInvoiceLinks } from "../../_utils/orders/ordersTableSectionTableUtils";
 import { formatBillingDateTable, formatMoney } from "../../_utils/overview/formatBillingDisplay";
@@ -29,7 +29,7 @@ export function OrdersTableRow({ order, activeOrder }: OrdersTableRowProps) {
       </TableCell>
       <TableCell>{getHistoryOrderStatus(order)}</TableCell>
       <TableCell className="text-right tabular-nums">
-        {formatMoney(parseHistoryOrderTotal(order.total), order.currency ?? null)}
+        {formatMoney(resolveHistoryOrderTotalForDisplay(order), order.currency ?? null)}
       </TableCell>
       <TableCell className="text-right">
         <OrdersTableInvoiceActions

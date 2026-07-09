@@ -24,6 +24,8 @@ export const queryKeys = {
     organisationContext: (accountId: string) =>
       ["account", "organisation-context", accountId] as const,
     settings: (accountId: string) => ["account", "settings", accountId] as const,
+    /** GET /api/accounts/:accountId/notifications */
+    notifications: (accountId: string) => ["account", "notifications", accountId] as const,
     mediaLibrary: (accountId: string) => ["account", "media-library", accountId] as const,
     mediaLibraryItem: (accountId: string, mediaId: string) =>
       ["account", "media-library", accountId, mediaId] as const,

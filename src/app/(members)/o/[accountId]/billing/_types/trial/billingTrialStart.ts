@@ -13,6 +13,7 @@ export type BillingTrialStartConfirmDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   trialSchedule: BillingTrialStartSchedule | null;
+  accountName: string;
   errorMessage: string | null;
   isPending: boolean;
   onCancel: () => void;

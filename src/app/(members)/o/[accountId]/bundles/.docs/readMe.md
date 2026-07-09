@@ -6,10 +6,12 @@ Organisation bundles route: render history, delivery context, and links to exter
 
 - `page.tsx`: Index route entry; renders bundles list screen.
 - `[renderId]/page.tsx`: Per-render detail route entry.
-- `_components/bundles-screen.tsx`: Client shell for index; scheduler strip + render list.
-- `_components/bundles-scheduler-strip.tsx`: Phase 5 delivery schedule (`SectionBlock` + `Surface`, season summary pattern).
-- `_components/bundles-delivery-schedule-section.tsx`: Delivery schedule inset section UI.
-- `_components/bundles-screen-header.tsx`: Breadcrumb page header + run status + Asset Hub CTA.
+- `_components/bundles-screen.tsx`: Client shell for index; active-run banner, render list, delivery schedule.
+- `_components/bundles-active-run-banner.tsx`: Success banner when a bundle run is queued or rendering.
+- `_components/bundles-scheduler-strip.tsx`: Delivery schedule strip with run status metric.
+- `_components/bundles-delivery-schedule-section.tsx`: Compact delivery summary line, inline run-status pill, change-day action.
+- `_components/bundles-scheduler-run-status-pill.tsx`: Run status pill (Idle / Queued / Rendering).
+- `_components/bundles-screen-header.tsx`: Breadcrumb page header + Asset Hub CTA.
 - `_components/bundles-render-list-panel.tsx`: Phase 7 render table (`SectionBlock`, `table.grid.*`, season table header).
 - `_components/bundles-render-status-pill.tsx`: Status pill for render rows.
 - `_components/bundles-render-detail-screen.tsx`: Phase 8 detail shell.

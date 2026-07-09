@@ -20,9 +20,8 @@ export function formatBillingHistoryDate(value: string | null): string {
   return Number.isNaN(parsed.getTime()) ? value : parsed.toLocaleDateString();
 }
 
-export function parseBillingHistoryOrderTotal(total: string | null): number | null {
-  if (total == null || String(total).trim() === "") return null;
-
-  const parsed = Number.parseFloat(String(total));
-  return Number.isFinite(parsed) ? parsed : null;
-}
+export {
+  parseOrderTotalRaw as parseBillingHistoryOrderTotal,
+  resolveHistoryOrderTotalForDisplay,
+  resolveSummaryOrderTotalForDisplay,
+} from "../../_utils/orders/billingHistoryOrderUtils";

@@ -31,6 +31,7 @@ export function BillingDebugPanel({
   isSummaryLoading,
   summaryError,
   extra,
+  sections,
 }: BillingDebugPanelProps) {
   const { visible, snapshot, funnel } = useBillingDebugPanel(summary, orders);
 
@@ -69,6 +70,15 @@ export function BillingDebugPanel({
             ))}
           </div>
         ) : null}
+
+        {sections?.map((section) => (
+          <div key={section.title}>
+            <BillingDebugPanelSectionTitle>{section.title}</BillingDebugPanelSectionTitle>
+            {Object.entries(section.entries).map(([k, v]) => (
+              <BillingDebugPanelRow key={k} label={k} value={formatBillingDebugSnapshotValue(v)} />
+            ))}
+          </div>
+        ))}
 
         <div>
           <BillingDebugPanelSectionTitle>Billing summary fetch</BillingDebugPanelSectionTitle>

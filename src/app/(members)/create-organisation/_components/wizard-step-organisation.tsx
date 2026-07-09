@@ -1,6 +1,6 @@
 "use client";
 
-import { Building2, UsersRound } from "lucide-react";
+import { Building2, Info, UsersRound } from "lucide-react";
 import {
   forwardRef,
   useCallback,
@@ -14,7 +14,9 @@ import {
 import { toast } from "sonner";
 
 import { InlineAlert } from "@/components/auth/actions";
+import { MetricComparisonCard } from "@/components/cards";
 import { TypographyFinePrint } from "@/components/typography";
+import { Surface } from "@/components/ui/container";
 import { GridCard, GridCardIcon } from "@/components/ui/grid-card";
 import { Label } from "@/components/ui/label";
 import { DependentFieldTrigger, SearchableCombobox } from "@/components/ui/searchable-combobox";
@@ -29,8 +31,6 @@ import { useOnboardingLookupClubs } from "@/lib/api/hooks/account/useOnboardingL
 import { useOnboardingLookupOrganisationTypes } from "@/lib/api/hooks/account/useOnboardingLookupOrganisationTypes";
 import { useUpdateOnboardingStep1 } from "@/lib/api/hooks/account/useUpdateOnboardingStep1";
 import { CLUB_ACCOUNT_TYPE_ID } from "@/lib/config/onboarding";
-
-import { OnboardingSection } from "./onboarding-section";
 
 export type WizardStepOrganisationHandle = {
   submit: () => Promise<void>;
@@ -286,156 +286,195 @@ export const WizardStepOrganisation = forwardRef<
       {associationsEmpty ? <InlineAlert message={associationsEmpty} variant="warning" /> : null}
       {clubsError ? <InlineAlert message={clubsError} variant="destructive" /> : null}
 
-      <OnboardingSection title="Organisation type" titleId={orgTypeSectionId}>
-        {orgTypesQuery.isPending ? (
-          <TypographyFinePrint className="text-muted-foreground text-center">
-            Loading organisation types…
-          </TypographyFinePrint>
-        ) : orgTypes.length === 0 ? (
-          <TypographyFinePrint className="text-muted-foreground text-center">
-            No organisation types are available yet.
-          </TypographyFinePrint>
-        ) : (
-          <div
-            role="radiogroup"
-            aria-labelledby={orgTypeSectionId}
-            className="flex flex-wrap items-stretch justify-center gap-4"
-          >
-            {orgTypes.map((t) => {
-              const selected = accountTypeId !== "" && accountTypeId === t.id;
-              const cardDisabled = disabledUntilSport;
-              const OrgTypeIcon = t.id === CLUB_ACCOUNT_TYPE_ID ? UsersRound : Building2;
-              return (
-                <GridCard
-                  key={t.id}
-                  className="mx-0 h-full min-h-0 w-full"
-                  title={t.label}
-                  ctaLabel={selected ? "Selected" : "Select"}
-                  visual={<GridCardIcon icon={OrgTypeIcon} />}
-                  tone={selected ? "success" : "default"}
-                  disabled={cardDisabled}
-                  onClick={() => {
-                    if (!cardDisabled) setAccountTypeId(t.id);
-                  }}
-                />
-              );
-            })}
-          </div>
-        )}
-      </OnboardingSection>
-
-      <OnboardingSection title="Association and club" titleId={associationSectionId}>
-        <TypographyFinePrint className="text-muted-foreground">
-          Choose the association for this sport. Clubs are listed after you pick an association when
-          your organisation type is a club.
-        </TypographyFinePrint>
-        <div className="grid gap-2">
-          <Label htmlFor="onboarding-association">Association</Label>
-          {associationLoading ? (
-            <SearchableCombobox
-              id="onboarding-association"
-              options={[]}
-              value={null}
-              onChange={noopOnString}
-              placeholder=""
-              loading
-              loadingMessage="Loading associations…"
-            />
-          ) : (
-            <SearchableCombobox
-              id="onboarding-association"
-              options={associationOptions}
-              value={associationId === "" ? null : String(associationId)}
-              onChange={onAssociationSelect}
-              disabled={associationComboDisabled}
-              placeholder={
-                disabledUntilSport
-                  ? "Loading…"
-                  : associationsQuery.isError
-                    ? "Unable to load associations"
-                    : associations.length === 0
-                      ? "No associations"
-                      : "Search associations…"
-              }
-              emptyText="No association matches."
-            />
-          )}
-        </div>
-
-        {isClubAccountType ? (
-          <div className="grid gap-2">
-            <Label htmlFor="onboarding-club">Club</Label>
-            {associationId === "" ? (
-              <DependentFieldTrigger id="onboarding-club" message="Select an association first" />
-            ) : clubsQuery.isPending ? (
-              <SearchableCombobox
-                id="onboarding-club"
-                options={[]}
-                value={null}
-                onChange={noopOnString}
-                placeholder=""
-                loading
-                loadingMessage="Fetching clubs…"
-              />
-            ) : clubsQuery.isError ? (
-              <SearchableCombobox
-                id="onboarding-club"
-                options={[]}
-                value={clubId === "" ? null : String(clubId)}
-                onChange={onClubSelect}
-                disabled
-                placeholder="Unable to load clubs"
-                emptyText="No clubs available."
-              />
+      <MetricComparisonCard
+        layout="card"
+        data-card="card.metric.comparison-card.body-prose"
+        className="ring-border w-full min-w-0 rounded-2xl border-none shadow-xl ring-1"
+        title={
+          <span id={orgTypeSectionId} className="text-sm font-semibold">
+            Organisation type
+          </span>
+        }
+        body={
+          <div className="space-y-3">
+            {orgTypesQuery.isPending ? (
+              <TypographyFinePrint className="text-muted-foreground text-center">
+                Loading organisation types…
+              </TypographyFinePrint>
+            ) : orgTypes.length === 0 ? (
+              <TypographyFinePrint className="text-muted-foreground text-center">
+                No organisation types are available yet.
+              </TypographyFinePrint>
             ) : (
-              <SearchableCombobox
-                id="onboarding-club"
-                options={clubOptions}
-                value={clubId === "" ? null : String(clubId)}
-                onChange={onClubSelect}
-                disabled={disabledUntilSport}
-                placeholder="Search clubs…"
-                emptyText="No clubs for this association."
-              />
+              <div
+                role="radiogroup"
+                aria-labelledby={orgTypeSectionId}
+                className="flex flex-wrap items-stretch justify-center gap-4"
+              >
+                {orgTypes.map((t) => {
+                  const selected = accountTypeId !== "" && accountTypeId === t.id;
+                  const cardDisabled = disabledUntilSport;
+                  const OrgTypeIcon = t.id === CLUB_ACCOUNT_TYPE_ID ? UsersRound : Building2;
+                  return (
+                    <GridCard
+                      key={t.id}
+                      className="mx-0 h-full min-h-0 w-full"
+                      title={t.label}
+                      ctaLabel={selected ? "Selected" : "Select"}
+                      visual={<GridCardIcon icon={OrgTypeIcon} />}
+                      tone={selected ? "success" : "default"}
+                      disabled={cardDisabled}
+                      onClick={() => {
+                        if (!cardDisabled) setAccountTypeId(t.id);
+                      }}
+                    />
+                  );
+                })}
+              </div>
             )}
           </div>
-        ) : null}
+        }
+      />
 
-        {resolvedOrganisationName ? (
-          <div className="border-border/60 bg-muted/30 rounded-md border px-4 py-3 text-sm">
-            <span className="text-muted-foreground">Organisation name: </span>
-            <span className="font-medium">{resolvedOrganisationName}</span>
+      <MetricComparisonCard
+        layout="card"
+        data-card="card.metric.comparison-card.body-prose"
+        className="ring-border w-full min-w-0 rounded-2xl border-none shadow-xl ring-1"
+        title={
+          <span id={associationSectionId} className="text-sm font-semibold">
+            Association and club
+          </span>
+        }
+        body={
+          <div className="space-y-4">
+            <TypographyFinePrint className="text-muted-foreground">
+              Choose the association for this sport. Clubs are listed after you pick an association
+              when your organisation type is a club.
+            </TypographyFinePrint>
+            <div className="grid gap-2">
+              <Label htmlFor="onboarding-association">Association</Label>
+              {associationLoading ? (
+                <SearchableCombobox
+                  id="onboarding-association"
+                  options={[]}
+                  value={null}
+                  onChange={noopOnString}
+                  placeholder=""
+                  loading
+                  loadingMessage="Loading associations…"
+                />
+              ) : (
+                <SearchableCombobox
+                  id="onboarding-association"
+                  options={associationOptions}
+                  value={associationId === "" ? null : String(associationId)}
+                  onChange={onAssociationSelect}
+                  disabled={associationComboDisabled}
+                  placeholder={
+                    disabledUntilSport
+                      ? "Loading…"
+                      : associationsQuery.isError
+                        ? "Unable to load associations"
+                        : associations.length === 0
+                          ? "No associations"
+                          : "Search associations…"
+                  }
+                  emptyText="No association matches."
+                />
+              )}
+            </div>
+
+            {isClubAccountType ? (
+              <div className="grid gap-2">
+                <Label htmlFor="onboarding-club">Club</Label>
+                {associationId === "" ? (
+                  <DependentFieldTrigger
+                    id="onboarding-club"
+                    message="Select an association first"
+                  />
+                ) : clubsQuery.isPending ? (
+                  <SearchableCombobox
+                    id="onboarding-club"
+                    options={[]}
+                    value={null}
+                    onChange={noopOnString}
+                    placeholder=""
+                    loading
+                    loadingMessage="Fetching clubs…"
+                  />
+                ) : clubsQuery.isError ? (
+                  <SearchableCombobox
+                    id="onboarding-club"
+                    options={[]}
+                    value={clubId === "" ? null : String(clubId)}
+                    onChange={onClubSelect}
+                    disabled
+                    placeholder="Unable to load clubs"
+                    emptyText="No clubs available."
+                  />
+                ) : (
+                  <SearchableCombobox
+                    id="onboarding-club"
+                    options={clubOptions}
+                    value={clubId === "" ? null : String(clubId)}
+                    onChange={onClubSelect}
+                    disabled={disabledUntilSport}
+                    placeholder="Search clubs…"
+                    emptyText="No clubs for this association."
+                  />
+                )}
+              </div>
+            ) : null}
+
+            {resolvedOrganisationName ? (
+              <div className="border-border/60 bg-muted/30 rounded-md border px-4 py-3 text-sm">
+                <span className="text-muted-foreground">Organisation name: </span>
+                <span className="font-medium">{resolvedOrganisationName}</span>
+              </div>
+            ) : null}
           </div>
-        ) : null}
-      </OnboardingSection>
+        }
+      />
 
-      <OnboardingSection title="Permission and authority" titleId={permissionSectionId}>
-        <div className="flex items-start gap-3">
-          <Switch
-            id="onboarding-rights"
-            checked={isRightsHolder}
-            onCheckedChange={setIsRightsHolder}
-            disabled={disabledUntilSport}
-            className="mt-0.5 shrink-0"
-          />
-          <Label htmlFor="onboarding-rights" className="leading-snug font-normal">
-            I am authorised to act for this organisation in Fixtura.
-          </Label>
+      <Surface
+        data-card="card.metric.inline-info"
+        className="!bg-primary/5 ring-primary/10 space-y-4 p-4 ring-1 md:p-6"
+        aria-labelledby={permissionSectionId}
+      >
+        <div className="flex items-start justify-between gap-4">
+          <h2 id={permissionSectionId} className="text-primary text-sm font-semibold">
+            Permission and authority
+          </h2>
+          <Info className="text-primary size-5 shrink-0" aria-hidden />
         </div>
-        <div className="flex items-start gap-3">
-          <Switch
-            id="onboarding-permission"
-            checked={isPermissionGiven}
-            onCheckedChange={setIsPermissionGiven}
-            disabled={disabledUntilSport}
-            className="mt-0.5 shrink-0"
-          />
-          <Label htmlFor="onboarding-permission" className="leading-snug font-normal">
-            I give Fixtura permission to fetch and prepare this organisation&apos;s data so we can
-            get ready to use the product.
-          </Label>
+        <div className="flex flex-col gap-4">
+          <div className="flex items-start gap-3">
+            <Switch
+              id="onboarding-rights"
+              checked={isRightsHolder}
+              onCheckedChange={setIsRightsHolder}
+              disabled={disabledUntilSport}
+              className="mt-0.5 shrink-0"
+            />
+            <Label htmlFor="onboarding-rights" className="leading-snug font-normal">
+              I am authorised to act for this organisation in Fixtura.
+            </Label>
+          </div>
+          <div className="flex items-start gap-3">
+            <Switch
+              id="onboarding-permission"
+              checked={isPermissionGiven}
+              onCheckedChange={setIsPermissionGiven}
+              disabled={disabledUntilSport}
+              className="mt-0.5 shrink-0"
+            />
+            <Label htmlFor="onboarding-permission" className="leading-snug font-normal">
+              I give Fixtura permission to fetch and prepare this organisation&apos;s data so we can
+              get ready to use the product.
+            </Label>
+          </div>
         </div>
-      </OnboardingSection>
+      </Surface>
     </div>
   );
 });

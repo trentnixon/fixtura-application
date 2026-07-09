@@ -3,7 +3,10 @@ import { describe, expect, it } from "vitest";
 import {
   getHistoryOrderStatus,
   getHistoryOrderSubscriptionDayCount,
+  resolveHistoryOrderTotalForDisplay,
+  resolveOrderTotalForDisplay,
   resolvePaidSubscriptionPeriodBounds,
+  resolveSummaryOrderTotalForDisplay,
 } from "./billingHistoryOrderUtils";
 
 import type { AccountBillingOrderDto, AccountBillingOrderHistoryDto } from "@/types/api/account";
@@ -62,6 +65,103 @@ function baseSummaryOrder(overrides: Partial<AccountBillingOrderDto> = {}): Acco
     ...overrides,
   };
 }
+
+describe("resolveOrderTotalForDisplay", () => {
+  it("maps Stripe season pass cents to tier price dollars", () => {
+    expect(
+      resolveOrderTotalForDisplay({
+        total: "65000",
+        paymentChannel: "stripe",
+        subscriptionTierPrice: 650,
+      }),
+    ).toBe(650);
+  });
+
+  it("leaves correctly stored Stripe one-month totals unchanged", () => {
+    expect(
+      resolveOrderTotalForDisplay({
+        total: "200",
+        paymentChannel: "stripe",
+        subscriptionTierPrice: 200,
+      }),
+    ).toBe(200);
+  });
+
+  it("leaves non-Stripe totals unchanged when already in dollars", () => {
+    expect(
+      resolveOrderTotalForDisplay({
+        total: "200",
+        paymentChannel: null,
+        subscriptionTierPrice: 200,
+      }),
+    ).toBe(200);
+  });
+
+  it("returns zero for free trial totals", () => {
+    expect(
+      resolveOrderTotalForDisplay({
+        total: "0",
+        paymentChannel: "stripe",
+        subscriptionTierPrice: 0,
+      }),
+    ).toBe(0);
+  });
+
+  it("does not guess when tier price is missing and cents cannot be reconciled", () => {
+    expect(
+      resolveOrderTotalForDisplay({
+        total: "65000",
+        paymentChannel: "stripe",
+        subscriptionTierPrice: null,
+      }),
+    ).toBe(65000);
+  });
+
+  it("uses billing summary snake_case payment channel and numeric total", () => {
+    expect(
+      resolveSummaryOrderTotalForDisplay({
+        ...baseSummaryOrder(),
+        total: 65000,
+        payment_channel: "stripe",
+        subscriptionTier: {
+          id: 1,
+          Name: "Season Pass",
+          Title: null,
+          SubTitle: null,
+          description: null,
+          price: 650,
+          currency: "AUD",
+          stripe_product_id: null,
+          stripe_price_id: null,
+          isActive: true,
+          isClub: false,
+          includeSponsors: false,
+          Category: null,
+          DaysInPass: 365,
+          PriceByWeekInPass: 25,
+          subscription_items: null,
+        },
+      }),
+    ).toBe(650);
+  });
+
+  it("resolves history order rows via subscriptionTier.price", () => {
+    expect(
+      resolveHistoryOrderTotalForDisplay(
+        baseOrder({
+          total: "65000",
+          paymentChannel: "stripe",
+          subscriptionTier: {
+            id: 1,
+            name: "Season Pass",
+            price: 650,
+            currency: "AUD",
+          },
+        }),
+      ),
+    ).toBe(650);
+  });
+});
 
 describe("resolvePaidSubscriptionPeriodBounds", () => {
   it("prefers full pair from billing summary activeOrder", () => {

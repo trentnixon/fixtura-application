@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { TypographyBodySmall, TypographyCaption } from "@/components/typography";
+import { TypographyBodySmall } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { FeedbackCardStrong } from "@/components/ui/feedback-card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -23,6 +23,7 @@ import { useBundlesRenderListPanel } from "../_hooks/use-bundles-render-list-pan
 import {
   formatRenderCreatedDate,
   formatRenderCreatedTime,
+  formatRenderDaysAgo,
 } from "../_utils/format-render-created-at";
 
 function RenderListGridSkeleton() {
@@ -40,15 +41,6 @@ export function BundlesRenderListPanel({ accountId }: { accountId: string }) {
 
   return (
     <section className="grid gap-4">
-      <div>
-        <TypographyBodySmall className="font-semibold">
-          {BUNDLES_RENDERS_LIST_COPY.title}
-        </TypographyBodySmall>
-        <TypographyCaption className="mt-1">
-          {BUNDLES_RENDERS_LIST_COPY.description}
-        </TypographyCaption>
-      </div>
-
       {view.kind === "loading" ? <RenderListGridSkeleton /> : null}
 
       {view.kind === "error" ? (
@@ -88,6 +80,9 @@ export function BundlesRenderListPanel({ accountId }: { accountId: string }) {
                       onSort={view.toggleSort}
                       tone="primary"
                     />
+                    <TableHead className="text-white/90">
+                      {BUNDLES_RENDERS_LIST_COPY.columnDaysAgo}
+                    </TableHead>
                     <BundlesRenderListSortableHead
                       label={BUNDLES_RENDERS_LIST_COPY.columnStatus}
                       column="status"
@@ -105,7 +100,7 @@ export function BundlesRenderListPanel({ accountId }: { accountId: string }) {
                   {view.hasFilterMismatchOnPage ? (
                     <TableRow>
                       <TableCell
-                        colSpan={3}
+                        colSpan={4}
                         className="text-muted-foreground h-24 text-center text-sm"
                       >
                         {BUNDLES_RENDERS_LIST_COPY.noMatchesOnPage}
@@ -127,6 +122,9 @@ export function BundlesRenderListPanel({ accountId }: { accountId: string }) {
                             <span className="text-muted-foreground block text-xs font-medium tabular-nums">
                               {formatRenderCreatedTime(render.createdAt)}
                             </span>
+                          </TableCell>
+                          <TableCell className="text-muted-foreground align-top text-sm whitespace-nowrap tabular-nums">
+                            {formatRenderDaysAgo(render.createdAt)}
                           </TableCell>
                           <TableCell className="align-top">
                             <BundlesRenderStatusPill status={render.status} />

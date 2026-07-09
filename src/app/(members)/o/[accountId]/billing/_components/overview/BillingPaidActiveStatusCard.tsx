@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 import { BILLING_PAID_ACTIVE_STATUS_COPY } from "../../_constants/overview/billingPaidActiveStatus";
 import { BILLING_TRIAL_DETAILS_COPY } from "../../_constants/trial/billingTrialDetails";
+import { resolvePaidActiveInvoiceLinks } from "../../_utils/orders/orderInvoiceLinks";
 import { buildPaidActiveStatusCardViewModel } from "../../_utils/overview/billingOverviewStatusCards";
 import { formatBillingDateLong } from "../../_utils/overview/formatBillingDisplay";
 import {
@@ -18,6 +19,7 @@ import {
   billingTrialDetailsBadgeVariant,
   formatPaidPeriodDaysRemainingLine,
 } from "../../_utils/trial/billingTrialDetails";
+import { OrdersTableInvoiceActions } from "../orders/OrdersTableInvoiceActions";
 
 import type { BillingPaidActiveStatusCardProps } from "../../_types/overview/billingSections";
 
@@ -29,6 +31,7 @@ export function BillingPaidActiveStatusCard({
   const uiMode = "paid_active" as const;
   const { daysRemaining, endAt, hasPeriodBounds, remainingPercent, startAt, tierLabel } =
     buildPaidActiveStatusCardViewModel(activeOrder, currentPlan, orders);
+  const invoiceLinks = resolvePaidActiveInvoiceLinks(activeOrder, orders);
 
   return (
     <Card className="overflow-hidden md:col-span-2">
@@ -104,6 +107,14 @@ export function BillingPaidActiveStatusCard({
                 {formatPaidPeriodDaysRemainingLine(daysRemaining)}
               </TypographyMuted>
             ) : null}
+            {invoiceLinks.hostedInvoiceUrl || invoiceLinks.invoicePdfUrl ? (
+              <div className="border-border mt-4 border-t pt-4">
+                <OrdersTableInvoiceActions
+                  hostedInvoiceUrl={invoiceLinks.hostedInvoiceUrl}
+                  invoicePdfUrl={invoiceLinks.invoicePdfUrl}
+                />
+              </div>
+            ) : null}
           </div>
         ) : (
           <div className="border-border border-t pt-3">
@@ -115,6 +126,14 @@ export function BillingPaidActiveStatusCard({
             <TypographyCaption role="status">
               {BILLING_PAID_ACTIVE_STATUS_COPY.noOrderDates}
             </TypographyCaption>
+            {invoiceLinks.hostedInvoiceUrl || invoiceLinks.invoicePdfUrl ? (
+              <div className="mt-4">
+                <OrdersTableInvoiceActions
+                  hostedInvoiceUrl={invoiceLinks.hostedInvoiceUrl}
+                  invoicePdfUrl={invoiceLinks.invoicePdfUrl}
+                />
+              </div>
+            ) : null}
           </div>
         )}
       </CardContent>

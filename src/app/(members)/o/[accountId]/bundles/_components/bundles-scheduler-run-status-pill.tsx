@@ -10,7 +10,7 @@ export function BundlesSchedulerRunStatusPill({
   return (
     <span
       className={cn(
-        "rounded-full px-2.5 py-1 text-xs font-medium",
+        "rounded-full px-2 py-0.5 text-xs font-medium",
         tone === "active" ? "bg-success/10 text-success" : "bg-muted text-muted-foreground",
       )}
     >

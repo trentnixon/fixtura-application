@@ -1,0 +1,17 @@
+import type { BillingInvoiceRequestWithdrawTarget } from "../../_types/invoice-request/billingInvoiceRequestWithdraw";
+import type { InvoiceRequestSummary } from "@/types/api/account";
+
+export function invoiceRequestToWithdrawTarget(
+  request: InvoiceRequestSummary,
+): BillingInvoiceRequestWithdrawTarget | null {
+  const rawId = request.invoiceRequestId ?? (request.id != null ? String(request.id) : "");
+  const invoiceRequestId = rawId.trim();
+  if (!invoiceRequestId) return null;
+
+  return {
+    invoiceRequestId,
+    submittedAt: request.submittedAt,
+    requestedStartDate: request.requestedStartDate,
+    status: request.status,
+  };
+}

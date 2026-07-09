@@ -1,13 +1,18 @@
 "use client";
 
-import { Database } from "lucide-react";
+import { Fragment } from "react";
 
-import { Surface } from "@/components/ui/container";
-import { SectionBlock } from "@/components/ui/section";
+import { TypographyCaption, TypographyH4, TypographyMuted } from "@/components/typography";
+import { Badge } from "@/components/ui/badge";
+import { SectionDivider } from "@/components/ui/section";
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 
-import type { SeasonFixtureContextMetaSectionProps } from "../_types";
+import type { SeasonFixtureContextMetaRow, SeasonFixtureContextMetaSectionProps } from "../_types";
 
 const DATE_META_LABELS = new Set(["Assembled", "Generated", "Published", "Updated"]);
+
+type ValidationTone = "success" | "warning" | "destructive" | "secondary";
 
 function formatMetaDate(value: string): string {
   const parsed = new Date(value);
@@ -36,79 +41,145 @@ function formatMetaValue(label: string, value: string): string {
   return value;
 }
 
-export function SeasonFixtureContextMetaSection({ model }: SeasonFixtureContextMetaSectionProps) {
-  const validation = model.validationSummary;
-  const hasValidationBreakdown = Boolean(validation && validation.breakdown.length > 0);
-  if (model.contextMetaRows.length === 0 && !hasValidationBreakdown) {
-    return null;
+function formatValidationPercent(value: number): string {
+  return `${value}%`;
+}
+
+function validationStatusTone(status: string): ValidationTone {
+  const lower = status.toLowerCase();
+  if (/\b(pass|good|valid|complete|success|active)\b/.test(lower)) {
+    return "success";
+  }
+  if (/\b(warn|review|partial|pending)\b/.test(lower)) {
+    return "warning";
+  }
+  if (/\b(fail|error|invalid|block|rejected)\b/.test(lower)) {
+    return "destructive";
+  }
+  return "secondary";
+}
+
+function validationBadgeClassName(tone: ValidationTone): string {
+  return cn(
+    "shrink-0 border-transparent text-[10px] font-normal",
+    tone === "success" && "bg-success/10 text-success-600",
+    tone === "warning" &&
+      "bg-[color-mix(in_oklch,var(--warning),transparent_88%)] text-[var(--warning)]",
+    tone === "destructive" && "bg-destructive/10 text-destructive",
+  );
+}
+
+function MetaRowValue({ row }: { row: SeasonFixtureContextMetaRow }) {
+  const formattedValue = formatMetaValue(row.label, row.value);
+  const clubValues =
+    row.label === "Clubs"
+      ? row.value
+          .split(",")
+          .map((club) => club.trim())
+          .filter(Boolean)
+      : [];
+
+  if (clubValues.length > 1) {
+    return (
+      <div className="flex flex-wrap justify-end gap-2 sm:max-w-[min(100%,28rem)]">
+        {clubValues.map((club) => (
+          <Badge key={club} variant="secondary" className="font-normal">
+            {club}
+          </Badge>
+        ))}
+      </div>
+    );
+  }
+
+  if (row.label === "Data quality") {
+    return (
+      <Badge
+        variant="secondary"
+        className={cn(
+          "font-normal capitalize",
+          validationBadgeClassName(validationStatusTone(row.value)),
+        )}
+      >
+        {formattedValue}
+      </Badge>
+    );
   }
 
   return (
-    <SectionBlock variant="inset" spacing="sm">
-      <div className="mb-3 flex items-center gap-2">
-        <span className="bg-primary/10 text-primary rounded-md p-2">
-          <Database className="size-4" aria-hidden />
-        </span>
-        <div>
-          <p className="text-sm font-semibold">Context and meta</p>
-          <p className="text-muted-foreground text-xs">Source, publication, and data quality.</p>
-        </div>
-      </div>
-      {hasValidationBreakdown && validation ? (
-        <Surface className="bg-background/80 ring-border mb-4 rounded-lg p-4 shadow-none ring-1">
-          <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-            Validation breakdown
-          </p>
-          <p className="mt-1 text-sm font-semibold">
-            {validation.overallScore != null ? `${validation.overallScore} — ` : ""}
-            {validation.status
-              ? validation.status.charAt(0).toUpperCase() + validation.status.slice(1)
-              : ""}
-          </p>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {validation.breakdown.map((item) => (
-              <span
-                key={item.key}
-                className="bg-muted text-foreground rounded-md px-2.5 py-1 text-xs font-medium"
-              >
-                {item.label}: {item.value}
-              </span>
+    <TypographyH4 className="text-sm font-medium wrap-break-word sm:text-right">
+      {formattedValue}
+    </TypographyH4>
+  );
+}
+
+export function SeasonFixtureContextMetaSection({ model }: SeasonFixtureContextMetaSectionProps) {
+  const validation = model.validationSummary;
+  const hasValidationBreakdown = Boolean(validation && validation.breakdown.length > 0);
+  const metaRows = model.contextMetaRows.filter(
+    (row) => !(hasValidationBreakdown && row.label === "Data quality"),
+  );
+
+  if (metaRows.length === 0 && !hasValidationBreakdown) {
+    return null;
+  }
+
+  const validationStatusLabel = validation?.status
+    ? validation.status.charAt(0).toUpperCase() + validation.status.slice(1)
+    : null;
+  const validationTone = validation?.status ? validationStatusTone(validation.status) : "secondary";
+
+  return (
+    <>
+      <SectionDivider variant="labeled" label="Context and meta" />
+      <div className="bg-muted/30 space-y-3 rounded-lg p-2">
+        {hasValidationBreakdown && validation ? (
+          <div className="bg-background rounded-md border p-4">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b pb-4">
+              <div className="space-y-1">
+                <TypographyCaption className="font-medium tracking-wide uppercase">
+                  Data quality
+                </TypographyCaption>
+                {validation.overallScore != null ? (
+                  <p className="text-2xl leading-none font-bold tabular-nums">
+                    {formatValidationPercent(validation.overallScore)}
+                  </p>
+                ) : null}
+              </div>
+              {validationStatusLabel ? (
+                <Badge variant="secondary" className={validationBadgeClassName(validationTone)}>
+                  {validationStatusLabel}
+                </Badge>
+              ) : null}
+            </div>
+            <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {validation.breakdown.map((item) => (
+                <div key={item.key} className="bg-muted/35 rounded-md px-3 py-3">
+                  <p className="text-lg font-semibold tabular-nums">
+                    {formatValidationPercent(item.value)}
+                  </p>
+                  <TypographyMuted className="text-[11px]">{item.label}</TypographyMuted>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : null}
+
+        {metaRows.length > 0 ? (
+          <div className="bg-background rounded-md border">
+            {metaRows.map((row, index) => (
+              <Fragment key={row.label}>
+                {index > 0 ? <Separator /> : null}
+                <div className="flex flex-col gap-2 px-4 py-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+                  <TypographyMuted className="shrink-0 text-xs font-medium tracking-wide uppercase">
+                    {row.label}
+                  </TypographyMuted>
+                  <MetaRowValue row={row} />
+                </div>
+              </Fragment>
             ))}
           </div>
-        </Surface>
-      ) : null}
-      <dl className="grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-1">
-        {model.contextMetaRows.map((row) => {
-          const formattedValue = formatMetaValue(row.label, row.value);
-          const clubValues =
-            row.label === "Clubs" ? row.value.split(",").map((club) => club.trim()) : [];
-
-          return (
-            <Surface
-              key={row.label}
-              className="bg-background/80 ring-border rounded-lg p-4 shadow-none ring-1"
-            >
-              <dt className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-                {row.label}
-              </dt>
-              {clubValues.length > 1 ? (
-                <dd className="mt-2 flex flex-wrap gap-2">
-                  {clubValues.map((club) => (
-                    <span
-                      key={club}
-                      className="bg-muted text-foreground rounded-md px-2.5 py-1 text-xs font-medium"
-                    >
-                      {club}
-                    </span>
-                  ))}
-                </dd>
-              ) : (
-                <dd className="mt-1 text-sm font-medium break-words">{formattedValue}</dd>
-              )}
-            </Surface>
-          );
-        })}
-      </dl>
-    </SectionBlock>
+        ) : null}
+      </div>
+    </>
   );
 }

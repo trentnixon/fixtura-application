@@ -12,7 +12,6 @@ import {
 } from "@/components/typography";
 import { BrandedLoader } from "@/components/ui/branded-loader";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -22,7 +21,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { GridCard, GridCardVisualSlot } from "@/components/ui/grid-card";
-import { Separator } from "@/components/ui/separator";
 import { accountPickerRowsFromMePayload } from "@/lib/account/account-me-rows";
 import { ApiError } from "@/lib/api/client/api-error";
 import { useAccountMe } from "@/lib/api/hooks/account/useAccountMe";
@@ -40,7 +38,6 @@ import { deleteUnfinishedAccountErrorMessage } from "@/lib/onboarding/delete-unf
 import { resolveAccountEntry } from "@/lib/onboarding/resolve-account-entry";
 import { cn } from "@/lib/utils";
 
-import { SetupStatusCard } from "./setup-status-card";
 import { WizardStepBranding, type WizardStepBrandingHandle } from "./wizard-step-branding";
 import { WizardStepContact, type WizardStepContactHandle } from "./wizard-step-contact";
 import {
@@ -56,7 +53,7 @@ const WIZARD_STEPS = [
     key: "organisation",
     title: "Organisation and permission",
     description:
-      "Organisation type, name, and authority to act for this organisation. Your answers are saved when you continue. Setup may begin in the background once organisation details are available.",
+      "Organisation type, name, and authority to act for this organisation. Your answers are saved when you continue.",
   },
   {
     key: "branding",
@@ -66,14 +63,12 @@ const WIZARD_STEPS = [
   {
     key: "contact",
     title: "Contact and delivery",
-    description:
-      "Operational contact for this account. Field rules and validation will follow the signed semantics document.",
+    description: "Your contact name and where weekly assets should be sent.",
   },
   {
     key: "review",
     title: "Review and confirm",
-    description:
-      "Summary of your choices and confirmation to complete the wizard. Finishing records wizard completion on the server; background setup may already be in progress.",
+    description: "Review your choices and confirm to complete setup.",
   },
 ] as const;
 
@@ -107,6 +102,8 @@ export function CreateOrganisationWizard() {
   const [step3Pending, setStep3Pending] = useState(false);
   const [step4Pending, setStep4Pending] = useState(false);
   const [wizardCompleted, setWizardCompleted] = useState(false);
+  const [createdAccountId, setCreatedAccountId] = useState("");
+  const [createAccountError, setCreateAccountError] = useState<string | null>(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const step1Ref = useRef<WizardStepOrganisationHandle>(null);
@@ -123,33 +120,41 @@ export function CreateOrganisationWizard() {
 
   const accountPayload = meData?.data;
   const accountIdFromQuery = searchParams.get("accountId")?.trim() ?? "";
+  const accountRows = useMemo(
+    () => accountPickerRowsFromMePayload(accountPayload),
+    [accountPayload],
+  );
+  const explicitResumeAccountId = useMemo(() => {
+    if (!accountIdFromQuery || !isValidAccountIdSegment(accountIdFromQuery)) return "";
+    const allowed = new Set(accountRows.map((r) => String(r.id)));
+    return allowed.has(accountIdFromQuery) ? accountIdFromQuery : "";
+  }, [accountIdFromQuery, accountRows]);
   const accountId = useMemo(() => {
-    const rows = accountPickerRowsFromMePayload(accountPayload);
-    const allowed = new Set(rows.map((r) => String(r.id)));
-    if (
-      accountIdFromQuery &&
-      isValidAccountIdSegment(accountIdFromQuery) &&
-      allowed.has(accountIdFromQuery)
-    ) {
-      return accountIdFromQuery;
-    }
-    if (accountPayload?.accountId != null && accountPayload.accountId > 0) {
-      const fromMe = String(accountPayload.accountId);
-      if (allowed.size === 0 || allowed.has(fromMe)) return fromMe;
-    }
+    if (explicitResumeAccountId) return explicitResumeAccountId;
+    if (!accountIdFromQuery) return createdAccountId;
     return "";
-  }, [accountPayload, accountIdFromQuery]);
+  }, [accountIdFromQuery, createdAccountId, explicitResumeAccountId]);
+  const accountIdQueryError = useMemo(() => {
+    if (!accountIdFromQuery) return null;
+    if (!isValidAccountIdSegment(accountIdFromQuery)) return "Invalid account id.";
+    if (mePending) return null;
+    if (!explicitResumeAccountId) {
+      return "We could not find that organisation on your account. Return to organisation selection and try again.";
+    }
+    return null;
+  }, [accountIdFromQuery, explicitResumeAccountId, mePending]);
+
+  const needsFirstAccount = useMemo(() => {
+    if (accountIdFromQuery) return false;
+    if (createdAccountId) return false;
+    return true;
+  }, [accountIdFromQuery, createdAccountId]);
 
   const onboardingStateQuery = useOnboardingOnboardingState(accountId, {
     enabled: Boolean(accountId),
   });
 
   const deleteAccountMutation = useDeleteUnfinishedAccount(accountId);
-
-  const needsFirstAccount = useMemo(() => {
-    const rows = accountPickerRowsFromMePayload(accountPayload);
-    return rows.length === 0;
-  }, [accountPayload]);
 
   const onboardingData = onboardingStateQuery.data;
 
@@ -212,11 +217,18 @@ export function CreateOrganisationWizard() {
     if (mePending || meError) return;
     if (!selectedSportId.trim()) return;
     if (needsFirstAccount) {
+      setCreateAccountError(null);
       createFirst.mutate(
         { sport: selectedSportId.trim(), hasCompletedStartSequence: true },
         {
-          onSuccess: () => {
-            setStepIndex(1);
+          onSuccess: (res) => {
+            const id = res.data.accountId;
+            if (typeof id === "number" && Number.isFinite(id) && id > 0) {
+              setCreatedAccountId(String(id));
+              setStepIndex(1);
+              return;
+            }
+            setCreateAccountError("Account was created, but the new account id was missing.");
           },
         },
       );
@@ -248,7 +260,7 @@ export function CreateOrganisationWizard() {
   const getStartedError =
     isGetStarted && createFirst.isError && createFirst.error instanceof Error
       ? createFirst.error.message
-      : null;
+      : createAccountError;
 
   const sportChosen = useMemo(() => {
     if (!selectedSportId.trim()) return false;
@@ -291,6 +303,21 @@ export function CreateOrganisationWizard() {
     return <BrandedLoader fullPage label="Loading onboarding state…" />;
   }
 
+  if (accountIdQueryError) {
+    return (
+      <div className="mx-auto flex w-full max-w-md flex-col gap-4 py-8">
+        <InlineAlert message={accountIdQueryError} variant="destructive" />
+        <Button
+          type="button"
+          variant="accent"
+          onClick={() => router.push(ROUTES.selectOrganisation)}
+        >
+          Back to organisation selection
+        </Button>
+      </div>
+    );
+  }
+
   if (accountId && onboardingStateQuery.isError) {
     const errMsg =
       onboardingStateQuery.error instanceof ApiError
@@ -328,39 +355,6 @@ export function CreateOrganisationWizard() {
         />
       ) : null}
       {getStartedError ? <InlineAlert message={getStartedError} variant="destructive" /> : null}
-      {!isGetStarted ? (
-        <div className="flex flex-col gap-3">
-          <TypographyFinePrint as="p" className="text-muted-foreground">
-            Wizard step {wizardStepNumber} of {TOTAL_WIZARD_STEPS}
-          </TypographyFinePrint>
-          <ol className="flex flex-wrap gap-2" aria-label="Onboarding steps">
-            {WIZARD_STEPS.map((step, i) => {
-              const n = i + 1;
-              const state =
-                n === wizardStepNumber ? "current" : n < wizardStepNumber ? "done" : "upcoming";
-              return (
-                <li key={step.key}>
-                  <span
-                    className={
-                      state === "current"
-                        ? "bg-primary text-primary-foreground inline-flex rounded-md px-2.5 py-1 text-xs font-medium"
-                        : state === "done"
-                          ? "bg-muted text-muted-foreground inline-flex rounded-md px-2.5 py-1 text-xs font-medium"
-                          : "text-muted-foreground inline-flex rounded-md border border-dashed px-2.5 py-1 text-xs"
-                    }
-                  >
-                    {n}. {step.title}
-                  </span>
-                </li>
-              );
-            })}
-          </ol>
-          <Separator />
-          {accountId && entryIntent === "wizard" ? (
-            <SetupStatusCard accountId={accountId} variant="compact" />
-          ) : null}
-        </div>
-      ) : null}
 
       {isGetStarted ? (
         <>
@@ -411,7 +405,11 @@ export function CreateOrganisationWizard() {
           ) : null}
 
           <div className="flex w-full flex-wrap items-center justify-center gap-3 border-t pt-6">
-            <Button type="button" variant="accent" onClick={() => setPendingNav("selection")}>
+            <Button
+              type="button"
+              variant="accentOutline"
+              onClick={() => setPendingNav("selection")}
+            >
               Back to selection
             </Button>
             <Button type="button" onClick={handleGetStarted} disabled={getStartedDisabled}>
@@ -445,11 +443,16 @@ export function CreateOrganisationWizard() {
             <Button type="button" variant="destructive" onClick={() => setPendingNav("back")}>
               Back
             </Button>
-            <Button type="button" variant="accent" onClick={() => setPendingNav("selection")}>
+            <Button
+              type="button"
+              variant="accentOutline"
+              onClick={() => setPendingNav("selection")}
+            >
               Back to selection
             </Button>
             <Button
               type="button"
+              variant="brandPrimaryOutline"
               onClick={() => {
                 if (accountId) {
                   void step1Ref.current?.submit();
@@ -486,11 +489,16 @@ export function CreateOrganisationWizard() {
             <Button type="button" variant="destructive" onClick={() => setPendingNav("back")}>
               Back
             </Button>
-            <Button type="button" variant="accent" onClick={() => setPendingNav("selection")}>
+            <Button
+              type="button"
+              variant="accentOutline"
+              onClick={() => setPendingNav("selection")}
+            >
               Back to selection
             </Button>
             <Button
               type="button"
+              variant="brandPrimaryOutline"
               onClick={() => {
                 if (accountId) {
                   void step2Ref.current?.submit();
@@ -527,11 +535,16 @@ export function CreateOrganisationWizard() {
             <Button type="button" variant="destructive" onClick={() => setPendingNav("back")}>
               Back
             </Button>
-            <Button type="button" variant="accent" onClick={() => setPendingNav("selection")}>
+            <Button
+              type="button"
+              variant="accentOutline"
+              onClick={() => setPendingNav("selection")}
+            >
               Back to selection
             </Button>
             <Button
               type="button"
+              variant="brandPrimaryOutline"
               onClick={() => {
                 if (accountId) {
                   void step3Ref.current?.submit();
@@ -570,7 +583,11 @@ export function CreateOrganisationWizard() {
               <Button type="button" variant="destructive" onClick={() => setPendingNav("back")}>
                 Back
               </Button>
-              <Button type="button" variant="accent" onClick={() => setPendingNav("selection")}>
+              <Button
+                type="button"
+                variant="accentOutline"
+                onClick={() => setPendingNav("selection")}
+              >
                 Back to selection
               </Button>
               <Button
@@ -581,18 +598,39 @@ export function CreateOrganisationWizard() {
                 {wizardCompleted ? "Completed" : step4Pending ? "Finishing…" : "Finish"}
               </Button>
             </div>
-            <Card className="gap-0 py-4">
-              <CardContent className="text-muted-foreground text-sm">
-                <TypographyFinePrint className="max-w-none">
-                  {wizardCompleted
-                    ? "Wizard recorded. Return to organisation selection if you need to pick an account."
-                    : "Finishing records wizard completion on the server. Background setup may have started earlier; you can continue to your dashboard and status will update when available."}
-                </TypographyFinePrint>
-              </CardContent>
-            </Card>
           </div>
         </>
       )}
+
+      {!isGetStarted ? (
+        <div className="flex flex-col items-center gap-3 border-t pt-6">
+          <ol
+            className="flex flex-wrap items-center justify-center gap-2"
+            aria-label="Onboarding steps"
+          >
+            {WIZARD_STEPS.map((step, i) => {
+              const n = i + 1;
+              const state =
+                n === wizardStepNumber ? "current" : n < wizardStepNumber ? "done" : "upcoming";
+              return (
+                <li key={step.key}>
+                  <span
+                    className={
+                      state === "current"
+                        ? "bg-primary text-primary-foreground inline-flex rounded-full px-4 py-1.5 text-xs font-medium"
+                        : state === "done"
+                          ? "bg-muted text-muted-foreground inline-flex rounded-full px-4 py-1.5 text-xs font-medium"
+                          : "text-muted-foreground inline-flex rounded-full border border-dashed px-4 py-1.5 text-xs"
+                    }
+                  >
+                    {n}. {step.title}
+                  </span>
+                </li>
+              );
+            })}
+          </ol>
+        </div>
+      ) : null}
 
       {canDeleteUnfinishedAccount && accountId ? (
         <div className="flex flex-col items-center gap-2 border-t pt-6">

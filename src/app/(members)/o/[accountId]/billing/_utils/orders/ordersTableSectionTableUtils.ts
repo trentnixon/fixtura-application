@@ -1,7 +1,5 @@
-import {
-  historyRowMatchesSummaryActiveOrder,
-  normalizeHistoryOrderKey,
-} from "./billingHistoryOrderUtils";
+import { normalizeHistoryOrderKey } from "./billingHistoryOrderUtils";
+import { resolveHistoryOrderInvoiceLinks } from "./orderInvoiceLinks";
 
 import type { AccountBillingOrderDto, AccountBillingOrderHistoryDto } from "@/types/api/account";
 
@@ -9,18 +7,10 @@ export function getOrdersTableRowKey(order: AccountBillingOrderHistoryDto, index
   return `${normalizeHistoryOrderKey(order) || "order"}-${index}`;
 }
 
-/** Invoice URLs come from billing summary `activeOrder` only; gated to the history row that matches it. */
+/** Stripe invoice links from the history row or matching billing summary active order. */
 export function getOrdersTableInvoiceLinks(
   order: AccountBillingOrderHistoryDto,
   activeOrder: AccountBillingOrderDto | null,
 ): { hostedInvoiceUrl: string | null; invoicePdfUrl: string | null } {
-  if (!activeOrder || !historyRowMatchesSummaryActiveOrder(order, activeOrder)) {
-    return { hostedInvoiceUrl: null, invoicePdfUrl: null };
-  }
-  const hosted = activeOrder.hosted_invoice_url?.trim() ?? "";
-  const pdf = activeOrder.invoice_pdf?.trim() ?? "";
-  return {
-    hostedInvoiceUrl: hosted !== "" ? hosted : null,
-    invoicePdfUrl: pdf !== "" ? pdf : null,
-  };
+  return resolveHistoryOrderInvoiceLinks(order, activeOrder);
 }

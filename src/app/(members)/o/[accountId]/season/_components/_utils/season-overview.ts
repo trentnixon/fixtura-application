@@ -1,4 +1,4 @@
-import type { CoverageFilter, SeasonOverviewCompetitionRow } from "../_types";
+import type { SeasonOverviewCompetitionRow } from "../_types";
 import type { ApiError } from "@/lib/api/client/api-error";
 
 export function seasonHubCodeFromApiError(error: ApiError): string | undefined {
@@ -13,25 +13,6 @@ export function seasonHubCodeFromApiError(error: ApiError): string | undefined {
   }
 
   return undefined;
-}
-
-export function matchesCoverageFilter(
-  coverageFilter: CoverageFilter,
-  grades: number,
-  fixtures: number,
-): boolean {
-  switch (coverageFilter) {
-    case "has-fixtures":
-      return fixtures > 0;
-    case "no-fixtures":
-      return fixtures === 0;
-    case "has-grades":
-      return grades > 0;
-    case "no-grades":
-      return grades === 0;
-    default:
-      return true;
-  }
 }
 
 export function isSeasonStatusActive(status: string | null | undefined): boolean {
@@ -73,7 +54,6 @@ export type SeasonOverviewFilterValues = {
   statusFilter: string;
   seasonFilter: string;
   associationFilter: string;
-  coverageFilter: CoverageFilter;
   filterAllValue: string;
 };
 
@@ -99,12 +79,7 @@ export function filterSeasonOverviewCompetitionRows(
     const matchesAssociation =
       filters.associationFilter === filters.filterAllValue ||
       associationLabel === filters.associationFilter;
-    const matchesCoverage = matchesCoverageFilter(
-      filters.coverageFilter,
-      competition.counts.grades,
-      competition.counts.fixtures,
-    );
 
-    return matchesSearch && matchesStatus && matchesSeason && matchesAssociation && matchesCoverage;
+    return matchesSearch && matchesStatus && matchesSeason && matchesAssociation;
   });
 }

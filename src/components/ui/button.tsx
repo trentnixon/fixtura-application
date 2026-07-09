@@ -32,6 +32,8 @@ const buttonVariants = cva(
           "bg-[var(--success-600)] text-white hover:bg-[var(--success-600)]/90 focus-visible:ring-[color-mix(in_oklch,var(--success-600),transparent_75%)]",
         successOutline:
           "border-[var(--success-600)] bg-background text-[var(--success-600)] shadow-xs hover:bg-[color-mix(in_oklch,var(--success-600),transparent_92%)] hover:border-[var(--success-600)] dark:bg-input/30 dark:hover:bg-[color-mix(in_oklch,var(--success-600),transparent_88%)]",
+        warningOutline:
+          "border-[var(--warning)] bg-background text-[var(--warning)] shadow-xs hover:bg-[color-mix(in_oklch,var(--warning),transparent_92%)] hover:border-[var(--warning)] dark:bg-input/30 dark:hover:bg-[color-mix(in_oklch,var(--warning),transparent_88%)]",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

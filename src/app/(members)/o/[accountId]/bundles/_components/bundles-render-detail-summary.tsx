@@ -1,4 +1,4 @@
-import { TypographyBodySmall, TypographyCaption } from "@/components/typography";
+import { TypographyBodySmall } from "@/components/typography";
 import { SectionBlock } from "@/components/ui/section";
 
 import { BUNDLES_RENDER_DETAIL_COPY } from "../_consts/render-detail";
@@ -20,14 +20,9 @@ const COUNT_METRICS: {
 export function BundlesRenderDetailSummary({ render }: { render: AccountRenderDetail }) {
   return (
     <SectionBlock variant="inset" spacing="sm">
-      <div>
-        <TypographyBodySmall className="font-semibold">
-          {BUNDLES_RENDER_DETAIL_COPY.summaryTitle}
-        </TypographyBodySmall>
-        <TypographyCaption className="mt-1">
-          {BUNDLES_RENDER_DETAIL_COPY.summaryDescription}
-        </TypographyCaption>
-      </div>
+      <TypographyBodySmall className="font-semibold">
+        {BUNDLES_RENDER_DETAIL_COPY.summaryTitle}
+      </TypographyBodySmall>
       <dl className="flex flex-wrap items-baseline gap-x-6 gap-y-3 text-sm">
         {COUNT_METRICS.map(({ labelKey, value }) => (
           <div key={labelKey} className="flex items-baseline gap-1.5">

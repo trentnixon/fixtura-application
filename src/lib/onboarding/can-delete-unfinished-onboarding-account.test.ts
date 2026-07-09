@@ -60,4 +60,25 @@ describe("canDeleteUnfinishedOnboardingAccount", () => {
       ),
     ).toBe(true);
   });
+
+  it("returns true when isSetup is omitted and wizard is incomplete", () => {
+    const { isSetup: _omit, ...withoutIsSetup } = baseState({
+      onboardingWizardStatus: "in_progress",
+      hasCompletedOnboardingWizard: false,
+    });
+    void _omit;
+    expect(canDeleteUnfinishedOnboardingAccount(withoutIsSetup as OnboardingStateData)).toBe(true);
+  });
+
+  it("returns false when wizard is complete even if isSetup is false", () => {
+    expect(
+      canDeleteUnfinishedOnboardingAccount(
+        baseState({
+          hasCompletedOnboardingWizard: true,
+          onboardingWizardStatus: "completed",
+          isSetup: false,
+        }),
+      ),
+    ).toBe(false);
+  });
 });

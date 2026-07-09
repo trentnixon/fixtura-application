@@ -1,60 +1,35 @@
-import { describe, expect, it, vi, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const cookiesGet = vi.fn();
-const { getStrapiUrlMock } = vi.hoisted(() => ({
-  getStrapiUrlMock: vi.fn(() => "https://cms.example"),
-}));
-
-vi.mock("next/headers", () => ({
-  cookies: async () => ({
-    get: cookiesGet,
-  }),
-}));
-
-vi.mock("@/lib/config/env", () => ({
-  getStrapiUrl: () => getStrapiUrlMock(),
-}));
-
-vi.mock("@sentry/nextjs", () => ({
-  captureException: vi.fn(),
-}));
-
-import { AUTH_COOKIE_NAME } from "@/lib/auth/auth-constants";
+import {
+  accountRouteContext,
+  mockMissingStrapiUrl,
+  mockNoAuthCookie,
+  resetStrapiRouteTestMocks,
+} from "@/app/api/_test-utils/strapi-route-mocks";
 
 import { DELETE } from "./route";
 
 describe("DELETE /api/accounts/[accountId]", () => {
   beforeEach(() => {
-    vi.resetAllMocks();
-    getStrapiUrlMock.mockReturnValue("https://cms.example");
-    cookiesGet.mockImplementation((name: string) =>
-      name === AUTH_COOKIE_NAME ? { value: "jwt-token" } : undefined,
-    );
-    globalThis.fetch = vi.fn();
+    resetStrapiRouteTestMocks();
   });
 
   it("returns 401 when no auth cookie", async () => {
-    cookiesGet.mockReturnValue(undefined);
-    const res = await DELETE(new Request("http://localhost"), {
-      params: Promise.resolve({ accountId: "1" }),
-    });
+    mockNoAuthCookie();
+    const res = await DELETE(new Request("http://localhost"), accountRouteContext("1"));
     expect(res.status).toBe(401);
     expect(globalThis.fetch).not.toHaveBeenCalled();
   });
 
   it("returns 400 for invalid account id segment", async () => {
-    const res = await DELETE(new Request("http://localhost"), {
-      params: Promise.resolve({ accountId: "not-a-number" }),
-    });
+    const res = await DELETE(new Request("http://localhost"), accountRouteContext("not-a-number"));
     expect(res.status).toBe(400);
     expect(globalThis.fetch).not.toHaveBeenCalled();
   });
 
   it("returns 503 when Strapi URL is missing", async () => {
-    getStrapiUrlMock.mockReturnValueOnce("");
-    const res = await DELETE(new Request("http://localhost"), {
-      params: Promise.resolve({ accountId: "42" }),
-    });
+    mockMissingStrapiUrl();
+    const res = await DELETE(new Request("http://localhost"), accountRouteContext("42"));
     expect(res.status).toBe(503);
     expect(globalThis.fetch).not.toHaveBeenCalled();
   });
@@ -67,9 +42,7 @@ describe("DELETE /api/accounts/[accountId]", () => {
       }),
     );
 
-    const res = await DELETE(new Request("http://localhost"), {
-      params: Promise.resolve({ accountId: "42" }),
-    });
+    const res = await DELETE(new Request("http://localhost"), accountRouteContext("42"));
 
     expect(globalThis.fetch).toHaveBeenCalledWith(
       "https://cms.example/api/accounts/42",
@@ -81,8 +54,7 @@ describe("DELETE /api/accounts/[accountId]", () => {
       }),
     );
     expect(res.status).toBe(200);
-    const body = await res.json();
-    expect(body).toEqual({ data: { ok: true } });
+    expect(await res.json()).toEqual({ data: { ok: true } });
   });
 
   it("passes through Strapi 403 error body", async () => {
@@ -93,9 +65,7 @@ describe("DELETE /api/accounts/[accountId]", () => {
       }),
     );
 
-    const res = await DELETE(new Request("http://localhost"), {
-      params: Promise.resolve({ accountId: "42" }),
-    });
+    const res = await DELETE(new Request("http://localhost"), accountRouteContext("42"));
 
     expect(res.status).toBe(403);
     expect(await res.json()).toEqual({ code: "ACCOUNT_DELETE_NOT_ALLOWED", message: "No" });
@@ -109,9 +79,7 @@ describe("DELETE /api/accounts/[accountId]", () => {
       }),
     );
 
-    const res = await DELETE(new Request("http://localhost"), {
-      params: Promise.resolve({ accountId: "99" }),
-    });
+    const res = await DELETE(new Request("http://localhost"), accountRouteContext("99"));
 
     expect(res.status).toBe(404);
     expect(await res.json()).toEqual({ code: "ACCOUNT_NOT_FOUND" });

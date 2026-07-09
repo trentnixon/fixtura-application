@@ -20,8 +20,6 @@ import {
   selectOrganisationUrlWithReason,
 } from "@/lib/config/gateway-reasons";
 
-import type { BillingHistoryDebugExtra } from "../_types/billingHistory";
-
 type UseBillingHistoryLifecycleArgs = {
   accountId: string;
   segmentOk: boolean;
@@ -30,17 +28,13 @@ type UseBillingHistoryLifecycleArgs = {
   ordersQuery: UseQueryResult<AccountBillingOrdersQueryResult>;
 };
 
-export type BillingHistoryLifecycleState = {
-  debugExtra: BillingHistoryDebugExtra;
-};
-
 export function useBillingHistoryLifecycle({
   accountId,
   segmentOk,
   billingQuery,
   invoiceRequestsQuery,
   ordersQuery,
-}: UseBillingHistoryLifecycleArgs): BillingHistoryLifecycleState {
+}: UseBillingHistoryLifecycleArgs): void {
   const router = useRouter();
   const queryClient = useQueryClient();
   const redirectingRef = useRef(false);
@@ -95,31 +89,4 @@ export function useBillingHistoryLifecycle({
     void queryClient.removeQueries({ queryKey: queryKeys.account.billingOrders(accountId) });
     router.replace(selectOrganisationUrlWithReason(ordersQuery.data.reason));
   }, [accountId, ordersQuery.data, ordersQuery.isSuccess, queryClient, router, segmentOk]);
-
-  const debugExtra = !segmentOk
-    ? { validAccountSegment: false }
-    : billingQuery.isSuccess &&
-        billingQuery.data &&
-        isAccountBillingGatewayRedirect(billingQuery.data)
-      ? { gateway: billingQuery.data.reason }
-      : invoiceRequestsQuery.isSuccess &&
-          invoiceRequestsQuery.data &&
-          isAccountBillingInvoiceRequestsGatewayRedirect(invoiceRequestsQuery.data)
-        ? { invoiceRequestsGateway: invoiceRequestsQuery.data.reason }
-        : ordersQuery.isSuccess &&
-            ordersQuery.data &&
-            isAccountBillingOrdersGatewayRedirect(ordersQuery.data)
-          ? { ordersGateway: ordersQuery.data.reason }
-          : billingQuery.isPending || invoiceRequestsQuery.isPending
-            ? {
-                billingPending: billingQuery.isPending,
-                invoiceRequestsPending: invoiceRequestsQuery.isPending,
-              }
-            : ordersQuery.isPending
-              ? { ordersPending: true }
-              : {};
-
-  return {
-    debugExtra,
-  };
 }

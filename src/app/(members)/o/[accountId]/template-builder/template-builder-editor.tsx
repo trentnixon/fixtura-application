@@ -3,15 +3,29 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn } from "@/lib/utils";
 
+import { TemplateBuilderChangedBadge } from "./_components/template-builder-changed-badge";
+import { TemplateBuilderColorLayoutBrandingBar } from "./_components/template-builder-color-layout-branding-bar";
 import {
   buildRelationSelectOptions,
   TemplateBuilderRelationFieldRow,
-  TemplateBuilderUseBackgroundFieldRow,
 } from "./_components/template-builder-field-row";
+import { TemplateBuilderGradientCardPicker } from "./_components/template-builder-gradient-card-picker";
+import { TemplateBuilderNoiseCardPicker } from "./_components/template-builder-noise-card-picker";
 import { TemplateBuilderPaletteCardPicker } from "./_components/template-builder-palette-card-picker";
+import { TemplateBuilderPreviewPanel } from "./_components/template-builder-preview-panel";
+import { TemplateBuilderRelationCardPicker } from "./_components/template-builder-relation-card-picker";
 import { TemplateBuilderSelectableTilePicker } from "./_components/template-builder-selectable-tile-picker";
+import { TemplateBuilderTextureCardPicker } from "./_components/template-builder-texture-card-picker";
+import { TemplateBuilderUseBackgroundCardPicker } from "./_components/template-builder-use-background-card-picker";
+import {
+  TABBER_PILL_BORDERLESS_BRAND_ACCENT_LIST_CLASS,
+  TABBER_PILL_BORDERLESS_BRAND_ACCENT_TRIGGER_CLASS,
+  TEMPLATE_BUILDER_PROMO_TOOLBAR_SURFACE_CLASS,
+  TEMPLATE_BUILDER_SUB_PICKER_SURFACE_CLASS,
+} from "./_constants/template-builder-tabber";
 import {
   cloneTemplateBuilderEditorState,
   compareTemplateBuilderEditorStates,
@@ -35,10 +49,8 @@ import {
 } from "./_utils/template-builder-option-labels";
 import { getTemplateBuilderSaveValidationErrors } from "./_utils/template-builder-save-payload";
 import {
-  buildUseBackgroundSelectOptions,
   optionIdToSelectValue,
   resolveRelationSelectValue,
-  useBackgroundToSelectValue,
 } from "./_utils/template-builder-select-value";
 
 import type {
@@ -151,14 +163,17 @@ function TemplateBuilderCategoryCardPicker({
   selectedId,
   isChanged,
   onSelect,
+  centerTiles = false,
 }: {
   items: TemplateCategoryCatalogItem[];
   selectedId: number | null;
   isChanged: boolean;
   onSelect: (id: number) => void;
+  centerTiles?: boolean;
 }) {
   return (
     <TemplateBuilderSelectableTilePicker
+      hideHeader
       label="Select Template style"
       groupAriaLabel="Select Template style"
       items={items.map((category) => ({
@@ -169,6 +184,7 @@ function TemplateBuilderCategoryCardPicker({
       isChanged={isChanged}
       onSelect={onSelect}
       emptyMessage="No public template styles available."
+      centerTiles={centerTiles}
     />
   );
 }
@@ -197,19 +213,30 @@ export interface TemplateBuilderEditorActionsSnapshot {
   onSave: () => void;
 }
 
+export type TemplateBuilderPreviewConfig = {
+  sport: string | null;
+  branding: AccountBrandingData | null;
+  logoUrl: string | null;
+  templateModeSlug: string | null;
+};
+
 export function TemplateBuilderEditor({
+  accountId,
   payload,
   categoryOptions,
   branding,
   save,
+  previewConfig,
   onDraftStateChange,
   onDebugStateChange,
   onActionsChange,
 }: {
+  accountId: string;
   payload: AllTemplateOptionsPayload;
   categoryOptions?: TemplateCategoryCatalogItem[] | null;
   branding: AccountBrandingData | null;
   save: TemplateBuilderEditorSaveProps;
+  previewConfig?: TemplateBuilderPreviewConfig;
   onDraftStateChange?: (draft: TemplateBuilderEditorState) => void;
   onDebugStateChange?: (snapshot: TemplateBuilderEditorDebugSnapshot) => void;
   onActionsChange?: (snapshot: TemplateBuilderEditorActionsSnapshot) => void;
@@ -252,6 +279,7 @@ export function TemplateBuilderEditor({
   }, [comparison, draftState, onDebugStateChange, savedState]);
 
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
+  const [activeTab, setActiveTab] = useState("setup");
 
   const updateField = useCallback(
     <K extends TemplateBuilderEditorField>(field: K, value: TemplateBuilderEditorState[K]) => {
@@ -268,7 +296,6 @@ export function TemplateBuilderEditor({
     save.onClearSaveFeedback();
   }, [savedState, save]);
 
-  const useBackgroundOptions = useMemo(() => buildUseBackgroundSelectOptions(), []);
   const categoryItems = useMemo(
     () =>
       buildCategoryItemsForEditor({
@@ -366,6 +393,70 @@ export function TemplateBuilderEditor({
         config.field === "templateCategoryId" ? categoryItems : config.getItems(payload);
       const field = config.field;
       const draftId = draftState[field];
+      const isBackgroundField = (BACKGROUND_RELATION_FIELDS as readonly string[]).includes(field);
+
+      if (isBackgroundField) {
+        if (field === "templateGradientId") {
+          return (
+            <TemplateBuilderGradientCardPicker
+              key={field}
+              branding={branding}
+              palettes={payload.palettes}
+              selectedPaletteId={draftState.templatePaletteId}
+              items={items as TemplateGradientItem[]}
+              selectedId={draftId}
+              isChanged={changedFieldSet.has(field)}
+              onSelect={(id) => updateField(field, id)}
+              centerTiles
+            />
+          );
+        }
+
+        if (field === "templateNoiseId") {
+          return (
+            <TemplateBuilderNoiseCardPicker
+              key={field}
+              branding={branding}
+              palettes={payload.palettes}
+              selectedPaletteId={draftState.templatePaletteId}
+              items={items as TemplateNoiseItem[]}
+              selectedId={draftId}
+              isChanged={changedFieldSet.has(field)}
+              onSelect={(id) => updateField(field, id)}
+              centerTiles
+            />
+          );
+        }
+
+        if (field === "templateTextureId") {
+          return (
+            <TemplateBuilderTextureCardPicker
+              key={field}
+              branding={branding}
+              palettes={payload.palettes}
+              selectedPaletteId={draftState.templatePaletteId}
+              items={items as TemplateTextureCatalogItem[]}
+              selectedId={draftId}
+              isChanged={changedFieldSet.has(field)}
+              onSelect={(id) => updateField(field, id)}
+              centerTiles
+            />
+          );
+        }
+
+        return (
+          <TemplateBuilderRelationCardPicker
+            key={field}
+            label={config.label}
+            items={items}
+            formatItemLabel={config.formatItemLabel}
+            selectedId={draftId}
+            isChanged={changedFieldSet.has(field)}
+            onSelect={(id) => updateField(field, id)}
+            centerTiles
+          />
+        );
+      }
 
       return (
         <TemplateBuilderRelationFieldRow
@@ -379,11 +470,101 @@ export function TemplateBuilderEditor({
         />
       );
     },
-    [categoryItems, changedFieldSet, draftState, payload, updateField],
+    [branding, categoryItems, changedFieldSet, draftState, payload, updateField],
   );
 
+  const renderPrimaryTabPanel = () => {
+    switch (activeTab) {
+      case "setup":
+        return (
+          <div className={cn(TEMPLATE_BUILDER_SUB_PICKER_SURFACE_CLASS, "self-stretch")}>
+            <TemplateBuilderCategoryCardPicker
+              items={categoryItems}
+              selectedId={draftState.templateCategoryId ?? savedState.templateCategoryId}
+              isChanged={changedFieldSet.has("templateCategoryId")}
+              onSelect={(id) => updateField("templateCategoryId", id)}
+              centerTiles
+            />
+          </div>
+        );
+      case "style":
+        return (
+          <div className={cn(TEMPLATE_BUILDER_SUB_PICKER_SURFACE_CLASS, "self-stretch")}>
+            <TemplateBuilderPaletteCardPicker
+              branding={branding}
+              items={payload.palettes}
+              selectedId={draftState.templatePaletteId}
+              isChanged={changedFieldSet.has("templatePaletteId")}
+              onSelect={(id) => updateField("templatePaletteId", id)}
+              centerTiles
+            />
+          </div>
+        );
+      case "background":
+        return (
+          <div className={cn(TEMPLATE_BUILDER_SUB_PICKER_SURFACE_CLASS, "self-stretch")}>
+            <TemplateBuilderUseBackgroundCardPicker
+              selectedValue={draftState.useBackground}
+              isChanged={changedFieldSet.has("useBackground")}
+              onSelect={handleUseBackgroundChange}
+              centerTiles
+            />
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
+  const renderSubTabPanel = () => {
+    switch (activeTab) {
+      case "setup":
+        return (
+          <div className="hidden">
+            {categoryRelationConfig ? (
+              <TemplateBuilderRelationFieldRow
+                fieldId="template-builder-templateCategoryId"
+                label={categoryRelationConfig.label}
+                selectValue={resolveRelationSelectValue(
+                  draftState.templateCategoryId,
+                  savedState.templateCategoryId,
+                  false,
+                )}
+                options={buildRelationSelectOptions(categoryItems, formatCategoryLabel)}
+                isChanged={changedFieldSet.has("templateCategoryId")}
+                allowUnset={false}
+                selectPlaceholder="Select a category…"
+                onValueChange={(id) =>
+                  updateField("templateCategoryId", id ?? savedState.templateCategoryId)
+                }
+              />
+            ) : null}
+          </div>
+        );
+      case "style":
+        return null;
+      case "background":
+        if (draftState.useBackground === null) {
+          return (
+            <p className="text-muted-foreground text-xs">
+              Choose use background to pick a background asset.
+            </p>
+          );
+        }
+
+        return (
+          <div className={cn(TEMPLATE_BUILDER_SUB_PICKER_SURFACE_CLASS, "self-stretch")}>
+            {visibleBackgroundRelationConfigs.map((config) => renderRelationField(config))}
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div className="text-card-foreground grid gap-4 text-sm">
+    <div className="text-card-foreground grid gap-3 text-sm">
+      {comparison.isDirty ? <TemplateBuilderChangedBadge placement="floating" /> : null}
       {(validationErrors.length > 0 || save.saveError) && (
         <div
           className="border-destructive/40 bg-destructive/10 text-destructive rounded-md border px-3 py-2 text-xs"
@@ -407,96 +588,77 @@ export function TemplateBuilderEditor({
         </p>
       )}
 
-      <div className="hidden">
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={handleReset}
-          disabled={save.isSaving}
-        >
-          Reset to saved
-        </Button>
-        <Button
-          type="button"
-          variant="success"
-          size="sm"
-          disabled={!comparison.isDirty || save.isSaving}
-          onClick={() => void handleSave()}
-        >
-          {save.isSaving ? "Saving…" : comparison.isDirty ? "Save changes" : "No changes"}
-        </Button>
-      </div>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="grid gap-2">
+        <div className={TEMPLATE_BUILDER_PROMO_TOOLBAR_SURFACE_CLASS}>
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+            <TabsList
+              className={cn(
+                TABBER_PILL_BORDERLESS_BRAND_ACCENT_LIST_CLASS,
+                "w-full justify-start sm:w-auto",
+              )}
+            >
+              <TabsTrigger
+                value="setup"
+                className={TABBER_PILL_BORDERLESS_BRAND_ACCENT_TRIGGER_CLASS}
+              >
+                1. Select a Template
+              </TabsTrigger>
+              <TabsTrigger
+                value="style"
+                className={TABBER_PILL_BORDERLESS_BRAND_ACCENT_TRIGGER_CLASS}
+              >
+                2. Select a color variation
+              </TabsTrigger>
+              <TabsTrigger
+                value="background"
+                className={TABBER_PILL_BORDERLESS_BRAND_ACCENT_TRIGGER_CLASS}
+              >
+                3. Select a background
+              </TabsTrigger>
+            </TabsList>
 
-      <Tabs defaultValue="setup" className="grid gap-4 pt-2">
-        <TabsList className="h-auto w-full flex-wrap justify-start">
-          <TabsTrigger value="setup">Setup</TabsTrigger>
-          <TabsTrigger value="style">Style</TabsTrigger>
-          <TabsTrigger value="background">Background</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="setup" className="mt-0 grid gap-4">
-          <TemplateBuilderCategoryCardPicker
-            items={categoryItems}
-            selectedId={draftState.templateCategoryId ?? savedState.templateCategoryId}
-            isChanged={changedFieldSet.has("templateCategoryId")}
-            onSelect={(id) => updateField("templateCategoryId", id)}
-          />
-
-          <div className="hidden">
-            {categoryRelationConfig ? (
-              <TemplateBuilderRelationFieldRow
-                fieldId="template-builder-templateCategoryId"
-                label={categoryRelationConfig.label}
-                selectValue={resolveRelationSelectValue(
-                  draftState.templateCategoryId,
-                  savedState.templateCategoryId,
-                  false,
-                )}
-                options={buildRelationSelectOptions(categoryItems, formatCategoryLabel)}
-                isChanged={changedFieldSet.has("templateCategoryId")}
-                allowUnset={false}
-                selectPlaceholder="Select a category…"
-                onValueChange={(id) =>
-                  updateField("templateCategoryId", id ?? savedState.templateCategoryId)
-                }
-              />
-            ) : null}
-          </div>
-        </TabsContent>
-
-        <TabsContent value="style" className="mt-0 grid gap-4">
-          <TemplateBuilderPaletteCardPicker
-            items={payload.palettes}
-            theme={branding?.theme ?? null}
-            selectedId={draftState.templatePaletteId}
-            isChanged={changedFieldSet.has("templatePaletteId")}
-            onSelect={(id) => updateField("templatePaletteId", id)}
-          />
-        </TabsContent>
-
-        <TabsContent value="background" className="mt-0 grid gap-4">
-          <TemplateBuilderUseBackgroundFieldRow
-            fieldId="template-builder-useBackground"
-            selectValue={useBackgroundToSelectValue(draftState.useBackground)}
-            options={useBackgroundOptions}
-            isChanged={changedFieldSet.has("useBackground")}
-            onValueChange={handleUseBackgroundChange}
-          />
-
-          {draftState.useBackground === null ? (
-            <p className="text-muted-foreground text-xs">
-              Choose use background to pick a background asset.
-            </p>
-          ) : visibleBackgroundRelationConfigs.length > 0 ? (
-            <div className="grid gap-4">
-              <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-                Background asset
-              </p>
-              {visibleBackgroundRelationConfigs.map((config) => renderRelationField(config))}
+            <div className="flex w-full shrink-0 flex-wrap items-center gap-2 sm:w-auto sm:justify-end">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="flex-1 sm:flex-none"
+                onClick={handleReset}
+                disabled={save.isSaving}
+              >
+                Reset to saved
+              </Button>
+              <Button
+                type="button"
+                variant="success"
+                size="sm"
+                className="flex-1 sm:flex-none"
+                disabled={!comparison.isDirty || save.isSaving}
+                onClick={() => void handleSave()}
+              >
+                {saveLabel}
+              </Button>
             </div>
-          ) : null}
-        </TabsContent>
+          </div>
+        </div>
+
+        <div className="flex w-full flex-col items-center gap-4">
+          {renderPrimaryTabPanel()}
+          {renderSubTabPanel()}
+        </div>
+
+        {previewConfig ? (
+          <TemplateBuilderPreviewPanel
+            accountId={accountId}
+            sport={previewConfig.sport}
+            branding={previewConfig.branding}
+            logoUrl={previewConfig.logoUrl}
+            templateModeSlug={previewConfig.templateModeSlug}
+            toolbarStart={
+              <TemplateBuilderColorLayoutBrandingBar accountId={accountId} branding={branding} />
+            }
+          />
+        ) : null}
       </Tabs>
     </div>
   );

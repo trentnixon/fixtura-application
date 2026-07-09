@@ -38,7 +38,6 @@ export function AccountSettingsPreferences({
 }: AccountSettingsPreferencesProps) {
   const {
     mutation,
-    isClub,
     showAssocGrouping,
     showClubSplitSeniors,
     hasParsableDeliveryFromServer,
@@ -110,17 +109,6 @@ export function AccountSettingsPreferences({
         </div>
 
         <div>
-          <div className="space-y-3 px-6 pt-6 pb-6">
-            <p className="text-sm leading-relaxed">
-              Manage delivery and bundle preferences for your organisation.
-            </p>
-            <TypographyMuted className="text-xs leading-relaxed">
-              {isClub ? "Club" : "Association"}
-              {" · "}
-              {payload.Sport}
-            </TypographyMuted>
-          </div>
-
           <ul>
             <SettingsSelectRow
               id={settingsPrefId("deliveryWeekdayKey")}

@@ -1,5 +1,12 @@
 import type { AccountBillingSummaryV1, AccountBillingOrderHistoryDto } from "@/types/api/account";
 
+export type BillingDebugPanelExtraValue = string | number | boolean | null;
+
+export type BillingDebugPanelSection = {
+  title: string;
+  entries: Record<string, BillingDebugPanelExtraValue>;
+};
+
 export type BillingDebugPanelProps = {
   accountId: string;
   contextLabel?: string;
@@ -9,4 +16,5 @@ export type BillingDebugPanelProps = {
   isSummaryLoading: boolean;
   summaryError?: string | null;
   extra?: Record<string, string | number | boolean | null | undefined>;
+  sections?: BillingDebugPanelSection[];
 };

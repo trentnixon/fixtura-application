@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useMemo } from "react";
 
 import {
   TypographyCardDescription,
@@ -10,15 +11,22 @@ import {
 } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import {
+  isAccountOrganisationContextGatewayRedirect,
+  useAccountOrganisationContext,
+} from "@/lib/api/hooks/account/useAccountOrganisationContext";
 
 import {
   BILLING_CREATE_SEASON_PASS_BUTTON_LABEL,
-  BILLING_CREATE_SEASON_PASS_DESCRIPTION,
   BILLING_CREATE_SEASON_PASS_EYEBROW,
   BILLING_CREATE_SEASON_PASS_FOOTNOTE,
   BILLING_CREATE_SEASON_PASS_TITLE,
 } from "../../_constants/season-pass/billingCreateSeasonPassCard";
-import { billingCreateSeasonPassCardHref } from "../../_utils/season-pass/billingCreateSeasonPassCard";
+import {
+  billingCreateSeasonPassCardHref,
+  formatBillingCreateSeasonPassDescription,
+} from "../../_utils/season-pass/billingCreateSeasonPassCard";
+import { resolveBillingTrialAccountName } from "../../_utils/trial/billingTrialStart";
 
 import type { BillingCreateSeasonPassCardProps } from "../../_types/season-pass/billingCreateSeasonPassCard";
 
@@ -27,6 +35,14 @@ import type { BillingCreateSeasonPassCardProps } from "../../_types/season-pass/
  */
 export function BillingCreateSeasonPassCard({ accountId }: BillingCreateSeasonPassCardProps) {
   const createHref = billingCreateSeasonPassCardHref(accountId);
+  const orgQ = useAccountOrganisationContext(accountId);
+
+  const accountName = useMemo(() => {
+    if (!orgQ.isSuccess || !orgQ.data || isAccountOrganisationContextGatewayRedirect(orgQ.data)) {
+      return "";
+    }
+    return resolveBillingTrialAccountName(orgQ.data.data);
+  }, [orgQ.isSuccess, orgQ.data]);
 
   return (
     <Card className="overflow-hidden">
@@ -39,7 +55,7 @@ export function BillingCreateSeasonPassCard({ accountId }: BillingCreateSeasonPa
               {BILLING_CREATE_SEASON_PASS_TITLE}
             </TypographyCardTitle>
             <TypographyCardDescription>
-              {BILLING_CREATE_SEASON_PASS_DESCRIPTION}
+              {formatBillingCreateSeasonPassDescription(accountName)}
             </TypographyCardDescription>
           </CardHeader>
           <CardContent>

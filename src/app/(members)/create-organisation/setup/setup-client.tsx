@@ -13,6 +13,10 @@ import { useOnboardingSetupStatus } from "@/lib/api/hooks/account/useOnboardingS
 import { queryKeys } from "@/lib/api/query/query-keys";
 import { accountScopedRoutes, isValidAccountIdSegment } from "@/lib/config/account-routes";
 import { ROUTES } from "@/lib/config/routes";
+import {
+  isSetupStatusFailed,
+  shouldHoldSetupRecoveryPage,
+} from "@/lib/onboarding/is-setup-recovery-hold";
 import { resolveAccountEntry } from "@/lib/onboarding/resolve-account-entry";
 
 import { SetupStatusCard } from "../_components/setup-status-card";
@@ -33,20 +37,23 @@ export function CreateOrganisationSetupClient() {
 
   const onboardingData = onboardingState.data;
   const setupRow = setupStatus.data;
+  const setupPending = setupStatus.isPending && !setupRow;
+  const setupFailed = isSetupStatusFailed(setupRow?.status);
+  const holdRecovery = shouldHoldSetupRecoveryPage({ setupPending, setupFailed });
 
   useEffect(() => {
-    if (!accountId || !onboardingData) return;
+    if (!accountId || !onboardingData || holdRecovery) return;
     if (resolveAccountEntry(onboardingData) === "wizard") {
       router.replace(`${ROUTES.createOrganisation}?accountId=${encodeURIComponent(accountId)}`);
     }
-  }, [accountId, onboardingData, router]);
+  }, [accountId, holdRecovery, onboardingData, router]);
 
   useEffect(() => {
-    if (!accountId || !onboardingData) return;
+    if (!accountId || !onboardingData || holdRecovery) return;
     if (resolveAccountEntry(onboardingData) === "dashboard") {
       router.replace(accountScopedRoutes.dashboard(accountId));
     }
-  }, [accountId, onboardingData, router]);
+  }, [accountId, holdRecovery, onboardingData, router]);
 
   useEffect(() => {
     if (!accountId || !onboardingData || resolveAccountEntry(onboardingData) === "dashboard")
@@ -102,7 +109,11 @@ export function CreateOrganisationSetupClient() {
     );
   }
 
-  if (onboardingData && resolveAccountEntry(onboardingData) === "dashboard") {
+  if (onboardingData && setupPending && !setupFailed) {
+    return <BrandedLoader fullPage label="Checking setup status…" />;
+  }
+
+  if (onboardingData && resolveAccountEntry(onboardingData) === "dashboard" && !holdRecovery) {
     return <BrandedLoader fullPage label="Opening your organisation…" />;
   }
 

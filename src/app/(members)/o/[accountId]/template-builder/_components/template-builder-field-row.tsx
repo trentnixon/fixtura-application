@@ -9,6 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import { TemplateBuilderChangedBadge } from "./template-builder-changed-badge";
 import {
   TEMPLATE_BUILDER_UNSET_VALUE,
   optionIdToSelectValue,
@@ -46,16 +47,10 @@ export function TemplateBuilderRelationFieldRow({
 }) {
   return (
     <div className="border-border/60 grid gap-2 border-b pb-4 last:border-0 last:pb-0">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <Label htmlFor={fieldId} className="text-sm font-medium">
-          {label}
-        </Label>
-        {isChanged ? (
-          <span className="text-xs font-medium text-amber-600 dark:text-amber-500">Changed</span>
-        ) : (
-          <span className="text-muted-foreground text-xs">Unchanged</span>
-        )}
-      </div>
+      <Label htmlFor={fieldId} className="inline-flex items-center gap-2 text-sm font-medium">
+        {label}
+        {isChanged ? <TemplateBuilderChangedBadge placement="title" /> : null}
+      </Label>
       <Select
         value={selectValue ?? ""}
         onValueChange={(v) => onValueChange(selectValueToOptionId(v))}
@@ -91,16 +86,10 @@ export function TemplateBuilderUseBackgroundFieldRow({
 }) {
   return (
     <div className="border-border/60 grid gap-2 border-b pb-4 last:border-0 last:pb-0">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <Label htmlFor={fieldId} className="text-sm font-medium">
-          Use background
-        </Label>
-        {isChanged ? (
-          <span className="text-xs font-medium text-amber-600 dark:text-amber-500">Changed</span>
-        ) : (
-          <span className="text-muted-foreground text-xs">Unchanged</span>
-        )}
-      </div>
+      <Label htmlFor={fieldId} className="inline-flex items-center gap-2 text-sm font-medium">
+        Use background
+        {isChanged ? <TemplateBuilderChangedBadge placement="title" /> : null}
+      </Label>
       <Select
         value={selectValue}
         onValueChange={(v) => onValueChange(selectValueToUseBackground(v))}

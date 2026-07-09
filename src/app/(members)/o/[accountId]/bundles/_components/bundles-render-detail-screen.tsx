@@ -96,8 +96,8 @@ export function BundlesRenderDetailScreen({ accountId, renderId }: BundlesRender
   return (
     <div className="mx-auto grid max-w-[112rem] gap-6 px-4 pb-12 sm:px-6 lg:px-8">
       <BundlesRenderDetailHeader accountId={accountId} render={view.render} />
-      <BundlesRenderDetailSummary render={view.render} />
       <BundlesRenderDownloadsPanel accountId={accountId} sport={sport} render={view.render} />
+      <BundlesRenderDetailSummary render={view.render} />
     </div>
   );
 }

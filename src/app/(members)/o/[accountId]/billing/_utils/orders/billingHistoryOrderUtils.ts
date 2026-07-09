@@ -13,10 +13,87 @@ export function normalizeHistoryOrderKey(order: AccountBillingOrderHistoryDto): 
   return String(raw).trim().toLowerCase();
 }
 
+export type ResolveOrderTotalForDisplayInput = {
+  total: string | number | null;
+  paymentChannel?: string | null;
+  payment_channel?: string | null;
+  subscriptionTierPrice?: number | null;
+};
+
+/** Parse CMS order total (string on history rows, number on billing summary). */
+export function parseOrderTotalRaw(total: string | number | null): number | null {
+  if (total == null) return null;
+  if (typeof total === "number") {
+    return Number.isFinite(total) ? total : null;
+  }
+  const trimmed = String(total).trim();
+  if (trimmed === "") return null;
+  const parsed = Number.parseFloat(trimmed);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function normalizePaymentChannel(channel: string | null | undefined): string {
+  return channel?.trim().toLowerCase() ?? "";
+}
+
+function isStripePaymentChannel(channel: string | null | undefined): boolean {
+  return normalizePaymentChannel(channel) === "stripe";
+}
+
+/**
+ * Display amount in currency units (e.g. AUD dollars).
+ * Some Stripe-backed CMS rows store cents in `total`; reconcile using tier price when possible.
+ */
+export function resolveOrderTotalForDisplay(
+  input: ResolveOrderTotalForDisplayInput,
+): number | null {
+  const parsed = parseOrderTotalRaw(input.total);
+  if (parsed == null) return null;
+
+  const tierPrice = input.subscriptionTierPrice;
+  if (tierPrice != null && Number.isFinite(tierPrice)) {
+    const centsCandidate = tierPrice * 100;
+    if (parsed === centsCandidate) {
+      return tierPrice;
+    }
+  }
+
+  const paymentChannel = input.paymentChannel ?? input.payment_channel;
+  if (
+    isStripePaymentChannel(paymentChannel) &&
+    tierPrice != null &&
+    Number.isFinite(tierPrice) &&
+    parsed >= 1000 &&
+    Number.isInteger(parsed) &&
+    parsed / 100 === tierPrice
+  ) {
+    return tierPrice;
+  }
+
+  return parsed;
+}
+
+export function resolveHistoryOrderTotalForDisplay(
+  order: AccountBillingOrderHistoryDto,
+): number | null {
+  return resolveOrderTotalForDisplay({
+    total: order.total,
+    paymentChannel: order.paymentChannel,
+    subscriptionTierPrice: order.subscriptionTier?.price ?? null,
+  });
+}
+
+export function resolveSummaryOrderTotalForDisplay(order: AccountBillingOrderDto): number | null {
+  return resolveOrderTotalForDisplay({
+    total: order.total,
+    payment_channel: order.payment_channel,
+    subscriptionTierPrice: order.subscriptionTier?.price ?? null,
+  });
+}
+
+/** @deprecated Prefer resolveHistoryOrderTotalForDisplay for UI formatting. */
 export function parseHistoryOrderTotal(total: string | null): number | null {
-  if (total == null || String(total).trim() === "") return null;
-  const n = Number.parseFloat(String(total));
-  return Number.isFinite(n) ? n : null;
+  return parseOrderTotalRaw(total);
 }
 
 export function getHistoryOrderStatus(order: AccountBillingOrderHistoryDto): string {

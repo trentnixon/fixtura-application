@@ -1,8 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
-import { ApiError } from "@/lib/api/client/api-error";
 import {
   isAccountBillingGatewayRedirect,
   useAccountBilling,
@@ -15,19 +12,15 @@ import {
   isAccountBillingOrdersGatewayRedirect,
   useAccountBillingOrders,
 } from "@/lib/api/hooks/account/useAccountBillingOrders";
-import { usePostAccountBillingCancelInvoiceRequest } from "@/lib/api/hooks/account/usePostAccountBillingCancelInvoiceRequest";
 import { AUTH_ERROR_MESSAGES } from "@/lib/auth/auth-errors";
 import { isValidAccountIdSegment } from "@/lib/config/account-routes";
 
 import { useBillingHistoryLifecycle } from "./useBillingHistoryLifecycle";
 
 import type { BillingHistoryState } from "../_types/billingHistory";
-import type { InvoiceRequestSummary } from "@/types/api/account";
 
 export function useBillingHistoryContentState(accountId: string): BillingHistoryState {
   const segmentOk = isValidAccountIdSegment(accountId);
-  const cancelInvoiceRequestMutation = usePostAccountBillingCancelInvoiceRequest(accountId);
-  const [invoiceWithdrawError, setInvoiceWithdrawError] = useState<string | null>(null);
 
   const billingQuery = useAccountBilling(accountId, { enabled: segmentOk });
   const invoiceRequestsQuery = useAccountBillingInvoiceRequests(accountId, { enabled: segmentOk });
@@ -46,7 +39,7 @@ export function useBillingHistoryContentState(accountId: string): BillingHistory
     enabled: segmentOk && billingReady && invoiceRequestsReady,
   });
 
-  const lifecycle = useBillingHistoryLifecycle({
+  useBillingHistoryLifecycle({
     accountId,
     segmentOk,
     billingQuery,
@@ -76,8 +69,6 @@ export function useBillingHistoryContentState(accountId: string): BillingHistory
     return {
       kind: "loading",
       accountId,
-      summary,
-      extra: lifecycle.debugExtra,
     };
   }
 
@@ -95,8 +86,6 @@ export function useBillingHistoryContentState(accountId: string): BillingHistory
     return {
       kind: "redirecting",
       accountId,
-      summary,
-      extra: lifecycle.debugExtra,
     };
   }
 
@@ -106,13 +95,7 @@ export function useBillingHistoryContentState(accountId: string): BillingHistory
     return {
       kind: "load-error",
       accountId,
-      summary,
       message: error instanceof Error ? error.message : AUTH_ERROR_MESSAGES.network,
-      extra: {
-        ...lifecycle.debugExtra,
-        billingQueryError: Boolean(billingQuery.isError),
-        invoiceRequestsQueryError: Boolean(invoiceRequestsQuery.isError),
-      },
       refetchHistory: () => {
         void billingQuery.refetch();
         void invoiceRequestsQuery.refetch();
@@ -140,21 +123,16 @@ export function useBillingHistoryContentState(accountId: string): BillingHistory
       : new Error(String(ordersQuery.error))
     : null;
 
-  async function withdrawInvoiceRequest(request: InvoiceRequestSummary): Promise<void> {
-    const rawId = request.invoiceRequestId ?? (request.id != null ? String(request.id) : "");
-    const requestId = rawId.trim();
-    if (!requestId) return;
-    if (!window.confirm("Withdraw this invoice request? You can submit a new one later.")) return;
-
-    setInvoiceWithdrawError(null);
-
-    try {
-      await cancelInvoiceRequestMutation.mutateAsync(requestId);
-    } catch (error) {
-      setInvoiceWithdrawError(
-        error instanceof ApiError ? error.message : "Something went wrong. Try again.",
-      );
-    }
+  if (!summary) {
+    return {
+      kind: "load-error",
+      accountId,
+      message: AUTH_ERROR_MESSAGES.network,
+      refetchHistory: () => {
+        void billingQuery.refetch();
+        void invoiceRequestsQuery.refetch();
+      },
+    };
   }
 
   return {
@@ -164,10 +142,7 @@ export function useBillingHistoryContentState(accountId: string): BillingHistory
     invoiceRequests,
     orders,
     ordersLoadError,
-    invoiceWithdrawError,
-    cancelInvoiceRequestPending: cancelInvoiceRequestMutation.isPending,
     baseHref: `/o/${encodeURIComponent(accountId)}/billing`,
-    withdrawInvoiceRequest,
     refetchHistory: () => {
       void billingQuery.refetch();
       void invoiceRequestsQuery.refetch();
