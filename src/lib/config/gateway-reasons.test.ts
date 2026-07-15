@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   SELECT_ORG_GATEWAY_REASON,
   parseSelectOrgGatewayReason,
+  selectOrgOwnershipUnavailableReason,
   selectOrgReasonFromApiStatus,
   selectOrgReasonFromApiStatusExcludingBadRequest,
   selectOrgReasonFromApiStatusExcludingForbidden,
@@ -63,5 +64,18 @@ describe("gateway-reasons", () => {
     for (const r of Object.values(SELECT_ORG_GATEWAY_REASON)) {
       expect(selectOrgReasonMessage(r).length).toBeGreaterThan(10);
     }
+  });
+
+  it("selectOrgReasonMessage uses identical copy for forbidden and not_found", () => {
+    expect(selectOrgReasonMessage(SELECT_ORG_GATEWAY_REASON.forbidden)).toBe(
+      selectOrgReasonMessage(SELECT_ORG_GATEWAY_REASON.notFound),
+    );
+  });
+
+  it("selectOrgOwnershipUnavailableReason maps 403 and 404 to not_found", () => {
+    expect(selectOrgOwnershipUnavailableReason(403)).toBe(SELECT_ORG_GATEWAY_REASON.notFound);
+    expect(selectOrgOwnershipUnavailableReason(404)).toBe(SELECT_ORG_GATEWAY_REASON.notFound);
+    expect(selectOrgOwnershipUnavailableReason(400)).toBe(SELECT_ORG_GATEWAY_REASON.invalidOrg);
+    expect(selectOrgOwnershipUnavailableReason(500)).toBeNull();
   });
 });

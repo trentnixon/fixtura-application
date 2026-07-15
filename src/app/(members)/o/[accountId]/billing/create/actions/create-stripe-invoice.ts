@@ -1,5 +1,6 @@
 "use server";
 
+import { isValidAccountIdSegment } from "@/lib/config/account-routes";
 import { fetchStrapiWithAuthCookie } from "@/lib/strapi/server";
 
 /** Strapi canonical body (field names are case-sensitive per handoff). */
@@ -50,10 +51,24 @@ function strapiErrorMessage(payload: unknown): string {
 /**
  * Calls Strapi `POST /api/orders/stripe/create-invoice`.
  * Requires staff JWT + Users & Permissions (`api::order.order.createStripeInvoice`).
+ * `routeAccountId` must match `body.AccountID` — body alone cannot switch organisation.
  */
 export async function createStrapiStripeInvoice(
+  routeAccountId: string,
   body: StrapiCreateStripeInvoiceBody,
 ): Promise<StrapiCreateStripeInvoiceResult> {
+  if (!isValidAccountIdSegment(routeAccountId)) {
+    return { ok: false, status: 400, message: "Invalid organisation id." };
+  }
+
+  if (String(body.AccountID) !== String(routeAccountId)) {
+    return {
+      ok: false,
+      status: 400,
+      message: "Organisation id does not match the current route.",
+    };
+  }
+
   const { AccountID, product_id, startDate, endDate, couponId } = body;
 
   if (startDate.trim().length === 0 || endDate.trim().length === 0) {

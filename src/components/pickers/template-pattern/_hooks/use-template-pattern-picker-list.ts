@@ -7,9 +7,9 @@ import { useTemplatePatternsUi } from "@/lib/api/hooks/template-patterns/useTemp
 import { resolveSelectedTemplatePatternIdString } from "../_utils";
 import { useTemplatePatternPickerSelection } from "./use-template-pattern-picker-selection";
 
-export function useTemplatePatternPickerList() {
+export function useTemplatePatternPickerList(accountId: string) {
   const { data, refetch, isFetching, isPending, isError, error } = useTemplatePatternsUi();
-  const { selectedId, setSelectedId } = useTemplatePatternPickerSelection();
+  const { selectedId, setSelectedId } = useTemplatePatternPickerSelection(accountId);
   const patterns = useMemo(() => data?.data ?? [], [data]);
 
   const resolvedSelectedId = useMemo(

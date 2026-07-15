@@ -130,7 +130,7 @@ export function buildBrandingRouteCard({
 
   return {
     title: "Look & feel",
-    description: "Logo and brand colours.",
+    description: "Logo, brand colours, and contrast.",
     logoUrl: resolvedLogoUrl,
     paletteSwatches,
   };

@@ -7,9 +7,9 @@ import { useTemplateModesUi } from "@/lib/api/hooks/template-modes/useTemplateMo
 import { resolveSelectedTemplateModeIdString } from "../_utils";
 import { useTemplateModePickerSelection } from "./use-template-mode-picker-selection";
 
-export function useTemplateModePickerList() {
+export function useTemplateModePickerList(accountId: string) {
   const { data, refetch, isFetching, isPending, isError, error } = useTemplateModesUi();
-  const { selectedId, setSelectedId } = useTemplateModePickerSelection();
+  const { selectedId, setSelectedId } = useTemplateModePickerSelection(accountId);
   const modes = useMemo(() => data?.data ?? [], [data]);
 
   const resolvedSelectedId = useMemo(

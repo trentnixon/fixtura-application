@@ -22,6 +22,11 @@ import {
 } from "@/components/ui/dialog";
 import { GridCard, GridCardVisualSlot } from "@/components/ui/grid-card";
 import { accountPickerRowsFromMePayload } from "@/lib/account/account-me-rows";
+import {
+  accountCreateBusyMessage,
+  accountCreateBusyRetryAfterSeconds,
+  isAccountCreateBusyError,
+} from "@/lib/api/account-create-busy";
 import { ApiError } from "@/lib/api/client/api-error";
 import { useAccountMe } from "@/lib/api/hooks/account/useAccountMe";
 import { useCreateFirstAccount } from "@/lib/api/hooks/account/useCreateFirstAccount";
@@ -33,7 +38,6 @@ import { queryKeys } from "@/lib/api/query/query-keys";
 import { accountApi } from "@/lib/api/services/account.api";
 import { accountScopedRoutes, isValidAccountIdSegment } from "@/lib/config/account-routes";
 import { ROUTES } from "@/lib/config/routes";
-import { canDeleteUnfinishedOnboardingAccount } from "@/lib/onboarding/can-delete-unfinished-onboarding-account";
 import { deleteUnfinishedAccountErrorMessage } from "@/lib/onboarding/delete-unfinished-account-error";
 import { resolveAccountEntry } from "@/lib/onboarding/resolve-account-entry";
 import { cn } from "@/lib/utils";
@@ -104,6 +108,7 @@ export function CreateOrganisationWizard() {
   const [wizardCompleted, setWizardCompleted] = useState(false);
   const [createdAccountId, setCreatedAccountId] = useState("");
   const [createAccountError, setCreateAccountError] = useState<string | null>(null);
+  const [busyCooldownUntilMs, setBusyCooldownUntilMs] = useState<number | null>(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const step1Ref = useRef<WizardStepOrganisationHandle>(null);
@@ -111,6 +116,7 @@ export function CreateOrganisationWizard() {
   const step3Ref = useRef<WizardStepContactHandle>(null);
   const step4Ref = useRef<WizardStepReviewHandle>(null);
   const stepHydratedFromServerRef = useRef(false);
+  const prevAccountIdFromQueryRef = useRef<string | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
   const queryClient = useQueryClient();
@@ -129,25 +135,56 @@ export function CreateOrganisationWizard() {
     const allowed = new Set(accountRows.map((r) => String(r.id)));
     return allowed.has(accountIdFromQuery) ? accountIdFromQuery : "";
   }, [accountIdFromQuery, accountRows]);
+  /** Just-created blank id trusted until /account/me lists it (URL sync race). */
+  const justCreatedAccountId =
+    createdAccountId &&
+    (!accountIdFromQuery || accountIdFromQuery === createdAccountId) &&
+    isValidAccountIdSegment(createdAccountId)
+      ? createdAccountId
+      : "";
   const accountId = useMemo(() => {
     if (explicitResumeAccountId) return explicitResumeAccountId;
-    if (!accountIdFromQuery) return createdAccountId;
+    if (justCreatedAccountId) return justCreatedAccountId;
     return "";
-  }, [accountIdFromQuery, createdAccountId, explicitResumeAccountId]);
+  }, [explicitResumeAccountId, justCreatedAccountId]);
   const accountIdQueryError = useMemo(() => {
     if (!accountIdFromQuery) return null;
     if (!isValidAccountIdSegment(accountIdFromQuery)) return "Invalid account id.";
+    if (justCreatedAccountId && accountIdFromQuery === justCreatedAccountId) return null;
     if (mePending) return null;
     if (!explicitResumeAccountId) {
       return "We could not find that organisation on your account. Return to organisation selection and try again.";
     }
     return null;
-  }, [accountIdFromQuery, explicitResumeAccountId, mePending]);
+  }, [accountIdFromQuery, explicitResumeAccountId, justCreatedAccountId, mePending]);
 
   const needsFirstAccount = useMemo(() => {
     if (accountIdFromQuery) return false;
     if (createdAccountId) return false;
     return true;
+  }, [accountIdFromQuery, createdAccountId]);
+
+  useEffect(() => {
+    if (busyCooldownUntilMs == null) return;
+    const remaining = busyCooldownUntilMs - Date.now();
+    if (remaining <= 0) {
+      setBusyCooldownUntilMs(null);
+      return;
+    }
+    const timer = window.setTimeout(() => setBusyCooldownUntilMs(null), remaining);
+    return () => window.clearTimeout(timer);
+  }, [busyCooldownUntilMs]);
+
+  useEffect(() => {
+    const prev = prevAccountIdFromQueryRef.current;
+    prevAccountIdFromQueryRef.current = accountIdFromQuery;
+    if (prev === null) return;
+    if (prev === accountIdFromQuery) return;
+    // Query id changed to a different account — drop stale local create state / hydration.
+    if (createdAccountId && accountIdFromQuery !== createdAccountId) {
+      setCreatedAccountId("");
+    }
+    stepHydratedFromServerRef.current = false;
   }, [accountIdFromQuery, createdAccountId]);
 
   const onboardingStateQuery = useOnboardingOnboardingState(accountId, {
@@ -157,11 +194,6 @@ export function CreateOrganisationWizard() {
   const deleteAccountMutation = useDeleteUnfinishedAccount(accountId);
 
   const onboardingData = onboardingStateQuery.data;
-
-  const canDeleteUnfinishedAccount = useMemo(
-    () => canDeleteUnfinishedOnboardingAccount(onboardingData),
-    [onboardingData],
-  );
 
   const entryIntent = onboardingData ? resolveAccountEntry(onboardingData) : null;
 
@@ -216,7 +248,9 @@ export function CreateOrganisationWizard() {
   const handleGetStarted = useCallback(() => {
     if (mePending || meError) return;
     if (!selectedSportId.trim()) return;
+    if (busyCooldownUntilMs != null && Date.now() < busyCooldownUntilMs) return;
     if (needsFirstAccount) {
+      if (createFirst.isPending) return;
       setCreateAccountError(null);
       createFirst.mutate(
         { sport: selectedSportId.trim(), hasCompletedStartSequence: true },
@@ -224,18 +258,43 @@ export function CreateOrganisationWizard() {
           onSuccess: (res) => {
             const id = res.data.accountId;
             if (typeof id === "number" && Number.isFinite(id) && id > 0) {
-              setCreatedAccountId(String(id));
+              const idStr = String(id);
+              setCreatedAccountId(idStr);
+              setBusyCooldownUntilMs(null);
               setStepIndex(1);
+              router.replace(`${ROUTES.createOrganisation}?accountId=${encodeURIComponent(idStr)}`);
               return;
             }
             setCreateAccountError("Account was created, but the new account id was missing.");
+          },
+          onError: (err) => {
+            if (isAccountCreateBusyError(err)) {
+              setCreateAccountError(accountCreateBusyMessage(err));
+              const seconds = accountCreateBusyRetryAfterSeconds(err);
+              setBusyCooldownUntilMs(Date.now() + seconds * 1000);
+              return;
+            }
+            if (err instanceof Error) {
+              setCreateAccountError(err.message);
+            } else {
+              setCreateAccountError("Could not prepare your organisation. Please try again.");
+            }
           },
         },
       );
     } else {
       goNext();
     }
-  }, [createFirst, goNext, meError, mePending, needsFirstAccount, selectedSportId]);
+  }, [
+    busyCooldownUntilMs,
+    createFirst,
+    goNext,
+    meError,
+    mePending,
+    needsFirstAccount,
+    router,
+    selectedSportId,
+  ]);
 
   const handleConfirmSuccess = useCallback(async () => {
     if (!accountId) {
@@ -256,11 +315,20 @@ export function CreateOrganisationWizard() {
     router.replace(accountScopedRoutes.dashboard(accountId));
   }, [accountId, queryClient, router]);
 
-  const getStartedPending = mePending || (isGetStarted && createFirst.isPending);
-  const getStartedError =
-    isGetStarted && createFirst.isError && createFirst.error instanceof Error
-      ? createFirst.error.message
-      : createAccountError;
+  const busyCooldownActive = busyCooldownUntilMs != null;
+  const getStartedPending =
+    mePending || (isGetStarted && createFirst.isPending) || (isGetStarted && busyCooldownActive);
+  const getStartedError = useMemo(() => {
+    if (!isGetStarted) return null;
+    if (createAccountError) return createAccountError;
+    if (createFirst.isError && createFirst.error) {
+      if (isAccountCreateBusyError(createFirst.error)) {
+        return accountCreateBusyMessage(createFirst.error);
+      }
+      if (createFirst.error instanceof Error) return createFirst.error.message;
+    }
+    return null;
+  }, [createAccountError, createFirst.error, createFirst.isError, isGetStarted]);
 
   const sportChosen = useMemo(() => {
     if (!selectedSportId.trim()) return false;
@@ -632,7 +700,7 @@ export function CreateOrganisationWizard() {
         </div>
       ) : null}
 
-      {canDeleteUnfinishedAccount && accountId ? (
+      {accountId ? (
         <div className="flex flex-col items-center gap-2 border-t pt-6">
           <Button
             type="button"

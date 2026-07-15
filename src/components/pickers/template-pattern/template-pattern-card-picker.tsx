@@ -6,8 +6,8 @@ import { cn } from "@/lib/utils";
 import { useTemplatePatternPickerList } from "./_hooks";
 import { patternLabel, valueLabel } from "./_utils";
 
-export function TemplatePatternCardPicker() {
-  const { patterns, selectValue, setSelectedId } = useTemplatePatternPickerList();
+export function TemplatePatternCardPicker({ accountId }: { accountId: string }) {
+  const { patterns, selectValue, setSelectedId } = useTemplatePatternPickerList(accountId);
 
   return (
     <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">

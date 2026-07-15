@@ -7,9 +7,9 @@ import { useTemplateCategoriesListForSelection } from "@/lib/api/hooks/account/u
 import { categoryLabel, resolveSelectedCategoryIdString } from "../_utils";
 import { useTemplateCategoryPickerSelection } from "./use-template-category-picker-selection";
 
-export function useTemplateCategoryPickerList() {
+export function useTemplateCategoryPickerList(accountId: string) {
   const { data } = useTemplateCategoriesListForSelection();
-  const { selectedId, setSelectedId } = useTemplateCategoryPickerSelection();
+  const { selectedId, setSelectedId } = useTemplateCategoryPickerSelection(accountId);
   const categories = useMemo(() => data?.data ?? [], [data]);
 
   const resolvedSelectedId = useMemo(

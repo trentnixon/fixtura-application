@@ -6,8 +6,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useTemplatePatternPickerList } from "./_hooks";
 import { valueLabel } from "./_utils";
 
-export function TemplatePatternPickerDetail() {
-  const { selectedPattern } = useTemplatePatternPickerList();
+export function TemplatePatternPickerDetail({ accountId }: { accountId: string }) {
+  const { selectedPattern } = useTemplatePatternPickerList(accountId);
 
   return (
     <Card className="border">

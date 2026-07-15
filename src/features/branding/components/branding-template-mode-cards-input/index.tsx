@@ -15,11 +15,12 @@ export type { BrandingTemplateModeCardsInputProps } from "./_types";
  * `/api/template-modes/ui` via `useTemplateModePickerList`).
  */
 export function BrandingTemplateModeCardsInput({
+  accountId,
   interactive,
   brandPrimaryHex,
   brandSecondaryHex,
 }: BrandingTemplateModeCardsInputProps) {
-  const state = useBrandingTemplateModeCardsInputState(interactive);
+  const state = useBrandingTemplateModeCardsInputState(accountId, interactive);
 
   switch (state.phase) {
     case "readonly":

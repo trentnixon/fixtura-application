@@ -2,14 +2,14 @@ import * as Sentry from "@sentry/nextjs";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
+import { nextResponseFromStrapiFetch } from "@/lib/api/bff/next-response-from-strapi-fetch";
 import { AUTH_COOKIE_NAME } from "@/lib/auth/auth-constants";
 import { getStrapiUrl } from "@/lib/config/env";
 
-import type { AccountMeResponse } from "@/types/api/account";
-
 /**
  * Proxy route for GET /api/account/me.
- * Proxies to Strapi's /api/account/me which resolves the account via JWT.
+ * Proxies to Strapi's /api/account/me which authenticates the user via JWT and returns
+ * owned organisations in `data.accounts[]`. Compatibility `data.accountId` is not selection state.
  */
 export async function GET() {
   const strapiUrl = getStrapiUrl();
@@ -29,17 +29,7 @@ export async function GET() {
       cache: "no-store",
     });
 
-    if (!strapiRes.ok) {
-      const errorText = await strapiRes.text();
-      // Handle known Strapi errors (403, 404, etc.)
-      return NextResponse.json(
-        { error: errorText || "Strapi error" },
-        { status: strapiRes.status },
-      );
-    }
-
-    const data = (await strapiRes.json()) as AccountMeResponse;
-    return NextResponse.json(data);
+    return nextResponseFromStrapiFetch(strapiRes);
   } catch (error) {
     Sentry.captureException(error);
     return NextResponse.json({ error: "Unexpected server error" }, { status: 500 });

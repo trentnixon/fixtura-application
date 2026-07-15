@@ -7,8 +7,8 @@ import { cn } from "@/lib/utils";
 import { useTemplateCategoryPickerList } from "./_hooks";
 import { categoryLabel } from "./_utils";
 
-export function TemplateCategoryCardPicker() {
-  const { categories, selectValue, setSelectedId } = useTemplateCategoryPickerList();
+export function TemplateCategoryCardPicker({ accountId }: { accountId: string }) {
+  const { categories, selectValue, setSelectedId } = useTemplateCategoryPickerList(accountId);
 
   return (
     <div className="space-y-3">

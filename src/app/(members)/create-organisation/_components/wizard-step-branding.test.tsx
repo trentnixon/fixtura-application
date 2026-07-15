@@ -2,6 +2,8 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { createRef } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { accountSummaryFixture } from "@/lib/account/account-summary-fixture";
+
 import {
   accountMeQueryData,
   baseBrandingPayload,
@@ -108,12 +110,12 @@ describe("WizardStepBranding", () => {
     useAccountMe.mockReturnValue({
       data: accountMeQueryData({
         accounts: [
-          {
+          accountSummaryFixture({
             id: 1,
             FirstName: "Jane",
             LastName: "Doe",
             onboardingOrganisationName: "Metro Association",
-          },
+          }),
         ],
       }),
       isPending: false,

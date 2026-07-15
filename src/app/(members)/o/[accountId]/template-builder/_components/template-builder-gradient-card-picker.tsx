@@ -87,6 +87,8 @@ export function TemplateBuilderGradientCardPicker({
       onSelect={onSelect}
       emptyMessage="No gradients available."
       centerTiles={centerTiles}
+      orientation="vertical"
+      scrollClassName="h-[min(40vh,16rem)]"
       splitBackgroundVariant="icon"
       getTileBackgroundStyle={(item) => {
         const background = gradientBackgroundById.get(item.id);

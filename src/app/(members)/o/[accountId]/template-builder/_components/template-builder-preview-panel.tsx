@@ -49,9 +49,10 @@ export function TemplateBuilderPreviewPanel({
   templateModeSlug: string | null;
   toolbarStart?: ReactNode;
 }) {
-  const imageOptions = useImageOptionsAssetsPicker(
-    sport != null && sport.trim() !== "" ? { lockSportFilterTo: sport } : undefined,
-  );
+  const imageOptions = useImageOptionsAssetsPicker({
+    accountId,
+    ...(sport != null && sport.trim() !== "" ? { lockSportFilterTo: sport } : {}),
+  });
 
   const exampleCompositionId = useMemo(() => {
     const fromAsset = imageOptions.selected?.CompositionID;
@@ -83,12 +84,20 @@ export function TemplateBuilderPreviewPanel({
 
   return (
     <section aria-label="Template preview" className={TEMPLATE_BUILDER_PREVIEW_SECTION_CLASS}>
-      <div className="flex justify-end px-2">
-        <AssetPreviewDisplayModeToggle
-          value={displayMode}
-          onValueChange={setDisplayMode}
-          disabled={!previewSupported}
-        />
+      <div className="flex w-full items-center justify-end gap-2 px-2">
+        {isCricketSport(sport) ? (
+          <ImageOptionsAssetsPicker
+            accountId={accountId}
+            compact
+            inline
+            isSelect
+            hideSelectLabel
+            hideStatusSummary
+            organisationSport={sport}
+          />
+        ) : (
+          <p className="text-muted-foreground text-sm">No selectable assets for this sport.</p>
+        )}
       </div>
 
       <div className={TEMPLATE_BUILDER_PREVIEW_STAGE_CLASS}>
@@ -104,37 +113,23 @@ export function TemplateBuilderPreviewPanel({
         />
       </div>
 
-      <div className={TEMPLATE_BUILDER_PREVIEW_TOOLBAR_SURFACE_CLASS}>
-        <div
-          className={cn(
-            TEMPLATE_BUILDER_PREVIEW_TOOLBAR_CLASS,
-            toolbarStart == null && "justify-center",
-          )}
-        >
-          <div className={cn("shrink-0", toolbarStart == null && "mx-auto")}>
-            {isCricketSport(sport) ? (
-              <ImageOptionsAssetsPicker
-                compact
-                inline
-                isSelect
-                hideSelectLabel
-                hideStatusSummary
-                organisationSport={sport}
-              />
-            ) : (
-              <p className="text-muted-foreground text-center text-sm">
-                No selectable assets for this sport.
-              </p>
-            )}
-          </div>
+      <div className="flex justify-center px-2">
+        <AssetPreviewDisplayModeToggle
+          value={displayMode}
+          onValueChange={setDisplayMode}
+          disabled={!previewSupported}
+        />
+      </div>
 
-          {toolbarStart != null ? (
-            <div className="flex min-w-0 flex-1 flex-wrap items-center justify-end gap-x-4 gap-y-2 text-sm">
+      {toolbarStart != null ? (
+        <div className={TEMPLATE_BUILDER_PREVIEW_TOOLBAR_SURFACE_CLASS}>
+          <div className={cn(TEMPLATE_BUILDER_PREVIEW_TOOLBAR_CLASS, "justify-end")}>
+            <div className="flex min-w-0 flex-wrap items-center justify-end gap-x-4 gap-y-2 text-sm">
               {toolbarStart}
             </div>
-          ) : null}
+          </div>
         </div>
-      </div>
+      ) : null}
     </section>
   );
 }

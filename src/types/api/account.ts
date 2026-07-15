@@ -1,13 +1,28 @@
-/** Organisation display slice from per-account rows on GET /api/account/me, legacy hub, or Phase 4 org context. */
-export type AccountOrganisationDetails = {
+/** Organisation display slice from per-account rows on GET /api/account/me. */
+export interface AccountOrganisationSummary {
   id: number;
-  Name: string;
-  href: string;
-  ParentLogo: string;
-  Sport: string;
-  /** Present on association (non-club) branch per Phase 4 handoff. */
+  Name: string | null;
   PlayHQID?: string | null;
-};
+  href: string | null;
+  ParentLogo: string | null;
+  Sport: string | null;
+}
+
+/** @deprecated Use AccountOrganisationSummary — kept for existing imports. */
+export type AccountOrganisationDetails = AccountOrganisationSummary;
+
+/** Lightweight branding on GET /api/account/me `accounts[]` rows. */
+export interface AccountThemeSummary {
+  id: number;
+  name: string | null;
+  isPublic: boolean;
+  /** Theme JSON passed through from Strapi theme.Theme */
+  theme: {
+    primary?: string;
+    secondary?: string;
+    [key: string]: unknown;
+  } | null;
+}
 
 /**
  * Opaque / evolving — prefer typing the fields your screens actually use.
@@ -31,49 +46,68 @@ export interface AccountMeUser {
   blocked: boolean;
   role: {
     id: number;
-    name: string;
-    type: string;
+    name?: string;
+    type?: string;
   } | null;
 }
 
-/** Summary row for gateway account picker (`accounts[]` on GET /api/account/me). */
+/**
+ * Owned-organisation row on GET `/api/account/me` `data.accounts[]`.
+ * CMS currently returns the fields below on each item; treat missing values defensively at UI boundaries.
+ * Never use array position, `isActive`, or compatibility `data.accountId` as selection state.
+ */
 export interface AccountSummary {
   id: number;
-  contentHub?: AccountContentHubPayload;
-  /** Present on each `accounts[]` item; preferred over legacy contentHub slice when set. */
-  accountOrganisationDetails?: AccountOrganisationDetails;
-  /** Account row fields (membership / CMS); use with org slice for select-organisation UI. */
-  FirstName?: string | null;
-  LastName?: string | null;
-  DeliveryAddress?: string | null;
-  isActive?: boolean;
-  isSetup?: boolean;
-  /** When set on bootstrap, avoids extra onboarding-state fetch for card tone; optional CMS field. */
-  hasCompletedOnboardingWizard?: boolean;
-  isRightsHolder?: boolean;
+  FirstName: string | null;
+  LastName: string | null;
+  DeliveryAddress: string | null;
+  isActive: boolean;
+  isSetup: boolean;
+  isRightsHolder: boolean | null;
+  isPermissionGiven: boolean | null;
+  group_assets_by: boolean;
+  include_junior_surnames: boolean;
+  isUpdating: boolean;
   /** Account-level sport (may match `accountOrganisationDetails.Sport`). */
-  Sport?: string;
-  account_type?: number;
-  /** Saved template-option row id for `GET .../all-template-options?templateOptionId=` (CMS; optional). @see .comms/API/handoff-all-template-options.md */
-  templateOptionId?: number | null;
-  /** Phase 2 onboarding working name; optional until CMS exposes on bootstrap. */
-  onboardingOrganisationName?: string | null;
-  [key: string]: unknown;
+  Sport: string | null;
+  onboardingOrganisationName: string | null;
+  /** Null means onboarding unfinished — use for Continue setup (not blank-account club/assoc rules). */
+  onboardingWizardCompletedAt: string | null;
+  /** ISO-8601 account creation timestamp */
+  createdAt: string;
+  /** Lightweight branding only; null when no theme is linked */
+  theme: AccountThemeSummary | null;
+  /** Account-type relation id */
+  account_type: number | null;
+  accountOrganisationDetails: AccountOrganisationSummary | null;
+  /** Saved template-option row id for `GET .../all-template-options?templateOptionId=`. */
+  templateOptionId: number | null;
+  /** @deprecated Prefer top-level row fields; legacy nested hub only. */
+  contentHub?: AccountContentHubPayload;
+  /**
+   * Optional bootstrap convenience for card tone; prefer `onboardingWizardCompletedAt === null`
+   * for Continue setup when the CMS field is present.
+   */
+  hasCompletedOnboardingWizard?: boolean;
 }
 
 /**
- * Bootstrap body for GET /api/account/me (Phase 1): light `user`, `accountId`, and `accounts[]` only.
- * Heavy dashboard fields (scheduler, renders, render_token, hub aggregates) belong on organisation hub or future `/accounts/:id/*` routes — not on `/me`.
+ * Bootstrap body for GET `/api/account/me`: authenticated `user` plus owned `accounts[]`.
+ * Heavy dashboard fields belong on organisation hub or `/accounts/:id/*` — not on `/me`.
  * Legacy top-level `contentHub` / `extended` may still appear from older CMS builds; do not rely on them for new UI.
  */
 export interface AccountMePayload {
-  accountId: number;
+  /**
+   * Temporary compatibility only (often lowest owned id). Never use as active, preferred,
+   * default, or selected account state. May be null or omitted in a later CMS cleanup.
+   */
+  accountId?: number | null;
   user: AccountMeUser | null;
   /** @deprecated Prefer per-row fields on `accounts[]`; optional for legacy responses only. */
   contentHub?: AccountContentHubPayload;
-  /** Accounts the JWT user may open (gateway selection). */
-  accounts?: AccountSummary[];
-  /** @deprecated Not part of Phase 1 bootstrap; optional if CMS still honours legacy `?depth=extended`. */
+  /** Source of truth for organisation listing and selection — render every returned account. */
+  accounts: AccountSummary[];
+  /** @deprecated Not part of bootstrap; optional if CMS still honours legacy `?depth=extended`. */
   extended?: AccountMeExtended;
 }
 
@@ -99,6 +133,16 @@ export interface CreateFirstAccountPayload {
 
 export interface CreateFirstAccountResponse {
   data: CreateFirstAccountPayload;
+}
+
+/** DELETE /api/accounts/:accountId — confirmed unfinished-account deletion */
+export interface DeleteAccountPayload {
+  accountId: number;
+  deleted: true;
+}
+
+export interface DeleteAccountResponse {
+  data: DeleteAccountPayload;
 }
 
 /** L1 — GET /api/account/onboarding/lookups/sports */

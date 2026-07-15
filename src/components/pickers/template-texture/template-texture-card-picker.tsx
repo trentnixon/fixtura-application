@@ -7,8 +7,8 @@ import { toNumberOrNull } from "@/types/api/template-textures";
 import { useTemplateTexturePickerList } from "./_hooks";
 import { templateTextureLabel, valueLabel } from "./_utils";
 
-export function TemplateTextureCardPicker() {
-  const { textures, selectValue, setSelectedId } = useTemplateTexturePickerList();
+export function TemplateTextureCardPicker({ accountId }: { accountId: string }) {
+  const { textures, selectValue, setSelectedId } = useTemplateTexturePickerList(accountId);
 
   return (
     <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">

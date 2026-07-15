@@ -17,6 +17,7 @@ describe("nextResponseFromStrapiFetch", () => {
     const strapiRes = jsonResponse({ data: { accountId: 1 } });
     const out = await nextResponseFromStrapiFetch(strapiRes);
     expect(out.status).toBe(200);
+    expect(out.headers.get("Retry-After")).toBeNull();
     expect(await out.json()).toEqual({ data: { accountId: 1 } });
   });
 
@@ -68,5 +69,36 @@ describe("nextResponseFromStrapiFetch", () => {
     const out = await nextResponseFromStrapiFetch(strapiRes);
     expect(out.status).toBe(200);
     expect(await out.json()).toBe("ok");
+  });
+
+  it("forwards Retry-After on 503 ACCOUNT_CREATE_BUSY", async () => {
+    const strapiRes = jsonResponse(
+      {
+        error: {
+          code: "ACCOUNT_CREATE_BUSY",
+          message: "Account creation is busy. Please retry.",
+        },
+      },
+      { status: 503, headers: { "Retry-After": "1" } },
+    );
+    const out = await nextResponseFromStrapiFetch(strapiRes);
+    expect(out.status).toBe(503);
+    expect(out.headers.get("Retry-After")).toBe("1");
+    expect(await out.json()).toEqual({
+      error: {
+        code: "ACCOUNT_CREATE_BUSY",
+        message: "Account creation is busy. Please retry.",
+      },
+    });
+  });
+
+  it("forwards Retry-After on successful responses when present", async () => {
+    const strapiRes = jsonResponse(
+      { data: { accountId: 5 } },
+      { status: 201, headers: { "Retry-After": "2" } },
+    );
+    const out = await nextResponseFromStrapiFetch(strapiRes);
+    expect(out.status).toBe(201);
+    expect(out.headers.get("Retry-After")).toBe("2");
   });
 });

@@ -6,8 +6,9 @@ import { nextResponseFromStrapiFetch } from "@/lib/api/bff/next-response-from-st
 import { parseJsonBodyOrEmpty } from "@/lib/api/bff/parse-json-body-or-empty";
 
 /**
- * BFF proxy for A1 — create or attach first account (zero-account users).
- * Upstream: POST {STRAPI_URL}/api/account/first (see create-organisation/.comms/phase-1/app-handoff-post-account-first-endpoint.md).
+ * BFF proxy for POST /api/account/first — obtain the authenticated user's reusable blank account.
+ * Upstream returns 201 (created), 200 (reused blank), or 503 ACCOUNT_CREATE_BUSY with Retry-After.
+ * Both 200 and 201 bodies are `{ data: { accountId } }` and are equivalent success for the caller.
  */
 export async function POST(request: Request) {
   const guard = await guardStrapiRequest();

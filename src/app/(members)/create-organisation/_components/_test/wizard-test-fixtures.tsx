@@ -1,5 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+import { accountSummaryFixture } from "@/lib/account/account-summary-fixture";
+
 import type {
   AccountBrandingResponse,
   AccountSettingsResponse,
@@ -33,8 +35,19 @@ export function accountMeQueryData(
     accounts?: AccountSummary[];
   } = {},
 ) {
-  const accounts = over.accounts ?? [{ id: 1 }];
-  const accountId = "accountId" in over ? over.accountId : (accounts[0]?.id ?? 1);
+  const accounts = over.accounts ?? [accountSummaryFixture({ id: 1 })];
+  let accountId: number | null;
+  if ("accountId" in over) {
+    accountId = over.accountId ?? null;
+  } else if (accounts.length === 0) {
+    accountId = null;
+  } else if (accounts.length === 1) {
+    accountId = accounts[0]?.id ?? null;
+  } else {
+    throw new Error(
+      "accountMeQueryData: pass explicit accountId when fixtures include multiple accounts",
+    );
+  }
   return {
     data: {
       accountId,

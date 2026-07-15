@@ -287,7 +287,7 @@ export function AssetPreviewCarousel({
             durationInFrames={state.durationInFrames}
             frameToDisplay={target.frameToDisplay}
             frameKey={`${mediaKey}-thumb-${index}-${target.desired}`}
-            className={embedded ? "w-auto min-w-0 shrink-0" : undefined}
+            className={embedded ? "w-full min-w-0" : undefined}
             aspectFrameClassName={
               thumbnailPreviewRootClassName ? undefined : resolvedThumbnailFrameClassName
             }

@@ -1,7 +1,8 @@
 import type {
   AccountMePayload,
-  AccountOrganisationDetails,
+  AccountOrganisationSummary,
   AccountSummary,
+  AccountThemeSummary,
 } from "@/types/api/account";
 
 /**
@@ -10,43 +11,39 @@ import type {
  */
 export function organisationDetailsFromAccountRow(
   row: AccountSummary,
-): AccountOrganisationDetails | undefined {
-  return row.contentHub?.accountOrganisationDetails ?? row.accountOrganisationDetails;
+): AccountOrganisationSummary | undefined {
+  return row.contentHub?.accountOrganisationDetails ?? row.accountOrganisationDetails ?? undefined;
+}
+
+/** Theme slice from a bootstrap account row. */
+export function themeFromAccountMeRow(row: AccountSummary): AccountThemeSummary | null {
+  return row.theme;
 }
 
 /**
- * Rows for the org picker: prefers `accounts[]`, falls back to synthetic row from `accountId` + optional legacy `contentHub`.
+ * Rows for the org picker: `data.accounts[]` only.
+ * Does not synthesize a row from compatibility `data.accountId`.
+ * Callers should only pass payloads that already passed `parseAccountMeResponse`
+ * (or test fixtures with an explicit `accounts` array).
  */
 export function accountPickerRowsFromMePayload(
   payload: AccountMePayload | undefined,
 ): AccountSummary[] {
   if (!payload) return [];
-  const accounts = payload.accounts ?? [];
-  if (accounts.length > 0) return accounts;
-  if (payload.accountId != null && payload.accountId > 0) {
-    const row: AccountSummary = { id: payload.accountId };
-    if (payload.contentHub !== undefined) row.contentHub = payload.contentHub;
-    return [row];
-  }
-  return [];
+  return payload.accounts;
 }
 
 /**
- * The account row to use for shell chrome (sidebar user chip, etc.): matches `selectedAccountId` when
- * provided, otherwise the row for `payload.accountId`, else the first row.
+ * Account row for scoped chrome (sidebar chip, prefill, etc.).
+ * Requires an explicit `selectedAccountId`; never falls back to compatibility `accountId` or `accounts[0]`.
  */
 export function activeAccountSummaryFromMePayload(
   payload: AccountMePayload | undefined,
-  selectedAccountId?: string,
+  selectedAccountId: string | undefined,
 ): AccountSummary | undefined {
   if (!payload) return undefined;
+  if (selectedAccountId == null || selectedAccountId === "") return undefined;
+
   const rows = accountPickerRowsFromMePayload(payload);
-  if (rows.length === 0) return undefined;
-
-  const target =
-    selectedAccountId != null && selectedAccountId !== ""
-      ? selectedAccountId
-      : String(payload.accountId);
-
-  return rows.find((r) => String(r.id) === target) ?? rows[0];
+  return rows.find((r) => String(r.id) === selectedAccountId);
 }

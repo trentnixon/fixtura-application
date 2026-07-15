@@ -38,7 +38,7 @@ export function useBrandingWorkspace({
     setSelectedId,
     modes,
     isPending: templateModesPending,
-  } = useTemplateModePickerList();
+  } = useTemplateModePickerList(accountId);
 
   const savedModeId = useMemo(
     () => readTemplateModeId(data.template_option),

@@ -1,6 +1,13 @@
 import { tryNormalizeHex } from "@/lib/brand-color";
 
-import type { AccountBrandingTheme, OnboardingThemeOption } from "@/types/api/account";
+import type {
+  AccountBrandingTheme,
+  AccountThemeSummary,
+  OnboardingThemeOption,
+} from "@/types/api/account";
+
+/** Theme slice accepted from GET branding or GET /account/me bootstrap rows. */
+export type AccountThemeColourSource = AccountBrandingTheme | AccountThemeSummary;
 
 /** Default `dark` / `white` in theme JSON when absent or invalid. */
 export const THEME_JSON_DEFAULT_DARK = "#111";
@@ -36,7 +43,7 @@ function parseSecondaryFromThemeJson(o: Record<string, unknown>): string | null 
 
 /** True when the Strapi theme JSON row has both brand colours as valid hex. */
 export function accountThemeJsonHasExplicitPrimarySecondary(
-  theme: AccountBrandingTheme | null | undefined,
+  theme: AccountThemeColourSource | null | undefined,
 ): boolean {
   const raw = theme?.theme;
   if (!raw || typeof raw !== "object") return false;
@@ -56,7 +63,7 @@ export type ThemePaletteFromBranding = {
  * Expects `primary` / `secondary` / optional `dark` / `white` (hex). Legacy and alternate keys supported.
  */
 export function themeColoursFromAccountBrandingTheme(
-  theme: AccountBrandingTheme | null | undefined,
+  theme: AccountThemeColourSource | null | undefined,
 ): ThemePaletteFromBranding {
   const raw = theme?.theme;
   if (!raw || typeof raw !== "object") {
@@ -85,7 +92,7 @@ export function themeColoursFromAccountBrandingTheme(
  * otherwise, if the theme id matches a premade catalogue row, uses that row’s JSON (same idea as step 2).
  */
 export function themeColoursForReviewStep(
-  accountTheme: AccountBrandingTheme | null | undefined,
+  accountTheme: AccountThemeColourSource | null | undefined,
   catalogueRows: OnboardingThemeOption[] | undefined,
 ): ThemePaletteFromBranding {
   const fromApi = themeColoursFromAccountBrandingTheme(accountTheme);

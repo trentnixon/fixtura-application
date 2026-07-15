@@ -5,8 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { useTemplatePalettePickerList } from "./_hooks";
 
-export function TemplatePalettePickerDetail() {
-  const { selectedPalette } = useTemplatePalettePickerList();
+export function TemplatePalettePickerDetail({ accountId }: { accountId: string }) {
+  const { selectedPalette } = useTemplatePalettePickerList(accountId);
 
   if (!selectedPalette) {
     return null;

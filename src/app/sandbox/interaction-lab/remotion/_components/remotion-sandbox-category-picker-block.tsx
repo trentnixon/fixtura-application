@@ -5,6 +5,7 @@ import Link from "next/link";
 import { TemplateCategorySelectPicker } from "@/components/pickers/template-category";
 import { TypographyMuted } from "@/components/typography";
 import { Button } from "@/components/ui/button";
+import { PICKER_SANDBOX_ACCOUNT_SCOPE } from "@/lib/api/query/query-keys";
 import { ROUTES } from "@/lib/config/routes";
 
 type RemotionSandboxCategoryPickerBlockProps = {
@@ -56,5 +57,5 @@ export function RemotionSandboxCategoryPickerBlock({
     return <TypographyMuted className="text-sm">No template categories returned.</TypographyMuted>;
   }
 
-  return <TemplateCategorySelectPicker />;
+  return <TemplateCategorySelectPicker accountId={PICKER_SANDBOX_ACCOUNT_SCOPE} />;
 }

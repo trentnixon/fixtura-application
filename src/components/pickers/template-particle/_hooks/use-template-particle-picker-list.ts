@@ -7,9 +7,9 @@ import { useTemplateParticlesUi } from "@/lib/api/hooks/template-particles/useTe
 import { resolveSelectedTemplateParticleIdString } from "../_utils";
 import { useTemplateParticlePickerSelection } from "./use-template-particle-picker-selection";
 
-export function useTemplateParticlePickerList() {
+export function useTemplateParticlePickerList(accountId: string) {
   const { data, refetch, isFetching, isPending, isError, error } = useTemplateParticlesUi();
-  const { selectedId, setSelectedId } = useTemplateParticlePickerSelection();
+  const { selectedId, setSelectedId } = useTemplateParticlePickerSelection(accountId);
   const particles = useMemo(() => data?.data ?? [], [data]);
 
   const resolvedSelectedId = useMemo(

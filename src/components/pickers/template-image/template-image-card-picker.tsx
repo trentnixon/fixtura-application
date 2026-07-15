@@ -11,8 +11,8 @@ function fmt(v: string | number | null | undefined): string {
   return String(v);
 }
 
-export function TemplateImageCardPicker() {
-  const { images, selectValue, setSelectedId } = useTemplateImagePickerList();
+export function TemplateImageCardPicker({ accountId }: { accountId: string }) {
+  const { images, selectValue, setSelectedId } = useTemplateImagePickerList(accountId);
 
   return (
     <div className="space-y-3">

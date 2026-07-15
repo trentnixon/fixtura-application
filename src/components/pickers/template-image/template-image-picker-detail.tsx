@@ -9,8 +9,8 @@ function fmt(v: string | number | null | undefined): string {
   return String(v);
 }
 
-export function TemplateImagePickerDetail() {
-  const { selectedImage } = useTemplateImagePickerList();
+export function TemplateImagePickerDetail({ accountId }: { accountId: string }) {
+  const { selectedImage } = useTemplateImagePickerList(accountId);
 
   if (!selectedImage) {
     return null;

@@ -7,8 +7,8 @@ import { cn } from "@/lib/utils";
 import { useTemplateNoisePickerList } from "./_hooks";
 import { templateNoiseLabel, templateNoiseTypeMissing } from "./_utils";
 
-export function TemplateNoiseCardPicker() {
-  const { noises, selectValue, setSelectedId } = useTemplateNoisePickerList();
+export function TemplateNoiseCardPicker({ accountId }: { accountId: string }) {
+  const { noises, selectValue, setSelectedId } = useTemplateNoisePickerList(accountId);
 
   return (
     <div className="space-y-3">

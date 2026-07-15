@@ -2,6 +2,7 @@ import type { TemplateModeUiItem } from "@/types/api/template-modes";
 import type { ReactNode } from "react";
 
 export type BrandingTemplateModeCardsInputProps = {
+  accountId: string;
   interactive: boolean;
   /** Brand hex strings from colour fields; tiles use a primary→secondary gradient when both normalise. */
   brandPrimaryHex?: string | null;
@@ -32,4 +33,6 @@ export type ModeGridCardsProps = {
   setSelectedId: (id: string | null | undefined) => void;
   brandPrimaryHex?: string | null | undefined;
   brandSecondaryHex?: string | null | undefined;
+  /** Compact tiles for dense editors (e.g. template-builder). Default fills the row like branding. */
+  density?: "default" | "compact";
 };

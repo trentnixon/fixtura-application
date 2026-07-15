@@ -7,8 +7,8 @@ import { toNumberOrNull } from "@/types/api/template-textures";
 import { useTemplateTexturePickerList } from "./_hooks";
 import { valueLabel } from "./_utils";
 
-export function TemplateTexturePickerDetail() {
-  const { selectedTexture } = useTemplateTexturePickerList();
+export function TemplateTexturePickerDetail({ accountId }: { accountId: string }) {
+  const { selectedTexture } = useTemplateTexturePickerList(accountId);
   const coercedOpacity = selectedTexture ? toNumberOrNull(selectedTexture.opacity) : null;
   const t = selectedTexture?.texture;
 

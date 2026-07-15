@@ -1,6 +1,13 @@
 # Onboarding Hardening LLM Team Prompt
 
-Use this prompt to brief an LLM teammate on the onboarding hardening work.
+> **Authority (2026-07-13):** For multi-account create/reuse/selection, the current contract is
+> [`12-frontend-integration-guide.md`](./12-frontend-integration-guide.md) and the
+> [`frontend-integration-phases/`](./frontend-integration-phases/) pack.
+> Do **not** follow older “always mint a new account row” or “CMS one-to-one blocked” language below
+> as active instructions — those sections are superseded.
+
+Use this prompt to brief an LLM teammate on the **legacy** onboarding hardening work (Phases 1–7).
+For new multi-account frontend integration work, start with the frontend integration phase pack instead.
 
 ## Context
 
@@ -37,33 +44,33 @@ What is working well:
 - Step mutation hooks invalidate relevant account, setup, and onboarding-state query keys.
 - Unfinished-account delete has helper logic, customer copy, mutation tests, and UI coverage.
 - Custom onboarding colours now persist through the same branding save path used by the account branding screen.
-- Multi-account create/resume behavior is explicit: create means new account; selecting an unfinished account resumes it.
+- Multi-account create/resume is explicit: create obtains the reusable blank account (`200` reuse and `201` create are equivalent success); selecting an unfinished account resumes it.
 
 Known gaps:
 
 - Setup-`failed` retry reachability needs CMS/admin fixtures for browser sign-off.
 - Associations/clubs with no fixtures may legitimately leave setup/data-fetch in a pending or no-work state; this needs a dedicated follow-up scenario.
-- `/api/account/first` is still the account creation endpoint name, but Phase 7 now depends on it supporting additional account creation, not only first-account creation.
 - `GET /api/account/me` and legacy `GET /api/account/organisation/[accountId]` still use inline BFF guards (out of onboarding matrix).
 - Step 3 uses `deliveryAddress` for weekly asset email, which is contract-compatible but easy to misunderstand.
 
+Historical CMS research (one-to-one / create-new-row) lived in `cms-multi-account-user-relation.md` and related research requests. That blocker is **superseded** by the implemented multi-account CMS contract in `12-frontend-integration-guide.md`.
+
 ## Important Product Rule
 
-`/create-organisation` with no `accountId` must always create a new account instance. It must not infer or reuse `/api/account/me.accountId`.
+`/create-organisation` with no `accountId` obtains the reusable blank account via `POST /api/account/first`. Treat `200` (reuse) and `201` (create) as equivalent frontend success using the returned `data.accountId`. It must not infer or reuse compatibility `/api/account/me.accountId`.
 
-Explicit resume is only `/create-organisation?accountId=...`, and the id must belong to the signed-in user. Customers resume incomplete organisations by selecting the unfinished organisation card on `/select-organisation`.
+Explicit resume is only `/create-organisation?accountId=...`, and the id must belong to the signed-in user (`data.accounts[]`). Customers resume incomplete organisations by selecting the unfinished organisation card on `/select-organisation`.
 
 ## Next Phase
 
-Phases 1-7 are complete. Review current follow-up notes before new onboarding work:
+Legacy onboarding Phases 1–7 are app-complete against the historical plan. Active multi-account frontend work continues in:
 
-- `docs/route-hardening/onboarding/outstanding-dev-review.md`
-- `docs/route-hardening/onboarding/phases/phase-6-manual-browser-checks.md`
-- `docs/route-hardening/onboarding/phases/phase-7-multi-account-create-organisation.md`
+- `docs/route-hardening/onboarding/12-frontend-integration-guide.md`
+- `docs/route-hardening/onboarding/frontend-integration-phases/`
 
 ## Suggested Working Instructions
 
-1. Read the main plan and the relevant phase file first.
+1. Read `12-frontend-integration-guide.md` and the relevant frontend-integration phase file first.
 2. Inspect code before editing.
 3. Treat the repo as dirty; do not revert unrelated user or teammate changes.
 4. Prefer `rg` for file and text search.
@@ -107,4 +114,4 @@ When completing a phase, update the phase file with:
 
 ## Current Next Action
 
-No new onboarding phase is queued. Pick up only documented follow-ups or newly requested production bugs.
+Follow `frontend-integration-phases/OUTSTANDING-ITEMS.md` and Phase 09 browser/staging verification. Do not reopen the superseded CMS one-to-one blocker as an active production gate.

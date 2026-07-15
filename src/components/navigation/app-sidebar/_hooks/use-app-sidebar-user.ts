@@ -18,15 +18,17 @@ export function useAppSidebarUser(
   accountId: string | undefined,
 ): NavUserProps {
   const { data: meData } = useAccountMe();
-  const { data: orgQueryData } = useAccountOrganisationContext(
-    navMode === "scoped" && accountId ? accountId : "",
-  );
+  const scopedAccountId = navMode === "scoped" && accountId ? accountId : undefined;
+  const { data: orgQueryData } = useAccountOrganisationContext(scopedAccountId ?? "");
   const orgData =
     orgQueryData && !isAccountOrganisationContextGatewayRedirect(orgQueryData)
       ? orgQueryData
       : undefined;
 
-  const bootstrapRow = activeAccountSummaryFromMePayload(meData?.data, accountId);
+  const bootstrapRow =
+    navMode === "scoped"
+      ? activeAccountSummaryFromMePayload(meData?.data, scopedAccountId)
+      : undefined;
   const bootstrapOrg = bootstrapRow ? organisationDetailsFromAccountRow(bootstrapRow) : undefined;
 
   return buildAppSidebarUser({

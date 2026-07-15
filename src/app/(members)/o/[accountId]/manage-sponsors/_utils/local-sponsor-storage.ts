@@ -70,3 +70,8 @@ export function removeLocalSponsor(accountId: string, sponsorId: number | string
     current.filter((item) => item.id !== sponsorId),
   );
 }
+
+export function clearLocalSponsorsForAccount(accountId: string) {
+  if (!canUseSessionStorage() || !accountId) return;
+  window.sessionStorage.removeItem(storageKey(accountId));
+}

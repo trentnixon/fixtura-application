@@ -1,6 +1,9 @@
 import { ONBOARDING_SETUP_STATUS_TIMEOUT_MS } from "@/lib/config/onboarding";
 
 import { apiClient } from "../client/fetch-client";
+import { parseAccountMeResponse } from "../parse-account-me-response";
+import { parseCreateFirstAccountResponse } from "../parse-create-first-account-response";
+import { parseDeleteAccountResponse } from "../parse-delete-account-response";
 import { appRoutes } from "../routes/route-definitions";
 import {
   normalizeCreateCheckoutResponse,
@@ -33,7 +36,6 @@ import type {
   AccountBrandingResponse,
   AccountMediaLibraryItemResponse,
   AccountMediaLibraryResponse,
-  AccountMeResponse,
   AccountOrganisationContextResponse,
   AccountRenderDetailResponse,
   AccountRenderTokenResponse,
@@ -44,7 +46,6 @@ import type {
   PatchAccountSponsorBody,
   PostAccountSponsorBody,
   CreateFirstAccountRequestBody,
-  CreateFirstAccountResponse,
   DeletePendingOrderResponse,
   OnboardingLookupsAssociationsResponse,
   OnboardingLookupsClubsResponse,
@@ -125,12 +126,17 @@ function accountClubLogoPath(accountId: string, clubId: number, ...segments: str
  * Consumes the route registry and the central fetch client.
  */
 export const accountApi = {
-  /** Bootstrap: user, accountId, light `accounts[]` (see Phase 1 handoff). */
-  getAccountMe: () => apiClient.get<AccountMeResponse>(appRoutes.account.me.path),
+  /** Bootstrap: user + owned `accounts[]` (compatibility `accountId` is not selection state). */
+  getAccountMe: async () => {
+    const payload = await apiClient.get<unknown>(appRoutes.account.me.path);
+    return parseAccountMeResponse(payload);
+  },
 
-  /** A1: first account for zero-account users; invalidate `account.me` after success. */
-  createFirstAccount: (body: CreateFirstAccountRequestBody = {}) =>
-    apiClient.post<CreateFirstAccountResponse>(appRoutes.account.first.path, body),
+  /** Obtain reusable blank account (200 reuse / 201 create); invalidate `account.me` after success. */
+  createFirstAccount: async (body: CreateFirstAccountRequestBody = {}) => {
+    const payload = await apiClient.post<unknown>(appRoutes.account.first.path, body);
+    return parseCreateFirstAccountResponse(payload);
+  },
 
   /** L1: sport options for onboarding Step 1. */
   getOnboardingLookupsSports: () =>
@@ -208,10 +214,11 @@ export const accountApi = {
     return apiClient.post<OnboardingStateResponse | unknown>(path, body);
   },
 
-  /** Epic 6: delete unfinished account when CMS allows (incomplete wizard, not setup-complete). */
-  deleteUnfinishedAccount: (accountId: string) => {
+  /** DELETE unfinished account; CMS is eligibility authority. Success body must include deleted:true. */
+  deleteUnfinishedAccount: async (accountId: string) => {
     const path = `${appRoutes.accounts.deleteAccount.path}/${encodeURIComponent(accountId)}`;
-    return apiClient.delete<unknown>(path);
+    const payload = await apiClient.delete<unknown>(path);
+    return parseDeleteAccountResponse(payload, accountId);
   },
 
   /** Create private theme and link to account (onboarding Step 2). */

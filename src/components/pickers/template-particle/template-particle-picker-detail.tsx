@@ -10,8 +10,8 @@ function fmt(v: string | number | null | undefined): string {
   return String(v);
 }
 
-export function TemplateParticlePickerDetail() {
-  const { selectedParticle } = useTemplateParticlePickerList();
+export function TemplateParticlePickerDetail({ accountId }: { accountId: string }) {
+  const { selectedParticle } = useTemplateParticlePickerList(accountId);
 
   if (!selectedParticle) {
     return null;

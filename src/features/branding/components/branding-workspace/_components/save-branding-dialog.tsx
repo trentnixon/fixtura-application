@@ -106,7 +106,7 @@ export function SaveBrandingDialog({
             disabled={!colorsReady || isPending}
             onClick={() => void onConfirm()}
           >
-            Save to CMS
+            Save
           </Button>
         </DialogFooter>
       </DialogContent>

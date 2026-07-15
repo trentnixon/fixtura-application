@@ -2,34 +2,39 @@ import type { CarouselItemsInViewConfig } from "@/components/carousel";
 
 /** Template builder preview shell — single source for preview container classes. */
 
-/** Desktop height cap (used for docs / future JS if needed). */
-export const TEMPLATE_BUILDER_PREVIEW_MAX_HEIGHT = "400px";
+/** Desktop height cap (docs / future JS). */
+export const TEMPLATE_BUILDER_PREVIEW_MAX_HEIGHT = "480px";
 
-/** Slides visible in the preview viewport (total frames still scrollable). */
+/**
+ * Show as many frames as will fit across the canvas column.
+ * Cap at 4 so Remotion stills stay readable.
+ */
 export const TEMPLATE_BUILDER_PREVIEW_ITEMS_IN_VIEW: CarouselItemsInViewConfig = {
   base: 1,
+  sm: 2,
+  md: 3,
+  lg: 3,
   xl: 4,
 };
 
-/** Full-width column: poster stage + asset select underneath. */
+/** Canvas column: stage + chrome. */
 export const TEMPLATE_BUILDER_PREVIEW_SECTION_CLASS = "flex w-full min-w-0 flex-col gap-2";
 
-/** Stage spans the full template-builder content width. */
-export const TEMPLATE_BUILDER_PREVIEW_STAGE_CLASS = "w-full min-w-0";
+/** Stage fills the canvas column so the carousel can pack multiple frames. */
+export const TEMPLATE_BUILDER_PREVIEW_STAGE_CLASS = "w-full min-w-0 overflow-hidden";
 
 /** Surface chrome on the fitted preview — matches `Surface` in `@/components/ui/container` (no padding). */
 export const TEMPLATE_BUILDER_PREVIEW_REMOTION_SURFACE_CLASS =
   "bg-card text-card-foreground border-border ring-border rounded-2xl shadow-xl ring-1";
 
 /**
- * Fitted `[data-remotion-preview-root]`: 4:5 aspect, height cap, width from aspect (`w-auto`).
- * Full container border + drop shadow hug the Remotion still, not the carousel slide width.
+ * Each still fills its carousel slide (`basis-*` from itemsInView).
+ * Width drives height via 4:5 aspect; max-height keeps a single mobile slide from dominating.
  */
 export const TEMPLATE_BUILDER_PREVIEW_REMOTION_ROOT_CLASS = [
   TEMPLATE_BUILDER_PREVIEW_REMOTION_SURFACE_CLASS,
-  "relative mx-auto my-3 aspect-[1080/1350] h-[min(42vh,260px)] max-h-[min(42vh,260px)] w-auto max-w-full overflow-hidden",
-  "sm:h-[min(48vh,340px)] sm:max-h-[min(48vh,340px)]",
-  "md:h-[min(55vh,400px)] md:max-h-[min(55vh,400px)]",
+  "relative mx-auto my-2 aspect-[1080/1350] w-full max-w-full overflow-hidden",
+  "max-h-[min(50vh,420px)]",
 ].join(" ");
 
 /** Vertical inset on the carousel track so `shadow-xl` is not clipped by Embla overflow. */

@@ -20,6 +20,8 @@ import {
 import { useAssetPickerSelection } from "./use-asset-picker-selection";
 
 export type UseImageOptionsAssetsPickerOptions = {
+  /** Required account scope for UI selection isolation (route id or `"sandbox"`). */
+  accountId: string;
   /**
    * When set, assets are filtered to this API `Sport` string only (no "All sports").
    * Used when sport is implied by context (e.g. organisation).
@@ -27,15 +29,17 @@ export type UseImageOptionsAssetsPickerOptions = {
   lockSportFilterTo?: string | null;
 };
 
-export function useImageOptionsAssetsPicker(options?: UseImageOptionsAssetsPickerOptions) {
+export function useImageOptionsAssetsPicker(options: UseImageOptionsAssetsPickerOptions) {
+  const { accountId } = options;
   const lockKey =
-    options?.lockSportFilterTo != null && options.lockSportFilterTo.trim() !== ""
+    options.lockSportFilterTo != null && options.lockSportFilterTo.trim() !== ""
       ? options.lockSportFilterTo.trim()
       : null;
 
   const queryClient = useQueryClient();
   const q = useAssetsListForSelection();
-  const { selectedId, setSelectedId } = useAssetPickerSelection();
+  const { selectedId, setSelectedId } = useAssetPickerSelection(accountId);
+  const selectionKey = useMemo(() => assetPickerSelectedIdKey(accountId), [accountId]);
 
   const assets = useMemo(() => (q.data?.data ?? []).filter(isImageOptionsAsset), [q.data]);
 
@@ -73,13 +77,13 @@ export function useImageOptionsAssetsPicker(options?: UseImageOptionsAssetsPicke
       setSelectedId(null);
       return;
     }
-    const current = queryClient.getQueryData<string | null>(assetPickerSelectedIdKey) ?? null;
+    const current = queryClient.getQueryData<string | null>(selectionKey) ?? null;
     if (current != null && current !== "" && filteredAssets.some((a) => String(a.id) === current)) {
       return;
     }
     const first = filteredAssets[0];
     setSelectedId(first !== undefined ? String(first.id) : null);
-  }, [filteredAssets, queryClient, setSelectedId]);
+  }, [filteredAssets, queryClient, selectionKey, setSelectedId]);
 
   const selected = useMemo(
     () => filteredAssets.find((a) => String(a.id) === resolvedSelectedId) ?? null,

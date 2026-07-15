@@ -11,14 +11,17 @@ import { DEFAULT_REMOTION_SANDBOX_COMPOSITION_ID } from "@/components/remotion/_
 import { isRemotionSandboxCricketCompositionId } from "@/components/remotion/_constants/remotion-datasets";
 import { resolveRemotionTemplateFromSlug } from "@/components/remotion/_utils/resolve-remotion-template-from-slug";
 import { useTemplateCategoriesListForSelection } from "@/lib/api/hooks/account/useTemplateCategoriesListForSelection";
+import { PICKER_SANDBOX_ACCOUNT_SCOPE } from "@/lib/api/query/query-keys";
 
 import type { RemotionSandboxCricketCompositionId } from "@/components/remotion/_types/remotion-sandbox";
 import type { TemplateCategoryCatalogItem } from "@/types/api/account";
 
 export function useRemotionSandboxSelection() {
   const categoriesQuery = useTemplateCategoriesListForSelection();
-  const imageOptions = useImageOptionsAssetsPicker();
-  const { selectedId } = useTemplateCategoryPickerSelection();
+  const imageOptions = useImageOptionsAssetsPicker({
+    accountId: PICKER_SANDBOX_ACCOUNT_SCOPE,
+  });
+  const { selectedId } = useTemplateCategoryPickerSelection(PICKER_SANDBOX_ACCOUNT_SCOPE);
 
   const categories = useMemo<TemplateCategoryCatalogItem[]>(
     () => categoriesQuery.data?.data ?? [],

@@ -83,6 +83,8 @@ export function TemplateBuilderTextureCardPicker({
       onSelect={onSelect}
       emptyMessage="No textures available."
       centerTiles={centerTiles}
+      orientation="vertical"
+      scrollClassName="h-[min(40vh,16rem)]"
       splitBackgroundVariant="icon"
       getTileBackgroundStyle={(item) => (previewLayersById.has(item.id) ? {} : undefined)}
       renderTileBackdrop={(item) => {

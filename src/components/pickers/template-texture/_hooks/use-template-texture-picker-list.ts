@@ -7,9 +7,9 @@ import { useTemplateTexturesUi } from "@/lib/api/hooks/template-textures/useTemp
 import { resolveSelectedTemplateTextureIdString } from "../_utils";
 import { useTemplateTexturePickerSelection } from "./use-template-texture-picker-selection";
 
-export function useTemplateTexturePickerList() {
+export function useTemplateTexturePickerList(accountId: string) {
   const { data, refetch, isFetching, isPending, isError, error } = useTemplateTexturesUi();
-  const { selectedId, setSelectedId } = useTemplateTexturePickerSelection();
+  const { selectedId, setSelectedId } = useTemplateTexturePickerSelection(accountId);
   const textures = useMemo(() => data?.data ?? [], [data]);
 
   const resolvedSelectedId = useMemo(

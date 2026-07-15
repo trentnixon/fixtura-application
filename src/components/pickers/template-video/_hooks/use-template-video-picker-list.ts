@@ -7,9 +7,9 @@ import { useTemplateVideosUi } from "@/lib/api/hooks/template-videos/useTemplate
 import { resolveSelectedTemplateVideoIdString } from "../_utils";
 import { useTemplateVideoPickerSelection } from "./use-template-video-picker-selection";
 
-export function useTemplateVideoPickerList() {
+export function useTemplateVideoPickerList(accountId: string) {
   const { data, refetch, isFetching, isPending, isError, error } = useTemplateVideosUi();
-  const { selectedId, setSelectedId } = useTemplateVideoPickerSelection();
+  const { selectedId, setSelectedId } = useTemplateVideoPickerSelection(accountId);
   const videos = useMemo(() => data?.data ?? [], [data]);
 
   const resolvedSelectedId = useMemo(

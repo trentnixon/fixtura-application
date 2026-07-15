@@ -6,8 +6,8 @@ import { cn } from "@/lib/utils";
 import { useTemplatePalettePickerList } from "./_hooks";
 import { templatePaletteLabel } from "./_utils";
 
-export function TemplatePaletteCardPicker() {
-  const { palettes, selectValue, setSelectedId } = useTemplatePalettePickerList();
+export function TemplatePaletteCardPicker({ accountId }: { accountId: string }) {
+  const { palettes, selectValue, setSelectedId } = useTemplatePalettePickerList(accountId);
 
   return (
     <div className="space-y-3">

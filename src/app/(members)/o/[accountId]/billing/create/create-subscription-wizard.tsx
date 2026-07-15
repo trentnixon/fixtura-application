@@ -527,7 +527,7 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
 
     setStripeImmediatePending(true);
     try {
-      const res = await createStrapiStripeInvoice({
+      const res = await createStrapiStripeInvoice(accountId, {
         AccountID: accountId,
         product_id: selectedTierId,
         startDate,

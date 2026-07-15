@@ -12,8 +12,8 @@ import {
 import { useTemplateCategoryPickerList } from "./_hooks";
 import { categoryLabel } from "./_utils";
 
-export function TemplateCategorySelectPicker() {
-  const { categories, selectValue, setSelectedId } = useTemplateCategoryPickerList();
+export function TemplateCategorySelectPicker({ accountId }: { accountId: string }) {
+  const { categories, selectValue, setSelectedId } = useTemplateCategoryPickerList(accountId);
 
   return (
     <div className="max-w-md space-y-2">

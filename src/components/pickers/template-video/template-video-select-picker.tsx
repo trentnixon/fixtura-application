@@ -12,8 +12,8 @@ import {
 import { useTemplateVideoPickerList } from "./_hooks";
 import { templateVideoLabel } from "./_utils";
 
-export function TemplateVideoSelectPicker() {
-  const { videos, selectValue, setSelectedId } = useTemplateVideoPickerList();
+export function TemplateVideoSelectPicker({ accountId }: { accountId: string }) {
+  const { videos, selectValue, setSelectedId } = useTemplateVideoPickerList(accountId);
 
   return (
     <div className="space-y-2">

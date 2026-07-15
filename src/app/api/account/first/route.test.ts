@@ -88,4 +88,24 @@ describe("POST /api/account/first", () => {
     expect(res.status).toBe(400);
     expect(await res.json()).toEqual(errorPayload);
   });
+
+  it("preserves 503 ACCOUNT_CREATE_BUSY body and Retry-After", async () => {
+    const busyPayload = {
+      error: {
+        code: "ACCOUNT_CREATE_BUSY",
+        message: "Account creation is busy. Please retry.",
+      },
+    };
+    vi.mocked(globalThis.fetch).mockResolvedValue(
+      new Response(JSON.stringify(busyPayload), {
+        status: 503,
+        headers: { "Content-Type": "application/json", "Retry-After": "1" },
+      }),
+    );
+
+    const res = await POST(jsonRequest("POST", { sport: "cricket" }));
+    expect(res.status).toBe(503);
+    expect(res.headers.get("Retry-After")).toBe("1");
+    expect(await res.json()).toEqual(busyPayload);
+  });
 });

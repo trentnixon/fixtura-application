@@ -1,6 +1,11 @@
 # Onboarding Hardening And Testing Plan
 
-Status: In review
+Status: In review — multi-account contract authority moved to `12-frontend-integration-guide.md`
+
+> **Authority (2026-07-13):** Active multi-account create/reuse/selection rules live in
+> [`12-frontend-integration-guide.md`](./12-frontend-integration-guide.md) and
+> [`frontend-integration-phases/`](./frontend-integration-phases/).
+> Older “always create a new account instance” / CMS one-to-one blocker language in this plan is superseded.
 
 ## Purpose
 
@@ -26,7 +31,7 @@ This plan covers:
 
 ## Current Gaps
 
-- Multi-account "Create organisation" behavior is ambiguous and must be resolved last after the rest of the flow is hardened.
+- Legacy multi-account create ambiguity was resolved in Phase 7; continue with the frontend integration phase pack for CMS contract alignment.
 - Onboarding BFF routes repeat proxy logic instead of sharing guard, JSON parsing, Strapi forwarding, and response passthrough helpers.
 - API route test coverage is uneven: `step-3` is covered, but most other onboarding routes need parity tests.
 - Step 3 stores weekly asset email in `deliveryAddress`, which is contract-compatible but easy to misunderstand.
@@ -82,7 +87,7 @@ Phase workbook: [phase-6-manual-browser-checks.md](phases/phase-6-manual-browser
 
 ## Phase 7: Multi-Account Create Organisation Decision
 
-Status: Complete — `/create-organisation` always creates a new account; explicit `accountId` resumes an owned unfinished account.
+Status: App complete; end-to-end blocked on CMS one-to-many account support.
 
 Goal: resolve the known ambiguity last, once the existing flow is stable.
 
@@ -104,9 +109,10 @@ Phase workbook: [phase-7-multi-account-create-organisation.md](phases/phase-7-mu
 - Known gaps:
   - Setup-`failed` retry reachability and pending-on-load loader checks deferred until CMS/admin can seed `failed` fixtures.
   - No-fixtures association/club setup state needs a dedicated follow-up fixture.
-  - `/api/account/first` endpoint name is legacy; Phase 7 now depends on it supporting additional account creation, not only first-account creation.
+  - `/api/account/first` endpoint name is legacy; current CMS contract is blank-account obtain (`200` reuse / `201` create). See [12-frontend-integration-guide.md](12-frontend-integration-guide.md).
+  - Historical CMS one-to-one research is archived in [cms-multi-account-user-relation.md](cms-multi-account-user-relation.md) (non-authoritative).
 - Test evidence:
   - Phase 6 manual browser pass (account 583): wizard complete, dashboard/season entry, setup URL redirect, branding/contact/review flows.
   - Targeted Vitest: 8 files, 63 tests passed.
   - Phase 7 targeted Vitest: 4 files, 27 tests passed.
-- Production decision: Pending final owner sign-off; onboarding hardening phases complete with documented fixture follow-ups.
+- Production decision: Pending final owner sign-off and Phase 09 browser/staging against the current CMS multi-account contract.

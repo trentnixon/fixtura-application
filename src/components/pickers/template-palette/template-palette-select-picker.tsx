@@ -12,8 +12,8 @@ import {
 import { useTemplatePalettePickerList } from "./_hooks";
 import { templatePaletteLabel } from "./_utils";
 
-export function TemplatePaletteSelectPicker() {
-  const { palettes, selectValue, setSelectedId } = useTemplatePalettePickerList();
+export function TemplatePaletteSelectPicker({ accountId }: { accountId: string }) {
+  const { palettes, selectValue, setSelectedId } = useTemplatePalettePickerList(accountId);
 
   return (
     <div className="max-w-md space-y-2">

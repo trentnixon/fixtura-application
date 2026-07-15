@@ -57,6 +57,19 @@ describe("useCreateFirstAccount", () => {
     );
   });
 
+  it("after me no longer lists a deleted unfinished account, create returns a new blank id 301", async () => {
+    createFirstAccountMock.mockResolvedValue({ data: { accountId: 301 } });
+    const { Wrapper } = createWrapper();
+    const { result } = renderHook(() => useCreateFirstAccount(), { wrapper: Wrapper });
+
+    result.current.mutate({ sport: "cricket", hasCompletedStartSequence: true });
+
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+    expect(result.current.data).toEqual({ data: { accountId: 301 } });
+    expect(createFirstAccountMock).toHaveBeenCalledTimes(1);
+  });
+
   it("does not invalidate on failure", async () => {
     createFirstAccountMock.mockRejectedValue(new Error("fail"));
     const { Wrapper, queryClient } = createWrapper();

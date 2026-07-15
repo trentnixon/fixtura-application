@@ -4,6 +4,7 @@ import { ImageOptionsAssetsPicker } from "@/components/pickers/assets-list-for-s
 import { TypographyH1, TypographyMuted } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { useAssetsListForSelection } from "@/lib/api/hooks/account/useAssetsListForSelection";
+import { PICKER_SANDBOX_ACCOUNT_SCOPE } from "@/lib/api/query/query-keys";
 import { appRoutes } from "@/lib/api/routes/route-definitions";
 
 export default function DataLabAssetsListForSelectionPage() {
@@ -51,7 +52,7 @@ export default function DataLabAssetsListForSelectionPage() {
           </TypographyMuted>
         </div>
       ) : (
-        <ImageOptionsAssetsPicker isSelect isList />
+        <ImageOptionsAssetsPicker accountId={PICKER_SANDBOX_ACCOUNT_SCOPE} isSelect isList />
       )}
     </div>
   );

@@ -56,10 +56,10 @@ export const appRoutes = {
       authRequired: true,
       status: "ready",
       description:
-        "Bootstrap: authenticated user, accountId, and light accounts[] (switcher/header). Heavy data uses organisation hub or future /accounts/:id/* routes.",
+        "Bootstrap: authenticated user + owned accounts[] (organisation list). Compatibility data.accountId is not selection state. Heavy data uses /accounts/:id/* routes.",
       domain: "account",
     },
-    /** A1: create or attach first account for zero-account users (proxies to Strapi POST /api/account/first). */
+    /** Obtain reusable blank organisation account (proxies to Strapi POST /api/account/first). */
     first: {
       key: "account.first",
       method: "POST",
@@ -67,7 +67,7 @@ export const appRoutes = {
       authRequired: true,
       status: "ready",
       description:
-        "Onboarding Phase 1 — first account; invalidates GET /api/account/me after success. See create-organisation/.comms/phase-1/app-handoff-post-account-first-endpoint.md.",
+        "Obtain blank account: 201 create or 200 reuse; 503 ACCOUNT_CREATE_BUSY + Retry-After. Body { data: { accountId } }. Invalidates GET /api/account/me after success.",
       domain: "account",
     },
     /** L1: onboarding sport lookup (GET). See app-handoff-onboarding-phase2-l1-l2-w1.md */
@@ -533,7 +533,7 @@ export const appRoutes = {
         "POST append /{accountId}/onboarding/retry-setup — onboarding lifecycle v1 retry after failure",
       domain: "account",
     },
-    /** Epic 6: DELETE append /{accountId} — unfinished account deletion per CMS recovery contract. */
+    /** DELETE append /{accountId} — unfinished account deletion; CMS is eligibility authority. */
     deleteAccount: {
       key: "accounts.delete-account",
       method: "DELETE",
@@ -541,7 +541,7 @@ export const appRoutes = {
       authRequired: true,
       status: "ready",
       description:
-        "DELETE append /{accountId} — delete unfinished onboarding account when CMS allows (Epic 6 recovery)",
+        "DELETE append /{accountId} — delete unfinished onboarding account; success { data: { accountId, deleted: true } }; 403 ACCOUNT_DELETE_NOT_ALLOWED when CMS disallows",
       domain: "account",
     },
   },

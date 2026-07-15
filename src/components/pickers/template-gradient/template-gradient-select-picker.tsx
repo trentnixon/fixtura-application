@@ -12,8 +12,8 @@ import {
 import { useTemplateGradientPickerList } from "./_hooks";
 import { gradientLabel } from "./_utils";
 
-export function TemplateGradientSelectPicker() {
-  const { gradients, selectValue, setSelectedId } = useTemplateGradientPickerList();
+export function TemplateGradientSelectPicker({ accountId }: { accountId: string }) {
+  const { gradients, selectValue, setSelectedId } = useTemplateGradientPickerList(accountId);
 
   return (
     <div className="max-w-md space-y-2">

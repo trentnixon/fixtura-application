@@ -12,8 +12,8 @@ import {
 import { useTemplateModePickerList } from "./_hooks";
 import { templateModeLabel } from "./_utils";
 
-export function TemplateModeSelectPicker() {
-  const { modes, selectValue, setSelectedId } = useTemplateModePickerList();
+export function TemplateModeSelectPicker({ accountId }: { accountId: string }) {
+  const { modes, selectValue, setSelectedId } = useTemplateModePickerList(accountId);
 
   return (
     <div className="max-w-md space-y-2">

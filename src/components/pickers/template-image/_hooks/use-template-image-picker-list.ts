@@ -7,9 +7,9 @@ import { useTemplateImagesUi } from "@/lib/api/hooks/template-images/useTemplate
 import { resolveSelectedTemplateImageIdString } from "../_utils";
 import { useTemplateImagePickerSelection } from "./use-template-image-picker-selection";
 
-export function useTemplateImagePickerList() {
+export function useTemplateImagePickerList(accountId: string) {
   const { data, refetch, isFetching, isPending, isError, error } = useTemplateImagesUi();
-  const { selectedId, setSelectedId } = useTemplateImagePickerSelection();
+  const { selectedId, setSelectedId } = useTemplateImagePickerSelection(accountId);
   const images = useMemo(() => data?.data ?? [], [data]);
 
   const resolvedSelectedId = useMemo(

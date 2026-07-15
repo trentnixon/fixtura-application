@@ -149,8 +149,8 @@ function CategoryDetailBody({ category }: { category: TemplateCategoryCatalogIte
 }
 
 /** Self-contained: loads categories + shared selection and renders the active row. */
-export function TemplateCategoryPickerDetail() {
-  const { selectedCategory } = useTemplateCategoryPickerList();
+export function TemplateCategoryPickerDetail({ accountId }: { accountId: string }) {
+  const { selectedCategory } = useTemplateCategoryPickerList(accountId);
 
   if (selectedCategory) {
     return <CategoryDetailBody category={selectedCategory} />;

@@ -2,6 +2,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { createRef } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { accountSummaryFixture } from "@/lib/account/account-summary-fixture";
 import { ApiError } from "@/lib/api/client/api-error";
 
 import {
@@ -104,7 +105,9 @@ function setupReviewMocks(
     refetch: brandingRefetch,
   });
   useAccountMe.mockReturnValue({
-    data: over.meError ? undefined : accountMeQueryData(),
+    data: over.meError
+      ? undefined
+      : accountMeQueryData({ accounts: [accountSummaryFixture({ id: 1 })], accountId: 1 }),
     isPending: false,
     isError: over.meError ?? false,
     refetch: meRefetch,

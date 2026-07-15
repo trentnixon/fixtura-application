@@ -149,6 +149,7 @@ function mockMe() {
           blocked: false,
           role: null,
         },
+        accounts: [{ id: 42 }],
       },
     },
     isPending: false,

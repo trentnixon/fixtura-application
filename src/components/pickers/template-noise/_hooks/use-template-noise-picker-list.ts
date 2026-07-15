@@ -7,9 +7,9 @@ import { useTemplateNoisesUi } from "@/lib/api/hooks/template-noises/useTemplate
 import { resolveSelectedTemplateNoiseIdString } from "../_utils";
 import { useTemplateNoisePickerSelection } from "./use-template-noise-picker-selection";
 
-export function useTemplateNoisePickerList() {
+export function useTemplateNoisePickerList(accountId: string) {
   const { data, refetch, isFetching, isPending, isError, error } = useTemplateNoisesUi();
-  const { selectedId, setSelectedId } = useTemplateNoisePickerSelection();
+  const { selectedId, setSelectedId } = useTemplateNoisePickerSelection(accountId);
   const noises = useMemo(() => data?.data ?? [], [data]);
 
   const resolvedSelectedId = useMemo(

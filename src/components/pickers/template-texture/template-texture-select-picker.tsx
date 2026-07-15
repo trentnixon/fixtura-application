@@ -12,8 +12,8 @@ import {
 import { useTemplateTexturePickerList } from "./_hooks";
 import { templateTextureLabel } from "./_utils";
 
-export function TemplateTextureSelectPicker() {
-  const { textures, selectValue, setSelectedId } = useTemplateTexturePickerList();
+export function TemplateTextureSelectPicker({ accountId }: { accountId: string }) {
+  const { textures, selectValue, setSelectedId } = useTemplateTexturePickerList(accountId);
 
   return (
     <div className="space-y-2">

@@ -7,9 +7,9 @@ import { useTemplateGradientsUi } from "@/lib/api/hooks/template-gradients/useTe
 import { resolveSelectedTemplateGradientIdString } from "../_utils";
 import { useTemplateGradientPickerSelection } from "./use-template-gradient-picker-selection";
 
-export function useTemplateGradientPickerList() {
+export function useTemplateGradientPickerList(accountId: string) {
   const { data, refetch, isFetching, isPending, isError, error } = useTemplateGradientsUi();
-  const { selectedId, setSelectedId } = useTemplateGradientPickerSelection();
+  const { selectedId, setSelectedId } = useTemplateGradientPickerSelection(accountId);
   const gradients = useMemo(() => data?.data ?? [], [data]);
 
   const resolvedSelectedId = useMemo(

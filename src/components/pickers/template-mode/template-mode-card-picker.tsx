@@ -15,16 +15,18 @@ import {
 } from "./_utils";
 
 export type TemplateModeCardPickerProps = {
+  accountId: string;
   /** Normalised brand hex. When both resolve, cards use a primary→secondary diagonal gradient. */
   brandPrimaryHex?: string | null;
   brandSecondaryHex?: string | null;
 };
 
 export function TemplateModeCardPicker({
+  accountId,
   brandPrimaryHex,
   brandSecondaryHex,
-}: TemplateModeCardPickerProps = {}) {
-  const { modes, selectValue, setSelectedId } = useTemplateModePickerList();
+}: TemplateModeCardPickerProps) {
+  const { modes, selectValue, setSelectedId } = useTemplateModePickerList(accountId);
 
   const gp = brandPrimaryHex ? tryNormalizeHex(brandPrimaryHex) : null;
   const gs = brandSecondaryHex ? tryNormalizeHex(brandSecondaryHex) : null;

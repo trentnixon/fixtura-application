@@ -7,8 +7,8 @@ import { toNumberOrNull } from "@/types/api/template-videos";
 import { useTemplateVideoPickerList } from "./_hooks";
 import { valueLabel } from "./_utils";
 
-export function TemplateVideoPickerDetail() {
-  const { selectedVideo } = useTemplateVideoPickerList();
+export function TemplateVideoPickerDetail({ accountId }: { accountId: string }) {
+  const { selectedVideo } = useTemplateVideoPickerList(accountId);
   const ui = selectedVideo?.ui;
   const coercedVolume = ui ? toNumberOrNull(ui.volume) : null;
   const coercedRate = ui ? toNumberOrNull(ui.playbackRate) : null;

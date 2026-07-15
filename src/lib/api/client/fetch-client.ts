@@ -1,4 +1,5 @@
 import { normalizeErrorFieldToString } from "@/lib/api/normalize-error-field";
+import { parseRetryAfterHeader } from "@/lib/api/parse-retry-after-header";
 import { AUTH_ERROR_MESSAGES } from "@/lib/auth/auth-errors";
 import { postLogoutRequest } from "@/lib/auth/logout-client";
 import { getSessionInvalidRedirectUrl } from "@/lib/config/auth-redirect";
@@ -108,6 +109,7 @@ export async function apiRequest<TResponse, TBody = unknown>(
         status: response.status,
         message,
         details: payload,
+        retryAfterSeconds: parseRetryAfterHeader(response.headers.get("Retry-After")),
       });
     }
 

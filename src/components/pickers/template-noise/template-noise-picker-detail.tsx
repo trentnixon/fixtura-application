@@ -5,8 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { useTemplateNoisePickerList } from "./_hooks";
 
-export function TemplateNoisePickerDetail() {
-  const { selectedNoise } = useTemplateNoisePickerList();
+export function TemplateNoisePickerDetail({ accountId }: { accountId: string }) {
+  const { selectedNoise } = useTemplateNoisePickerList(accountId);
 
   if (!selectedNoise) {
     return null;

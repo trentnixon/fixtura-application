@@ -10,24 +10,20 @@ import {
 } from "@/components/pickers/assets-list-for-selection";
 import { DEFAULT_REMOTION_SANDBOX_COMPOSITION_ID } from "@/components/remotion/_constants/remotion-composition";
 import { isRemotionSandboxCricketCompositionId } from "@/components/remotion/_constants/remotion-datasets";
+import { TypographyH4, TypographyMuted } from "@/components/typography";
+import { Button } from "@/components/ui/button";
 import { isCricketSport, useRemotionAssetPreview } from "@/features/remotion-asset-preview";
 import {
   isAccountSponsorsGatewayRedirect,
   useAccountSponsors,
 } from "@/lib/api/hooks/account/useAccountSponsors";
 import { accountScopedRoutes } from "@/lib/config/account-routes";
-import { cn } from "@/lib/utils";
 
 import { DashboardAssetPreviewBrandingDebug } from "./dashboard-asset-preview-branding-debug";
 import { DashboardOverviewCarousel } from "./dashboard-overview-carousel";
-import { AccountSectionShell } from "../../account/_components/AccountSectionShell";
 
 import type { AccountBrandingData } from "@/types/api/account";
 import type { ReactNode } from "react";
-
-/** Primary CTA in the asset preview toolbar. */
-const DASHBOARD_PREVIEW_CHANGE_TEMPLATE_CLASS =
-  "inline-flex h-auto min-h-0 shrink-0 items-center rounded-full border border-primary bg-primary px-4 py-1.5 text-xs text-primary-foreground shadow-none transition-colors hover:bg-primary/90 focus-visible:ring-ring focus-visible:ring-2 focus-visible:outline-none sm:px-6 sm:py-2 sm:text-sm";
 
 type DashboardAssetPreviewPanelProps = {
   accountId: string;
@@ -52,9 +48,10 @@ export function DashboardAssetPreviewPanel({
   previewTitle = null,
   compactPreview = true,
 }: DashboardAssetPreviewPanelProps) {
-  const imageOptions = useImageOptionsAssetsPicker(
-    sport != null && sport.trim() !== "" ? { lockSportFilterTo: sport } : undefined,
-  );
+  const imageOptions = useImageOptionsAssetsPicker({
+    accountId,
+    ...(sport != null && sport.trim() !== "" ? { lockSportFilterTo: sport } : {}),
+  });
 
   const exampleCompositionId = useMemo(() => {
     const fromAsset = imageOptions.selected?.CompositionID;
@@ -95,13 +92,18 @@ export function DashboardAssetPreviewPanel({
   const shouldShowAssetPicker = showAssetPicker && isCricketSport(sport);
 
   return (
-    <AccountSectionShell
-      title="Asset preview"
-      description="Live preview of your branded compositions."
-      icon={<Play className="size-5" aria-hidden />}
-      headerTone="brand"
-    >
-      <div className="flex flex-col px-6 pb-5">
+    <div className="flex min-w-0 flex-col px-6 py-6">
+      <div className="flex min-w-0 flex-wrap items-start justify-between gap-3">
+        <div className="min-w-0 space-y-1">
+          <TypographyH4 className="text-sm font-semibold">Asset preview</TypographyH4>
+          <TypographyMuted className="text-xs">
+            Live preview of your branded compositions.
+          </TypographyMuted>
+        </div>
+        <Play className="text-primary size-5 shrink-0" aria-hidden />
+      </div>
+
+      <div className="mt-6 flex flex-col">
         <div className="w-full min-w-0 py-2">
           <DashboardOverviewCarousel
             remotionPreviewState={remotionAssetPreview}
@@ -112,9 +114,10 @@ export function DashboardAssetPreviewPanel({
           />
         </div>
 
-        <div className="border-border flex flex-wrap items-center justify-between gap-x-4 gap-y-3 border-t pt-4">
+        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3 pt-4">
           {shouldShowAssetPicker ? (
             <ImageOptionsAssetsPicker
+              accountId={accountId}
               compact
               inline
               isSelect
@@ -123,12 +126,14 @@ export function DashboardAssetPreviewPanel({
               organisationSport={sport}
             />
           ) : null}
-          <Link
-            href={accountScopedRoutes.templateBuilder(accountId)}
-            className={cn(DASHBOARD_PREVIEW_CHANGE_TEMPLATE_CLASS, "ml-auto")}
+          <Button
+            variant="outline"
+            size="sm"
+            className="border-primary text-primary hover:bg-primary/10 hover:text-primary ml-auto"
+            asChild
           >
-            Change template
-          </Link>
+            <Link href={accountScopedRoutes.templateBuilder(accountId)}>Change template</Link>
+          </Button>
         </div>
 
         {debugPlacement === "below" ? (
@@ -140,6 +145,6 @@ export function DashboardAssetPreviewPanel({
           </div>
         ) : null}
       </div>
-    </AccountSectionShell>
+    </div>
   );
 }

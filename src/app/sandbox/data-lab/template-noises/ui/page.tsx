@@ -9,10 +9,11 @@ import {
 import { TypographyH1, TypographyMuted } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PICKER_SANDBOX_ACCOUNT_SCOPE } from "@/lib/api/query/query-keys";
 import { appRoutes } from "@/lib/api/routes/route-definitions";
 
 export default function DataLabTemplateNoisesUiPage() {
-  const q = useTemplateNoisePickerList();
+  const q = useTemplateNoisePickerList(PICKER_SANDBOX_ACCOUNT_SCOPE);
   const noises = q.noises;
 
   return (
@@ -76,15 +77,15 @@ export default function DataLabTemplateNoisesUiPage() {
                 </TabsList>
 
                 <TabsContent value="select" className="space-y-2">
-                  <TemplateNoiseSelectPicker />
+                  <TemplateNoiseSelectPicker accountId={PICKER_SANDBOX_ACCOUNT_SCOPE} />
                 </TabsContent>
 
                 <TabsContent value="cards" className="space-y-2">
-                  <TemplateNoiseCardPicker />
+                  <TemplateNoiseCardPicker accountId={PICKER_SANDBOX_ACCOUNT_SCOPE} />
                 </TabsContent>
               </Tabs>
 
-              <TemplateNoisePickerDetail />
+              <TemplateNoisePickerDetail accountId={PICKER_SANDBOX_ACCOUNT_SCOPE} />
             </>
           )}
         </div>

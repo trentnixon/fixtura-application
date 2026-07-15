@@ -3,11 +3,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 
 import { TemplateBuilderChangedBadge } from "./_components/template-builder-changed-badge";
 import { TemplateBuilderColorLayoutBrandingBar } from "./_components/template-builder-color-layout-branding-bar";
+import { TemplateBuilderContrastModePicker } from "./_components/template-builder-contrast-mode-picker";
 import {
   buildRelationSelectOptions,
   TemplateBuilderRelationFieldRow,
@@ -21,10 +21,13 @@ import { TemplateBuilderSelectableTilePicker } from "./_components/template-buil
 import { TemplateBuilderTextureCardPicker } from "./_components/template-builder-texture-card-picker";
 import { TemplateBuilderUseBackgroundCardPicker } from "./_components/template-builder-use-background-card-picker";
 import {
-  TABBER_PILL_BORDERLESS_BRAND_ACCENT_LIST_CLASS,
-  TABBER_PILL_BORDERLESS_BRAND_ACCENT_TRIGGER_CLASS,
-  TEMPLATE_BUILDER_PROMO_TOOLBAR_SURFACE_CLASS,
+  TEMPLATE_BUILDER_RAIL_NAV_LIST_CLASS,
+  TEMPLATE_BUILDER_RAIL_NAV_SURFACE_CLASS,
+  TEMPLATE_BUILDER_RAIL_NAV_TRIGGER_CLASS,
   TEMPLATE_BUILDER_SUB_PICKER_SURFACE_CLASS,
+  TEMPLATE_BUILDER_TOOL_RAIL_CLASS,
+  TEMPLATE_BUILDER_WORKSPACE_GRID_CLASS,
+  TEMPLATE_BUILDER_WORKSPACE_HEADER_CLASS,
 } from "./_constants/template-builder-tabber";
 import {
   cloneTemplateBuilderEditorState,
@@ -147,6 +150,13 @@ const RELATION_FIELD_CONFIGS: RelationFieldConfig[] = [
   },
 ];
 
+const WORKSPACE_GROUPS = [
+  { id: "setup", label: "1. Template" },
+  { id: "style", label: "2. Color pairing" },
+  { id: "contrast", label: "3. Contrast" },
+  { id: "background", label: "4. Background" },
+] as const;
+
 export function buildCategoryItemsForEditor({
   catalogCategories,
   categoryOptions,
@@ -185,6 +195,8 @@ function TemplateBuilderCategoryCardPicker({
       onSelect={onSelect}
       emptyMessage="No public template styles available."
       centerTiles={centerTiles}
+      orientation="vertical"
+      scrollClassName="h-[min(55vh,26rem)]"
     />
   );
 }
@@ -500,6 +512,19 @@ export function TemplateBuilderEditor({
             />
           </div>
         );
+      case "contrast":
+        return (
+          <div className={cn(TEMPLATE_BUILDER_SUB_PICKER_SURFACE_CLASS, "self-stretch")}>
+            <TemplateBuilderContrastModePicker
+              branding={branding}
+              modes={payload.modes}
+              selectedId={draftState.templateModeId}
+              isChanged={changedFieldSet.has("templateModeId")}
+              onSelect={(id) => updateField("templateModeId", id)}
+              centerTiles
+            />
+          </div>
+        );
       case "background":
         return (
           <div className={cn(TEMPLATE_BUILDER_SUB_PICKER_SURFACE_CLASS, "self-stretch")}>
@@ -507,7 +532,6 @@ export function TemplateBuilderEditor({
               selectedValue={draftState.useBackground}
               isChanged={changedFieldSet.has("useBackground")}
               onSelect={handleUseBackgroundChange}
-              centerTiles
             />
           </div>
         );
@@ -542,14 +566,22 @@ export function TemplateBuilderEditor({
           </div>
         );
       case "style":
+        return (
+          <div className={cn(TEMPLATE_BUILDER_SUB_PICKER_SURFACE_CLASS, "self-stretch")}>
+            <TemplateBuilderColorLayoutBrandingBar accountId={accountId} branding={branding} />
+          </div>
+        );
+      case "contrast":
         return null;
       case "background":
         if (draftState.useBackground === null) {
           return (
-            <p className="text-muted-foreground text-xs">
-              Choose use background to pick a background asset.
-            </p>
+            <p className="text-xs text-white/65">Choose a background type to pick a variant.</p>
           );
+        }
+
+        if (draftState.useBackground === "Solid") {
+          return <p className="text-xs text-white/65">Solid uses no background asset variant.</p>;
         }
 
         return (
@@ -565,101 +597,110 @@ export function TemplateBuilderEditor({
   return (
     <div className="text-card-foreground grid gap-3 text-sm">
       {comparison.isDirty ? <TemplateBuilderChangedBadge placement="floating" /> : null}
-      {(validationErrors.length > 0 || save.saveError) && (
-        <div
-          className="border-destructive/40 bg-destructive/10 text-destructive rounded-md border px-3 py-2 text-xs"
-          role="alert"
-        >
-          {validationErrors.length > 0 ? (
-            <ul className="list-inside list-disc">
-              {validationErrors.map((msg) => (
-                <li key={msg}>{msg}</li>
-              ))}
-            </ul>
-          ) : (
-            <p>{save.saveError}</p>
+
+      <div className={TEMPLATE_BUILDER_WORKSPACE_HEADER_CLASS}>
+        <div className="min-w-0 flex-1">
+          {(validationErrors.length > 0 || save.saveError) && (
+            <div
+              className="border-destructive/40 bg-destructive/10 text-destructive rounded-md border px-3 py-2 text-xs"
+              role="alert"
+            >
+              {validationErrors.length > 0 ? (
+                <ul className="list-inside list-disc">
+                  {validationErrors.map((msg) => (
+                    <li key={msg}>{msg}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p>{save.saveError}</p>
+              )}
+            </div>
+          )}
+          {save.saveSuccess && (
+            <p className="text-xs font-medium text-emerald-600 dark:text-emerald-500" role="status">
+              Template options saved.
+            </p>
           )}
         </div>
-      )}
 
-      {save.saveSuccess && (
-        <p className="text-xs font-medium text-emerald-600 dark:text-emerald-500" role="status">
-          Template options saved.
-        </p>
-      )}
+        <div className="flex w-full shrink-0 flex-wrap items-center gap-2 sm:w-auto sm:justify-end">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="flex-1 sm:flex-none"
+            onClick={handleReset}
+            disabled={save.isSaving}
+          >
+            Reset to saved
+          </Button>
+          <Button
+            type="button"
+            variant="success"
+            size="sm"
+            className="flex-1 sm:flex-none"
+            disabled={!comparison.isDirty || save.isSaving}
+            onClick={() => void handleSave()}
+          >
+            {saveLabel}
+          </Button>
+        </div>
+      </div>
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="grid gap-2">
-        <div className={TEMPLATE_BUILDER_PROMO_TOOLBAR_SURFACE_CLASS}>
-          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
-            <TabsList
-              className={cn(
-                TABBER_PILL_BORDERLESS_BRAND_ACCENT_LIST_CLASS,
-                "w-full justify-start sm:w-auto",
-              )}
+      <div className={TEMPLATE_BUILDER_WORKSPACE_GRID_CLASS}>
+        <aside className={TEMPLATE_BUILDER_TOOL_RAIL_CLASS} aria-label="Template tools">
+          <div className={TEMPLATE_BUILDER_RAIL_NAV_SURFACE_CLASS}>
+            <div
+              role="tablist"
+              aria-orientation="vertical"
+              className={TEMPLATE_BUILDER_RAIL_NAV_LIST_CLASS}
             >
-              <TabsTrigger
-                value="setup"
-                className={TABBER_PILL_BORDERLESS_BRAND_ACCENT_TRIGGER_CLASS}
-              >
-                1. Select a Template
-              </TabsTrigger>
-              <TabsTrigger
-                value="style"
-                className={TABBER_PILL_BORDERLESS_BRAND_ACCENT_TRIGGER_CLASS}
-              >
-                2. Select a color variation
-              </TabsTrigger>
-              <TabsTrigger
-                value="background"
-                className={TABBER_PILL_BORDERLESS_BRAND_ACCENT_TRIGGER_CLASS}
-              >
-                3. Select a background
-              </TabsTrigger>
-            </TabsList>
-
-            <div className="flex w-full shrink-0 flex-wrap items-center gap-2 sm:w-auto sm:justify-end">
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                className="flex-1 sm:flex-none"
-                onClick={handleReset}
-                disabled={save.isSaving}
-              >
-                Reset to saved
-              </Button>
-              <Button
-                type="button"
-                variant="success"
-                size="sm"
-                className="flex-1 sm:flex-none"
-                disabled={!comparison.isDirty || save.isSaving}
-                onClick={() => void handleSave()}
-              >
-                {saveLabel}
-              </Button>
+              {WORKSPACE_GROUPS.map((group) => {
+                const isActive = activeTab === group.id;
+                return (
+                  <button
+                    key={group.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={isActive}
+                    data-state={isActive ? "active" : "inactive"}
+                    className={TEMPLATE_BUILDER_RAIL_NAV_TRIGGER_CLASS}
+                    onClick={() => setActiveTab(group.id)}
+                  >
+                    {group.label}
+                  </button>
+                );
+              })}
             </div>
           </div>
-        </div>
 
-        <div className="flex w-full flex-col items-center gap-4">
-          {renderPrimaryTabPanel()}
-          {renderSubTabPanel()}
-        </div>
+          <div role="tabpanel" className="flex min-w-0 flex-col gap-3">
+            {activeTab === "style" ? (
+              <>
+                {renderSubTabPanel()}
+                {renderPrimaryTabPanel()}
+              </>
+            ) : (
+              <>
+                {renderPrimaryTabPanel()}
+                {renderSubTabPanel()}
+              </>
+            )}
+          </div>
+        </aside>
 
-        {previewConfig ? (
-          <TemplateBuilderPreviewPanel
-            accountId={accountId}
-            sport={previewConfig.sport}
-            branding={previewConfig.branding}
-            logoUrl={previewConfig.logoUrl}
-            templateModeSlug={previewConfig.templateModeSlug}
-            toolbarStart={
-              <TemplateBuilderColorLayoutBrandingBar accountId={accountId} branding={branding} />
-            }
-          />
-        ) : null}
-      </Tabs>
+        <section className="min-w-0" aria-label="Template canvas">
+          {previewConfig ? (
+            <TemplateBuilderPreviewPanel
+              accountId={accountId}
+              sport={previewConfig.sport}
+              branding={previewConfig.branding}
+              logoUrl={previewConfig.logoUrl}
+              templateModeSlug={previewConfig.templateModeSlug}
+            />
+          ) : null}
+        </section>
+      </div>
     </div>
   );
 }

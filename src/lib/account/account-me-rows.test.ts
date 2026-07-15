@@ -4,54 +4,90 @@ import {
   accountPickerRowsFromMePayload,
   activeAccountSummaryFromMePayload,
   organisationDetailsFromAccountRow,
+  themeFromAccountMeRow,
 } from "./account-me-rows";
+import {
+  accountOrganisationSummaryFixture,
+  accountSummaryFixture,
+  accountThemeSummaryFixture,
+} from "./account-summary-fixture";
 
 describe("organisationDetailsFromAccountRow", () => {
-  const hubOrg = {
+  const hubOrg = accountOrganisationSummaryFixture({
     id: 1,
     Name: "From Hub",
     href: "https://example.com/hub",
     ParentLogo: "https://example.com/hub.png",
     Sport: "Cricket",
-  };
-  const topOrg = {
+  });
+  const topOrg = accountOrganisationSummaryFixture({
     id: 2,
     Name: "From Top",
     href: "https://example.com/top",
     ParentLogo: "https://example.com/top.png",
     Sport: "Netball",
-  };
+  });
 
   it("returns contentHub.accountOrganisationDetails when only legacy hub is set", () => {
     expect(
-      organisationDetailsFromAccountRow({
-        id: 99,
-        contentHub: { accountOrganisationDetails: hubOrg },
-      }),
+      organisationDetailsFromAccountRow(
+        accountSummaryFixture({
+          id: 99,
+          contentHub: { accountOrganisationDetails: hubOrg },
+        }),
+      ),
     ).toEqual(hubOrg);
   });
 
   it("returns top-level accountOrganisationDetails when hub slice is absent", () => {
     expect(
-      organisationDetailsFromAccountRow({
-        id: 319,
-        accountOrganisationDetails: topOrg,
-      }),
+      organisationDetailsFromAccountRow(
+        accountSummaryFixture({
+          id: 319,
+          accountOrganisationDetails: topOrg,
+        }),
+      ),
     ).toEqual(topOrg);
   });
 
   it("prefers contentHub when both are present", () => {
     expect(
-      organisationDetailsFromAccountRow({
-        id: 1,
-        contentHub: { accountOrganisationDetails: hubOrg },
-        accountOrganisationDetails: topOrg,
-      }),
+      organisationDetailsFromAccountRow(
+        accountSummaryFixture({
+          id: 1,
+          contentHub: { accountOrganisationDetails: hubOrg },
+          accountOrganisationDetails: topOrg,
+        }),
+      ),
     ).toEqual(hubOrg);
   });
 
   it("returns undefined when neither path is set", () => {
-    expect(organisationDetailsFromAccountRow({ id: 1 })).toBeUndefined();
+    expect(organisationDetailsFromAccountRow(accountSummaryFixture({ id: 1 }))).toBeUndefined();
+  });
+
+  it("returns undefined when accountOrganisationDetails is null", () => {
+    expect(
+      organisationDetailsFromAccountRow(
+        accountSummaryFixture({ id: 1, accountOrganisationDetails: null }),
+      ),
+    ).toBeUndefined();
+  });
+});
+
+describe("themeFromAccountMeRow", () => {
+  it("returns theme slice from bootstrap row", () => {
+    const theme = accountThemeSummaryFixture({
+      id: 42,
+      name: "North Districts Blue",
+      isPublic: false,
+      theme: { primary: "#003366", secondary: "#FF6600" },
+    });
+    expect(themeFromAccountMeRow(accountSummaryFixture({ id: 1, theme }))).toEqual(theme);
+  });
+
+  it("returns null when row has no theme", () => {
+    expect(themeFromAccountMeRow(accountSummaryFixture({ id: 1, theme: null }))).toBeNull();
   });
 });
 
@@ -60,46 +96,62 @@ describe("accountPickerRowsFromMePayload", () => {
     expect(accountPickerRowsFromMePayload(undefined)).toEqual([]);
   });
 
-  it("prefers accounts[] when present", () => {
+  it("returns every accounts[] row (two or more)", () => {
     const rows = accountPickerRowsFromMePayload({
       accountId: 1,
       user: null,
-      contentHub: {},
       accounts: [
-        { id: 2, contentHub: {} },
-        { id: 3, contentHub: {} },
+        accountSummaryFixture({ id: 10, FirstName: "A" }),
+        accountSummaryFixture({ id: 20, FirstName: "B" }),
       ],
     });
-    expect(rows.map((r) => r.id)).toEqual([2, 3]);
+    expect(rows.map((r) => r.id)).toEqual([10, 20]);
   });
 
-  it("falls back to legacy accountId when accounts is empty (optional contentHub)", () => {
-    const rows = accountPickerRowsFromMePayload({
-      accountId: 99,
-      user: null,
-      contentHub: { FirstName: "A" },
-      accounts: [],
-    });
-    expect(rows).toHaveLength(1);
-    expect(rows[0]?.id).toBe(99);
-    expect(rows[0]?.contentHub).toEqual({ FirstName: "A" });
+  it("returns empty when accounts is an empty array (no compatibility synth)", () => {
+    expect(
+      accountPickerRowsFromMePayload({
+        accountId: 99,
+        user: null,
+        contentHub: { FirstName: "A" },
+        accounts: [],
+      }),
+    ).toEqual([]);
   });
 
-  it("falls back to legacy row without contentHub when omitted", () => {
-    const rows = accountPickerRowsFromMePayload({
-      accountId: 42,
-      user: null,
-      accounts: [],
-    });
-    expect(rows).toHaveLength(1);
-    expect(rows[0]?.id).toBe(42);
-    expect(rows[0]?.contentHub).toBeUndefined();
+  it("tolerates null or absent compatibility accountId", () => {
+    expect(
+      accountPickerRowsFromMePayload({
+        accountId: null,
+        user: null,
+        accounts: [accountSummaryFixture({ id: 7 })],
+      }).map((r) => r.id),
+    ).toEqual([7]);
+    expect(
+      accountPickerRowsFromMePayload({
+        user: null,
+        accounts: [accountSummaryFixture({ id: 8 }), accountSummaryFixture({ id: 9 })],
+      }).map((r) => r.id),
+    ).toEqual([8, 9]);
   });
 });
 
 describe("activeAccountSummaryFromMePayload", () => {
   it("returns undefined when payload is undefined", () => {
-    expect(activeAccountSummaryFromMePayload(undefined)).toBeUndefined();
+    expect(activeAccountSummaryFromMePayload(undefined, "1")).toBeUndefined();
+  });
+
+  it("returns undefined when selectedAccountId is omitted or empty", () => {
+    const payload = {
+      accountId: 2,
+      user: null,
+      accounts: [
+        accountSummaryFixture({ id: 1, FirstName: "A" }),
+        accountSummaryFixture({ id: 2, FirstName: "B" }),
+      ],
+    };
+    expect(activeAccountSummaryFromMePayload(payload, undefined)).toBeUndefined();
+    expect(activeAccountSummaryFromMePayload(payload, "")).toBeUndefined();
   });
 
   it("selects row matching selectedAccountId when provided", () => {
@@ -107,31 +159,31 @@ describe("activeAccountSummaryFromMePayload", () => {
       accountId: 1,
       user: null,
       accounts: [
-        { id: 1, FirstName: "A" },
-        { id: 2, FirstName: "B" },
+        accountSummaryFixture({ id: 1, FirstName: "A" }),
+        accountSummaryFixture({ id: 2, FirstName: "B" }),
       ],
     };
     expect(activeAccountSummaryFromMePayload(payload, "2")?.FirstName).toBe("B");
   });
 
-  it("uses payload.accountId when selectedAccountId is omitted", () => {
+  it("returns undefined when id does not match (no first-row fallback)", () => {
+    const payload = {
+      accountId: 1,
+      user: null,
+      accounts: [accountSummaryFixture({ id: 1, FirstName: "Only" })],
+    };
+    expect(activeAccountSummaryFromMePayload(payload, "999")).toBeUndefined();
+  });
+
+  it("does not use compatibility accountId when selected id is omitted", () => {
     const payload = {
       accountId: 2,
       user: null,
       accounts: [
-        { id: 1, FirstName: "A" },
-        { id: 2, FirstName: "B" },
+        accountSummaryFixture({ id: 1, FirstName: "A" }),
+        accountSummaryFixture({ id: 2, FirstName: "B" }),
       ],
     };
-    expect(activeAccountSummaryFromMePayload(payload)?.FirstName).toBe("B");
-  });
-
-  it("falls back to first row when id does not match", () => {
-    const payload = {
-      accountId: 1,
-      user: null,
-      accounts: [{ id: 1, FirstName: "Only" }],
-    };
-    expect(activeAccountSummaryFromMePayload(payload, "999")?.FirstName).toBe("Only");
+    expect(activeAccountSummaryFromMePayload(payload, undefined)).toBeUndefined();
   });
 });

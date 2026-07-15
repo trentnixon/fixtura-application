@@ -5,8 +5,9 @@ import { SearchableCombobox } from "@/components/ui/searchable-combobox";
 
 import { useTemplateCategoryPickerList } from "./_hooks";
 
-export function TemplateCategoryComboboxPicker() {
-  const { comboboxOptions, resolvedSelectedId, setSelectedId } = useTemplateCategoryPickerList();
+export function TemplateCategoryComboboxPicker({ accountId }: { accountId: string }) {
+  const { comboboxOptions, resolvedSelectedId, setSelectedId } =
+    useTemplateCategoryPickerList(accountId);
 
   return (
     <div className="max-w-md space-y-2">

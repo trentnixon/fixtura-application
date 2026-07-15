@@ -9,10 +9,13 @@ import {
 import { TypographyH1, TypographyMuted } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PICKER_SANDBOX_ACCOUNT_SCOPE } from "@/lib/api/query/query-keys";
 import { appRoutes } from "@/lib/api/routes/route-definitions";
 
 export default function DataLabTemplateModesUiPage() {
-  const { modes, refetch, isFetching, isPending, isError, error } = useTemplateModePickerList();
+  const { modes, refetch, isFetching, isPending, isError, error } = useTemplateModePickerList(
+    PICKER_SANDBOX_ACCOUNT_SCOPE,
+  );
 
   return (
     <div className="space-y-6">
@@ -74,15 +77,15 @@ export default function DataLabTemplateModesUiPage() {
                 </TabsList>
 
                 <TabsContent value="select" className="space-y-2">
-                  <TemplateModeSelectPicker />
+                  <TemplateModeSelectPicker accountId={PICKER_SANDBOX_ACCOUNT_SCOPE} />
                 </TabsContent>
 
                 <TabsContent value="cards" className="space-y-2">
-                  <TemplateModeCardPicker />
+                  <TemplateModeCardPicker accountId={PICKER_SANDBOX_ACCOUNT_SCOPE} />
                 </TabsContent>
               </Tabs>
 
-              <TemplateModePickerDetail />
+              <TemplateModePickerDetail accountId={PICKER_SANDBOX_ACCOUNT_SCOPE} />
             </>
           )}
         </div>

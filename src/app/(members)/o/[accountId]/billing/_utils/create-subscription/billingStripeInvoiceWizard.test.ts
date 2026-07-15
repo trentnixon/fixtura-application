@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 
+import { accountSummaryFixture } from "@/lib/account/account-summary-fixture";
+
 import { computePassEndDateYyyyMmDd } from "./passEndDateFromWizardStart";
 import { shouldShowStripeImmediateInvoiceCreate } from "./shouldShowStripeImmediateInvoice";
 
@@ -32,6 +34,7 @@ function meWithRole(role: { id: number; name: string; type: string } | null): Ac
       blocked: false,
       role,
     },
+    accounts: [accountSummaryFixture({ id: 1 })],
   };
 }
 

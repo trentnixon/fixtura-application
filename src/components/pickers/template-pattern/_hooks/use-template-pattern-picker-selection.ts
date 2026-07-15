@@ -1,23 +1,21 @@
-"use client";
+﻿"use client";
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 
 import { templatePatternPickerSelectedIdKey } from "../_consts";
 
 /**
- * Shared client selection for template pattern pickers (TanStack Query cache as UI store).
- * Do not invalidate this key in global reset flows.
+ * Shared client selection for template-pattern pickers (TanStack Query cache as UI store).
+ * Selection is namespaced by accountId. Do not invalidate this key in global reset flows.
  */
-export function useTemplatePatternPickerSelection() {
+export function useTemplatePatternPickerSelection(accountId: string) {
   const queryClient = useQueryClient();
+  const queryKey = useMemo(() => templatePatternPickerSelectedIdKey(accountId), [accountId]);
 
   const { data: selectedId = null } = useQuery<string | null>({
-    queryKey: templatePatternPickerSelectedIdKey,
-    queryFn: () =>
-      Promise.resolve(
-        queryClient.getQueryData<string | null>(templatePatternPickerSelectedIdKey) ?? null,
-      ),
+    queryKey,
+    queryFn: () => Promise.resolve(queryClient.getQueryData<string | null>(queryKey) ?? null),
     staleTime: Infinity,
     gcTime: Infinity,
     refetchOnMount: false,
@@ -27,9 +25,12 @@ export function useTemplatePatternPickerSelection() {
 
   const setSelectedId = useCallback(
     (id: string | null | undefined) => {
-      queryClient.setQueryData(templatePatternPickerSelectedIdKey, id ?? null);
+      const next = id ?? null;
+      const current = queryClient.getQueryData<string | null>(queryKey) ?? null;
+      if (current === next) return;
+      queryClient.setQueryData(queryKey, next);
     },
-    [queryClient],
+    [queryClient, queryKey],
   );
 
   return { selectedId, setSelectedId };

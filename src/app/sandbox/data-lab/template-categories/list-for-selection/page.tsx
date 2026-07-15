@@ -13,6 +13,7 @@ import { TypographyH1, TypographyMuted } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTemplateCategoriesListForSelection } from "@/lib/api/hooks/account/useTemplateCategoriesListForSelection";
+import { PICKER_SANDBOX_ACCOUNT_SCOPE } from "@/lib/api/query/query-keys";
 import { appRoutes } from "@/lib/api/routes/route-definitions";
 
 type InputPattern = "select" | "combobox" | "cards" | "toggle";
@@ -83,23 +84,23 @@ export default function DataLabTemplateCategoriesListForSelectionPage() {
                 </TabsList>
 
                 <TabsContent value="select" className="space-y-2">
-                  <TemplateCategorySelectPicker />
+                  <TemplateCategorySelectPicker accountId={PICKER_SANDBOX_ACCOUNT_SCOPE} />
                 </TabsContent>
 
                 <TabsContent value="combobox" className="space-y-2">
-                  <TemplateCategoryComboboxPicker />
+                  <TemplateCategoryComboboxPicker accountId={PICKER_SANDBOX_ACCOUNT_SCOPE} />
                 </TabsContent>
 
                 <TabsContent value="cards" className="space-y-2">
-                  <TemplateCategoryCardPicker />
+                  <TemplateCategoryCardPicker accountId={PICKER_SANDBOX_ACCOUNT_SCOPE} />
                 </TabsContent>
 
                 <TabsContent value="toggle" className="space-y-2">
-                  <TemplateCategoryTogglePicker />
+                  <TemplateCategoryTogglePicker accountId={PICKER_SANDBOX_ACCOUNT_SCOPE} />
                 </TabsContent>
               </Tabs>
 
-              <TemplateCategoryPickerDetail />
+              <TemplateCategoryPickerDetail accountId={PICKER_SANDBOX_ACCOUNT_SCOPE} />
             </>
           )}
         </div>

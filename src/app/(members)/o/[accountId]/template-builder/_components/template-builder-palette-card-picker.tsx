@@ -64,6 +64,8 @@ export function TemplateBuilderPaletteCardPicker({
         onSelect={onSelect}
         emptyMessage="No color layouts available."
         centerTiles={centerTiles}
+        orientation="vertical"
+        scrollClassName="h-[min(55vh,26rem)]"
         splitBackgroundVariant="icon"
         getTileBackgroundStyle={(item) => {
           const layout = layoutColorsById.get(item.id);

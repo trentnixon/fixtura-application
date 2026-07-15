@@ -12,8 +12,8 @@ import {
 import { useTemplateNoisePickerList } from "./_hooks";
 import { templateNoiseLabel } from "./_utils";
 
-export function TemplateNoiseSelectPicker() {
-  const { noises, selectValue, setSelectedId } = useTemplateNoisePickerList();
+export function TemplateNoiseSelectPicker({ accountId }: { accountId: string }) {
+  const { noises, selectValue, setSelectedId } = useTemplateNoisePickerList(accountId);
 
   return (
     <div className="max-w-md space-y-2">

@@ -1,8 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 
+import { isAccountUnavailableError } from "@/lib/api/account-unavailable";
 import { ApiError } from "@/lib/api/client/api-error";
 import {
-  selectOrgReasonFromApiStatus,
+  SELECT_ORG_GATEWAY_REASON,
+  selectOrgOwnershipUnavailableReason,
   type SelectOrgGatewayReason,
 } from "@/lib/config/gateway-reasons";
 
@@ -38,6 +40,7 @@ export function isAccountOrganisationContextGatewayRedirect(
 /**
  * Organisation summary for the scoped account (GET /api/accounts/[accountId]/organisation, Phase 4).
  * HTTP 400/403/404 resolve successfully with a gateway redirect marker (no thrown ApiError / global query onError).
+ * Ownership failures (403 and account-unavailable 404) both use `not_found` so nonexistent and cross-user look identical.
  */
 export function useAccountOrganisationContext(accountId: string, options?: { enabled?: boolean }) {
   const enabled = options?.enabled ?? Boolean(accountId);
@@ -48,7 +51,14 @@ export function useAccountOrganisationContext(accountId: string, options?: { ena
         return await accountApi.getAccountOrganisationContext(accountId);
       } catch (e) {
         if (e instanceof ApiError) {
-          const reason = selectOrgReasonFromApiStatus(e.status);
+          if (e.status === 404 && isAccountUnavailableError(e, { resource: "account" })) {
+            return {
+              _tag: organisationContextGatewayRedirectTag,
+              reason: SELECT_ORG_GATEWAY_REASON.notFound,
+            };
+          }
+          // Account-level organisation endpoint: fail closed — any 403/404/400 maps to gateway.
+          const reason = selectOrgOwnershipUnavailableReason(e.status);
           if (reason) {
             return { _tag: organisationContextGatewayRedirectTag, reason };
           }

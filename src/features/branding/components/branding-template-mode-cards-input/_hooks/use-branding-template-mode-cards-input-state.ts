@@ -5,10 +5,11 @@ import { useTemplateModePickerList } from "@/components/pickers/template-mode";
 import type { BrandingTemplateModeCardsInputState } from "../_types";
 
 export function useBrandingTemplateModeCardsInputState(
+  accountId: string,
   interactive: boolean,
 ): BrandingTemplateModeCardsInputState {
   const { modes, selectValue, setSelectedId, isPending, isError, error } =
-    useTemplateModePickerList();
+    useTemplateModePickerList(accountId);
 
   if (!interactive) {
     return { phase: "readonly" };

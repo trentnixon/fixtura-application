@@ -40,7 +40,7 @@ export default async function CreateBillingPage({
       </header>
 
       <Suspense fallback={<BrandedLoader label="Loading" />}>
-        <CreateSubscriptionWizard accountId={accountId} />
+        <CreateSubscriptionWizard key={accountId} accountId={accountId} />
       </Suspense>
     </div>
   );

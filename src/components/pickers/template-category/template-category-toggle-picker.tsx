@@ -8,8 +8,8 @@ import { TOGGLE_MAX_CATEGORIES } from "./_consts";
 import { useTemplateCategoryPickerList } from "./_hooks";
 import { categoryLabel } from "./_utils";
 
-export function TemplateCategoryTogglePicker() {
-  const { categories, selectValue, setSelectedId } = useTemplateCategoryPickerList();
+export function TemplateCategoryTogglePicker({ accountId }: { accountId: string }) {
+  const { categories, selectValue, setSelectedId } = useTemplateCategoryPickerList(accountId);
 
   const showToggleGroup = categories.length > 0 && categories.length <= TOGGLE_MAX_CATEGORIES;
 

@@ -21,6 +21,8 @@ import { useImageOptionsAssetsPicker } from "./_hooks";
 import { assetCategoryTypeLabel } from "./_utils";
 
 type ImageOptionsAssetsPickerProps = {
+  /** Account scope for UI selection isolation (route id or `"sandbox"`). */
+  accountId: string;
   /** Narrow sidebar: single column, no selection detail card (e.g. Remotion sandbox filters). */
   compact?: boolean;
   /** Show a select input for the asset. */
@@ -41,6 +43,7 @@ type ImageOptionsAssetsPickerProps = {
 
 /** Self-contained: loads assets, sport filter, TanStack selection, grouped select, list, and detail. */
 export function ImageOptionsAssetsPicker({
+  accountId,
   compact = false,
   isSelect = false,
   isList = false,
@@ -68,7 +71,10 @@ export function ImageOptionsAssetsPicker({
     showTypeBesideName,
     rawAssetCount,
     setSelectedId,
-  } = useImageOptionsAssetsPicker(lockSportFilterTo !== null ? { lockSportFilterTo } : undefined);
+  } = useImageOptionsAssetsPicker({
+    accountId,
+    ...(lockSportFilterTo !== null ? { lockSportFilterTo } : {}),
+  });
 
   return (
     <div className={cn(inline ? "grid max-w-md min-w-[18rem] gap-1" : "space-y-4")}>

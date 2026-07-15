@@ -84,21 +84,22 @@ export function TemplateBuilderUseBackgroundFieldRow({
   isChanged: boolean;
   onValueChange: (value: TemplateUseBackground | null) => void;
 }) {
+  const resolvedValue = selectValue === TEMPLATE_BUILDER_UNSET_VALUE ? undefined : selectValue;
+
   return (
-    <div className="border-border/60 grid gap-2 border-b pb-4 last:border-0 last:pb-0">
+    <div className="grid gap-2">
       <Label htmlFor={fieldId} className="inline-flex items-center gap-2 text-sm font-medium">
-        Use background
+        Background type
         {isChanged ? <TemplateBuilderChangedBadge placement="title" /> : null}
       </Label>
       <Select
-        value={selectValue}
+        value={resolvedValue}
         onValueChange={(v) => onValueChange(selectValueToUseBackground(v))}
       >
         <SelectTrigger id={fieldId} className="w-full">
-          <SelectValue placeholder="Select..." />
+          <SelectValue placeholder="Select background type…" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value={TEMPLATE_BUILDER_UNSET_VALUE}>Unset</SelectItem>
           {options.map((opt) => (
             <SelectItem key={opt.value} value={opt.value}>
               {opt.label}

@@ -6,8 +6,8 @@ import { cn } from "@/lib/utils";
 import { useTemplateGradientPickerList } from "./_hooks";
 import { gradientLabel } from "./_utils";
 
-export function TemplateGradientCardPicker() {
-  const { gradients, selectValue, setSelectedId } = useTemplateGradientPickerList();
+export function TemplateGradientCardPicker({ accountId }: { accountId: string }) {
+  const { gradients, selectValue, setSelectedId } = useTemplateGradientPickerList(accountId);
 
   return (
     <div className="space-y-3">

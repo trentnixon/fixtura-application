@@ -84,6 +84,8 @@ export function TemplateBuilderNoiseCardPicker({
       onSelect={onSelect}
       emptyMessage="No noise options available."
       centerTiles={centerTiles}
+      orientation="vertical"
+      scrollClassName="h-[min(40vh,16rem)]"
       splitBackgroundVariant="icon"
       getTileBackgroundStyle={(item) => previewById.get(item.id)}
     />

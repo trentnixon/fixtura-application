@@ -1,11 +1,14 @@
 import { describe, expect, it } from "vitest";
 
+import { accountSummaryFixture } from "@/lib/account/account-summary-fixture";
+
 import {
+  isSelectOrgContinueSetup,
   selectOrgCardToneFromAccountSummary,
   selectOrgCardToneFromOnboardingState,
 } from "./select-org-card-tone";
 
-import type { OnboardingStateData } from "@/types/api/account";
+import type { AccountSummary, OnboardingStateData } from "@/types/api/account";
 
 function baseState(over: Partial<OnboardingStateData> = {}): OnboardingStateData {
   return {
@@ -39,12 +42,13 @@ describe("selectOrgCardToneFromOnboardingState", () => {
     expect(selectOrgCardToneFromOnboardingState(baseState({ isSetup: true }))).toBe("default");
   });
 
-  it("returns error when wizard not finished", () => {
+  it("returns error when onboardingWizardCompletedAt is null", () => {
     expect(
       selectOrgCardToneFromOnboardingState(
         baseState({
           onboardingWizardStatus: "in_progress",
           hasCompletedOnboardingWizard: false,
+          onboardingWizardCompletedAt: null,
           isSetup: false,
         }),
       ),
@@ -57,6 +61,7 @@ describe("selectOrgCardToneFromOnboardingState", () => {
         baseState({
           onboardingWizardStatus: "in_progress",
           hasCompletedOnboardingWizard: false,
+          onboardingWizardCompletedAt: null,
           isSetup: false,
           isUpdating: true,
         }),
@@ -70,18 +75,20 @@ describe("selectOrgCardToneFromOnboardingState", () => {
         baseState({
           onboardingWizardStatus: "completed",
           hasCompletedOnboardingWizard: true,
+          onboardingWizardCompletedAt: "2026-01-01T00:00:00.000Z",
           isSetup: false,
         }),
       ),
     ).toBe("warning");
   });
 
-  it("treats onboardingWizardStatus completed as wizard done", () => {
+  it("treats onboardingWizardCompletedAt timestamp as wizard done even if flags lag", () => {
     expect(
       selectOrgCardToneFromOnboardingState(
         baseState({
-          onboardingWizardStatus: "completed",
+          onboardingWizardStatus: "in_progress",
           hasCompletedOnboardingWizard: false,
+          onboardingWizardCompletedAt: "2026-01-01T00:00:00.000Z",
           isSetup: false,
         }),
       ),
@@ -92,35 +99,101 @@ describe("selectOrgCardToneFromOnboardingState", () => {
 describe("selectOrgCardToneFromAccountSummary", () => {
   it("returns default when isSetup true", () => {
     expect(
-      selectOrgCardToneFromAccountSummary({
-        id: 1,
-        isSetup: true,
-        hasCompletedOnboardingWizard: false,
-      }),
+      selectOrgCardToneFromAccountSummary(
+        accountSummaryFixture({
+          id: 1,
+          isSetup: true,
+          hasCompletedOnboardingWizard: false,
+          onboardingWizardCompletedAt: null,
+        }),
+      ),
     ).toBe("default");
   });
 
-  it("returns default when wizard flag omitted", () => {
-    expect(selectOrgCardToneFromAccountSummary({ id: 1, isSetup: false })).toBe("default");
+  it("returns default when unfinished signals omitted", () => {
+    expect(selectOrgCardToneFromAccountSummary({ id: 1, isSetup: false } as AccountSummary)).toBe(
+      "default",
+    );
   });
 
-  it("returns error when wizard not complete", () => {
+  it("returns error when onboardingWizardCompletedAt is null", () => {
     expect(
-      selectOrgCardToneFromAccountSummary({
-        id: 1,
-        isSetup: false,
-        hasCompletedOnboardingWizard: false,
-      }),
+      selectOrgCardToneFromAccountSummary(
+        accountSummaryFixture({
+          id: 1,
+          isSetup: false,
+          onboardingWizardCompletedAt: null,
+        }),
+      ),
+    ).toBe("error");
+  });
+
+  it("returns error from hasCompletedOnboardingWizard when timestamp absent", () => {
+    expect(
+      selectOrgCardToneFromAccountSummary(
+        accountSummaryFixture({
+          id: 1,
+          isSetup: false,
+          hasCompletedOnboardingWizard: false,
+        }),
+      ),
     ).toBe("error");
   });
 
   it("returns warning when wizard complete and setup pending", () => {
     expect(
-      selectOrgCardToneFromAccountSummary({
-        id: 1,
-        isSetup: false,
-        hasCompletedOnboardingWizard: true,
-      }),
+      selectOrgCardToneFromAccountSummary(
+        accountSummaryFixture({
+          id: 1,
+          isSetup: false,
+          onboardingWizardCompletedAt: "2026-01-01T00:00:00.000Z",
+        }),
+      ),
     ).toBe("warning");
+  });
+});
+
+describe("isSelectOrgContinueSetup", () => {
+  it("uses me-row onboardingWizardCompletedAt when present", () => {
+    expect(
+      isSelectOrgContinueSetup(
+        accountSummaryFixture({
+          id: 101,
+          onboardingWizardCompletedAt: null,
+          isSetup: true,
+        }),
+      ),
+    ).toBe(true);
+
+    expect(
+      isSelectOrgContinueSetup(
+        accountSummaryFixture({
+          id: 202,
+          onboardingWizardCompletedAt: "2026-01-01T00:00:00.000Z",
+          isSetup: false,
+        }),
+      ),
+    ).toBe(false);
+  });
+
+  it("falls back to onboarding-state when me-row timestamp is absent", () => {
+    expect(
+      isSelectOrgContinueSetup(
+        { id: 101 } as AccountSummary,
+        baseState({ onboardingWizardCompletedAt: null }),
+      ),
+    ).toBe(true);
+
+    expect(
+      isSelectOrgContinueSetup(
+        { id: 202 } as AccountSummary,
+        baseState({ onboardingWizardCompletedAt: "2026-01-01T00:00:00.000Z" }),
+      ),
+    ).toBe(false);
+  });
+
+  it("does not treat isSetup alone as continue-setup", () => {
+    expect(isSelectOrgContinueSetup({ id: 101, isSetup: false } as AccountSummary)).toBe(false);
+    expect(isSelectOrgContinueSetup({ id: 202, isSetup: true } as AccountSummary)).toBe(false);
   });
 });

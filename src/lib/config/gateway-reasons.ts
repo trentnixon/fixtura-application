@@ -27,17 +27,30 @@ export function parseSelectOrgGatewayReason(value: string | null): SelectOrgGate
   return allowed.includes(value) ? (value as SelectOrgGatewayReason) : null;
 }
 
+/** Shared copy for ownership failures — must not distinguish missing vs cross-user. */
+const ORGANISATION_UNAVAILABLE_MESSAGE = "That organisation isn’t available. Choose one below.";
+
 export function selectOrgReasonMessage(reason: SelectOrgGatewayReason): string {
   switch (reason) {
     case SELECT_ORG_GATEWAY_REASON.forbidden:
-      return "You don’t have access to that organisation. Choose one below.";
     case SELECT_ORG_GATEWAY_REASON.notFound:
-      return "That organisation wasn’t found. Choose one below.";
+      return ORGANISATION_UNAVAILABLE_MESSAGE;
     case SELECT_ORG_GATEWAY_REASON.invalidOrg:
       return "That organisation link isn’t valid. Choose one below.";
     default:
       return "";
   }
+}
+
+/**
+ * Ownership-gate mapper for account-level access checks (e.g. organisation context).
+ * Maps 403 and 404 to the same `not_found` reason so nonexistent and cross-user ids look identical.
+ * `400` → invalid org segment. Nested slice hooks should keep {@link selectOrgReasonFromApiStatus}.
+ */
+export function selectOrgOwnershipUnavailableReason(status: number): SelectOrgGatewayReason | null {
+  if (status === 403 || status === 404) return SELECT_ORG_GATEWAY_REASON.notFound;
+  if (status === 400) return SELECT_ORG_GATEWAY_REASON.invalidOrg;
+  return null;
 }
 
 /** Map Strapi/BFF HTTP status to gateway messaging (403 = no access, 404 = missing, 400 = bad id). */

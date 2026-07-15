@@ -9,11 +9,13 @@ import {
 import { TypographyH1, TypographyMuted } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PICKER_SANDBOX_ACCOUNT_SCOPE } from "@/lib/api/query/query-keys";
 import { appRoutes } from "@/lib/api/routes/route-definitions";
 
 export default function DataLabTemplateTexturesUiPage() {
-  const { textures, refetch, isFetching, isPending, isError, error } =
-    useTemplateTexturePickerList();
+  const { textures, refetch, isFetching, isPending, isError, error } = useTemplateTexturePickerList(
+    PICKER_SANDBOX_ACCOUNT_SCOPE,
+  );
 
   return (
     <div className="space-y-6">
@@ -68,15 +70,15 @@ export default function DataLabTemplateTexturesUiPage() {
                 </TabsList>
 
                 <TabsContent value="select" className="space-y-2">
-                  <TemplateTextureSelectPicker />
+                  <TemplateTextureSelectPicker accountId={PICKER_SANDBOX_ACCOUNT_SCOPE} />
                 </TabsContent>
 
                 <TabsContent value="cards" className="space-y-2">
-                  <TemplateTextureCardPicker />
+                  <TemplateTextureCardPicker accountId={PICKER_SANDBOX_ACCOUNT_SCOPE} />
                 </TabsContent>
               </Tabs>
 
-              <TemplateTexturePickerDetail />
+              <TemplateTexturePickerDetail accountId={PICKER_SANDBOX_ACCOUNT_SCOPE} />
             </>
           )}
         </div>

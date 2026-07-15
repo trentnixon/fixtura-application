@@ -320,8 +320,8 @@ export function TemplateBuilderContent({ accountId }: { accountId: string }) {
   const previewPanel = <TemplateBuilderPreviewPanel accountId={accountId} {...previewConfig} />;
 
   return (
-    <div className="grid gap-6">
-      <div className="grid min-h-screen content-start gap-3">
+    <div className="grid gap-4">
+      <div className="grid content-start gap-3">
         {catalogPayload ? (
           <TemplateBuilderEditor
             accountId={accountId}

@@ -6,7 +6,9 @@ import { accountApi } from "../../services/account.api";
 import type { CreateFirstAccountRequestBody } from "@/types/api/account";
 
 /**
- * A1 — create or attach first account. On success, refreshes GET /api/account/me bootstrap.
+ * Obtain the user's reusable blank organisation account (200 reuse / 201 create).
+ * On success, refreshes GET /api/account/me bootstrap. Busy (`503 ACCOUNT_CREATE_BUSY`)
+ * surfaces via `ApiError` with `details` + `retryAfterSeconds` for Phase 04 UI.
  */
 export function useCreateFirstAccount() {
   const queryClient = useQueryClient();

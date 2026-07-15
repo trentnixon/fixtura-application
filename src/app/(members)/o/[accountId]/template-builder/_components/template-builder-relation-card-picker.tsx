@@ -39,6 +39,8 @@ export function TemplateBuilderRelationCardPicker<T extends { id: number }>({
       onSelect={onSelect}
       emptyMessage={emptyMessage ?? `No ${label.toLowerCase()} options available.`}
       centerTiles={centerTiles}
+      orientation="vertical"
+      scrollClassName="h-[min(40vh,16rem)]"
     />
   );
 }

@@ -5,6 +5,7 @@ import {
   type ImageOptionsAssetsPickerState,
 } from "@/components/pickers/assets-list-for-selection";
 import { TypographyMuted } from "@/components/typography";
+import { PICKER_SANDBOX_ACCOUNT_SCOPE } from "@/lib/api/query/query-keys";
 
 import { RemotionSandboxCategoryPickerBlock } from "./remotion-sandbox-category-picker-block";
 
@@ -61,7 +62,7 @@ export function RemotionSandboxFiltersColumn({
             </TypographyMuted>
           ) : (
             <div className="pr-1">
-              <ImageOptionsAssetsPicker compact isList />
+              <ImageOptionsAssetsPicker accountId={PICKER_SANDBOX_ACCOUNT_SCOPE} compact isList />
             </div>
           )}
         </div>

@@ -11,6 +11,8 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        primaryOutline:
+          "border-primary bg-background text-primary shadow-xs hover:bg-primary/10 hover:border-primary dark:bg-input/30 dark:hover:bg-primary/15",
         destructive:
           "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline:
@@ -32,6 +34,8 @@ const buttonVariants = cva(
           "bg-[var(--success-600)] text-white hover:bg-[var(--success-600)]/90 focus-visible:ring-[color-mix(in_oklch,var(--success-600),transparent_75%)]",
         successOutline:
           "border-[var(--success-600)] bg-background text-[var(--success-600)] shadow-xs hover:bg-[color-mix(in_oklch,var(--success-600),transparent_92%)] hover:border-[var(--success-600)] dark:bg-input/30 dark:hover:bg-[color-mix(in_oklch,var(--success-600),transparent_88%)]",
+        warning:
+          "bg-[var(--warning)] text-neutral-900 hover:bg-[color-mix(in_oklab,var(--warning)_90%,black)] focus-visible:ring-[color-mix(in_oklch,var(--warning),transparent_75%)]",
         warningOutline:
           "border-[var(--warning)] bg-background text-[var(--warning)] shadow-xs hover:bg-[color-mix(in_oklch,var(--warning),transparent_92%)] hover:border-[var(--warning)] dark:bg-input/30 dark:hover:bg-[color-mix(in_oklch,var(--warning),transparent_88%)]",
       },
@@ -41,6 +45,8 @@ const buttonVariants = cva(
         lg: "h-10 px-6 has-[>svg]:px-4",
         /** Dense actions: tables, toolbars */
         compact: "h-7 gap-1 px-2.5 text-xs has-[>svg]:px-2 [&_svg:not([class*='size-'])]:size-3.5",
+        /** Extra-small actions: card footers, dense grids */
+        xs: "h-6 gap-1 px-2 text-xs has-[>svg]:px-1.5 [&_svg:not([class*='size-'])]:size-3",
         icon: "size-9",
       },
     },

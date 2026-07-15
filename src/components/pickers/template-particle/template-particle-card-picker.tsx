@@ -11,8 +11,8 @@ function fmt(v: string | number | null | undefined): string {
   return String(v);
 }
 
-export function TemplateParticleCardPicker() {
-  const { particles, selectValue, setSelectedId } = useTemplateParticlePickerList();
+export function TemplateParticleCardPicker({ accountId }: { accountId: string }) {
+  const { particles, selectValue, setSelectedId } = useTemplateParticlePickerList(accountId);
 
   return (
     <div className="space-y-3">

@@ -9,11 +9,12 @@ import {
 import { TypographyH1, TypographyMuted } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PICKER_SANDBOX_ACCOUNT_SCOPE } from "@/lib/api/query/query-keys";
 import { appRoutes } from "@/lib/api/routes/route-definitions";
 
 export default function DataLabTemplateParticlesUiPage() {
   const { particles, refetch, isFetching, isPending, isError, error } =
-    useTemplateParticlePickerList();
+    useTemplateParticlePickerList(PICKER_SANDBOX_ACCOUNT_SCOPE);
 
   return (
     <div className="space-y-6">
@@ -82,15 +83,15 @@ export default function DataLabTemplateParticlesUiPage() {
                 </TabsList>
 
                 <TabsContent value="select" className="space-y-2">
-                  <TemplateParticleSelectPicker />
+                  <TemplateParticleSelectPicker accountId={PICKER_SANDBOX_ACCOUNT_SCOPE} />
                 </TabsContent>
 
                 <TabsContent value="cards" className="space-y-2">
-                  <TemplateParticleCardPicker />
+                  <TemplateParticleCardPicker accountId={PICKER_SANDBOX_ACCOUNT_SCOPE} />
                 </TabsContent>
               </Tabs>
 
-              <TemplateParticlePickerDetail />
+              <TemplateParticlePickerDetail accountId={PICKER_SANDBOX_ACCOUNT_SCOPE} />
             </>
           )}
         </div>

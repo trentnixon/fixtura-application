@@ -5,8 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { useTemplateModePickerList } from "./_hooks";
 
-export function TemplateModePickerDetail() {
-  const { selectedMode } = useTemplateModePickerList();
+export function TemplateModePickerDetail({ accountId }: { accountId: string }) {
+  const { selectedMode } = useTemplateModePickerList(accountId);
 
   if (!selectedMode) {
     return null;

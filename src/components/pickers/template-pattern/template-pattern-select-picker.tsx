@@ -12,8 +12,8 @@ import {
 import { useTemplatePatternPickerList } from "./_hooks";
 import { patternLabel } from "./_utils";
 
-export function TemplatePatternSelectPicker() {
-  const { patterns, selectValue, setSelectedId } = useTemplatePatternPickerList();
+export function TemplatePatternSelectPicker({ accountId }: { accountId: string }) {
+  const { patterns, selectValue, setSelectedId } = useTemplatePatternPickerList(accountId);
 
   return (
     <div className="space-y-2">

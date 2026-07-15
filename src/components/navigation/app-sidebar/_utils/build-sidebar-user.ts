@@ -20,6 +20,14 @@ export function buildAppSidebarUser(params: {
 }): NavUserProps {
   const { navMode, bootstrapRow, bootstrapOrg, sessionEmail, orgContextData } = params;
 
+  // Gateway must never imply a default/selected organisation from me bootstrap rows.
+  if (navMode === "gateway") {
+    return {
+      ...fallbackUser,
+      email: sessionEmail ?? fallbackUser.email,
+    };
+  }
+
   const meUser: NavUserProps = {
     ...fallbackUser,
     name: bootstrapRow?.FirstName ?? fallbackUser.name,
@@ -27,7 +35,7 @@ export function buildAppSidebarUser(params: {
     avatar: bootstrapOrg?.ParentLogo ?? fallbackUser.avatar,
   };
 
-  if (navMode === "scoped" && orgContextData) {
+  if (orgContextData) {
     return {
       ...meUser,
       email: orgContextData.accountOrganisationDetails?.Name ?? meUser.email,

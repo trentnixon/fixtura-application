@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
+import { ApiError } from "@/lib/api/client/api-error";
 import {
   SELECT_ORG_GATEWAY_REASON,
   selectOrganisationUrlWithReason,
@@ -183,5 +184,100 @@ describe("OrgAccessBoundary", () => {
         selectOrganisationUrlWithReason(SELECT_ORG_GATEWAY_REASON.invalidOrg),
       );
     });
+  });
+
+  it("redirects to select-organisation with not_found for org-context 403 ownership failure", async () => {
+    const accountId = "123";
+    useAccountOrganisationContextMock.mockReturnValue({
+      isSuccess: true,
+      isPending: false,
+      isError: false,
+      data: {
+        _tag: "organisationContextGatewayRedirect",
+        reason: SELECT_ORG_GATEWAY_REASON.notFound,
+      },
+    });
+    useOnboardingOnboardingStateMock.mockReturnValue({
+      isSuccess: false,
+      isPending: false,
+      isError: false,
+      data: undefined,
+      enabled: false,
+    });
+
+    renderWithClient(
+      <OrgAccessBoundary accountId={accountId}>
+        <div>Scoped content</div>
+      </OrgAccessBoundary>,
+    );
+
+    await waitFor(() => {
+      expect(navMocks.replace).toHaveBeenCalledWith(
+        selectOrganisationUrlWithReason(SELECT_ORG_GATEWAY_REASON.notFound),
+      );
+    });
+    expect(screen.queryByText("Scoped content")).not.toBeInTheDocument();
+  });
+
+  it("redirects to select-organisation with not_found for org-context 404 ownership failure", async () => {
+    const accountId = "456";
+    useAccountOrganisationContextMock.mockReturnValue({
+      isSuccess: true,
+      isPending: false,
+      isError: false,
+      data: {
+        _tag: "organisationContextGatewayRedirect",
+        reason: SELECT_ORG_GATEWAY_REASON.notFound,
+      },
+    });
+    useOnboardingOnboardingStateMock.mockReturnValue({
+      isSuccess: false,
+      isPending: false,
+      isError: false,
+      data: undefined,
+    });
+
+    renderWithClient(
+      <OrgAccessBoundary accountId={accountId}>
+        <div>Scoped content</div>
+      </OrgAccessBoundary>,
+    );
+
+    await waitFor(() => {
+      expect(navMocks.replace).toHaveBeenCalledWith(
+        selectOrganisationUrlWithReason(SELECT_ORG_GATEWAY_REASON.notFound),
+      );
+    });
+    expect(navMocks.replace).toHaveBeenCalledTimes(1);
+    expect(screen.queryByText("Scoped content")).not.toBeInTheDocument();
+  });
+
+  it("redirects to select-organisation when onboarding-state is account-unavailable", async () => {
+    const accountId = "789";
+    useOnboardingOnboardingStateMock.mockReturnValue({
+      isSuccess: false,
+      isPending: false,
+      isError: true,
+      error: new ApiError({
+        status: 404,
+        message: "Account not found",
+        details: { error: { code: "ACCOUNT_NOT_FOUND" } },
+      }),
+      data: undefined,
+      refetch: vi.fn(),
+    });
+
+    renderWithClient(
+      <OrgAccessBoundary accountId={accountId}>
+        <div>Scoped content</div>
+      </OrgAccessBoundary>,
+    );
+
+    await waitFor(() => {
+      expect(navMocks.replace).toHaveBeenCalledWith(
+        selectOrganisationUrlWithReason(SELECT_ORG_GATEWAY_REASON.notFound),
+      );
+    });
+    expect(screen.queryByText("Scoped content")).not.toBeInTheDocument();
   });
 });

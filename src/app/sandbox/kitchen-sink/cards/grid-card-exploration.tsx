@@ -275,7 +275,7 @@ export function GridCardExplorationSection() {
 
         <Subsection
           title="Select organisation tile"
-          description="GridCardSelectOrganisation is the tall tile used on /select-organisation: title, optional sport line, visual, optional Active/Setup rows, and CTA."
+          description="GridCardSelectOrganisation is the square tile used on /select-organisation: title, optional sport line, visual, optional Active/Setup rows, and CTA."
         >
           <div className="mb-4 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
             <CardReferenceName name="card.grid-select.org-active" />
@@ -283,59 +283,46 @@ export function GridCardExplorationSection() {
             <CardReferenceName name="card.grid-select.create" />
             <CardReferenceName name="card.grid-select.loading" />
           </div>
-          <div className="flex flex-wrap items-stretch justify-start gap-4">
-            <div className="flex h-full min-h-0 w-full max-w-56 shrink-0 flex-col self-stretch">
-              <GridCardSelectOrganisation
-                className="mx-0 h-full min-h-0 w-full"
-                title="Eastern Suburbs FC"
-                sport="Football"
-                isActive
-                isSetup
-                ctaLabel="Open dashboard"
-                href={DEMO_HREF}
-                visual={
-                  <GridCardVisualSlot
-                    visual="org"
-                    initials="ES"
-                    imageSrc="/globe.svg"
-                    imageAlt=""
-                  />
-                }
-              />
-            </div>
-            <div className="flex h-full min-h-0 w-full max-w-56 shrink-0 flex-col self-stretch">
-              <GridCardSelectOrganisation
-                className="mx-0 h-full min-h-0 w-full"
-                title="Westside Netball"
-                sport="Netball"
-                isActive={false}
-                isSetup={false}
-                ctaLabel="View organisation"
-                href={DEMO_HREF}
-                visual={<GridCardVisualSlot visual="org" initials="WN" />}
-              />
-            </div>
-            <div className="flex h-full min-h-0 w-full max-w-56 shrink-0 flex-col self-stretch">
-              <GridCardSelectOrganisation
-                className="mx-0 h-full min-h-0 w-full"
-                variant="reverse"
-                tone="mute"
-                title="Create organisation"
-                ctaLabel="Create organisation"
-                href={DEMO_HREF}
-                visual={<GridCardVisualSlot visual="add" />}
-              />
-            </div>
-            <div className="flex h-full min-h-0 w-full max-w-56 shrink-0 flex-col self-stretch">
-              <GridCardSelectOrganisation
-                className="mx-0 h-full min-h-0 w-full"
-                tone="loading"
-                title="Loading state"
-                ctaLabel="Please wait"
-                onClick={() => undefined}
-                visual={<GridCardVisualSlot visual="org" initials=".." />}
-              />
-            </div>
+          <div className="grid w-full grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 2xl:grid-cols-6">
+            <GridCardSelectOrganisation
+              className="mx-0 w-full"
+              title="Eastern Suburbs FC"
+              sport="Football"
+              isActive
+              isSetup
+              ctaLabel="Open dashboard"
+              href={DEMO_HREF}
+              visual={
+                <GridCardVisualSlot visual="org" initials="ES" imageSrc="/globe.svg" imageAlt="" />
+              }
+            />
+            <GridCardSelectOrganisation
+              className="mx-0 w-full"
+              title="Westside Netball"
+              sport="Netball"
+              isActive={false}
+              isSetup={false}
+              ctaLabel="View organisation"
+              href={DEMO_HREF}
+              visual={<GridCardVisualSlot visual="org" initials="WN" />}
+            />
+            <GridCardSelectOrganisation
+              className="mx-0 w-full"
+              variant="reverse"
+              tone="mute"
+              title="Create organisation"
+              ctaLabel="Create organisation"
+              href={DEMO_HREF}
+              visual={<GridCardVisualSlot visual="add" />}
+            />
+            <GridCardSelectOrganisation
+              className="mx-0 w-full"
+              tone="loading"
+              title="Loading state"
+              ctaLabel="Please wait"
+              onClick={() => undefined}
+              visual={<GridCardVisualSlot visual="org" initials=".." />}
+            />
           </div>
         </Subsection>
 

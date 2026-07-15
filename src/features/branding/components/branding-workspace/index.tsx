@@ -105,6 +105,7 @@ export function BrandingWorkspace(props: BrandingWorkspaceProps) {
           />
 
           <BrandingTemplateModeCardsInput
+            accountId={props.accountId}
             interactive={interactive}
             brandPrimaryHex={primary}
             brandSecondaryHex={secondary}

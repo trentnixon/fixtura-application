@@ -12,8 +12,8 @@ import {
 import { useTemplateParticlePickerList } from "./_hooks";
 import { templateParticleLabel } from "./_utils";
 
-export function TemplateParticleSelectPicker() {
-  const { particles, selectValue, setSelectedId } = useTemplateParticlePickerList();
+export function TemplateParticleSelectPicker({ accountId }: { accountId: string }) {
+  const { particles, selectValue, setSelectedId } = useTemplateParticlePickerList(accountId);
 
   return (
     <div className="max-w-md space-y-2">

@@ -248,6 +248,7 @@ export const WizardStepBranding = forwardRef<WizardStepBrandingHandle, WizardSte
 
     const derivedCustomTheme = useMemo(() => {
       const payload = meQuery.data?.data;
+      // Wizard `accountId` only — never compatibility me.accountId or accounts[0].
       const row = activeAccountSummaryFromMePayload(payload, accountId);
       return buildOnboardingCustomThemeName({ user: payload?.user ?? null, accountRow: row });
     }, [meQuery.data?.data, accountId]);

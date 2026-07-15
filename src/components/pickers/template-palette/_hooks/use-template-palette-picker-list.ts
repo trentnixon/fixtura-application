@@ -7,9 +7,9 @@ import { useTemplatePalettesUi } from "@/lib/api/hooks/template-palettes/useTemp
 import { resolveSelectedTemplatePaletteIdString } from "../_utils";
 import { useTemplatePalettePickerSelection } from "./use-template-palette-picker-selection";
 
-export function useTemplatePalettePickerList() {
+export function useTemplatePalettePickerList(accountId: string) {
   const { data, refetch, isFetching, isPending, isError, error } = useTemplatePalettesUi();
-  const { selectedId, setSelectedId } = useTemplatePalettePickerSelection();
+  const { selectedId, setSelectedId } = useTemplatePalettePickerSelection(accountId);
   const palettes = useMemo(() => data?.data ?? [], [data]);
 
   const resolvedSelectedId = useMemo(

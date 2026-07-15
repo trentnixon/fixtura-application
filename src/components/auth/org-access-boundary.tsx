@@ -6,11 +6,13 @@ import { useEffect, useRef } from "react";
 
 import { BrandedLoader } from "@/components/ui/branded-loader";
 import { ErrorState } from "@/components/ui/error-state";
+import { isAccountUnavailableError } from "@/lib/api/account-unavailable";
 import {
   isAccountOrganisationContextGatewayRedirect,
   useAccountOrganisationContext,
 } from "@/lib/api/hooks/account/useAccountOrganisationContext";
 import { useOnboardingOnboardingState } from "@/lib/api/hooks/account/useOnboardingOnboardingState";
+import { cancelOtherAccountQueries } from "@/lib/api/query/cancel-other-account-queries";
 import { queryKeys } from "@/lib/api/query/query-keys";
 import { AUTH_ERROR_MESSAGES } from "@/lib/auth/auth-errors";
 import { isValidAccountIdSegment } from "@/lib/config/account-routes";
@@ -27,7 +29,9 @@ import type { ReactNode } from "react";
 
 /**
  * Validates scoped access via GET /api/accounts/:accountId/organisation (Phase 4); redirects to gateway with `reason` on 403/404/400 or invalid segment.
+ * Ownership failures use `not_found` for both nonexistent and cross-user ids (no enumeration).
  * After access is OK, enforces onboarding lifecycle (GET …/onboarding-state): unfinished wizard redirects to gateway, not scoped shell.
+ * On accountId change, cancels in-flight queries for other accounts (warm cache retained).
  */
 export function OrgAccessBoundary({
   accountId,
@@ -57,7 +61,10 @@ export function OrgAccessBoundary({
 
   useEffect(() => {
     redirectingRef.current = false;
-  }, [accountId]);
+    if (segmentOk) {
+      void cancelOtherAccountQueries(queryClient, accountId);
+    }
+  }, [accountId, queryClient, segmentOk]);
 
   useEffect(() => {
     if (segmentOk || redirectingRef.current) return;
@@ -90,6 +97,14 @@ export function OrgAccessBoundary({
     router,
     isSeasonArea,
   ]);
+
+  useEffect(() => {
+    if (!orgContextReady) return;
+    if (!onboardingQuery.isError || redirectingRef.current) return;
+    if (!isAccountUnavailableError(onboardingQuery.error, { resource: "account" })) return;
+    redirectingRef.current = true;
+    router.replace(selectOrganisationUrlWithReason(SELECT_ORG_GATEWAY_REASON.notFound));
+  }, [orgContextReady, onboardingQuery.isError, onboardingQuery.error, router]);
 
   if (!segmentOk) {
     return (
@@ -131,6 +146,13 @@ export function OrgAccessBoundary({
   }
 
   if (orgContextReady && onboardingQuery.isError) {
+    if (isAccountUnavailableError(onboardingQuery.error, { resource: "account" })) {
+      return (
+        <div className="text-muted-foreground grid gap-2 p-6 text-center text-sm" role="status">
+          <p>Redirecting…</p>
+        </div>
+      );
+    }
     const err = onboardingQuery.error;
     return (
       <div className="flex min-h-screen items-center justify-center p-6">

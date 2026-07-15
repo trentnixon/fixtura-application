@@ -5,6 +5,7 @@ import Link from "next/link";
 import { createContext, useContext, useEffect, useState } from "react";
 
 import { TypographyCardTitle, TypographyCaption } from "@/components/typography";
+import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
 import type { CSSProperties, ReactNode } from "react";
@@ -486,18 +487,24 @@ function buildSelectOrganisationAriaLabel(
     sport?: string;
     isActive?: boolean;
     isSetup?: boolean;
-    /** Visible CTA text; if omitted, a default action phrase is used for assistive tech only. */
+    isNew?: boolean;
+    continueSetup?: boolean;
+    /** Visible CTA text; omit when the tile has no separate CTA line. */
     ctaLabel?: string;
   },
 ) {
   const segments: string[] = [title];
   if (opts.sport) segments.push(opts.sport);
-  if (opts.isActive === true) segments.push("Active");
-  if (opts.isActive === false) segments.push("Inactive");
-  if (opts.isSetup === true) segments.push("Setup complete");
-  if (opts.isSetup === false) segments.push("Setup pending");
+  if (opts.isNew) segments.push("New");
+  if (opts.continueSetup) {
+    segments.push("Continue setup");
+  } else {
+    if (opts.isActive === true) segments.push("Active");
+    if (opts.isActive === false) segments.push("Inactive");
+    if (opts.isSetup === true) segments.push("Setup complete");
+    if (opts.isSetup === false) segments.push("Setup pending");
+  }
   if (opts.ctaLabel) segments.push(opts.ctaLabel);
-  else segments.push("Go to dashboard");
   return segments.join(". ");
 }
 
@@ -515,8 +522,29 @@ function SelectOrgStatusRow({ ok, children }: { ok: boolean; children: string })
   );
 }
 
+export const selectOrgGridTileSurfaceClass = cn(
+  "group bg-card text-card-foreground relative mx-auto flex aspect-square w-full min-w-[min(100%,12rem)] max-w-[14rem] flex-col overflow-hidden rounded-[1.25rem] border-none text-center shadow-xl ring-1 ring-border transition-[transform,box-shadow] duration-700 ease-[cubic-bezier(0.33,1,0.68,1)] motion-reduce:transition-none",
+  "hover:-translate-y-1 hover:shadow-2xl motion-reduce:hover:translate-y-0",
+);
+
 const gridCardSelectOrganisationTileOverrides =
-  "aspect-auto h-full min-h-0 justify-start gap-0 py-5";
+  "relative max-w-none min-w-0 justify-start gap-0 p-3 sm:p-4";
+
+export function selectOrgBrandTileStyle(
+  brand: { primary: string; secondary: string } | undefined,
+): CSSProperties | undefined {
+  if (!brand) return undefined;
+  const { primary, secondary } = brand;
+  return {
+    backgroundImage: `linear-gradient(160deg, color-mix(in oklab, ${primary} 22%, white) 0%, color-mix(in oklab, ${secondary} 18%, white) 52%, white 100%)`,
+    boxShadow: `0 10px 15px -3px rgb(0 0 0 / 0.1), 0 0 0 2px color-mix(in oklab, ${primary} 55%, transparent), 0 0 0 4px color-mix(in oklab, ${secondary} 28%, transparent)`,
+  };
+}
+
+export type SelectOrgCardBrandColors = {
+  primary: string;
+  secondary: string;
+};
 
 export type GridCardSelectOrganisationProps = {
   title: string;
@@ -532,11 +560,17 @@ export type GridCardSelectOrganisationProps = {
   sport?: string;
   isActive?: boolean;
   isSetup?: boolean;
+  /** Replaces Active/Setup rows with a single Continue setup status (red dot). */
+  continueSetup?: boolean;
+  /** Shows a "New" badge when the account was recently created. */
+  isNew?: boolean;
+  /** Brand palette from me-row theme; tints card surface, ring, and visual. */
+  brandColors?: SelectOrgCardBrandColors;
 };
 
 /**
- * Taller tile for `/select-organisation`: org title, optional sport line, visual, status rows, CTA.
- * Same surface tokens as {@link GridCard} but not `aspect-square`.
+ * Square tile for `/select-organisation`: logo, sport, org title, status rows, CTA.
+ * Same surface tokens as {@link GridCard}, including `aspect-square`.
  */
 export function GridCardSelectOrganisation({
   title,
@@ -550,11 +584,16 @@ export function GridCardSelectOrganisation({
   sport,
   isActive,
   isSetup,
+  continueSetup,
+  isNew,
+  brandColors,
 }: GridCardSelectOrganisationProps) {
   const ariaLabel = buildSelectOrganisationAriaLabel(title, {
     ...(sport ? { sport } : {}),
-    ...(isActive !== undefined ? { isActive } : {}),
-    ...(isSetup !== undefined ? { isSetup } : {}),
+    ...(isNew ? { isNew } : {}),
+    ...(continueSetup ? { continueSetup } : {}),
+    ...(!continueSetup && isActive !== undefined ? { isActive } : {}),
+    ...(!continueSetup && isSetup !== undefined ? { isSetup } : {}),
     ...(ctaLabel ? { ctaLabel } : {}),
   });
   const tileClass = gridCardTileClass(
@@ -562,74 +601,109 @@ export function GridCardSelectOrganisation({
     tone,
     cn(gridCardSelectOrganisationTileOverrides, className),
   );
+  const tileStyle = selectOrgBrandTileStyle(brandColors);
 
-  const hasStatusRows = isActive !== undefined || isSetup !== undefined;
+  const hasStatusRows = continueSetup === true || isActive !== undefined || isSetup !== undefined;
   const hasBottomBlock = hasStatusRows || Boolean(ctaLabel);
 
   const inner = (
-    <div
-      className={cn(
-        "flex h-full min-h-0 w-full flex-col gap-3",
-        hasBottomBlock ? "justify-between" : "justify-center",
-      )}
-    >
-      <div className="flex flex-col items-center gap-3">
-        <TypographyCardTitle
-          className={cn(
-            "line-clamp-2 w-full shrink-0 text-base leading-snug font-semibold",
-            gridCardTitleClass(variant, tone),
-          )}
-        >
-          {title}
-        </TypographyCardTitle>
-        {sport ? (
-          <TypographyCaption className="line-clamp-1 w-full text-center">{sport}</TypographyCaption>
-        ) : null}
-        <div className="transition-transform duration-300 ease-out will-change-transform group-hover:-translate-y-1 group-hover:scale-110">
-          {visual}
-        </div>
-      </div>
-      {hasBottomBlock ? (
-        <div className="flex w-full min-w-0 flex-col items-center gap-2">
-          {hasStatusRows ? (
-            <div className="flex w-full min-w-0 flex-row flex-nowrap items-center justify-center gap-3">
-              {isActive !== undefined ? (
-                <SelectOrgStatusRow ok={isActive}>
-                  {isActive ? "Active" : "Inactive"}
-                </SelectOrgStatusRow>
-              ) : null}
-              {isSetup !== undefined ? (
-                <SelectOrgStatusRow ok={isSetup}>
-                  {isSetup ? "Setup complete" : "Setup pending"}
-                </SelectOrgStatusRow>
-              ) : null}
-            </div>
-          ) : null}
-          {ctaLabel ? (
-            <span
-              className={cn(
-                "cursor-pointer text-xs font-medium transition-colors",
-                gridCardCtaClass(variant, tone),
-              )}
-            >
-              {ctaLabel}
-            </span>
-          ) : null}
-        </div>
+    <>
+      {brandColors ? (
+        <div
+          className="absolute inset-x-0 bottom-0 z-[1] h-1.5 rounded-b-[1.25rem]"
+          style={{
+            backgroundImage: `linear-gradient(90deg, ${brandColors.primary} 0%, ${brandColors.secondary} 100%)`,
+          }}
+          aria-hidden
+        />
       ) : null}
-    </div>
+      {isNew ? (
+        <Badge
+          variant="destructive"
+          className="absolute top-2 right-2 z-10 text-[10px] font-semibold tracking-wide uppercase"
+        >
+          New
+        </Badge>
+      ) : null}
+      <div
+        className={cn(
+          "flex h-full min-h-0 w-full flex-col gap-2",
+          hasBottomBlock ? "justify-between" : "justify-center",
+        )}
+      >
+        <div className="flex min-h-0 flex-col items-center gap-1.5">
+          <div className="transition-transform duration-300 ease-out will-change-transform group-hover:-translate-y-1 group-hover:scale-110">
+            {visual}
+          </div>
+          {sport ? (
+            <TypographyCaption className="line-clamp-1 w-full text-center">
+              {sport}
+            </TypographyCaption>
+          ) : null}
+          <TypographyCardTitle
+            className={cn(
+              "mt-auto line-clamp-2 w-full shrink-0 text-sm leading-none font-semibold sm:text-base",
+              gridCardTitleClass(variant, tone),
+            )}
+          >
+            {title}
+          </TypographyCardTitle>
+        </div>
+        {hasBottomBlock ? (
+          <div className="flex w-full min-w-0 flex-col items-center gap-1.5">
+            {hasStatusRows ? (
+              <div className="flex w-full min-w-0 flex-row flex-wrap items-center justify-center gap-x-3 gap-y-1">
+                {continueSetup ? (
+                  <SelectOrgStatusRow ok={false}>Continue setup</SelectOrgStatusRow>
+                ) : (
+                  <>
+                    {isActive !== undefined ? (
+                      <SelectOrgStatusRow ok={isActive}>
+                        {isActive ? "Active" : "Inactive"}
+                      </SelectOrgStatusRow>
+                    ) : null}
+                    {isSetup !== undefined ? (
+                      <SelectOrgStatusRow ok={isSetup}>
+                        {isSetup ? "Setup complete" : "Setup pending"}
+                      </SelectOrgStatusRow>
+                    ) : null}
+                  </>
+                )}
+              </div>
+            ) : null}
+            {ctaLabel ? (
+              <span
+                className={cn(
+                  "cursor-pointer text-xs font-medium transition-colors",
+                  gridCardCtaClass(variant, tone),
+                )}
+              >
+                {ctaLabel}
+              </span>
+            ) : null}
+          </div>
+        ) : null}
+      </div>
+    </>
   );
 
   const busy = tone === "loading";
 
   const body = href ? (
-    <Link href={href} className={tileClass} aria-label={ariaLabel} aria-busy={busy}>
+    <Link
+      href={href}
+      className={tileClass}
+      style={tileStyle}
+      aria-label={ariaLabel}
+      aria-busy={busy}
+    >
       {inner}
     </Link>
   ) : (
     <button
       type="button"
       className={tileClass}
+      style={tileStyle}
       aria-label={ariaLabel}
       aria-busy={busy}
       onClick={onClick}
@@ -741,6 +815,8 @@ type GridCardVisualSlotProps = {
   imageSrc?: string;
   /** Optional label for the logo image (defaults to empty decorative). */
   imageAlt?: string;
+  /** Brand palette for org visual (initials fill / logo ring). */
+  brandColors?: SelectOrgCardBrandColors;
 };
 
 /**
@@ -754,6 +830,7 @@ export function GridCardVisualSlot({
   initials,
   imageSrc,
   imageAlt,
+  brandColors,
 }: GridCardVisualSlotProps) {
   const cardVariant = useGridCardVariant();
   const tone = useGridCardTone();
@@ -767,10 +844,16 @@ export function GridCardVisualSlot({
 
   if (visual === "org") {
     const trimmedSrc = imageSrc?.trim();
+    const brandFrameStyle = brandColors
+      ? ({
+          boxShadow: `0 0 0 2px ${brandColors.primary}, 0 0 0 4px color-mix(in oklab, ${brandColors.secondary} 55%, transparent)`,
+        } satisfies CSSProperties)
+      : undefined;
     if (trimmedSrc && !orgImageFailed) {
       return (
         <div
           className={cn(wrap, gridCardOrgInitialsByTone[tone][cardVariant], "overflow-hidden p-0")}
+          style={brandFrameStyle}
         >
           <img
             src={trimmedSrc}
@@ -785,7 +868,19 @@ export function GridCardVisualSlot({
     }
     const raw = initials?.trim() ?? "";
     const mark = raw.length > 0 ? raw.slice(0, 2).toUpperCase() : "ND";
-    return <div className={cn(wrap, gridCardOrgInitialsByTone[tone][cardVariant])}>{mark}</div>;
+    const initialsStyle = brandColors
+      ? ({
+          backgroundImage: `linear-gradient(135deg, color-mix(in oklab, ${brandColors.primary} 28%, white) 0%, color-mix(in oklab, ${brandColors.secondary} 24%, white) 100%)`,
+          color: brandColors.primary,
+          borderColor: brandColors.secondary,
+          boxShadow: `inset 0 0 0 1px color-mix(in oklab, ${brandColors.primary} 35%, transparent)`,
+        } satisfies CSSProperties)
+      : undefined;
+    return (
+      <div className={cn(wrap, gridCardOrgInitialsByTone[tone][cardVariant])} style={initialsStyle}>
+        {mark}
+      </div>
+    );
   }
   if (visual === "add") {
     return (

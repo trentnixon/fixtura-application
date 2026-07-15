@@ -1,16 +1,15 @@
 import Link from "next/link";
 
+import { CreateOrganisationCard } from "@/app/(members)/select-organisation/_components/create-organisation-card";
+import { SelectOrgGridItem } from "@/app/(members)/select-organisation/_components/select-org-collection-items";
+import { SelectOrgLoadingSkeleton } from "@/app/(members)/select-organisation/_components/select-org-loading-skeleton";
+import { buildSelectOrgItemViewModel } from "@/app/(members)/select-organisation/_utils/build-select-org-item-view-model";
 import { InlineAlert } from "@/components/auth/actions";
 import { RouteLabPage } from "@/components/dev/RouteLabPage";
 import { AccountLoadErrorFeedbackLab } from "@/components/select-organisation/account-load-error-feedback";
 import { TypographyH2, TypographyMuted } from "@/components/typography";
 import { BrandedLoader } from "@/components/ui/branded-loader";
 import { Button } from "@/components/ui/button";
-import {
-  GridCard,
-  GridCardSelectOrganisation,
-  GridCardVisualSlot,
-} from "@/components/ui/grid-card";
 import {
   LAB_ORGANISATIONS_MULTIPLE,
   LAB_ORGANISATIONS_NONE,
@@ -24,9 +23,18 @@ import {
   selectOrgReasonMessage,
 } from "@/lib/config/gateway-reasons";
 import { ROUTES } from "@/lib/config/routes";
-import { cn } from "@/lib/utils";
 
-const STATES = ["loading", "none", "one", "multiple", "error"] as const;
+import type { AccountSummary } from "@/types/api/account";
+
+const STATES = [
+  "loading",
+  "loading-skeleton",
+  "none",
+  "one",
+  "multiple",
+  "last-used",
+  "error",
+] as const;
 
 const LAB_SELECT_ORG_PATH = `${ROUTES.routeLab}/org/select-organisation`;
 
@@ -51,26 +59,36 @@ function labDismissReasonHref(
   return q ? `${pathname}?${q}` : pathname;
 }
 
-function initialsFromName(name: string): string {
-  const parts = name.trim().split(/\s+/).filter(Boolean);
-  if (parts.length === 0) return "";
-  if (parts.length === 1) return parts[0]!.slice(0, 2).toUpperCase();
-  return (parts[0]![0]! + parts[parts.length - 1]![0]!).toUpperCase();
+function labRowFromOrganisation(a: LabOrganisation) {
+  return {
+    id: Number.parseInt(a.id.replace(/\D/g, ""), 10) || 1,
+    onboardingWizardCompletedAt: a.isSetup === false ? null : "2026-01-01T00:00:00.000Z",
+    isSetup: a.isSetup ?? true,
+    isActive: a.isActive ?? true,
+    isUpdating: false,
+    createdAt: "2026-01-01T00:00:00.000Z",
+    FirstName: null,
+    LastName: null,
+    DeliveryAddress: null,
+    isRightsHolder: null,
+    isPermissionGiven: null,
+    group_assets_by: false,
+    include_junior_surnames: false,
+    Sport: a.sport ?? null,
+    onboardingOrganisationName: a.name,
+    theme: null,
+    accountOrganisationDetails: {
+      id: Number.parseInt(a.id.replace(/\D/g, ""), 10) || 1,
+      Name: a.name,
+      href: "",
+      ParentLogo: a.logo ?? "",
+      Sport: a.sport ?? null,
+    },
+  } as AccountSummary;
 }
 
 function CreateOrganisationGridCard({ className }: { className?: string }) {
-  return (
-    <GridCard
-      className={cn("mx-0", className)}
-      variant="reverse"
-      tone="mute"
-      title="Create organisation"
-      description="Add a new club, association, or internal workspace to the members area."
-      ctaLabel="Create organisation"
-      href={`${ROUTES.routeLab}/org/create-organisation`}
-      visual={<GridCardVisualSlot visual="add" />}
-    />
-  );
+  return <CreateOrganisationCard variant="grid" {...(className ? { className } : {})} />;
 }
 
 function organisationsForState(state: string): LabOrganisation[] | null {
@@ -80,8 +98,10 @@ function organisationsForState(state: string): LabOrganisation[] | null {
     case "one":
       return LAB_ORGANISATIONS_ONE;
     case "multiple":
+    case "last-used":
       return LAB_ORGANISATIONS_MULTIPLE;
     case "loading":
+    case "loading-skeleton":
     case "error":
       return null;
     default:
@@ -113,6 +133,7 @@ export default async function RouteLabSelectOrganisationPage({
       scenarioSummary={scenarioSummary}
     >
       {state === "loading" ? <BrandedLoader fullPage label="Loading your organisations" /> : null}
+      {state === "loading-skeleton" ? <SelectOrgLoadingSkeleton /> : null}
 
       {state === "error" ? (
         <div className="flex w-full max-w-md flex-col gap-4 py-8">
@@ -120,8 +141,8 @@ export default async function RouteLabSelectOrganisationPage({
         </div>
       ) : null}
 
-      {state !== "loading" && state !== "error" ? (
-        <div className="grid w-full max-w-5xl gap-6 py-4">
+      {state !== "loading" && state !== "loading-skeleton" && state !== "error" ? (
+        <div className="grid w-full max-w-7xl gap-6 py-4 2xl:max-w-[90rem]">
           <div>
             <TypographyH2 className="font-brand text-2xl font-semibold">
               {orgs && orgs.length === 0 ? "Set up an organisation" : "Select organisation"}
@@ -129,7 +150,7 @@ export default async function RouteLabSelectOrganisationPage({
             <TypographyMuted className="mt-1">
               {orgs && orgs.length === 0
                 ? "Create one below."
-                : "Choose which organisation you want to work in. You can switch later from the sidebar."}
+                : "Choose a workspace to continue. You can switch later."}
             </TypographyMuted>
           </div>
 
@@ -142,44 +163,29 @@ export default async function RouteLabSelectOrganisationPage({
             </div>
           ) : null}
 
-          {orgs && orgs.length === 0 ? (
-            <div className="flex justify-start">
-              <CreateOrganisationGridCard />
-            </div>
-          ) : null}
+          {orgs && orgs.length === 0 ? <CreateOrganisationCard variant="empty" /> : null}
 
           {orgs && orgs.length > 0 ? (
-            <div className="flex flex-wrap items-stretch justify-start gap-4">
-              <div className="flex h-full min-h-0 w-full max-w-56 shrink-0 flex-col self-stretch">
-                <CreateOrganisationGridCard className="h-full min-h-0" />
-              </div>
+            <div className="grid w-full grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 2xl:grid-cols-6">
               {orgs.map((a) => {
-                const name = a.name;
-                const sport = a.sport;
-                const logo = a.logo?.trim();
+                const item = buildSelectOrgItemViewModel({
+                  row: labRowFromOrganisation(a),
+                  lifecycleQueryStatus: "success",
+                  simulating: true,
+                  isLastUsed: state === "last-used" && a.id === "lab-2",
+                });
                 return (
-                  <div
+                  <SelectOrgGridItem
                     key={a.id}
-                    className="flex h-full min-h-0 w-full max-w-56 shrink-0 flex-col self-stretch"
-                  >
-                    <GridCardSelectOrganisation
-                      className="mx-0 h-full min-h-0 w-full"
-                      title={name}
-                      href={`${ROUTES.routeLab}/app/dashboard?mode=org-selected&state=populated`}
-                      {...(sport ? { sport } : {})}
-                      {...(a.isActive !== undefined ? { isActive: a.isActive } : {})}
-                      {...(a.isSetup !== undefined ? { isSetup: a.isSetup } : {})}
-                      visual={
-                        <GridCardVisualSlot
-                          visual="org"
-                          initials={initialsFromName(name)}
-                          {...(logo ? { imageSrc: logo, imageAlt: name } : {})}
-                        />
-                      }
-                    />
-                  </div>
+                    item={item}
+                    busy={false}
+                    pending={false}
+                    onPrimaryAction={() => undefined}
+                    onStatusInfo={() => undefined}
+                  />
                 );
               })}
+              <CreateOrganisationGridCard />
             </div>
           ) : null}
         </div>

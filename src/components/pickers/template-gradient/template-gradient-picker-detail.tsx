@@ -4,8 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { useTemplateGradientPickerList } from "./_hooks";
 
-export function TemplateGradientPickerDetail() {
-  const { selectedGradient } = useTemplateGradientPickerList();
+export function TemplateGradientPickerDetail({ accountId }: { accountId: string }) {
+  const { selectedGradient } = useTemplateGradientPickerList(accountId);
 
   if (!selectedGradient) {
     return null;

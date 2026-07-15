@@ -181,19 +181,37 @@ export const queryKeys = {
     fetchHealth: ["admin", "fetch-health"] as const,
     routes: ["admin", "routes"] as const,
   },
-  /** Client/UI state only — not server-backed; avoid invalidating in broad "clear cache" flows. */
+  /**
+   * Client/UI state only — not server-backed; avoid invalidating in broad "clear cache" flows.
+   * Picker selection keys are namespaced by accountId so account switches cannot leak selection.
+   * Sandbox / non-route consumers must pass an explicit scope (e.g. `"sandbox"`).
+   */
   ui: {
-    templateCategoryPickerSelectedId: ["ui", "pickers", "template-category", "selectedId"] as const,
+    templateCategoryPickerSelectedId: (accountId: string) =>
+      ["ui", "pickers", "template-category", "selectedId", accountId] as const,
     /** Image Options asset picker — selected asset id (list-for-selection). */
-    assetPickerSelectedId: ["ui", "pickers", "assets-list-for-selection", "selectedId"] as const,
-    templateGradientPickerSelectedId: ["ui", "pickers", "template-gradient", "selectedId"] as const,
-    templateImagePickerSelectedId: ["ui", "pickers", "template-image", "selectedId"] as const,
-    templateModePickerSelectedId: ["ui", "pickers", "template-mode", "selectedId"] as const,
-    templateNoisePickerSelectedId: ["ui", "pickers", "template-noise", "selectedId"] as const,
-    templateParticlePickerSelectedId: ["ui", "pickers", "template-particle", "selectedId"] as const,
-    templatePalettePickerSelectedId: ["ui", "pickers", "template-palette", "selectedId"] as const,
-    templatePatternPickerSelectedId: ["ui", "pickers", "template-pattern", "selectedId"] as const,
-    templateTexturePickerSelectedId: ["ui", "pickers", "template-texture", "selectedId"] as const,
-    templateVideoPickerSelectedId: ["ui", "pickers", "template-video", "selectedId"] as const,
+    assetPickerSelectedId: (accountId: string) =>
+      ["ui", "pickers", "assets-list-for-selection", "selectedId", accountId] as const,
+    templateGradientPickerSelectedId: (accountId: string) =>
+      ["ui", "pickers", "template-gradient", "selectedId", accountId] as const,
+    templateImagePickerSelectedId: (accountId: string) =>
+      ["ui", "pickers", "template-image", "selectedId", accountId] as const,
+    templateModePickerSelectedId: (accountId: string) =>
+      ["ui", "pickers", "template-mode", "selectedId", accountId] as const,
+    templateNoisePickerSelectedId: (accountId: string) =>
+      ["ui", "pickers", "template-noise", "selectedId", accountId] as const,
+    templateParticlePickerSelectedId: (accountId: string) =>
+      ["ui", "pickers", "template-particle", "selectedId", accountId] as const,
+    templatePalettePickerSelectedId: (accountId: string) =>
+      ["ui", "pickers", "template-palette", "selectedId", accountId] as const,
+    templatePatternPickerSelectedId: (accountId: string) =>
+      ["ui", "pickers", "template-pattern", "selectedId", accountId] as const,
+    templateTexturePickerSelectedId: (accountId: string) =>
+      ["ui", "pickers", "template-texture", "selectedId", accountId] as const,
+    templateVideoPickerSelectedId: (accountId: string) =>
+      ["ui", "pickers", "template-video", "selectedId", accountId] as const,
   },
 } as const;
+
+/** Explicit scope for sandbox / data-lab picker selection (not a real account id). */
+export const PICKER_SANDBOX_ACCOUNT_SCOPE = "sandbox" as const;

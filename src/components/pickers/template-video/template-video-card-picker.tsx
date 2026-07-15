@@ -7,8 +7,8 @@ import { toNumberOrNull } from "@/types/api/template-videos";
 import { useTemplateVideoPickerList } from "./_hooks";
 import { templateVideoLabel, valueLabel } from "./_utils";
 
-export function TemplateVideoCardPicker() {
-  const { videos, selectValue, setSelectedId } = useTemplateVideoPickerList();
+export function TemplateVideoCardPicker({ accountId }: { accountId: string }) {
+  const { videos, selectValue, setSelectedId } = useTemplateVideoPickerList(accountId);
 
   return (
     <div className="space-y-3">
