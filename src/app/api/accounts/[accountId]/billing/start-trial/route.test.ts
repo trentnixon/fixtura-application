@@ -1,11 +1,11 @@
 import { describe, expect, it, beforeEach, vi } from "vitest";
 
-import { POST } from "./route";
 import {
   mockMissingStrapiUrl,
   mockNoAuthCookie,
   resetBillingRouteTestMocks,
 } from "../_test-utils/billing-route-mocks";
+import { POST } from "./route";
 
 describe("POST /api/accounts/[accountId]/billing/start-trial", () => {
   beforeEach(() => {
