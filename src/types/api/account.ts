@@ -499,26 +499,72 @@ export interface PostAccountSecurityPasswordResponse {
   data: { changed: true };
 }
 
-/** Image on GET /api/accounts/:accountId/media-library item (handoff). */
+/** CMS v1 media-library age group enum. @deprecated Prefer categoryAssignment. */
+export type AccountMediaLibraryAgeGroup = "Seniors" | "Juniors" | "Both";
+
+export type AccountMediaLibraryCategoryType = "club-age" | "competition" | "grade";
+
+export type AccountMediaLibraryCategoryScope = "all" | "selected";
+
+/** Client write shape — snapshots are server-managed. */
+export interface AccountMediaLibraryCategoryAssignmentWrite {
+  type: AccountMediaLibraryCategoryType;
+  scope: AccountMediaLibraryCategoryScope;
+  targets: Array<string | number>;
+}
+
+/** Public read shape (no targetSnapshots). */
+export interface AccountMediaLibraryCategoryAssignment {
+  type: AccountMediaLibraryCategoryType;
+  scope: AccountMediaLibraryCategoryScope;
+  targets: Array<string | number>;
+}
+
+export type AccountMediaLibraryCategoryStatus = "valid" | "needs_reclassification";
+
+export interface AccountMediaLibraryResolvedTarget {
+  id: string | number;
+  label: string;
+  selectable: boolean;
+}
+
+/**
+ * Media-library asset type value.
+ * Prefer published asset `Name` values from `GET /api/assets/list-for-selection`, plus `"ALL"`.
+ */
+export type AccountMediaLibraryAssetType = string;
+
+/** CMS v1 focal point — legacy renderer-compatible percentage coordinates. */
+export type AccountMediaLibraryMarkerPosition = [] | [{ top: number; left: number }];
+
+/** Image on account-scoped media-library endpoints (CMS v1). */
 export interface AccountMediaLibraryImage {
   id: number;
   url: string;
   width: number | null;
   height: number | null;
-  mime: string | null;
-  alternativeText: string | null;
+  mime: string;
 }
 
 /** One published gallery row (ordering: updatedAt desc on server). */
 export interface AccountMediaLibraryItem {
   id: number;
-  title: string | null;
-  isActive: boolean | null;
-  tags: unknown | null;
-  ageGroup: "Seniors" | "Juniors" | "Both" | string | null;
-  assetType: string | null;
-  markerPosition: unknown | null;
-  image: AccountMediaLibraryImage | null;
+  title: string;
+  isActive: boolean;
+  tags: string[];
+  /** @deprecated Prefer categoryAssignment — CMS may still return during cutover. */
+  ageGroup: AccountMediaLibraryAgeGroup;
+  categoryAssignment?: AccountMediaLibraryCategoryAssignment;
+  categoryStatus?: AccountMediaLibraryCategoryStatus;
+  resolvedTargets?: AccountMediaLibraryResolvedTarget[];
+  /** Canonical assignment list from CMS (always present, including legacy rows). */
+  assetTypes: AccountMediaLibraryAssetType[];
+  /**
+   * @deprecated CMS read alias of `assetTypes[0]`. Do not use for write or multi-value UI logic.
+   */
+  assetType?: AccountMediaLibraryAssetType;
+  markerPosition: AccountMediaLibraryMarkerPosition;
+  image: AccountMediaLibraryImage;
 }
 
 export interface AccountMediaLibraryData {
@@ -529,9 +575,47 @@ export interface AccountMediaLibraryResponse {
   data: AccountMediaLibraryData;
 }
 
-/** GET /api/accounts/:accountId/media-library/:mediaId — one published row (handoff). */
+/** GET /api/accounts/:accountId/media-library/:mediaId — one published row. */
 export interface AccountMediaLibraryItemResponse {
   data: AccountMediaLibraryItem;
+}
+
+/** POST create metadata (flat multipart fields; file supplied separately). */
+export interface CreateAccountMediaLibraryMetadata {
+  title?: string;
+  isActive?: boolean;
+  tags?: string[];
+  ageGroup?: AccountMediaLibraryAgeGroup;
+  categoryAssignment?: AccountMediaLibraryCategoryAssignmentWrite;
+  assetTypes?: AccountMediaLibraryAssetType[];
+  markerPosition?: AccountMediaLibraryMarkerPosition;
+}
+
+/** PATCH /api/accounts/:accountId/media-library/:mediaId — flat JSON allowlist. */
+export interface PatchAccountMediaLibraryBody {
+  title?: string;
+  isActive?: boolean;
+  tags?: string[];
+  ageGroup?: AccountMediaLibraryAgeGroup;
+  categoryAssignment?: AccountMediaLibraryCategoryAssignmentWrite;
+  /** Omitted = unchanged; `null` or `[]` resets to `["ALL"]` on CMS. */
+  assetTypes?: AccountMediaLibraryAssetType[] | null;
+  markerPosition?: AccountMediaLibraryMarkerPosition;
+}
+
+export type AccountMediaLibraryFieldErrors = Record<string, string[]>;
+
+/** Structured CMS media-library error envelope. */
+export interface AccountMediaLibraryErrorResponse {
+  error: {
+    status: number;
+    name: string;
+    message: string;
+    code: string;
+    details?: {
+      fields: AccountMediaLibraryFieldErrors;
+    };
+  };
 }
 
 /** Single media summary on template branding (poster / video / gallery items). */

@@ -78,6 +78,17 @@ const WIZARD_STEPS = [
 
 const TOTAL_WIZARD_STEPS = WIZARD_STEPS.length;
 
+/** Sport / choice tiles — deliberate grid (not flex-wrap shrink of desktop). */
+const CHOICE_CARD_GRID_CLASS =
+  "grid w-full grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4";
+
+const CHOICE_CARD_CLASS = "mx-0 h-full min-h-0 w-full min-w-0 max-w-none";
+
+const WIZARD_FOOTER_CLASS =
+  "flex w-full flex-col-reverse gap-3 border-t pt-6 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center";
+
+const WIZARD_FOOTER_BTN_CLASS = "w-full sm:w-auto";
+
 /** Two-letter initials for {@link GridCardVisualSlot} `org` preset (same idea as select-organisation). */
 function initialsFromSportLabel(name: string): string {
   const parts = name.trim().split(/\s+/).filter(Boolean);
@@ -373,11 +384,12 @@ export function CreateOrganisationWizard() {
 
   if (accountIdQueryError) {
     return (
-      <div className="mx-auto flex w-full max-w-md flex-col gap-4 py-8">
+      <div className="mx-auto flex w-full max-w-md flex-col gap-4 px-4 py-8 sm:px-6">
         <InlineAlert message={accountIdQueryError} variant="destructive" />
         <Button
           type="button"
           variant="accent"
+          className="w-full sm:w-auto"
           onClick={() => router.push(ROUTES.selectOrganisation)}
         >
           Back to organisation selection
@@ -392,11 +404,12 @@ export function CreateOrganisationWizard() {
         ? onboardingStateQuery.error.message
         : "We could not load onboarding state. Try again or go back to organisation selection.";
     return (
-      <div className="mx-auto flex w-full max-w-md flex-col gap-4 py-8">
+      <div className="mx-auto flex w-full max-w-md flex-col gap-4 px-4 py-8 sm:px-6">
         <InlineAlert message={errMsg} variant="destructive" />
         <Button
           type="button"
           variant="accent"
+          className="w-full sm:w-auto"
           onClick={() => router.push(ROUTES.selectOrganisation)}
         >
           Back to organisation selection
@@ -409,11 +422,45 @@ export function CreateOrganisationWizard() {
     return <BrandedLoader fullPage label="Opening your organisation…" />;
   }
 
+  const wizardStepper = !isGetStarted ? (
+    <nav className="border-border/60 -mx-1 overflow-x-auto px-1" aria-label="Onboarding progress">
+      <ol className="flex min-w-0 items-center justify-start gap-2 sm:flex-wrap sm:justify-center">
+        {WIZARD_STEPS.map((step, i) => {
+          const n = i + 1;
+          const state =
+            n === wizardStepNumber ? "current" : n < wizardStepNumber ? "done" : "upcoming";
+          return (
+            <li key={step.key} className="shrink-0">
+              <span
+                aria-label={`Step ${n}: ${step.title}`}
+                aria-current={state === "current" ? "step" : undefined}
+                className={
+                  state === "current"
+                    ? "bg-primary text-primary-foreground inline-flex min-h-9 items-center rounded-full px-3 py-1.5 text-xs font-medium sm:px-4"
+                    : state === "done"
+                      ? "bg-muted text-muted-foreground inline-flex min-h-9 items-center rounded-full px-3 py-1.5 text-xs font-medium sm:px-4"
+                      : "text-muted-foreground inline-flex min-h-9 items-center rounded-full border border-dashed px-3 py-1.5 text-xs sm:px-4"
+                }
+              >
+                <span className="sm:hidden" aria-hidden>
+                  {n}
+                </span>
+                <span className="hidden sm:inline">
+                  {n}. {step.title}
+                </span>
+              </span>
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
+  ) : null;
+
   return (
     <div
       className={cn(
-        "mx-auto flex w-full flex-col gap-6 py-4",
-        isGetStarted || isOrganisationStep || isBrandingStep ? "max-w-none" : "max-w-2xl",
+        "mx-auto flex w-full min-w-0 flex-col gap-6 px-4 py-4 pb-12 sm:px-6 lg:px-8",
+        isGetStarted || isOrganisationStep || isBrandingStep ? "max-w-7xl" : "max-w-2xl",
       )}
     >
       {meError ? (
@@ -441,18 +488,14 @@ export function CreateOrganisationWizard() {
               Loading sports…
             </TypographyFinePrint>
           ) : (
-            <div
-              role="radiogroup"
-              aria-label="Sport to set up"
-              className="flex flex-wrap items-stretch justify-center gap-4"
-            >
+            <div role="radiogroup" aria-label="Sport to set up" className={CHOICE_CARD_GRID_CLASS}>
               {sportsSorted.map((s) => {
                 const comingSoon = isComingSoonSportLabel(s.label);
                 const selected = selectedSportId === s.id && !comingSoon;
                 return (
                   <GridCard
                     key={s.id}
-                    className="mx-0 h-full min-h-0 w-full"
+                    className={CHOICE_CARD_CLASS}
                     title={s.label}
                     ctaLabel={comingSoon ? "Coming soon" : selected ? "Selected" : "Select"}
                     visual={
@@ -472,15 +515,21 @@ export function CreateOrganisationWizard() {
             </p>
           ) : null}
 
-          <div className="flex w-full flex-wrap items-center justify-center gap-3 border-t pt-6">
+          <div className={WIZARD_FOOTER_CLASS}>
             <Button
               type="button"
               variant="accentOutline"
+              className={WIZARD_FOOTER_BTN_CLASS}
               onClick={() => setPendingNav("selection")}
             >
               Back to selection
             </Button>
-            <Button type="button" onClick={handleGetStarted} disabled={getStartedDisabled}>
+            <Button
+              type="button"
+              className={WIZARD_FOOTER_BTN_CLASS}
+              onClick={handleGetStarted}
+              disabled={getStartedDisabled}
+            >
               {createFirst.isPending ? "Preparing…" : mePending ? "Loading…" : "Get started"}
             </Button>
           </div>
@@ -491,7 +540,8 @@ export function CreateOrganisationWizard() {
             <TypographyPageTitle>{WIZARD_STEPS[0].title}</TypographyPageTitle>
             <TypographyPageDescription>{WIZARD_STEPS[0].description}</TypographyPageDescription>
           </header>
-          <div className="text-sm">
+          {wizardStepper}
+          <div className="min-w-0 text-sm">
             {!accountId ? (
               <InlineAlert
                 message="No active account id. Go back to organisation selection or try Get started again."
@@ -507,13 +557,19 @@ export function CreateOrganisationWizard() {
               />
             )}
           </div>
-          <div className="flex w-full flex-wrap items-center justify-center gap-3 border-t pt-6">
-            <Button type="button" variant="destructive" onClick={() => setPendingNav("back")}>
+          <div className={WIZARD_FOOTER_CLASS}>
+            <Button
+              type="button"
+              variant="destructive"
+              className={WIZARD_FOOTER_BTN_CLASS}
+              onClick={() => setPendingNav("back")}
+            >
               Back
             </Button>
             <Button
               type="button"
               variant="accentOutline"
+              className={WIZARD_FOOTER_BTN_CLASS}
               onClick={() => setPendingNav("selection")}
             >
               Back to selection
@@ -521,6 +577,7 @@ export function CreateOrganisationWizard() {
             <Button
               type="button"
               variant="brandPrimaryOutline"
+              className={WIZARD_FOOTER_BTN_CLASS}
               onClick={() => {
                 if (accountId) {
                   void step1Ref.current?.submit();
@@ -538,6 +595,7 @@ export function CreateOrganisationWizard() {
             <TypographyPageTitle>{WIZARD_STEPS[1].title}</TypographyPageTitle>
             <TypographyPageDescription>{WIZARD_STEPS[1].description}</TypographyPageDescription>
           </header>
+          {wizardStepper}
           <div className="min-w-0">
             {!accountId ? (
               <InlineAlert
@@ -553,13 +611,19 @@ export function CreateOrganisationWizard() {
               />
             )}
           </div>
-          <div className="flex w-full flex-wrap items-center justify-center gap-3 border-t pt-6">
-            <Button type="button" variant="destructive" onClick={() => setPendingNav("back")}>
+          <div className={WIZARD_FOOTER_CLASS}>
+            <Button
+              type="button"
+              variant="destructive"
+              className={WIZARD_FOOTER_BTN_CLASS}
+              onClick={() => setPendingNav("back")}
+            >
               Back
             </Button>
             <Button
               type="button"
               variant="accentOutline"
+              className={WIZARD_FOOTER_BTN_CLASS}
               onClick={() => setPendingNav("selection")}
             >
               Back to selection
@@ -567,6 +631,7 @@ export function CreateOrganisationWizard() {
             <Button
               type="button"
               variant="brandPrimaryOutline"
+              className={WIZARD_FOOTER_BTN_CLASS}
               onClick={() => {
                 if (accountId) {
                   void step2Ref.current?.submit();
@@ -584,7 +649,8 @@ export function CreateOrganisationWizard() {
             <TypographyPageTitle>{WIZARD_STEPS[2].title}</TypographyPageTitle>
             <TypographyPageDescription>{WIZARD_STEPS[2].description}</TypographyPageDescription>
           </header>
-          <div className="text-sm">
+          {wizardStepper}
+          <div className="min-w-0 text-sm">
             {!accountId ? (
               <InlineAlert
                 message="No active account id. Go back to organisation selection or try Get started again."
@@ -599,13 +665,19 @@ export function CreateOrganisationWizard() {
               />
             )}
           </div>
-          <div className="flex w-full flex-wrap items-center justify-center gap-3 border-t pt-6">
-            <Button type="button" variant="destructive" onClick={() => setPendingNav("back")}>
+          <div className={WIZARD_FOOTER_CLASS}>
+            <Button
+              type="button"
+              variant="destructive"
+              className={WIZARD_FOOTER_BTN_CLASS}
+              onClick={() => setPendingNav("back")}
+            >
               Back
             </Button>
             <Button
               type="button"
               variant="accentOutline"
+              className={WIZARD_FOOTER_BTN_CLASS}
               onClick={() => setPendingNav("selection")}
             >
               Back to selection
@@ -613,6 +685,7 @@ export function CreateOrganisationWizard() {
             <Button
               type="button"
               variant="brandPrimaryOutline"
+              className={WIZARD_FOOTER_BTN_CLASS}
               onClick={() => {
                 if (accountId) {
                   void step3Ref.current?.submit();
@@ -630,7 +703,8 @@ export function CreateOrganisationWizard() {
             <TypographyPageTitle>{WIZARD_STEPS[3].title}</TypographyPageTitle>
             <TypographyPageDescription>{WIZARD_STEPS[3].description}</TypographyPageDescription>
           </header>
-          <div className="text-sm">
+          {wizardStepper}
+          <div className="min-w-0 text-sm">
             {!accountId ? (
               <InlineAlert
                 message="No active account id. Go back to organisation selection or try Get started again."
@@ -646,66 +720,41 @@ export function CreateOrganisationWizard() {
               />
             )}
           </div>
-          <div className="flex w-full flex-col gap-3 border-t pt-6">
-            <div className="flex w-full flex-wrap items-center justify-center gap-3">
-              <Button type="button" variant="destructive" onClick={() => setPendingNav("back")}>
-                Back
-              </Button>
-              <Button
-                type="button"
-                variant="accentOutline"
-                onClick={() => setPendingNav("selection")}
-              >
-                Back to selection
-              </Button>
-              <Button
-                type="button"
-                disabled={!accountId || step4Pending || wizardCompleted}
-                onClick={() => void step4Ref.current?.submit()}
-              >
-                {wizardCompleted ? "Completed" : step4Pending ? "Finishing…" : "Finish"}
-              </Button>
-            </div>
+          <div className={WIZARD_FOOTER_CLASS}>
+            <Button
+              type="button"
+              variant="destructive"
+              className={WIZARD_FOOTER_BTN_CLASS}
+              onClick={() => setPendingNav("back")}
+            >
+              Back
+            </Button>
+            <Button
+              type="button"
+              variant="accentOutline"
+              className={WIZARD_FOOTER_BTN_CLASS}
+              onClick={() => setPendingNav("selection")}
+            >
+              Back to selection
+            </Button>
+            <Button
+              type="button"
+              className={WIZARD_FOOTER_BTN_CLASS}
+              disabled={!accountId || step4Pending || wizardCompleted}
+              onClick={() => void step4Ref.current?.submit()}
+            >
+              {wizardCompleted ? "Completed" : step4Pending ? "Finishing…" : "Finish"}
+            </Button>
           </div>
         </>
       )}
-
-      {!isGetStarted ? (
-        <div className="flex flex-col items-center gap-3 border-t pt-6">
-          <ol
-            className="flex flex-wrap items-center justify-center gap-2"
-            aria-label="Onboarding steps"
-          >
-            {WIZARD_STEPS.map((step, i) => {
-              const n = i + 1;
-              const state =
-                n === wizardStepNumber ? "current" : n < wizardStepNumber ? "done" : "upcoming";
-              return (
-                <li key={step.key}>
-                  <span
-                    className={
-                      state === "current"
-                        ? "bg-primary text-primary-foreground inline-flex rounded-full px-4 py-1.5 text-xs font-medium"
-                        : state === "done"
-                          ? "bg-muted text-muted-foreground inline-flex rounded-full px-4 py-1.5 text-xs font-medium"
-                          : "text-muted-foreground inline-flex rounded-full border border-dashed px-4 py-1.5 text-xs"
-                    }
-                  >
-                    {n}. {step.title}
-                  </span>
-                </li>
-              );
-            })}
-          </ol>
-        </div>
-      ) : null}
 
       {accountId ? (
         <div className="flex flex-col items-center gap-2 border-t pt-6">
           <Button
             type="button"
             variant="outline"
-            className="text-destructive border-destructive/40 hover:bg-destructive/10"
+            className="text-destructive border-destructive/40 hover:bg-destructive/10 w-full sm:w-auto"
             disabled={deleteAccountMutation.isPending}
             onClick={() => {
               setDeleteError(null);

@@ -13,6 +13,8 @@ import {
   TypographyCardDescription,
   TypographyCardTitle,
   TypographyCaption,
+  TypographyH3,
+  TypographyMuted,
   TypographyOverline,
 } from "@/components/typography";
 import { Button } from "@/components/ui/button";
@@ -252,4 +254,50 @@ export function FeedbackCardTinted(props: FeedbackCardVariantProps) {
 
 export function FeedbackCardStrong(props: FeedbackCardVariantProps) {
   return <FeedbackCard {...props} visualVariant="strong" />;
+}
+
+export type FeedbackCardInlineProps = {
+  title: string;
+  description: string;
+  actionLabel?: string;
+  onAction?: () => void;
+  kind?: FeedbackCardKind;
+  icon?: LucideIcon;
+  className?: string;
+};
+
+/** Compact horizontal feedback row — kitchen sink `card.feedback.inline`. */
+export function FeedbackCardInline({
+  title,
+  description,
+  actionLabel,
+  onAction,
+  kind = "info",
+  icon: IconOverride,
+  className,
+}: FeedbackCardInlineProps) {
+  const Icon = IconOverride ?? KIND_ICONS[kind];
+  const accent = kindAccent(kind);
+
+  return (
+    <Card className={cn("shadow-none ring-0", accent.cardBorder, accent.tintedBg, className)}>
+      <CardContent className="flex items-start gap-2.5 px-3 py-2.5">
+        <div
+          className={cn("flex size-8 shrink-0 items-center justify-center rounded-lg", accent.chip)}
+          aria-hidden
+        >
+          <Icon className={cn("size-3.5", accent.iconText)} />
+        </div>
+        <div className="min-w-0 flex-1">
+          <TypographyH3 className="text-sm leading-snug font-semibold">{title}</TypographyH3>
+          <TypographyMuted className="mt-1 text-xs leading-relaxed">{description}</TypographyMuted>
+        </div>
+        {actionLabel ? (
+          <Button type="button" variant="ghost" size="sm" className="shrink-0" onClick={onAction}>
+            {actionLabel}
+          </Button>
+        ) : null}
+      </CardContent>
+    </Card>
+  );
 }

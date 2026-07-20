@@ -1,70 +1,95 @@
 import * as Sentry from "@sentry/nextjs";
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-import { normalizeErrorFieldToString } from "@/lib/api/normalize-error-field";
-import { AUTH_COOKIE_NAME } from "@/lib/auth/auth-constants";
-import { isValidAccountIdSegment, isValidRenderIdSegment } from "@/lib/config/account-routes";
-import { getStrapiUrl } from "@/lib/config/env";
+import {
+  guardAccountStrapiRequest,
+  isValidPositiveIntSegment,
+} from "@/lib/api/bff/guard-account-strapi-request";
+import { nextResponseFromStrapiFetch } from "@/lib/api/bff/next-response-from-strapi-fetch";
 
 type RouteContext = { params: Promise<{ accountId: string; mediaId: string }> };
 
+function mediaLibraryItemPath(accountId: string, mediaId: string): string {
+  return `/api/accounts/${encodeURIComponent(accountId)}/media-library/${encodeURIComponent(mediaId)}`;
+}
+
 /**
- * BFF for GET /api/accounts/:accountId/media-library/:mediaId → Strapi single published gallery row.
- * @see src/app/(members)/o/[accountId]/media-gallery/.comms/app-handoff-get-account-media-library-item-endpoint.md
+ * BFF for GET|PATCH|DELETE /api/accounts/:accountId/media-library/:mediaId
+ * @see .comms/Monday.com/Media Library - 2785542088/app-handoff-account-media-library-v1-implementation.md
  */
 export async function GET(_request: Request, context: RouteContext) {
-  const strapiUrl = getStrapiUrl();
-  const cookieStore = await cookies();
-  const token = cookieStore.get(AUTH_COOKIE_NAME)?.value;
   const { accountId, mediaId } = await context.params;
-
-  if (!token) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  if (!isValidAccountIdSegment(accountId)) {
-    return NextResponse.json({ error: "Invalid account id" }, { status: 400 });
-  }
-
-  if (!isValidRenderIdSegment(mediaId)) {
+  if (!isValidPositiveIntSegment(mediaId)) {
     return NextResponse.json({ error: "Invalid media id" }, { status: 400 });
   }
-
-  if (!strapiUrl) {
-    return NextResponse.json({ error: "Service unavailable" }, { status: 500 });
-  }
+  const guard = await guardAccountStrapiRequest(accountId);
+  if (!guard.ok) return guard.response;
 
   try {
-    const strapiRes = await fetch(
-      `${strapiUrl}/api/accounts/${accountId}/media-library/${mediaId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
-        },
-        cache: "no-store",
+    const strapiRes = await fetch(`${guard.strapiUrl}${mediaLibraryItemPath(accountId, mediaId)}`, {
+      headers: {
+        Authorization: `Bearer ${guard.token}`,
+        Accept: "application/json",
       },
+      cache: "no-store",
+    });
+    return await nextResponseFromStrapiFetch(strapiRes);
+  } catch (error) {
+    Sentry.captureException(error);
+    return NextResponse.json({ error: "Unexpected server error" }, { status: 500 });
+  }
+}
+
+export async function PATCH(request: Request, context: RouteContext) {
+  const { accountId, mediaId } = await context.params;
+  if (!isValidPositiveIntSegment(mediaId)) {
+    return NextResponse.json({ error: "Invalid media id" }, { status: 400 });
+  }
+  const guard = await guardAccountStrapiRequest(accountId);
+  if (!guard.ok) return guard.response;
+
+  try {
+    const contentType = request.headers.get("content-type") ?? "application/json";
+    const bodyText = await request.text();
+    const init: RequestInit = {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${guard.token}`,
+        Accept: "application/json",
+        "Content-Type": contentType,
+      },
+      cache: "no-store",
+    };
+    if (bodyText.length > 0) init.body = bodyText;
+    const strapiRes = await fetch(
+      `${guard.strapiUrl}${mediaLibraryItemPath(accountId, mediaId)}`,
+      init,
     );
+    return await nextResponseFromStrapiFetch(strapiRes);
+  } catch (error) {
+    Sentry.captureException(error);
+    return NextResponse.json({ error: "Unexpected server error" }, { status: 500 });
+  }
+}
 
-    const contentType = strapiRes.headers.get("content-type");
-    const isJson = contentType?.includes("application/json");
-    const payload = isJson ? await strapiRes.json() : await strapiRes.text();
+export async function DELETE(_request: Request, context: RouteContext) {
+  const { accountId, mediaId } = await context.params;
+  if (!isValidPositiveIntSegment(mediaId)) {
+    return NextResponse.json({ error: "Invalid media id" }, { status: 400 });
+  }
+  const guard = await guardAccountStrapiRequest(accountId);
+  if (!guard.ok) return guard.response;
 
-    if (!strapiRes.ok) {
-      let message: string;
-      if (typeof payload === "object" && payload !== null && "error" in payload) {
-        const raw = (payload as { error?: unknown }).error;
-        message = normalizeErrorFieldToString(raw) ?? "Strapi error";
-      } else if (typeof payload === "string") {
-        message = payload.trim() || "Strapi error";
-      } else {
-        message = "Strapi error";
-      }
-      return NextResponse.json({ error: message }, { status: strapiRes.status });
-    }
-
-    return NextResponse.json(payload);
+  try {
+    const strapiRes = await fetch(`${guard.strapiUrl}${mediaLibraryItemPath(accountId, mediaId)}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${guard.token}`,
+        Accept: "application/json",
+      },
+      cache: "no-store",
+    });
+    return await nextResponseFromStrapiFetch(strapiRes);
   } catch (error) {
     Sentry.captureException(error);
     return NextResponse.json({ error: "Unexpected server error" }, { status: 500 });

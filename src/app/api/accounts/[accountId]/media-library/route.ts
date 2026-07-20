@@ -1,63 +1,62 @@
 import * as Sentry from "@sentry/nextjs";
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-import { normalizeErrorFieldToString } from "@/lib/api/normalize-error-field";
-import { AUTH_COOKIE_NAME } from "@/lib/auth/auth-constants";
-import { isValidAccountIdSegment } from "@/lib/config/account-routes";
-import { getStrapiUrl } from "@/lib/config/env";
+import { guardAccountStrapiRequest } from "@/lib/api/bff/guard-account-strapi-request";
+import { nextResponseFromStrapiFetch } from "@/lib/api/bff/next-response-from-strapi-fetch";
 
 type RouteContext = { params: Promise<{ accountId: string }> };
 
+function mediaLibraryBasePath(accountId: string): string {
+  return `/api/accounts/${encodeURIComponent(accountId)}/media-library`;
+}
+
 /**
- * BFF for GET /api/accounts/:accountId/media-library → Strapi published gallery items for the account.
- * @see src/app/(members)/o/[accountId]/media-gallery/.comms/app-handoff-get-account-media-library-endpoint.md
+ * BFF for GET|POST /api/accounts/:accountId/media-library
+ * @see .comms/Monday.com/Media Library - 2785542088/app-handoff-account-media-library-v1-implementation.md
  */
 export async function GET(_request: Request, context: RouteContext) {
-  const strapiUrl = getStrapiUrl();
-  const cookieStore = await cookies();
-  const token = cookieStore.get(AUTH_COOKIE_NAME)?.value;
   const { accountId } = await context.params;
-
-  if (!token) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  if (!isValidAccountIdSegment(accountId)) {
-    return NextResponse.json({ error: "Invalid account id" }, { status: 400 });
-  }
-
-  if (!strapiUrl) {
-    return NextResponse.json({ error: "Service unavailable" }, { status: 500 });
-  }
+  const guard = await guardAccountStrapiRequest(accountId);
+  if (!guard.ok) return guard.response;
 
   try {
-    const strapiRes = await fetch(`${strapiUrl}/api/accounts/${accountId}/media-library`, {
+    const strapiRes = await fetch(`${guard.strapiUrl}${mediaLibraryBasePath(accountId)}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${guard.token}`,
         Accept: "application/json",
       },
       cache: "no-store",
     });
+    return await nextResponseFromStrapiFetch(strapiRes);
+  } catch (error) {
+    Sentry.captureException(error);
+    return NextResponse.json({ error: "Unexpected server error" }, { status: 500 });
+  }
+}
 
-    const contentType = strapiRes.headers.get("content-type");
-    const isJson = contentType?.includes("application/json");
-    const payload = isJson ? await strapiRes.json() : await strapiRes.text();
+export async function POST(request: Request, context: RouteContext) {
+  const { accountId } = await context.params;
+  const guard = await guardAccountStrapiRequest(accountId);
+  if (!guard.ok) return guard.response;
 
-    if (!strapiRes.ok) {
-      let message: string;
-      if (typeof payload === "object" && payload !== null && "error" in payload) {
-        const raw = (payload as { error?: unknown }).error;
-        message = normalizeErrorFieldToString(raw) ?? "Strapi error";
-      } else if (typeof payload === "string") {
-        message = payload.trim() || "Strapi error";
-      } else {
-        message = "Strapi error";
-      }
-      return NextResponse.json({ error: message }, { status: strapiRes.status });
-    }
+  const contentType = request.headers.get("content-type");
+  if (!contentType?.includes("multipart/form-data")) {
+    return NextResponse.json({ error: "Expected multipart/form-data" }, { status: 400 });
+  }
 
-    return NextResponse.json(payload);
+  try {
+    const rawBody = await request.arrayBuffer();
+    const strapiRes = await fetch(`${guard.strapiUrl}${mediaLibraryBasePath(accountId)}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${guard.token}`,
+        Accept: "application/json",
+        "Content-Type": contentType,
+      },
+      body: rawBody,
+      cache: "no-store",
+    });
+    return await nextResponseFromStrapiFetch(strapiRes);
   } catch (error) {
     Sentry.captureException(error);
     return NextResponse.json({ error: "Unexpected server error" }, { status: 500 });

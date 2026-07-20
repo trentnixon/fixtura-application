@@ -83,6 +83,10 @@ export async function apiRequest<TResponse, TBody = unknown>(
       });
     }
 
+    if (response.status === 204) {
+      return undefined as TResponse;
+    }
+
     const contentType = response.headers.get("content-type");
     const isJson = contentType?.includes("application/json");
     const payload = isJson ? await response.json() : await response.text();

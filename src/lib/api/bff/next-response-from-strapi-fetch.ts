@@ -19,10 +19,15 @@ function responseInitFromStrapi(strapiRes: Response): ResponseInit {
 }
 
 export async function nextResponseFromStrapiFetch(strapiRes: Response): Promise<NextResponse> {
+  const init = responseInitFromStrapi(strapiRes);
+
+  if (strapiRes.status === 204) {
+    return new NextResponse(null, init);
+  }
+
   const resContentType = strapiRes.headers.get("content-type");
   const isJson = resContentType?.includes("application/json");
   const payload = isJson ? await strapiRes.json() : await strapiRes.text();
-  const init = responseInitFromStrapi(strapiRes);
 
   if (!strapiRes.ok) {
     if (typeof payload === "object" && payload !== null) {

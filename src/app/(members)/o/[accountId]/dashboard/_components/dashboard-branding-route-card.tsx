@@ -128,15 +128,21 @@ export function DashboardBrandingRouteCard({
                 />
               </div>
             ) : (
-              <TypographyMuted className="mt-3 flex min-h-36 flex-1 items-center text-sm">
-                Not uploaded yet
-              </TypographyMuted>
+              <Link
+                href={logoHref}
+                className="border-border text-muted-foreground hover:border-primary hover:text-primary focus-visible:ring-ring mt-3 flex min-h-36 flex-1 flex-col items-center justify-center gap-2 rounded-lg border border-dashed transition-colors focus-visible:ring-2 focus-visible:outline-none"
+                aria-label="Add organisation logo"
+              >
+                <span className="text-sm font-medium">Add logo</span>
+              </Link>
             )}
-            <div className="mt-4 flex justify-end">
-              <Button variant="outline" size="xs" className={LOOK_AND_FEEL_CTA_CLASS} asChild>
-                <Link href={logoHref}>Update logo</Link>
-              </Button>
-            </div>
+            {view.logoUrl ? (
+              <div className="mt-4 flex justify-end">
+                <Button variant="outline" size="xs" className={LOOK_AND_FEEL_CTA_CLASS} asChild>
+                  <Link href={logoHref}>Update logo</Link>
+                </Button>
+              </div>
+            ) : null}
           </div>
 
           <div className="flex flex-col px-5 py-4">

@@ -1,4 +1,5 @@
-// Import this module before any route handler under test (vi.mock is not hoisted across files).
+// Import this module BEFORE any route handler under test.
+// vi.mock here is not hoisted into the test file, so route imports must come after this module.
 import { vi } from "vitest";
 
 import { AUTH_COOKIE_NAME } from "@/lib/auth/auth-constants";

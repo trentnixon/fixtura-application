@@ -1,0 +1,125 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+
+import { GradeOrderingGroupCard } from "./grade-ordering-group-card";
+import { GradeOrderingHeader } from "./grade-ordering-header";
+import { useGradeOrderingEditor } from "../_hooks/use-grade-ordering-editor";
+
+import type { GradeOrderingGetParams, GradeOrderingResponseData } from "@/types/api/grade-ordering";
+
+export function GradeOrderingWorkspace({
+  accountId,
+  orgParams,
+  canonicalData,
+}: {
+  accountId: string;
+  orgParams: GradeOrderingGetParams;
+  canonicalData: GradeOrderingResponseData;
+}) {
+  const {
+    draft,
+    gradeLookup,
+    hasChanges,
+    mutation,
+    saveDisabled,
+    conflictOpen,
+    setConflictOpen,
+    clearDialogOpen,
+    setClearDialogOpen,
+    handleReorder,
+    handleReset,
+    handleSave,
+    handleLoadLatestAfterConflict,
+    handleReviewAfterConflict,
+    handleClearCustomOrder,
+  } = useGradeOrderingEditor({ accountId, orgParams, canonicalData });
+
+  const saveFooter = {
+    hasChanges,
+    saveDisabled,
+    isPending: mutation.isPending,
+    hasGroups: draft.groups.length > 0,
+    onReset: handleReset,
+    onClear: () => setClearDialogOpen(true),
+    onSave: () => void handleSave(),
+  };
+
+  return (
+    <div className="space-y-8">
+      <GradeOrderingHeader
+        organisationName={canonicalData.organisation.name}
+        revision={draft.revision}
+      />
+
+      {mutation.isError && mutation.error instanceof Error ? (
+        <div
+          role="alert"
+          className="border-destructive/40 bg-destructive/10 rounded-lg border px-4 py-3 text-sm"
+        >
+          {mutation.error.message}
+        </div>
+      ) : null}
+
+      <div className="space-y-6">
+        {draft.groups.map((group) => (
+          <GradeOrderingGroupCard
+            key={`${group.groupType}-${group.groupKey}`}
+            group={group}
+            gradeLookup={gradeLookup}
+            onReorder={(itemIds) => handleReorder(group.groupKey, itemIds)}
+            disabled={mutation.isPending}
+            saveFooter={saveFooter}
+          />
+        ))}
+      </div>
+
+      <Dialog open={conflictOpen} onOpenChange={setConflictOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Grade order changed elsewhere</DialogTitle>
+            <DialogDescription>
+              Another save updated this order while you were editing. Load the latest version or
+              keep reviewing your changes.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button type="button" variant="outline" onClick={handleReviewAfterConflict}>
+              Review my changes
+            </Button>
+            <Button type="button" onClick={() => void handleLoadLatestAfterConflict()}>
+              Load latest order
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={clearDialogOpen} onOpenChange={setClearDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Clear custom grade order?</DialogTitle>
+            <DialogDescription>
+              This removes saved positions for all groups and restores provider default order.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button type="button" variant="outline" onClick={() => setClearDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button type="button" onClick={() => void handleClearCustomOrder()}>
+              Clear custom order
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}

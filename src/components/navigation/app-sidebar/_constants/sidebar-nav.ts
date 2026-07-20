@@ -10,6 +10,7 @@ import {
   IconPalette,
   IconPhoto,
   IconSettings,
+  IconArrowsSort,
   IconUsers,
 } from "@tabler/icons-react";
 
@@ -83,19 +84,24 @@ export function getScopedNavSections(
       label: "Assets",
       items: [
         {
-          title: "Settings",
-          url: accountScopedRoutes.settings(accountId),
-          icon: IconSettings,
-        },
-        {
           title: "Templates",
           url: accountScopedRoutes.templateBuilder(accountId),
           icon: IconFileDescription,
         },
         {
-          title: "Media Gallery",
+          title: "Sort Order",
+          url: accountScopedRoutes.sortOrder(accountId),
+          icon: IconArrowsSort,
+        },
+        {
+          title: "Background images",
           url: accountScopedRoutes.mediaGallery(accountId),
           icon: IconCamera,
+        },
+        {
+          title: "Settings",
+          url: accountScopedRoutes.settings(accountId),
+          icon: IconSettings,
         },
       ],
     },

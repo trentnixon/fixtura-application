@@ -54,6 +54,9 @@ export function mergeAccountBrandingIntoDataset(
 
   const videoMeta = ensureRecord(next, "videoMeta");
   const video = ensureRecord(videoMeta, "video");
+  const media = ensureRecord(video, "media");
+  delete media["HeroImage"];
+  delete media["heroImage"];
   const appearance = ensureRecord(video, "appearance");
   appearance["template"] = template;
   appearance["theme"] = {

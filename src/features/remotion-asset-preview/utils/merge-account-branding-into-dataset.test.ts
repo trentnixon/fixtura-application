@@ -71,6 +71,73 @@ function brandingFixture(overrides: Partial<AccountBrandingData> = {}): AccountB
 }
 
 describe("mergeAccountBrandingIntoDataset", () => {
+  it("removes the bundled example hero image from preview data", () => {
+    const base = minimalDataset();
+    const baseRecord = base as unknown as Record<string, unknown>;
+    const videoMeta = baseRecord["videoMeta"] as Record<string, unknown>;
+    const video = videoMeta["video"] as Record<string, unknown>;
+    video["media"] = {
+      HeroImage: { url: "https://cdn.example.com/default.jpg" },
+      heroImage: { url: "https://cdn.example.com/other-default.jpg" },
+      audio: { url: "https://cdn.example.com/example.mp3" },
+    };
+
+    const { data } = mergeAccountBrandingIntoDataset(base, {
+      branding: brandingFixture(),
+      logoUrl: null,
+      templateModeSlug: null,
+    });
+
+    const mergedRecord = data as unknown as Record<string, unknown>;
+    const mergedVideoMeta = mergedRecord["videoMeta"] as Record<string, unknown>;
+    const mergedVideo = mergedVideoMeta["video"] as Record<string, unknown>;
+    const mergedMedia = mergedVideo["media"] as Record<string, unknown>;
+    expect(mergedMedia["HeroImage"]).toBeUndefined();
+    expect(mergedMedia["heroImage"]).toBeUndefined();
+    expect(mergedMedia["audio"]).toEqual({ url: "https://cdn.example.com/example.mp3" });
+  });
+
+  it("uses the account image after removing the bundled hero image", () => {
+    const base = minimalDataset();
+    const baseRecord = base as unknown as Record<string, unknown>;
+    const videoMeta = baseRecord["videoMeta"] as Record<string, unknown>;
+    const video = videoMeta["video"] as Record<string, unknown>;
+    video["media"] = {
+      HeroImage: { url: "https://cdn.example.com/default.jpg" },
+    };
+
+    const { data } = mergeAccountBrandingIntoDataset(base, {
+      branding: brandingFixture({
+        template_option: {
+          useBackground: "Image",
+          image: {
+            animationType: "pan",
+            image: {
+              url: "https://cdn.example.com/account-image.jpg",
+              width: 1920,
+              height: 1080,
+            },
+          },
+        },
+      }),
+      logoUrl: null,
+      templateModeSlug: null,
+    });
+
+    const mergedRecord = data as unknown as Record<string, unknown>;
+    const mergedVideoMeta = mergedRecord["videoMeta"] as Record<string, unknown>;
+    const mergedVideo = mergedVideoMeta["video"] as Record<string, unknown>;
+    const mergedMedia = mergedVideo["media"] as Record<string, unknown>;
+    const templateVariation = mergedVideo["templateVariation"] as Record<string, unknown>;
+    expect(mergedMedia["HeroImage"]).toBeUndefined();
+    expect(templateVariation["image"]).toMatchObject({
+      url: "https://cdn.example.com/account-image.jpg",
+      width: 1920,
+      height: 1080,
+      type: "pan",
+    });
+  });
+
   it("sets appearance.template from branding template category", () => {
     const base = minimalDataset();
     const { data, usedTemplateFallback } = mergeAccountBrandingIntoDataset(base, {

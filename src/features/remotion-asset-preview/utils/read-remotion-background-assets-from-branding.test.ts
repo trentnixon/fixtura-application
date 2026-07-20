@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   readRemotionBackgroundAssetsPatch,
+  readRemotionImageFromBranding,
   readRemotionNoiseFromBranding,
   readRemotionParticleFromBranding,
   readRemotionTextureFromBranding,
@@ -167,6 +168,38 @@ describe("readRemotionParticleFromBranding", () => {
       speed: 0.8,
       direction: "up",
       animation: "scale",
+    });
+  });
+});
+
+describe("readRemotionImageFromBranding", () => {
+  it("maps nested account media URL and dimensions while preserving treatment settings", () => {
+    expect(
+      readRemotionImageFromBranding(
+        brandingFixture({
+          useBackground: "Image",
+          image: {
+            id: 14,
+            animationType: "zoom",
+            animationDirection: "in",
+            overlayOpacity: 0.35,
+            image: {
+              id: 91,
+              url: "https://cdn.example.com/account-background.jpg",
+              width: 1920,
+              height: 1080,
+              mime: "image/jpeg",
+            },
+          },
+        }),
+      ),
+    ).toEqual({
+      url: "https://cdn.example.com/account-background.jpg",
+      type: "zoom",
+      direction: "in",
+      overlayOpacity: 0.35,
+      width: 1920,
+      height: 1080,
     });
   });
 });

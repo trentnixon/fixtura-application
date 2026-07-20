@@ -191,11 +191,7 @@ describe("WizardStepBranding", () => {
     );
 
     await waitFor(() => {
-      expect(
-        screen.getByText(
-          /add or replace your organisation logo, then crop it for generated assets/i,
-        ),
-      ).toBeInTheDocument();
+      expect(screen.getByText(/upload and crop your organisation logo/i)).toBeInTheDocument();
     });
 
     fireEvent.click(screen.getByRole("button", { name: /submit-step/i }));

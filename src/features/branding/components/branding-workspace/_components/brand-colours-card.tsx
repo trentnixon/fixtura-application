@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 
 import {
   BRANDING_CONTAINER_HEADER_CLASS_NAME,
+  BRANDING_CONTAINER_HEADER_LIGHT_CLASS_NAME,
   BrandingContainerHeaderTitle,
 } from "../../branding-container-header-title";
 import { cmsThemeRowColours } from "../_utils";
@@ -34,6 +35,13 @@ export type BrandColoursCardProps = {
   duplicate: boolean;
   formWarnings: string[];
   handleColourSourceModeChange: UseBrandingWorkspaceResult["handleColourSourceModeChange"];
+  /** Dark navy header (default) or light grey band for onboarding and compact layouts. */
+  headerTone?: "dark" | "light";
+  /**
+   * `onboarding` — mode buttons side-by-side from `md`; preview hint only below `md`.
+   * `workspace` — existing layout (buttons row from 1200px).
+   */
+  footerVariant?: "workspace" | "onboarding";
 };
 
 export function BrandColoursCard({
@@ -53,7 +61,10 @@ export function BrandColoursCard({
   duplicate,
   formWarnings,
   handleColourSourceModeChange,
+  headerTone = "dark",
+  footerVariant = "workspace",
 }: BrandColoursCardProps) {
+  const onboardingFooter = footerVariant === "onboarding";
   const body = (
     <div className="space-y-5">
       {!interactive ? (
@@ -206,14 +217,23 @@ export function BrandColoursCard({
 
   const footer = interactive ? (
     <div className="flex w-full min-w-0 flex-col gap-4">
-      <TypographyMuted className="text-sm leading-relaxed lg:hidden">
+      <TypographyMuted
+        className={cn("text-sm leading-relaxed", onboardingFooter ? "md:hidden" : "lg:hidden")}
+      >
         Preview the changes below
       </TypographyMuted>
-      <div className="flex w-full max-w-full flex-col gap-2 min-[1200px]:flex-row min-[1200px]:flex-wrap min-[1200px]:items-center min-[1200px]:justify-end">
+      <div
+        className={cn(
+          "flex w-full max-w-full flex-col gap-2",
+          onboardingFooter
+            ? "md:flex-row md:flex-wrap md:items-center"
+            : "min-[1200px]:flex-row min-[1200px]:flex-wrap min-[1200px]:items-center min-[1200px]:justify-end",
+        )}
+      >
         <Button
           type="button"
           variant={colourSourceMode === "custom" ? "brandPrimary" : "brandPrimaryOutline"}
-          className="w-full min-[1200px]:w-auto"
+          className={cn("w-full", onboardingFooter ? "md:w-auto" : "min-[1200px]:w-auto")}
           onClick={() => handleColourSourceModeChange("custom")}
         >
           Create your brand colours
@@ -221,7 +241,7 @@ export function BrandColoursCard({
         <Button
           type="button"
           variant={colourSourceMode === "premade" ? "brandPrimary" : "brandPrimaryOutline"}
-          className="w-full min-[1200px]:w-auto"
+          className={cn("w-full", onboardingFooter ? "md:w-auto" : "min-[1200px]:w-auto")}
           onClick={() => handleColourSourceModeChange("premade")}
         >
           Preset themes
@@ -238,10 +258,15 @@ export function BrandColoursCard({
     <MetricComparisonCard
       className="ring-border w-full min-w-0 rounded-2xl border-none shadow-xl ring-1"
       layout="card"
-      headerClassName={BRANDING_CONTAINER_HEADER_CLASS_NAME}
+      headerClassName={
+        headerTone === "light"
+          ? BRANDING_CONTAINER_HEADER_LIGHT_CLASS_NAME
+          : BRANDING_CONTAINER_HEADER_CLASS_NAME
+      }
       titleRowClassName="items-start"
       title={
         <BrandingContainerHeaderTitle
+          tone={headerTone}
           icon={<Palette className="size-5" aria-hidden />}
           title="1. Brand colours"
           description={

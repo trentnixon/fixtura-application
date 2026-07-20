@@ -286,55 +286,46 @@ export const WizardStepOrganisation = forwardRef<
       {associationsEmpty ? <InlineAlert message={associationsEmpty} variant="warning" /> : null}
       {clubsError ? <InlineAlert message={clubsError} variant="destructive" /> : null}
 
-      <MetricComparisonCard
-        layout="card"
-        data-card="card.metric.comparison-card.body-prose"
-        className="ring-border w-full min-w-0 rounded-2xl border-none shadow-xl ring-1"
-        title={
-          <span id={orgTypeSectionId} className="text-sm font-semibold">
-            Organisation type
-          </span>
-        }
-        body={
-          <div className="space-y-3">
-            {orgTypesQuery.isPending ? (
-              <TypographyFinePrint className="text-muted-foreground text-center">
-                Loading organisation types…
-              </TypographyFinePrint>
-            ) : orgTypes.length === 0 ? (
-              <TypographyFinePrint className="text-muted-foreground text-center">
-                No organisation types are available yet.
-              </TypographyFinePrint>
-            ) : (
-              <div
-                role="radiogroup"
-                aria-labelledby={orgTypeSectionId}
-                className="flex flex-wrap items-stretch justify-center gap-4"
-              >
-                {orgTypes.map((t) => {
-                  const selected = accountTypeId !== "" && accountTypeId === t.id;
-                  const cardDisabled = disabledUntilSport;
-                  const OrgTypeIcon = t.id === CLUB_ACCOUNT_TYPE_ID ? UsersRound : Building2;
-                  return (
-                    <GridCard
-                      key={t.id}
-                      className="mx-0 h-full min-h-0 w-full"
-                      title={t.label}
-                      ctaLabel={selected ? "Selected" : "Select"}
-                      visual={<GridCardIcon icon={OrgTypeIcon} />}
-                      tone={selected ? "success" : "default"}
-                      disabled={cardDisabled}
-                      onClick={() => {
-                        if (!cardDisabled) setAccountTypeId(t.id);
-                      }}
-                    />
-                  );
-                })}
-              </div>
-            )}
+      <section className="w-full min-w-0 space-y-3" aria-labelledby={orgTypeSectionId}>
+        <h2 id={orgTypeSectionId} className="text-sm font-semibold">
+          Organisation type
+        </h2>
+        {orgTypesQuery.isPending ? (
+          <TypographyFinePrint className="text-muted-foreground text-center">
+            Loading organisation types…
+          </TypographyFinePrint>
+        ) : orgTypes.length === 0 ? (
+          <TypographyFinePrint className="text-muted-foreground text-center">
+            No organisation types are available yet.
+          </TypographyFinePrint>
+        ) : (
+          <div
+            role="radiogroup"
+            aria-labelledby={orgTypeSectionId}
+            className="mx-auto grid w-full max-w-xl grid-cols-2 gap-3 sm:gap-4"
+          >
+            {orgTypes.map((t) => {
+              const selected = accountTypeId !== "" && accountTypeId === t.id;
+              const cardDisabled = disabledUntilSport;
+              const OrgTypeIcon = t.id === CLUB_ACCOUNT_TYPE_ID ? UsersRound : Building2;
+              return (
+                <GridCard
+                  key={t.id}
+                  className="mx-0 h-full min-h-0 w-full max-w-none min-w-0"
+                  title={t.label}
+                  ctaLabel={selected ? "Selected" : "Select"}
+                  visual={<GridCardIcon icon={OrgTypeIcon} />}
+                  tone={selected ? "success" : "default"}
+                  disabled={cardDisabled}
+                  onClick={() => {
+                    if (!cardDisabled) setAccountTypeId(t.id);
+                  }}
+                />
+              );
+            })}
           </div>
-        }
-      />
+        )}
+      </section>
 
       <MetricComparisonCard
         layout="card"

@@ -1,3 +1,4 @@
+import { Plus } from "lucide-react";
 import Link from "next/link";
 
 import { TypographyMuted, TypographyPageTitle } from "@/components/typography";
@@ -16,7 +17,6 @@ type DashboardHeaderProps = {
 };
 
 export function DashboardHeader({ accountId, model }: DashboardHeaderProps) {
-  const initial = model.organisationName.trim().slice(0, 1).toUpperCase() || "?";
   const brandLogoHref = accountScopedRoutes.brandLogo(accountId);
 
   const freshness =
@@ -30,12 +30,12 @@ export function DashboardHeader({ accountId, model }: DashboardHeaderProps) {
     <header className="border-border border-b pb-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
         <div className="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-start sm:gap-6">
-          <Link
-            href={brandLogoHref}
-            className="ring-border focus-visible:ring-ring shrink-0 rounded-xl ring-1 transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:outline-none"
-            aria-label={`Edit ${model.organisationName} logo`}
-          >
-            {model.logoUrl ? (
+          {model.logoUrl ? (
+            <Link
+              href={brandLogoHref}
+              className="ring-border focus-visible:ring-ring shrink-0 rounded-xl ring-1 transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:outline-none"
+              aria-label={`Edit ${model.organisationName} logo`}
+            >
               <img
                 src={model.logoUrl}
                 alt=""
@@ -43,12 +43,17 @@ export function DashboardHeader({ accountId, model }: DashboardHeaderProps) {
                 height={LOGO_SIZE_PX}
                 className="size-24 rounded-xl object-cover"
               />
-            ) : (
-              <div className="bg-muted text-muted-foreground flex size-24 items-center justify-center rounded-xl text-2xl font-semibold">
-                {initial}
-              </div>
-            )}
-          </Link>
+            </Link>
+          ) : (
+            <Link
+              href={brandLogoHref}
+              className="border-border text-muted-foreground hover:border-primary hover:text-primary focus-visible:ring-ring flex size-24 shrink-0 flex-col items-center justify-center gap-1 rounded-xl border border-dashed transition-colors focus-visible:ring-2 focus-visible:outline-none"
+              aria-label={`Add logo for ${model.organisationName}`}
+            >
+              <Plus className="size-5" strokeWidth={1.75} aria-hidden />
+              <span className="text-[11px] font-medium tracking-wide">Add logo</span>
+            </Link>
+          )}
           <div className="min-w-0 space-y-2">
             <TypographyPageTitle className="text-3xl font-bold tracking-tight sm:text-4xl">
               {model.organisationName}

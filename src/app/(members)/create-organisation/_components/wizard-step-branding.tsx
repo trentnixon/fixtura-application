@@ -1,6 +1,5 @@
 "use client";
 
-import { ImageUp } from "lucide-react";
 import Link from "next/link";
 import {
   forwardRef,
@@ -14,7 +13,6 @@ import {
 
 import { InlineAlert } from "@/components/auth/actions";
 import { FixturaAssetColorPreview } from "@/components/brand-color";
-import { MetricComparisonCard } from "@/components/cards";
 import {
   ImageUploaderCrop,
   type ImageUploaderCropCompletePayload,
@@ -26,10 +24,6 @@ import {
   LOGO_MIN_SOURCE_HEIGHT_PX,
   LOGO_MIN_SOURCE_WIDTH_PX,
 } from "@/features/branding/components/brand-logo-workspace/logo-save-validation";
-import {
-  BRANDING_CONTAINER_HEADER_CLASS_NAME,
-  BrandingContainerHeaderTitle,
-} from "@/features/branding/components/branding-container-header-title";
 import { BrandColoursCard } from "@/features/branding/components/branding-workspace/_components/brand-colours-card";
 import { activeAccountSummaryFromMePayload } from "@/lib/account/account-me-rows";
 import { ApiError } from "@/lib/api/client/api-error";
@@ -566,42 +560,37 @@ export const WizardStepBranding = forwardRef<WizardStepBrandingHandle, WizardSte
 
     return (
       <div
-        className={cn("grid gap-8", "lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] lg:items-start")}
+        className={cn(
+          "grid gap-8",
+          "min-[1025px]:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] min-[1025px]:items-start",
+        )}
       >
         <div className="flex min-w-0 flex-col gap-6">
-          <MetricComparisonCard
-            className="ring-border w-full min-w-0 rounded-2xl border-none shadow-xl ring-1"
-            layout="card"
-            headerClassName={BRANDING_CONTAINER_HEADER_CLASS_NAME}
-            titleRowClassName="items-start"
-            title={
-              <BrandingContainerHeaderTitle
-                icon={<ImageUp className="size-5" aria-hidden />}
-                title="Logo"
-                description="Add or replace your organisation logo, then crop it for generated assets."
-              />
-            }
-            body={
-              <div className="space-y-5">
-                <ImageUploaderCrop
-                  key={`${accountId}-${logoUploaderKey}`}
-                  aspect={1}
-                  aspectPresets={[...SELECTABLE_LOGO_CROP_PRESETS]}
-                  defaultAspectPresetIndex={0}
-                  hideAspectPresetOnUploader
-                  label=""
-                  helperText={`PNG, JPEG, or WebP up to 8MB. Source at least ${LOGO_MIN_SOURCE_WIDTH_PX}×${LOGO_MIN_SOURCE_HEIGHT_PX}px; cropped output at least ${LOGO_MIN_OUTPUT_WIDTH_PX}×${LOGO_MIN_OUTPUT_HEIGHT_PX}px. You can change the aspect ratio in the crop dialog.`}
-                  maxFileSizeMb={8}
-                  minSourceWidth={LOGO_MIN_SOURCE_WIDTH_PX}
-                  minSourceHeight={LOGO_MIN_SOURCE_HEIGHT_PX}
-                  minOutputWidth={LOGO_MIN_OUTPUT_WIDTH_PX}
-                  minOutputHeight={LOGO_MIN_OUTPUT_HEIGHT_PX}
-                  onComplete={handleLogoCropComplete}
-                  onReset={handleLogoUploaderReset}
-                />
-              </div>
-            }
-          />
+          <section className="w-full min-w-0 space-y-3">
+            <div className="space-y-1">
+              <h2 className="text-sm font-semibold">Logo</h2>
+              <TypographyFinePrint className="text-muted-foreground">
+                Upload and crop your organisation logo.
+              </TypographyFinePrint>
+            </div>
+            <ImageUploaderCrop
+              key={`${accountId}-${logoUploaderKey}`}
+              aspect={1}
+              aspectPresets={[...SELECTABLE_LOGO_CROP_PRESETS]}
+              defaultAspectPresetIndex={0}
+              hideAspectPresetOnUploader
+              label=""
+              dropzoneVariant="primary-dark"
+              showValidationHints
+              maxFileSizeMb={8}
+              minSourceWidth={LOGO_MIN_SOURCE_WIDTH_PX}
+              minSourceHeight={LOGO_MIN_SOURCE_HEIGHT_PX}
+              minOutputWidth={LOGO_MIN_OUTPUT_WIDTH_PX}
+              minOutputHeight={LOGO_MIN_OUTPUT_HEIGHT_PX}
+              onComplete={handleLogoCropComplete}
+              onReset={handleLogoUploaderReset}
+            />
+          </section>
 
           {validationError ? <InlineAlert message={validationError} variant="destructive" /> : null}
 
@@ -614,6 +603,8 @@ export const WizardStepBranding = forwardRef<WizardStepBrandingHandle, WizardSte
 
           <BrandColoursCard
             interactive
+            headerTone="light"
+            footerVariant="onboarding"
             palette={brandingPalette}
             primary={primaryColor}
             setPrimary={setPrimaryColor}
@@ -633,7 +624,7 @@ export const WizardStepBranding = forwardRef<WizardStepBrandingHandle, WizardSte
         </div>
 
         <aside
-          className="flex min-w-0 flex-col gap-4 lg:sticky lg:top-6 lg:self-start"
+          className="hidden min-w-0 min-[1025px]:sticky min-[1025px]:top-6 min-[1025px]:flex min-[1025px]:flex-col min-[1025px]:gap-4 min-[1025px]:self-start"
           aria-label="Brand colours asset preview"
         >
           <FixturaAssetColorPreview

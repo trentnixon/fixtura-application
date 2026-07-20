@@ -180,6 +180,92 @@ describe("buildTemplateBuilderPreviewBranding", () => {
     });
   });
 
+  it("merges the selected upload into the image treatment for preview", () => {
+    const previewImage = {
+      id: 91,
+      url: "https://cdn.example.com/account-background.jpg",
+      width: 1920,
+      height: 1080,
+      mime: "image/jpeg",
+    };
+    const preview = buildTemplateBuilderPreviewBranding({
+      branding,
+      catalog: {
+        ...catalog,
+        images: [
+          {
+            id: 14,
+            name: "Slow zoom",
+            animationType: "zoom",
+            animationDirection: "in",
+            overlayStyle: "gradient",
+            gradientType: "linear",
+            overlayOpacity: 0.35,
+          },
+        ],
+      },
+      draft: {
+        ...draft,
+        useBackground: "Image",
+        templateImageId: 14,
+        templateNoiseId: null,
+      },
+      previewImage,
+    });
+
+    expect(preview?.template_option?.["imageId"]).toBe(14);
+    expect(preview?.template_option?.["image"]).toMatchObject({
+      id: 14,
+      animationType: "zoom",
+      animationDirection: "in",
+      overlayStyle: "gradient",
+      gradientType: "linear",
+      overlayOpacity: 0.35,
+      image: previewImage,
+    });
+  });
+
+  it("provides the selected upload even when no image treatment is selected", () => {
+    const previewImage = {
+      id: 91,
+      url: "https://cdn.example.com/account-background.jpg",
+      width: 1920,
+      height: 1080,
+      mime: "image/jpeg",
+    };
+    const preview = buildTemplateBuilderPreviewBranding({
+      branding,
+      catalog,
+      draft: {
+        ...draft,
+        useBackground: "Image",
+        templateImageId: null,
+        templateNoiseId: null,
+      },
+      previewImage,
+    });
+
+    expect(preview?.template_option?.["imageId"]).toBeNull();
+    expect(preview?.template_option?.["image"]).toEqual({ image: previewImage });
+  });
+
+  it("does not patch the selected upload into non-image backgrounds", () => {
+    const preview = buildTemplateBuilderPreviewBranding({
+      branding,
+      catalog,
+      draft,
+      previewImage: {
+        id: 91,
+        url: "https://cdn.example.com/account-background.jpg",
+        width: 1920,
+        height: 1080,
+        mime: "image/jpeg",
+      },
+    });
+
+    expect(preview?.template_option?.["image"]).toBeNull();
+  });
+
   it("falls back to saved branding before catalog or draft exists", () => {
     expect(
       buildTemplateBuilderPreviewBranding({

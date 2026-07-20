@@ -12,6 +12,7 @@ const SEG = {
   brandLogo: "brand-logo",
   clubLogos: "club-logos",
   templateBuilder: "template-builder",
+  sortOrder: "sort-order",
   mediaGallery: "media-gallery",
   manageSponsors: "manage-sponsors",
   addSponsor: "add-sponsor",
@@ -43,6 +44,7 @@ export const accountScopedRoutes = {
   clubLogo: (accountId: string | number, clubId: string | number) =>
     `${scoped(accountId, SEG.clubLogos)}/${encodeURIComponent(String(clubId))}`,
   templateBuilder: (accountId: string | number) => scoped(accountId, SEG.templateBuilder),
+  sortOrder: (accountId: string | number) => scoped(accountId, SEG.sortOrder),
   mediaGallery: (accountId: string | number) => scoped(accountId, SEG.mediaGallery),
   manageSponsors: (accountId: string | number) => scoped(accountId, SEG.manageSponsors),
   addSponsor: (accountId: string | number) => scoped(accountId, SEG.addSponsor),

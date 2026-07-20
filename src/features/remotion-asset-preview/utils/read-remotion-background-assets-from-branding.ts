@@ -107,8 +107,10 @@ function pickNumber(...candidates: unknown[]): number | null {
   return null;
 }
 
-function pickBoolean(value: unknown): boolean | null {
-  if (typeof value === "boolean") return value;
+function pickBoolean(...candidates: unknown[]): boolean | null {
+  for (const value of candidates) {
+    if (typeof value === "boolean") return value;
+  }
   return null;
 }
 
@@ -217,6 +219,8 @@ export function readRemotionImageFromBranding(
   const overlayStyle = pickString(row["overlayStyle"]);
   const gradientType = pickString(row["gradientType"]);
   const overlayOpacity = pickNumber(row["overlayOpacity"]);
+  const width = pickNumber(media?.["width"], row["width"]);
+  const height = pickNumber(media?.["height"], row["height"]);
 
   if (
     url === null &&
@@ -224,7 +228,9 @@ export function readRemotionImageFromBranding(
     direction === null &&
     overlayStyle === null &&
     gradientType === null &&
-    overlayOpacity === null
+    overlayOpacity === null &&
+    width === null &&
+    height === null
   ) {
     return null;
   }
@@ -236,6 +242,8 @@ export function readRemotionImageFromBranding(
     ...(overlayStyle !== null ? { overlayStyle } : {}),
     ...(gradientType !== null ? { gradientType } : {}),
     ...(overlayOpacity !== null ? { overlayOpacity } : {}),
+    ...(width !== null ? { width } : {}),
+    ...(height !== null ? { height } : {}),
   };
 }
 

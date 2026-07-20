@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+import { invalidateMediaGalleryCategoryQueries } from "./invalidate-media-gallery-category-queries";
 import { queryKeys } from "../../query/query-keys";
 import { accountApi } from "../../services/account.api";
 
@@ -16,6 +17,7 @@ export function usePatchAccountSettings(accountId: string) {
       await queryClient.invalidateQueries({ queryKey: queryKeys.account.settings(accountId) });
       await queryClient.invalidateQueries({ queryKey: queryKeys.account.me });
       await queryClient.invalidateQueries({ queryKey: queryKeys.account.scheduler(accountId) });
+      await invalidateMediaGalleryCategoryQueries(queryClient, accountId);
     },
   });
 }

@@ -13,6 +13,10 @@ import {
 } from "@/lib/api/hooks/account/useAccountBranding";
 import { useAccountMe } from "@/lib/api/hooks/account/useAccountMe";
 import {
+  isAccountMediaLibraryGatewayRedirect,
+  useAccountMediaLibrary,
+} from "@/lib/api/hooks/account/useAccountMediaLibrary";
+import {
   isAccountOrganisationContextGatewayRedirect,
   useAccountOrganisationContext,
 } from "@/lib/api/hooks/account/useAccountOrganisationContext";
@@ -43,6 +47,10 @@ import {
 } from "@/lib/config/gateway-reasons";
 
 import { TemplateBuilderPreviewPanel } from "./_components/template-builder-preview-panel";
+import {
+  getTemplateBuilderMediaItems,
+  resolveTemplateBuilderPreviewMediaItem,
+} from "./_utils/template-builder-media-preview";
 import { buildTemplateBuilderPreviewBranding } from "./_utils/template-builder-preview-branding";
 import { mapTemplateBuilderEditorStateToPutBody } from "./_utils/template-builder-save-payload";
 import { TemplateBuilderEditor } from "./template-builder-editor";
@@ -101,6 +109,8 @@ export function TemplateBuilderContent({ accountId }: { accountId: string }) {
   const segmentOk = isValidAccountIdSegment(accountId);
   const me = useAccountMe({ enabled: segmentOk });
   const brandingQ = useAccountBranding(accountId, { enabled: segmentOk });
+  const mediaLibraryQ = useAccountMediaLibrary(accountId, { enabled: segmentOk });
+  const refetchMediaLibrary = mediaLibraryQ.refetch;
   const settingsQ = useAccountSettings(accountId, { enabled: segmentOk });
   const organisationContextQ = useAccountOrganisationContext(accountId, { enabled: segmentOk });
   const sponsorsQ = useAccountSponsors(accountId);
@@ -136,6 +146,9 @@ export function TemplateBuilderContent({ accountId }: { accountId: string }) {
   const [debugSnapshot, setDebugSnapshot] = useState<TemplateBuilderEditorDebugSnapshot | null>(
     null,
   );
+  const [selectedMediaIdsByAccount, setSelectedMediaIdsByAccount] = useState<
+    Record<string, number | undefined>
+  >({});
   const settingsData =
     settingsQ.data && !isAccountSettingsGatewayRedirect(settingsQ.data)
       ? settingsQ.data.data
@@ -157,6 +170,84 @@ export function TemplateBuilderContent({ accountId }: { accountId: string }) {
       ? brandingQ.data.data
       : null;
 
+  const mediaLibraryItems = useMemo(
+    () =>
+      mediaLibraryQ.isSuccess &&
+      mediaLibraryQ.data &&
+      !isAccountMediaLibraryGatewayRedirect(mediaLibraryQ.data)
+        ? mediaLibraryQ.data.data.items
+        : [],
+    [mediaLibraryQ.data, mediaLibraryQ.isSuccess],
+  );
+
+  const templateBuilderMediaItems = useMemo(
+    () => getTemplateBuilderMediaItems(mediaLibraryItems),
+    [mediaLibraryItems],
+  );
+
+  const selectedPreviewMediaItem = useMemo(
+    () =>
+      resolveTemplateBuilderPreviewMediaItem(
+        templateBuilderMediaItems,
+        selectedMediaIdsByAccount,
+        accountId,
+      ),
+    [accountId, selectedMediaIdsByAccount, templateBuilderMediaItems],
+  );
+
+  useEffect(() => {
+    const resolvedId = selectedPreviewMediaItem?.id;
+    setSelectedMediaIdsByAccount((current) => {
+      if (resolvedId === undefined) {
+        if (!(accountId in current)) return current;
+        const next = { ...current };
+        delete next[accountId];
+        return next;
+      }
+      if (current[accountId] === resolvedId) return current;
+      return { ...current, [accountId]: resolvedId };
+    });
+  }, [accountId, selectedPreviewMediaItem?.id]);
+
+  const handlePreviewMediaSelectionChange = useCallback(
+    (mediaId: number) => {
+      if (!templateBuilderMediaItems.some((item) => item.id === mediaId)) return;
+      setSelectedMediaIdsByAccount((current) => ({ ...current, [accountId]: mediaId }));
+    },
+    [accountId, templateBuilderMediaItems],
+  );
+
+  const mediaPreviewState = useMemo(() => {
+    const status = mediaLibraryQ.isError
+      ? ("error" as const)
+      : mediaLibraryQ.isSuccess &&
+          mediaLibraryQ.data &&
+          !isAccountMediaLibraryGatewayRedirect(mediaLibraryQ.data)
+        ? ("ready" as const)
+        : ("loading" as const);
+
+    return {
+      status,
+      items: templateBuilderMediaItems,
+      selectedId: selectedPreviewMediaItem?.id ?? null,
+      errorMessage:
+        mediaLibraryQ.isError && mediaLibraryQ.error instanceof Error
+          ? mediaLibraryQ.error.message
+          : null,
+      onSelectedIdChange: handlePreviewMediaSelectionChange,
+      onRetry: () => void refetchMediaLibrary(),
+    };
+  }, [
+    handlePreviewMediaSelectionChange,
+    mediaLibraryQ.data,
+    mediaLibraryQ.error,
+    mediaLibraryQ.isError,
+    mediaLibraryQ.isSuccess,
+    refetchMediaLibrary,
+    selectedPreviewMediaItem?.id,
+    templateBuilderMediaItems,
+  ]);
+
   const catalogPayload =
     catalogQ.isSuccess && catalogQ.data && !isAllTemplateOptionsGatewayRedirect(catalogQ.data)
       ? catalogQ.data.data
@@ -169,8 +260,15 @@ export function TemplateBuilderContent({ accountId }: { accountId: string }) {
         catalog: catalogPayload,
         categoryOptions: templateCategoriesListQ.data?.data ?? null,
         draft: previewDraftState,
+        previewImage: selectedPreviewMediaItem?.image ?? null,
       }),
-    [brandingData, catalogPayload, previewDraftState, templateCategoriesListQ.data],
+    [
+      brandingData,
+      catalogPayload,
+      previewDraftState,
+      selectedPreviewMediaItem?.image,
+      templateCategoriesListQ.data,
+    ],
   );
 
   const dashboardPreviewModel = useMemo(
@@ -269,6 +367,15 @@ export function TemplateBuilderContent({ accountId }: { accountId: string }) {
     router.replace(selectOrganisationUrlWithReason(brandingQ.data.reason));
   }, [brandingQ.isSuccess, brandingQ.data, accountId, queryClient, router, segmentOk]);
 
+  useEffect(() => {
+    if (!segmentOk) return;
+    if (!mediaLibraryQ.isSuccess || !mediaLibraryQ.data || redirectingRef.current) return;
+    if (!isAccountMediaLibraryGatewayRedirect(mediaLibraryQ.data)) return;
+    redirectingRef.current = true;
+    void queryClient.removeQueries({ queryKey: queryKeys.account.mediaLibrary(accountId) });
+    router.replace(selectOrganisationUrlWithReason(mediaLibraryQ.data.reason));
+  }, [accountId, mediaLibraryQ.data, mediaLibraryQ.isSuccess, queryClient, router, segmentOk]);
+
   if (!segmentOk) {
     return (
       <div className="text-muted-foreground grid gap-2 text-center text-sm" role="status">
@@ -290,6 +397,18 @@ export function TemplateBuilderContent({ accountId }: { accountId: string }) {
   }
 
   if (brandingQ.isSuccess && isAccountBrandingGatewayRedirect(brandingQ.data)) {
+    return (
+      <div className="text-muted-foreground grid gap-2 text-center text-sm" role="status">
+        <p>Redirecting…</p>
+      </div>
+    );
+  }
+
+  if (
+    mediaLibraryQ.isSuccess &&
+    mediaLibraryQ.data &&
+    isAccountMediaLibraryGatewayRedirect(mediaLibraryQ.data)
+  ) {
     return (
       <div className="text-muted-foreground grid gap-2 text-center text-sm" role="status">
         <p>Redirecting…</p>
@@ -330,6 +449,7 @@ export function TemplateBuilderContent({ accountId }: { accountId: string }) {
             branding={brandingData}
             save={editorSave}
             previewConfig={previewConfig}
+            mediaPreview={mediaPreviewState}
             onDraftStateChange={setPreviewDraftState}
             onDebugStateChange={setDebugSnapshot}
           />

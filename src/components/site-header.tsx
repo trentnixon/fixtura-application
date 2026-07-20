@@ -24,7 +24,7 @@ function getPageTitle(pathname: string): string {
     if (seg === "bundles") return "Bundles";
     if (seg === "branding") return "Branding";
     if (seg === "template-builder") return "Templates";
-    if (seg === "media-gallery") return "Media Gallery";
+    if (seg === "media-gallery") return "Background images";
     if (seg === "manage-sponsors") return "Sponsorships";
     if (seg === "billing") return "Billing";
     if (seg === "season") return "Season Control";

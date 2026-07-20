@@ -1,6 +1,7 @@
 import { ONBOARDING_SETUP_STATUS_TIMEOUT_MS } from "@/lib/config/onboarding";
 
 import { apiClient } from "../client/fetch-client";
+import { MEDIA_LIBRARY_UPLOAD_TIMEOUT_MS } from "../media-library/media-library-upload-config";
 import { parseAccountMeResponse } from "../parse-account-me-response";
 import { parseCreateFirstAccountResponse } from "../parse-create-first-account-response";
 import { parseDeleteAccountResponse } from "../parse-delete-account-response";
@@ -36,6 +37,7 @@ import type {
   AccountBrandingResponse,
   AccountMediaLibraryItemResponse,
   AccountMediaLibraryResponse,
+  PatchAccountMediaLibraryBody,
   AccountOrganisationContextResponse,
   AccountRenderDetailResponse,
   AccountRenderTokenResponse,
@@ -96,6 +98,11 @@ import type {
   PostAccountBillingInvoiceRequestBody,
   StartAccountBillingTrialResponse,
 } from "@/types/api/account";
+import type {
+  GradeOrderingGetParams,
+  GradeOrderingResponse,
+  ReplaceGradeOrderingRequest,
+} from "@/types/api/grade-ordering";
 import type {
   PutTemplateOptionsBody,
   PutTemplateOptionsSuccess,
@@ -293,6 +300,32 @@ export const accountApi = {
     const base = `${appRoutes.accounts.mediaLibraryItem.path}/${encodeURIComponent(accountId)}/media-library`;
     const path = `${base}/${encodeURIComponent(mediaId)}`;
     return apiClient.get<AccountMediaLibraryItemResponse>(path);
+  },
+
+  /** Create/upload one media-library item (multipart; CMS v1). */
+  createAccountMediaLibraryItem: (accountId: string, formData: FormData) => {
+    const path = `${appRoutes.accounts.mediaLibrary.path}/${encodeURIComponent(accountId)}/media-library`;
+    return apiClient.postFormData<AccountMediaLibraryItemResponse>(path, formData, {
+      timeoutMs: MEDIA_LIBRARY_UPLOAD_TIMEOUT_MS,
+    });
+  },
+
+  /** Partial update metadata / activation (flat JSON; CMS v1). */
+  patchAccountMediaLibraryItem: (
+    accountId: string,
+    mediaId: string,
+    body: PatchAccountMediaLibraryBody,
+  ) => {
+    const base = `${appRoutes.accounts.mediaLibraryItem.path}/${encodeURIComponent(accountId)}/media-library`;
+    const path = `${base}/${encodeURIComponent(mediaId)}`;
+    return apiClient.patch<AccountMediaLibraryItemResponse>(path, body);
+  },
+
+  /** Delete one media-library item (204 no body; CMS v1). */
+  deleteAccountMediaLibraryItem: (accountId: string, mediaId: string) => {
+    const base = `${appRoutes.accounts.mediaLibraryItem.path}/${encodeURIComponent(accountId)}/media-library`;
+    const path = `${base}/${encodeURIComponent(mediaId)}`;
+    return apiClient.delete<void>(path);
   },
 
   /** Published sponsors for the account (handoff get-account-sponsors). */
@@ -565,6 +598,21 @@ export const accountApi = {
   getAccountOrganisationContext: (accountId: string) => {
     const path = `${appRoutes.accounts.organisation.path}/${encodeURIComponent(accountId)}/organisation`;
     return apiClient.get<AccountOrganisationContextResponse>(path);
+  },
+
+  /** Account-scoped grade ordering (GET requires organisation query). */
+  getAccountGradeOrdering: (accountId: string, params: GradeOrderingGetParams) => {
+    const qs = new URLSearchParams({
+      organisationType: params.organisationType,
+      organisationId: String(params.organisationId),
+    });
+    const path = `${appRoutes.accounts.gradeOrdering.path}/${encodeURIComponent(accountId)}/grade-ordering?${qs}`;
+    return apiClient.get<GradeOrderingResponse>(path);
+  },
+
+  putAccountGradeOrdering: (accountId: string, body: ReplaceGradeOrderingRequest) => {
+    const path = `${appRoutes.accounts.gradeOrdering.path}/${encodeURIComponent(accountId)}/grade-ordering`;
+    return apiClient.put<GradeOrderingResponse, ReplaceGradeOrderingRequest>(path, body);
   },
 
   /** Phase 5: scheduler config and flags (no renders; `isUpdating` lives on settings). */

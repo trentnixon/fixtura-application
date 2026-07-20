@@ -20,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useIsMobile } from "@/hooks/use-mobile";
 import {
   blobToFile,
   extensionForFormat,
@@ -146,6 +147,9 @@ export type ImageUploaderCropProps = {
   hideAspectPresetOnUploader?: boolean;
   label?: string;
   helperText?: string;
+  /** Longer requirements copy shown from `sm` and up when set. */
+  helperTextDetail?: string;
+  helperTextClassName?: string;
   accept?: Record<string, string[]>;
   /**
    * Max file size (MB). Prefer over `maxSizeMb` (alias).
@@ -168,6 +172,8 @@ export type ImageUploaderCropProps = {
   outputQuality?: number;
   /** Show a one-line summary of active limits under the helper text. */
   showValidationHints?: boolean;
+  /** Drop zone surface — `primary-dark` uses brand primary-950 with white copy. */
+  dropzoneVariant?: "default" | "primary-dark";
   /**
    * Same-origin or CORS-safe URL used for “Recrop existing image” before the user picks a file.
    */
@@ -195,6 +201,8 @@ export function ImageUploaderCrop({
   hideAspectPresetOnUploader = false,
   label = "Image",
   helperText,
+  helperTextDetail,
+  helperTextClassName,
   accept = DEFAULT_ACCEPT,
   maxFileSizeMb,
   maxSizeMb = 8,
@@ -210,6 +218,7 @@ export function ImageUploaderCrop({
   outputFormat = "image/png",
   outputQuality = 0.92,
   showValidationHints = false,
+  dropzoneVariant = "default",
   editableSourceUrl = null,
   onComplete,
   onError,
@@ -218,6 +227,7 @@ export function ImageUploaderCrop({
   className,
 }: ImageUploaderCropProps) {
   type Phase = "idle" | "validating" | "cropping" | "cropped";
+  const isMobile = useIsMobile();
   const [phase, setPhase] = useState<Phase>("idle");
   const [objectUrl, setObjectUrl] = useState<string | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -550,11 +560,15 @@ export function ImageUploaderCrop({
   const dropzoneClass = useMemo(
     () =>
       cn(
-        "border-border bg-background/50 hover:bg-accent/30 flex min-h-[140px] cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed px-4 py-8 text-center transition-colors",
-        isDragActive && "border-primary bg-accent/20",
+        dropzoneVariant === "primary-dark"
+          ? "border-primary-900/80 bg-primary-950 text-white hover:bg-primary-900/90 flex min-h-[140px] cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed px-4 py-8 text-center transition-colors"
+          : "border-border bg-background/50 hover:bg-accent/30 flex min-h-[140px] cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed px-4 py-8 text-center transition-colors",
+        dropzoneVariant === "primary-dark"
+          ? isDragActive && "border-white/40 bg-primary-900"
+          : isDragActive && "border-primary bg-accent/20",
         phase === "validating" && "pointer-events-none opacity-70",
       ),
-    [isDragActive, phase],
+    [dropzoneVariant, isDragActive, phase],
   );
 
   const hasCroppedResult = Boolean(result && previewUrl);
@@ -565,7 +579,14 @@ export function ImageUploaderCrop({
     <div className={cn("space-y-3", className)}>
       <div className="flex flex-col gap-1">
         {label ? <TypographyLabel as="div">{label}</TypographyLabel> : null}
-        {helperText ? <TypographyHelperText>{helperText}</TypographyHelperText> : null}
+        {helperText ? (
+          <TypographyHelperText className={helperTextClassName}>{helperText}</TypographyHelperText>
+        ) : null}
+        {helperTextDetail ? (
+          <TypographyHelperText className={cn("hidden sm:block", helperTextClassName)}>
+            {helperTextDetail}
+          </TypographyHelperText>
+        ) : null}
         {showValidationHints && validationHintLine ? (
           <TypographyHelperText>{validationHintLine}</TypographyHelperText>
         ) : null}
@@ -615,14 +636,22 @@ export function ImageUploaderCrop({
           ) : null}
           <div {...getRootProps()} className={dropzoneClass}>
             <input {...getInputProps()} />
-            <TypographyBodySmall as="p" className="font-medium">
+            <TypographyBodySmall
+              as="p"
+              className={cn("font-medium", dropzoneVariant === "primary-dark" && "text-white")}
+            >
               {phase === "validating"
                 ? "Checking image…"
-                : isDragActive
-                  ? "Drop image here"
-                  : "Drop an image here, or click to browse"}
+                : isMobile
+                  ? "Tap to choose a photo"
+                  : isDragActive
+                    ? "Drop image here"
+                    : "Drop an image here, or click to browse"}
             </TypographyBodySmall>
-            <TypographyFinePrint tone="muted" className="mt-1 text-sm">
+            <TypographyFinePrint
+              tone={dropzoneVariant === "primary-dark" ? "default" : "muted"}
+              className={cn("mt-1 text-sm", dropzoneVariant === "primary-dark" && "text-white/70")}
+            >
               PNG, JPEG, WebP · max {resolvedMaxMb} MB
               {dropzoneAspectHint ? ` · ${dropzoneAspectHint}` : ""}
             </TypographyFinePrint>
@@ -651,14 +680,32 @@ export function ImageUploaderCrop({
             alt="Cropped result"
             className="bg-muted max-h-64 w-full rounded-lg object-contain"
           />
-          <div className="flex flex-wrap gap-2">
-            <Button type="button" variant="brandPrimaryOutline" size="sm" onClick={reset}>
+          <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+            <Button
+              type="button"
+              variant="brandPrimaryOutline"
+              size="sm"
+              className="w-full sm:w-auto"
+              onClick={reset}
+            >
               Clear
             </Button>
-            <Button type="button" variant="brandPrimary" size="sm" onClick={handleRecrop}>
+            <Button
+              type="button"
+              variant="brandPrimary"
+              size="sm"
+              className="w-full sm:w-auto"
+              onClick={handleRecrop}
+            >
               Recrop
             </Button>
-            <Button type="button" variant="brandOutline" size="sm" onClick={reset}>
+            <Button
+              type="button"
+              variant="brandOutline"
+              size="sm"
+              className="w-full sm:w-auto"
+              onClick={reset}
+            >
               Replace image
             </Button>
           </div>

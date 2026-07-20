@@ -217,6 +217,16 @@ export const appRoutes = {
         "GET append /{accountId}/organisation — club/association summary (canonical; not the legacy hub)",
       domain: "account",
     },
+    gradeOrdering: {
+      key: "accounts.grade-ordering",
+      method: "GET",
+      path: ACCOUNTS_API_BASE,
+      authRequired: true,
+      status: "ready",
+      description:
+        "GET + PUT append /{accountId}/grade-ordering — account-scoped grade ordering (organisation query on GET)",
+      domain: "account",
+    },
     scheduler: {
       key: "accounts.scheduler",
       method: "GET",
@@ -291,7 +301,7 @@ export const appRoutes = {
       authRequired: true,
       status: "ready",
       description:
-        "GET append /{accountId}/media-library — published gallery / media-library items for the account",
+        "GET|POST append /{accountId}/media-library — list (GET); create/upload (POST multipart). See app-handoff-account-media-library-v1-implementation.md",
       domain: "account",
     },
     mediaLibraryItem: {
@@ -301,7 +311,7 @@ export const appRoutes = {
       authRequired: true,
       status: "ready",
       description:
-        "GET append /{accountId}/media-library/{mediaId} — single published gallery row for the account",
+        "GET|PATCH|DELETE append /{accountId}/media-library/{mediaId} — single row (GET); metadata/activation (PATCH flat JSON); delete (DELETE 204). See app-handoff-account-media-library-v1-implementation.md",
       domain: "account",
     },
     sponsors: {

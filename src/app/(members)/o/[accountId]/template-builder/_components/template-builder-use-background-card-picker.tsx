@@ -13,13 +13,24 @@ import { useBackgroundToSelectValue } from "../_utils/template-builder-select-va
 
 const HIDDEN_USE_BACKGROUND_VALUES = new Set<TemplateUseBackground>(["Video"]);
 
+export function buildTemplateBuilderUseBackgroundOptions(hideImageOption: boolean) {
+  return TEMPLATE_USE_BACKGROUND_VALUES.filter(
+    (value) => !HIDDEN_USE_BACKGROUND_VALUES.has(value) && !(hideImageOption && value === "Image"),
+  ).map((value) => ({
+    value,
+    label: formatUseBackgroundLabel(value),
+  }));
+}
+
 export function TemplateBuilderUseBackgroundCardPicker({
   selectedValue,
   isChanged,
+  hideImageOption = false,
   onSelect,
 }: {
   selectedValue: TemplateUseBackground | null;
   isChanged: boolean;
+  hideImageOption?: boolean;
   onSelect: (value: TemplateUseBackground | null) => void;
   /** @deprecated Unused — background type is a select, not a tile grid. */
   centerTiles?: boolean;
@@ -27,14 +38,8 @@ export function TemplateBuilderUseBackgroundCardPicker({
   const selectValue = useBackgroundToSelectValue(selectedValue);
 
   const options = useMemo(
-    () =>
-      TEMPLATE_USE_BACKGROUND_VALUES.filter(
-        (value) => !HIDDEN_USE_BACKGROUND_VALUES.has(value),
-      ).map((value) => ({
-        value,
-        label: formatUseBackgroundLabel(value),
-      })),
-    [],
+    () => buildTemplateBuilderUseBackgroundOptions(hideImageOption),
+    [hideImageOption],
   );
 
   return (

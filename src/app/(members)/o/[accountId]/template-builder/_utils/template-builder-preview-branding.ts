@@ -3,7 +3,11 @@ import { resolveRemotionNoiseFromCatalogNoise } from "@/features/remotion-asset-
 import { applyBackgroundVisibilityToEditorState } from "./template-builder-field-visibility";
 
 import type { TemplateBuilderEditorState } from "./template-builder-editor-state";
-import type { AccountBrandingData, AccountBrandingTemplateOption } from "@/types/api/account";
+import type {
+  AccountBrandingData,
+  AccountBrandingTemplateOption,
+  AccountMediaLibraryImage,
+} from "@/types/api/account";
 import type {
   AllTemplateOptionsPayload,
   TemplateCategoryCatalogItem,
@@ -77,6 +81,7 @@ function mergeTemplateOptionDraft(
   draft: TemplateBuilderEditorState,
   catalog: AllTemplateOptionsPayload,
   categoryOptions?: TemplateCategoryCatalogItem[] | null,
+  previewImage?: AccountMediaLibraryImage | null,
 ): AccountBrandingTemplateOption {
   const categorySource =
     categoryOptions && categoryOptions.length > 0 ? categoryOptions : catalog.categories;
@@ -90,6 +95,13 @@ function mergeTemplateOptionDraft(
   const pattern = findById(catalog.patterns, draft.templatePatternId);
   const texture = findById(catalog.textures, draft.templateTextureId);
   const video = findById(catalog.videos, draft.templateVideoId);
+  const imageForPreview =
+    draft.useBackground === "Image" && previewImage != null
+      ? {
+          ...(image ?? {}),
+          image: previewImage,
+        }
+      : image;
 
   return {
     ...(current ?? {}),
@@ -101,7 +113,7 @@ function mergeTemplateOptionDraft(
     paletteId: draft.templatePaletteId,
     gradient,
     gradientId: draft.templateGradientId,
-    image,
+    image: imageForPreview,
     imageId: draft.templateImageId,
     noise,
     noiseId: draft.templateNoiseId,
@@ -122,11 +134,13 @@ export function buildTemplateBuilderPreviewBranding({
   catalog,
   categoryOptions,
   draft,
+  previewImage = null,
 }: {
   branding: AccountBrandingData | null;
   catalog: AllTemplateOptionsPayload | null;
   categoryOptions?: TemplateCategoryCatalogItem[] | null;
   draft: TemplateBuilderEditorState | null;
+  previewImage?: AccountMediaLibraryImage | null;
 }): AccountBrandingData | null {
   if (branding === null || catalog === null || draft === null) {
     return branding;
@@ -143,6 +157,7 @@ export function buildTemplateBuilderPreviewBranding({
     visibleDraft,
     catalog,
     categoryOptions,
+    previewImage,
   );
 
   return {

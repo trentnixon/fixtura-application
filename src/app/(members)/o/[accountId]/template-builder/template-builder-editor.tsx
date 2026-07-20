@@ -13,6 +13,7 @@ import {
   TemplateBuilderRelationFieldRow,
 } from "./_components/template-builder-field-row";
 import { TemplateBuilderGradientCardPicker } from "./_components/template-builder-gradient-card-picker";
+import { TemplateBuilderMediaImagePicker } from "./_components/template-builder-media-image-picker";
 import { TemplateBuilderNoiseCardPicker } from "./_components/template-builder-noise-card-picker";
 import { TemplateBuilderPaletteCardPicker } from "./_components/template-builder-palette-card-picker";
 import { TemplateBuilderPreviewPanel } from "./_components/template-builder-preview-panel";
@@ -39,6 +40,10 @@ import {
   clearInactiveBackgroundRelations,
   isBackgroundRelationFieldVisible,
 } from "./_utils/template-builder-field-visibility";
+import {
+  clearUnavailableImageBackground,
+  type TemplateBuilderMediaPreviewState,
+} from "./_utils/template-builder-media-preview";
 import {
   formatCategoryLabel,
   formatGradientLabel,
@@ -239,6 +244,7 @@ export function TemplateBuilderEditor({
   branding,
   save,
   previewConfig,
+  mediaPreview,
   onDraftStateChange,
   onDebugStateChange,
   onActionsChange,
@@ -249,6 +255,7 @@ export function TemplateBuilderEditor({
   branding: AccountBrandingData | null;
   save: TemplateBuilderEditorSaveProps;
   previewConfig?: TemplateBuilderPreviewConfig;
+  mediaPreview: TemplateBuilderMediaPreviewState;
   onDraftStateChange?: (draft: TemplateBuilderEditorState) => void;
   onDebugStateChange?: (snapshot: TemplateBuilderEditorDebugSnapshot) => void;
   onActionsChange?: (snapshot: TemplateBuilderEditorActionsSnapshot) => void;
@@ -292,6 +299,10 @@ export function TemplateBuilderEditor({
 
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState("setup");
+  const [showImageUnavailableWarning, setShowImageUnavailableWarning] = useState(false);
+
+  const hasConfirmedEmptyMediaLibrary =
+    mediaPreview.status === "ready" && mediaPreview.items.length === 0;
 
   const updateField = useCallback(
     <K extends TemplateBuilderEditorField>(field: K, value: TemplateBuilderEditorState[K]) => {
@@ -391,6 +402,7 @@ export function TemplateBuilderEditor({
   const handleUseBackgroundChange = useCallback(
     (value: TemplateBuilderEditorState["useBackground"]) => {
       setValidationErrors([]);
+      setShowImageUnavailableWarning(false);
       save.onClearSaveFeedback();
       setDraftState((prev) =>
         clearInactiveBackgroundRelations({ ...prev, useBackground: value }, value),
@@ -398,6 +410,21 @@ export function TemplateBuilderEditor({
     },
     [save],
   );
+
+  useEffect(() => {
+    if (!hasConfirmedEmptyMediaLibrary) {
+      setShowImageUnavailableWarning(false);
+      return;
+    }
+    if (draftState.useBackground !== "Image") return;
+
+    setShowImageUnavailableWarning(true);
+    setValidationErrors([]);
+    save.onClearSaveFeedback();
+    setDraftState((current) =>
+      clearUnavailableImageBackground(current, hasConfirmedEmptyMediaLibrary),
+    );
+  }, [draftState.useBackground, hasConfirmedEmptyMediaLibrary, save]);
 
   const renderRelationField = useCallback(
     (config: (typeof RELATION_FIELD_CONFIGS)[number]) => {
@@ -531,8 +558,18 @@ export function TemplateBuilderEditor({
             <TemplateBuilderUseBackgroundCardPicker
               selectedValue={draftState.useBackground}
               isChanged={changedFieldSet.has("useBackground")}
+              hideImageOption={hasConfirmedEmptyMediaLibrary}
               onSelect={handleUseBackgroundChange}
             />
+            {showImageUnavailableWarning ? (
+              <div
+                className="border-destructive/40 bg-destructive/10 text-destructive mt-3 rounded-md border px-3 py-2 text-xs"
+                role="alert"
+              >
+                Image background was cleared because this account has no uploaded images. Choose
+                another background type before saving.
+              </div>
+            ) : null}
           </div>
         );
       default:
@@ -586,6 +623,9 @@ export function TemplateBuilderEditor({
 
         return (
           <div className={cn(TEMPLATE_BUILDER_SUB_PICKER_SURFACE_CLASS, "self-stretch")}>
+            {draftState.useBackground === "Image" ? (
+              <TemplateBuilderMediaImagePicker mediaPreview={mediaPreview} />
+            ) : null}
             {visibleBackgroundRelationConfigs.map((config) => renderRelationField(config))}
           </div>
         );

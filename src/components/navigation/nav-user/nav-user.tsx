@@ -9,6 +9,7 @@ import {
   IconUserCircle,
 } from "@tabler/icons-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { TypographyCaption, TypographyNavLabel } from "@/components/typography";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -28,6 +29,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { ROUTES } from "@/lib/config/routes";
+import { useUnsavedChangesContext } from "@/lib/navigation/unsaved-changes-context";
 
 import {
   NAV_USER_MENU_LABEL_ACCOUNT,
@@ -46,11 +48,19 @@ import {
 } from "./_utils/resolve-nav-user-menu-hrefs";
 
 import type { NavUserComponentProps } from "./_types/nav-user";
+import type { MouseEvent } from "react";
 
 export function NavUser({ user, accountId }: NavUserComponentProps) {
   const { isMobile } = useSidebar();
+  const router = useRouter();
+  const { confirmIfDirty } = useUnsavedChangesContext();
   const { logout, handleLogout } = useNavUserLogout();
   const initials = getNavUserInitials(user.name);
+
+  const guardedNavigate = (href: string) => (event: MouseEvent) => {
+    event.preventDefault();
+    confirmIfDirty(() => router.push(href));
+  };
 
   return (
     <SidebarMenu>
@@ -101,19 +111,28 @@ export function NavUser({ user, accountId }: NavUserComponentProps) {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem asChild>
-                <Link href={resolveNavUserAccountHref(accountId)}>
+                <Link
+                  href={resolveNavUserAccountHref(accountId)}
+                  onClick={guardedNavigate(resolveNavUserAccountHref(accountId))}
+                >
                   <IconUserCircle />
                   {NAV_USER_MENU_LABEL_ACCOUNT}
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href={resolveNavUserBillingHref(accountId)}>
+                <Link
+                  href={resolveNavUserBillingHref(accountId)}
+                  onClick={guardedNavigate(resolveNavUserBillingHref(accountId))}
+                >
                   <IconCreditCard />
                   {NAV_USER_MENU_LABEL_BILLING}
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href={resolveNavUserNotificationsHref(accountId)}>
+                <Link
+                  href={resolveNavUserNotificationsHref(accountId)}
+                  onClick={guardedNavigate(resolveNavUserNotificationsHref(accountId))}
+                >
                   <IconNotification />
                   {NAV_USER_MENU_LABEL_NOTIFICATIONS}
                 </Link>
@@ -121,7 +140,10 @@ export function NavUser({ user, accountId }: NavUserComponentProps) {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link href={ROUTES.selectOrganisation}>
+              <Link
+                href={ROUTES.selectOrganisation}
+                onClick={guardedNavigate(ROUTES.selectOrganisation)}
+              >
                 <IconList />
                 {NAV_USER_MENU_LABEL_ALL_ORGANISATIONS}
               </Link>
