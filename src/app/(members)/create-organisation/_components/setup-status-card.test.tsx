@@ -19,16 +19,22 @@ vi.mock("@/lib/api/hooks/account/useRetryOnboardingSetup", () => ({
 }));
 
 function baseSetupData(over: Partial<OnboardingSetupStatusData> = {}): OnboardingSetupStatusData {
-  return {
-    status: "in_progress",
-    phase: "setup",
-    progress: undefined,
-    initialSetupStatus: "running",
-    initialDataFetchStatus: "queued",
-    requiresUserAction: false,
-    errorCode: null,
-    ...over,
+  const data: OnboardingSetupStatusData = {
+    status: over.status ?? "in_progress",
+    phase: over.phase !== undefined ? over.phase : "setup",
+    initialSetupStatus: over.initialSetupStatus !== undefined ? over.initialSetupStatus : "running",
+    initialDataFetchStatus:
+      over.initialDataFetchStatus !== undefined ? over.initialDataFetchStatus : "queued",
+    requiresUserAction: over.requiresUserAction !== undefined ? over.requiresUserAction : false,
+    errorCode: over.errorCode !== undefined ? over.errorCode : null,
   };
+
+  if (over.progress !== undefined) data.progress = over.progress;
+  if (over.messageKey !== undefined) data.messageKey = over.messageKey;
+  if (over.isSetup !== undefined) data.isSetup = over.isSetup;
+  if (over.isUpdating !== undefined) data.isUpdating = over.isUpdating;
+
+  return data;
 }
 
 function mockQuerySuccess(data: OnboardingSetupStatusData) {

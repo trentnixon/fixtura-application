@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, type ComponentProps } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -105,12 +105,13 @@ export function MediaGalleryEditDialog({
 
   if (!item) return null;
 
+  type DialogShellProps = ComponentProps<typeof MediaGalleryFormDialogShell>;
   const dialogContentProps = {
     showCloseButton: !isPending,
-    onPointerDownOutside: (event) => {
+    onPointerDownOutside: (event: Parameters<DialogShellProps["onPointerDownOutside"]>[0]) => {
       if (isPending) event.preventDefault();
     },
-    onEscapeKeyDown: (event) => {
+    onEscapeKeyDown: (event: Parameters<DialogShellProps["onEscapeKeyDown"]>[0]) => {
       if (isPending) event.preventDefault();
     },
   } as const;

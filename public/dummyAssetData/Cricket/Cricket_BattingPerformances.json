@@ -1,533 +1,531 @@
 {
   "data": [
     {
-      "SR": 143.15,
-      "name": "Jac Cunningham",
-      "runs": 136,
-      "balls": 95,
+      "SR": 128.7,
+      "name": "Matthew Hayden",
+      "runs": 139,
+      "balls": 108,
       "notOut": false,
-      "prompt": "Jac Cunningham played for SJCC Blues, scoring 136 runs from 95 balls with a strike rate of 143.15. Game details: This was a One Day in the 3rd Grade grade, and the current match status is Match Completed . SJCC Blues, (1) vs MadBulls (1), the match result was SJCC Blues won by 130 runs.",
+      "prompt": "Matthew Hayden played for Australia, scoring 139 runs from 108 balls with a strike rate of 128.70 (dismissed). Venue context: Kensington Oval. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
       "teamLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_fa028c2139.jpg",
-        "width": 1203,
-        "height": 1458
+        "url": "/dummyAssetData/flags/au.svg",
+        "width": 640,
+        "height": 480
       },
-      "playedFor": "SJCC Blues",
+      "playedFor": "Australia",
       "assignSponsors": {
         "Team": {
-          "name": "SJCC Blues"
+          "name": "Australia"
         },
         "grade": {
-          "id": 76732,
-          "name": "3rd Grade"
+          "id": 0,
+          "name": "ODI / Super Eight"
         },
         "competition": {
-          "id": 38318,
-          "name": "Goulburn District Cricket Association"
+          "id": 0,
+          "name": "2007 Cricket World Cup"
         }
       }
     },
     {
-      "SR": 71.55,
-      "name": "Robert Ings",
-      "runs": 78,
-      "balls": 109,
+      "SR": 169.14,
+      "name": "Adam Gilchrist",
+      "runs": 137,
+      "balls": 81,
+      "notOut": false,
+      "prompt": "Adam Gilchrist played for Australia, scoring 137 runs from 81 balls with a strike rate of 169.14 (dismissed). Venue context: Sabina Park. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/au.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "Australia",
+      "assignSponsors": {
+        "Team": {
+          "name": "Australia"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Super Eight"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2007 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "SR": 133.66,
+      "name": "Ricky Ponting",
+      "runs": 135,
+      "balls": 101,
+      "notOut": false,
+      "prompt": "Ricky Ponting played for Australia, scoring 135 runs from 101 balls with a strike rate of 133.66 (dismissed). Venue context: Sir Vivian Richards Stadium. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/au.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "Australia",
+      "assignSponsors": {
+        "Team": {
+          "name": "Australia"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Super Eight"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2007 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "SR": 90.91,
+      "name": "Mahela Jayawardene",
+      "runs": 90,
+      "balls": 99,
+      "notOut": false,
+      "prompt": "Mahela Jayawardene played for Sri Lanka, scoring 90 runs from 99 balls with a strike rate of 90.91 (dismissed). Venue context: Providence Stadium. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/lk.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "Sri Lanka",
+      "assignSponsors": {
+        "Team": {
+          "name": "Sri Lanka"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Super Eight"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2007 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "SR": 108.55,
+      "name": "Kumar Sangakkara",
+      "runs": 127,
+      "balls": 117,
+      "notOut": false,
+      "prompt": "Kumar Sangakkara played for Sri Lanka, scoring 127 runs from 117 balls with a strike rate of 108.55 (dismissed). Venue context: Queen's Park Oval. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/lk.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "Sri Lanka",
+      "assignSponsors": {
+        "Team": {
+          "name": "Sri Lanka"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Super Eight"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2007 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "SR": 67.05,
+      "name": "Sanath Jayasuriya",
+      "runs": 59,
+      "balls": 88,
       "notOut": true,
-      "prompt": "Robert Ings played for Hibo Green, scoring 78 runs from 109 balls with a strike rate of 71.55. Game details: This was a One Day in the 3rd Grade grade, and the current match status is Match Completed . Hibo Green, (1) vs MALARVAADI SOLDIERS KINGS CC 3rd Grade (1), the match result was MALARVAADI SOLDIERS KINGS CC 3rd Grade won by 5 wickets.",
+      "prompt": "Sanath Jayasuriya played for Sri Lanka, scoring 59 runs from 88 balls with a strike rate of 67.05 (not out). Venue context: Beausejour Cricket Ground. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
       "teamLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_6e5487f63d.jpg",
-        "width": 236,
-        "height": 289
+        "url": "/dummyAssetData/flags/lk.svg",
+        "width": 640,
+        "height": 480
       },
-      "playedFor": "Hibo Green",
+      "playedFor": "Sri Lanka",
       "assignSponsors": {
         "Team": {
-          "name": "Hibo Green"
+          "name": "Sri Lanka"
         },
         "grade": {
-          "id": 76732,
-          "name": "3rd Grade"
+          "id": 0,
+          "name": "ODI / Super Eight"
         },
         "competition": {
-          "id": 38318,
-          "name": "Goulburn District Cricket Association"
+          "id": 0,
+          "name": "2007 Cricket World Cup"
         }
       }
     },
     {
-      "SR": 113.2,
-      "name": "Akhil George  (c)",
+      "SR": 101.75,
+      "name": "Jacques Kallis",
+      "runs": 116,
+      "balls": 114,
+      "notOut": false,
+      "prompt": "Jacques Kallis played for South Africa, scoring 116 runs from 114 balls with a strike rate of 101.75 (dismissed). Venue context: Kensington Oval. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/za.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "South Africa",
+      "assignSponsors": {
+        "Team": {
+          "name": "South Africa"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Super Eight"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2007 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "SR": 84.29,
+      "name": "Graeme Smith",
+      "runs": 59,
+      "balls": 70,
+      "notOut": false,
+      "prompt": "Graeme Smith played for South Africa, scoring 59 runs from 70 balls with a strike rate of 84.29 (dismissed). Venue context: Sabina Park. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/za.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "South Africa",
+      "assignSponsors": {
+        "Team": {
+          "name": "South Africa"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Super Eight"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2007 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "SR": 113.21,
+      "name": "AB de Villiers",
       "runs": 60,
       "balls": 53,
       "notOut": true,
-      "prompt": "Akhil George  (c) played for MALARVAADI SOLDIERS KINGS CC 3rd Grade, scoring 60 runs from 53 balls with a strike rate of 113.2. Game details: This was a One Day in the 3rd Grade grade, and the current match status is Match Completed . MALARVAADI SOLDIERS KINGS CC 3rd Grade, (1) vs Hibo Green (1), the match result was MALARVAADI SOLDIERS KINGS CC 3rd Grade won by 5 wickets.",
+      "prompt": "AB de Villiers played for South Africa, scoring 60 runs from 53 balls with a strike rate of 113.21 (not out). Venue context: Sir Vivian Richards Stadium. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
       "teamLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Default_ICON_171b58a21b.png",
-        "width": 1211,
-        "height": 1211
+        "url": "/dummyAssetData/flags/za.svg",
+        "width": 640,
+        "height": 480
       },
-      "playedFor": "MALARVAADI SOLDIERS KINGS CC 3rd Grade",
+      "playedFor": "South Africa",
       "assignSponsors": {
         "Team": {
-          "name": "MALARVAADI SOLDIERS KINGS CC 3rd Grade"
+          "name": "South Africa"
         },
         "grade": {
-          "id": 76732,
-          "name": "3rd Grade"
+          "id": 0,
+          "name": "ODI / Super Eight"
         },
         "competition": {
-          "id": 38318,
-          "name": "Goulburn District Cricket Association"
+          "id": 0,
+          "name": "2007 Cricket World Cup"
         }
       }
     },
     {
-      "SR": 119.56,
-      "name": "Dean Murray",
-      "runs": 55,
-      "balls": 46,
+      "SR": 144.93,
+      "name": "Scott Styris",
+      "runs": 100,
+      "balls": 69,
       "notOut": false,
-      "prompt": "Dean Murray played for MadBulls, scoring 55 runs from 46 balls with a strike rate of 119.56. Game details: This was a One Day in the 3rd Grade grade, and the current match status is Match Completed . MadBulls, (1) vs SJCC Blues (1), the match result was SJCC Blues won by 130 runs.",
+      "prompt": "Scott Styris played for New Zealand, scoring 100 runs from 69 balls with a strike rate of 144.93 (dismissed). Venue context: Providence Stadium. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
       "teamLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Marulan_Cricket_Club_Logo_876cb02b7c.jpg",
-        "width": 1051,
-        "height": 1324
+        "url": "/dummyAssetData/flags/nz.svg",
+        "width": 640,
+        "height": 480
       },
-      "playedFor": "MadBulls",
+      "playedFor": "New Zealand",
       "assignSponsors": {
         "Team": {
-          "name": "MadBulls"
+          "name": "New Zealand"
         },
         "grade": {
-          "id": 76732,
-          "name": "3rd Grade"
+          "id": 0,
+          "name": "ODI / Super Eight"
         },
         "competition": {
-          "id": 38318,
-          "name": "Goulburn District Cricket Association"
+          "id": 0,
+          "name": "2007 Cricket World Cup"
         }
       }
     },
     {
-      "SR": 145.94,
-      "name": "Dean Cole",
-      "runs": 54,
-      "balls": 37,
+      "SR": 72.44,
+      "name": "Stephen Fleming",
+      "runs": 92,
+      "balls": 127,
       "notOut": false,
-      "prompt": "Dean Cole played for MadBulls, scoring 54 runs from 37 balls with a strike rate of 145.94. Game details: This was a One Day in the 3rd Grade grade, and the current match status is Match Completed . MadBulls, (1) vs SJCC Blues (1), the match result was SJCC Blues won by 130 runs.",
+      "prompt": "Stephen Fleming played for New Zealand, scoring 92 runs from 127 balls with a strike rate of 72.44 (dismissed). Venue context: Queen's Park Oval. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
       "teamLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Marulan_Cricket_Club_Logo_876cb02b7c.jpg",
-        "width": 1051,
-        "height": 1324
+        "url": "/dummyAssetData/flags/nz.svg",
+        "width": 640,
+        "height": 480
       },
-      "playedFor": "MadBulls",
+      "playedFor": "New Zealand",
       "assignSponsors": {
         "Team": {
-          "name": "MadBulls"
+          "name": "New Zealand"
         },
         "grade": {
-          "id": 76732,
-          "name": "3rd Grade"
+          "id": 0,
+          "name": "ODI / Super Eight"
         },
         "competition": {
-          "id": 38318,
-          "name": "Goulburn District Cricket Association"
+          "id": 0,
+          "name": "2007 Cricket World Cup"
         }
       }
     },
     {
-      "SR": 110.2,
-      "name": "Luke Hayward",
-      "runs": 54,
-      "balls": 49,
+      "SR": 112.26,
+      "name": "Kevin Pietersen",
+      "runs": 119,
+      "balls": 106,
       "notOut": true,
-      "prompt": "Luke Hayward played for MadBulls, scoring 54 runs from 49 balls with a strike rate of 110.2. Game details: This was a One Day in the 1st & 2nd Grade Combined grade, and the current match status is Match Completed . MadBulls, (1) vs Pirates 1st Grade (1), the match result was MadBulls won by 9 wickets.",
+      "prompt": "Kevin Pietersen played for England, scoring 119 runs from 106 balls with a strike rate of 112.26 (not out). Venue context: Beausejour Cricket Ground. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
       "teamLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Marulan_Cricket_Club_Logo_876cb02b7c.jpg",
-        "width": 1051,
-        "height": 1324
+        "url": "/dummyAssetData/flags/gb-eng.svg",
+        "width": 640,
+        "height": 480
       },
-      "playedFor": "MadBulls",
+      "playedFor": "England",
       "assignSponsors": {
         "Team": {
-          "name": "MadBulls"
+          "name": "England"
         },
         "grade": {
-          "id": 76731,
-          "name": "1st & 2nd Grade Combined"
+          "id": 0,
+          "name": "ODI / Super Eight"
         },
         "competition": {
-          "id": 38318,
-          "name": "Goulburn District Cricket Association"
+          "id": 0,
+          "name": "2007 Cricket World Cup"
         }
       }
     },
     {
-      "SR": 96.36,
-      "name": "Fill-in",
-      "runs": 53,
-      "balls": 55,
-      "notOut": true,
-      "prompt": "Fill-in played for MadBulls, scoring 53 runs from 55 balls with a strike rate of 96.36. Game details: This was a One Day in the 1st & 2nd Grade Combined grade, and the current match status is Match Completed . MadBulls, (1) vs Pirates 1st Grade (1), the match result was MadBulls won by 9 wickets.",
-      "teamLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Marulan_Cricket_Club_Logo_876cb02b7c.jpg",
-        "width": 1051,
-        "height": 1324
-      },
-      "playedFor": "MadBulls",
-      "assignSponsors": {
-        "Team": {
-          "name": "MadBulls"
-        },
-        "grade": {
-          "id": 76731,
-          "name": "1st & 2nd Grade Combined"
-        },
-        "competition": {
-          "id": 38318,
-          "name": "Goulburn District Cricket Association"
-        }
-      }
-    },
-    {
-      "SR": 85,
-      "name": "Gregory Tyler  (c)",
-      "runs": 51,
-      "balls": 60,
+      "SR": 127.27,
+      "name": "Brian Lara",
+      "runs": 112,
+      "balls": 88,
       "notOut": false,
-      "prompt": "Gregory Tyler  (c) played for SJCC Blues, scoring 51 runs from 60 balls with a strike rate of 85. Game details: This was a One Day in the 3rd Grade grade, and the current match status is Match Completed . SJCC Blues, (1) vs MadBulls (1), the match result was SJCC Blues won by 130 runs.",
+      "prompt": "Brian Lara played for West Indies, scoring 112 runs from 88 balls with a strike rate of 127.27 (dismissed). Venue context: Kensington Oval. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
       "teamLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_fa028c2139.jpg",
-        "width": 1203,
-        "height": 1458
+        "url": "/dummyAssetData/flags/wi.svg",
+        "width": 640,
+        "height": 480
       },
-      "playedFor": "SJCC Blues",
+      "playedFor": "West Indies",
       "assignSponsors": {
         "Team": {
-          "name": "SJCC Blues"
+          "name": "West Indies"
         },
         "grade": {
-          "id": 76732,
-          "name": "3rd Grade"
+          "id": 0,
+          "name": "ODI / Super Eight"
         },
         "competition": {
-          "id": 38318,
-          "name": "Goulburn District Cricket Association"
+          "id": 0,
+          "name": "2007 Cricket World Cup"
         }
       }
     },
     {
-      "SR": 150,
-      "name": "Adam Bruckshaw  (vc)",
-      "runs": 42,
-      "balls": 28,
+      "SR": 75.95,
+      "name": "Shivnarine Chanderpaul",
+      "runs": 60,
+      "balls": 79,
       "notOut": false,
-      "prompt": "Adam Bruckshaw  (vc) played for SJCC Blues, scoring 42 runs from 28 balls with a strike rate of 150. Game details: This was a One Day in the 3rd Grade grade, and the current match status is Match Completed . SJCC Blues, (1) vs MadBulls (1), the match result was SJCC Blues won by 130 runs.",
+      "prompt": "Shivnarine Chanderpaul played for West Indies, scoring 60 runs from 79 balls with a strike rate of 75.95 (dismissed). Venue context: Sabina Park. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
       "teamLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_fa028c2139.jpg",
-        "width": 1203,
-        "height": 1458
+        "url": "/dummyAssetData/flags/wi.svg",
+        "width": 640,
+        "height": 480
       },
-      "playedFor": "SJCC Blues",
+      "playedFor": "West Indies",
       "assignSponsors": {
         "Team": {
-          "name": "SJCC Blues"
+          "name": "West Indies"
         },
         "grade": {
-          "id": 76732,
-          "name": "3rd Grade"
+          "id": 0,
+          "name": "ODI / Super Eight"
         },
         "competition": {
-          "id": 38318,
-          "name": "Goulburn District Cricket Association"
+          "id": 0,
+          "name": "2007 Cricket World Cup"
         }
       }
     },
     {
-      "SR": 0,
-      "name": "Darren Marshall",
-      "runs": 41,
-      "balls": 0,
+      "SR": 161.11,
+      "name": "Yuvraj Singh",
+      "runs": 58,
+      "balls": 36,
       "notOut": false,
-      "prompt": "Darren Marshall played for SJCC OG, scoring 41 runs from 0 balls with a strike rate of 0. Game details: This was a One Day in the 1st & 2nd Grade Combined grade, and the current match status is Match Completed . SJCC OG, (1) vs Big Merino Titans CC 2nd Grade (1), the match result was SJCC OG won by 0 wickets.",
+      "prompt": "Yuvraj Singh played for India, scoring 58 runs from 36 balls with a strike rate of 161.11 (dismissed). Venue context: Sir Vivian Richards Stadium. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
       "teamLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_fa028c2139.jpg",
-        "width": 1203,
-        "height": 1458
+        "url": "/dummyAssetData/flags/in.svg",
+        "width": 640,
+        "height": 480
       },
-      "playedFor": "SJCC OG",
+      "playedFor": "India",
       "assignSponsors": {
         "Team": {
-          "name": "SJCC OG"
+          "name": "India"
         },
         "grade": {
-          "id": 76731,
-          "name": "1st & 2nd Grade Combined"
+          "id": 0,
+          "name": "ODI / Super Eight"
         },
         "competition": {
-          "id": 38318,
-          "name": "Goulburn District Cricket Association"
+          "id": 0,
+          "name": "2007 Cricket World Cup"
         }
       }
     },
     {
-      "SR": 105.4,
-      "name": "Isaac McGregor",
-      "runs": 39,
-      "balls": 37,
+      "SR": 94.12,
+      "name": "Rahul Dravid",
+      "runs": 96,
+      "balls": 102,
       "notOut": false,
-      "prompt": "Isaac McGregor played for Pirates 1st Grade, scoring 39 runs from 37 balls with a strike rate of 105.4. Game details: This was a One Day in the 1st & 2nd Grade Combined grade, and the current match status is Match Completed . Pirates 1st Grade, (1) vs MadBulls (1), the match result was MadBulls won by 9 wickets.",
+      "prompt": "Rahul Dravid played for India, scoring 96 runs from 102 balls with a strike rate of 94.12 (dismissed). Venue context: Providence Stadium. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
       "teamLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_f76b057253.jpg",
-        "width": 4096,
-        "height": 2902
+        "url": "/dummyAssetData/flags/in.svg",
+        "width": 640,
+        "height": 480
       },
-      "playedFor": "Pirates 1st Grade",
+      "playedFor": "India",
       "assignSponsors": {
         "Team": {
-          "name": "Pirates 1st Grade"
+          "name": "India"
         },
         "grade": {
-          "id": 76731,
-          "name": "1st & 2nd Grade Combined"
+          "id": 0,
+          "name": "ODI / Super Eight"
         },
         "competition": {
-          "id": 38318,
-          "name": "Goulburn District Cricket Association"
+          "id": 0,
+          "name": "2007 Cricket World Cup"
         }
       }
     },
     {
-      "SR": 63.93,
-      "name": "Jacob Paterson  (c)",
-      "runs": 39,
-      "balls": 61,
+      "SR": 98.15,
+      "name": "Mohammad Yousuf",
+      "runs": 106,
+      "balls": 108,
       "notOut": false,
-      "prompt": "Jacob Paterson  (c) played for Pirates 1st Grade, scoring 39 runs from 61 balls with a strike rate of 63.93. Game details: This was a One Day in the 1st & 2nd Grade Combined grade, and the current match status is Match Completed . Pirates 1st Grade, (1) vs MadBulls (1), the match result was MadBulls won by 9 wickets.",
+      "prompt": "Mohammad Yousuf played for Pakistan, scoring 106 runs from 108 balls with a strike rate of 98.15 (dismissed). Venue context: Queen's Park Oval. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
       "teamLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_f76b057253.jpg",
-        "width": 4096,
-        "height": 2902
+        "url": "/dummyAssetData/flags/pk.svg",
+        "width": 640,
+        "height": 480
       },
-      "playedFor": "Pirates 1st Grade",
+      "playedFor": "Pakistan",
       "assignSponsors": {
         "Team": {
-          "name": "Pirates 1st Grade"
+          "name": "Pakistan"
         },
         "grade": {
-          "id": 76731,
-          "name": "1st & 2nd Grade Combined"
+          "id": 0,
+          "name": "ODI / Super Eight"
         },
         "competition": {
-          "id": 38318,
-          "name": "Goulburn District Cricket Association"
+          "id": 0,
+          "name": "2007 Cricket World Cup"
         }
       }
     },
     {
-      "SR": 150,
-      "name": "Sinto Joseph",
-      "runs": 36,
-      "balls": 24,
+      "SR": 133.03,
+      "name": "Tamim Iqbal",
+      "runs": 145,
+      "balls": 109,
       "notOut": false,
-      "prompt": "Sinto Joseph played for MALARVAADI SOLDIERS KINGS CC 3rd Grade, scoring 36 runs from 24 balls with a strike rate of 150. Game details: This was a One Day in the 3rd Grade grade, and the current match status is Match Completed . MALARVAADI SOLDIERS KINGS CC 3rd Grade, (1) vs Hibo Green (1), the match result was MALARVAADI SOLDIERS KINGS CC 3rd Grade won by 5 wickets.",
+      "prompt": "Tamim Iqbal played for Bangladesh, scoring 145 runs from 109 balls with a strike rate of 133.03 (dismissed). Venue context: Beausejour Cricket Ground. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
       "teamLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Default_ICON_171b58a21b.png",
-        "width": 1211,
-        "height": 1211
+        "url": "/dummyAssetData/flags/bd.svg",
+        "width": 640,
+        "height": 480
       },
-      "playedFor": "MALARVAADI SOLDIERS KINGS CC 3rd Grade",
+      "playedFor": "Bangladesh",
       "assignSponsors": {
         "Team": {
-          "name": "MALARVAADI SOLDIERS KINGS CC 3rd Grade"
+          "name": "Bangladesh"
         },
         "grade": {
-          "id": 76732,
-          "name": "3rd Grade"
+          "id": 0,
+          "name": "ODI / Super Eight"
         },
         "competition": {
-          "id": 38318,
-          "name": "Goulburn District Cricket Association"
+          "id": 0,
+          "name": "2007 Cricket World Cup"
         }
       }
     },
     {
-      "SR": 0,
-      "name": "Nicolas Coppolino",
-      "runs": 36,
-      "balls": 0,
+      "SR": 123.53,
+      "name": "Kevin O'Brien",
+      "runs": 63,
+      "balls": 51,
       "notOut": false,
-      "prompt": "Nicolas Coppolino played for Mice, scoring 36 runs from 0 balls with a strike rate of 0. Game details: This was a One Day in the 3rd Grade grade, and the current match status is Match Completed . Mice, (1) vs Hibo Country (1), the match result was Mice won by 3 wickets.",
+      "prompt": "Kevin O'Brien played for Ireland, scoring 63 runs from 51 balls with a strike rate of 123.53 (dismissed). Venue context: Kensington Oval. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
       "teamLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_7dec42020c.jpg",
-        "width": 1046,
-        "height": 1054
+        "url": "/dummyAssetData/flags/ie.svg",
+        "width": 640,
+        "height": 480
       },
-      "playedFor": "Mice",
+      "playedFor": "Ireland",
       "assignSponsors": {
         "Team": {
-          "name": "Mice"
+          "name": "Ireland"
         },
         "grade": {
-          "id": 76732,
-          "name": "3rd Grade"
+          "id": 0,
+          "name": "ODI / Super Eight"
         },
         "competition": {
-          "id": 38318,
-          "name": "Goulburn District Cricket Association"
-        }
-      }
-    },
-    {
-      "SR": 0,
-      "name": "Saxon Greenwood",
-      "runs": 35,
-      "balls": 0,
-      "notOut": false,
-      "prompt": "Saxon Greenwood played for SJCC OG, scoring 35 runs from 0 balls with a strike rate of 0. Game details: This was a One Day in the 1st & 2nd Grade Combined grade, and the current match status is Match Completed . SJCC OG, (1) vs Big Merino Titans CC 2nd Grade (1), the match result was SJCC OG won by 0 wickets.",
-      "teamLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_fa028c2139.jpg",
-        "width": 1203,
-        "height": 1458
-      },
-      "playedFor": "SJCC OG",
-      "assignSponsors": {
-        "Team": {
-          "name": "SJCC OG"
-        },
-        "grade": {
-          "id": 76731,
-          "name": "1st & 2nd Grade Combined"
-        },
-        "competition": {
-          "id": 38318,
-          "name": "Goulburn District Cricket Association"
-        }
-      }
-    },
-    {
-      "SR": 0,
-      "name": "Jett T Edwards",
-      "runs": 30,
-      "balls": 0,
-      "notOut": false,
-      "prompt": "Jett T Edwards played for SJCC OG, scoring 30 runs from 0 balls with a strike rate of 0. Game details: This was a One Day in the 1st & 2nd Grade Combined grade, and the current match status is Match Completed . SJCC OG, (1) vs Big Merino Titans CC 2nd Grade (1), the match result was SJCC OG won by 0 wickets.",
-      "teamLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_fa028c2139.jpg",
-        "width": 1203,
-        "height": 1458
-      },
-      "playedFor": "SJCC OG",
-      "assignSponsors": {
-        "Team": {
-          "name": "SJCC OG"
-        },
-        "grade": {
-          "id": 76731,
-          "name": "1st & 2nd Grade Combined"
-        },
-        "competition": {
-          "id": 38318,
-          "name": "Goulburn District Cricket Association"
-        }
-      }
-    },
-    {
-      "SR": 121.73,
-      "name": "Jayden Van Bilsen",
-      "runs": 28,
-      "balls": 23,
-      "notOut": false,
-      "prompt": "Jayden Van Bilsen played for MadBulls, scoring 28 runs from 23 balls with a strike rate of 121.73. Game details: This was a One Day in the 3rd Grade grade, and the current match status is Match Completed . MadBulls, (1) vs SJCC Blues (1), the match result was SJCC Blues won by 130 runs.",
-      "teamLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Marulan_Cricket_Club_Logo_876cb02b7c.jpg",
-        "width": 1051,
-        "height": 1324
-      },
-      "playedFor": "MadBulls",
-      "assignSponsors": {
-        "Team": {
-          "name": "MadBulls"
-        },
-        "grade": {
-          "id": 76732,
-          "name": "3rd Grade"
-        },
-        "competition": {
-          "id": 38318,
-          "name": "Goulburn District Cricket Association"
-        }
-      }
-    },
-    {
-      "SR": 62.79,
-      "name": "Timothy Bruckshaw",
-      "runs": 27,
-      "balls": 43,
-      "notOut": false,
-      "prompt": "Timothy Bruckshaw played for SJCC Blues, scoring 27 runs from 43 balls with a strike rate of 62.79. Game details: This was a One Day in the 3rd Grade grade, and the current match status is Match Completed . SJCC Blues, (1) vs MadBulls (1), the match result was SJCC Blues won by 130 runs.",
-      "teamLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_fa028c2139.jpg",
-        "width": 1203,
-        "height": 1458
-      },
-      "playedFor": "SJCC Blues",
-      "assignSponsors": {
-        "Team": {
-          "name": "SJCC Blues"
-        },
-        "grade": {
-          "id": 76732,
-          "name": "3rd Grade"
-        },
-        "competition": {
-          "id": 38318,
-          "name": "Goulburn District Cricket Association"
-        }
-      }
-    },
-    {
-      "SR": 0,
-      "name": "Dave Foley",
-      "runs": 27,
-      "balls": 0,
-      "notOut": false,
-      "prompt": "Dave Foley played for SJCC OG, scoring 27 runs from 0 balls with a strike rate of 0. Game details: This was a One Day in the 1st & 2nd Grade Combined grade, and the current match status is Match Completed . SJCC OG, (1) vs Big Merino Titans CC 2nd Grade (1), the match result was SJCC OG won by 0 wickets.",
-      "teamLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_fa028c2139.jpg",
-        "width": 1203,
-        "height": 1458
-      },
-      "playedFor": "SJCC OG",
-      "assignSponsors": {
-        "Team": {
-          "name": "SJCC OG"
-        },
-        "grade": {
-          "id": 76731,
-          "name": "1st & 2nd Grade Combined"
-        },
-        "competition": {
-          "id": 38318,
-          "name": "Goulburn District Cricket Association"
+          "id": 0,
+          "name": "2007 Cricket World Cup"
         }
       }
     }
   ],
   "asset": {
-    "assetID": 65,
-    "assetTypeID": 3,
-    "assetsLinkID": "ab80aba4d08b5a6e32d116a4a6c57b569310f942a173ed9377242e974ab5e70d",
-    "assetCategoryID": 1
+    "assetID": 0,
+    "assetTypeID": 0,
+    "assetCategoryID": 0,
+    "assetsLinkID": ""
   },
-  "errors": [],
-  "frames": [45, 180, 345, 510, 645],
   "render": {
-    "renderId": 23107,
-    "schedulerId": 1097
+    "schedulerId": 0,
+    "renderId": 0
   },
   "account": {
-    "accountId": 1097
+    "accountId": 0
   },
   "timings": {
     "FPS_MAIN": 510,
@@ -537,77 +535,27 @@
     "FPS_SCORECARD": 0,
     "FPS_PREFORMANCECARD": 180
   },
+  "frames": [45, 180, 345, 510, 645],
   "videoMeta": {
     "club": {
       "logo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_65_c67e5b1404.jpg",
+        "hasLogo": false,
+        "url": "",
         "width": 1031,
-        "height": 1330,
-        "hasLogo": true
+        "height": 1330
       },
-      "name": "Goulburn District Cricket Association",
+      "name": "International Cricket Demo Preview",
       "sport": "Cricket",
       "sponsors": {
-        "default": {
-          "primary_sponsor": [
-            {
-              "id": 1390,
-              "url": "https://goulburnsoldiers.com.au/",
-              "logo": {
-                "id": 8796,
-                "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Glbn_Soldiers_Club_Logo_4b1eb2cade.jpg"
-              },
-              "name": "Goulburn Soldiers Club",
-              "isVideo": true,
-              "tagline": null,
-              "isActive": true,
-              "isArticle": true,
-              "isPrimary": true,
-              "description": null
-            }
-          ],
-          "general_sponsor_1": [
-            {
-              "id": 1391,
-              "url": "https://gpubg.com/",
-              "logo": {
-                "id": 8797,
-                "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/GPG_8c147ac418.jpg"
-              },
-              "name": "Goulburn Pub Group",
-              "isVideo": true,
-              "tagline": null,
-              "isActive": true,
-              "isArticle": true,
-              "isPrimary": false,
-              "description": null
-            }
-          ]
-        },
-        "primary": [
-          {
-            "id": 1390,
-            "url": "https://goulburnsoldiers.com.au/",
-            "logo": {
-              "id": 8796,
-              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Glbn_Soldiers_Club_Logo_4b1eb2cade.jpg"
-            },
-            "name": "Goulburn Soldiers Club",
-            "isVideo": true,
-            "tagline": null,
-            "isActive": true,
-            "isArticle": true,
-            "isPrimary": true,
-            "description": null
-          }
-        ]
+        "primary": [],
+        "default": {}
       },
       "IsAccountClub": false
     },
     "video": {
       "media": {
         "audio": {
-          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Marscott_Wild_Neon_Get_The_Gains_inst_3251aaa9af.mp3",
+          "url": "",
           "audioOption": null
         },
         "HeroImage": {
@@ -628,7 +576,7 @@
         "videoTitle": "Batting Performances",
         "assetTypeId": 3,
         "compositionId": "CricketBattingPerformances",
-        "includeSponsors": true
+        "includeSponsors": false
       },
       "appearance": {
         "theme": {
@@ -650,8 +598,8 @@
           "CricketBowlingPerformances": 7
         }
       },
-      "fixtureCategory": "Goulburn District Cricket Association",
-      "groupingCategory": "Goulburn District Cricket Association",
+      "fixtureCategory": "International Cricket Demo Preview",
+      "groupingCategory": "International Cricket Demo Preview",
       "templateVariation": {
         "mode": "lightAlt",
         "image": {
@@ -694,7 +642,7 @@
           "animationDuration": null
         },
         "texture": {
-          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Gemini_Stone_007e575f87.png",
+          "url": "",
           "name": "Stone 2",
           "scale": "100%",
           "repeat": "cover",
@@ -715,7 +663,7 @@
             "audio_options": [
               {
                 "id": 33,
-                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Bastian_Instrumental_Hello_Stranger_Instrumental_2f4c4acae7.mp3",
+                "URL": "",
                 "Name": "HelloStranger_Instrumental",
                 "createdAt": "2024-10-30T00:35:04.160Z",
                 "updatedAt": "2024-10-30T00:36:30.358Z",
@@ -725,7 +673,7 @@
               },
               {
                 "id": 34,
-                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Ghosthood_Side_Effects_Good_Good_Feeling_Inst_34015de6d6.mp3",
+                "URL": "",
                 "Name": "GoodGoodFeeling_Inst",
                 "createdAt": "2024-10-30T00:37:09.563Z",
                 "updatedAt": "2024-10-30T00:38:09.963Z",
@@ -735,7 +683,7 @@
               },
               {
                 "id": 35,
-                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_La_Jett_La_Jett_Collateral_No_Guitar_Solo_Inst_f72f65e862.mp3",
+                "URL": "",
                 "Name": "Collateral-NoGuitarSolo_Inst",
                 "createdAt": "2024-10-30T00:38:02.552Z",
                 "updatedAt": "2024-10-30T00:38:04.070Z",
@@ -745,7 +693,7 @@
               },
               {
                 "id": 36,
-                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Jennings_Couch_Jennings_Couch_Wall_Of_Sound_Instrumental_1b8ec95fed.mp3",
+                "URL": "",
                 "Name": "Wall-Of-Sound_Instrumental",
                 "createdAt": "2024-10-30T00:39:02.570Z",
                 "updatedAt": "2024-10-30T00:39:04.182Z",
@@ -755,7 +703,7 @@
               },
               {
                 "id": 38,
-                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Silverberg_So_Good_To_Be_Alive_Inst_Ohhs_e2d86690b9.mp3",
+                "URL": "",
                 "Name": "So Good To Be Alive_Inst_Ohhs",
                 "createdAt": "2024-10-30T01:00:28.630Z",
                 "updatedAt": "2024-10-30T01:00:30.327Z",
@@ -765,7 +713,7 @@
               },
               {
                 "id": 39,
-                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Speedtest_Blue_BMX_Knuckle_Sandwhich_75a8a98fdc.mp3",
+                "URL": "",
                 "Name": "KnuckleSandwhich",
                 "createdAt": "2024-10-30T01:01:10.581Z",
                 "updatedAt": "2024-10-30T01:01:13.949Z",
@@ -799,5 +747,6 @@
         "useBackground": "Texture"
       }
     }
-  }
+  },
+  "errors": []
 }

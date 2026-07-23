@@ -269,7 +269,7 @@ describe("deriveBillingUiMode", () => {
           currentPlan: null,
           activeOrder: null,
           trial: {
-            eligible: false,
+            isEligible: false,
             isActive: false,
             startDate: "2026-05-06T00:00:00.000Z",
             endDate: "2026-05-06T00:00:00.000Z",
@@ -342,8 +342,13 @@ describe("deriveBillingUiMode", () => {
           billingStatus: "trial_available",
           accessStatus: "pending",
           trial: {
-            eligible: true,
+            isEligible: true,
             isActive: false,
+          },
+          organisationTrial: {
+            consumptionStatus: "available",
+            allocationStatus: "none",
+            canStartTrial: true,
           },
           availableActions: {
             canStartTrial: true,
@@ -578,6 +583,12 @@ describe("getBillingDebugSnapshot", () => {
   it("matches deriveBillingUiMode and surfaces free-trial derivation flags", () => {
     const s = baseSummary({
       billingStatus: "trial_available",
+      trial: { isEligible: true, isActive: false },
+      organisationTrial: {
+        consumptionStatus: "available",
+        allocationStatus: "none",
+        canStartTrial: true,
+      },
       availableActions: { canStartTrial: true },
     });
     const snap = getBillingDebugSnapshot(s, { referenceDate: ref });
@@ -585,6 +596,9 @@ describe("getBillingDebugSnapshot", () => {
     expect(snap.billingProductState).toBe("activate_trial");
     expect(snap.helpers.canStartTrial).toBe(true);
     expect(snap.derivationFlags.qualifiesForFreeTrialStart).toBe(true);
+    expect(snap.organisationTrial.presentation).toBe("start_available");
+    expect(snap.organisationTrial.failClosed).toBe(false);
+    expect(snap.organisationTrial.actionFlagsConsistent).toBe(true);
   });
 
   it("sets uiModeIsPaymentPending when order history has pending checkout (invoice request alone is insufficient)", () => {

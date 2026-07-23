@@ -1,5 +1,7 @@
 /** Route lab billing — shapes aligned with fixtura-billing-labs-pdr.md §5. */
 
+import type { OrganisationTrialBlock } from "@/types/api/account";
+
 /** Mock trial length for billing lab (`state=trial_available` → Start trial). */
 export const BILLING_LAB_TRIAL_DAYS = 14;
 
@@ -56,6 +58,7 @@ export type LabBillingSummary = {
     endDate: string | null;
     daysRemaining: number | null;
   };
+  organisationTrial: OrganisationTrialBlock;
   activeOrder: {
     id: string;
     status: string;
@@ -121,6 +124,12 @@ export const BILLING_LAB_SCENARIO_OPTIONS = [
   "trial_available",
   "trial_active",
   "trial_ended",
+  "org_start_available",
+  "org_active_here",
+  "org_active_elsewhere",
+  "org_used",
+  "org_blocked",
+  "org_unavailable",
   "plan_selected",
   "checkout_started",
   "payment_pending",

@@ -11,12 +11,13 @@ import {
 import { isValidAccountIdSegment } from "@/lib/config/account-routes";
 
 import {
-  deriveBillingProductState,
   deriveBillingUiMode,
+  deriveOrganisationTrialPresentation,
   type BillingProductState,
   type BillingUiMode,
 } from "../_core/billing-state";
 import { labelForBillingProductState } from "../_utils/overview/billingProductStateDisplay";
+import { resolveEffectiveBillingProductState } from "../overview/_utils/billingOverviewPresentation";
 
 export type BillingProductStateSnapshot =
   | { status: "loading" }
@@ -70,7 +71,14 @@ export function useBillingProductStateSnapshot(
       : [];
 
   const billingUiMode = deriveBillingUiMode(q.data.data, { orders: ordersPayload });
-  const productState = deriveBillingProductState(billingUiMode);
+  const organisationTrialPresentation = deriveOrganisationTrialPresentation(
+    q.data.data,
+  ).presentation;
+  const productState = resolveEffectiveBillingProductState(
+    billingUiMode,
+    organisationTrialPresentation,
+    q.data.data.availableActions,
+  );
 
   return {
     status: "ready",

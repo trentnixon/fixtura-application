@@ -5,7 +5,6 @@ import {
   mockNoAuthCookie,
   resetBillingRouteTestMocks,
 } from "../_test-utils/billing-route-mocks";
-
 import { GET } from "./route";
 
 describe("GET /api/accounts/[accountId]/billing/orders", () => {

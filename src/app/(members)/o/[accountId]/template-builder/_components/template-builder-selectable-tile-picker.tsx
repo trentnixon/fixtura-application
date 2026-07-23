@@ -203,8 +203,8 @@ export function TemplateBuilderSelectableTilePicker({
           isSelected,
           isSplitTile,
           usesSplitIconCards,
-          renderVisual,
-          renderTileBackdrop,
+          ...(renderVisual !== undefined ? { renderVisual } : {}),
+          ...(renderTileBackdrop !== undefined ? { renderTileBackdrop } : {}),
         })}
       </button>
     );

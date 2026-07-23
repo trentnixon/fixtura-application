@@ -21,3 +21,8 @@ export {
 } from "./_utils/billing-date-progress";
 export { getBillingDebugSnapshot } from "./_utils/billing-state-debug";
 export { deriveBillingProductState, deriveBillingUiMode } from "./_utils/billing-state-derivation";
+export { deriveOrganisationTrialPresentation } from "../_utils/trial/deriveOrganisationTrialPresentation";
+export type {
+  OrganisationTrialPresentation,
+  OrganisationTrialPresentationResult,
+} from "../_types/trial/organisationTrialPresentation";

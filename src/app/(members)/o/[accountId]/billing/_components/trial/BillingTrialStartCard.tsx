@@ -28,6 +28,7 @@ export function BillingTrialStartCard({
   accountId,
   enabled,
   availableActions,
+  organisationTrialPresentation = "start_available",
 }: BillingTrialStartCardProps) {
   const {
     visible,
@@ -35,12 +36,11 @@ export function BillingTrialStartCard({
     feedback,
     errorMessage,
     confirmOpen,
-    trialSchedule,
     handleConfirmDialogOpenChange,
     openConfirmDialog,
     confirmStartTrial,
     accountName,
-  } = useBillingTrialStart(accountId, enabled, availableActions);
+  } = useBillingTrialStart(accountId, enabled, availableActions, organisationTrialPresentation);
 
   if (!visible) {
     return null;
@@ -97,7 +97,6 @@ export function BillingTrialStartCard({
       <BillingTrialStartConfirmDialog
         open={confirmOpen}
         onOpenChange={handleConfirmDialogOpenChange}
-        trialSchedule={trialSchedule}
         accountName={accountName}
         errorMessage={errorMessage}
         isPending={mutation.isPending}

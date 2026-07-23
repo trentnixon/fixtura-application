@@ -580,7 +580,11 @@ export function ImageUploaderCrop({
       <div className="flex flex-col gap-1">
         {label ? <TypographyLabel as="div">{label}</TypographyLabel> : null}
         {helperText ? (
-          <TypographyHelperText className={helperTextClassName}>{helperText}</TypographyHelperText>
+          <TypographyHelperText
+            {...(helperTextClassName !== undefined ? { className: helperTextClassName } : {})}
+          >
+            {helperText}
+          </TypographyHelperText>
         ) : null}
         {helperTextDetail ? (
           <TypographyHelperText className={cn("hidden sm:block", helperTextClassName)}>

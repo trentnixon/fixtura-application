@@ -13,7 +13,20 @@ function baseSummary(overrides: Partial<AccountBillingSummaryV1> = {}): AccountB
   return {
     billingStatus: "active",
     accessStatus: "active",
-    currentPlan: { id: 14, name: "Season Pass", price: 650, currency: "AUD" },
+    currentPlan: {
+      id: "14",
+      name: "Season Pass",
+      description: "Full season coverage",
+      category: "Club",
+      price: 650,
+      currency: "AUD",
+      daysInPass: 365,
+      isActive: true,
+      includeSponsors: false,
+      includedAssetTypes: [],
+      orderId: null,
+      paymentChannel: null,
+    },
     trial: null,
     activeOrder: null,
     latestInvoiceRequest: { status: "cancelled" },
@@ -106,10 +119,10 @@ describe("buildBillingHistoryDebugPanel", () => {
     const alignment = sections.find((section) => section.title === "Alignment");
     const ordersSection = sections.find((section) => section.title === "Orders");
 
-    expect(alignment?.entries.entitlementSource).toBe("order_history");
-    expect(ordersSection?.entries.highlightedOrderRawTotal).toBe(65000);
-    expect(ordersSection?.entries.highlightedOrderDisplayTotal).toBe(650);
-    expect(ordersSection?.entries.highlightedOrderTotalNormalizedFromCents).toBe("true");
+    expect(alignment?.entries["entitlementSource"]).toBe("order_history");
+    expect(ordersSection?.entries["highlightedOrderRawTotal"]).toBe(65000);
+    expect(ordersSection?.entries["highlightedOrderDisplayTotal"]).toBe(650);
+    expect(ordersSection?.entries["highlightedOrderTotalNormalizedFromCents"]).toBe("true");
   });
 
   it("includes per-query statuses in context extra", () => {
@@ -124,7 +137,7 @@ describe("buildBillingHistoryDebugPanel", () => {
       queryStatuses: { billing: "ok", invoiceRequests: "ok", orders: "pending" },
     });
 
-    expect(extra.billingQueryStatus).toBe("ok");
-    expect(extra.ordersQueryStatus).toBe("pending");
+    expect(extra["billingQueryStatus"]).toBe("ok");
+    expect(extra["ordersQueryStatus"]).toBe("pending");
   });
 });

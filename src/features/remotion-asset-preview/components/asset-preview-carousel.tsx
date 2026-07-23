@@ -14,7 +14,7 @@ import { RemotionThumbnailStill } from "./remotion-thumbnail-still";
 import { previewMediaKeyFromData } from "../utils/preview-media-key-from-data";
 
 import type { RemotionAssetPreviewState } from "../types";
-import type { CarouselItemsInViewConfig } from "@/components/carousel";
+import type { CardCarouselProps, CarouselItemsInViewConfig } from "@/components/carousel";
 import type { ReactNode } from "react";
 
 export type AssetPreviewCarouselProps = {
@@ -37,6 +37,8 @@ export type AssetPreviewCarouselProps = {
   nextClassName?: string;
   /** Slides visible in the viewport at once (embedded default: 1). */
   itemsInView?: CarouselItemsInViewConfig;
+  /** Embla/carousel options forwarded to `CardCarouselPanel`. */
+  opts?: NonNullable<CardCarouselProps<unknown>["opts"]>;
   /**
    * Flat layout for template builder and other embedded contexts:
    * no card chrome, no body padding, carousel fills the parent box.
@@ -107,7 +109,6 @@ export function AssetPreviewCarousel({
       surfaceClassName,
     ),
     bodyClassName: cn(embedded && "!p-0 !px-0 !py-0", bodyClassName),
-    itemsInView: resolvedItemsInView,
     contentClassName: cn(
       embedded && "!ml-0",
       embeddedGutterClasses?.contentClassName,
@@ -122,9 +123,14 @@ export function AssetPreviewCarousel({
     ),
     previousClassName: cn(embedded && "left-0 size-7 sm:-left-3 sm:size-8", previousClassName),
     nextClassName: cn(embedded && "right-0 size-7 sm:-right-3 sm:size-8", nextClassName),
+    ...(resolvedItemsInView !== undefined ? { itemsInView: resolvedItemsInView } : {}),
     ...(headerClassName !== undefined ? { headerClassName } : {}),
     ...(headerDescriptionClassName !== undefined ? { headerDescriptionClassName } : {}),
-    opts: embedded ? { align: "center" as const, ...carouselOpts } : carouselOpts,
+    ...(embedded
+      ? { opts: { align: "center" as const, ...carouselOpts } }
+      : carouselOpts !== undefined
+        ? { opts: carouselOpts }
+        : {}),
   };
 
   if (status === "unsupported-sport") {
@@ -287,11 +293,13 @@ export function AssetPreviewCarousel({
             durationInFrames={state.durationInFrames}
             frameToDisplay={target.frameToDisplay}
             frameKey={`${mediaKey}-thumb-${index}-${target.desired}`}
-            className={embedded ? "w-full min-w-0" : undefined}
-            aspectFrameClassName={
-              thumbnailPreviewRootClassName ? undefined : resolvedThumbnailFrameClassName
-            }
-            previewRootClassName={thumbnailPreviewRootClassName}
+            {...(embedded ? { className: "w-full min-w-0" } : {})}
+            {...(thumbnailPreviewRootClassName
+              ? {}
+              : { aspectFrameClassName: resolvedThumbnailFrameClassName })}
+            {...(thumbnailPreviewRootClassName !== undefined
+              ? { previewRootClassName: thumbnailPreviewRootClassName }
+              : {})}
           />
         );
 

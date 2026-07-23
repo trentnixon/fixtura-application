@@ -43,7 +43,7 @@ export function GradeOrderingGroupCard({
             group={group}
             gradeLookup={gradeLookup}
             onReorder={onReorder}
-            disabled={disabled}
+            {...(disabled !== undefined ? { disabled } : {})}
           />
         </div>
       }

@@ -110,8 +110,8 @@ describe("buildTemplateBuilderPreviewBranding", () => {
       useBackground: "Graphics",
     });
     expect(branding.template?.category).toBe("Saved");
-    expect(branding.theme?.theme.mode).toBe("saved-mode");
-    expect(branding.template_option?.modeId).toBe(1);
+    expect(branding.theme?.theme["mode"]).toBe("saved-mode");
+    expect(branding.template_option?.["modeId"]).toBe(1);
   });
 
   it("does not expose inactive background assets in preview", () => {
@@ -119,7 +119,7 @@ describe("buildTemplateBuilderPreviewBranding", () => {
       branding,
       catalog: {
         ...catalog,
-        gradients: [{ id: 4, name: "Sunset", value: "sunset" }],
+        gradients: [{ id: 4, name: "Sunset", type: null, direction: null }],
         videos: [
           {
             id: 10,
@@ -130,6 +130,8 @@ describe("buildTemplateBuilderPreviewBranding", () => {
             muted: null,
             offthread: null,
             volume: null,
+            rate: null,
+            overlay: null,
           },
         ],
       },
@@ -141,9 +143,9 @@ describe("buildTemplateBuilderPreviewBranding", () => {
       },
     });
 
-    expect(preview?.template_option?.videoId).toBeNull();
-    expect(preview?.template_option?.video).toBeNull();
-    expect(preview?.template_option?.gradientId).toBe(4);
+    expect(preview?.template_option?.["videoId"]).toBeNull();
+    expect(preview?.template_option?.["video"]).toBeNull();
+    expect(preview?.template_option?.["gradientId"]).toBe(4);
   });
 
   it("enriches selected noise with normalized Remotion type for preview", () => {
@@ -173,7 +175,7 @@ describe("buildTemplateBuilderPreviewBranding", () => {
       },
     });
 
-    expect(preview?.template_option?.noise).toEqual({
+    expect(preview?.template_option?.["noise"]).toEqual({
       id: 12,
       name: "Triangle Swarm",
       noiseType: "triangleSwarm",

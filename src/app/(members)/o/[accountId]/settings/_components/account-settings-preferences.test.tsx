@@ -5,6 +5,8 @@ import { ApiError } from "@/lib/api/client/api-error";
 
 import { AccountSettingsPreferences } from "./account-settings-preferences";
 
+import type { AccountSchedulerDocument, AccountSettingsData } from "@/types/api/account";
+
 const useAccountScheduler = vi.hoisted(() => vi.fn());
 const usePatchAccountSettings = vi.hoisted(() => vi.fn());
 const toastSuccess = vi.hoisted(() => vi.fn());
@@ -25,8 +27,23 @@ vi.mock("sonner", () => ({
   },
 }));
 
-function basePayload(overrides: Record<string, unknown> = {}) {
-  return {
+function baseScheduler(
+  overrides: Partial<AccountSchedulerDocument> = {},
+): AccountSchedulerDocument {
+  const doc: AccountSchedulerDocument = {
+    id: 1,
+    Name: "Weekly",
+    Time: null,
+    Queued: false,
+    isRendering: false,
+    createdAt: "2024-01-01T00:00:00.000Z",
+    updatedAt: "2024-01-01T00:00:00.000Z",
+  };
+  return Object.assign(doc, overrides);
+}
+
+function basePayload(overrides: Partial<AccountSettingsData> = {}): AccountSettingsData {
+  const payload: AccountSettingsData = {
     id: 42,
     FirstName: "Jane",
     LastName: "Doe",
@@ -43,9 +60,9 @@ function basePayload(overrides: Record<string, unknown> = {}) {
     hasCustomTemplate: false,
     account_type: 2,
     onboardingOrganisationName: "Test Association",
-    scheduler: { days_of_the_week: { id: 1, Name: "Sunday" } },
-    ...overrides,
+    scheduler: baseScheduler({ days_of_the_week: { id: 1, Name: "Sunday" } }),
   };
+  return Object.assign(payload, overrides);
 }
 
 function mutationDefaults() {
@@ -64,7 +81,7 @@ function schedulerDefaults() {
     isSuccess: true,
     data: {
       data: {
-        scheduler: { days_of_the_week: { id: 1, Name: "Sunday" } },
+        scheduler: baseScheduler({ days_of_the_week: { id: 1, Name: "Sunday" } }),
       },
     },
   };

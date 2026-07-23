@@ -77,8 +77,8 @@ export function ModeGridCards({
                 ctaLabel="Unavailable"
                 disabled
                 className={cn(tileLayout, flatTileSelectedClass(isSelected, contrastVariant))}
-                titleClassName={compactTitleClass}
-                ctaClassName={compactCtaClass}
+                {...(compactTitleClass !== undefined ? { titleClassName: compactTitleClass } : {})}
+                {...(compactCtaClass !== undefined ? { ctaClassName: compactCtaClass } : {})}
                 visual={
                   <div
                     className={cn(
@@ -154,7 +154,7 @@ export function ModeGridCards({
                 "!font-semibold",
                 compactTitleClass,
               )}
-              ctaClassName={compactCtaClass}
+              {...(compactCtaClass !== undefined ? { ctaClassName: compactCtaClass } : {})}
               visual={
                 contrastVariant === "dark" ? (
                   <GridCardVisualSlot

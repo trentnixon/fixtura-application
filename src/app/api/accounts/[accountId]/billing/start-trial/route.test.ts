@@ -5,7 +5,6 @@ import {
   mockNoAuthCookie,
   resetBillingRouteTestMocks,
 } from "../_test-utils/billing-route-mocks";
-
 import { POST } from "./route";
 
 describe("POST /api/accounts/[accountId]/billing/start-trial", () => {
@@ -84,6 +83,48 @@ describe("POST /api/accounts/[accountId]/billing/start-trial", () => {
     });
 
     expect(res.status).toBe(409);
+    expect(await res.json()).toEqual(errorPayload);
+  });
+
+  it("passes through TRIAL_ALREADY_CONSUMED org error code unchanged", async () => {
+    const errorPayload = {
+      error: { code: "TRIAL_ALREADY_CONSUMED", message: "Organisation trial consumed" },
+    };
+    vi.mocked(globalThis.fetch).mockResolvedValue(
+      new Response(JSON.stringify(errorPayload), {
+        status: 409,
+        headers: { "Content-Type": "application/json" },
+      }),
+    );
+
+    const res = await POST(new Request("http://localhost", { method: "POST" }), {
+      params: Promise.resolve({ accountId: "42" }),
+    });
+
+    expect(res.status).toBe(409);
+    expect(await res.json()).toEqual(errorPayload);
+  });
+
+  it("preserves 503 TRIAL_ALLOCATION_DISABLED body and Retry-After", async () => {
+    const errorPayload = {
+      error: {
+        code: "TRIAL_ALLOCATION_DISABLED",
+        message: "Trial allocation temporarily disabled",
+      },
+    };
+    vi.mocked(globalThis.fetch).mockResolvedValue(
+      new Response(JSON.stringify(errorPayload), {
+        status: 503,
+        headers: { "Content-Type": "application/json", "Retry-After": "30" },
+      }),
+    );
+
+    const res = await POST(new Request("http://localhost", { method: "POST" }), {
+      params: Promise.resolve({ accountId: "42" }),
+    });
+
+    expect(res.status).toBe(503);
+    expect(res.headers.get("Retry-After")).toBe("30");
     expect(await res.json()).toEqual(errorPayload);
   });
 

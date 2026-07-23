@@ -172,9 +172,9 @@ export function FixturaAssetColorPreview({
       <AssetPreviewMock
         primary={primary}
         secondary={secondary}
-        logoSrc={logoSrc}
-        templateModeSlug={templateModeSlug}
-        className={className}
+        {...(logoSrc !== undefined ? { logoSrc } : {})}
+        {...(templateModeSlug !== undefined ? { templateModeSlug } : {})}
+        {...(className !== undefined ? { className } : {})}
       />
     );
   }
@@ -219,8 +219,8 @@ export function FixturaAssetColorPreview({
           <AssetPreviewMock
             primary={primary}
             secondary={secondary}
-            logoSrc={logoSrc}
-            templateModeSlug={templateModeSlug}
+            {...(logoSrc !== undefined ? { logoSrc } : {})}
+            {...(templateModeSlug !== undefined ? { templateModeSlug } : {})}
           />
         </>
       }

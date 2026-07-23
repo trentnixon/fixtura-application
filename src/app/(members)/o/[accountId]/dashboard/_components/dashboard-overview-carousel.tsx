@@ -35,10 +35,10 @@ export function DashboardOverviewCarousel({
       embedded={compact}
       displayMode={displayMode}
       state={remotionPreviewState}
-      title={compact ? (title ?? null) : title}
-      brandingSettingsDebug={brandingSettingsDebug}
-      itemsInView={compact ? DASHBOARD_PREVIEW_ITEMS_IN_VIEW : undefined}
-      opts={compact ? { align: "start" } : undefined}
+      {...(compact ? { title: title ?? null } : title !== undefined ? { title } : {})}
+      {...(brandingSettingsDebug !== undefined ? { brandingSettingsDebug } : {})}
+      {...(compact ? { itemsInView: DASHBOARD_PREVIEW_ITEMS_IN_VIEW } : {})}
+      {...(compact ? { opts: { align: "start" as const } } : {})}
       className={
         compact ? "w-full max-w-none min-w-0" : "flex h-full min-h-0 max-w-none flex-1 flex-col"
       }
@@ -51,8 +51,8 @@ export function DashboardOverviewCarousel({
       contentClassName={
         compact ? DASHBOARD_PREVIEW_CAROUSEL_CONTENT_CLASS : "-ml-2 h-full min-h-0 flex-1 md:-ml-4"
       }
-      itemClassName={compact ? DASHBOARD_PREVIEW_CAROUSEL_ITEM_CLASS : undefined}
-      thumbnailPreviewRootClassName={compact ? DASHBOARD_PREVIEW_REMOTION_ROOT_CLASS : undefined}
+      {...(compact ? { itemClassName: DASHBOARD_PREVIEW_CAROUSEL_ITEM_CLASS } : {})}
+      {...(compact ? { thumbnailPreviewRootClassName: DASHBOARD_PREVIEW_REMOTION_ROOT_CLASS } : {})}
     />
   );
 }

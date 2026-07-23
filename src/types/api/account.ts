@@ -1172,12 +1172,35 @@ export interface BillingSummaryCurrentPlan extends AvailableBillingTier {
   paymentChannel: BillingPaymentChannel | null;
 }
 
+/** Permanent org trial entitlement (BILL-TRIAL-007). */
+export type OrganisationTrialConsumptionStatus = "available" | "used";
+
+/** Current org trial allocation lifecycle placement (BILL-TRIAL-007). */
+export type OrganisationTrialAllocationStatus =
+  | "none"
+  | "active_on_this_account"
+  | "active_on_another_account"
+  | "ended";
+
+/**
+ * Org-scoped trial block on GET /billing.
+ * `consumptionStatus` / `allocationStatus` omitted when canonical org resolution fails closed.
+ * `canStartTrial` is always present and mirrors `availableActions.canStartTrial`.
+ */
+export type OrganisationTrialBlock = {
+  consumptionStatus?: OrganisationTrialConsumptionStatus;
+  allocationStatus?: OrganisationTrialAllocationStatus;
+  canStartTrial: boolean;
+};
+
 export interface BillingTrialSummaryV1 {
   id?: number;
   startDate?: string | null;
   endDate?: string | null;
   isActive?: boolean;
-  eligible?: boolean;
+  /** Account-scoped billing eligibility (wire field; replaces obsolete `eligible`). */
+  isEligible?: boolean;
+  daysRemaining?: number | null;
   subscriptionTier?: AvailableBillingTier | null;
 }
 
@@ -1268,13 +1291,28 @@ export interface CancelInvoiceRequestResponse {
   message?: string;
 }
 
-/** POST …/billing/start-trial — CMS assigns trial; extend when Strapi stabilises envelope. */
+/** POST …/billing/start-trial success status (BILL-TRIAL-008/014). */
+export type StartTrialStatus = "started" | "already_active";
+
+/** POST …/billing/start-trial — CMS assigns trial; refetch GET /billing after success. */
 export interface StartAccountBillingTrialResponse {
-  trialId?: string | number;
-  /** CMS may return a fixed token (e.g. `started`) or other string; UI should refetch GET /billing. */
-  status?: string;
+  trialId: string;
+  status: StartTrialStatus;
   message?: string;
 }
+
+/** Stable organisation trial error codes on POST start-trial (409/503). */
+export type OrganisationTrialErrorCode =
+  | "TRIAL_ALREADY_CONSUMED"
+  | "TRIAL_ORGANISATION_UNAVAILABLE"
+  | "TRIAL_ALLOCATION_DISABLED";
+
+export type OrganisationTrialErrorResponse = {
+  error: {
+    code: OrganisationTrialErrorCode;
+    message: string;
+  };
+};
 
 /** Tier row on GET /api/accounts/:accountId/billing — legacy consolidated payload / Strapi tier embed (`image_url` omitted). */
 export interface AccountBillingSubscriptionTierDto {
@@ -1342,6 +1380,8 @@ export interface AccountBillingSummaryV1 {
   accessStatus: string;
   currentPlan: BillingSummaryCurrentPlan | null;
   trial: BillingTrialSummaryV1 | null;
+  /** Org-scoped trial consumption/allocation; see OrganisationTrialBlock. */
+  organisationTrial?: OrganisationTrialBlock;
   activeOrder: AccountBillingOrderDto | null;
   latestInvoiceRequest: InvoiceRequestSummary | null;
   /** e.g. canWithdrawInvoiceRequest, canDeletePendingOrder, canStartCheckout — CMS billing v1. */

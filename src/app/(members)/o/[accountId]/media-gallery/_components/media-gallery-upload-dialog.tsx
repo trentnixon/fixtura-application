@@ -1,6 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState, type FormEvent, type MouseEvent } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type ComponentProps,
+  type FormEvent,
+  type MouseEvent,
+} from "react";
 import { toast } from "sonner";
 
 import { ImageUploaderCrop } from "@/components/media/image-uploader-crop";
@@ -174,12 +181,13 @@ export function MediaGalleryUploadDialog({
     setStep(1);
   };
 
+  type DialogShellProps = ComponentProps<typeof MediaGalleryFormDialogShell>;
   const dialogContentProps = {
     showCloseButton: !isPending,
-    onPointerDownOutside: (event) => {
+    onPointerDownOutside: (event: Parameters<DialogShellProps["onPointerDownOutside"]>[0]) => {
       if (isPending) event.preventDefault();
     },
-    onEscapeKeyDown: (event) => {
+    onEscapeKeyDown: (event: Parameters<DialogShellProps["onEscapeKeyDown"]>[0]) => {
       if (isPending) event.preventDefault();
     },
   } as const;

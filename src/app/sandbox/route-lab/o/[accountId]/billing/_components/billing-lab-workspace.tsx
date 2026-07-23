@@ -28,8 +28,11 @@ import { billingStatusLabel } from "@/features/route-lab/billing/billing-lab-fix
 import {
   createLabCheckout,
   createLabInvoiceRequest,
+  canShowLabStartTrial,
   getLabBillingSummary,
   getLabAvailableBillingTiers,
+  getLabOrgTrialPresentation,
+  isLabTrialHeroScenario,
   resolveBillingLabPathHighlight,
   startLabTrial,
 } from "@/features/route-lab/billing/billing-lab-mock-client";
@@ -131,7 +134,6 @@ export function BillingLabWorkspace({
   devStateParam,
 }: BillingLabWorkspaceProps) {
   const isWizard = labMode === "wizard";
-  const isTrialAvailableScenario = scenarioKey === "trial_available";
   const [wizardStep, setWizardStep] = useState(1);
   const [showActiveLabTools, setShowActiveLabTools] = useState(false);
 
@@ -156,6 +158,12 @@ export function BillingLabWorkspace({
     [accountId, scenarioKey],
   );
   const effectiveSummary = summaryOverride ?? fixtureSummary;
+  const orgTrialPresentation = useMemo(
+    () => getLabOrgTrialPresentation(effectiveSummary),
+    [effectiveSummary],
+  );
+  const showTrialHero = isWizard && isLabTrialHeroScenario(effectiveSummary);
+  const showLabStartTrial = canShowLabStartTrial(effectiveSummary);
   const tiers = useMemo(
     () => getLabAvailableBillingTiers(accountId, planOrgCategory),
     [accountId, planOrgCategory],
@@ -264,7 +272,7 @@ export function BillingLabWorkspace({
   }
 
   function handleStartLabTrial() {
-    if (!effectiveSummary.availableActions.canStartTrial) {
+    if (!canShowLabStartTrial(effectiveSummary)) {
       toast.message("Trial cannot be started in this fixture.");
       return;
     }
@@ -651,7 +659,35 @@ export function BillingLabWorkspace({
             </li>
           ))}
         </ul>
-        {isWizard && !isTrialAvailableScenario ? (
+        <Separator className="my-3" />
+        <p className="text-muted-foreground text-xs font-medium uppercase">
+          Organisation trial (mock)
+        </p>
+        <dl className="mt-2 space-y-2 text-sm">
+          <div className="flex justify-between gap-4">
+            <dt className="text-muted-foreground">consumptionStatus</dt>
+            <dd>{effectiveSummary.organisationTrial.consumptionStatus ?? "—"}</dd>
+          </div>
+          <div className="flex justify-between gap-4">
+            <dt className="text-muted-foreground">allocationStatus</dt>
+            <dd>{effectiveSummary.organisationTrial.allocationStatus ?? "—"}</dd>
+          </div>
+          <div className="flex justify-between gap-4">
+            <dt className="text-muted-foreground">canStartTrial</dt>
+            <dd>{effectiveSummary.organisationTrial.canStartTrial ? "Yes" : "No"}</dd>
+          </div>
+          <div className="flex justify-between gap-4">
+            <dt className="text-muted-foreground">Presentation</dt>
+            <dd className="font-medium">{orgTrialPresentation.presentation}</dd>
+          </div>
+          {orgTrialPresentation.failClosed && orgTrialPresentation.reason ? (
+            <div>
+              <dt className="text-muted-foreground text-xs uppercase">Fail-closed reason</dt>
+              <dd className="mt-1 text-xs">{orgTrialPresentation.reason}</dd>
+            </div>
+          ) : null}
+        </dl>
+        {isWizard && !showTrialHero ? (
           <>
             <Separator className="my-3" />
             <ol className="grid gap-4 sm:grid-cols-3">
@@ -774,7 +810,7 @@ export function BillingLabWorkspace({
       <PageHeader
         title={
           isWizard
-            ? isTrialAvailableScenario
+            ? showTrialHero
               ? effectiveSummary.trial.isActive
                 ? "Trial in progress"
                 : "Trial available"
@@ -783,14 +819,14 @@ export function BillingLabWorkspace({
         }
         description={
           isWizard
-            ? isTrialAvailableScenario
+            ? showTrialHero
               ? `${effectiveSummary.accountName} — ${effectiveSummary.trial.isActive ? `${BILLING_LAB_TRIAL_DAYS}-day trial (mock).` : `Start a ${BILLING_LAB_TRIAL_DAYS}-day trial without the subscribe wizard.`} Fixture: state=${devStateParam} → ${scenarioKey}.`
               : `${effectiveSummary.accountName} — step-by-step subscribe flow. Developer fixture: state=${devStateParam} → ${scenarioKey}.`
             : `${effectiveSummary.accountName} — subscribed account snapshot. Developer fixture: state=${devStateParam} → ${scenarioKey}.`
         }
       />
 
-      {isWizard && isTrialAvailableScenario ? (
+      {isWizard && showTrialHero ? (
         <>
           <Surface className="p-6">
             {effectiveSummary.trial.isActive ? (
@@ -848,7 +884,7 @@ export function BillingLabWorkspace({
                   <Button
                     type="button"
                     variant="accent"
-                    disabled={!effectiveSummary.availableActions.canStartTrial}
+                    disabled={!showLabStartTrial}
                     onClick={handleStartLabTrial}
                   >
                     Start {BILLING_LAB_TRIAL_DAYS}-day trial

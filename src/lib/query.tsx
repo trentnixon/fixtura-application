@@ -18,7 +18,7 @@ export function createQueryClient(): QueryClient {
     }),
     mutationCache: new MutationCache({
       onError: (error, _variables, _context, mutation) => {
-        if (mutation.meta?.suppressGlobalError) return;
+        if (mutation.meta?.["suppressGlobalError"]) return;
         globalThis.console?.error?.("Mutation error:", error);
         toastError(error, "Action failed");
       },

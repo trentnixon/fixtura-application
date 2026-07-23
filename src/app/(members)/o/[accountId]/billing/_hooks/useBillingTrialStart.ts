@@ -8,29 +8,24 @@ import { usePostAccountBillingStartTrial } from "@/lib/api/hooks/account/usePost
 
 import { canStartTrial } from "../_core/billing-state";
 import {
-  getBillingTrialScheduleLabelsForStartToday,
   messageFromBillingTrialStartFailure,
   parseBillingTrialStartResponseMessage,
   resolveBillingTrialAccountName,
 } from "../_utils/trial/billingTrialStart";
 
+import type { OrganisationTrialPresentation } from "../_types/trial/organisationTrialPresentation";
+
 export function useBillingTrialStart(
   accountId: string,
   enabled: boolean,
   availableActions?: Partial<Record<string, boolean>>,
+  organisationTrialPresentation?: OrganisationTrialPresentation,
 ) {
   const mutation = usePostAccountBillingStartTrial(accountId);
   const orgQ = useAccountOrganisationContext(accountId, { enabled: enabled && Boolean(accountId) });
   const [feedback, setFeedback] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
-
-  const trialSchedule = useMemo(() => {
-    if (!confirmOpen) {
-      return null;
-    }
-    return getBillingTrialScheduleLabelsForStartToday();
-  }, [confirmOpen]);
 
   const accountName = useMemo(() => {
     if (!orgQ.isSuccess || !orgQ.data || isAccountOrganisationContextGatewayRedirect(orgQ.data)) {
@@ -39,7 +34,11 @@ export function useBillingTrialStart(
     return resolveBillingTrialAccountName(orgQ.data.data);
   }, [orgQ.isSuccess, orgQ.data]);
 
-  const visible = Boolean(enabled && canStartTrial(availableActions));
+  const visible = Boolean(
+    enabled &&
+    canStartTrial(availableActions) &&
+    organisationTrialPresentation === "start_available",
+  );
 
   function handleConfirmDialogOpenChange(next: boolean) {
     if (mutation.isPending && !next) {
@@ -72,7 +71,6 @@ export function useBillingTrialStart(
     feedback,
     errorMessage,
     confirmOpen,
-    trialSchedule,
     accountName,
     handleConfirmDialogOpenChange,
     openConfirmDialog,

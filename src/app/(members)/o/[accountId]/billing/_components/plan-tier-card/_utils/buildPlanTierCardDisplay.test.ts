@@ -36,7 +36,8 @@ describe("buildPlanTierCardDisplay", () => {
   });
 
   it("omits weekly price when priceByWeekInPass is missing", () => {
-    const display = buildPlanTierCardDisplay(sampleTier({ priceByWeekInPass: undefined }));
+    const { priceByWeekInPass: _omit, ...tierWithoutWeekly } = sampleTier();
+    const display = buildPlanTierCardDisplay(tierWithoutWeekly);
     expect(display.weekly).toBeNull();
   });
 

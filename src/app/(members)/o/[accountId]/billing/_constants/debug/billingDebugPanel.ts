@@ -35,3 +35,14 @@ export const BILLING_DEBUG_SUMMARY_SLICE_KEYS = [
   "availableActionsTrueShownInOverview",
   "ordersHaveInvoiceIssuedCheckout",
 ] as const satisfies readonly (keyof BillingDebugSnapshot["summarySlice"])[];
+
+export const BILLING_DEBUG_ORG_TRIAL_KEYS = [
+  "presentation",
+  "failClosed",
+  "reason",
+  "consumptionStatus",
+  "allocationStatus",
+  "orgCanStartTrial",
+  "actionsCanStartTrial",
+  "actionFlagsConsistent",
+] as const satisfies readonly (keyof BillingDebugSnapshot["organisationTrial"])[];

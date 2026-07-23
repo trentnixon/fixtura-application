@@ -1,27 +1,27 @@
 {
   "data": [
     {
-      "date": "Sat, 13 Dec",
-      "time": "01:00 PM",
+      "date": "Thu, 30 May",
+      "time": "10:30 AM",
       "type": "One Day",
-      "round": "Round 10",
-      "gameID": "b72e950b",
-      "gender": "Mixed",
-      "ground": "Trinity College Goulburn / Trinity Wexted Oval",
-      "prompt": "Upcoming cricket match details:\n- Teams: SJCC OG vs MadBulls, Date and Time: Saturday, 13 December 2025, 01:00 PM, Location: Trinity College Goulburn / Trinity Wexted Oval\n- Round: Round 10, Match Type: One Day\n- League: 1st & 2nd Grade Combined",
+      "round": "2019 World Cup — Group Stage",
+      "gameID": "bc4e8d79",
+      "gender": "Men",
+      "ground": "The Oval",
+      "prompt": "Archive preview — upcoming cricket fixture:\n- Teams: England vs South Africa\n- Date and Time: Thursday, 30 May 2019, 10:30 AM\n- Location: The Oval\n- Round: 2019 World Cup — Group Stage\n- Match Type: One Day\n- League: 2019 World Cup — Group Stage",
       "ageGroup": "Senior",
-      "teamAway": "MadBulls",
-      "teamHome": "SJCC OG",
-      "gradeName": "1st & 2nd Grade Combined",
+      "teamAway": "South Africa",
+      "teamHome": "England",
+      "gradeName": "2019 World Cup — Group Stage",
       "teamAwayLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Marulan_Cricket_Club_Logo_876cb02b7c.jpg",
-        "width": 1051,
-        "height": 1324
+        "url": "/dummyAssetData/flags/za.svg",
+        "width": 640,
+        "height": 480
       },
       "teamHomeLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_fa028c2139.jpg",
-        "width": 1203,
-        "height": 1458
+        "url": "/dummyAssetData/flags/gb-eng.svg",
+        "width": 640,
+        "height": 480
       },
       "assignSponsors": {
         "team": [],
@@ -30,27 +30,27 @@
       }
     },
     {
-      "date": "Sat, 13 Dec",
-      "time": "01:00 PM",
+      "date": "Fri, 31 May",
+      "time": "10:30 AM",
       "type": "One Day",
-      "round": "Round 10",
-      "gameID": "d0ca9bfd",
-      "gender": "Mixed",
-      "ground": "The Grange / The Grange",
-      "prompt": "Upcoming cricket match details:\n- Teams: Pirates 1st Grade vs Rats, Date and Time: Saturday, 13 December 2025, 01:00 PM, Location: The Grange / The Grange\n- Round: Round 10, Match Type: One Day\n- League: 1st & 2nd Grade Combined",
+      "round": "2019 World Cup — Group Stage",
+      "gameID": "496a009c",
+      "gender": "Men",
+      "ground": "Trent Bridge",
+      "prompt": "Archive preview — upcoming cricket fixture:\n- Teams: West Indies vs Pakistan\n- Date and Time: Friday, 31 May 2019, 10:30 AM\n- Location: Trent Bridge\n- Round: 2019 World Cup — Group Stage\n- Match Type: One Day\n- League: 2019 World Cup — Group Stage",
       "ageGroup": "Senior",
-      "teamAway": "Rats",
-      "teamHome": "Pirates 1st Grade",
-      "gradeName": "1st & 2nd Grade Combined",
+      "teamAway": "Pakistan",
+      "teamHome": "West Indies",
+      "gradeName": "2019 World Cup — Group Stage",
       "teamAwayLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_7dec42020c.jpg",
-        "width": 1046,
-        "height": 1054
+        "url": "/dummyAssetData/flags/pk.svg",
+        "width": 640,
+        "height": 480
       },
       "teamHomeLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_f76b057253.jpg",
-        "width": 4096,
-        "height": 2902
+        "url": "/dummyAssetData/flags/wi.svg",
+        "width": 640,
+        "height": 480
       },
       "assignSponsors": {
         "team": [],
@@ -59,27 +59,27 @@
       }
     },
     {
-      "date": "Sat, 13 Dec",
-      "time": "01:00 PM",
+      "date": "Sat, 1 Jun",
+      "time": "10:30 AM",
       "type": "One Day",
-      "round": "Round 10",
-      "gameID": "10f7505a",
-      "gender": "Mixed",
-      "ground": "Seiffert Oval / Seiffert Oval",
-      "prompt": "Upcoming cricket match details:\n- Teams: Pirates 2nd Grade vs Big Merino Titans CC 2nd Grade, Date and Time: Saturday, 13 December 2025, 01:00 PM, Location: Seiffert Oval / Seiffert Oval\n- Round: Round 10, Match Type: One Day\n- League: 1st & 2nd Grade Combined",
+      "round": "2019 World Cup — Group Stage",
+      "gameID": "d39b9fbf",
+      "gender": "Men",
+      "ground": "Cardiff Wales Stadium",
+      "prompt": "Archive preview — upcoming cricket fixture:\n- Teams: New Zealand vs Sri Lanka\n- Date and Time: Saturday, 1 June 2019, 10:30 AM\n- Location: Cardiff Wales Stadium\n- Round: 2019 World Cup — Group Stage\n- Match Type: One Day\n- League: 2019 World Cup — Group Stage",
       "ageGroup": "Senior",
-      "teamAway": "Big Merino Titans CC 2nd Grade",
-      "teamHome": "Pirates 2nd Grade",
-      "gradeName": "1st & 2nd Grade Combined",
+      "teamAway": "Sri Lanka",
+      "teamHome": "New Zealand",
+      "gradeName": "2019 World Cup — Group Stage",
       "teamAwayLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Default_ICON_171b58a21b.png",
-        "width": 1211,
-        "height": 1211
+        "url": "/dummyAssetData/flags/lk.svg",
+        "width": 640,
+        "height": 480
       },
       "teamHomeLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_f76b057253.jpg",
-        "width": 4096,
-        "height": 2902
+        "url": "/dummyAssetData/flags/nz.svg",
+        "width": 640,
+        "height": 480
       },
       "assignSponsors": {
         "team": [],
@@ -88,27 +88,27 @@
       }
     },
     {
-      "date": "Sat, 13 Dec",
-      "time": "01:00 PM",
+      "date": "Sat, 1 Jun",
+      "time": "02:00 PM",
       "type": "One Day",
-      "round": "Round 10",
-      "gameID": "845c6c5a",
-      "gender": "Mixed",
-      "ground": "North Park / North Park - Oval #1",
-      "prompt": "Upcoming cricket match details:\n- Teams: Mice vs MadBulls, Date and Time: Saturday, 13 December 2025, 01:00 PM, Location: North Park / North Park - Oval #1\n- Round: Round 10, Match Type: One Day\n- League: 3rd Grade",
+      "round": "2019 World Cup — Group Stage",
+      "gameID": "21d62c3f",
+      "gender": "Men",
+      "ground": "County Ground, Bristol",
+      "prompt": "Archive preview — upcoming cricket fixture:\n- Teams: Afghanistan vs Australia\n- Date and Time: Saturday, 1 June 2019, 02:00 PM\n- Location: County Ground, Bristol\n- Round: 2019 World Cup — Group Stage\n- Match Type: One Day\n- League: 2019 World Cup — Group Stage",
       "ageGroup": "Senior",
-      "teamAway": "MadBulls",
-      "teamHome": "Mice",
-      "gradeName": "3rd Grade",
+      "teamAway": "Australia",
+      "teamHome": "Afghanistan",
+      "gradeName": "2019 World Cup — Group Stage",
       "teamAwayLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Marulan_Cricket_Club_Logo_876cb02b7c.jpg",
-        "width": 1051,
-        "height": 1324
+        "url": "/dummyAssetData/flags/au.svg",
+        "width": 640,
+        "height": 480
       },
       "teamHomeLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_7dec42020c.jpg",
-        "width": 1046,
-        "height": 1054
+        "url": "/dummyAssetData/flags/af.svg",
+        "width": 640,
+        "height": 480
       },
       "assignSponsors": {
         "team": [],
@@ -117,27 +117,27 @@
       }
     },
     {
-      "date": "Sat, 13 Dec",
-      "time": "01:00 PM",
+      "date": "Wed, 5 Jun",
+      "time": "10:30 AM",
       "type": "One Day",
-      "round": "Round 10",
-      "gameID": "5f41aaff",
-      "gender": "Mixed",
-      "ground": "Carr Confoy / Oval 1",
-      "prompt": "Upcoming cricket match details:\n- Teams: SJCC Blues vs MALARVAADI SOLDIERS KINGS CC 3rd Grade, Date and Time: Saturday, 13 December 2025, 01:00 PM, Location: Carr Confoy / Oval 1\n- Round: Round 10, Match Type: One Day\n- League: 3rd Grade",
+      "round": "2019 World Cup — Group Stage",
+      "gameID": "c369ad68",
+      "gender": "Men",
+      "ground": "Hampshire Bowl",
+      "prompt": "Archive preview — upcoming cricket fixture:\n- Teams: India vs South Africa\n- Date and Time: Wednesday, 5 June 2019, 10:30 AM\n- Location: Hampshire Bowl\n- Round: 2019 World Cup — Group Stage\n- Match Type: One Day\n- League: 2019 World Cup — Group Stage",
       "ageGroup": "Senior",
-      "teamAway": "MALARVAADI SOLDIERS KINGS CC 3rd Grade",
-      "teamHome": "SJCC Blues",
-      "gradeName": "3rd Grade",
+      "teamAway": "South Africa",
+      "teamHome": "India",
+      "gradeName": "2019 World Cup — Group Stage",
       "teamAwayLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Default_ICON_171b58a21b.png",
-        "width": 1211,
-        "height": 1211
+        "url": "/dummyAssetData/flags/za.svg",
+        "width": 640,
+        "height": 480
       },
       "teamHomeLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_fa028c2139.jpg",
-        "width": 1203,
-        "height": 1458
+        "url": "/dummyAssetData/flags/in.svg",
+        "width": 640,
+        "height": 480
       },
       "assignSponsors": {
         "team": [],
@@ -146,27 +146,27 @@
       }
     },
     {
-      "date": "Sat, 13 Dec",
-      "time": "01:00 PM",
+      "date": "Wed, 5 Jun",
+      "time": "01:30 PM",
       "type": "One Day",
-      "round": "Round 10",
-      "gameID": "e49efaea",
-      "gender": "Mixed",
-      "ground": "Marulan Cricket Ground / Marulan Cricket Ground",
-      "prompt": "Upcoming cricket match details:\n- Teams: Hibo Green vs Hibo Country, Date and Time: Saturday, 13 December 2025, 01:00 PM, Location: Marulan Cricket Ground / Marulan Cricket Ground\n- Round: Round 10, Match Type: One Day\n- League: 3rd Grade",
+      "round": "2019 World Cup — Group Stage",
+      "gameID": "c64843da",
+      "gender": "Men",
+      "ground": "The Oval",
+      "prompt": "Archive preview — upcoming cricket fixture:\n- Teams: Bangladesh vs New Zealand\n- Date and Time: Wednesday, 5 June 2019, 01:30 PM\n- Location: The Oval\n- Round: 2019 World Cup — Group Stage\n- Match Type: One Day\n- League: 2019 World Cup — Group Stage",
       "ageGroup": "Senior",
-      "teamAway": "Hibo Country",
-      "teamHome": "Hibo Green",
-      "gradeName": "3rd Grade",
+      "teamAway": "New Zealand",
+      "teamHome": "Bangladesh",
+      "gradeName": "2019 World Cup — Group Stage",
       "teamAwayLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_6e5487f63d.jpg",
-        "width": 236,
-        "height": 289
+        "url": "/dummyAssetData/flags/nz.svg",
+        "width": 640,
+        "height": 480
       },
       "teamHomeLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_6e5487f63d.jpg",
-        "width": 236,
-        "height": 289
+        "url": "/dummyAssetData/flags/bd.svg",
+        "width": 640,
+        "height": 480
       },
       "assignSponsors": {
         "team": [],
@@ -176,19 +176,19 @@
     }
   ],
   "asset": {
-    "assetID": 2,
-    "assetTypeID": 1,
-    "assetsLinkID": "d472e82f5bd8a4d776baf6767b0d39994220f346ef481e0551cf2dafcfba9535",
-    "assetCategoryID": 2
+    "assetID": 0,
+    "assetTypeID": 0,
+    "assetCategoryID": 0,
+    "assetsLinkID": 0
   },
   "errors": [],
   "frames": [45, 195, 390],
   "render": {
-    "renderId": 22593,
-    "schedulerId": 1097
+    "schedulerId": 0,
+    "renderId": 0
   },
   "account": {
-    "accountId": 1097
+    "accountId": 0
   },
   "timings": {
     "FPS_MAIN": 405,
@@ -200,23 +200,23 @@
   "videoMeta": {
     "club": {
       "logo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_65_c67e5b1404.jpg",
+        "hasLogo": false,
+        "url": "",
         "width": 1031,
-        "height": 1330,
-        "hasLogo": true
+        "height": 1330
       },
-      "name": "Goulburn District Cricket Association",
+      "name": "International Cricket Demo Preview",
       "sport": "Cricket",
       "sponsors": {
-        "default": {},
-        "primary": []
+        "primary": [],
+        "default": {}
       },
       "IsAccountClub": false
     },
     "video": {
       "media": {
         "audio": {
-          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Marscott_Wild_Neon_Get_The_Gains_inst_3251aaa9af.mp3",
+          "url": "",
           "audioOption": null
         },
         "HeroImage": {
@@ -257,8 +257,8 @@
           "CricketResultSingle": 1
         }
       },
-      "fixtureCategory": "Goulburn District Cricket Association",
-      "groupingCategory": "Goulburn District Cricket Association",
+      "fixtureCategory": "International Cricket Demo Preview",
+      "groupingCategory": "International Cricket Demo Preview",
       "templateVariation": {
         "mode": "lightAlt",
         "image": {
@@ -301,7 +301,7 @@
           "animationDuration": null
         },
         "texture": {
-          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Gemini_Stone_007e575f87.png",
+          "url": "",
           "name": "Stone 2",
           "scale": "100%",
           "repeat": "cover",
@@ -322,7 +322,7 @@
             "audio_options": [
               {
                 "id": 33,
-                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Bastian_Instrumental_Hello_Stranger_Instrumental_2f4c4acae7.mp3",
+                "URL": "",
                 "Name": "HelloStranger_Instrumental",
                 "createdAt": "2024-10-30T00:35:04.160Z",
                 "updatedAt": "2024-10-30T00:36:30.358Z",
@@ -332,7 +332,7 @@
               },
               {
                 "id": 34,
-                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Ghosthood_Side_Effects_Good_Good_Feeling_Inst_34015de6d6.mp3",
+                "URL": "",
                 "Name": "GoodGoodFeeling_Inst",
                 "createdAt": "2024-10-30T00:37:09.563Z",
                 "updatedAt": "2024-10-30T00:38:09.963Z",
@@ -342,7 +342,7 @@
               },
               {
                 "id": 35,
-                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_La_Jett_La_Jett_Collateral_No_Guitar_Solo_Inst_f72f65e862.mp3",
+                "URL": "",
                 "Name": "Collateral-NoGuitarSolo_Inst",
                 "createdAt": "2024-10-30T00:38:02.552Z",
                 "updatedAt": "2024-10-30T00:38:04.070Z",
@@ -352,7 +352,7 @@
               },
               {
                 "id": 36,
-                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Jennings_Couch_Jennings_Couch_Wall_Of_Sound_Instrumental_1b8ec95fed.mp3",
+                "URL": "",
                 "Name": "Wall-Of-Sound_Instrumental",
                 "createdAt": "2024-10-30T00:39:02.570Z",
                 "updatedAt": "2024-10-30T00:39:04.182Z",
@@ -362,7 +362,7 @@
               },
               {
                 "id": 38,
-                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Silverberg_So_Good_To_Be_Alive_Inst_Ohhs_e2d86690b9.mp3",
+                "URL": "",
                 "Name": "So Good To Be Alive_Inst_Ohhs",
                 "createdAt": "2024-10-30T01:00:28.630Z",
                 "updatedAt": "2024-10-30T01:00:30.327Z",
@@ -372,7 +372,7 @@
               },
               {
                 "id": 39,
-                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Speedtest_Blue_BMX_Knuckle_Sandwhich_75a8a98fdc.mp3",
+                "URL": "",
                 "Name": "KnuckleSandwhich",
                 "createdAt": "2024-10-30T01:01:10.581Z",
                 "updatedAt": "2024-10-30T01:01:13.949Z",

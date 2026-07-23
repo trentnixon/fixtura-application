@@ -8,10 +8,15 @@ export function invoiceRequestToWithdrawTarget(
   const invoiceRequestId = rawId.trim();
   if (!invoiceRequestId) return null;
 
-  return {
-    invoiceRequestId,
-    submittedAt: request.submittedAt,
-    requestedStartDate: request.requestedStartDate,
-    status: request.status,
-  };
+  const target: BillingInvoiceRequestWithdrawTarget = { invoiceRequestId };
+  if (request.submittedAt !== undefined) {
+    target.submittedAt = request.submittedAt;
+  }
+  if (request.requestedStartDate !== undefined) {
+    target.requestedStartDate = request.requestedStartDate;
+  }
+  if (request.status !== undefined) {
+    target.status = request.status;
+  }
+  return target;
 }

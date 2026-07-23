@@ -426,8 +426,6 @@ const PARTICLE_NOISE_VARIANTS = new Set<RemotionNoiseTypeKey>([
   "digitalRain",
 ]);
 
-const GRAPHICS_NOISE_VARIANTS = new Set<RemotionNoiseTypeKey>(["spokes", "geometric"]);
-
 /** Brand-aware canvas preview for any supported noise variant (browser only). */
 export function drawRemotionNoisePreviewToDataUrl({
   variant,
@@ -459,7 +457,7 @@ export function drawRemotionNoisePreviewToDataUrl({
     drawGridNoisePreview(ctx, params, size, 0);
   } else if (PARTICLE_NOISE_VARIANTS.has(variant)) {
     drawParticleNoisePreviewToCanvas(ctx, { variant, baseColor, accentColor, size });
-  } else if (GRAPHICS_NOISE_VARIANTS.has(variant)) {
+  } else if (variant === "spokes" || variant === "geometric") {
     drawGraphicsPreviewToCanvas(ctx, {
       variant,
       baseColor,

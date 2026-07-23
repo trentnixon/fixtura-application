@@ -11,12 +11,25 @@ import { BillingPaymentPendingBanner } from "../../_components/banners/BillingPa
 import { CheckoutReturnBanner } from "../../_components/banners/CheckoutReturnBanner";
 import { BillingProductStateBadge } from "../../_components/billing-product-state-badge";
 import { BillingSections } from "../../_components/overview/BillingSections";
+import { BillingOrganisationTrialNotice } from "../../_components/trial/BillingOrganisationTrialNotice";
+import {
+  resolveOrganisationTrialNoticePresentation,
+  shouldShowBillingTrialStartCard,
+  shouldShowBillingTrialUsedCardForUiMode,
+  shouldShowOrganisationTrialNoticeInDialog,
+  shouldShowProminentOrganisationTrialNotice,
+} from "../../_utils/trial/billingOrganisationTrialOverview";
 import { BillingCreateSeasonPassCard } from "../../season-pass/billing-create-season-pass-card";
 import { BillingTrialDetailsDialog } from "../../trial/billing-trial-details-dialog";
 import { BillingTrialStartCard } from "../../trial/billing-trial-start-card";
 import { BillingTrialUsedCard } from "../../trial/billing-trial-used-card";
+import { BILLING_ACCESS_UNCERTAIN_COPY } from "../_constants/billingAccessUncertain";
 import { BILLING_HISTORY_VISIBLE_MODES } from "../_constants/billingOverviewActions";
 import { useBillingOverviewContentState } from "../_hooks/useBillingOverviewContentState";
+import {
+  shouldShowBillingAccessUncertainCard,
+  shouldShowCreateSeasonPassSection,
+} from "../_utils/billingOverviewPresentation";
 
 export function BillingContent({ accountId }: { accountId: string }) {
   const { state, refetchBilling } = useBillingOverviewContentState(accountId);
@@ -38,6 +51,37 @@ export function BillingContent({ accountId }: { accountId: string }) {
       </div>
     );
   }
+
+  const showStartTrial = shouldShowBillingTrialStartCard(
+    state.billingUiMode,
+    state.organisationTrialPresentation,
+  );
+  const orgTrialNoticePresentation = shouldShowProminentOrganisationTrialNotice(
+    state.billingUiMode,
+    state.organisationTrialPresentation,
+  )
+    ? resolveOrganisationTrialNoticePresentation(state.organisationTrialPresentation)
+    : null;
+  const orgTrialDialogNoticePresentation = shouldShowOrganisationTrialNoticeInDialog(
+    state.organisationTrialPresentation,
+  )
+    ? "active_on_another_account"
+    : null;
+  const showTrialUsedCardForUiMode = shouldShowBillingTrialUsedCardForUiMode(
+    state.billingUiMode,
+    state.organisationTrialPresentation,
+    Boolean(state.trialDetailsTrigger),
+  );
+  const showAccessUncertainCard = shouldShowBillingAccessUncertainCard(
+    state.billingUiMode,
+    state.organisationTrialPresentation,
+    state.availableActions,
+  );
+  const showCreateSeasonPassSection = shouldShowCreateSeasonPassSection(
+    state.billingUiMode,
+    state.organisationTrialPresentation,
+    state.availableActions,
+  );
 
   return (
     <div className="grid gap-6">
@@ -62,6 +106,10 @@ export function BillingContent({ accountId }: { accountId: string }) {
         />
       ) : null}
 
+      {orgTrialNoticePresentation ? (
+        <BillingOrganisationTrialNotice presentation={orgTrialNoticePresentation} />
+      ) : null}
+
       {state.billingUiMode !== "payment_pending" ? (
         <div
           className="border-border bg-muted/30 flex flex-wrap items-center justify-between gap-3 rounded-lg border px-4 py-3"
@@ -74,36 +122,39 @@ export function BillingContent({ accountId }: { accountId: string }) {
             billingSummary={state.billingSummary}
             trialDetailsTrigger={state.trialDetailsTrigger}
             createHref={state.createHref}
+            organisationTrialNoticePresentation={orgTrialDialogNoticePresentation}
           />
         </div>
       ) : null}
 
-      {state.billingUiMode === "access_denied" || state.billingUiMode === "unknown" ? (
+      {showAccessUncertainCard ? (
         <Card>
           <CardHeader>
-            <TypographyCardTitle className="font-brand">Billing access</TypographyCardTitle>
+            <TypographyCardTitle className="font-brand">
+              {BILLING_ACCESS_UNCERTAIN_COPY.title}
+            </TypographyCardTitle>
             <TypographyCardDescription>
-              We could not place this account in a standard billing state. If you expected full
-              access, contact support with your organisation details.
+              {BILLING_ACCESS_UNCERTAIN_COPY.description}
             </TypographyCardDescription>
           </CardHeader>
         </Card>
       ) : null}
 
-      {state.billingUiMode === "free_trial_available" ? (
+      {showStartTrial ? (
         <BillingTrialStartCard
           accountId={accountId}
           enabled={state.segmentOk}
+          organisationTrialPresentation={state.organisationTrialPresentation}
           {...(state.availableActions !== undefined
             ? { availableActions: state.availableActions }
             : {})}
         />
       ) : null}
 
-      {state.billingUiMode === "trial_expired" || state.billingUiMode === "no_billing" ? (
+      {showCreateSeasonPassSection ? (
         <div className="grid gap-3">
           <BillingCreateSeasonPassCard accountId={accountId} />
-          {state.trialDetailsTrigger && state.billingUiMode === "trial_expired" ? (
+          {showTrialUsedCardForUiMode && state.billingUiMode === "trial_expired" ? (
             <BillingTrialUsedCard
               accountId={accountId}
               trial={state.billingSummary.trial}
@@ -116,6 +167,7 @@ export function BillingContent({ accountId }: { accountId: string }) {
               uiMode={state.billingUiMode}
               emphasize={state.trialDetailsTrigger.emphasize}
               triggerVariant="text"
+              organisationTrialNoticePresentation={orgTrialDialogNoticePresentation}
             />
           ) : null}
         </div>
@@ -127,7 +179,7 @@ export function BillingContent({ accountId }: { accountId: string }) {
         orders={state.ordersPayload}
       />
 
-      {state.billingUiMode === "payment_pending" && state.trialDetailsTrigger ? (
+      {showTrialUsedCardForUiMode && state.billingUiMode === "payment_pending" ? (
         <BillingTrialUsedCard
           accountId={accountId}
           trial={state.billingSummary.trial}

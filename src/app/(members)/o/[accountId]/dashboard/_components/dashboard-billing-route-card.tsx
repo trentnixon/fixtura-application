@@ -4,7 +4,7 @@ import { IconCreditCard } from "@tabler/icons-react";
 import Link from "next/link";
 
 import { MetricComparisonCard } from "@/components/cards";
-import { TypographyH4, TypographyMuted } from "@/components/typography";
+import { TypographyDataLabel, TypographyH4, TypographyMuted } from "@/components/typography";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -146,9 +146,9 @@ export function DashboardBillingRouteCard({ accountId }: { accountId: string }) 
         <dl className="space-y-2 text-sm">
           {view.detailRows.map((row) => (
             <div key={row.label} className="flex items-baseline justify-between gap-3">
-              <TypographyMuted as="dt" className="text-xs">
+              <TypographyDataLabel as="dt" className="text-xs">
                 {row.label}
-              </TypographyMuted>
+              </TypographyDataLabel>
               <dd className="text-right text-sm font-medium">{row.value}</dd>
             </div>
           ))}

@@ -11,6 +11,7 @@ import {
 } from "./BillingDebugPanelRows";
 import {
   BILLING_DEBUG_DERIVATION_FLAG_KEYS,
+  BILLING_DEBUG_ORG_TRIAL_KEYS,
   BILLING_DEBUG_PANEL_SHELL_CLASS,
   BILLING_DEBUG_SUMMARY_SLICE_KEYS,
 } from "../../_constants/debug/billingDebugPanel";
@@ -113,6 +114,27 @@ export function BillingDebugPanel({
                   value={formatBillingDebugSnapshotValue(snapshot.summarySlice[k])}
                 />
               ))}
+            </div>
+
+            <div>
+              <BillingDebugPanelSectionTitle>Organisation trial</BillingDebugPanelSectionTitle>
+              {BILLING_DEBUG_ORG_TRIAL_KEYS.map((k) =>
+                k === "failClosed" ||
+                k === "actionsCanStartTrial" ||
+                k === "actionFlagsConsistent" ? (
+                  <BillingDebugPanelBoolRow
+                    key={k}
+                    label={k}
+                    value={snapshot.organisationTrial[k]}
+                  />
+                ) : (
+                  <BillingDebugPanelRow
+                    key={k}
+                    label={k}
+                    value={formatBillingDebugSnapshotValue(snapshot.organisationTrial[k])}
+                  />
+                ),
+              )}
             </div>
 
             <div>

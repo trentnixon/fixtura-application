@@ -65,12 +65,27 @@ function baseSummaryOrder(overrides: Partial<AccountBillingOrderDto> = {}): Acco
 }
 
 describe("resolveHistoryOrderInvoiceLinks", () => {
-  it("returns no links for non-Stripe orders", () => {
+  it("returns invoice-channel URLs when present on the history row", () => {
     expect(
       resolveHistoryOrderInvoiceLinks(
         baseHistoryOrder({
-          paymentChannel: "manual",
+          paymentChannel: "invoice",
           hostedInvoiceUrl: "https://example.com/invoice",
+          invoicePdfUrl: "https://example.com/invoice.pdf",
+        }),
+        null,
+      ),
+    ).toEqual({
+      hostedInvoiceUrl: "https://example.com/invoice",
+      invoicePdfUrl: "https://example.com/invoice.pdf",
+    });
+  });
+
+  it("returns no links when invoice-channel row has no URLs", () => {
+    expect(
+      resolveHistoryOrderInvoiceLinks(
+        baseHistoryOrder({
+          paymentChannel: "invoice",
         }),
         null,
       ),
@@ -137,6 +152,28 @@ describe("resolvePaidActiveInvoiceLinks", () => {
     ).toEqual({
       hostedInvoiceUrl: "https://invoice.stripe.com/i/history",
       invoicePdfUrl: null,
+    });
+  });
+
+  it("falls back to a matching invoice-channel history row", () => {
+    expect(
+      resolvePaidActiveInvoiceLinks(
+        baseSummaryOrder({
+          payment_channel: "invoice",
+          hosted_invoice_url: null,
+          invoice_pdf: null,
+        }),
+        [
+          baseHistoryOrder({
+            paymentChannel: "invoice",
+            hostedInvoiceUrl: "https://example.com/invoice",
+            invoicePdfUrl: "https://example.com/invoice.pdf",
+          }),
+        ],
+      ),
+    ).toEqual({
+      hostedInvoiceUrl: "https://example.com/invoice",
+      invoicePdfUrl: "https://example.com/invoice.pdf",
     });
   });
 });

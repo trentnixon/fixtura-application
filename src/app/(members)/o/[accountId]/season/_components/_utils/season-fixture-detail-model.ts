@@ -280,12 +280,12 @@ export function buildSeasonFixtureDetailDisplay(
   return {
     matchResult: buildMatchResultDisplay(fixture),
     inningsScorecards,
-    ...(validationSummary ? { validationSummary } : {}),
+    validationSummary,
     renderEntries: buildRenderEntries(body?.renderStatus),
     ...logos,
     ...(associationLogoUrl !== undefined ? { associationLogoUrl } : {}),
     hasScorecardTables: hasScorecardTables(inningsScorecards),
-    ...(contentNote ? { contentNote } : {}),
+    contentNote,
     isFinished: fixture?.isFinished === true,
   };
 }

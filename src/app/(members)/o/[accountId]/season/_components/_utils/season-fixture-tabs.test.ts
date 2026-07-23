@@ -14,7 +14,7 @@ import type { SeasonFixtureViewModel } from "../_types";
 function minimalFixtureModel(
   overrides: Partial<SeasonFixtureViewModel> = {},
 ): SeasonFixtureViewModel {
-  return {
+  const model: SeasonFixtureViewModel = {
     fixtureRecord: undefined,
     gradeContext: undefined,
     teamsData: undefined,
@@ -26,8 +26,25 @@ function minimalFixtureModel(
     headline: "Team A vs Team B",
     homeTeam: "Team A",
     awayTeam: "Team B",
+    homeScoreLine: undefined,
+    awayScoreLine: undefined,
     scorecardUrl: undefined,
+    dateRaw: undefined,
     dateLabel: "—",
+    timeLabel: undefined,
+    round: undefined,
+    type: undefined,
+    status: undefined,
+    gameId: undefined,
+    venueGround: undefined,
+    gradeName: "Grade",
+    gradeGender: undefined,
+    gradeAgeGroup: undefined,
+    competitionName: "Comp",
+    associationName: undefined,
+    competitionBreadcrumbLabel: "Comp",
+    renderStatusLine: undefined,
+    renderLastRun: undefined,
     contextMetaRows: [],
     hasOutputs: false,
     headerContextLine: null,
@@ -36,11 +53,8 @@ function minimalFixtureModel(
     renderEntries: [],
     hasScorecardTables: false,
     showScorecardSection: false,
-    gradeName: "Grade",
-    competitionName: "Comp",
-    competitionBreadcrumbLabel: "Comp",
-    ...overrides,
   };
+  return Object.assign(model, overrides);
 }
 
 describe("season-fixture-tabs", () => {

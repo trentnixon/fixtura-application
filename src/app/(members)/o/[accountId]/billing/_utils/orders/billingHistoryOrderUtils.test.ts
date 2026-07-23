@@ -139,7 +139,7 @@ describe("resolveOrderTotalForDisplay", () => {
           Category: null,
           DaysInPass: 365,
           PriceByWeekInPass: 25,
-          subscription_items: null,
+          subscription_items: [],
         },
       }),
     ).toBe(650);

@@ -13,7 +13,7 @@ Portable Remotion still preview: sport-gated example cricket JSON, account brand
 
 ## Child Modules
 
-- None.
+- [`cricket-demo-manifest/`](../cricket-demo-manifest/): Canonical historical cricket demo manifest loader, Zod schema and tests (source JSON under `public/dummyAssetData/`).
 
 ## Relations
 

@@ -59,6 +59,26 @@ It passes `labMode`, resolved `scenarioKey`, and raw `devStateParam` into the wo
 
 Route lab sidebar lists **Billing (lab)** only (`/sandbox/route-lab/o/575/billing`). The **members production** billing link was removed so the lab stays self-contained.
 
+## Organisation trial scenarios (`state`)
+
+Org-trial contract fixtures (CMS handoff matrix) are selectable via `state`:
+
+| `state`                | Presentation                |
+| ---------------------- | --------------------------- |
+| `org_start_available`  | `start_available`           |
+| `org_active_here`      | `active_on_this_account`    |
+| `org_active_elsewhere` | `active_on_another_account` |
+| `org_used`             | `used`                      |
+| `org_blocked`          | `blocked_by_billing`        |
+| `org_unavailable`      | `unavailable` (fail-closed) |
+
+Examples:
+
+- `/sandbox/route-lab/o/575/billing?state=org_start_available`
+- `/sandbox/route-lab/o/575/billing?state=org_active_elsewhere`
+
+The billing status panel shows `organisationTrial` fields, derived presentation, and fail-closed reason. Start trial is gated the same way as production (`free_trial_available` + `start_available`).
+
 ## Related
 
 - Product/requirements: `src/app/sandbox/route-lab/.docs/fixtura-billing-labs-pdr.md`

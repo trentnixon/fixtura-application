@@ -187,6 +187,9 @@ function baseSummary(accountId: string, partial: Partial<LabBillingSummary>): La
       endDate: null,
       daysRemaining: null,
     },
+    organisationTrial: {
+      canStartTrial: false,
+    },
     activeOrder: null,
     latestInvoiceRequest: null,
     availableActions: { ...SUPPORT },
@@ -238,6 +241,11 @@ export function billingLabSummaryForScenario(
           endDate: null,
           daysRemaining: null,
         },
+        organisationTrial: {
+          consumptionStatus: "available",
+          allocationStatus: "none",
+          canStartTrial: true,
+        },
         availableActions: {
           ...SUPPORT,
           canStartTrial: true,
@@ -257,6 +265,11 @@ export function billingLabSummaryForScenario(
           startDate: null,
           endDate: null,
           daysRemaining: null,
+        },
+        organisationTrial: {
+          consumptionStatus: "available",
+          allocationStatus: "none",
+          canStartTrial: true,
         },
         availableActions: {
           ...SUPPORT,
@@ -278,6 +291,11 @@ export function billingLabSummaryForScenario(
           endDate: "2026-05-15",
           daysRemaining: 8,
         },
+        organisationTrial: {
+          consumptionStatus: "used",
+          allocationStatus: "active_on_this_account",
+          canStartTrial: false,
+        },
         availableActions: { ...SUPPORT, canContactSupport: true },
       });
 
@@ -292,11 +310,163 @@ export function billingLabSummaryForScenario(
           endDate: "2026-04-15",
           daysRemaining: 0,
         },
+        organisationTrial: {
+          consumptionStatus: "used",
+          allocationStatus: "ended",
+          canStartTrial: false,
+        },
         availableActions: {
           ...SUPPORT,
+          canStartTrial: false,
           canSelectPlan: true,
           canStartCheckout: true,
           canRequestInvoice: true,
+        },
+      });
+
+    case "org_start_available":
+      return baseSummary(accountId, {
+        accessStatus: "pending",
+        billingStatus: "trial_available",
+        trial: {
+          isEligible: true,
+          isActive: false,
+          startDate: null,
+          endDate: null,
+          daysRemaining: null,
+        },
+        organisationTrial: {
+          consumptionStatus: "available",
+          allocationStatus: "none",
+          canStartTrial: true,
+        },
+        availableActions: {
+          ...SUPPORT,
+          canStartTrial: true,
+          canSelectPlan: true,
+          canStartCheckout: true,
+          canRequestInvoice: true,
+        },
+      });
+
+    case "org_active_here":
+      return baseSummary(accountId, {
+        accessStatus: "active",
+        billingStatus: "trialing",
+        trial: {
+          isEligible: false,
+          isActive: true,
+          startDate: "2026-05-01",
+          endDate: "2026-05-15",
+          daysRemaining: 8,
+        },
+        organisationTrial: {
+          consumptionStatus: "used",
+          allocationStatus: "active_on_this_account",
+          canStartTrial: false,
+        },
+        availableActions: {
+          ...SUPPORT,
+          canStartTrial: false,
+        },
+      });
+
+    case "org_active_elsewhere":
+      return baseSummary(accountId, {
+        accessStatus: "restricted",
+        billingStatus: "trial_ended",
+        trial: {
+          isEligible: false,
+          isActive: false,
+          startDate: null,
+          endDate: null,
+          daysRemaining: null,
+        },
+        organisationTrial: {
+          consumptionStatus: "used",
+          allocationStatus: "active_on_another_account",
+          canStartTrial: false,
+        },
+        availableActions: {
+          ...SUPPORT,
+          canStartTrial: false,
+          canSelectPlan: true,
+          canStartCheckout: true,
+          canRequestInvoice: true,
+        },
+      });
+
+    case "org_used":
+      return baseSummary(accountId, {
+        accessStatus: "restricted",
+        billingStatus: "trial_ended",
+        trial: {
+          isEligible: false,
+          isActive: false,
+          startDate: "2026-03-01",
+          endDate: "2026-03-15",
+          daysRemaining: 0,
+        },
+        organisationTrial: {
+          consumptionStatus: "used",
+          allocationStatus: "ended",
+          canStartTrial: false,
+        },
+        availableActions: {
+          ...SUPPORT,
+          canStartTrial: false,
+          canSelectPlan: true,
+          canStartCheckout: true,
+          canRequestInvoice: true,
+        },
+      });
+
+    case "org_blocked":
+      return baseSummary(accountId, {
+        accessStatus: "pending",
+        billingStatus: "checkout_started",
+        currentPlan: LAB_BILLING_TIER_CLUB_SEASON,
+        trial: {
+          isEligible: true,
+          isActive: false,
+          startDate: null,
+          endDate: null,
+          daysRemaining: null,
+        },
+        organisationTrial: {
+          consumptionStatus: "available",
+          allocationStatus: "none",
+          canStartTrial: false,
+        },
+        activeOrder: orderLab({
+          status: "checkout_pending",
+          paymentStatus: "unpaid",
+          hostedInvoiceUrl: null,
+        }),
+        availableActions: {
+          ...SUPPORT,
+          canStartTrial: false,
+          canContactSupport: true,
+        },
+      });
+
+    case "org_unavailable":
+      return baseSummary(accountId, {
+        accessStatus: "pending",
+        billingStatus: "not_started",
+        trial: {
+          isEligible: false,
+          isActive: false,
+          startDate: null,
+          endDate: null,
+          daysRemaining: null,
+        },
+        organisationTrial: {
+          canStartTrial: false,
+        },
+        availableActions: {
+          ...SUPPORT,
+          canStartTrial: false,
         },
       });
 
@@ -311,6 +481,11 @@ export function billingLabSummaryForScenario(
           startDate: "2026-02-01",
           endDate: "2026-02-15",
           daysRemaining: 0,
+        },
+        organisationTrial: {
+          consumptionStatus: "used",
+          allocationStatus: "ended",
+          canStartTrial: false,
         },
         availableActions: {
           ...SUPPORT,

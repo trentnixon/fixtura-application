@@ -18,7 +18,6 @@ import {
 } from "../../_utils/orders/billingHistoryOrderUtils";
 import {
   extractInvoiceLinksFromSummaryOrder,
-  isStripePaymentChannel,
   resolveHistoryOrderInvoiceLinks,
 } from "../../_utils/orders/orderInvoiceLinks";
 import {
@@ -102,9 +101,7 @@ function HistoryOrderDetailSection({
 
 function ActiveOrderSection({ order }: { order: AccountBillingOrderDto }) {
   const status = order.stripe_status ?? order.payment_status ?? "—";
-  const invoiceLinks = isStripePaymentChannel(order.payment_channel)
-    ? extractInvoiceLinksFromSummaryOrder(order)
-    : { hostedInvoiceUrl: null, invoicePdfUrl: null };
+  const invoiceLinks = extractInvoiceLinksFromSummaryOrder(order);
 
   return (
     <dl className="grid gap-2">

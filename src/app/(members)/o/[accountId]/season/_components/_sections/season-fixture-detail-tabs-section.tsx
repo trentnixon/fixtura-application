@@ -25,12 +25,13 @@ import {
   resolveFixtureDetailDefaultTab,
 } from "../_utils/season-fixture-tabs";
 
+import type { SeasonFixtureDetailTabValue } from "../_constants/season-fixture-tabs";
 import type { SeasonFixtureDetailTabsSectionProps } from "../_types";
 
 export function SeasonFixtureDetailTabsSection({ model }: SeasonFixtureDetailTabsSectionProps) {
   const visibleTabs = useMemo(() => getVisibleFixtureDetailTabs(model), [model]);
   const defaultTab = resolveFixtureDetailDefaultTab();
-  const [activeTab, setActiveTab] = useState(defaultTab);
+  const [activeTab, setActiveTab] = useState<SeasonFixtureDetailTabValue>(defaultTab);
 
   useEffect(() => {
     setActiveTab((current) => resolveFixtureDetailActiveTab(current, visibleTabs));
@@ -38,8 +39,12 @@ export function SeasonFixtureDetailTabsSection({ model }: SeasonFixtureDetailTab
 
   const outputsHasContent = fixtureOutputsTabHasPanelContent(model);
 
+  const handleTabChange = (value: string) => {
+    setActiveTab(resolveFixtureDetailActiveTab(value, visibleTabs));
+  };
+
   return (
-    <Tabs value={activeTab} onValueChange={setActiveTab} className="grid w-full gap-6">
+    <Tabs value={activeTab} onValueChange={handleTabChange} className="grid w-full gap-6">
       <TabsList
         aria-label={SEASON_FIXTURE_DETAIL_TABS_ARIA_LABEL}
         className={TABBER_PILL_BORDERLESS_DEFAULT_LIST_CLASS}

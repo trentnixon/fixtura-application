@@ -21,6 +21,7 @@ export function BillingTrialDetailsDialog({
   uiMode,
   emphasize,
   triggerVariant = "button",
+  organisationTrialNoticePresentation = null,
 }: BillingTrialDetailsDialogProps) {
   const label = billingTrialDetailsButtonLabel(uiMode);
 
@@ -46,7 +47,12 @@ export function BillingTrialDetailsDialog({
         <DialogHeader>
           <DialogTitle className="font-brand">{BILLING_TRIAL_DETAILS_COPY.dialogTitle}</DialogTitle>
         </DialogHeader>
-        <TrialDetailsBody trial={trial} uiMode={uiMode} emphasize={emphasize} />
+        <TrialDetailsBody
+          trial={trial}
+          uiMode={uiMode}
+          emphasize={emphasize}
+          organisationTrialNoticePresentation={organisationTrialNoticePresentation}
+        />
       </DialogContent>
     </Dialog>
   );

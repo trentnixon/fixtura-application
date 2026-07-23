@@ -4,8 +4,23 @@ import { equalDraft, settingsDraftFromPayload } from "./settings-draft-from-payl
 
 import type { AccountSchedulerDocument, AccountSettingsData } from "@/types/api/account";
 
+function baseScheduler(
+  overrides: Partial<AccountSchedulerDocument> = {},
+): AccountSchedulerDocument {
+  const doc: AccountSchedulerDocument = {
+    id: 1,
+    Name: "Weekly",
+    Time: null,
+    Queued: false,
+    isRendering: false,
+    createdAt: "2024-01-01T00:00:00.000Z",
+    updatedAt: "2024-01-01T00:00:00.000Z",
+  };
+  return Object.assign(doc, overrides);
+}
+
 function baseSettings(overrides: Partial<AccountSettingsData> = {}): AccountSettingsData {
-  return {
+  const settings: AccountSettingsData = {
     id: 1,
     FirstName: "Jane",
     LastName: "Doe",
@@ -21,8 +36,8 @@ function baseSettings(overrides: Partial<AccountSettingsData> = {}): AccountSett
     hasCompletedStartSequence: true,
     hasCustomTemplate: false,
     account_type: 1,
-    ...overrides,
   };
+  return Object.assign(settings, overrides);
 }
 
 describe("settingsDraftFromPayload", () => {
@@ -52,18 +67,20 @@ describe("settingsDraftFromPayload", () => {
 
   it("prefers scheduler days_of_the_week over settings embedding", () => {
     const settings = baseSettings({
-      scheduler: { days_of_the_week: { id: 1, Name: "Sunday" } },
+      scheduler: baseScheduler({ days_of_the_week: { id: 1, Name: "Sunday" } }),
     });
-    const schedulerDoc: AccountSchedulerDocument = {
+    const schedulerDoc = baseScheduler({
       days_of_the_week: { id: 3, Name: "Tuesday" },
-    };
+    });
     const draft = settingsDraftFromPayload(settings, schedulerDoc);
     expect(draft.deliveryWeekdayKey).toBe("tuesday");
   });
 
   it("falls back to sunday when weekday is unparseable", () => {
     const draft = settingsDraftFromPayload(
-      baseSettings({ scheduler: { days_of_the_week: { id: 0, Name: "" } } }),
+      baseSettings({
+        scheduler: baseScheduler({ days_of_the_week: { id: 0, Name: "" } }),
+      }),
       null,
     );
     expect(draft.deliveryWeekdayKey).toBe("sunday");

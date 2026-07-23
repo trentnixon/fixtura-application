@@ -29,7 +29,6 @@ import type { BillingTrialStartConfirmDialogProps } from "../../_types/trial/bil
 export function BillingTrialStartConfirmDialog({
   open,
   onOpenChange,
-  trialSchedule,
   accountName,
   errorMessage,
   isPending,
@@ -51,14 +50,6 @@ export function BillingTrialStartConfirmDialog({
               <TypographyDialogDescription as="p" className="text-inherit">
                 {formatBillingTrialStartConfirmDescription(accountName)}
               </TypographyDialogDescription>
-              {trialSchedule ? (
-                <TypographyDialogDescription as="p" className="text-inherit">
-                  {BILLING_TRIAL_START_COPY.confirmStartsLabel}{" "}
-                  <strong>{trialSchedule.startLabel}</strong>.{" "}
-                  {BILLING_TRIAL_START_COPY.confirmEndsLabel}{" "}
-                  <strong>{trialSchedule.endLabel}</strong>.
-                </TypographyDialogDescription>
-              ) : null}
             </div>
           </DialogDescription>
         </DialogHeader>

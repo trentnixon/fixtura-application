@@ -48,7 +48,7 @@ describe("useRetryOnboardingSetup", () => {
     const invalidateSpy = vi.spyOn(queryClient, "invalidateQueries");
     const { result } = renderHook(() => useRetryOnboardingSetup("123"), { wrapper: Wrapper });
 
-    result.current.mutate();
+    result.current.mutate({});
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
@@ -91,7 +91,7 @@ describe("useRetryOnboardingSetup", () => {
     const invalidateSpy = vi.spyOn(queryClient, "invalidateQueries");
     const { result } = renderHook(() => useRetryOnboardingSetup("123"), { wrapper: Wrapper });
 
-    result.current.mutate();
+    result.current.mutate({});
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 

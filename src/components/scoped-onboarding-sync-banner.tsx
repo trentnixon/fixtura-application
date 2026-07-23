@@ -30,7 +30,7 @@ export function ScopedOnboardingSyncBanner() {
       <div className="border-border w-full border-t px-4 pb-3 lg:px-6">
         <InlineAlert
           variant="destructive"
-          message="Initial setup or data fetch failed. Retry from setup status or contact support if this continues."
+          message="Initial setup or data fetch failed. Please contact us if this continues."
         />
       </div>
     );

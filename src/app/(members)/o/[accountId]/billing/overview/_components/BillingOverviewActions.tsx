@@ -12,10 +12,10 @@ import { showCreateSubscriptionCta } from "../_utils/showCreateSubscriptionCta";
 import type { BillingUiMode } from "../../_core/billing-state";
 import type { BillingOverviewActionsProps } from "../_types/billingOverviewActions";
 
-function showTrialDetailsInActionsBar(
+function shouldShowTrialDetailsInActionsBar(
   billingUiMode: BillingUiMode,
   trialDetailsTrigger: BillingOverviewActionsProps["trialDetailsTrigger"],
-): trialDetailsTrigger is NonNullable<BillingOverviewActionsProps["trialDetailsTrigger"]> {
+): boolean {
   if (!trialDetailsTrigger) {
     return false;
   }
@@ -32,20 +32,23 @@ export function BillingOverviewActions({
   billingSummary,
   trialDetailsTrigger,
   createHref,
+  organisationTrialNoticePresentation = null,
 }: BillingOverviewActionsProps) {
   const showCreateCta = showCreateSubscriptionCta(billingUiMode, billingSummary.availableActions);
   const createCtaLabel =
     billingUiMode === "active_trial"
       ? ACTIVE_TRIAL_CREATE_SUBSCRIPTION_LABEL
       : DEFAULT_CREATE_SUBSCRIPTION_LABEL;
+  const showTrialDetails = shouldShowTrialDetailsInActionsBar(billingUiMode, trialDetailsTrigger);
 
   return (
     <div className="flex flex-wrap items-center gap-2">
-      {showTrialDetailsInActionsBar(billingUiMode, trialDetailsTrigger) ? (
+      {showTrialDetails ? (
         <BillingTrialDetailsDialog
           trial={billingSummary.trial}
           uiMode={billingUiMode}
-          emphasize={trialDetailsTrigger.emphasize}
+          emphasize={trialDetailsTrigger?.emphasize ?? false}
+          organisationTrialNoticePresentation={organisationTrialNoticePresentation}
         />
       ) : null}
 

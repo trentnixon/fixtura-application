@@ -9,9 +9,14 @@ import {
 import { isValidAccountIdSegment } from "@/lib/config/account-routes";
 
 import { useBillingOverviewLifecycle } from "./useBillingOverviewLifecycle";
-import { deriveBillingUiMode, type BillingUiMode } from "../../_core/billing-state";
+import {
+  deriveBillingUiMode,
+  deriveOrganisationTrialPresentation,
+  type BillingUiMode,
+} from "../../_core/billing-state";
 import { billingTrialDetailsTriggerState } from "../../trial/billing-trial-details-dialog";
 
+import type { OrganisationTrialPresentation } from "../../_types/trial/organisationTrialPresentation";
 import type { AccountBillingOrderHistoryDto, AccountBillingSummaryV1 } from "@/types/api/account";
 
 type BillingOverviewReadyState = {
@@ -27,6 +32,7 @@ type BillingOverviewReadyState = {
   historyHref: string;
   createHref: string;
   availableActions: AccountBillingSummaryV1["availableActions"];
+  organisationTrialPresentation: OrganisationTrialPresentation;
   refetchOrders: () => void;
 };
 
@@ -209,6 +215,8 @@ export function useBillingOverviewContentState(
       : new Error(String(ordersQuery.error))
     : null;
   const billingUiMode = deriveBillingUiMode(billingSummary, { orders: ordersPayload });
+  const organisationTrialPresentation =
+    deriveOrganisationTrialPresentation(billingSummary).presentation;
 
   return {
     state: {
@@ -226,6 +234,7 @@ export function useBillingOverviewContentState(
       historyHref: `/o/${encodeURIComponent(accountId)}/billing/history`,
       createHref: `/o/${encodeURIComponent(accountId)}/billing/create`,
       availableActions: billingSummary.availableActions,
+      organisationTrialPresentation,
       refetchOrders: () => void ordersQuery.refetch(),
     },
     refetchBilling,

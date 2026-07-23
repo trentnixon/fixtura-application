@@ -1,3 +1,6 @@
+import { deriveBillingUiMode } from "@/app/(members)/o/[accountId]/billing/_core/billing-state";
+import { deriveOrganisationTrialPresentation } from "@/app/(members)/o/[accountId]/billing/_utils/trial/deriveOrganisationTrialPresentation";
+
 import { billingLabSummaryForScenario, labBillingTiersForCategory } from "./billing-lab-fixtures";
 import {
   BILLING_LAB_TRIAL_DAYS,
@@ -10,6 +13,9 @@ import {
   type MockCheckoutResponse,
   type MockInvoiceRequestResponse,
 } from "./lab-billing-types";
+import { labSummaryToAccountBillingSummary } from "./labSummaryToAccountBillingSummary";
+
+import type { OrganisationTrialPresentationResult } from "@/app/(members)/o/[accountId]/billing/_types/trial/organisationTrialPresentation";
 
 export function normalizeBillingLabMode(raw: string): BillingLabMode {
   return raw === "active" ? "active" : "wizard";
@@ -26,6 +32,25 @@ export function resolveBillingLabFixtureScenario(
 
 export function getLabBillingSummary(accountId: string, scenarioKey: string): LabBillingSummary {
   return billingLabSummaryForScenario(accountId, scenarioKey);
+}
+
+export function getLabOrgTrialPresentation(
+  summary: LabBillingSummary,
+): OrganisationTrialPresentationResult {
+  return deriveOrganisationTrialPresentation(labSummaryToAccountBillingSummary(summary));
+}
+
+export function canShowLabStartTrial(summary: LabBillingSummary): boolean {
+  const accountSummary = labSummaryToAccountBillingSummary(summary);
+  return (
+    deriveBillingUiMode(accountSummary) === "free_trial_available" &&
+    deriveOrganisationTrialPresentation(accountSummary).presentation === "start_available"
+  );
+}
+
+export function isLabTrialHeroScenario(summary: LabBillingSummary): boolean {
+  const uiMode = deriveBillingUiMode(labSummaryToAccountBillingSummary(summary));
+  return uiMode === "free_trial_available" || uiMode === "active_trial";
 }
 
 export function getLabAvailableBillingTiers(
@@ -55,6 +80,11 @@ export function startLabTrial(summary: LabBillingSummary): LabBillingSummary {
       startDate,
       endDate,
       daysRemaining: BILLING_LAB_TRIAL_DAYS,
+    },
+    organisationTrial: {
+      consumptionStatus: "used",
+      allocationStatus: "active_on_this_account",
+      canStartTrial: false,
     },
     availableActions: {
       canStartTrial: false,

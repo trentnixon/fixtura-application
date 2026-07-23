@@ -1,18 +1,15 @@
+import type { OrganisationTrialPresentation } from "../../_types/trial/organisationTrialPresentation";
+
 export type BillingTrialStartCardProps = {
   accountId: string;
   enabled: boolean;
   availableActions?: Partial<Record<string, boolean>>;
-};
-
-export type BillingTrialStartSchedule = {
-  startLabel: string;
-  endLabel: string;
+  organisationTrialPresentation?: OrganisationTrialPresentation;
 };
 
 export type BillingTrialStartConfirmDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  trialSchedule: BillingTrialStartSchedule | null;
   accountName: string;
   errorMessage: string | null;
   isPending: boolean;

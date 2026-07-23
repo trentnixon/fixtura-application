@@ -1,6 +1,6 @@
 {
-  "name": "marketing",
-  "version": "0.1.0",
+  "name": "application",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -57,6 +57,7 @@
     "@radix-ui/react-tabs": "^1.1.13",
     "@radix-ui/react-tooltip": "^1.2.8",
     "@remotion/fonts": "4.0.314",
+    "@remotion/layout-utils": "4.0.314",
     "@remotion/noise": "4.0.314",
     "@remotion/player": "4.0.314",
     "@remotion/transitions": "4.0.314",
@@ -104,6 +105,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/tinycolor2": "^1.4.6",
     "@typescript-eslint/eslint-plugin": "^8.41.0",
     "@typescript-eslint/parser": "^8.41.0",
     "@vitejs/plugin-react": "^5.0.2",

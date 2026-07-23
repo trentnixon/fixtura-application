@@ -18,7 +18,7 @@ import type { TrialDetailsBodyTrialInfoProps } from "../../_types/trial/billingT
 export function TrialDetailsBodyTrialInfo({ trial, uiMode }: TrialDetailsBodyTrialInfoProps) {
   const daysRemaining = billingTrialDetailsDaysRemainingForDisplay(uiMode, trial);
   const tierLabel = billingTrialTierDisplayLabel(trial);
-  const eligibleCaption = billingTrialEligibleCaption(trial.eligible);
+  const eligibleCaption = billingTrialEligibleCaption(trial.isEligible);
 
   return (
     <>

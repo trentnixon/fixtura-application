@@ -2,7 +2,7 @@
 
 Run this against **staging** before release. Record **Pass / Fail / N/A** and short notes. Link this sheet(or copy) from the release ticket.
 
-**Related:** [frontend-billing-api-contract-handoff.md](../response/frontend-billing-api-contract-handoff.md), [billing-checkout-return-urls.md](./billing-checkout-return-urls.md), [stripe-customer-portal-decision.md](./stripe-customer-portal-decision.md).
+**Related:** [frontend-billing-api-contract-handoff.md](../response/frontend-billing-api-contract-handoff.md), [billing-checkout-return-urls.md](./billing-checkout-return-urls.md), [stripe-customer-portal-decision.md](./stripe-customer-portal-decision.md), [app-trial-frontend-handoff.md](../handoff/app-trial-frontend-handoff.md).
 
 ## Repo contract map (BFF -> TypeScript)
 
@@ -41,17 +41,17 @@ Use this when reconciling **staging JSON** with types in [`src/types/api/account
 
 ## Test matrix
 
-| Area                 | Scenario                                                                                                                                                                                                                                            | Pass / Fail / N/A | Notes                                                                                            |
-| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ------------------------------------------------------------------------------------------------ |
-| Free trial - start   | Account with `GET /billing` showing `trial_available` + CMS `canStartTrial`/`can_start_trial`; click Start; expect `POST .../billing/start-trial`, refetch `GET /billing`, active trial summary; checkout/invoice hidden until past trial-available |                   | Confirm Strapi status strings + endpoint path against CMS handoff                                |
-| Checkout - success   | Complete Stripe test payment; land on `/o/{accountId}/billing` with success marker (`session_id`, `checkout_session_id`, or `billing_checkout=success`)                                                                                             |                   | Banner/refetch; params stripped; summary updates after webhook (may need wait or manual refresh) |
-| Checkout - cancelled | Cancel or abandon Checkout; land with `billing_checkout=cancelled` (or agreed cancel marker)                                                                                                                                                        |                   | Refetch; URL cleaned; no false "paid" state                                                      |
-| Invoice request      | Submit invoice form when allowed (`canRequestInvoice` or empty `availableActions` per legacy compat)                                                                                                                                                |                   | `POST .../invoice-requests` 2xx; Latest invoice request updates                                  |
-| Payment failed       | Failing test card **or** CMS shows failed/unpaid on `GET /billing`                                                                                                                                                                                  |                   | UI matches API; no crash; sensible copy or error/retry                                           |
-| Cross-account        | Open `/o/{otherAccountId}/billing` logged in as user who does **not** own that account                                                                                                                                                              |                   | 404 or safe denial; no enumeration hints                                                         |
-| Auth failure         | Expired/invalid session (or logout mid-flow)                                                                                                                                                                                                        |                   | Login / session refresh; no stuck spinners                                                       |
-| Responsive - mobile  | ~375px width: billing page, checkout card, invoice form                                                                                                                                                                                             |                   | Readable, no bad overflow, tappable controls                                                     |
-| Responsive - desktop | Wide viewport: same surfaces                                                                                                                                                                                                                        |                   | Layout acceptable                                                                                |
+| Area                            | Scenario                                                                                                                                                                                                                          | Pass / Fail / N/A | Notes                                                                                            |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ------------------------------------------------------------------------------------------------ |
+| Free trial - start (legacy row) | Account with `GET /billing` showing `trial_available` + CMS `canStartTrial`; click Start; expect `POST .../billing/start-trial`, refetch `GET /billing`, active trial summary; checkout/invoice hidden until past trial-available |                   | Superseded by org-trial matrix below; keep for regression                                        |
+| Checkout - success              | Complete Stripe test payment; land on `/o/{accountId}/billing` with success marker (`session_id`, `checkout_session_id`, or `billing_checkout=success`)                                                                           |                   | Banner/refetch; params stripped; summary updates after webhook (may need wait or manual refresh) |
+| Checkout - cancelled            | Cancel or abandon Checkout; land with `billing_checkout=cancelled` (or agreed cancel marker)                                                                                                                                      |                   | Refetch; URL cleaned; no false "paid" state                                                      |
+| Invoice request                 | Submit invoice form when allowed (`canRequestInvoice` or empty `availableActions` per legacy compat)                                                                                                                              |                   | `POST .../invoice-requests` 2xx; Latest invoice request updates                                  |
+| Payment failed                  | Failing test card **or** CMS shows failed/unpaid on `GET /billing`                                                                                                                                                                |                   | UI matches API; no crash; sensible copy or error/retry                                           |
+| Cross-account                   | Open `/o/{otherAccountId}/billing` logged in as user who does **not** own that account                                                                                                                                            |                   | 404 or safe denial; no enumeration hints                                                         |
+| Auth failure                    | Expired/invalid session (or logout mid-flow)                                                                                                                                                                                      |                   | Login / session refresh; no stuck spinners                                                       |
+| Responsive - mobile             | ~375px width: billing page, checkout card, invoice form                                                                                                                                                                           |                   | Readable, no bad overflow, tappable controls                                                     |
+| Responsive - desktop            | Wide viewport: same surfaces                                                                                                                                                                                                      |                   | Layout acceptable                                                                                |
 
 ## Staff - immediate Stripe invoice (wizard)
 
@@ -96,12 +96,52 @@ Use this addendum for the post-purchase and pending-payment polish added on 2026
 | No purchase paths available | Create flow explains when Season Pass actions are unavailable and gives billing/support guidance.              |                   |       |
 | No plans available          | Empty plan list explains that no Season Pass plans are currently available and points to support/billing next. |                   |       |
 
+## Organisation free trial (APP-TRIAL-007)
+
+Run on staging `/o/{accountId}/billing`. Open Network for `/api/accounts/.../billing` and `.../billing/start-trial`. Use `?debug=1` to inspect `organisationTrial` and derived presentation. Authoritative contract: [Backend cms-handoff-bill-trial-012-013](../../../../../../../../Backend/.comms/accounts/handoff/cms-handoff-bill-trial-012-013-frontend-integration.md).
+
+**Prerequisites (org-trial):**
+
+| Item                                                                                                      | Ready |
+| --------------------------------------------------------------------------------------------------------- | ----- |
+| Staging accounts covering eligible, active-here, active-elsewhere, used, unresolved, billing-blocked orgs | [ ]   |
+| Two accounts under same org (for active-elsewhere)                                                        | [ ]   |
+| CMS env: start-trial enabled (not kill-switched) unless testing 503 row                                   | [ ]   |
+
+| Scenario          | What to verify                                                                                   | Pass / Fail / N/A | Notes |
+| ----------------- | ------------------------------------------------------------------------------------------------ | ----------------- | ----- |
+| Eligible org      | Start visible; POST succeeds; refetch shows active trial with CMS dates (not client-predicted)   |                   |       |
+| Active here       | No Start; active-trial UI with CMS dates                                                         |                   |       |
+| Active elsewhere  | Org notice; no Start; no other-account IDs, emails, or billing details exposed                   |                   |       |
+| Used (ended)      | Org notice; paid-plan CTAs when CMS allows                                                       |                   |       |
+| Unresolved org    | Fail-closed; support/unavailable notice; no Start; `organisationTrial` may omit status fields    |                   |       |
+| Billing-blocked   | No org notice; billing/checkout UX owns screen (`blocked_by_billing` or paid/pending precedence) |                   |       |
+| Idempotent retry  | POST returns `already_active`; refetch; no duplicate UI                                          |                   |       |
+| 503 kill-switch   | Stable copy + Retry-After when CMS returns `TRIAL_ALLOCATION_DISABLED`                           |                   |       |
+| Org conflict race | POST `TRIAL_ALREADY_CONSUMED`; refetch replaces stale Start UI with used or active-elsewhere     |                   |       |
+
+## Frontend sign-off (APP-TRIAL-007)
+
+Static checks (repo/local). Record Pass / Fail / N/A before release.
+
+| Check                                                                                                                                           | Pass / Fail / N/A | Notes                                                                  |
+| ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ---------------------------------------------------------------------- |
+| No legacy `POST /trial-instances` usage in `src/`                                                                                               | Pass              | 2026-07-22: no matches in `src/` (docs only)                           |
+| Start-trial UI driven by `availableActions.canStartTrial` + org presentation                                                                    | Pass              | Covered by 177 vitest + Route Lab matrix                               |
+| Org-consumed / active-elsewhere states show appropriate messaging                                                                               | Pass              | Component + fixture tests                                              |
+| POST errors mapped by stable `error.code` (not message text)                                                                                    | Pass              | billingTrialStart + BFF route tests                                    |
+| Billing refetch after mutation verified (local tests + staging)                                                                                 | Pass (local)      | Mutation hook tests; staging POST/refetch pending                      |
+| Dashboard billing card: "Start trial" CTA label only when `free_trial_available`; billing overview still double-gates Start on org presentation | Pass              | No `useBillingTrialStart` in dashboard; build-organisation-route-cards |
+
 ## Engineering verification (repo, local)
 
-| Check                                                                               | Pass / Fail / N/A | Notes |
-| ----------------------------------------------------------------------------------- | ----------------- | ----- |
-| `grep` / code review: no `StripeCustomerPortal` in `src/**/*.ts(x)` except `.comms` |                   |       |
-| `npm test -- billing-state` (Vitest)                                                |                   |       |
-| `npm run typecheck`                                                                 |                   |       |
+| Check                                                                                                  | Pass / Fail / N/A | Notes               |
+| ------------------------------------------------------------------------------------------------------ | ----------------- | ------------------- |
+| `grep` / code review: no `StripeCustomerPortal` in `src/**/*.ts(x)` except `.comms`                    | Pass              | 2026-07-22          |
+| `grep`: no `trial-instances` or `useTrial` in `src/`                                                   | Pass              | 2026-07-22          |
+| `grep`: no `useBillingTrialStart` under dashboard (Start mutation billing-only)                        | Pass              | 2026-07-22          |
+| `npm run typecheck`                                                                                    | Pass              | 2026-07-22          |
+| Vitest org-trial suite (see [app-trial-frontend-handoff.md](../handoff/app-trial-frontend-handoff.md)) | Pass              | 177 tests, 11 files |
 
-**Date completed:** **\*\***\_\_\_**\*\***
+**Date completed (local/static):** 2026-07-22  
+**Live staging matrix:** Pending — see [app-trial-007-sign-off.md](./app-trial-007-sign-off.md)

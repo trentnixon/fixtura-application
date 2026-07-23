@@ -2,7 +2,13 @@ import { describe, expect, it } from "vitest";
 
 import { buildBillingRouteCard } from "./build-organisation-route-cards";
 
-import type { AccountBillingOrderHistoryDto, AccountBillingSummaryV1 } from "@/types/api/account";
+import type {
+  AccountBillingOrderDto,
+  AccountBillingOrderHistoryDto,
+  AccountBillingSubscriptionTierDto,
+  AccountBillingSummaryV1,
+  BillingSummaryCurrentPlan,
+} from "@/types/api/account";
 
 function baseSummary(over: Partial<AccountBillingSummaryV1> = {}): AccountBillingSummaryV1 {
   return {
@@ -44,6 +50,80 @@ function minimalHistoryOrder(
   };
 }
 
+function minimalSubscriptionTier(
+  overrides: Partial<AccountBillingSubscriptionTierDto> = {},
+): AccountBillingSubscriptionTierDto {
+  return {
+    id: 1,
+    Name: "Club Pro",
+    Title: "Club Pro",
+    SubTitle: null,
+    description: null,
+    price: 100,
+    currency: "AUD",
+    stripe_product_id: null,
+    stripe_price_id: null,
+    isActive: true,
+    isClub: true,
+    includeSponsors: false,
+    Category: null,
+    DaysInPass: 30,
+    PriceByWeekInPass: null,
+    subscription_items: [],
+    ...overrides,
+  };
+}
+
+function minimalActiveOrder(
+  overrides: Partial<AccountBillingOrderDto> = {},
+): AccountBillingOrderDto {
+  return {
+    id: 10,
+    Name: "Season pass",
+    total: null,
+    currency: "AUD",
+    OrderPaid: true,
+    payment_status: "paid",
+    checkout_status: null,
+    payment_channel: null,
+    startOrderAt: "2026-05-01T00:00:00.000Z",
+    endOrderAt: "2026-06-01T00:00:00.000Z",
+    isActive: true,
+    isPaused: false,
+    cancel_at_period_end: false,
+    stripe_subscription_id: null,
+    stripe_status: "active",
+    hosted_invoice_url: null,
+    invoice_pdf: null,
+    invoice_number: null,
+    invoice_due_date: null,
+    createdAt: "2026-01-01",
+    updatedAt: "2026-01-01",
+    subscriptionTier: null,
+    ...overrides,
+  };
+}
+
+function minimalCurrentPlan(
+  overrides: Partial<BillingSummaryCurrentPlan> = {},
+): BillingSummaryCurrentPlan {
+  return {
+    id: "1",
+    name: "Club Pro",
+    description: "",
+    category: "Club",
+    price: 100,
+    currency: "AUD",
+    daysInPass: 30,
+    isActive: true,
+    includeSponsors: false,
+    includedAssetTypes: [],
+    orderId: null,
+    paymentChannel: null,
+    ...overrides,
+  };
+}
+
 describe("buildBillingRouteCard", () => {
   it("maps paid_active to plan metrics and manage billing CTA", () => {
     const view = buildBillingRouteCard({
@@ -51,15 +131,10 @@ describe("buildBillingRouteCard", () => {
       billingUiMode: "paid_active",
       productState: "active_account",
       billingSummary: baseSummary({
-        activeOrder: {
-          id: 10,
-          Name: "Season pass",
-          startOrderAt: "2026-05-01T00:00:00.000Z",
-          endOrderAt: "2026-06-01T00:00:00.000Z",
-          cancel_at_period_end: false,
-          subscriptionTier: { id: 1, Name: "Club Pro", Title: "Club Pro" },
-        },
-        currentPlan: { id: 1, name: "Club Pro" },
+        activeOrder: minimalActiveOrder({
+          subscriptionTier: minimalSubscriptionTier(),
+        }),
+        currentPlan: minimalCurrentPlan(),
       }),
       orders: [
         minimalHistoryOrder({
@@ -90,7 +165,18 @@ describe("buildBillingRouteCard", () => {
           isActive: true,
           startDate: "2026-05-01",
           endDate: "2026-05-25",
-          subscriptionTier: { id: 1, name: "Trial tier" },
+          subscriptionTier: {
+            id: "1",
+            name: "Trial tier",
+            description: "",
+            category: "Club",
+            price: 0,
+            currency: "AUD",
+            daysInPass: 14,
+            isActive: true,
+            includeSponsors: false,
+            includedAssetTypes: [],
+          },
         },
       }),
       orders: [],
@@ -143,13 +229,9 @@ describe("buildBillingRouteCard", () => {
       billingUiMode: "paid_active",
       productState: "active_account",
       billingSummary: baseSummary({
-        activeOrder: {
-          id: 10,
-          Name: "Season pass",
-          startOrderAt: "2026-05-01T00:00:00.000Z",
-          endOrderAt: "2026-06-01T00:00:00.000Z",
+        activeOrder: minimalActiveOrder({
           cancel_at_period_end: true,
-        },
+        }),
       }),
       orders: [],
     });

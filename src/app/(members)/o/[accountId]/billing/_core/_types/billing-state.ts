@@ -1,3 +1,4 @@
+import type { OrganisationTrialPresentation } from "../../_types/trial/organisationTrialPresentation";
 import type { AccountBillingOrderHistoryDto } from "@/types/api/account";
 
 /**
@@ -92,5 +93,15 @@ export type BillingDebugSnapshot = {
   helpers: {
     canStartTrial: boolean;
     trialDaysRemaining: number | null;
+  };
+  organisationTrial: {
+    presentation: OrganisationTrialPresentation;
+    failClosed: boolean;
+    reason: string | null;
+    consumptionStatus: string | null;
+    allocationStatus: string | null;
+    orgCanStartTrial: boolean | null;
+    actionsCanStartTrial: boolean;
+    actionFlagsConsistent: boolean;
   };
 };

@@ -14,6 +14,7 @@ import {
   qualifiesFreeTrialAvailable,
 } from "./billing-state-helpers";
 import { trueAvailableActionKeysAfterBillingUiMode } from "../../_utils/overview/availableActionsUiGate";
+import { deriveOrganisationTrialPresentation } from "../../_utils/trial/deriveOrganisationTrialPresentation";
 
 import type { BillingDebugSnapshot, DeriveBillingUiModeOptions } from "../_types/billing-state";
 import type { AccountBillingSummaryV1 } from "@/types/api/account";
@@ -24,6 +25,9 @@ export function getBillingDebugSnapshot(
 ): BillingDebugSnapshot {
   const referenceDate = options?.referenceDate ?? new Date();
   const billingUiMode = deriveBillingUiMode(summary, options);
+  const orgTrial = deriveOrganisationTrialPresentation(summary);
+  const actionsCanStartTrial = canStartTrial(summary.availableActions);
+  const orgBlock = summary.organisationTrial;
 
   return {
     referenceIso: referenceDate.toISOString(),
@@ -71,8 +75,19 @@ export function getBillingDebugSnapshot(
       ),
     },
     helpers: {
-      canStartTrial: canStartTrial(summary.availableActions),
+      canStartTrial: actionsCanStartTrial,
       trialDaysRemaining: trialDaysRemaining(summary.trial?.endDate ?? null, options),
+    },
+    organisationTrial: {
+      presentation: orgTrial.presentation,
+      failClosed: orgTrial.failClosed,
+      reason: orgTrial.reason ?? null,
+      consumptionStatus: orgBlock?.consumptionStatus ?? null,
+      allocationStatus: orgBlock?.allocationStatus ?? null,
+      orgCanStartTrial: orgBlock?.canStartTrial ?? null,
+      actionsCanStartTrial,
+      actionFlagsConsistent:
+        orgBlock != null ? orgBlock.canStartTrial === actionsCanStartTrial : false,
     },
   };
 }

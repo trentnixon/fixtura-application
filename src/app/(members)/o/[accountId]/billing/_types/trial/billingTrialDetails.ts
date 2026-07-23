@@ -12,12 +12,15 @@ export type BillingTrialDetailsDialogProps = {
   emphasize: boolean;
   /** Default `button` matches billing overview actions; `text` sits below Season Pass card. */
   triggerVariant?: "button" | "text";
+  /** Org-trial context shown inside the dialog (e.g. active elsewhere). */
+  organisationTrialNoticePresentation?: "active_on_another_account" | null;
 };
 
 export type TrialDetailsBodyProps = {
   trial: BillingTrialSummaryV1 | null | undefined;
   uiMode: BillingUiMode;
   emphasize: boolean;
+  organisationTrialNoticePresentation?: "active_on_another_account" | null;
 };
 
 export type TrialDetailsBodyTrialInfoProps = {

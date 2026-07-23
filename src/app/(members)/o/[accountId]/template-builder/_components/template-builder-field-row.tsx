@@ -93,7 +93,7 @@ export function TemplateBuilderUseBackgroundFieldRow({
         {isChanged ? <TemplateBuilderChangedBadge placement="title" /> : null}
       </Label>
       <Select
-        value={resolvedValue}
+        {...(resolvedValue !== undefined ? { value: resolvedValue } : {})}
         onValueChange={(v) => onValueChange(selectValueToUseBackground(v))}
       >
         <SelectTrigger id={fieldId} className="w-full">

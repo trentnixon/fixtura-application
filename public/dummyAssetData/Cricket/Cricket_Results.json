@@ -1,415 +1,268 @@
 {
   "data": [
     {
-      "date": "16 Feb 2026",
-      "type": "T20",
-      "round": "Round 13",
-      "gameID": "4761f4d5",
-      "gender": "Girls",
-      "ground": "Boeing Reserve / #3 Upper",
-      "prompt": "{\n  \"matchContext\": {\n    \"competition\": \"NWMCA JUNIORS\",\n    \"grade\": \"All Girls U14 Catherine Morrow Shield\",\n    \"round\": \"Round 13\",\n    \"ground\": \"Boeing Reserve / #3 Upper\",\n    \"matchType\": \"T20\",\n    \"tossWinner\": \"Strathmore Heights PVHCC Falcons\",\n    \"tossResult\": \"Strathmore Heights PVHCC Falcons won the toss and elected to bat\",\n    \"resultStatement\": \"Strathmore Heights PVHCC Falcons won by 108 runs\",\n    \"dayOne\": \"2026-02-16\",\n    \"finalDaysPlay\": \"2026-02-16\"\n  },\n  \"homeTeam\": {\n    \"teamName\": \"Strathmore Heights PVHCC Falcons\",\n    \"innings\": [\n      {\n        \"teamName\": \"Strathmore Heights PVHCC Falcons\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 0,\n        \"battingOrder\": [\n          {\n            \"description\": \"Mia, scored 9 Runs from (15) balls, at a strike Rate of 60.00., they were not out.\"\n          },\n          {\n            \"description\": \"Zia, scored 9 Runs from (15) balls, at a strike Rate of 60.00., they were not out.\"\n          },\n          {\n            \"description\": \"Isabelle, scored 11 Runs from (15) balls, with 1 four, at a strike Rate of 73.33., they were not out.\"\n          },\n          {\n            \"description\": \"Ruby, scored 5 Runs from (15) balls, at a strike Rate of 33.33., they were not out.\"\n          },\n          {\n            \"description\": \"Tayla, scored 6 Runs from (15) balls, at a strike Rate of 40.00., they were not out.\"\n          },\n          {\n            \"description\": \"Jaismeen, scored 24 Runs from (16) balls, with 4 fours, at a strike Rate of 150.00., they were not out.\"\n          },\n          {\n            \"description\": \"Celina, scored 33 Runs from (14) balls, with 6 fours, at a strike Rate of 235.71., they were not out.\"\n          },\n          {\n            \"description\": \"Wynter, scored 16 Runs from (15) balls, at a strike Rate of 106.66., they were not out.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Tahlia, bowled 4 overs, took 1 wicket for 26 runs, at an economy of 6.50.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Strathmore Heights PVHCC Falcons Batting\"\n      }\n    ],\n    \"totalScore\": \"171\",\n    \"totalWickets\": 0\n  },\n  \"awayTeam\": {\n    \"teamName\": \"Sydenham Hillside U14 Girls\",\n    \"innings\": [\n      {\n        \"teamName\": \"Sydenham Hillside U14 Girls\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 0,\n        \"battingOrder\": [],\n        \"bowlingFigures\": [],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Sydenham Hillside U14 Girls Batting\"\n      }\n    ],\n    \"totalScore\": \"63\",\n    \"totalWickets\": 0\n  },\n  \"accountBias\": {\n    \"isBias\": \"Strathmore Heights Cricket Club\",\n    \"focusedTeams\": [\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights (Allen)\",\n      \"Strathmore Heights (Girolami)\",\n      \"Strathmore Heights (Kyte)\",\n      \"Strathmore Heights B29s\",\n      \"Strathmore Heights B52s\",\n      \"Strathmore Heights PVHCC Falcons\",\n      \"Strathmore Heights U12\",\n      \"Strathmore Heights U14 Mixed (Fri)\"\n    ]\n  }\n}",
-      "result": "Strathmore Heights PVHCC Falcons won by 108 runs",
-      "status": "Final",
-      "ageGroup": "U14",
-      "awayTeam": {
-        "logo": {
-          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_8eacf6911d.jpg",
-          "width": 560,
-          "height": 517
-        },
-        "name": "Sydenham Hillside U14 Girls",
-        "overs": "(20)",
-        "score": "63",
-        "isHome": false,
-        "isClubTeam": false,
-        "battingPerformances": [
-          {
-            "SR": 41.26,
-            "runs": 26,
-            "team": "Sydenham Hillside U14 Girls",
-            "balls": 63,
-            "fours": 0,
-            "sixes": 0,
-            "notOut": true,
-            "player": "Gunveen"
-          },
-          {
-            "SR": 18.18,
-            "runs": 10,
-            "team": "Sydenham Hillside U14 Girls",
-            "balls": 55,
-            "fours": 0,
-            "sixes": 0,
-            "notOut": true,
-            "player": "Aria"
-          }
-        ],
-        "bowlingPerformances": [
-          {
-            "runs": 6,
-            "team": "Strathmore Heights PVHCC Falcons",
-            "overs": 3,
-            "player": "Tayla",
-            "economy": "2.00",
-            "maidens": 0,
-            "wickets": 1
-          },
-          {
-            "runs": 4,
-            "team": "Strathmore Heights PVHCC Falcons",
-            "overs": 2,
-            "player": "Celina",
-            "economy": "2.00",
-            "maidens": 0,
-            "wickets": 1
-          },
-          {
-            "runs": 5,
-            "team": "Strathmore Heights PVHCC Falcons",
-            "overs": 2,
-            "player": "Zia",
-            "economy": "2.50",
-            "maidens": 0,
-            "wickets": 1
-          }
-        ],
-        "awayScoresFirstInnings": "1"
-      },
-      "homeTeam": {
-        "logo": {
-          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/SHCC_White_8b80964141_bfe27795c2.gif",
-          "width": 2375,
-          "height": 2375
-        },
-        "name": "Strathmore Heights PVHCC Falcons",
-        "overs": "(20)",
-        "score": "171",
-        "isHome": true,
-        "isClubTeam": true,
-        "battingPerformances": [
-          {
-            "SR": 235.71,
-            "runs": 33,
-            "team": "Strathmore Heights PVHCC Falcons",
-            "balls": 14,
-            "fours": 6,
-            "sixes": 0,
-            "notOut": true,
-            "player": "Celina"
-          },
-          {
-            "SR": 150,
-            "runs": 24,
-            "team": "Strathmore Heights PVHCC Falcons",
-            "balls": 16,
-            "fours": 4,
-            "sixes": 0,
-            "notOut": false,
-            "player": "Jaismeen"
-          },
-          {
-            "SR": 106.66,
-            "runs": 16,
-            "team": "Strathmore Heights PVHCC Falcons",
-            "balls": 15,
-            "fours": 0,
-            "sixes": 0,
-            "notOut": true,
-            "player": "Wynter"
-          }
-        ],
-        "bowlingPerformances": [
-          {
-            "runs": 26,
-            "team": "Sydenham Hillside U14 Girls",
-            "overs": 4,
-            "player": "Tahlia",
-            "economy": "6.50",
-            "maidens": 0,
-            "wickets": 1
-          },
-          {
-            "runs": 22,
-            "team": "Sydenham Hillside U14 Girls",
-            "overs": 4,
-            "player": "Gunveen",
-            "economy": "5.50",
-            "maidens": 0,
-            "wickets": 0
-          },
-          {
-            "runs": 20,
-            "team": "Sydenham Hillside U14 Girls",
-            "overs": 3,
-            "player": "Jemima",
-            "economy": "6.67",
-            "maidens": 0,
-            "wickets": 0
-          }
-        ],
-        "homeScoresFirstInnings": "1"
-      },
-      "gradeName": "All Girls U14 Catherine Morrow Shield",
-      "resultShort": "Strathmore Heights PVHCC Falcons def Sydenham Hillside U14 Girls",
-      "teamAwayLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_8eacf6911d.jpg",
-        "width": 560,
-        "height": 517
-      },
-      "teamHomeLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/SHCC_White_8b80964141_bfe27795c2.gif",
-        "width": 2375,
-        "height": 2375
-      },
-      "resultSummary": {
-        "winner": "Strathmore Heights PVHCC Falcons",
-        "awayTeam": "Sydenham Hillside U14 Girls",
-        "homeTeam": "Strathmore Heights PVHCC Falcons",
-        "resultWord": "won"
-      },
-      "assignSponsors": {
-        "team": [
-          {
-            "id": 1258,
-            "url": "Frank Dowling",
-            "logo": {
-              "id": 8528,
-              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/2_1_b9a6e52102.png"
-            },
-            "name": "Frank Dowling",
-            "isVideo": true,
-            "tagline": "Frank Dowling",
-            "isActive": true,
-            "isArticle": true,
-            "isPrimary": false,
-            "description": null
-          }
-        ],
-        "grade": [],
-        "competition": []
-      },
-      "gradeSortOrder": 0
-    },
-    {
-      "date": "13 Feb 2026",
+      "date": "30 May 2019",
       "type": "One Day",
-      "round": "Round 14",
-      "gameID": "65e34988",
-      "gender": "Mixed",
-      "ground": "Overland Reserve / Oval #3",
-      "prompt": "{\n  \"matchContext\": {\n    \"competition\": \"NWMCA JUNIORS\",\n    \"grade\": \"U12 Friday South (1)\",\n    \"round\": \"Round 14\",\n    \"ground\": \"Overland Reserve / Oval #3\",\n    \"matchType\": \"One Day\",\n    \"tossWinner\": \"Strathmore Heights U12\",\n    \"tossResult\": \"Strathmore Heights U12 won the toss and elected to bat\",\n    \"resultStatement\": \"Strathmore Heights U12 won by 36 runs\",\n    \"dayOne\": \"2026-02-13\",\n    \"finalDaysPlay\": \"2026-02-13\"\n  },\n  \"homeTeam\": {\n    \"teamName\": \"East Keilor U12\",\n    \"innings\": [\n      {\n        \"teamName\": \"East Keilor U12\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 0,\n        \"battingOrder\": [],\n        \"bowlingFigures\": [],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"East Keilor U12 Batting\"\n      }\n    ],\n    \"totalScore\": \"8/82\",\n    \"totalWickets\": 0\n  },\n  \"awayTeam\": {\n    \"teamName\": \"Strathmore Heights U12\",\n    \"innings\": [\n      {\n        \"teamName\": \"Strathmore Heights U12\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 0,\n        \"battingOrder\": [],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Aditya, bowled 2 overs, took 1 wicket for 12 runs, at an economy of 6.00.\"\n          },\n          {\n            \"description\": \"Joshua, bowled 2 overs, took 1 wicket for 5 runs, at an economy of 2.50.\"\n          },\n          {\n            \"description\": \"Alex, bowled 2 overs, took 1 wicket for 11 runs, at an economy of 5.50.\"\n          },\n          {\n            \"description\": \"Marcus-Charles, bowled 2 overs, took 1 wicket for 17 runs, at an economy of 8.50.\"\n          }\n        ],\n        \"fieldingStats\": [\n          {\n            \"description\": \"Spencer, took 1 catch and made 1 run out.\"\n          },\n          {\n            \"description\": \"Ben, took 2 catches, made 3 run outs, and effected 1 stumping.\"\n          }\n        ],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Strathmore Heights U12 Batting\"\n      }\n    ],\n    \"totalScore\": \"4/118\",\n    \"totalWickets\": 0\n  },\n  \"accountBias\": {\n    \"isBias\": \"Strathmore Heights Cricket Club\",\n    \"focusedTeams\": [\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights (Allen)\",\n      \"Strathmore Heights (Girolami)\",\n      \"Strathmore Heights (Kyte)\",\n      \"Strathmore Heights B29s\",\n      \"Strathmore Heights B52s\",\n      \"Strathmore Heights PVHCC Falcons\",\n      \"Strathmore Heights U12\",\n      \"Strathmore Heights U14 Mixed (Fri)\"\n    ]\n  }\n}",
-      "result": "Strathmore Heights U12 won by 36 runs",
+      "round": "2019 World Cup — Group Stage",
+      "gameID": "3dea4476",
+      "gender": "Men",
+      "ground": "The Oval",
+      "prompt": "{\n  \"matchContext\": {\n    \"competition\": \"2019 Cricket World Cup\",\n    \"grade\": \"2019 World Cup — Group Stage\",\n    \"round\": \"2019 World Cup — Group Stage\",\n    \"ground\": \"The Oval\",\n    \"matchType\": \"One Day\",\n    \"tossWinner\": \"England\",\n    \"tossResult\": \"England won the toss and elected to bat\",\n    \"resultStatement\": \"England won by 36 runs\",\n    \"dayOne\": \"2019-05-30\",\n    \"finalDaysPlay\": \"2019-05-30\",\n    \"note\": \"Fictional demonstration scorecard for archive preview only.\"\n  },\n  \"homeTeam\": {\n    \"teamName\": \"England\",\n    \"innings\": [\n      {\n        \"teamName\": \"England\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 8,\n        \"battingOrder\": [\n          {\n            \"description\": \"Joe Root, scored 84 Runs from (92) balls, with 7 fours, with 1 six, at a strike Rate of 91.30., they were dismissed.\"\n          },\n          {\n            \"description\": \"Eoin Morgan, scored 68 Runs from (55) balls, with 6 fours, with 2 sixes, at a strike Rate of 123.64., they were dismissed.\"\n          },\n          {\n            \"description\": \"Ben Stokes, scored 51 Runs from (48) balls, with 4 fours, with 1 six, at a strike Rate of 106.25., they were not out.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Kagiso Rabada, bowled 10 overs, took 3 wickets for 52 runs, at an economy of 5.20.\"\n          },\n          {\n            \"description\": \"Imran Tahir, bowled 10 overs, took 2 wickets for 58 runs, at an economy of 5.80.\"\n          },\n          {\n            \"description\": \"Lungisani Ngidi, bowled 9 overs, took 2 wickets for 49 runs, at an economy of 5.44.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"England Batting\"\n      }\n    ],\n    \"totalScore\": \"287\",\n    \"totalWickets\": 8\n  },\n  \"awayTeam\": {\n    \"teamName\": \"South Africa\",\n    \"innings\": [\n      {\n        \"teamName\": \"South Africa\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 9,\n        \"battingOrder\": [\n          {\n            \"description\": \"Faf du Plessis, scored 72 Runs from (81) balls, with 6 fours, with 1 six, at a strike Rate of 88.89., they were dismissed.\"\n          },\n          {\n            \"description\": \"Quinton de Kock, scored 45 Runs from (39) balls, with 5 fours, with 1 six, at a strike Rate of 115.38., they were dismissed.\"\n          },\n          {\n            \"description\": \"Rassie van der Dussen, scored 38 Runs from (44) balls, with 3 fours, at a strike Rate of 86.36., they were dismissed.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Jofra Archer, bowled 10 overs, took 3 wickets for 44 runs, at an economy of 4.40.\"\n          },\n          {\n            \"description\": \"Mark Wood, bowled 10 overs, took 2 wickets for 51 runs, at an economy of 5.10.\"\n          },\n          {\n            \"description\": \"Adil Rashid, bowled 10 overs, took 2 wickets for 48 runs, at an economy of 4.80.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"South Africa Batting\"\n      }\n    ],\n    \"totalScore\": \"251\",\n    \"totalWickets\": 9\n  }\n}",
+      "result": "England won by 36 runs",
       "status": "Final",
-      "ageGroup": "U12",
+      "ageGroup": "Senior",
       "awayTeam": {
         "logo": {
-          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/SHCC_White_8b80964141_bfe27795c2.gif",
-          "width": 2375,
-          "height": 2375
+          "url": "/dummyAssetData/flags/za.svg",
+          "width": 640,
+          "height": 480
         },
-        "name": "Strathmore Heights U12",
-        "overs": "(24)",
-        "score": "4/118",
+        "name": "South Africa",
+        "overs": "(50)",
+        "score": "251",
         "isHome": false,
-        "isClubTeam": true,
-        "battingPerformances": [],
-        "bowlingPerformances": [
-          {
-            "runs": 5,
-            "team": "East Keilor U12",
-            "overs": 2,
-            "player": "Joshua",
-            "economy": "2.50",
-            "maidens": 0,
-            "wickets": 1
-          },
-          {
-            "runs": 11,
-            "team": "East Keilor U12",
-            "overs": 2,
-            "player": "Alex",
-            "economy": "5.50",
-            "maidens": 0,
-            "wickets": 1
-          },
-          {
-            "runs": 12,
-            "team": "East Keilor U12",
-            "overs": 2,
-            "player": "Aditya",
-            "economy": "6.00",
-            "maidens": 0,
-            "wickets": 1
-          }
-        ],
-        "awayScoresFirstInnings": "1"
-      },
-      "homeTeam": {
-        "logo": {
-          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_909f9d50bb.jpg",
-          "width": 5233,
-          "height": 5219
-        },
-        "name": "East Keilor U12",
-        "overs": "(24)",
-        "score": "8/82",
-        "isHome": true,
         "isClubTeam": false,
         "battingPerformances": [
           {
-            "SR": 70.45,
-            "runs": 31,
-            "team": "East Keilor U12",
-            "balls": 44,
+            "SR": 88.89,
+            "runs": 72,
+            "team": "South Africa",
+            "balls": 81,
+            "fours": 6,
+            "sixes": 1,
+            "notOut": false,
+            "player": "Faf du Plessis"
+          },
+          {
+            "SR": 115.38,
+            "runs": 45,
+            "team": "South Africa",
+            "balls": 39,
             "fours": 5,
-            "sixes": 0,
-            "notOut": true,
-            "player": "Spencer"
+            "sixes": 1,
+            "notOut": false,
+            "player": "Quinton de Kock"
           },
           {
-            "SR": 100,
-            "runs": 12,
-            "team": "East Keilor U12",
-            "balls": 12,
-            "fours": 2,
-            "sixes": 0,
-            "notOut": true,
-            "player": "Aditya"
-          },
-          {
-            "SR": 64.7,
-            "runs": 11,
-            "team": "East Keilor U12",
-            "balls": 17,
-            "fours": 1,
+            "SR": 86.36,
+            "runs": 38,
+            "team": "South Africa",
+            "balls": 44,
+            "fours": 3,
             "sixes": 0,
             "notOut": false,
-            "player": "Gus"
-          }
-        ],
-        "bowlingPerformances": [],
-        "homeScoresFirstInnings": "1"
-      },
-      "gradeName": "U12 Friday South (1)",
-      "resultShort": "Strathmore Heights U12 def East Keilor U12",
-      "teamAwayLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/SHCC_White_8b80964141_bfe27795c2.gif",
-        "width": 2375,
-        "height": 2375
-      },
-      "teamHomeLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_909f9d50bb.jpg",
-        "width": 5233,
-        "height": 5219
-      },
-      "resultSummary": {
-        "winner": "Strathmore Heights U12",
-        "awayTeam": "Strathmore Heights U12",
-        "homeTeam": "East Keilor U12",
-        "resultWord": "lost"
-      },
-      "assignSponsors": {
-        "team": [
-          {
-            "id": 1258,
-            "url": "Frank Dowling",
-            "logo": {
-              "id": 8528,
-              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/2_1_b9a6e52102.png"
-            },
-            "name": "Frank Dowling",
-            "isVideo": true,
-            "tagline": "Frank Dowling",
-            "isActive": true,
-            "isArticle": true,
-            "isPrimary": false,
-            "description": null
-          }
-        ],
-        "grade": [],
-        "competition": []
-      },
-      "gradeSortOrder": 0
-    },
-    {
-      "date": "06 Feb 2026",
-      "type": "Two Day+",
-      "round": "Round 12",
-      "gameID": "bcfdf3af",
-      "gender": "Mixed",
-      "ground": "Roxburgh Park / East",
-      "prompt": "{\n  \"matchContext\": {\n    \"competition\": \"NWMCA JUNIORS\",\n    \"grade\": \"U14 (2) Friday North/East\",\n    \"round\": \"Round 12\",\n    \"ground\": \"Roxburgh Park / East\",\n    \"matchType\": \"Two Day+\",\n    \"tossWinner\": \"Roxburgh Park falcons U14\",\n    \"tossResult\": \"Roxburgh Park falcons U14 won the toss and elected to bowl\",\n    \"resultStatement\": \"Roxburgh Park falcons U14 won by 31 runs\",\n    \"dayOne\": \"2026-02-06\",\n    \"finalDaysPlay\": \"2026-02-13\"\n  },\n  \"homeTeam\": {\n    \"teamName\": \"Roxburgh Park falcons U14\",\n    \"innings\": [\n      {\n        \"teamName\": \"Roxburgh Park falcons U14\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 9,\n        \"battingOrder\": [],\n        \"bowlingFigures\": [],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Roxburgh Park falcons U14 Batting\"\n      },\n      {\n        \"teamName\": \"Roxburgh Park falcons U14\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 0,\n        \"battingOrder\": [],\n        \"bowlingFigures\": [],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 2,\n        \"inningsName\": \"Roxburgh Park falcons U14 Batting\"\n      }\n    ],\n    \"totalScore\": \"9/213\",\n    \"totalWickets\": 9\n  },\n  \"awayTeam\": {\n    \"teamName\": \"Strathmore Heights U14 Mixed (Fri)\",\n    \"innings\": [\n      {\n        \"teamName\": \"Strathmore Heights U14 Mixed (Fri)\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 10,\n        \"battingOrder\": [\n          {\n            \"description\": \"Visal, scored 27 Runs from (43) balls, with 1 four, at a strike Rate of 62.79., they were not out.\"\n          },\n          {\n            \"description\": \"Mayon, scored 29 Runs from (38) balls, at a strike Rate of 76.31., they were out: run out: Daiwik Sharma run out: Daiwik Sharma\"\n          },\n          {\n            \"description\": \"Aakarshan, scored 23 Runs from (32) balls, with 2 fours, at a strike Rate of 71.87., they were out: run out: Daiwik Sharma run out: Daiwik Sharma\"\n          },\n          {\n            \"description\": \"Jordan, scored 3 Runs from (8) balls, at a strike Rate of 37.50., they were out: run out: Yuvraj Sandhu, Ishaan Mahajan run out: Yuvraj Sandhu, Ishaan Mahajan\"\n          },\n          {\n            \"description\": \"Jack, scored 2 Runs from (6) balls, at a strike Rate of 33.33., they were out: run out: Jasneil Saini, Ishaan Mahajan run out: Jasneil Saini, Ishaan Mahajan\"\n          },\n          {\n            \"description\": \"Eesa, scored 4 Runs from (0) balls, they were out: lbw: Ansh Parmar lbw: Ansh Parmar\"\n          },\n          {\n            \"description\": \"Noah, scored 11 Runs from (9) balls, with 2 fours, at a strike Rate of 122.22., they were out: b: Abdul Muiz Asif b: Abdul Muiz Asif\"\n          },\n          {\n            \"description\": \"KEVON, scored 1 Runs from (9) balls, at a strike Rate of 11.11., they were out: b: Abdul Muiz Asif b: Abdul Muiz Asif\"\n          },\n          {\n            \"description\": \"Muhammad, scored 15 Runs from (26) balls, with 3 fours, at a strike Rate of 57.69., they were out: b: Chenelle Malhotra b: Chenelle Malhotra\"\n          },\n          {\n            \"description\": \"Omer, scored 13 Runs from (7) balls, with 1 four and 1 six, at a strike Rate of 185.71., they were out: b: Yuvraj Sandhu b: Yuvraj Sandhu\"\n          },\n          {\n            \"description\": \"Huzaifa, scored 12 Runs from (11) balls, with 2 fours, at a strike Rate of 109.09., they were out: b: Nangial Khan b: Nangial Khan\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Abdul, bowled 5 overs, took 2 wickets for 22 runs, at an economy of 4.40.\"\n          },\n          {\n            \"description\": \"Chenelle, bowled 4 overs, took 1 wicket for 19 runs, at an economy of 4.75.\"\n          },\n          {\n            \"description\": \"Yuvraj, bowled 4 overs, took 1 wicket for 20 runs, at an economy of 5.00.\"\n          },\n          {\n            \"description\": \"Ansh, bowled 2 overs, took 1 wicket for 15 runs, at an economy of 7.50.\"\n          },\n          {\n            \"description\": \"Nangial, bowled 4.3 overs, took 1 wicket for 28 runs, at an economy of 6.22.\"\n          }\n        ],\n        \"fieldingStats\": [\n          {\n            \"description\": \"Daiwik, made 2 run outs and effected 2 stumpings.\"\n          },\n          {\n            \"description\": \"Yuvraj, made 1 run out and effected 1 stumping.\"\n          },\n          {\n            \"description\": \"Jasneil, made 1 run out and effected 1 stumping.\"\n          },\n          {\n            \"description\": \"Ishaan, made 2 run outs and effected 2 stumpings.\"\n          }\n        ],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Greenvale Kangaroos U14 (2) Batting\"\n      }\n    ],\n    \"totalScore\": \"10/182\",\n    \"totalWickets\": 10\n  },\n  \"accountBias\": {\n    \"isBias\": \"Strathmore Heights Cricket Club\",\n    \"focusedTeams\": [\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights (Allen)\",\n      \"Strathmore Heights (Girolami)\",\n      \"Strathmore Heights (Kyte)\",\n      \"Strathmore Heights B29s\",\n      \"Strathmore Heights B52s\",\n      \"Strathmore Heights PVHCC Falcons\",\n      \"Strathmore Heights U12\",\n      \"Strathmore Heights U14 Mixed (Fri)\"\n    ]\n  }\n}",
-      "result": "Roxburgh Park falcons U14 won by 31 runs",
-      "status": "Final",
-      "ageGroup": "U14",
-      "awayTeam": {
-        "logo": {
-          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/SHCC_White_8b80964141_bfe27795c2.gif",
-          "width": 2375,
-          "height": 2375
-        },
-        "name": "Strathmore Heights U14 Mixed (Fri)",
-        "overs": "(28.3)",
-        "score": "10/182",
-        "isHome": false,
-        "isClubTeam": true,
-        "battingPerformances": [
-          {
-            "SR": 76.31,
-            "runs": 29,
-            "team": "Strathmore Heights U14 Mixed (Fri)",
-            "balls": 38,
-            "fours": 0,
-            "sixes": 0,
-            "notOut": false,
-            "player": "Mayon"
-          },
-          {
-            "SR": 62.79,
-            "runs": 27,
-            "team": "Strathmore Heights U14 Mixed (Fri)",
-            "balls": 43,
-            "fours": 1,
-            "sixes": 0,
-            "notOut": true,
-            "player": "Visal"
-          },
-          {
-            "SR": 71.87,
-            "runs": 23,
-            "team": "Strathmore Heights U14 Mixed (Fri)",
-            "balls": 32,
-            "fours": 2,
-            "sixes": 0,
-            "notOut": false,
-            "player": "Aakarshan"
+            "player": "Rassie van der Dussen"
           }
         ],
         "bowlingPerformances": [
           {
-            "runs": 22,
-            "team": "Roxburgh Park falcons U14",
-            "overs": 5,
-            "player": "Abdul",
+            "runs": 44,
+            "team": "England",
+            "overs": 10,
+            "player": "Jofra Archer",
             "economy": "4.40",
+            "maidens": 1,
+            "wickets": 3
+          },
+          {
+            "runs": 51,
+            "team": "England",
+            "overs": 10,
+            "player": "Mark Wood",
+            "economy": "5.10",
             "maidens": 0,
             "wickets": 2
           },
           {
-            "runs": 19,
-            "team": "Roxburgh Park falcons U14",
-            "overs": 4,
-            "player": "Chenelle",
-            "economy": "4.75",
+            "runs": 48,
+            "team": "England",
+            "overs": 10,
+            "player": "Adil Rashid",
+            "economy": "4.80",
             "maidens": 0,
-            "wickets": 1
+            "wickets": 2
+          }
+        ],
+        "awayScoresFirstInnings": "1"
+      },
+      "homeTeam": {
+        "logo": {
+          "url": "/dummyAssetData/flags/gb-eng.svg",
+          "width": 640,
+          "height": 480
+        },
+        "name": "England",
+        "overs": "(50)",
+        "score": "287",
+        "isHome": true,
+        "isClubTeam": false,
+        "battingPerformances": [
+          {
+            "SR": 91.3,
+            "runs": 84,
+            "team": "England",
+            "balls": 92,
+            "fours": 7,
+            "sixes": 1,
+            "notOut": false,
+            "player": "Joe Root"
           },
           {
-            "runs": 20,
-            "team": "Roxburgh Park falcons U14",
-            "overs": 4,
-            "player": "Yuvraj",
-            "economy": "5.00",
+            "SR": 123.64,
+            "runs": 68,
+            "team": "England",
+            "balls": 55,
+            "fours": 6,
+            "sixes": 2,
+            "notOut": false,
+            "player": "Eoin Morgan"
+          },
+          {
+            "SR": 106.25,
+            "runs": 51,
+            "team": "England",
+            "balls": 48,
+            "fours": 4,
+            "sixes": 1,
+            "notOut": true,
+            "player": "Ben Stokes"
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "runs": 52,
+            "team": "South Africa",
+            "overs": 10,
+            "player": "Kagiso Rabada",
+            "economy": "5.20",
+            "maidens": 1,
+            "wickets": 3
+          },
+          {
+            "runs": 58,
+            "team": "South Africa",
+            "overs": 10,
+            "player": "Imran Tahir",
+            "economy": "5.80",
+            "maidens": 0,
+            "wickets": 2
+          },
+          {
+            "runs": 49,
+            "team": "South Africa",
+            "overs": 9,
+            "player": "Lungisani Ngidi",
+            "economy": "5.44",
+            "maidens": 0,
+            "wickets": 2
+          }
+        ],
+        "homeScoresFirstInnings": "1"
+      },
+      "gradeName": "2019 World Cup — Group Stage",
+      "resultShort": "England def South Africa",
+      "teamAwayLogo": {
+        "url": "/dummyAssetData/flags/za.svg",
+        "width": 640,
+        "height": 480
+      },
+      "teamHomeLogo": {
+        "url": "/dummyAssetData/flags/gb-eng.svg",
+        "width": 640,
+        "height": 480
+      },
+      "resultSummary": {
+        "winner": "England",
+        "awayTeam": "South Africa",
+        "homeTeam": "England",
+        "resultWord": "won"
+      },
+      "assignSponsors": {
+        "team": [],
+        "grade": [],
+        "competition": []
+      },
+      "gradeSortOrder": 0
+    },
+    {
+      "date": "1 Jun 2019",
+      "type": "One Day",
+      "round": "2019 World Cup — Group Stage",
+      "gameID": "a9b94355",
+      "gender": "Men",
+      "ground": "County Ground, Bristol",
+      "prompt": "{\n  \"matchContext\": {\n    \"competition\": \"2019 Cricket World Cup\",\n    \"grade\": \"2019 World Cup — Group Stage\",\n    \"round\": \"2019 World Cup — Group Stage\",\n    \"ground\": \"County Ground, Bristol\",\n    \"matchType\": \"One Day\",\n    \"tossWinner\": \"Afghanistan\",\n    \"tossResult\": \"Afghanistan won the toss and elected to bat\",\n    \"resultStatement\": \"Australia won by 87 runs\",\n    \"dayOne\": \"2019-06-01\",\n    \"finalDaysPlay\": \"2019-06-01\",\n    \"note\": \"Fictional demonstration scorecard for archive preview only.\"\n  },\n  \"homeTeam\": {\n    \"teamName\": \"Afghanistan\",\n    \"innings\": [\n      {\n        \"teamName\": \"Afghanistan\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 10,\n        \"battingOrder\": [\n          {\n            \"description\": \"Rahmanullah Gurbaz, scored 54 Runs from (61) balls, with 5 fours, with 2 sixes, at a strike Rate of 88.52., they were dismissed.\"\n          },\n          {\n            \"description\": \"Hashmatullah Shahidi, scored 41 Runs from (58) balls, with 3 fours, at a strike Rate of 70.69., they were dismissed.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Mitchell Starc, bowled 9 overs, took 4 wickets for 38 runs, at an economy of 4.22.\"\n          },\n          {\n            \"description\": \"Pat Cummins, bowled 10 overs, took 3 wickets for 41 runs, at an economy of 4.10.\"\n          },\n          {\n            \"description\": \"Adam Zampa, bowled 10 overs, took 2 wickets for 46 runs, at an economy of 4.60.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Afghanistan Batting\"\n      }\n    ],\n    \"totalScore\": \"198\",\n    \"totalWickets\": 10\n  },\n  \"awayTeam\": {\n    \"teamName\": \"Australia\",\n    \"innings\": [\n      {\n        \"teamName\": \"Australia\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 6,\n        \"battingOrder\": [\n          {\n            \"description\": \"Aaron Finch, scored 96 Runs from (99) balls, with 8 fours, with 3 sixes, at a strike Rate of 96.97., they were dismissed.\"\n          },\n          {\n            \"description\": \"David Warner, scored 71 Runs from (68) balls, with 7 fours, with 1 six, at a strike Rate of 104.41., they were dismissed.\"\n          },\n          {\n            \"description\": \"Steve Smith, scored 48 Runs from (52) balls, with 4 fours, at a strike Rate of 92.31., they were not out.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Rashid Khan, bowled 10 overs, took 2 wickets for 55 runs, at an economy of 5.50.\"\n          },\n          {\n            \"description\": \"Mujeeb Ur Rahman, bowled 10 overs, took 2 wickets for 49 runs, at an economy of 4.90.\"\n          },\n          {\n            \"description\": \"Mohammad Nabi, bowled 8 overs, took 1 wicket for 42 runs, at an economy of 5.25.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Australia Batting\"\n      }\n    ],\n    \"totalScore\": \"285\",\n    \"totalWickets\": 6\n  }\n}",
+      "result": "Australia won by 87 runs",
+      "status": "Final",
+      "ageGroup": "Senior",
+      "awayTeam": {
+        "logo": {
+          "url": "/dummyAssetData/flags/au.svg",
+          "width": 640,
+          "height": 480
+        },
+        "name": "Australia",
+        "overs": "(50)",
+        "score": "285",
+        "isHome": false,
+        "isClubTeam": false,
+        "battingPerformances": [
+          {
+            "SR": 96.97,
+            "runs": 96,
+            "team": "Australia",
+            "balls": 99,
+            "fours": 8,
+            "sixes": 3,
+            "notOut": false,
+            "player": "Aaron Finch"
+          },
+          {
+            "SR": 104.41,
+            "runs": 71,
+            "team": "Australia",
+            "balls": 68,
+            "fours": 7,
+            "sixes": 1,
+            "notOut": false,
+            "player": "David Warner"
+          },
+          {
+            "SR": 92.31,
+            "runs": 48,
+            "team": "Australia",
+            "balls": 52,
+            "fours": 4,
+            "sixes": 0,
+            "notOut": true,
+            "player": "Steve Smith"
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "runs": 55,
+            "team": "Afghanistan",
+            "overs": 10,
+            "player": "Rashid Khan",
+            "economy": "5.50",
+            "maidens": 0,
+            "wickets": 2
+          },
+          {
+            "runs": 49,
+            "team": "Afghanistan",
+            "overs": 10,
+            "player": "Mujeeb Ur Rahman",
+            "economy": "4.90",
+            "maidens": 0,
+            "wickets": 2
+          },
+          {
+            "runs": 42,
+            "team": "Afghanistan",
+            "overs": 8,
+            "player": "Mohammad Nabi",
+            "economy": "5.25",
             "maidens": 0,
             "wickets": 1
           }
@@ -418,314 +271,456 @@
       },
       "homeTeam": {
         "logo": {
-          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_02dc9fdcfe.jpg",
-          "width": 1125,
-          "height": 2436
+          "url": "/dummyAssetData/flags/af.svg",
+          "width": 640,
+          "height": 480
         },
-        "name": "Roxburgh Park falcons U14",
-        "overs": "(40)",
-        "score": "9/213",
+        "name": "Afghanistan",
+        "overs": "(48.2)",
+        "score": "198",
         "isHome": true,
         "isClubTeam": false,
         "battingPerformances": [
           {
-            "SR": 83.33,
-            "runs": 35,
-            "team": "Roxburgh Park falcons U14",
-            "balls": 42,
-            "fours": 2,
+            "SR": 88.52,
+            "runs": 54,
+            "team": "Afghanistan",
+            "balls": 61,
+            "fours": 5,
             "sixes": 2,
-            "notOut": true,
-            "player": "Yuvraj"
+            "notOut": false,
+            "player": "Rahmanullah Gurbaz"
           },
           {
-            "SR": 52.23,
-            "runs": 35,
-            "team": "Roxburgh Park falcons U14",
-            "balls": 67,
-            "fours": 3,
-            "sixes": 0,
-            "notOut": true,
-            "player": "Abdul"
-          },
-          {
-            "SR": 63.82,
-            "runs": 30,
-            "team": "Roxburgh Park falcons U14",
-            "balls": 47,
+            "SR": 70.69,
+            "runs": 41,
+            "team": "Afghanistan",
+            "balls": 58,
             "fours": 3,
             "sixes": 0,
             "notOut": false,
-            "player": "Ishaan"
+            "player": "Hashmatullah Shahidi"
           }
         ],
         "bowlingPerformances": [
           {
             "runs": 38,
-            "team": "Strathmore Heights U14 Mixed (Fri)",
-            "overs": 8,
-            "player": "Visal",
-            "economy": "4.75",
-            "maidens": 0,
-            "wickets": 2
-          },
-          {
-            "runs": 22,
-            "team": "Strathmore Heights U14 Mixed (Fri)",
-            "overs": 4,
-            "player": "Noah",
-            "economy": "5.50",
-            "maidens": 0,
-            "wickets": 2
-          },
-          {
-            "runs": 20,
-            "team": "Strathmore Heights U14 Mixed (Fri)",
-            "overs": 8,
-            "player": "Huzaifa",
-            "economy": "2.50",
+            "team": "Australia",
+            "overs": 9,
+            "player": "Mitchell Starc",
+            "economy": "4.22",
             "maidens": 1,
-            "wickets": 1
+            "wickets": 4
+          },
+          {
+            "runs": 41,
+            "team": "Australia",
+            "overs": 10,
+            "player": "Pat Cummins",
+            "economy": "4.10",
+            "maidens": 1,
+            "wickets": 3
+          },
+          {
+            "runs": 46,
+            "team": "Australia",
+            "overs": 10,
+            "player": "Adam Zampa",
+            "economy": "4.60",
+            "maidens": 0,
+            "wickets": 2
           }
         ],
         "homeScoresFirstInnings": "1"
       },
-      "gradeName": "U14 (2) Friday North/East",
-      "resultShort": "Roxburgh Park falcons U14 def Strathmore Heights U14 Mixed (Fri)",
+      "gradeName": "2019 World Cup — Group Stage",
+      "resultShort": "Australia def Afghanistan",
       "teamAwayLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/SHCC_White_8b80964141_bfe27795c2.gif",
-        "width": 2375,
-        "height": 2375
+        "url": "/dummyAssetData/flags/au.svg",
+        "width": 640,
+        "height": 480
       },
       "teamHomeLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_02dc9fdcfe.jpg",
-        "width": 1125,
-        "height": 2436
+        "url": "/dummyAssetData/flags/af.svg",
+        "width": 640,
+        "height": 480
       },
       "resultSummary": {
-        "winner": "Roxburgh Park falcons U14",
-        "awayTeam": "Strathmore Heights U14 Mixed (Fri)",
-        "homeTeam": "Roxburgh Park falcons U14",
+        "winner": "Australia",
+        "awayTeam": "Australia",
+        "homeTeam": "Afghanistan",
         "resultWord": "won"
       },
       "assignSponsors": {
-        "team": [
-          {
-            "id": 1258,
-            "url": "Frank Dowling",
-            "logo": {
-              "id": 8528,
-              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/2_1_b9a6e52102.png"
-            },
-            "name": "Frank Dowling",
-            "isVideo": true,
-            "tagline": "Frank Dowling",
-            "isActive": true,
-            "isArticle": true,
-            "isPrimary": false,
-            "description": null
-          }
-        ],
+        "team": [],
         "grade": [],
         "competition": []
       },
       "gradeSortOrder": 0
     },
     {
-      "date": "06 Feb 2026",
-      "type": "Two Day+",
-      "round": "Round 12",
-      "gameID": "c589629f",
-      "gender": "Mixed",
-      "ground": "Jacana Reserve / Oval #2 North",
-      "prompt": "{\n  \"matchContext\": {\n    \"competition\": \"NWMCA JUNIORS\",\n    \"grade\": \"U14 (2) Friday North/East\",\n    \"round\": \"Round 12\",\n    \"ground\": \"Jacana Reserve / Oval #2 North\",\n    \"matchType\": \"Two Day+\",\n    \"tossWinner\": \"Strathmore Heights U14 Mixed (Fri)\",\n    \"tossResult\": \"Strathmore Heights U14 Mixed (Fri) won the toss and elected to bowl\",\n    \"resultStatement\": \"Jacana CUBS U14 won by 42 runs\",\n    \"dayOne\": \"2026-02-06\",\n    \"finalDaysPlay\": \"2026-02-13\"\n  },\n  \"homeTeam\": {\n    \"teamName\": \"Jacana CUBS U14\",\n    \"innings\": [\n      {\n        \"teamName\": \"Jacana CUBS U14\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 3,\n        \"battingOrder\": [],\n        \"bowlingFigures\": [],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Jacana CUBS U14 Batting\"\n      }\n    ],\n    \"totalScore\": \"3/143\",\n    \"totalWickets\": 3\n  },\n  \"awayTeam\": {\n    \"teamName\": \"Strathmore Heights U14 Mixed (Fri)\",\n    \"innings\": [\n      {\n        \"teamName\": \"Strathmore Heights U14 Mixed (Fri)\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 8,\n        \"battingOrder\": [\n          {\n            \"description\": \"Liam, scored 28 Runs from (72) balls, with 3 fours, at a strike Rate of 38.88., they were out: lbw: zayaan khan lbw: zayaan khan\"\n          },\n          {\n            \"description\": \"Asidu, scored 31 Runs from (42) balls, with 6 fours, at a strike Rate of 73.80., they were out: c: Zain Farooquib: Aza Faraz Dina c: Zain Farooqui b: Aza Faraz Dina\"\n          },\n          {\n            \"description\": \"Edison, scored 1 Runs from (11) balls, at a strike Rate of 9.09., they were out: b: Shahmeer Cheema b: Shahmeer Cheema\"\n          },\n          {\n            \"description\": \"Strati, scored 10 Runs from (27) balls, with 1 four, at a strike Rate of 37.03., they were out: b: Zain Farooqui b: Zain Farooqui\"\n          },\n          {\n            \"description\": \"Kilian, scored 9 Runs from (0) balls, they were out: c&b: Aayam Limbu c&b: Aayam Limbu\"\n          },\n          {\n            \"description\": \"Khizr, scored 3 Runs from (3) balls, at a strike Rate of 100.00., they were not out.\"\n          },\n          {\n            \"description\": \"Oliver, scored 4 Runs from (0) balls, they were out: st: Zain Farooquib: Abdul Khan st: Zain Farooqui b: Abdul Khan\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Zain, bowled 2 overs, took 1 wicket for 3 runs, with 1 maiden, at an economy of 1.50.\"\n          },\n          {\n            \"description\": \"Aayam, bowled 3 overs, took 1 wicket for 11 runs, at an economy of 3.66.\"\n          },\n          {\n            \"description\": \"Shahmeer, bowled 2 overs, took 1 wicket for 6 runs, at an economy of 3.00.\"\n          },\n          {\n            \"description\": \"Aza, bowled 4 overs, took 1 wicket for 25 runs, at an economy of 6.25.\"\n          },\n          {\n            \"description\": \"Abdul, bowled 2.3 overs, took 1 wicket for 10 runs, at an economy of 4.00.\"\n          },\n          {\n            \"description\": \"zayaan, bowled 4 overs, took 1 wicket for 12 runs, with 1 maiden, at an economy of 3.00.\"\n          }\n        ],\n        \"fieldingStats\": [\n          {\n            \"description\": \"Zain, took 1 catch and made 1 run out.\"\n          },\n          {\n            \"description\": \"Aayam, took 1 catch and made 1 run out.\"\n          }\n        ],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Strathmore Heights U14 Mixed (Fri) Batting\"\n      }\n    ],\n    \"totalScore\": \"8/101\",\n    \"totalWickets\": 8\n  },\n  \"accountBias\": {\n    \"isBias\": \"Strathmore Heights Cricket Club\",\n    \"focusedTeams\": [\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights\",\n      \"Strathmore Heights (Allen)\",\n      \"Strathmore Heights (Girolami)\",\n      \"Strathmore Heights (Kyte)\",\n      \"Strathmore Heights B29s\",\n      \"Strathmore Heights B52s\",\n      \"Strathmore Heights PVHCC Falcons\",\n      \"Strathmore Heights U12\",\n      \"Strathmore Heights U14 Mixed (Fri)\"\n    ]\n  }\n}",
-      "result": "Jacana CUBS U14 won by 42 runs",
+      "date": "31 May 2019",
+      "type": "One Day",
+      "round": "2019 World Cup — Group Stage",
+      "gameID": "b2ae4a61",
+      "gender": "Men",
+      "ground": "Trent Bridge",
+      "prompt": "{\n  \"matchContext\": {\n    \"competition\": \"2019 Cricket World Cup\",\n    \"grade\": \"2019 World Cup — Group Stage\",\n    \"round\": \"2019 World Cup — Group Stage\",\n    \"ground\": \"Trent Bridge\",\n    \"matchType\": \"One Day\",\n    \"tossWinner\": \"West Indies\",\n    \"tossResult\": \"West Indies won the toss and elected to bat\",\n    \"resultStatement\": \"Pakistan won by 25 runs\",\n    \"dayOne\": \"2019-05-31\",\n    \"finalDaysPlay\": \"2019-05-31\",\n    \"note\": \"Fictional demonstration scorecard for archive preview only.\"\n  },\n  \"homeTeam\": {\n    \"teamName\": \"West Indies\",\n    \"innings\": [\n      {\n        \"teamName\": \"West Indies\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 10,\n        \"battingOrder\": [\n          {\n            \"description\": \"Chris Gayle, scored 58 Runs from (49) balls, with 5 fours, with 3 sixes, at a strike Rate of 118.37., they were dismissed.\"\n          },\n          {\n            \"description\": \"Shimron Hetmyer, scored 44 Runs from (51) balls, with 3 fours, with 1 six, at a strike Rate of 86.27., they were dismissed.\"\n          },\n          {\n            \"description\": \"Nicholas Pooran, scored 36 Runs from (40) balls, with 2 fours, with 1 six, at a strike Rate of 90.00., they were dismissed.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Mohammad Amir, bowled 9 overs, took 3 wickets for 39 runs, at an economy of 4.33.\"\n          },\n          {\n            \"description\": \"Wahab Riaz, bowled 9 overs, took 3 wickets for 47 runs, at an economy of 5.22.\"\n          },\n          {\n            \"description\": \"Shadab Khan, bowled 10 overs, took 2 wickets for 51 runs, at an economy of 5.10.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"West Indies Batting\"\n      }\n    ],\n    \"totalScore\": \"216\",\n    \"totalWickets\": 10\n  },\n  \"awayTeam\": {\n    \"teamName\": \"Pakistan\",\n    \"innings\": [\n      {\n        \"teamName\": \"Pakistan\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 7,\n        \"battingOrder\": [\n          {\n            \"description\": \"Babar Azam, scored 81 Runs from (94) balls, with 7 fours, with 1 six, at a strike Rate of 86.17., they were dismissed.\"\n          },\n          {\n            \"description\": \"Imam-ul-Haq, scored 55 Runs from (66) balls, with 4 fours, at a strike Rate of 83.33., they were dismissed.\"\n          },\n          {\n            \"description\": \"Mohammad Hafeez, scored 39 Runs from (41) balls, with 3 fours, with 1 six, at a strike Rate of 95.12., they were not out.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Sheldon Cottrell, bowled 10 overs, took 2 wickets for 52 runs, at an economy of 5.20.\"\n          },\n          {\n            \"description\": \"Jason Holder, bowled 10 overs, took 2 wickets for 44 runs, at an economy of 4.40.\"\n          },\n          {\n            \"description\": \"Oshane Thomas, bowled 8 overs, took 2 wickets for 48 runs, at an economy of 6.00.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Pakistan Batting\"\n      }\n    ],\n    \"totalScore\": \"241\",\n    \"totalWickets\": 7\n  }\n}",
+      "result": "Pakistan won by 25 runs",
       "status": "Final",
-      "ageGroup": "U14",
+      "ageGroup": "Senior",
       "awayTeam": {
         "logo": {
-          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/SHCC_White_8b80964141_bfe27795c2.gif",
-          "width": 2375,
-          "height": 2375
+          "url": "/dummyAssetData/flags/pk.svg",
+          "width": 640,
+          "height": 480
         },
-        "name": "Strathmore Heights U14 Mixed (Fri)",
-        "overs": "(25.3)",
-        "score": "8/101",
+        "name": "Pakistan",
+        "overs": "(50)",
+        "score": "241",
         "isHome": false,
-        "isClubTeam": true,
+        "isClubTeam": false,
         "battingPerformances": [
           {
-            "SR": 73.8,
-            "runs": 31,
-            "team": "Strathmore Heights U14 Mixed (Fri)",
-            "balls": 42,
-            "fours": 6,
-            "sixes": 0,
+            "SR": 86.17,
+            "runs": 81,
+            "team": "Pakistan",
+            "balls": 94,
+            "fours": 7,
+            "sixes": 1,
             "notOut": false,
-            "player": "Asidu"
+            "player": "Babar Azam"
           },
           {
-            "SR": 38.88,
-            "runs": 28,
-            "team": "Strathmore Heights U14 Mixed (Fri)",
-            "balls": 72,
+            "SR": 83.33,
+            "runs": 55,
+            "team": "Pakistan",
+            "balls": 66,
+            "fours": 4,
+            "sixes": 0,
+            "notOut": false,
+            "player": "Imam-ul-Haq"
+          },
+          {
+            "SR": 95.12,
+            "runs": 39,
+            "team": "Pakistan",
+            "balls": 41,
             "fours": 3,
-            "sixes": 0,
-            "notOut": false,
-            "player": "Liam"
-          },
-          {
-            "SR": 37.03,
-            "runs": 10,
-            "team": "Strathmore Heights U14 Mixed (Fri)",
-            "balls": 27,
-            "fours": 1,
-            "sixes": 0,
-            "notOut": false,
-            "player": "Strati"
+            "sixes": 1,
+            "notOut": true,
+            "player": "Mohammad Hafeez"
           }
         ],
         "bowlingPerformances": [
           {
-            "runs": 3,
-            "team": "Jacana CUBS U14",
-            "overs": 2,
-            "player": "Zain",
-            "economy": "1.50",
-            "maidens": 1,
-            "wickets": 1
-          },
-          {
-            "runs": 12,
-            "team": "Jacana CUBS U14",
-            "overs": 4,
-            "player": "zayaan",
-            "economy": "3.00",
-            "maidens": 1,
-            "wickets": 1
-          },
-          {
-            "runs": 6,
-            "team": "Jacana CUBS U14",
-            "overs": 2,
-            "player": "Shahmeer",
-            "economy": "3.00",
+            "runs": 52,
+            "team": "West Indies",
+            "overs": 10,
+            "player": "Sheldon Cottrell",
+            "economy": "5.20",
             "maidens": 0,
-            "wickets": 1
+            "wickets": 2
+          },
+          {
+            "runs": 44,
+            "team": "West Indies",
+            "overs": 10,
+            "player": "Jason Holder",
+            "economy": "4.40",
+            "maidens": 1,
+            "wickets": 2
+          },
+          {
+            "runs": 48,
+            "team": "West Indies",
+            "overs": 8,
+            "player": "Oshane Thomas",
+            "economy": "6.00",
+            "maidens": 0,
+            "wickets": 2
           }
         ],
         "awayScoresFirstInnings": "1"
       },
       "homeTeam": {
         "logo": {
-          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/JCC_GOLD_Full_Logo_83dd09e3ef.png",
-          "width": 2346,
-          "height": 3298
+          "url": "/dummyAssetData/flags/wi.svg",
+          "width": 640,
+          "height": 480
         },
-        "name": "Jacana CUBS U14",
-        "overs": "(16)",
-        "score": "3/143",
+        "name": "West Indies",
+        "overs": "(47.1)",
+        "score": "216",
         "isHome": true,
         "isClubTeam": false,
         "battingPerformances": [
           {
-            "SR": 202.7,
-            "runs": 75,
-            "team": "Jacana CUBS U14",
-            "balls": 37,
-            "fours": 12,
+            "SR": 118.37,
+            "runs": 58,
+            "team": "West Indies",
+            "balls": 49,
+            "fours": 5,
+            "sixes": 3,
+            "notOut": false,
+            "player": "Chris Gayle"
+          },
+          {
+            "SR": 86.27,
+            "runs": 44,
+            "team": "West Indies",
+            "balls": 51,
+            "fours": 3,
             "sixes": 1,
             "notOut": false,
-            "player": "Shahmeer"
+            "player": "Shimron Hetmyer"
           },
           {
-            "SR": 55.88,
-            "runs": 19,
-            "team": "Jacana CUBS U14",
-            "balls": 34,
+            "SR": 90,
+            "runs": 36,
+            "team": "West Indies",
+            "balls": 40,
             "fours": 2,
-            "sixes": 0,
+            "sixes": 1,
             "notOut": false,
-            "player": "IBRAHIM"
-          },
-          {
-            "SR": 50,
-            "runs": 11,
-            "team": "Jacana CUBS U14",
-            "balls": 22,
-            "fours": 1,
-            "sixes": 0,
-            "notOut": false,
-            "player": "Daksh"
+            "player": "Nicholas Pooran"
           }
         ],
         "bowlingPerformances": [
           {
-            "runs": 7,
-            "team": "Strathmore Heights U14 Mixed (Fri)",
-            "overs": 2,
-            "player": "Asidu",
-            "economy": "3.50",
-            "maidens": 0,
-            "wickets": 1
+            "runs": 39,
+            "team": "Pakistan",
+            "overs": 9,
+            "player": "Mohammad Amir",
+            "economy": "4.33",
+            "maidens": 1,
+            "wickets": 3
           },
           {
-            "runs": 4,
-            "team": "Strathmore Heights U14 Mixed (Fri)",
-            "overs": 1,
-            "player": "Edison",
-            "economy": "4.00",
+            "runs": 47,
+            "team": "Pakistan",
+            "overs": 9,
+            "player": "Wahab Riaz",
+            "economy": "5.22",
             "maidens": 0,
-            "wickets": 0
+            "wickets": 3
           },
           {
-            "runs": 14,
-            "team": "Strathmore Heights U14 Mixed (Fri)",
-            "overs": 2,
-            "player": "Khizr",
-            "economy": "7.00",
+            "runs": 51,
+            "team": "Pakistan",
+            "overs": 10,
+            "player": "Shadab Khan",
+            "economy": "5.10",
             "maidens": 0,
-            "wickets": 0
+            "wickets": 2
           }
         ],
         "homeScoresFirstInnings": "1"
       },
-      "gradeName": "U14 (2) Friday North/East",
-      "resultShort": "Jacana CUBS U14 def Strathmore Heights U14 Mixed (Fri)",
+      "gradeName": "2019 World Cup — Group Stage",
+      "resultShort": "Pakistan def West Indies",
       "teamAwayLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/SHCC_White_8b80964141_bfe27795c2.gif",
-        "width": 2375,
-        "height": 2375
+        "url": "/dummyAssetData/flags/pk.svg",
+        "width": 640,
+        "height": 480
       },
       "teamHomeLogo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/JCC_GOLD_Full_Logo_83dd09e3ef.png",
-        "width": 2346,
-        "height": 3298
+        "url": "/dummyAssetData/flags/wi.svg",
+        "width": 640,
+        "height": 480
       },
       "resultSummary": {
-        "winner": "Jacana CUBS U14",
-        "awayTeam": "Strathmore Heights U14 Mixed (Fri)",
-        "homeTeam": "Jacana CUBS U14",
+        "winner": "Pakistan",
+        "awayTeam": "Pakistan",
+        "homeTeam": "West Indies",
         "resultWord": "won"
       },
       "assignSponsors": {
-        "team": [
+        "team": [],
+        "grade": [],
+        "competition": []
+      },
+      "gradeSortOrder": 0
+    },
+    {
+      "date": "16 Jun 2019",
+      "type": "One Day",
+      "round": "2019 World Cup — Group Stage",
+      "gameID": "9ec5d317",
+      "gender": "Men",
+      "ground": "Old Trafford",
+      "prompt": "{\n  \"matchContext\": {\n    \"competition\": \"2019 Cricket World Cup\",\n    \"grade\": \"2019 World Cup — Group Stage\",\n    \"round\": \"2019 World Cup — Group Stage\",\n    \"ground\": \"Old Trafford\",\n    \"matchType\": \"One Day\",\n    \"tossWinner\": \"India\",\n    \"tossResult\": \"India won the toss and elected to bat\",\n    \"resultStatement\": \"India won by 26 runs\",\n    \"dayOne\": \"2019-06-16\",\n    \"finalDaysPlay\": \"2019-06-16\",\n    \"note\": \"Fictional demonstration scorecard for archive preview only.\"\n  },\n  \"homeTeam\": {\n    \"teamName\": \"India\",\n    \"innings\": [\n      {\n        \"teamName\": \"India\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 7,\n        \"battingOrder\": [\n          {\n            \"description\": \"Rohit Sharma, scored 92 Runs from (94) balls, with 8 fours, with 3 sixes, at a strike Rate of 97.87., they were dismissed.\"\n          },\n          {\n            \"description\": \"Virat Kohli, scored 77 Runs from (71) balls, with 6 fours, with 1 six, at a strike Rate of 108.45., they were dismissed.\"\n          },\n          {\n            \"description\": \"Hardik Pandya, scored 48 Runs from (36) balls, with 3 fours, with 2 sixes, at a strike Rate of 133.33., they were not out.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Mohammad Amir, bowled 10 overs, took 2 wickets for 68 runs, at an economy of 6.80.\"\n          },\n          {\n            \"description\": \"Wahab Riaz, bowled 10 overs, took 2 wickets for 71 runs, at an economy of 7.10.\"\n          },\n          {\n            \"description\": \"Shadab Khan, bowled 10 overs, took 2 wickets for 59 runs, at an economy of 5.90.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"India Batting\"\n      }\n    ],\n    \"totalScore\": \"315\",\n    \"totalWickets\": 7\n  },\n  \"awayTeam\": {\n    \"teamName\": \"Pakistan\",\n    \"innings\": [\n      {\n        \"teamName\": \"Pakistan\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 9,\n        \"battingOrder\": [\n          {\n            \"description\": \"Babar Azam, scored 88 Runs from (97) balls, with 7 fours, with 1 six, at a strike Rate of 90.72., they were dismissed.\"\n          },\n          {\n            \"description\": \"Fakhar Zaman, scored 62 Runs from (58) balls, with 6 fours, with 2 sixes, at a strike Rate of 106.90., they were dismissed.\"\n          },\n          {\n            \"description\": \"Imad Wasim, scored 41 Runs from (35) balls, with 3 fours, with 1 six, at a strike Rate of 117.14., they were dismissed.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Jasprit Bumrah, bowled 10 overs, took 3 wickets for 43 runs, at an economy of 4.30.\"\n          },\n          {\n            \"description\": \"Bhuvneshwar Kumar, bowled 10 overs, took 2 wickets for 55 runs, at an economy of 5.50.\"\n          },\n          {\n            \"description\": \"Yuzvendra Chahal, bowled 10 overs, took 2 wickets for 52 runs, at an economy of 5.20.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Pakistan Batting\"\n      }\n    ],\n    \"totalScore\": \"289\",\n    \"totalWickets\": 9\n  }\n}",
+      "result": "India won by 26 runs",
+      "status": "Final",
+      "ageGroup": "Senior",
+      "awayTeam": {
+        "logo": {
+          "url": "/dummyAssetData/flags/pk.svg",
+          "width": 640,
+          "height": 480
+        },
+        "name": "Pakistan",
+        "overs": "(50)",
+        "score": "289",
+        "isHome": false,
+        "isClubTeam": false,
+        "battingPerformances": [
           {
-            "id": 1258,
-            "url": "Frank Dowling",
-            "logo": {
-              "id": 8528,
-              "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/2_1_b9a6e52102.png"
-            },
-            "name": "Frank Dowling",
-            "isVideo": true,
-            "tagline": "Frank Dowling",
-            "isActive": true,
-            "isArticle": true,
-            "isPrimary": false,
-            "description": null
+            "SR": 90.72,
+            "runs": 88,
+            "team": "Pakistan",
+            "balls": 97,
+            "fours": 7,
+            "sixes": 1,
+            "notOut": false,
+            "player": "Babar Azam"
+          },
+          {
+            "SR": 106.9,
+            "runs": 62,
+            "team": "Pakistan",
+            "balls": 58,
+            "fours": 6,
+            "sixes": 2,
+            "notOut": false,
+            "player": "Fakhar Zaman"
+          },
+          {
+            "SR": 117.14,
+            "runs": 41,
+            "team": "Pakistan",
+            "balls": 35,
+            "fours": 3,
+            "sixes": 1,
+            "notOut": false,
+            "player": "Imad Wasim"
           }
         ],
+        "bowlingPerformances": [
+          {
+            "runs": 43,
+            "team": "India",
+            "overs": 10,
+            "player": "Jasprit Bumrah",
+            "economy": "4.30",
+            "maidens": 1,
+            "wickets": 3
+          },
+          {
+            "runs": 55,
+            "team": "India",
+            "overs": 10,
+            "player": "Bhuvneshwar Kumar",
+            "economy": "5.50",
+            "maidens": 0,
+            "wickets": 2
+          },
+          {
+            "runs": 52,
+            "team": "India",
+            "overs": 10,
+            "player": "Yuzvendra Chahal",
+            "economy": "5.20",
+            "maidens": 0,
+            "wickets": 2
+          }
+        ],
+        "awayScoresFirstInnings": "1"
+      },
+      "homeTeam": {
+        "logo": {
+          "url": "/dummyAssetData/flags/in.svg",
+          "width": 640,
+          "height": 480
+        },
+        "name": "India",
+        "overs": "(50)",
+        "score": "315",
+        "isHome": true,
+        "isClubTeam": false,
+        "battingPerformances": [
+          {
+            "SR": 97.87,
+            "runs": 92,
+            "team": "India",
+            "balls": 94,
+            "fours": 8,
+            "sixes": 3,
+            "notOut": false,
+            "player": "Rohit Sharma"
+          },
+          {
+            "SR": 108.45,
+            "runs": 77,
+            "team": "India",
+            "balls": 71,
+            "fours": 6,
+            "sixes": 1,
+            "notOut": false,
+            "player": "Virat Kohli"
+          },
+          {
+            "SR": 133.33,
+            "runs": 48,
+            "team": "India",
+            "balls": 36,
+            "fours": 3,
+            "sixes": 2,
+            "notOut": true,
+            "player": "Hardik Pandya"
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "runs": 68,
+            "team": "Pakistan",
+            "overs": 10,
+            "player": "Mohammad Amir",
+            "economy": "6.80",
+            "maidens": 0,
+            "wickets": 2
+          },
+          {
+            "runs": 71,
+            "team": "Pakistan",
+            "overs": 10,
+            "player": "Wahab Riaz",
+            "economy": "7.10",
+            "maidens": 0,
+            "wickets": 2
+          },
+          {
+            "runs": 59,
+            "team": "Pakistan",
+            "overs": 10,
+            "player": "Shadab Khan",
+            "economy": "5.90",
+            "maidens": 0,
+            "wickets": 2
+          }
+        ],
+        "homeScoresFirstInnings": "1"
+      },
+      "gradeName": "2019 World Cup — Group Stage",
+      "resultShort": "India def Pakistan",
+      "teamAwayLogo": {
+        "url": "/dummyAssetData/flags/pk.svg",
+        "width": 640,
+        "height": 480
+      },
+      "teamHomeLogo": {
+        "url": "/dummyAssetData/flags/in.svg",
+        "width": 640,
+        "height": 480
+      },
+      "resultSummary": {
+        "winner": "India",
+        "awayTeam": "Pakistan",
+        "homeTeam": "India",
+        "resultWord": "won"
+      },
+      "assignSponsors": {
+        "team": [],
         "grade": [],
         "competition": []
       },
@@ -733,19 +728,19 @@
     }
   ],
   "asset": {
-    "assetID": 4,
-    "assetTypeID": 2,
-    "assetsLinkID": "22507434359b0a312dee99354d5a36763192afd9dd79590ef745988acb48c008",
-    "assetCategoryID": 1
+    "assetID": 0,
+    "assetTypeID": 0,
+    "assetCategoryID": 0,
+    "assetsLinkID": ""
   },
   "errors": [],
   "frames": [45, 240, 525, 705],
   "render": {
-    "renderId": 29050,
-    "schedulerId": 195
+    "schedulerId": 0,
+    "renderId": 0
   },
   "account": {
-    "accountId": 195
+    "accountId": 0
   },
   "timings": {
     "FPS_MAIN": 585,
@@ -758,75 +753,23 @@
   "videoMeta": {
     "club": {
       "logo": {
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/SHCC_White_8b80964141_bfe27795c2.gif",
+        "hasLogo": false,
+        "url": "",
         "width": 2375,
-        "height": 2375,
-        "hasLogo": true
+        "height": 2375
       },
-      "name": "Strathmore Heights Cricket Club",
+      "name": "International Cricket Demo Preview",
       "sport": "Cricket",
       "sponsors": {
-        "default": {
-          "general_sponsor_1": [
-            {
-              "id": 961,
-              "url": "AGC",
-              "logo": {
-                "id": 7901,
-                "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/554973092_1337908027830935_7203114956717746691_n_783a9d8b1a.jpg"
-              },
-              "name": "AGC",
-              "isVideo": true,
-              "tagline": "AGC",
-              "isActive": true,
-              "isArticle": true,
-              "isPrimary": true,
-              "description": null
-            }
-          ],
-          "general_sponsor_2": [
-            {
-              "id": 1258,
-              "url": "Frank Dowling",
-              "logo": {
-                "id": 8528,
-                "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/2_1_b9a6e52102.png"
-              },
-              "name": "Frank Dowling",
-              "isVideo": true,
-              "tagline": "Frank Dowling",
-              "isActive": true,
-              "isArticle": true,
-              "isPrimary": false,
-              "description": null
-            }
-          ],
-          "general_sponsor_3": [
-            {
-              "id": 1259,
-              "url": "Reed Plumbing",
-              "logo": {
-                "id": 8529,
-                "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Reed_PDS_a3557acce2.png"
-              },
-              "name": "Reed Plumbing",
-              "isVideo": true,
-              "tagline": "Reed Plumbing",
-              "isActive": true,
-              "isArticle": true,
-              "isPrimary": false,
-              "description": null
-            }
-          ]
-        },
-        "primary": []
+        "primary": [],
+        "default": {}
       },
-      "IsAccountClub": true
+      "IsAccountClub": false
     },
     "video": {
       "media": {
         "audio": {
-          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Marscott_Wild_Neon_Get_The_Gains_inst_3251aaa9af.mp3",
+          "url": "",
           "audioOption": null
         },
         "HeroImage": {
@@ -844,10 +787,10 @@
         "frames": [],
         "assetId": 4,
         "titleSplit": ["Results"],
-        "videoTitle": "Weekend Results",
+        "videoTitle": "International Cricket Demo Preview CricketResults",
         "assetTypeId": 2,
         "compositionId": "CricketResults",
-        "includeSponsors": true
+        "includeSponsors": false
       },
       "appearance": {
         "theme": {
@@ -870,8 +813,8 @@
           "CricketBowlingPerformances": 7
         }
       },
-      "fixtureCategory": "JUNIOR",
-      "groupingCategory": "JUNIOR",
+      "fixtureCategory": "International Cricket Demo Preview",
+      "groupingCategory": "International Cricket Demo Preview",
       "templateVariation": {
         "mode": "lightAlt",
         "image": {
@@ -914,7 +857,7 @@
           "animationDuration": null
         },
         "texture": {
-          "url": null,
+          "url": "",
           "name": null,
           "scale": "100%",
           "repeat": "cover",
@@ -935,7 +878,7 @@
             "audio_options": [
               {
                 "id": 13,
-                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Kidpenny_Single_Better_Start_Now_Inst_53b898d9ef.mp3",
+                "URL": "",
                 "Name": "Better Start Now",
                 "createdAt": "2023-08-31T12:30:51.127Z",
                 "updatedAt": "2023-09-28T06:41:12.356Z",
@@ -945,7 +888,7 @@
               },
               {
                 "id": 11,
-                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Andy_D_Park_Andy_D_Park_Bruhaha_Inst_2b610a10b3.mp3",
+                "URL": "",
                 "Name": "Bru ha ha",
                 "createdAt": "2023-08-31T12:30:14.961Z",
                 "updatedAt": "2023-09-28T06:42:51.950Z",
@@ -955,7 +898,7 @@
               },
               {
                 "id": 2,
-                "URL": "https://lmssocialmediamanager.s3.ap-southeast-2.amazonaws.com/assets/Fifteen%20on%20Me.mp3",
+                "URL": "",
                 "Name": "Fifteen on Me",
                 "createdAt": "2023-01-30T15:18:49.326Z",
                 "updatedAt": "2023-09-28T06:43:06.236Z",
@@ -965,7 +908,7 @@
               },
               {
                 "id": 10,
-                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Step_Rockets_Fire_Escape_Overtime_Inst_1623dd2a56.mp3",
+                "URL": "",
                 "Name": "FireEscape",
                 "createdAt": "2023-08-31T12:29:50.321Z",
                 "updatedAt": "2023-09-28T06:43:47.509Z",
@@ -975,7 +918,7 @@
               },
               {
                 "id": 9,
-                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Ghosthood_Single_Lets_Goft_Sara_Azriel_Inst_2e5921ce0b.mp3",
+                "URL": "",
                 "Name": "Let's Go",
                 "createdAt": "2023-08-31T12:29:27.628Z",
                 "updatedAt": "2023-09-28T06:51:54.865Z",

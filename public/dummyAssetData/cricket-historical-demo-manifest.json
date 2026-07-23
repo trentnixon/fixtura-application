@@ -1,0 +1,1421 @@
+{
+  "version": "1.0.0",
+  "generatedFor": "template-builder Remotion cricket example datasets",
+  "retrievedAt": "2026-07-23",
+  "labelling": {
+    "statistics": "Demo Recreation — Fictional Statistics",
+    "standings": "Demo Recreation — Fictional Standings"
+  },
+  "notes": [
+    "Historical facts only live under kind=historical nodes.",
+    "Standings, innings, bowling figures and scorecards must be generated later under syntheticGeneration rules and explicit demo labels.",
+    "Do not rewrite public/dummyAssetData/Cricket/*.json until later approved subitems.",
+    "Preview bundle copy (preview.mjs / preview.d.ts) does not sync these datasets."
+  ],
+  "nations": [
+    {
+      "id": "afg",
+      "displayName": "Afghanistan",
+      "membership": "full",
+      "flagCode": "af",
+      "flagPath": "/dummyAssetData/flags/af.svg",
+      "isIsoCountry": true,
+      "kind": "historical"
+    },
+    {
+      "id": "aus",
+      "displayName": "Australia",
+      "membership": "full",
+      "flagCode": "au",
+      "flagPath": "/dummyAssetData/flags/au.svg",
+      "isIsoCountry": true,
+      "kind": "historical"
+    },
+    {
+      "id": "ban",
+      "displayName": "Bangladesh",
+      "membership": "full",
+      "flagCode": "bd",
+      "flagPath": "/dummyAssetData/flags/bd.svg",
+      "isIsoCountry": true,
+      "kind": "historical"
+    },
+    {
+      "id": "eng",
+      "displayName": "England",
+      "membership": "full",
+      "flagCode": "gb-eng",
+      "flagPath": "/dummyAssetData/flags/gb-eng.svg",
+      "isIsoCountry": true,
+      "kind": "historical"
+    },
+    {
+      "id": "ind",
+      "displayName": "India",
+      "membership": "full",
+      "flagCode": "in",
+      "flagPath": "/dummyAssetData/flags/in.svg",
+      "isIsoCountry": true,
+      "kind": "historical"
+    },
+    {
+      "id": "ire",
+      "displayName": "Ireland",
+      "membership": "full",
+      "flagCode": "ie",
+      "flagPath": "/dummyAssetData/flags/ie.svg",
+      "isIsoCountry": true,
+      "kind": "historical"
+    },
+    {
+      "id": "nz",
+      "displayName": "New Zealand",
+      "membership": "full",
+      "flagCode": "nz",
+      "flagPath": "/dummyAssetData/flags/nz.svg",
+      "isIsoCountry": true,
+      "kind": "historical"
+    },
+    {
+      "id": "pak",
+      "displayName": "Pakistan",
+      "membership": "full",
+      "flagCode": "pk",
+      "flagPath": "/dummyAssetData/flags/pk.svg",
+      "isIsoCountry": true,
+      "kind": "historical"
+    },
+    {
+      "id": "sa",
+      "displayName": "South Africa",
+      "membership": "full",
+      "flagCode": "za",
+      "flagPath": "/dummyAssetData/flags/za.svg",
+      "isIsoCountry": true,
+      "kind": "historical"
+    },
+    {
+      "id": "sl",
+      "displayName": "Sri Lanka",
+      "membership": "full",
+      "flagCode": "lk",
+      "flagPath": "/dummyAssetData/flags/lk.svg",
+      "isIsoCountry": true,
+      "kind": "historical"
+    },
+    {
+      "id": "wi",
+      "displayName": "West Indies",
+      "membership": "full",
+      "flagCode": "wi",
+      "flagPath": "/dummyAssetData/flags/wi.svg",
+      "isIsoCountry": false,
+      "visualAssetException": {
+        "reason": "West Indies is a multi-nation cricket board, not an ISO country.",
+        "policy": "Do not use the commercial Cricket West Indies crest without confirmed rights. Use the approved pre-1999 West Indies Cricket Board/team flag under wi.svg.",
+        "status": "resolved",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:WestIndiesCricketFlagPre1999.svg",
+        "licence": "Public domain / PD-expired (per Wikimedia Commons; post-1999 versions copyrighted)",
+        "retrieved": "2026-07-23",
+        "rationale": "Historical pre-1999 board/team flag with Commons-documented reusable rights; not the modern commercial CWI crest."
+      },
+      "kind": "historical"
+    },
+    {
+      "id": "zim",
+      "displayName": "Zimbabwe",
+      "membership": "full",
+      "flagCode": "zw",
+      "flagPath": "/dummyAssetData/flags/zw.svg",
+      "isIsoCountry": true,
+      "kind": "historical"
+    },
+    {
+      "id": "ken",
+      "displayName": "Kenya",
+      "membership": "associate",
+      "flagCode": "ke",
+      "flagPath": "/dummyAssetData/flags/ke.svg",
+      "isIsoCountry": true,
+      "kind": "historical"
+    },
+    {
+      "id": "ned",
+      "displayName": "Netherlands",
+      "membership": "associate",
+      "flagCode": "nl",
+      "flagPath": "/dummyAssetData/flags/nl.svg",
+      "isIsoCountry": true,
+      "kind": "historical"
+    },
+    {
+      "id": "uae",
+      "displayName": "United Arab Emirates",
+      "membership": "associate",
+      "flagCode": "ae",
+      "flagPath": "/dummyAssetData/flags/ae.svg",
+      "isIsoCountry": true,
+      "kind": "historical"
+    },
+    {
+      "id": "sco",
+      "displayName": "Scotland",
+      "membership": "associate",
+      "flagCode": "gb-sct",
+      "flagPath": "/dummyAssetData/flags/gb-sct.svg",
+      "isIsoCountry": true,
+      "kind": "historical"
+    },
+    {
+      "id": "nam",
+      "displayName": "Namibia",
+      "membership": "associate",
+      "flagCode": "na",
+      "flagPath": "/dummyAssetData/flags/na.svg",
+      "isIsoCountry": true,
+      "kind": "historical"
+    }
+  ],
+  "flagAssets": {
+    "preferredSource": "flag-icons (MIT)",
+    "preferredSourceUrl": "https://github.com/lipis/flag-icons",
+    "targetDirectory": "public/dummyAssetData/flags/",
+    "publicBasePath": "/dummyAssetData/flags/",
+    "requiredFiles": [
+      "af.svg",
+      "au.svg",
+      "bd.svg",
+      "gb-eng.svg",
+      "in.svg",
+      "ie.svg",
+      "nz.svg",
+      "pk.svg",
+      "za.svg",
+      "lk.svg",
+      "zw.svg",
+      "ke.svg",
+      "nl.svg",
+      "ae.svg",
+      "gb-sct.svg",
+      "na.svg",
+      "wi.svg"
+    ],
+    "westIndiesException": {
+      "flagCode": "wi",
+      "isIsoCountry": false,
+      "status": "resolved",
+      "constraint": "No commercial Cricket West Indies crest without confirmed rights.",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:WestIndiesCricketFlagPre1999.svg",
+      "licence": "Public domain / PD-expired (per Wikimedia Commons; post-1999 versions copyrighted)",
+      "retrieved": "2026-07-23",
+      "rationale": "Historical pre-1999 board/team flag with Commons-documented reusable rights; not the modern commercial CWI crest.",
+      "localPath": "/dummyAssetData/flags/wi.svg"
+    },
+    "kind": "historical"
+  },
+  "tournaments": [
+    {
+      "id": "cwc-1996",
+      "name": "1996 Cricket World Cup",
+      "edition": 1996,
+      "format": "ODI",
+      "hostSummary": "India, Pakistan and Sri Lanka",
+      "dateRange": { "start": "1996-02-14", "end": "1996-03-17" },
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/1996_Cricket_World_Cup",
+          "retrieved": "2026-07-23",
+          "note": "Group compositions and tournament window; cross-check against ESPNcricinfo archive for match facts."
+        },
+        {
+          "url": "https://www.espncricinfo.com/series/wills-world-cup-1995-96-61046",
+          "retrieved": "2026-07-23",
+          "note": "ESPNcricinfo series page for Wills World Cup 1995/96."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "cwc-1999",
+      "name": "1999 Cricket World Cup",
+      "edition": 1999,
+      "format": "ODI",
+      "hostSummary": "England, Wales, Ireland, Scotland and Netherlands",
+      "dateRange": { "start": "1999-05-14", "end": "1999-06-20" },
+      "sources": [
+        {
+          "url": "https://static.espncricinfo.com/db/ARCHIVE/WORLD_CUPS/WC99/WC99_PLAYING-CONDITIONS.html",
+          "retrieved": "2026-07-23",
+          "note": "Official CricInfo archive listing Group A/B seeds."
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/1999_Cricket_World_Cup",
+          "retrieved": "2026-07-23",
+          "note": "Secondary confirmation of group membership and dates."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "icc-knockout-2000",
+      "name": "ICC KnockOut Kenya 2000",
+      "edition": 2000,
+      "format": "ODI",
+      "hostSummary": "Kenya",
+      "dateRange": { "start": "2000-10-03", "end": "2000-10-15" },
+      "primaryVenue": {
+        "id": "nairobi-gymkhana",
+        "canonicalName": "Gymkhana Club Ground, Nairobi",
+        "displayName": "Nairobi Gymkhana Club Ground"
+      },
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/2000_ICC_KnockOut_Trophy",
+          "retrieved": "2026-07-23",
+          "note": "Tournament dates, Nairobi host, New Zealand champions."
+        },
+        {
+          "url": "https://www.cricketarchive.com/Archive/Events/1/ICC_KnockOut_2000-01.html",
+          "retrieved": "2026-07-23",
+          "note": "Match list confirming all ODIs at Gymkhana Club Ground, Nairobi."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "cwc-2007",
+      "name": "2007 Cricket World Cup",
+      "edition": 2007,
+      "format": "ODI",
+      "hostSummary": "West Indies",
+      "dateRange": { "start": "2007-03-13", "end": "2007-04-28" },
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/2007_Cricket_World_Cup",
+          "retrieved": "2026-07-23",
+          "note": "Super Eight qualifiers and tournament window."
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/2007_Cricket_World_Cup_Super_Eight_stage",
+          "retrieved": "2026-07-23",
+          "note": "Super Eight participant list and Caribbean venues."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "cwc-2015",
+      "name": "2015 Cricket World Cup",
+      "edition": 2015,
+      "format": "ODI",
+      "hostSummary": "Australia and New Zealand",
+      "dateRange": { "start": "2015-02-14", "end": "2015-03-29" },
+      "sources": [
+        {
+          "url": "https://www.espncricinfo.com/series/icc-cricket-world-cup-2014-15-509587",
+          "retrieved": "2026-07-23",
+          "note": "ESPNcricinfo series hub for 2015 World Cup squads and scorecards."
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/2015_Cricket_World_Cup",
+          "retrieved": "2026-07-23",
+          "note": "Secondary tournament overview."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "ct-2017",
+      "name": "2017 Champions Trophy",
+      "edition": 2017,
+      "format": "ODI",
+      "hostSummary": "England and Wales",
+      "dateRange": { "start": "2017-06-01", "end": "2017-06-18" },
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/2017_ICC_Champions_Trophy",
+          "retrieved": "2026-07-23",
+          "note": "Group A membership and dates."
+        },
+        {
+          "url": "https://www.espncricinfo.com/series/icc-champions-trophy-2017-1022345",
+          "retrieved": "2026-07-23",
+          "note": "ESPNcricinfo series page."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "cwc-2019",
+      "name": "2019 Cricket World Cup",
+      "edition": 2019,
+      "format": "ODI",
+      "hostSummary": "England and Wales",
+      "dateRange": { "start": "2019-05-30", "end": "2019-07-14" },
+      "sources": [
+        {
+          "url": "https://www.icc-cricket.com/media-releases/excitement-builds-as-icc-cricket-world-cup-2019-fixtures-are-released",
+          "retrieved": "2026-07-23",
+          "note": "ICC fixture release with venues and dates."
+        },
+        {
+          "url": "https://www.espncricinfo.com/series/icc-cricket-world-cup-2019-1144415",
+          "retrieved": "2026-07-23",
+          "note": "ESPNcricinfo series hub and scorecards."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "t20wc-2022",
+      "name": "2022 Men's T20 World Cup",
+      "edition": 2022,
+      "format": "T20",
+      "hostSummary": "Australia",
+      "dateRange": { "start": "2022-10-16", "end": "2022-11-13" },
+      "sources": [
+        {
+          "url": "https://www.icc-cricket.com/news/fixtures-revealed-for-icc-mens-t20-world-cup-2022-in-australia",
+          "retrieved": "2026-07-23",
+          "note": "ICC fixture announcement including Super 12 venues."
+        },
+        {
+          "url": "https://www.espncricinfo.com/series/icc-men-s-t20-world-cup-2022-23-1298134/match-schedule-fixtures-and-results",
+          "retrieved": "2026-07-23",
+          "note": "Authoritative match dates, pairings and results list."
+        }
+      ],
+      "kind": "historical"
+    }
+  ],
+  "stages": [
+    {
+      "id": "cwc-1996-group-a",
+      "tournamentId": "cwc-1996",
+      "name": "Group A",
+      "displayLabel": "1996 World Cup — Group A",
+      "ladderBlockIndex": 0,
+      "participantNationIds": ["sl", "aus", "ind", "wi", "zim", "ken"],
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/1996_Cricket_World_Cup",
+          "retrieved": "2026-07-23",
+          "note": "Group A table participants."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "cwc-1996-group-b",
+      "tournamentId": "cwc-1996",
+      "name": "Group B",
+      "displayLabel": "1996 World Cup — Group B",
+      "ladderBlockIndex": 1,
+      "participantNationIds": ["sa", "pak", "nz", "eng", "uae", "ned"],
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/1996_Cricket_World_Cup",
+          "retrieved": "2026-07-23",
+          "note": "Group B table participants."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "cwc-1999-group-a",
+      "tournamentId": "cwc-1999",
+      "name": "Group A",
+      "displayLabel": "1999 World Cup — Group A",
+      "ladderBlockIndex": 2,
+      "participantNationIds": ["sa", "ind", "zim", "eng", "sl", "ken"],
+      "sources": [
+        {
+          "url": "https://static.espncricinfo.com/db/ARCHIVE/WORLD_CUPS/WC99/WC99_PLAYING-CONDITIONS.html",
+          "retrieved": "2026-07-23",
+          "note": "Group A seed list."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "cwc-1999-group-b",
+      "tournamentId": "cwc-1999",
+      "name": "Group B",
+      "displayLabel": "1999 World Cup — Group B",
+      "ladderBlockIndex": 3,
+      "participantNationIds": ["pak", "aus", "nz", "wi", "ban", "sco"],
+      "sources": [
+        {
+          "url": "https://static.espncricinfo.com/db/ARCHIVE/WORLD_CUPS/WC99/WC99_PLAYING-CONDITIONS.html",
+          "retrieved": "2026-07-23",
+          "note": "Group B seed list."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "cwc-2007-super-eight",
+      "tournamentId": "cwc-2007",
+      "name": "Super Eight",
+      "displayLabel": "2007 World Cup — Super Eight",
+      "ladderBlockIndex": 4,
+      "participantNationIds": ["aus", "nz", "sl", "sa", "eng", "wi", "ban", "ire"],
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/2007_Cricket_World_Cup_Super_Eight_stage",
+          "retrieved": "2026-07-23",
+          "note": "Super Eight qualifiers (Ireland and Bangladesh included after group upsets)."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "ct-2017-group-a",
+      "tournamentId": "ct-2017",
+      "name": "Group A",
+      "displayLabel": "2017 Champions Trophy — Group A",
+      "ladderBlockIndex": 5,
+      "participantNationIds": ["eng", "aus", "ban", "nz"],
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/2017_ICC_Champions_Trophy",
+          "retrieved": "2026-07-23",
+          "note": "Group A: England, Australia, Bangladesh, New Zealand."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "t20wc-2022-super12-g1",
+      "tournamentId": "t20wc-2022",
+      "name": "Super 12 Group 1",
+      "displayLabel": "2022 T20 World Cup — Super 12 Group 1",
+      "ladderBlockIndex": 6,
+      "participantNationIds": ["nz", "eng", "aus", "sl", "ire", "afg"],
+      "sources": [
+        {
+          "url": "https://www.espncricinfo.com/series/icc-men-s-t20-world-cup-2022-23-1298134/match-schedule-fixtures-and-results",
+          "retrieved": "2026-07-23",
+          "note": "Group 1 Super 12 pairings."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "t20wc-2022-super12-g2",
+      "tournamentId": "t20wc-2022",
+      "name": "Super 12 Group 2",
+      "displayLabel": "2022 T20 World Cup — Super 12 Group 2",
+      "ladderBlockIndex": 7,
+      "participantNationIds": ["ind", "pak", "sa", "ned", "ban", "zim"],
+      "sources": [
+        {
+          "url": "https://www.espncricinfo.com/series/icc-men-s-t20-world-cup-2022-23-1298134/match-schedule-fixtures-and-results",
+          "retrieved": "2026-07-23",
+          "note": "Group 2 Super 12 pairings."
+        }
+      ],
+      "kind": "historical"
+    }
+  ],
+  "venues": [
+    {
+      "id": "the-oval",
+      "canonicalName": "Kennington Oval, London",
+      "displayName": "The Oval",
+      "kind": "historical"
+    },
+    {
+      "id": "bristol-county-ground",
+      "canonicalName": "County Ground, Bristol",
+      "displayName": "County Ground, Bristol",
+      "kind": "historical"
+    },
+    {
+      "id": "trent-bridge",
+      "canonicalName": "Trent Bridge, Nottingham",
+      "displayName": "Trent Bridge",
+      "kind": "historical"
+    },
+    {
+      "id": "hampshire-bowl",
+      "canonicalName": "The Rose Bowl, Southampton",
+      "displayName": "Hampshire Bowl",
+      "kind": "historical"
+    },
+    {
+      "id": "cardiff-wales-stadium",
+      "canonicalName": "Sophia Gardens, Cardiff",
+      "displayName": "Cardiff Wales Stadium",
+      "kind": "historical"
+    },
+    {
+      "id": "old-trafford",
+      "canonicalName": "Old Trafford, Manchester",
+      "displayName": "Old Trafford",
+      "kind": "historical"
+    },
+    {
+      "id": "nairobi-gymkhana",
+      "canonicalName": "Gymkhana Club Ground, Nairobi",
+      "displayName": "Nairobi Gymkhana Club Ground",
+      "kind": "historical"
+    },
+    {
+      "id": "kensington-oval",
+      "canonicalName": "Kensington Oval, Bridgetown",
+      "displayName": "Kensington Oval",
+      "kind": "historical"
+    },
+    {
+      "id": "sabina-park",
+      "canonicalName": "Sabina Park, Kingston",
+      "displayName": "Sabina Park",
+      "kind": "historical"
+    },
+    {
+      "id": "sir-vivian-richards",
+      "canonicalName": "Sir Vivian Richards Stadium, Antigua",
+      "displayName": "Sir Vivian Richards Stadium",
+      "kind": "historical"
+    },
+    {
+      "id": "providence",
+      "canonicalName": "Providence Stadium, Guyana",
+      "displayName": "Providence Stadium",
+      "kind": "historical"
+    },
+    {
+      "id": "queens-park-oval",
+      "canonicalName": "Queen's Park Oval, Port of Spain",
+      "displayName": "Queen's Park Oval",
+      "kind": "historical"
+    },
+    {
+      "id": "beausejour",
+      "canonicalName": "Beausejour Cricket Ground, St Lucia",
+      "displayName": "Beausejour Cricket Ground",
+      "kind": "historical"
+    },
+    {
+      "id": "kardinia-park",
+      "canonicalName": "Kardinia Park, Geelong",
+      "displayName": "Kardinia Park",
+      "kind": "historical"
+    },
+    {
+      "id": "bellerive-oval",
+      "canonicalName": "Bellerive Oval, Hobart",
+      "displayName": "Bellerive Oval",
+      "kind": "historical"
+    },
+    {
+      "id": "scg",
+      "canonicalName": "Sydney Cricket Ground",
+      "displayName": "SCG",
+      "kind": "historical"
+    },
+    {
+      "id": "perth-stadium",
+      "canonicalName": "Perth Stadium",
+      "displayName": "Perth Stadium",
+      "kind": "historical"
+    },
+    {
+      "id": "mcg",
+      "canonicalName": "Melbourne Cricket Ground",
+      "displayName": "MCG",
+      "kind": "historical"
+    },
+    {
+      "id": "adelaide-oval",
+      "canonicalName": "Adelaide Oval",
+      "displayName": "Adelaide Oval",
+      "kind": "historical"
+    },
+    {
+      "id": "gabba",
+      "canonicalName": "The Gabba, Brisbane",
+      "displayName": "The Gabba",
+      "kind": "historical"
+    }
+  ],
+  "fixtures": [
+    {
+      "id": "cwc2019-eng-sa",
+      "tournamentId": "cwc-2019",
+      "homeNationId": "eng",
+      "awayNationId": "sa",
+      "date": "2019-05-30",
+      "venueId": "the-oval",
+      "format": "ODI",
+      "usedBy": ["CricketUpcoming", "CricketResults"],
+      "sources": [
+        {
+          "url": "https://www.espncricinfo.com/series/icc-cricket-world-cup-2019-1144415/england-vs-south-africa-1st-match-1144483/full-scorecard",
+          "retrieved": "2026-07-23",
+          "note": "Scheduled 30 May 2019 at The Oval."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "cwc2019-afg-aus",
+      "tournamentId": "cwc-2019",
+      "homeNationId": "afg",
+      "awayNationId": "aus",
+      "date": "2019-06-01",
+      "venueId": "bristol-county-ground",
+      "format": "ODI",
+      "usedBy": ["CricketUpcoming", "CricketResults"],
+      "sources": [
+        {
+          "url": "https://www.icc-cricket.com/media-releases/excitement-builds-as-icc-cricket-world-cup-2019-fixtures-are-released",
+          "retrieved": "2026-07-23",
+          "note": "Afghanistan vs Australia, Bristol, 1 June 2019."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "cwc2019-wi-pak",
+      "tournamentId": "cwc-2019",
+      "homeNationId": "wi",
+      "awayNationId": "pak",
+      "date": "2019-05-31",
+      "venueId": "trent-bridge",
+      "format": "ODI",
+      "usedBy": ["CricketUpcoming", "CricketResults"],
+      "sources": [
+        {
+          "url": "https://www.icc-cricket.com/media-releases/excitement-builds-as-icc-cricket-world-cup-2019-fixtures-are-released",
+          "retrieved": "2026-07-23",
+          "note": "West Indies vs Pakistan, Trent Bridge, 31 May 2019."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "cwc2019-ind-sa",
+      "tournamentId": "cwc-2019",
+      "homeNationId": "ind",
+      "awayNationId": "sa",
+      "date": "2019-06-05",
+      "venueId": "hampshire-bowl",
+      "format": "ODI",
+      "usedBy": ["CricketUpcoming"],
+      "sources": [
+        {
+          "url": "https://www.icc-cricket.com/media-releases/excitement-builds-as-icc-cricket-world-cup-2019-fixtures-are-released",
+          "retrieved": "2026-07-23",
+          "note": "India vs South Africa, Hampshire Bowl / Rose Bowl, 5 June 2019."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "cwc2019-nz-sl",
+      "tournamentId": "cwc-2019",
+      "homeNationId": "nz",
+      "awayNationId": "sl",
+      "date": "2019-06-01",
+      "venueId": "cardiff-wales-stadium",
+      "format": "ODI",
+      "usedBy": ["CricketUpcoming"],
+      "sources": [
+        {
+          "url": "https://www.mynewsdesk.com/uk/england-and-wales-cricket-board/pressreleases/englands-cricket-world-cup-fixtures-confirmed-2491535",
+          "retrieved": "2026-07-23",
+          "note": "New Zealand v Sri Lanka, Cardiff Wales Stadium, 1 June 2019."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "cwc2019-ban-nz",
+      "tournamentId": "cwc-2019",
+      "homeNationId": "ban",
+      "awayNationId": "nz",
+      "date": "2019-06-05",
+      "venueId": "the-oval",
+      "format": "ODI",
+      "usedBy": ["CricketUpcoming"],
+      "sources": [
+        {
+          "url": "https://www.mynewsdesk.com/uk/england-and-wales-cricket-board/pressreleases/englands-cricket-world-cup-fixtures-confirmed-2491535",
+          "retrieved": "2026-07-23",
+          "note": "Bangladesh v New Zealand, The Oval, 5 June 2019."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "cwc2019-ind-pak",
+      "tournamentId": "cwc-2019",
+      "homeNationId": "ind",
+      "awayNationId": "pak",
+      "date": "2019-06-16",
+      "venueId": "old-trafford",
+      "format": "ODI",
+      "usedBy": ["CricketResults"],
+      "sources": [
+        {
+          "url": "https://www.icc-cricket.com/media-releases/excitement-builds-as-icc-cricket-world-cup-2019-fixtures-are-released",
+          "retrieved": "2026-07-23",
+          "note": "India vs Pakistan, Old Trafford, 16 June 2019."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "t20wc2022-sl-nam",
+      "tournamentId": "t20wc-2022",
+      "homeNationId": "sl",
+      "awayNationId": "nam",
+      "date": "2022-10-16",
+      "venueId": "kardinia-park",
+      "format": "T20",
+      "usedBy": ["CricketRoster"],
+      "sources": [
+        {
+          "url": "https://www.espncricinfo.com/series/icc-men-s-t20-world-cup-2022-23-1298134/match-schedule-fixtures-and-results",
+          "retrieved": "2026-07-23",
+          "note": "Namibia vs Sri Lanka, 16 Oct 2022, First Round Group A (Kardinia Park / Geelong)."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "t20wc2022-wi-ire",
+      "tournamentId": "t20wc-2022",
+      "homeNationId": "wi",
+      "awayNationId": "ire",
+      "date": "2022-10-21",
+      "venueId": "bellerive-oval",
+      "format": "T20",
+      "usedBy": ["CricketRoster", "CricketResultSingle"],
+      "sources": [
+        {
+          "url": "https://www.espncricinfo.com/series/icc-men-s-t20-world-cup-2022-23-1298134/match-schedule-fixtures-and-results",
+          "retrieved": "2026-07-23",
+          "note": "West Indies vs Ireland, 21 Oct 2022, Bellerive Oval."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "t20wc2022-aus-nz",
+      "tournamentId": "t20wc-2022",
+      "homeNationId": "aus",
+      "awayNationId": "nz",
+      "date": "2022-10-22",
+      "venueId": "scg",
+      "format": "T20",
+      "usedBy": ["CricketRoster", "CricketResultSingle"],
+      "sources": [
+        {
+          "url": "https://www.espncricinfo.com/series/icc-men-s-t20-world-cup-2022-23-1298134/match-schedule-fixtures-and-results",
+          "retrieved": "2026-07-23",
+          "note": "Australia vs New Zealand, 22 Oct 2022, SCG."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "t20wc2022-eng-afg",
+      "tournamentId": "t20wc-2022",
+      "homeNationId": "eng",
+      "awayNationId": "afg",
+      "date": "2022-10-22",
+      "venueId": "perth-stadium",
+      "format": "T20",
+      "usedBy": ["CricketRoster", "CricketResultSingle"],
+      "sources": [
+        {
+          "url": "https://www.espncricinfo.com/series/icc-men-s-t20-world-cup-2022-23-1298134/match-schedule-fixtures-and-results",
+          "retrieved": "2026-07-23",
+          "note": "England vs Afghanistan, 22 Oct 2022, Perth Stadium."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "t20wc2022-ind-pak",
+      "tournamentId": "t20wc-2022",
+      "homeNationId": "ind",
+      "awayNationId": "pak",
+      "date": "2022-10-23",
+      "venueId": "mcg",
+      "format": "T20",
+      "usedBy": ["CricketRoster", "CricketResultSingle"],
+      "sources": [
+        {
+          "url": "https://www.espncricinfo.com/series/icc-men-s-t20-world-cup-2022-23-1298134/match-schedule-fixtures-and-results",
+          "retrieved": "2026-07-23",
+          "note": "India vs Pakistan, 23 Oct 2022, MCG."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "t20wc2022-sa-ban",
+      "tournamentId": "t20wc-2022",
+      "homeNationId": "sa",
+      "awayNationId": "ban",
+      "date": "2022-10-27",
+      "venueId": "scg",
+      "format": "T20",
+      "usedBy": ["CricketRoster"],
+      "sources": [
+        {
+          "url": "https://www.espncricinfo.com/series/icc-men-s-t20-world-cup-2022-23-1298134/match-schedule-fixtures-and-results",
+          "retrieved": "2026-07-23",
+          "note": "South Africa vs Bangladesh, 27 Oct 2022, SCG."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "t20wc2022-ire-eng",
+      "tournamentId": "t20wc-2022",
+      "homeNationId": "ire",
+      "awayNationId": "eng",
+      "date": "2022-10-26",
+      "venueId": "mcg",
+      "format": "T20",
+      "usedBy": ["CricketRoster"],
+      "sources": [
+        {
+          "url": "https://www.espncricinfo.com/series/icc-men-s-t20-world-cup-2022-23-1298134/match-schedule-fixtures-and-results",
+          "retrieved": "2026-07-23",
+          "note": "Ireland vs England, 26 Oct 2022, MCG."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "t20wc2022-nz-sl",
+      "tournamentId": "t20wc-2022",
+      "homeNationId": "nz",
+      "awayNationId": "sl",
+      "date": "2022-10-29",
+      "venueId": "scg",
+      "format": "T20",
+      "usedBy": ["CricketRoster"],
+      "sources": [
+        {
+          "url": "https://www.espncricinfo.com/series/icc-men-s-t20-world-cup-2022-23-1298134/match-schedule-fixtures-and-results",
+          "retrieved": "2026-07-23",
+          "note": "New Zealand vs Sri Lanka, 29 Oct 2022, SCG."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "t20wc2022-zim-pak",
+      "tournamentId": "t20wc-2022",
+      "homeNationId": "zim",
+      "awayNationId": "pak",
+      "date": "2022-10-27",
+      "venueId": "perth-stadium",
+      "format": "T20",
+      "usedBy": ["CricketRoster"],
+      "sources": [
+        {
+          "url": "https://www.espncricinfo.com/series/icc-men-s-t20-world-cup-2022-23-1298134/match-schedule-fixtures-and-results",
+          "retrieved": "2026-07-23",
+          "note": "Zimbabwe vs Pakistan, 27 Oct 2022, Perth Stadium."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "t20wc2022-ban-ind",
+      "tournamentId": "t20wc-2022",
+      "homeNationId": "ban",
+      "awayNationId": "ind",
+      "date": "2022-11-02",
+      "venueId": "adelaide-oval",
+      "format": "T20",
+      "usedBy": ["CricketRoster", "CricketResultSingle"],
+      "sources": [
+        {
+          "url": "https://www.espncricinfo.com/series/icc-men-s-t20-world-cup-2022-23-1298134/match-schedule-fixtures-and-results",
+          "retrieved": "2026-07-23",
+          "note": "India vs Bangladesh, 2 Nov 2022, Adelaide Oval."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "t20wc2022-aus-afg",
+      "tournamentId": "t20wc-2022",
+      "homeNationId": "aus",
+      "awayNationId": "afg",
+      "date": "2022-11-04",
+      "venueId": "adelaide-oval",
+      "format": "T20",
+      "usedBy": ["CricketRoster", "CricketResultSingle"],
+      "sources": [
+        {
+          "url": "https://www.espncricinfo.com/series/icc-men-s-t20-world-cup-2022-23-1298134/match-schedule-fixtures-and-results",
+          "retrieved": "2026-07-23",
+          "note": "Australia vs Afghanistan, 4 Nov 2022, Adelaide Oval."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "t20wc2022-sa-ind",
+      "tournamentId": "t20wc-2022",
+      "homeNationId": "sa",
+      "awayNationId": "ind",
+      "date": "2022-10-30",
+      "venueId": "perth-stadium",
+      "format": "T20",
+      "usedBy": ["CricketResultSingle"],
+      "sources": [
+        {
+          "url": "https://www.espncricinfo.com/series/icc-men-s-t20-world-cup-2022-23-1298134/match-schedule-fixtures-and-results",
+          "retrieved": "2026-07-23",
+          "note": "India vs South Africa, 30 Oct 2022, Perth Stadium."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "t20wc2022-pak-sa",
+      "tournamentId": "t20wc-2022",
+      "homeNationId": "pak",
+      "awayNationId": "sa",
+      "date": "2022-11-03",
+      "venueId": "scg",
+      "format": "T20",
+      "usedBy": ["CricketResultSingle"],
+      "sources": [
+        {
+          "url": "https://www.espncricinfo.com/series/icc-men-s-t20-world-cup-2022-23-1298134/match-schedule-fixtures-and-results",
+          "retrieved": "2026-07-23",
+          "note": "Pakistan vs South Africa, 3 Nov 2022, SCG."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "t20wc2022-nz-eng",
+      "tournamentId": "t20wc-2022",
+      "homeNationId": "nz",
+      "awayNationId": "eng",
+      "date": "2022-11-01",
+      "venueId": "gabba",
+      "format": "T20",
+      "usedBy": ["CricketResultSingle"],
+      "sources": [
+        {
+          "url": "https://www.espncricinfo.com/series/icc-men-s-t20-world-cup-2022-23-1298134/match-schedule-fixtures-and-results",
+          "retrieved": "2026-07-23",
+          "note": "England vs New Zealand, 1 Nov 2022, The Gabba."
+        }
+      ],
+      "kind": "historical"
+    }
+  ],
+  "playerPools": [
+    {
+      "id": "pool-knockout-2000-batters",
+      "tournamentId": "icc-knockout-2000",
+      "assetCompositionIds": ["CricketTop5Batting"],
+      "selectionPolicy": "Representative professional players who appeared in the 2000 ICC KnockOut in Kenya.",
+      "players": [
+        { "name": "Sourav Ganguly", "nationId": "ind" },
+        { "name": "Chris Cairns", "nationId": "nz" },
+        { "name": "Sachin Tendulkar", "nationId": "ind" },
+        { "name": "Jacques Kallis", "nationId": "sa" },
+        { "name": "Sanath Jayasuriya", "nationId": "sl" }
+      ],
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/2000_ICC_KnockOut_Trophy",
+          "retrieved": "2026-07-23",
+          "note": "Ganguly leading run-scorer; Cairns final century; Tendulkar and Jayasuriya active; Kallis played for South Africa."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "pool-knockout-2000-bowlers",
+      "tournamentId": "icc-knockout-2000",
+      "assetCompositionIds": ["CricketTop5Bowling"],
+      "selectionPolicy": "Representative bowlers from the 2000 ICC KnockOut era who played in Kenya.",
+      "players": [
+        { "name": "Zaheer Khan", "nationId": "ind" },
+        { "name": "Muttiah Muralitharan", "nationId": "sl" },
+        { "name": "Shaun Pollock", "nationId": "sa" },
+        { "name": "Venkatesh Prasad", "nationId": "ind" },
+        { "name": "Shayne O'Connor", "nationId": "nz" }
+      ],
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/2000_ICC_KnockOut_Trophy",
+          "retrieved": "2026-07-23",
+          "note": "Prasad leading wicket-taker; Zaheer ODI debut; O'Connor noted in NZ campaign; Pollock and Muralitharan were tournament squad members."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "pool-cwc-2007-batters",
+      "tournamentId": "cwc-2007",
+      "assetCompositionIds": ["CricketBattingPerformances"],
+      "selectionPolicy": "Nineteen-record candidate pool of professional batters from 2007 World Cup participating nations.",
+      "players": [
+        { "name": "Matthew Hayden", "nationId": "aus" },
+        { "name": "Adam Gilchrist", "nationId": "aus" },
+        { "name": "Ricky Ponting", "nationId": "aus" },
+        { "name": "Mahela Jayawardene", "nationId": "sl" },
+        { "name": "Kumar Sangakkara", "nationId": "sl" },
+        { "name": "Sanath Jayasuriya", "nationId": "sl" },
+        { "name": "Jacques Kallis", "nationId": "sa" },
+        { "name": "Graeme Smith", "nationId": "sa" },
+        { "name": "AB de Villiers", "nationId": "sa" },
+        { "name": "Scott Styris", "nationId": "nz" },
+        { "name": "Stephen Fleming", "nationId": "nz" },
+        { "name": "Kevin Pietersen", "nationId": "eng" },
+        { "name": "Brian Lara", "nationId": "wi" },
+        { "name": "Shivnarine Chanderpaul", "nationId": "wi" },
+        { "name": "Yuvraj Singh", "nationId": "ind" },
+        { "name": "Rahul Dravid", "nationId": "ind" },
+        { "name": "Mohammad Yousuf", "nationId": "pak" },
+        { "name": "Tamim Iqbal", "nationId": "ban" },
+        { "name": "Kevin O'Brien", "nationId": "ire" }
+      ],
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/2007_Cricket_World_Cup",
+          "retrieved": "2026-07-23",
+          "note": "Players selected from nations that contested the 2007 tournament (including Super Eight and group-stage Full/Associate sides)."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "pool-cwc-2015-bowlers",
+      "tournamentId": "cwc-2015",
+      "assetCompositionIds": ["CricketBowlingPerformances"],
+      "selectionPolicy": "One professional bowler from each current Full Member who appeared in the 2015 World Cup era for that nation.",
+      "players": [
+        { "name": "Shapoor Zadran", "nationId": "afg" },
+        { "name": "Mitchell Starc", "nationId": "aus" },
+        { "name": "Rubel Hossain", "nationId": "ban" },
+        { "name": "Steven Finn", "nationId": "eng" },
+        { "name": "Mohammed Shami", "nationId": "ind" },
+        { "name": "John Mooney", "nationId": "ire" },
+        { "name": "Trent Boult", "nationId": "nz" },
+        { "name": "Wahab Riaz", "nationId": "pak" },
+        { "name": "Morne Morkel", "nationId": "sa" },
+        { "name": "Lasith Malinga", "nationId": "sl" },
+        { "name": "Jerome Taylor", "nationId": "wi" },
+        { "name": "Tinashe Panyangara", "nationId": "zim" }
+      ],
+      "sources": [
+        {
+          "url": "https://www.espncricinfo.com/series/icc-cricket-world-cup-2014-15-509587",
+          "retrieved": "2026-07-23",
+          "note": "Confirm each bowler via 2015 World Cup squad/scorecard appearance before emitting synthetic figures."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "pool-t20wc-2022-rosters",
+      "tournamentId": "t20wc-2022",
+      "assetCompositionIds": ["CricketRoster", "CricketResultSingle", "CricketTeamOfTheWeek"],
+      "selectionPolicy": "Representative 2022 Men's T20 World Cup squad members spanning all 12 Full Members.",
+      "players": [
+        { "name": "Rashid Khan", "nationId": "afg" },
+        { "name": "Mohammad Nabi", "nationId": "afg" },
+        { "name": "Aaron Finch", "nationId": "aus" },
+        { "name": "Glenn Maxwell", "nationId": "aus" },
+        { "name": "Shakib Al Hasan", "nationId": "ban" },
+        { "name": "Litton Das", "nationId": "ban" },
+        { "name": "Jos Buttler", "nationId": "eng" },
+        { "name": "Virat Kohli", "nationId": "ind" },
+        { "name": "Paul Stirling", "nationId": "ire" },
+        { "name": "Josh Little", "nationId": "ire" },
+        { "name": "Kane Williamson", "nationId": "nz" },
+        { "name": "Trent Boult", "nationId": "nz" },
+        { "name": "Babar Azam", "nationId": "pak" },
+        { "name": "Kagiso Rabada", "nationId": "sa" },
+        { "name": "Dasun Shanaka", "nationId": "sl" },
+        { "name": "Pathum Nissanka", "nationId": "sl" },
+        { "name": "Nicholas Pooran", "nationId": "wi" },
+        { "name": "Alzarri Joseph", "nationId": "wi" },
+        { "name": "Sikandar Raza", "nationId": "zim" }
+      ],
+      "sources": [
+        {
+          "url": "https://www.espncricinfo.com/series/icc-men-s-t20-world-cup-2022-23-1298134",
+          "retrieved": "2026-07-23",
+          "note": "Players drawn from 2022 Men's T20 World Cup squads / match XIs."
+        }
+      ],
+      "kind": "historical"
+    },
+    {
+      "id": "pool-t20wc-2022-team-of-week",
+      "tournamentId": "t20wc-2022",
+      "assetCompositionIds": ["CricketTeamOfTheWeek"],
+      "selectionPolicy": "Exact Demo XI role distribution required by the implementation brief (12 records).",
+      "players": [
+        { "name": "Virat Kohli", "nationId": "ind", "role": "batter" },
+        { "name": "Jos Buttler", "nationId": "eng", "role": "batter" },
+        { "name": "Babar Azam", "nationId": "pak", "role": "batter" },
+        { "name": "Litton Das", "nationId": "ban", "role": "batter" },
+        { "name": "Pathum Nissanka", "nationId": "sl", "role": "batter" },
+        { "name": "Sikandar Raza", "nationId": "zim", "role": "all-rounder" },
+        { "name": "Mohammad Nabi", "nationId": "afg", "role": "all-rounder" },
+        { "name": "Trent Boult", "nationId": "nz", "role": "bowler" },
+        { "name": "Kagiso Rabada", "nationId": "sa", "role": "bowler" },
+        { "name": "Josh Little", "nationId": "ire", "role": "bowler" },
+        { "name": "Alzarri Joseph", "nationId": "wi", "role": "bowler" },
+        { "name": "Glenn Maxwell", "nationId": "aus", "role": "twelfth" }
+      ],
+      "sources": [
+        {
+          "url": "https://www.espncricinfo.com/series/icc-men-s-t20-world-cup-2022-23-1298134",
+          "retrieved": "2026-07-23",
+          "note": "All listed players featured for their nations in the 2022 Men's T20 World Cup."
+        }
+      ],
+      "kind": "historical"
+    }
+  ],
+  "syntheticGeneration": {
+    "kind": "synthetic-rules",
+    "isSynthetic": true,
+    "seed": "fixtura-cricket-demo-v1",
+    "version": "1.0.0",
+    "requiredLabels": {
+      "statistics": "Demo Recreation — Fictional Statistics",
+      "standings": "Demo Recreation — Fictional Standings"
+    },
+    "ladderRules": {
+      "playedIdentity": "P = W + L + TIE + N/R",
+      "pointsWin": 2,
+      "pointsTieOrNoResult": 1,
+      "requireUniquePositions": true,
+      "quotientPolicy": "Fictional but coherent NRR/quotient values; not historical standings.",
+      "neutraliseTeamAndClubIds": true,
+      "teamLogosUseLocalFlags": true,
+      "teamHrefPolicy": "empty-string-unless-safe-internal-required"
+    },
+    "battingGuidelines": {
+      "runsRange": [35, 145],
+      "ballsRange": [24, 130],
+      "strikeRateRange": [65, 180],
+      "mixDismissedAndNotOut": true,
+      "boundariesCannotExceedRuns": true,
+      "strikeRateMustMatchRunsAndBalls": true
+    },
+    "bowlingGuidelines": {
+      "wicketsRange": [2, 6],
+      "runsConcededRange": [18, 58],
+      "oversRange": [4, 10],
+      "validOverNotation": true,
+      "economyFromLegalDeliveries": true
+    },
+    "scorecardGuidelines": {
+      "internallyConsistentTotalsWicketsOvers": true,
+      "battingPerformancesPerSide": [2, 3],
+      "bowlingPerformancesPerSide": [2, 3],
+      "winnerMustAgreeAcrossResultFields": true,
+      "nestedTeamNamesMustMatch": true
+    },
+    "candidateExamples": {
+      "isSynthetic": true,
+      "note": "Brief-provided example figures for later generators only. Not historical statistics.",
+      "top5BattersKnockOut2000": [
+        {
+          "player": "Sourav Ganguly",
+          "runs": 96,
+          "balls": 82,
+          "notOut": false,
+          "strikeRate": 117.07
+        },
+        { "player": "Chris Cairns", "runs": 78, "balls": 61, "notOut": true, "strikeRate": 127.87 },
+        {
+          "player": "Sachin Tendulkar",
+          "runs": 74,
+          "balls": 59,
+          "notOut": false,
+          "strikeRate": 125.42
+        },
+        {
+          "player": "Jacques Kallis",
+          "runs": 68,
+          "balls": 75,
+          "notOut": false,
+          "strikeRate": 90.67
+        },
+        {
+          "player": "Sanath Jayasuriya",
+          "runs": 62,
+          "balls": 44,
+          "notOut": false,
+          "strikeRate": 140.91
+        }
+      ],
+      "top5BowlersKnockOut2000": [
+        { "player": "Zaheer Khan", "wickets": 4, "runs": 36, "overs": 10 },
+        { "player": "Muttiah Muralitharan", "wickets": 4, "runs": 41, "overs": 10 },
+        { "player": "Shaun Pollock", "wickets": 3, "runs": 28, "overs": 10 },
+        { "player": "Venkatesh Prasad", "wickets": 3, "runs": 33, "overs": 9 },
+        { "player": "Shayne O'Connor", "wickets": 3, "runs": 39, "overs": 10 }
+      ],
+      "resultsExampleOnly": {
+        "note": "Example narrative only — not a historical scoreline to assert as fact.",
+        "summary": "India 315/7 defeats Pakistan 289/9 by 26 runs."
+      }
+    }
+  },
+  "datasetBindings": [
+    {
+      "compositionId": "CricketLadder",
+      "fileName": "Cricket_Ladder.json",
+      "publicPath": "/dummyAssetData/Cricket/Cricket_Ladder.json",
+      "expectedDataLength": 8,
+      "expectedFramesLength": 9,
+      "tournamentIds": ["cwc-1996", "cwc-1999", "cwc-2007", "ct-2017", "t20wc-2022"],
+      "stageIds": [
+        "cwc-1996-group-a",
+        "cwc-1996-group-b",
+        "cwc-1999-group-a",
+        "cwc-1999-group-b",
+        "cwc-2007-super-eight",
+        "ct-2017-group-a",
+        "t20wc-2022-super12-g1",
+        "t20wc-2022-super12-g2"
+      ]
+    },
+    {
+      "compositionId": "CricketUpcoming",
+      "fileName": "Cricket_upcoming.json",
+      "publicPath": "/dummyAssetData/Cricket/Cricket_upcoming.json",
+      "expectedDataLength": 6,
+      "expectedFramesLength": 3,
+      "tournamentIds": ["cwc-2019"],
+      "fixtureIds": [
+        "cwc2019-eng-sa",
+        "cwc2019-afg-aus",
+        "cwc2019-wi-pak",
+        "cwc2019-ind-sa",
+        "cwc2019-nz-sl",
+        "cwc2019-ban-nz"
+      ]
+    },
+    {
+      "compositionId": "CricketTop5Batting",
+      "fileName": "Cricket_Top5Batters.json",
+      "publicPath": "/dummyAssetData/Cricket/Cricket_Top5Batters.json",
+      "expectedDataLength": 5,
+      "expectedFramesLength": 2,
+      "tournamentIds": ["icc-knockout-2000"],
+      "playerPoolIds": ["pool-knockout-2000-batters"]
+    },
+    {
+      "compositionId": "CricketTop5Bowling",
+      "fileName": "Cricket_Top5Bowlers.json",
+      "publicPath": "/dummyAssetData/Cricket/Cricket_Top5Bowlers.json",
+      "expectedDataLength": 5,
+      "expectedFramesLength": 2,
+      "tournamentIds": ["icc-knockout-2000"],
+      "playerPoolIds": ["pool-knockout-2000-bowlers"]
+    },
+    {
+      "compositionId": "CricketBattingPerformances",
+      "fileName": "Cricket_BattingPerformances.json",
+      "publicPath": "/dummyAssetData/Cricket/Cricket_BattingPerformances.json",
+      "expectedDataLength": 19,
+      "expectedFramesLength": 5,
+      "tournamentIds": ["cwc-2007"],
+      "playerPoolIds": ["pool-cwc-2007-batters"],
+      "venueContextIds": [
+        "kensington-oval",
+        "sabina-park",
+        "sir-vivian-richards",
+        "providence",
+        "queens-park-oval",
+        "beausejour"
+      ]
+    },
+    {
+      "compositionId": "CricketBowlingPerformances",
+      "fileName": "Cricket_BowlingPerformances.json",
+      "publicPath": "/dummyAssetData/Cricket/Cricket_BowlingPerformances.json",
+      "expectedDataLength": 12,
+      "expectedFramesLength": 4,
+      "tournamentIds": ["cwc-2015"],
+      "playerPoolIds": ["pool-cwc-2015-bowlers"]
+    },
+    {
+      "compositionId": "CricketResults",
+      "fileName": "Cricket_Results.json",
+      "publicPath": "/dummyAssetData/Cricket/Cricket_Results.json",
+      "expectedDataLength": 4,
+      "expectedFramesLength": 4,
+      "tournamentIds": ["cwc-2019"],
+      "fixtureIds": ["cwc2019-eng-sa", "cwc2019-afg-aus", "cwc2019-wi-pak", "cwc2019-ind-pak"]
+    },
+    {
+      "compositionId": "CricketRoster",
+      "fileName": "Cricket_Roster.json",
+      "publicPath": "/dummyAssetData/Cricket/Cricket_Roster.json",
+      "expectedDataLength": 11,
+      "expectedFramesLength": 11,
+      "tournamentIds": ["t20wc-2022"],
+      "fixtureIds": [
+        "t20wc2022-sl-nam",
+        "t20wc2022-wi-ire",
+        "t20wc2022-aus-nz",
+        "t20wc2022-eng-afg",
+        "t20wc2022-ind-pak",
+        "t20wc2022-sa-ban",
+        "t20wc2022-ire-eng",
+        "t20wc2022-nz-sl",
+        "t20wc2022-zim-pak",
+        "t20wc2022-ban-ind",
+        "t20wc2022-aus-afg"
+      ],
+      "playerPoolIds": ["pool-t20wc-2022-rosters"]
+    },
+    {
+      "compositionId": "CricketResultSingle",
+      "fileName": "Cricket_WeekendResultsSingle.json",
+      "publicPath": "/dummyAssetData/Cricket/Cricket_WeekendResultsSingle.json",
+      "expectedDataLength": 9,
+      "expectedFramesLength": 9,
+      "tournamentIds": ["t20wc-2022"],
+      "fixtureIds": [
+        "t20wc2022-aus-nz",
+        "t20wc2022-ind-pak",
+        "t20wc2022-eng-afg",
+        "t20wc2022-sa-ind",
+        "t20wc2022-ban-ind",
+        "t20wc2022-aus-afg",
+        "t20wc2022-pak-sa",
+        "t20wc2022-nz-eng",
+        "t20wc2022-wi-ire"
+      ],
+      "playerPoolIds": ["pool-t20wc-2022-rosters"]
+    },
+    {
+      "compositionId": "CricketTeamOfTheWeek",
+      "fileName": "Cricket_TeamOfTheWeek.json",
+      "publicPath": "/dummyAssetData/Cricket/Cricket_TeamOfTheWeek.json",
+      "expectedDataLength": 12,
+      "expectedFramesLength": 2,
+      "tournamentIds": ["t20wc-2022"],
+      "playerPoolIds": ["pool-t20wc-2022-team-of-week"]
+    }
+  ]
+}

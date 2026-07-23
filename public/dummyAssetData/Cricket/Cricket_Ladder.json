@@ -1,762 +1,271 @@
 {
   "data": [
     {
-      "ID": 53103,
-      "gradeName": "(1) CGC Premier League - Division 1",
-      "sortOrder": 2,
+      "ID": 0,
+      "gradeName": "1996 World Cup — Group A",
+      "sortOrder": 1,
       "League": [
         {
           "position": "1",
-          "teamName": "Queens 1st Grade",
-          "teamHref": "/cricket-australia/org/queens-cricket-club/1550d335/cricket-gold-coast-senior-competition-summer-202526/teams/queens-1st-grade/d2f502f9",
-          "P": "14",
-          "PTS": "89",
-          "Q": "1.483",
-          "W": "9",
-          "L": "2",
+          "teamName": "Sri Lanka",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "8",
+          "Q": "1.403",
+          "W": "4",
+          "L": "1",
           "TIE": "0",
-          "N/R": "3",
-          "BYE": "2",
-          "clubId": 33353,
-          "clubLogo": null,
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_d119f3d76d.jpg",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/lk.svg",
+          "playHQLogo": "/dummyAssetData/flags/lk.svg",
           "clubName": null,
           "teamLogo": null,
           "prompt": {
-            "teamName": "Queens 1st Grade",
+            "teamName": "Sri Lanka",
             "position": "1",
-            "gradeName": "(1) CGC Premier League - Division 1",
+            "gradeName": "1996 World Cup — Group A",
             "stats": {
-              "wins": "9",
-              "losses": "2",
-              "points": "89",
-              "pointsPlayed": "14",
+              "wins": "4",
+              "losses": "1",
+              "points": "8",
+              "pointsPlayed": "5",
               "ties": "0",
-              "noResult": "3"
+              "noResult": "0"
             }
           }
         },
         {
           "position": "2",
-          "teamName": "Southport Premier Div 1",
-          "teamHref": "/cricket-australia/org/southport-labrador-cricket-club/43830d9b/cricket-gold-coast-senior-competition-summer-202526/teams/southport-premier-div-1/82941c72",
-          "P": "15",
-          "PTS": "85",
-          "Q": "1.147",
-          "W": "9",
-          "L": "4",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "1",
+          "teamName": "Zimbabwe",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "7",
+          "Q": "0.866",
+          "W": "3",
+          "L": "1",
+          "TIE": "1",
+          "N/R": "0",
+          "BYE": "0",
           "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
+          "clubLogo": "/dummyAssetData/flags/zw.svg",
+          "playHQLogo": "/dummyAssetData/flags/zw.svg",
           "clubName": null,
           "teamLogo": null,
           "prompt": {
-            "teamName": "Southport Premier Div 1",
+            "teamName": "Zimbabwe",
             "position": "2",
-            "gradeName": "(1) CGC Premier League - Division 1",
+            "gradeName": "1996 World Cup — Group A",
             "stats": {
-              "wins": "9",
-              "losses": "4",
-              "points": "85",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
+              "wins": "3",
+              "losses": "1",
+              "points": "7",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
             }
           }
         },
         {
           "position": "3",
-          "teamName": "Runaway Bay Premier Div 1",
-          "teamHref": "/cricket-australia/org/runaway-bay-cricket-club-inc/5e70931e/cricket-gold-coast-senior-competition-summer-202526/teams/runaway-bay-premier-div-1/2f59a34b",
-          "P": "15",
-          "PTS": "73",
-          "Q": "0.900",
-          "W": "8",
-          "L": "5",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "1",
-          "clubId": 33572,
-          "clubLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_5b81de4f76.jpg",
+          "teamName": "Australia",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "5",
+          "Q": "0.395",
+          "W": "2",
+          "L": "2",
+          "TIE": "1",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/au.svg",
+          "playHQLogo": "/dummyAssetData/flags/au.svg",
           "clubName": null,
           "teamLogo": null,
           "prompt": {
-            "teamName": "Runaway Bay Premier Div 1",
+            "teamName": "Australia",
             "position": "3",
-            "gradeName": "(1) CGC Premier League - Division 1",
+            "gradeName": "1996 World Cup — Group A",
             "stats": {
-              "wins": "8",
-              "losses": "5",
-              "points": "73",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
+              "wins": "2",
+              "losses": "2",
+              "points": "5",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
             }
           }
         },
         {
           "position": "4",
-          "teamName": "Broadbeach Premier Div 1",
-          "teamHref": "/cricket-australia/org/broadbeach-robina-cricket-club/b6e5d0f3/cricket-gold-coast-senior-competition-summer-202526/teams/broadbeach-premier-div-1/51ab3b45",
-          "P": "14",
-          "PTS": "72",
-          "Q": "1.174",
-          "W": "8",
-          "L": "5",
-          "TIE": "0",
-          "N/R": "1",
-          "BYE": "2",
+          "teamName": "India",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "5",
+          "Q": "-0.121",
+          "W": "2",
+          "L": "2",
+          "TIE": "1",
+          "N/R": "0",
+          "BYE": "0",
           "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
+          "clubLogo": "/dummyAssetData/flags/in.svg",
+          "playHQLogo": "/dummyAssetData/flags/in.svg",
           "clubName": null,
           "teamLogo": null,
           "prompt": {
-            "teamName": "Broadbeach Premier Div 1",
+            "teamName": "India",
             "position": "4",
-            "gradeName": "(1) CGC Premier League - Division 1",
+            "gradeName": "1996 World Cup — Group A",
             "stats": {
-              "wins": "8",
-              "losses": "5",
-              "points": "72",
-              "pointsPlayed": "14",
-              "ties": "0",
-              "noResult": "1"
+              "wins": "2",
+              "losses": "2",
+              "points": "5",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
             }
           }
         },
         {
           "position": "5",
-          "teamName": "Alberton Premier Div 1",
-          "teamHref": "/cricket-australia/org/alberton-ormeau-cricket-club/1b01c8ba/cricket-gold-coast-senior-competition-summer-202526/teams/alberton-premier-div-1/dc61e262",
-          "P": "15",
-          "PTS": "63",
-          "Q": "0.804",
-          "W": "6",
-          "L": "6",
-          "TIE": "0",
-          "N/R": "3",
-          "BYE": "1",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Alberton Premier Div 1",
-            "position": "5",
-            "gradeName": "(1) CGC Premier League - Division 1",
-            "stats": {
-              "wins": "6",
-              "losses": "6",
-              "points": "63",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "3"
-            }
-          }
-        },
-        {
-          "position": "6",
-          "teamName": "Mudgeeraba Premier Division 1",
-          "teamHref": "/cricket-australia/org/mudgeeraba-nerang-and-districts-cricket-club/5eb8ee9a/cricket-gold-coast-senior-competition-summer-202526/teams/mudgeeraba-premier-division-1/7a3b13dd",
-          "P": "15",
-          "PTS": "61",
-          "Q": "1.235",
-          "W": "6",
-          "L": "7",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "1",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Mudgeeraba Premier Division 1",
-            "position": "6",
-            "gradeName": "(1) CGC Premier League - Division 1",
-            "stats": {
-              "wins": "6",
-              "losses": "7",
-              "points": "61",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          }
-        },
-        {
-          "position": "7",
-          "teamName": "Surfers Paradise 1st Grade",
-          "teamHref": "/cricket-australia/org/surfers-paradise-cricket-club/91aa3470/cricket-gold-coast-senior-competition-summer-202526/teams/surfers-paradise-1st-grade/a72f5fc6",
-          "P": "14",
-          "PTS": "61",
-          "Q": "1.013",
-          "W": "6",
-          "L": "5",
-          "TIE": "0",
-          "N/R": "3",
-          "BYE": "2",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Surfers Paradise 1st Grade",
-            "position": "7",
-            "gradeName": "(1) CGC Premier League - Division 1",
-            "stats": {
-              "wins": "6",
-              "losses": "5",
-              "points": "61",
-              "pointsPlayed": "14",
-              "ties": "0",
-              "noResult": "3"
-            }
-          }
-        },
-        {
-          "position": "8",
-          "teamName": "Coomera Hope Island",
-          "teamHref": "/cricket-australia/org/coomera-hope-island-cricket-club/e4b49fbd/cricket-gold-coast-senior-competition-summer-202526/teams/coomera-hope-island/4df65490",
-          "P": "15",
-          "PTS": "54",
-          "Q": "0.920",
-          "W": "5",
-          "L": "8",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "1",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Coomera Hope Island",
-            "position": "8",
-            "gradeName": "(1) CGC Premier League - Division 1",
-            "stats": {
-              "wins": "5",
-              "losses": "8",
-              "points": "54",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          }
-        },
-        {
-          "position": "9",
-          "teamName": "Palm Beach Premier Div 1",
-          "teamHref": "/cricket-australia/org/palm-beach-currumbin-cricket-club-inc/af1d388c/cricket-gold-coast-senior-competition-summer-202526/teams/palm-beach-premier-div-1/5a5f182d",
-          "P": "14",
-          "PTS": "49",
-          "Q": "1.122",
-          "W": "4",
-          "L": "7",
-          "TIE": "0",
-          "N/R": "3",
-          "BYE": "2",
-          "clubId": 32978,
-          "clubLogo": null,
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_ccc273f65f.jpg",
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Palm Beach Premier Div 1",
-            "position": "9",
-            "gradeName": "(1) CGC Premier League - Division 1",
-            "stats": {
-              "wins": "4",
-              "losses": "7",
-              "points": "49",
-              "pointsPlayed": "14",
-              "ties": "0",
-              "noResult": "3"
-            }
-          }
-        },
-        {
-          "position": "10",
-          "teamName": "Helensvale 1st Grade",
-          "teamHref": "/cricket-australia/org/helensvale-pacific-pines-cricket-club/5c8eb598/cricket-gold-coast-senior-competition-summer-202526/teams/helensvale-1st-grade/349432e3",
-          "P": "15",
-          "PTS": "38",
-          "Q": "0.772",
-          "W": "3",
-          "L": "9",
-          "TIE": "0",
-          "N/R": "3",
-          "BYE": "1",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Helensvale 1st Grade",
-            "position": "10",
-            "gradeName": "(1) CGC Premier League - Division 1",
-            "stats": {
-              "wins": "3",
-              "losses": "9",
-              "points": "38",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "3"
-            }
-          }
-        },
-        {
-          "position": "11",
-          "teamName": "Burleigh Premier Div 1",
-          "teamHref": "/cricket-australia/org/burleigh-cricket-club/74d56a83/cricket-gold-coast-senior-competition-summer-202526/teams/burleigh-premier-div-1/98a844f3",
-          "P": "14",
-          "PTS": "33",
-          "Q": "0.778",
-          "W": "3",
-          "L": "9",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "2",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Burleigh Premier Div 1",
-            "position": "11",
-            "gradeName": "(1) CGC Premier League - Division 1",
-            "stats": {
-              "wins": "3",
-              "losses": "9",
-              "points": "33",
-              "pointsPlayed": "14",
-              "ties": "0",
-              "noResult": "2"
-            }
-          }
-        }
-      ],
-      "bias": null,
-      "prompt": {
-        "gradeName": "(1) CGC Premier League - Division 1",
-        "teams": [
-          {
-            "teamName": "Queens 1st Grade",
-            "position": "1",
-            "stats": {
-              "wins": "9",
-              "losses": "2",
-              "points": "89",
-              "pointsPlayed": "14",
-              "ties": "0",
-              "noResult": "3"
-            }
-          },
-          {
-            "teamName": "Southport Premier Div 1",
-            "position": "2",
-            "stats": {
-              "wins": "9",
-              "losses": "4",
-              "points": "85",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          },
-          {
-            "teamName": "Runaway Bay Premier Div 1",
-            "position": "3",
-            "stats": {
-              "wins": "8",
-              "losses": "5",
-              "points": "73",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          },
-          {
-            "teamName": "Broadbeach Premier Div 1",
-            "position": "4",
-            "stats": {
-              "wins": "8",
-              "losses": "5",
-              "points": "72",
-              "pointsPlayed": "14",
-              "ties": "0",
-              "noResult": "1"
-            }
-          },
-          {
-            "teamName": "Alberton Premier Div 1",
-            "position": "5",
-            "stats": {
-              "wins": "6",
-              "losses": "6",
-              "points": "63",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "3"
-            }
-          },
-          {
-            "teamName": "Mudgeeraba Premier Division 1",
-            "position": "6",
-            "stats": {
-              "wins": "6",
-              "losses": "7",
-              "points": "61",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          },
-          {
-            "teamName": "Surfers Paradise 1st Grade",
-            "position": "7",
-            "stats": {
-              "wins": "6",
-              "losses": "5",
-              "points": "61",
-              "pointsPlayed": "14",
-              "ties": "0",
-              "noResult": "3"
-            }
-          },
-          {
-            "teamName": "Coomera Hope Island",
-            "position": "8",
-            "stats": {
-              "wins": "5",
-              "losses": "8",
-              "points": "54",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          },
-          {
-            "teamName": "Palm Beach Premier Div 1",
-            "position": "9",
-            "stats": {
-              "wins": "4",
-              "losses": "7",
-              "points": "49",
-              "pointsPlayed": "14",
-              "ties": "0",
-              "noResult": "3"
-            }
-          },
-          {
-            "teamName": "Helensvale 1st Grade",
-            "position": "10",
-            "stats": {
-              "wins": "3",
-              "losses": "9",
-              "points": "38",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "3"
-            }
-          },
-          {
-            "teamName": "Burleigh Premier Div 1",
-            "position": "11",
-            "stats": {
-              "wins": "3",
-              "losses": "9",
-              "points": "33",
-              "pointsPlayed": "14",
-              "ties": "0",
-              "noResult": "2"
-            }
-          }
-        ]
-      },
-      "assignSponsors": {
-        "competition": [],
-        "grade": [],
-        "team": []
-      }
-    },
-    {
-      "ID": 57736,
-      "gradeName": "Senior Women Div 2",
-      "sortOrder": 2,
-      "League": [
-        {
-          "position": "1",
-          "teamName": "Runaway Bay Navy Women",
-          "teamHref": "/cricket-australia/org/runaway-bay-cricket-club-inc/5e70931e/womens-social-competition-summer-202526/teams/runaway-bay-navy-women/e82306d7",
-          "P": "7",
-          "PTS": "44",
-          "Q": "2.973",
-          "W": "5",
-          "L": "1",
-          "TIE": "0",
-          "N/R": "1",
-          "BYE": "0",
-          "clubId": 33572,
-          "clubLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_5b81de4f76.jpg",
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Runaway Bay Navy Women",
-            "position": "1",
-            "gradeName": "Senior Women Div 2",
-            "stats": {
-              "wins": "5",
-              "losses": "1",
-              "points": "44",
-              "pointsPlayed": "7",
-              "ties": "0",
-              "noResult": "1"
-            }
-          }
-        },
-        {
-          "position": "2",
-          "teamName": "Surfers Paradise Women Red",
-          "teamHref": "/cricket-australia/org/surfers-paradise-cricket-club/91aa3470/womens-social-competition-summer-202526/teams/surfers-paradise-women-red/227ff81b",
-          "P": "7",
-          "PTS": "36",
-          "Q": "1.311",
-          "W": "4",
-          "L": "2",
-          "TIE": "0",
-          "N/R": "1",
-          "BYE": "0",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Surfers Paradise Women Red",
-            "position": "2",
-            "gradeName": "Senior Women Div 2",
-            "stats": {
-              "wins": "4",
-              "losses": "2",
-              "points": "36",
-              "pointsPlayed": "7",
-              "ties": "0",
-              "noResult": "1"
-            }
-          }
-        },
-        {
-          "position": "3",
-          "teamName": "Coomera Hope Island Gold",
-          "teamHref": "/cricket-australia/org/coomera-hope-island-cricket-club/e4b49fbd/womens-social-competition-summer-202526/teams/coomera-hope-island-gold/190add28",
-          "P": "6",
-          "PTS": "36",
-          "Q": "1.074",
-          "W": "4",
-          "L": "1",
-          "TIE": "0",
-          "N/R": "1",
-          "BYE": "0",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Coomera Hope Island Gold",
-            "position": "3",
-            "gradeName": "Senior Women Div 2",
-            "stats": {
-              "wins": "4",
-              "losses": "1",
-              "points": "36",
-              "pointsPlayed": "6",
-              "ties": "0",
-              "noResult": "1"
-            }
-          }
-        },
-        {
-          "position": "4",
-          "teamName": "Bonogin Bulls Senior Women",
-          "teamHref": "/cricket-australia/org/bonogin-valley-bulls-cricket-club/0820bdb7/womens-social-competition-summer-202526/teams/bonogin-bulls-senior-women/4b2c58d3",
-          "P": "7",
-          "PTS": "32",
-          "Q": "1.570",
-          "W": "3",
-          "L": "2",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "0",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Bonogin Bulls Senior Women",
-            "position": "4",
-            "gradeName": "Senior Women Div 2",
-            "stats": {
-              "wins": "3",
-              "losses": "2",
-              "points": "32",
-              "pointsPlayed": "7",
-              "ties": "0",
-              "noResult": "2"
-            }
-          }
-        },
-        {
-          "position": "5",
-          "teamName": "Tamborine Senior Women",
-          "teamHref": "/cricket-australia/org/tamborine-mountain-canungra-cricket-club-inc/6ccf9729/womens-social-competition-summer-202526/teams/tamborine-senior-women/34ad64a3",
-          "P": "6",
-          "PTS": "12",
-          "Q": "0.393",
+          "teamName": "West Indies",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "2",
+          "Q": "-0.612",
           "W": "1",
           "L": "4",
           "TIE": "0",
-          "N/R": "1",
+          "N/R": "0",
           "BYE": "0",
-          "clubId": 34348,
-          "clubLogo": null,
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_b30fdf6cab.jpg",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/wi.svg",
+          "playHQLogo": "/dummyAssetData/flags/wi.svg",
           "clubName": null,
           "teamLogo": null,
           "prompt": {
-            "teamName": "Tamborine Senior Women",
+            "teamName": "West Indies",
             "position": "5",
-            "gradeName": "Senior Women Div 2",
+            "gradeName": "1996 World Cup — Group A",
             "stats": {
               "wins": "1",
               "losses": "4",
-              "points": "12",
-              "pointsPlayed": "6",
+              "points": "2",
+              "pointsPlayed": "5",
               "ties": "0",
-              "noResult": "1"
+              "noResult": "0"
             }
           }
         },
         {
           "position": "6",
-          "teamName": "Helensvale Green Women",
-          "teamHref": "/cricket-australia/org/helensvale-pacific-pines-cricket-club/5c8eb598/womens-social-competition-summer-202526/teams/helensvale-green-women/3573ad91",
-          "P": "6",
-          "PTS": "8",
-          "Q": "0.559",
+          "teamName": "Kenya",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "1",
+          "Q": "-1.153",
           "W": "0",
           "L": "4",
           "TIE": "0",
-          "N/R": "2",
+          "N/R": "1",
           "BYE": "0",
           "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
+          "clubLogo": "/dummyAssetData/flags/ke.svg",
+          "playHQLogo": "/dummyAssetData/flags/ke.svg",
           "clubName": null,
           "teamLogo": null,
           "prompt": {
-            "teamName": "Helensvale Green Women",
+            "teamName": "Kenya",
             "position": "6",
-            "gradeName": "Senior Women Div 2",
+            "gradeName": "1996 World Cup — Group A",
             "stats": {
               "wins": "0",
               "losses": "4",
-              "points": "8",
-              "pointsPlayed": "6",
+              "points": "1",
+              "pointsPlayed": "5",
               "ties": "0",
-              "noResult": "2"
+              "noResult": "1"
             }
           }
         }
       ],
       "bias": null,
       "prompt": {
-        "gradeName": "Senior Women Div 2",
+        "gradeName": "1996 World Cup — Group A",
         "teams": [
           {
-            "teamName": "Runaway Bay Navy Women",
+            "teamName": "Sri Lanka",
             "position": "1",
             "stats": {
-              "wins": "5",
+              "wins": "4",
               "losses": "1",
-              "points": "44",
-              "pointsPlayed": "7",
+              "points": "8",
+              "pointsPlayed": "5",
               "ties": "0",
-              "noResult": "1"
+              "noResult": "0"
             }
           },
           {
-            "teamName": "Surfers Paradise Women Red",
+            "teamName": "Zimbabwe",
             "position": "2",
             "stats": {
-              "wins": "4",
-              "losses": "2",
-              "points": "36",
-              "pointsPlayed": "7",
-              "ties": "0",
-              "noResult": "1"
+              "wins": "3",
+              "losses": "1",
+              "points": "7",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
             }
           },
           {
-            "teamName": "Coomera Hope Island Gold",
+            "teamName": "Australia",
             "position": "3",
             "stats": {
-              "wins": "4",
-              "losses": "1",
-              "points": "36",
-              "pointsPlayed": "6",
-              "ties": "0",
-              "noResult": "1"
+              "wins": "2",
+              "losses": "2",
+              "points": "5",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
             }
           },
           {
-            "teamName": "Bonogin Bulls Senior Women",
+            "teamName": "India",
             "position": "4",
             "stats": {
-              "wins": "3",
+              "wins": "2",
               "losses": "2",
-              "points": "32",
-              "pointsPlayed": "7",
-              "ties": "0",
-              "noResult": "2"
+              "points": "5",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
             }
           },
           {
-            "teamName": "Tamborine Senior Women",
+            "teamName": "West Indies",
             "position": "5",
             "stats": {
               "wins": "1",
               "losses": "4",
-              "points": "12",
-              "pointsPlayed": "6",
+              "points": "2",
+              "pointsPlayed": "5",
               "ties": "0",
-              "noResult": "1"
+              "noResult": "0"
             }
           },
           {
-            "teamName": "Helensvale Green Women",
+            "teamName": "Kenya",
             "position": "6",
             "stats": {
               "wins": "0",
               "losses": "4",
-              "points": "8",
-              "pointsPlayed": "6",
+              "points": "1",
+              "pointsPlayed": "5",
               "ties": "0",
-              "noResult": "2"
+              "noResult": "1"
             }
           }
         ]
@@ -768,529 +277,547 @@
       }
     },
     {
-      "ID": 53104,
-      "gradeName": "(2) CGC Premier League - Division 2",
+      "ID": 0,
+      "gradeName": "1996 World Cup — Group B",
+      "sortOrder": 2,
+      "League": [
+        {
+          "position": "1",
+          "teamName": "South Africa",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "6",
+          "Q": "1.398",
+          "W": "3",
+          "L": "2",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/za.svg",
+          "playHQLogo": "/dummyAssetData/flags/za.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "South Africa",
+            "position": "1",
+            "gradeName": "1996 World Cup — Group B",
+            "stats": {
+              "wins": "3",
+              "losses": "2",
+              "points": "6",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "2",
+          "teamName": "Pakistan",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "6",
+          "Q": "0.896",
+          "W": "3",
+          "L": "2",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/pk.svg",
+          "playHQLogo": "/dummyAssetData/flags/pk.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Pakistan",
+            "position": "2",
+            "gradeName": "1996 World Cup — Group B",
+            "stats": {
+              "wins": "3",
+              "losses": "2",
+              "points": "6",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "3",
+          "teamName": "New Zealand",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "6",
+          "Q": "0.382",
+          "W": "3",
+          "L": "2",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/nz.svg",
+          "playHQLogo": "/dummyAssetData/flags/nz.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "New Zealand",
+            "position": "3",
+            "gradeName": "1996 World Cup — Group B",
+            "stats": {
+              "wins": "3",
+              "losses": "2",
+              "points": "6",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "4",
+          "teamName": "United Arab Emirates",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "5",
+          "Q": "-0.132",
+          "W": "2",
+          "L": "2",
+          "TIE": "0",
+          "N/R": "1",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/ae.svg",
+          "playHQLogo": "/dummyAssetData/flags/ae.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "United Arab Emirates",
+            "position": "4",
+            "gradeName": "1996 World Cup — Group B",
+            "stats": {
+              "wins": "2",
+              "losses": "2",
+              "points": "5",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "1"
+            }
+          }
+        },
+        {
+          "position": "5",
+          "teamName": "England",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "3",
+          "Q": "-0.625",
+          "W": "1",
+          "L": "3",
+          "TIE": "0",
+          "N/R": "1",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/gb-eng.svg",
+          "playHQLogo": "/dummyAssetData/flags/gb-eng.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "England",
+            "position": "5",
+            "gradeName": "1996 World Cup — Group B",
+            "stats": {
+              "wins": "1",
+              "losses": "3",
+              "points": "3",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "1"
+            }
+          }
+        },
+        {
+          "position": "6",
+          "teamName": "Netherlands",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "0",
+          "Q": "-1.150",
+          "W": "0",
+          "L": "5",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/nl.svg",
+          "playHQLogo": "/dummyAssetData/flags/nl.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Netherlands",
+            "position": "6",
+            "gradeName": "1996 World Cup — Group B",
+            "stats": {
+              "wins": "0",
+              "losses": "5",
+              "points": "0",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        }
+      ],
+      "bias": null,
+      "prompt": {
+        "gradeName": "1996 World Cup — Group B",
+        "teams": [
+          {
+            "teamName": "South Africa",
+            "position": "1",
+            "stats": {
+              "wins": "3",
+              "losses": "2",
+              "points": "6",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "Pakistan",
+            "position": "2",
+            "stats": {
+              "wins": "3",
+              "losses": "2",
+              "points": "6",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "New Zealand",
+            "position": "3",
+            "stats": {
+              "wins": "3",
+              "losses": "2",
+              "points": "6",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "United Arab Emirates",
+            "position": "4",
+            "stats": {
+              "wins": "2",
+              "losses": "2",
+              "points": "5",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "1"
+            }
+          },
+          {
+            "teamName": "England",
+            "position": "5",
+            "stats": {
+              "wins": "1",
+              "losses": "3",
+              "points": "3",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "1"
+            }
+          },
+          {
+            "teamName": "Netherlands",
+            "position": "6",
+            "stats": {
+              "wins": "0",
+              "losses": "5",
+              "points": "0",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        ]
+      },
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      }
+    },
+    {
+      "ID": 0,
+      "gradeName": "1999 World Cup — Group A",
       "sortOrder": 3,
       "League": [
         {
           "position": "1",
-          "teamName": "Runaway Bay Premier Div 2",
-          "teamHref": "/cricket-australia/org/runaway-bay-cricket-club-inc/5e70931e/cricket-gold-coast-senior-competition-summer-202526/teams/runaway-bay-premier-div-2/b4798b4e",
-          "P": "16",
-          "PTS": "102",
-          "Q": "1.555",
-          "W": "11",
-          "L": "3",
+          "teamName": "India",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "7",
+          "Q": "1.408",
+          "W": "3",
+          "L": "1",
           "TIE": "0",
-          "N/R": "2",
+          "N/R": "1",
           "BYE": "0",
-          "clubId": 33572,
-          "clubLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_5b81de4f76.jpg",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/in.svg",
+          "playHQLogo": "/dummyAssetData/flags/in.svg",
           "clubName": null,
           "teamLogo": null,
           "prompt": {
-            "teamName": "Runaway Bay Premier Div 2",
+            "teamName": "India",
             "position": "1",
-            "gradeName": "(2) CGC Premier League - Division 2",
+            "gradeName": "1999 World Cup — Group A",
             "stats": {
-              "wins": "11",
-              "losses": "3",
-              "points": "102",
-              "pointsPlayed": "16",
+              "wins": "3",
+              "losses": "1",
+              "points": "7",
+              "pointsPlayed": "5",
               "ties": "0",
-              "noResult": "2"
+              "noResult": "1"
             }
           }
         },
         {
           "position": "2",
-          "teamName": "Mudgeeraba Premier Div 2",
-          "teamHref": "/cricket-australia/org/mudgeeraba-nerang-and-districts-cricket-club/5eb8ee9a/cricket-gold-coast-senior-competition-summer-202526/teams/mudgeeraba-premier-div-2/d49d29fe",
-          "P": "16",
-          "PTS": "89",
-          "Q": "1.395",
-          "W": "9",
-          "L": "4",
-          "TIE": "0",
-          "N/R": "3",
+          "teamName": "South Africa",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "7",
+          "Q": "0.896",
+          "W": "3",
+          "L": "1",
+          "TIE": "1",
+          "N/R": "0",
           "BYE": "0",
           "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
+          "clubLogo": "/dummyAssetData/flags/za.svg",
+          "playHQLogo": "/dummyAssetData/flags/za.svg",
           "clubName": null,
           "teamLogo": null,
           "prompt": {
-            "teamName": "Mudgeeraba Premier Div 2",
+            "teamName": "South Africa",
             "position": "2",
-            "gradeName": "(2) CGC Premier League - Division 2",
+            "gradeName": "1999 World Cup — Group A",
             "stats": {
-              "wins": "9",
-              "losses": "4",
-              "points": "89",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "3"
+              "wins": "3",
+              "losses": "1",
+              "points": "7",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
             }
           }
         },
         {
           "position": "3",
-          "teamName": "Palm Beach Premier Div 2",
-          "teamHref": "/cricket-australia/org/palm-beach-currumbin-cricket-club-inc/af1d388c/cricket-gold-coast-senior-competition-summer-202526/teams/palm-beach-premier-div-2/0de24b38",
-          "P": "16",
-          "PTS": "82",
-          "Q": "1.165",
-          "W": "8",
-          "L": "5",
-          "TIE": "0",
-          "N/R": "3",
+          "teamName": "Sri Lanka",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "7",
+          "Q": "0.377",
+          "W": "3",
+          "L": "1",
+          "TIE": "1",
+          "N/R": "0",
           "BYE": "0",
-          "clubId": 32978,
-          "clubLogo": null,
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_ccc273f65f.jpg",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/lk.svg",
+          "playHQLogo": "/dummyAssetData/flags/lk.svg",
           "clubName": null,
           "teamLogo": null,
           "prompt": {
-            "teamName": "Palm Beach Premier Div 2",
+            "teamName": "Sri Lanka",
             "position": "3",
-            "gradeName": "(2) CGC Premier League - Division 2",
+            "gradeName": "1999 World Cup — Group A",
             "stats": {
-              "wins": "8",
-              "losses": "5",
-              "points": "82",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "3"
+              "wins": "3",
+              "losses": "1",
+              "points": "7",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
             }
           }
         },
         {
           "position": "4",
-          "teamName": "Southport Premier Div 2",
-          "teamHref": "/cricket-australia/org/southport-labrador-cricket-club/43830d9b/cricket-gold-coast-senior-competition-summer-202526/teams/southport-premier-div-2/308a61d1",
-          "P": "16",
-          "PTS": "78",
-          "Q": "1.031",
-          "W": "8",
-          "L": "6",
+          "teamName": "Kenya",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "6",
+          "Q": "-0.142",
+          "W": "3",
+          "L": "2",
           "TIE": "0",
-          "N/R": "2",
+          "N/R": "0",
           "BYE": "0",
           "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
+          "clubLogo": "/dummyAssetData/flags/ke.svg",
+          "playHQLogo": "/dummyAssetData/flags/ke.svg",
           "clubName": null,
           "teamLogo": null,
           "prompt": {
-            "teamName": "Southport Premier Div 2",
+            "teamName": "Kenya",
             "position": "4",
-            "gradeName": "(2) CGC Premier League - Division 2",
+            "gradeName": "1999 World Cup — Group A",
             "stats": {
-              "wins": "8",
-              "losses": "6",
-              "points": "78",
-              "pointsPlayed": "16",
+              "wins": "3",
+              "losses": "2",
+              "points": "6",
+              "pointsPlayed": "5",
               "ties": "0",
-              "noResult": "2"
+              "noResult": "0"
             }
           }
         },
         {
           "position": "5",
-          "teamName": "Beaudesert Premier Div 2",
-          "teamHref": "/cricket-australia/org/beaudesert-cricket-club/6d9c837b/cricket-gold-coast-senior-competition-summer-202526/teams/beaudesert-premier-div-2/45b98a71",
-          "P": "16",
-          "PTS": "72",
-          "Q": "1.050",
-          "W": "7",
-          "L": "6",
+          "teamName": "Zimbabwe",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "4",
+          "Q": "-0.609",
+          "W": "2",
+          "L": "3",
           "TIE": "0",
-          "N/R": "3",
+          "N/R": "0",
           "BYE": "0",
-          "clubId": 29309,
-          "clubLogo": null,
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_54b52854eb.jpg",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/zw.svg",
+          "playHQLogo": "/dummyAssetData/flags/zw.svg",
           "clubName": null,
           "teamLogo": null,
           "prompt": {
-            "teamName": "Beaudesert Premier Div 2",
+            "teamName": "Zimbabwe",
             "position": "5",
-            "gradeName": "(2) CGC Premier League - Division 2",
+            "gradeName": "1999 World Cup — Group A",
             "stats": {
-              "wins": "7",
-              "losses": "6",
-              "points": "72",
-              "pointsPlayed": "16",
+              "wins": "2",
+              "losses": "3",
+              "points": "4",
+              "pointsPlayed": "5",
               "ties": "0",
-              "noResult": "3"
+              "noResult": "0"
             }
           }
         },
         {
           "position": "6",
-          "teamName": "Helensvale 2nd Grade",
-          "teamHref": "/cricket-australia/org/helensvale-pacific-pines-cricket-club/5c8eb598/cricket-gold-coast-senior-competition-summer-202526/teams/helensvale-2nd-grade/cbf04719",
-          "P": "16",
-          "PTS": "68",
-          "Q": "0.932",
-          "W": "7",
-          "L": "7",
+          "teamName": "England",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "2",
+          "Q": "-1.121",
+          "W": "1",
+          "L": "4",
           "TIE": "0",
-          "N/R": "2",
+          "N/R": "0",
           "BYE": "0",
           "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
+          "clubLogo": "/dummyAssetData/flags/gb-eng.svg",
+          "playHQLogo": "/dummyAssetData/flags/gb-eng.svg",
           "clubName": null,
           "teamLogo": null,
           "prompt": {
-            "teamName": "Helensvale 2nd Grade",
+            "teamName": "England",
             "position": "6",
-            "gradeName": "(2) CGC Premier League - Division 2",
+            "gradeName": "1999 World Cup — Group A",
             "stats": {
-              "wins": "7",
-              "losses": "7",
-              "points": "68",
-              "pointsPlayed": "16",
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
               "ties": "0",
-              "noResult": "2"
-            }
-          }
-        },
-        {
-          "position": "7",
-          "teamName": "Burleigh Premier Div 2",
-          "teamHref": "/cricket-australia/org/burleigh-cricket-club/74d56a83/cricket-gold-coast-senior-competition-summer-202526/teams/burleigh-premier-div-2/131be639",
-          "P": "16",
-          "PTS": "68",
-          "Q": "1.115",
-          "W": "7",
-          "L": "7",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "0",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Burleigh Premier Div 2",
-            "position": "7",
-            "gradeName": "(2) CGC Premier League - Division 2",
-            "stats": {
-              "wins": "7",
-              "losses": "7",
-              "points": "68",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "2"
-            }
-          }
-        },
-        {
-          "position": "8",
-          "teamName": "Surfers Paradise 2nd Grade",
-          "teamHref": "/cricket-australia/org/surfers-paradise-cricket-club/91aa3470/cricket-gold-coast-senior-competition-summer-202526/teams/surfers-paradise-2nd-grade/de431ddd",
-          "P": "16",
-          "PTS": "67",
-          "Q": "0.794",
-          "W": "7",
-          "L": "7",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "0",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Surfers Paradise 2nd Grade",
-            "position": "8",
-            "gradeName": "(2) CGC Premier League - Division 2",
-            "stats": {
-              "wins": "7",
-              "losses": "7",
-              "points": "67",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "2"
-            }
-          }
-        },
-        {
-          "position": "9",
-          "teamName": "Broadbeach Premier Div 2",
-          "teamHref": "/cricket-australia/org/broadbeach-robina-cricket-club/b6e5d0f3/cricket-gold-coast-senior-competition-summer-202526/teams/broadbeach-premier-div-2/0bbd2374",
-          "P": "16",
-          "PTS": "55",
-          "Q": "0.835",
-          "W": "5",
-          "L": "8",
-          "TIE": "0",
-          "N/R": "3",
-          "BYE": "0",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Broadbeach Premier Div 2",
-            "position": "9",
-            "gradeName": "(2) CGC Premier League - Division 2",
-            "stats": {
-              "wins": "5",
-              "losses": "8",
-              "points": "55",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "3"
-            }
-          }
-        },
-        {
-          "position": "10",
-          "teamName": "Coomera Hope Island",
-          "teamHref": "/cricket-australia/org/coomera-hope-island-cricket-club/e4b49fbd/cricket-gold-coast-senior-competition-summer-202526/teams/coomera-hope-island/84e71e89",
-          "P": "16",
-          "PTS": "53",
-          "Q": "0.831",
-          "W": "5",
-          "L": "8",
-          "TIE": "0",
-          "N/R": "3",
-          "BYE": "0",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Coomera Hope Island",
-            "position": "10",
-            "gradeName": "(2) CGC Premier League - Division 2",
-            "stats": {
-              "wins": "5",
-              "losses": "8",
-              "points": "53",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "3"
-            }
-          }
-        },
-        {
-          "position": "11",
-          "teamName": "Alberton Premier Div 2",
-          "teamHref": "/cricket-australia/org/alberton-ormeau-cricket-club/1b01c8ba/cricket-gold-coast-senior-competition-summer-202526/teams/alberton-premier-div-2/31d372b4",
-          "P": "16",
-          "PTS": "46",
-          "Q": "0.900",
-          "W": "4",
-          "L": "9",
-          "TIE": "0",
-          "N/R": "3",
-          "BYE": "0",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Alberton Premier Div 2",
-            "position": "11",
-            "gradeName": "(2) CGC Premier League - Division 2",
-            "stats": {
-              "wins": "4",
-              "losses": "9",
-              "points": "46",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "3"
-            }
-          }
-        },
-        {
-          "position": "12",
-          "teamName": "Queens 2nd Grade",
-          "teamHref": "/cricket-australia/org/queens-cricket-club/1550d335/cricket-gold-coast-senior-competition-summer-202526/teams/queens-2nd-grade/ada68983",
-          "P": "16",
-          "PTS": "33",
-          "Q": "0.737",
-          "W": "3",
-          "L": "11",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "0",
-          "clubId": 33353,
-          "clubLogo": null,
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_d119f3d76d.jpg",
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Queens 2nd Grade",
-            "position": "12",
-            "gradeName": "(2) CGC Premier League - Division 2",
-            "stats": {
-              "wins": "3",
-              "losses": "11",
-              "points": "33",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "2"
+              "noResult": "0"
             }
           }
         }
       ],
       "bias": null,
       "prompt": {
-        "gradeName": "(2) CGC Premier League - Division 2",
+        "gradeName": "1999 World Cup — Group A",
         "teams": [
           {
-            "teamName": "Runaway Bay Premier Div 2",
+            "teamName": "India",
             "position": "1",
             "stats": {
-              "wins": "11",
-              "losses": "3",
-              "points": "102",
-              "pointsPlayed": "16",
+              "wins": "3",
+              "losses": "1",
+              "points": "7",
+              "pointsPlayed": "5",
               "ties": "0",
-              "noResult": "2"
+              "noResult": "1"
             }
           },
           {
-            "teamName": "Mudgeeraba Premier Div 2",
+            "teamName": "South Africa",
             "position": "2",
             "stats": {
-              "wins": "9",
-              "losses": "4",
-              "points": "89",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "3"
+              "wins": "3",
+              "losses": "1",
+              "points": "7",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
             }
           },
           {
-            "teamName": "Palm Beach Premier Div 2",
+            "teamName": "Sri Lanka",
             "position": "3",
             "stats": {
-              "wins": "8",
-              "losses": "5",
-              "points": "82",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "3"
+              "wins": "3",
+              "losses": "1",
+              "points": "7",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
             }
           },
           {
-            "teamName": "Southport Premier Div 2",
+            "teamName": "Kenya",
             "position": "4",
             "stats": {
-              "wins": "8",
-              "losses": "6",
-              "points": "78",
-              "pointsPlayed": "16",
+              "wins": "3",
+              "losses": "2",
+              "points": "6",
+              "pointsPlayed": "5",
               "ties": "0",
-              "noResult": "2"
+              "noResult": "0"
             }
           },
           {
-            "teamName": "Beaudesert Premier Div 2",
+            "teamName": "Zimbabwe",
             "position": "5",
             "stats": {
-              "wins": "7",
-              "losses": "6",
-              "points": "72",
-              "pointsPlayed": "16",
+              "wins": "2",
+              "losses": "3",
+              "points": "4",
+              "pointsPlayed": "5",
               "ties": "0",
-              "noResult": "3"
+              "noResult": "0"
             }
           },
           {
-            "teamName": "Helensvale 2nd Grade",
+            "teamName": "England",
             "position": "6",
             "stats": {
-              "wins": "7",
-              "losses": "7",
-              "points": "68",
-              "pointsPlayed": "16",
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
               "ties": "0",
-              "noResult": "2"
-            }
-          },
-          {
-            "teamName": "Burleigh Premier Div 2",
-            "position": "7",
-            "stats": {
-              "wins": "7",
-              "losses": "7",
-              "points": "68",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "2"
-            }
-          },
-          {
-            "teamName": "Surfers Paradise 2nd Grade",
-            "position": "8",
-            "stats": {
-              "wins": "7",
-              "losses": "7",
-              "points": "67",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "2"
-            }
-          },
-          {
-            "teamName": "Broadbeach Premier Div 2",
-            "position": "9",
-            "stats": {
-              "wins": "5",
-              "losses": "8",
-              "points": "55",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "3"
-            }
-          },
-          {
-            "teamName": "Coomera Hope Island",
-            "position": "10",
-            "stats": {
-              "wins": "5",
-              "losses": "8",
-              "points": "53",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "3"
-            }
-          },
-          {
-            "teamName": "Alberton Premier Div 2",
-            "position": "11",
-            "stats": {
-              "wins": "4",
-              "losses": "9",
-              "points": "46",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "3"
-            }
-          },
-          {
-            "teamName": "Queens 2nd Grade",
-            "position": "12",
-            "stats": {
-              "wins": "3",
-              "losses": "11",
-              "points": "33",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "2"
+              "noResult": "0"
             }
           }
         ]
@@ -1302,470 +829,191 @@
       }
     },
     {
-      "ID": 53105,
-      "gradeName": "(3) CGC Premier League - Division 3",
+      "ID": 0,
+      "gradeName": "1999 World Cup — Group B",
       "sortOrder": 4,
       "League": [
         {
           "position": "1",
-          "teamName": "Logan Village",
-          "teamHref": "/cricket-australia/org/logan-village-cricket-club/dd27c6a0/cricket-gold-coast-senior-competition-summer-202526/teams/logan-village/250962b7",
-          "P": "15",
-          "PTS": "121",
-          "Q": "1.841",
-          "W": "13",
-          "L": "1",
-          "TIE": "0",
-          "N/R": "1",
-          "BYE": "1",
+          "teamName": "Pakistan",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "5",
+          "Q": "1.406",
+          "W": "2",
+          "L": "2",
+          "TIE": "1",
+          "N/R": "0",
+          "BYE": "0",
           "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
+          "clubLogo": "/dummyAssetData/flags/pk.svg",
+          "playHQLogo": "/dummyAssetData/flags/pk.svg",
           "clubName": null,
           "teamLogo": null,
           "prompt": {
-            "teamName": "Logan Village",
+            "teamName": "Pakistan",
             "position": "1",
-            "gradeName": "(3) CGC Premier League - Division 3",
+            "gradeName": "1999 World Cup — Group B",
             "stats": {
-              "wins": "13",
-              "losses": "1",
-              "points": "121",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "1"
+              "wins": "2",
+              "losses": "2",
+              "points": "5",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
             }
           }
         },
         {
           "position": "2",
-          "teamName": "Runaway Bay Premier Div 3",
-          "teamHref": "/cricket-australia/org/runaway-bay-cricket-club-inc/5e70931e/cricket-gold-coast-senior-competition-summer-202526/teams/runaway-bay-premier-div-3/6a5491ed",
-          "P": "15",
-          "PTS": "112",
-          "Q": "1.616",
-          "W": "12",
-          "L": "1",
+          "teamName": "Australia",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "4",
+          "Q": "0.894",
+          "W": "2",
+          "L": "3",
           "TIE": "0",
-          "N/R": "2",
-          "BYE": "1",
-          "clubId": 33572,
-          "clubLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_5b81de4f76.jpg",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/au.svg",
+          "playHQLogo": "/dummyAssetData/flags/au.svg",
           "clubName": null,
           "teamLogo": null,
           "prompt": {
-            "teamName": "Runaway Bay Premier Div 3",
+            "teamName": "Australia",
             "position": "2",
-            "gradeName": "(3) CGC Premier League - Division 3",
+            "gradeName": "1999 World Cup — Group B",
             "stats": {
-              "wins": "12",
-              "losses": "1",
-              "points": "112",
-              "pointsPlayed": "15",
+              "wins": "2",
+              "losses": "3",
+              "points": "4",
+              "pointsPlayed": "5",
               "ties": "0",
-              "noResult": "2"
+              "noResult": "0"
             }
           }
         },
         {
           "position": "3",
-          "teamName": "Loganholme Premier Div 3",
-          "teamHref": "/cricket-australia/org/loganholme-cricket-club/99ab2cc0/cricket-gold-coast-senior-competition-summer-202526/teams/loganholme-premier-div-3/e26dac27",
-          "P": "15",
-          "PTS": "96",
-          "Q": "1.244",
-          "W": "10",
-          "L": "2",
+          "teamName": "New Zealand",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "2",
+          "Q": "0.385",
+          "W": "1",
+          "L": "4",
           "TIE": "0",
-          "N/R": "3",
-          "BYE": "1",
+          "N/R": "0",
+          "BYE": "0",
           "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
+          "clubLogo": "/dummyAssetData/flags/nz.svg",
+          "playHQLogo": "/dummyAssetData/flags/nz.svg",
           "clubName": null,
           "teamLogo": null,
           "prompt": {
-            "teamName": "Loganholme Premier Div 3",
+            "teamName": "New Zealand",
             "position": "3",
-            "gradeName": "(3) CGC Premier League - Division 3",
+            "gradeName": "1999 World Cup — Group B",
             "stats": {
-              "wins": "10",
-              "losses": "2",
-              "points": "96",
-              "pointsPlayed": "15",
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
               "ties": "0",
-              "noResult": "3"
+              "noResult": "0"
             }
           }
         },
         {
           "position": "4",
-          "teamName": "Tamborine Premier Div 3",
-          "teamHref": "/cricket-australia/org/tamborine-mountain-canungra-cricket-club-inc/6ccf9729/cricket-gold-coast-senior-competition-summer-202526/teams/tamborine-premier-div-3/2ce09c23",
-          "P": "15",
-          "PTS": "88",
-          "Q": "1.081",
-          "W": "10",
+          "teamName": "West Indies",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "2",
+          "Q": "-0.121",
+          "W": "1",
           "L": "4",
           "TIE": "0",
-          "N/R": "1",
-          "BYE": "1",
-          "clubId": 34348,
-          "clubLogo": null,
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_b30fdf6cab.jpg",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/wi.svg",
+          "playHQLogo": "/dummyAssetData/flags/wi.svg",
           "clubName": null,
           "teamLogo": null,
           "prompt": {
-            "teamName": "Tamborine Premier Div 3",
+            "teamName": "West Indies",
             "position": "4",
-            "gradeName": "(3) CGC Premier League - Division 3",
+            "gradeName": "1999 World Cup — Group B",
             "stats": {
-              "wins": "10",
+              "wins": "1",
               "losses": "4",
-              "points": "88",
-              "pointsPlayed": "15",
+              "points": "2",
+              "pointsPlayed": "5",
               "ties": "0",
-              "noResult": "1"
+              "noResult": "0"
             }
           }
         },
         {
           "position": "5",
-          "teamName": "Helensvale 3rd Grade",
-          "teamHref": "/cricket-australia/org/helensvale-pacific-pines-cricket-club/5c8eb598/cricket-gold-coast-senior-competition-summer-202526/teams/helensvale-3rd-grade/058af133",
-          "P": "15",
-          "PTS": "79",
-          "Q": "1.164",
-          "W": "8",
-          "L": "5",
+          "teamName": "Scotland",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "2",
+          "Q": "-0.627",
+          "W": "1",
+          "L": "4",
           "TIE": "0",
-          "N/R": "2",
-          "BYE": "1",
+          "N/R": "0",
+          "BYE": "0",
           "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
+          "clubLogo": "/dummyAssetData/flags/gb-sct.svg",
+          "playHQLogo": "/dummyAssetData/flags/gb-sct.svg",
           "clubName": null,
           "teamLogo": null,
           "prompt": {
-            "teamName": "Helensvale 3rd Grade",
+            "teamName": "Scotland",
             "position": "5",
-            "gradeName": "(3) CGC Premier League - Division 3",
+            "gradeName": "1999 World Cup — Group B",
             "stats": {
-              "wins": "8",
-              "losses": "5",
-              "points": "79",
-              "pointsPlayed": "15",
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
               "ties": "0",
-              "noResult": "2"
+              "noResult": "0"
             }
           }
         },
         {
           "position": "6",
-          "teamName": "Coomera Hope Island",
-          "teamHref": "/cricket-australia/org/coomera-hope-island-cricket-club/e4b49fbd/cricket-gold-coast-senior-competition-summer-202526/teams/coomera-hope-island/c26ef134",
-          "P": "15",
-          "PTS": "68",
-          "Q": "1.206",
-          "W": "7",
-          "L": "6",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "1",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Coomera Hope Island",
-            "position": "6",
-            "gradeName": "(3) CGC Premier League - Division 3",
-            "stats": {
-              "wins": "7",
-              "losses": "6",
-              "points": "68",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          }
-        },
-        {
-          "position": "7",
-          "teamName": "Southport Premier Div 3",
-          "teamHref": "/cricket-australia/org/southport-labrador-cricket-club/43830d9b/cricket-gold-coast-senior-competition-summer-202526/teams/southport-premier-div-3/00f0acb9",
-          "P": "15",
-          "PTS": "64",
-          "Q": "0.769",
-          "W": "6",
-          "L": "6",
-          "TIE": "0",
-          "N/R": "3",
-          "BYE": "0",
-          "clubId": 33919,
-          "clubLogo": null,
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_1ec159bd66.jpg",
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Southport Premier Div 3",
-            "position": "7",
-            "gradeName": "(3) CGC Premier League - Division 3",
-            "stats": {
-              "wins": "6",
-              "losses": "6",
-              "points": "64",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "3"
-            }
-          }
-        },
-        {
-          "position": "8",
-          "teamName": "Palm Beach Premier Div 3",
-          "teamHref": "/cricket-australia/org/palm-beach-currumbin-cricket-club-inc/af1d388c/cricket-gold-coast-senior-competition-summer-202526/teams/palm-beach-premier-div-3/8d01d950",
-          "P": "15",
-          "PTS": "61",
-          "Q": "1.100",
-          "W": "6",
-          "L": "7",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "1",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Palm Beach Premier Div 3",
-            "position": "8",
-            "gradeName": "(3) CGC Premier League - Division 3",
-            "stats": {
-              "wins": "6",
-              "losses": "7",
-              "points": "61",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          }
-        },
-        {
-          "position": "9",
-          "teamName": "Jimboomba Premier Div 3",
-          "teamHref": "/cricket-australia/org/jimboomba-cricket-club/f11aa2bc/cricket-gold-coast-senior-competition-summer-202526/teams/jimboomba-premier-div-3/f87dfdc7",
-          "P": "15",
-          "PTS": "59",
-          "Q": "1.066",
-          "W": "6",
-          "L": "7",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "1",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Jimboomba Premier Div 3",
-            "position": "9",
-            "gradeName": "(3) CGC Premier League - Division 3",
-            "stats": {
-              "wins": "6",
-              "losses": "7",
-              "points": "59",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          }
-        },
-        {
-          "position": "10",
-          "teamName": "Broadbeach Premier Div 3",
-          "teamHref": "/cricket-australia/org/broadbeach-robina-cricket-club/b6e5d0f3/cricket-gold-coast-senior-competition-summer-202526/teams/broadbeach-premier-div-3/ba41eea6",
-          "P": "15",
-          "PTS": "58",
-          "Q": "0.977",
-          "W": "6",
-          "L": "7",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "1",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Broadbeach Premier Div 3",
-            "position": "10",
-            "gradeName": "(3) CGC Premier League - Division 3",
-            "stats": {
-              "wins": "6",
-              "losses": "7",
-              "points": "58",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          }
-        },
-        {
-          "position": "11",
-          "teamName": "Surfers Paradise 3rd Grade",
-          "teamHref": "/cricket-australia/org/surfers-paradise-cricket-club/91aa3470/cricket-gold-coast-senior-competition-summer-202526/teams/surfers-paradise-3rd-grade/73de3b18",
-          "P": "15",
-          "PTS": "46",
-          "Q": "0.964",
-          "W": "4",
-          "L": "8",
-          "TIE": "0",
-          "N/R": "3",
-          "BYE": "1",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Surfers Paradise 3rd Grade",
-            "position": "11",
-            "gradeName": "(3) CGC Premier League - Division 3",
-            "stats": {
-              "wins": "4",
-              "losses": "8",
-              "points": "46",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "3"
-            }
-          }
-        },
-        {
-          "position": "12",
-          "teamName": "Burleigh Premier Div 3",
-          "teamHref": "/cricket-australia/org/burleigh-cricket-club/74d56a83/cricket-gold-coast-senior-competition-summer-202526/teams/burleigh-premier-div-3/9e3c63b6",
-          "P": "15",
-          "PTS": "41",
-          "Q": "0.788",
-          "W": "4",
-          "L": "9",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "1",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Burleigh Premier Div 3",
-            "position": "12",
-            "gradeName": "(3) CGC Premier League - Division 3",
-            "stats": {
-              "wins": "4",
-              "losses": "9",
-              "points": "41",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          }
-        },
-        {
-          "position": "13",
-          "teamName": "Queens 3rd Grade",
-          "teamHref": "/cricket-australia/org/queens-cricket-club/1550d335/cricket-gold-coast-senior-competition-summer-202526/teams/queens-3rd-grade/0f7f5268",
-          "P": "15",
-          "PTS": "33",
-          "Q": "0.608",
-          "W": "3",
-          "L": "10",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "1",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Queens 3rd Grade",
-            "position": "13",
-            "gradeName": "(3) CGC Premier League - Division 3",
-            "stats": {
-              "wins": "3",
-              "losses": "10",
-              "points": "33",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          }
-        },
-        {
-          "position": "14",
-          "teamName": "Mudgeeraba Premier Div 3",
-          "teamHref": "/cricket-australia/org/mudgeeraba-nerang-and-districts-cricket-club/5eb8ee9a/cricket-gold-coast-senior-competition-summer-202526/teams/mudgeeraba-premier-div-3/49696dd2",
-          "P": "15",
-          "PTS": "30",
-          "Q": "0.951",
-          "W": "2",
-          "L": "10",
-          "TIE": "0",
-          "N/R": "3",
-          "BYE": "1",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Mudgeeraba Premier Div 3",
-            "position": "14",
-            "gradeName": "(3) CGC Premier League - Division 3",
-            "stats": {
-              "wins": "2",
-              "losses": "10",
-              "points": "30",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "3"
-            }
-          }
-        },
-        {
-          "position": "15",
-          "teamName": "Alberton Premier Div 3",
-          "teamHref": "/cricket-australia/org/alberton-ormeau-cricket-club/1b01c8ba/cricket-gold-coast-senior-competition-summer-202526/teams/alberton-premier-div-3/f99701c2",
-          "P": "14",
+          "teamName": "Bangladesh",
+          "teamHref": "",
+          "P": "5",
           "PTS": "0",
-          "Q": "0.409",
+          "Q": "-1.132",
           "W": "0",
-          "L": "14",
+          "L": "5",
           "TIE": "0",
           "N/R": "0",
-          "BYE": "1",
-          "clubId": 29060,
-          "clubLogo": null,
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_c89e75b12f.jpg",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/bd.svg",
+          "playHQLogo": "/dummyAssetData/flags/bd.svg",
           "clubName": null,
           "teamLogo": null,
           "prompt": {
-            "teamName": "Alberton Premier Div 3",
-            "position": "15",
-            "gradeName": "(3) CGC Premier League - Division 3",
+            "teamName": "Bangladesh",
+            "position": "6",
+            "gradeName": "1999 World Cup — Group B",
             "stats": {
               "wins": "0",
-              "losses": "14",
+              "losses": "5",
               "points": "0",
-              "pointsPlayed": "14",
+              "pointsPlayed": "5",
               "ties": "0",
               "noResult": "0"
             }
@@ -1774,184 +1022,76 @@
       ],
       "bias": null,
       "prompt": {
-        "gradeName": "(3) CGC Premier League - Division 3",
+        "gradeName": "1999 World Cup — Group B",
         "teams": [
           {
-            "teamName": "Logan Village",
+            "teamName": "Pakistan",
             "position": "1",
             "stats": {
-              "wins": "13",
-              "losses": "1",
-              "points": "121",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "1"
+              "wins": "2",
+              "losses": "2",
+              "points": "5",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
             }
           },
           {
-            "teamName": "Runaway Bay Premier Div 3",
+            "teamName": "Australia",
             "position": "2",
             "stats": {
-              "wins": "12",
-              "losses": "1",
-              "points": "112",
-              "pointsPlayed": "15",
+              "wins": "2",
+              "losses": "3",
+              "points": "4",
+              "pointsPlayed": "5",
               "ties": "0",
-              "noResult": "2"
+              "noResult": "0"
             }
           },
           {
-            "teamName": "Loganholme Premier Div 3",
+            "teamName": "New Zealand",
             "position": "3",
             "stats": {
-              "wins": "10",
-              "losses": "2",
-              "points": "96",
-              "pointsPlayed": "15",
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
               "ties": "0",
-              "noResult": "3"
+              "noResult": "0"
             }
           },
           {
-            "teamName": "Tamborine Premier Div 3",
+            "teamName": "West Indies",
             "position": "4",
             "stats": {
-              "wins": "10",
+              "wins": "1",
               "losses": "4",
-              "points": "88",
-              "pointsPlayed": "15",
+              "points": "2",
+              "pointsPlayed": "5",
               "ties": "0",
-              "noResult": "1"
+              "noResult": "0"
             }
           },
           {
-            "teamName": "Helensvale 3rd Grade",
+            "teamName": "Scotland",
             "position": "5",
             "stats": {
-              "wins": "8",
-              "losses": "5",
-              "points": "79",
-              "pointsPlayed": "15",
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
               "ties": "0",
-              "noResult": "2"
+              "noResult": "0"
             }
           },
           {
-            "teamName": "Coomera Hope Island",
+            "teamName": "Bangladesh",
             "position": "6",
             "stats": {
-              "wins": "7",
-              "losses": "6",
-              "points": "68",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          },
-          {
-            "teamName": "Southport Premier Div 3",
-            "position": "7",
-            "stats": {
-              "wins": "6",
-              "losses": "6",
-              "points": "64",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "3"
-            }
-          },
-          {
-            "teamName": "Palm Beach Premier Div 3",
-            "position": "8",
-            "stats": {
-              "wins": "6",
-              "losses": "7",
-              "points": "61",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          },
-          {
-            "teamName": "Jimboomba Premier Div 3",
-            "position": "9",
-            "stats": {
-              "wins": "6",
-              "losses": "7",
-              "points": "59",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          },
-          {
-            "teamName": "Broadbeach Premier Div 3",
-            "position": "10",
-            "stats": {
-              "wins": "6",
-              "losses": "7",
-              "points": "58",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          },
-          {
-            "teamName": "Surfers Paradise 3rd Grade",
-            "position": "11",
-            "stats": {
-              "wins": "4",
-              "losses": "8",
-              "points": "46",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "3"
-            }
-          },
-          {
-            "teamName": "Burleigh Premier Div 3",
-            "position": "12",
-            "stats": {
-              "wins": "4",
-              "losses": "9",
-              "points": "41",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          },
-          {
-            "teamName": "Queens 3rd Grade",
-            "position": "13",
-            "stats": {
-              "wins": "3",
-              "losses": "10",
-              "points": "33",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          },
-          {
-            "teamName": "Mudgeeraba Premier Div 3",
-            "position": "14",
-            "stats": {
-              "wins": "2",
-              "losses": "10",
-              "points": "30",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "3"
-            }
-          },
-          {
-            "teamName": "Alberton Premier Div 3",
-            "position": "15",
-            "stats": {
               "wins": "0",
-              "losses": "14",
+              "losses": "5",
               "points": "0",
-              "pointsPlayed": "14",
+              "pointsPlayed": "5",
               "ties": "0",
               "noResult": "0"
             }
@@ -1965,1976 +1105,159 @@
       }
     },
     {
-      "ID": 53295,
-      "gradeName": "(4) CGC Community League - Division 1",
+      "ID": 0,
+      "gradeName": "2007 World Cup — Super Eight",
       "sortOrder": 5,
       "League": [
         {
           "position": "1",
-          "teamName": "Palm Beach Community Div 1",
-          "teamHref": "/cricket-australia/org/palm-beach-currumbin-cricket-club-inc/af1d388c/cricket-gold-coast-senior-competition-summer-202526/teams/palm-beach-community-div-1/325fc7ef",
-          "P": "15",
-          "PTS": "96",
-          "Q": "1.414",
-          "W": "11",
-          "L": "2",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "1",
-          "clubId": 32978,
-          "clubLogo": null,
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_ccc273f65f.jpg",
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Palm Beach Community Div 1",
-            "position": "1",
-            "gradeName": "(4) CGC Community League - Division 1",
-            "stats": {
-              "wins": "11",
-              "losses": "2",
-              "points": "96",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          }
-        },
-        {
-          "position": "2",
-          "teamName": "Bonogin Bulls Div 1",
-          "teamHref": "/cricket-australia/org/bonogin-valley-bulls-cricket-club/0820bdb7/cricket-gold-coast-senior-competition-summer-202526/teams/bonogin-bulls-div-1/66732a91",
-          "P": "15",
-          "PTS": "92",
-          "Q": "1.248",
-          "W": "11",
-          "L": "3",
-          "TIE": "0",
-          "N/R": "1",
-          "BYE": "1",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Bonogin Bulls Div 1",
-            "position": "2",
-            "gradeName": "(4) CGC Community League - Division 1",
-            "stats": {
-              "wins": "11",
-              "losses": "3",
-              "points": "92",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "1"
-            }
-          }
-        },
-        {
-          "position": "3",
-          "teamName": "Surfers Paradise 4th Grade",
-          "teamHref": "/cricket-australia/org/surfers-paradise-cricket-club/91aa3470/cricket-gold-coast-senior-competition-summer-202526/teams/surfers-paradise-4th-grade/33c9a177",
-          "P": "14",
-          "PTS": "88",
-          "Q": "1.764",
-          "W": "10",
-          "L": "2",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "1",
-          "clubId": 34271,
-          "clubLogo": null,
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_e89a4df4c5.jpg",
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Surfers Paradise 4th Grade",
-            "position": "3",
-            "gradeName": "(4) CGC Community League - Division 1",
-            "stats": {
-              "wins": "10",
-              "losses": "2",
-              "points": "88",
-              "pointsPlayed": "14",
-              "ties": "0",
-              "noResult": "2"
-            }
-          }
-        },
-        {
-          "position": "4",
-          "teamName": "CHICC Gold 4th grade",
-          "teamHref": "/cricket-australia/org/coomera-hope-island-cricket-club/e4b49fbd/cricket-gold-coast-senior-competition-summer-202526/teams/chicc-gold-4th-grade/538aa0a8",
-          "P": "15",
-          "PTS": "84",
-          "Q": "1.447",
-          "W": "10",
-          "L": "4",
-          "TIE": "0",
-          "N/R": "1",
-          "BYE": "1",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "CHICC Gold 4th grade",
-            "position": "4",
-            "gradeName": "(4) CGC Community League - Division 1",
-            "stats": {
-              "wins": "10",
-              "losses": "4",
-              "points": "84",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "1"
-            }
-          }
-        },
-        {
-          "position": "5",
-          "teamName": "Helensvale 4th Grade",
-          "teamHref": "/cricket-australia/org/helensvale-pacific-pines-cricket-club/5c8eb598/cricket-gold-coast-senior-competition-summer-202526/teams/helensvale-4th-grade/92504553",
-          "P": "15",
-          "PTS": "80",
-          "Q": "1.360",
-          "W": "10",
-          "L": "5",
-          "TIE": "0",
-          "N/R": "0",
-          "BYE": "1",
-          "clubId": 31526,
-          "clubLogo": null,
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_30c6189e5f.jpg",
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Helensvale 4th Grade",
-            "position": "5",
-            "gradeName": "(4) CGC Community League - Division 1",
-            "stats": {
-              "wins": "10",
-              "losses": "5",
-              "points": "80",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "0"
-            }
-          }
-        },
-        {
-          "position": "6",
-          "teamName": "Mudgeeraba Community Div 1",
-          "teamHref": "/cricket-australia/org/mudgeeraba-nerang-and-districts-cricket-club/5eb8ee9a/cricket-gold-coast-senior-competition-summer-202526/teams/mudgeeraba-community-div-1/318f405a",
-          "P": "14",
-          "PTS": "72",
-          "Q": "1.338",
-          "W": "8",
-          "L": "4",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "1",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Mudgeeraba Community Div 1",
-            "position": "6",
-            "gradeName": "(4) CGC Community League - Division 1",
-            "stats": {
-              "wins": "8",
-              "losses": "4",
-              "points": "72",
-              "pointsPlayed": "14",
-              "ties": "0",
-              "noResult": "2"
-            }
-          }
-        },
-        {
-          "position": "7",
-          "teamName": "CHICC Blue 4th grade",
-          "teamHref": "/cricket-australia/org/coomera-hope-island-cricket-club/e4b49fbd/cricket-gold-coast-senior-competition-summer-202526/teams/chicc-blue-4th-grade/62408c70",
-          "P": "15",
-          "PTS": "68",
-          "Q": "1.134",
-          "W": "8",
-          "L": "6",
-          "TIE": "0",
-          "N/R": "1",
-          "BYE": "1",
-          "clubId": 30477,
-          "clubLogo": null,
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_a29fb5d6e1.jpg",
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "CHICC Blue 4th grade",
-            "position": "7",
-            "gradeName": "(4) CGC Community League - Division 1",
-            "stats": {
-              "wins": "8",
-              "losses": "6",
-              "points": "68",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "1"
-            }
-          }
-        },
-        {
-          "position": "8",
-          "teamName": "Broadbeach Community Div 1",
-          "teamHref": "/cricket-australia/org/broadbeach-robina-cricket-club/b6e5d0f3/cricket-gold-coast-senior-competition-summer-202526/teams/broadbeach-community-div-1/284f509f",
-          "P": "15",
-          "PTS": "52",
-          "Q": "0.963",
-          "W": "6",
-          "L": "8",
-          "TIE": "0",
-          "N/R": "1",
-          "BYE": "1",
-          "clubId": 29646,
-          "clubLogo": null,
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_f21335c38b.jpg",
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Broadbeach Community Div 1",
-            "position": "8",
-            "gradeName": "(4) CGC Community League - Division 1",
-            "stats": {
-              "wins": "6",
-              "losses": "8",
-              "points": "52",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "1"
-            }
-          }
-        },
-        {
-          "position": "9",
-          "teamName": "Queens 4th Grade",
-          "teamHref": "/cricket-australia/org/queens-cricket-club/1550d335/cricket-gold-coast-senior-competition-summer-202526/teams/queens-4th-grade/6af9dbdd",
-          "P": "15",
-          "PTS": "36",
-          "Q": "0.791",
-          "W": "4",
-          "L": "10",
-          "TIE": "0",
-          "N/R": "1",
-          "BYE": "1",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Queens 4th Grade",
-            "position": "9",
-            "gradeName": "(4) CGC Community League - Division 1",
-            "stats": {
-              "wins": "4",
-              "losses": "10",
-              "points": "36",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "1"
-            }
-          }
-        },
-        {
-          "position": "10",
-          "teamName": "Runaway Bay Orange Community Div 1",
-          "teamHref": "/cricket-australia/org/runaway-bay-cricket-club-inc/5e70931e/cricket-gold-coast-senior-competition-summer-202526/teams/runaway-bay-orange-community-div-1/fb9a876e",
-          "P": "15",
-          "PTS": "28",
-          "Q": "0.633",
-          "W": "2",
-          "L": "10",
-          "TIE": "0",
-          "N/R": "3",
-          "BYE": "1",
-          "clubId": 33572,
-          "clubLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_5b81de4f76.jpg",
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Runaway Bay Orange Community Div 1",
-            "position": "10",
-            "gradeName": "(4) CGC Community League - Division 1",
-            "stats": {
-              "wins": "2",
-              "losses": "10",
-              "points": "28",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "3"
-            }
-          }
-        },
-        {
-          "position": "11",
-          "teamName": "Burleigh Cricket Club Community Div 1",
-          "teamHref": "/cricket-australia/org/burleigh-cricket-club/74d56a83/cricket-gold-coast-senior-competition-summer-202526/teams/burleigh-cricket-club-community-div-1/884bfec4",
-          "P": "15",
-          "PTS": "28",
-          "Q": "0.592",
-          "W": "2",
-          "L": "10",
-          "TIE": "0",
-          "N/R": "3",
-          "BYE": "1",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Burleigh Cricket Club Community Div 1",
-            "position": "11",
-            "gradeName": "(4) CGC Community League - Division 1",
-            "stats": {
-              "wins": "2",
-              "losses": "10",
-              "points": "28",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "3"
-            }
-          }
-        },
-        {
-          "position": "12",
-          "teamName": "Bond University Community Div 1",
-          "teamHref": "/cricket-australia/org/bond-university/69479308/cricket-gold-coast-senior-competition-summer-202526/teams/bond-university-community-div-1/ed6e85bc",
-          "P": "14",
-          "PTS": "24",
-          "Q": "0.573",
-          "W": "3",
-          "L": "8",
-          "TIE": "0",
-          "N/R": "0",
-          "BYE": "1",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Bond University Community Div 1",
-            "position": "12",
-            "gradeName": "(4) CGC Community League - Division 1",
-            "stats": {
-              "wins": "3",
-              "losses": "8",
-              "points": "24",
-              "pointsPlayed": "14",
-              "ties": "0",
-              "noResult": "0"
-            }
-          }
-        },
-        {
-          "position": "13",
-          "teamName": "Runaway Bay Navy Community Div 1",
-          "teamHref": "/cricket-australia/org/runaway-bay-cricket-club-inc/5e70931e/cricket-gold-coast-senior-competition-summer-202526/teams/runaway-bay-navy-community-div-1/653402f2",
-          "P": "15",
-          "PTS": "20",
-          "Q": "0.573",
-          "W": "2",
-          "L": "12",
-          "TIE": "0",
-          "N/R": "1",
-          "BYE": "1",
-          "clubId": 33572,
-          "clubLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_5b81de4f76.jpg",
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Runaway Bay Navy Community Div 1",
-            "position": "13",
-            "gradeName": "(4) CGC Community League - Division 1",
-            "stats": {
-              "wins": "2",
-              "losses": "12",
-              "points": "20",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "1"
-            }
-          }
-        },
-        {
-          "position": "14",
-          "teamName": "Bye",
-          "teamHref": "/cricket-australia/org/bonogin-valley-bulls-cricket-club/0820bdb7/cricket-gold-coast-senior-competition-summer-202526/teams/bye/ce7bf29c",
-          "P": "0",
-          "PTS": "0",
-          "Q": "0",
-          "W": "0",
-          "L": "0",
-          "TIE": "0",
-          "N/R": "0",
-          "BYE": "13",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Bye",
-            "position": "14",
-            "gradeName": "(4) CGC Community League - Division 1",
-            "stats": {
-              "wins": "0",
-              "losses": "0",
-              "points": "0",
-              "pointsPlayed": "0",
-              "ties": "0",
-              "noResult": "0"
-            }
-          }
-        }
-      ],
-      "bias": null,
-      "prompt": {
-        "gradeName": "(4) CGC Community League - Division 1",
-        "teams": [
-          {
-            "teamName": "Palm Beach Community Div 1",
-            "position": "1",
-            "stats": {
-              "wins": "11",
-              "losses": "2",
-              "points": "96",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          },
-          {
-            "teamName": "Bonogin Bulls Div 1",
-            "position": "2",
-            "stats": {
-              "wins": "11",
-              "losses": "3",
-              "points": "92",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "1"
-            }
-          },
-          {
-            "teamName": "Surfers Paradise 4th Grade",
-            "position": "3",
-            "stats": {
-              "wins": "10",
-              "losses": "2",
-              "points": "88",
-              "pointsPlayed": "14",
-              "ties": "0",
-              "noResult": "2"
-            }
-          },
-          {
-            "teamName": "CHICC Gold 4th grade",
-            "position": "4",
-            "stats": {
-              "wins": "10",
-              "losses": "4",
-              "points": "84",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "1"
-            }
-          },
-          {
-            "teamName": "Helensvale 4th Grade",
-            "position": "5",
-            "stats": {
-              "wins": "10",
-              "losses": "5",
-              "points": "80",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "0"
-            }
-          },
-          {
-            "teamName": "Mudgeeraba Community Div 1",
-            "position": "6",
-            "stats": {
-              "wins": "8",
-              "losses": "4",
-              "points": "72",
-              "pointsPlayed": "14",
-              "ties": "0",
-              "noResult": "2"
-            }
-          },
-          {
-            "teamName": "CHICC Blue 4th grade",
-            "position": "7",
-            "stats": {
-              "wins": "8",
-              "losses": "6",
-              "points": "68",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "1"
-            }
-          },
-          {
-            "teamName": "Broadbeach Community Div 1",
-            "position": "8",
-            "stats": {
-              "wins": "6",
-              "losses": "8",
-              "points": "52",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "1"
-            }
-          },
-          {
-            "teamName": "Queens 4th Grade",
-            "position": "9",
-            "stats": {
-              "wins": "4",
-              "losses": "10",
-              "points": "36",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "1"
-            }
-          },
-          {
-            "teamName": "Runaway Bay Orange Community Div 1",
-            "position": "10",
-            "stats": {
-              "wins": "2",
-              "losses": "10",
-              "points": "28",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "3"
-            }
-          },
-          {
-            "teamName": "Burleigh Cricket Club Community Div 1",
-            "position": "11",
-            "stats": {
-              "wins": "2",
-              "losses": "10",
-              "points": "28",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "3"
-            }
-          },
-          {
-            "teamName": "Bond University Community Div 1",
-            "position": "12",
-            "stats": {
-              "wins": "3",
-              "losses": "8",
-              "points": "24",
-              "pointsPlayed": "14",
-              "ties": "0",
-              "noResult": "0"
-            }
-          },
-          {
-            "teamName": "Runaway Bay Navy Community Div 1",
-            "position": "13",
-            "stats": {
-              "wins": "2",
-              "losses": "12",
-              "points": "20",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "1"
-            }
-          },
-          {
-            "teamName": "Bye",
-            "position": "14",
-            "stats": {
-              "wins": "0",
-              "losses": "0",
-              "points": "0",
-              "pointsPlayed": "0",
-              "ties": "0",
-              "noResult": "0"
-            }
-          }
-        ]
-      },
-      "assignSponsors": {
-        "competition": [],
-        "grade": [],
-        "team": []
-      }
-    },
-    {
-      "ID": 53296,
-      "gradeName": "(5) CGC Community League - Division 2",
-      "sortOrder": 6,
-      "League": [
-        {
-          "position": "1",
-          "teamName": "Runaway Bay Community Div 2",
-          "teamHref": "/cricket-australia/org/runaway-bay-cricket-club-inc/5e70931e/cricket-gold-coast-senior-competition-summer-202526/teams/runaway-bay-community-div-2/5ea8b023",
-          "P": "15",
-          "PTS": "92",
-          "Q": "1.603",
-          "W": "11",
-          "L": "3",
-          "TIE": "0",
-          "N/R": "1",
-          "BYE": "1",
-          "clubId": 33572,
-          "clubLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_5b81de4f76.jpg",
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Runaway Bay Community Div 2",
-            "position": "1",
-            "gradeName": "(5) CGC Community League - Division 2",
-            "stats": {
-              "wins": "11",
-              "losses": "3",
-              "points": "92",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "1"
-            }
-          }
-        },
-        {
-          "position": "2",
-          "teamName": "Southport Labrador Community Div 2",
-          "teamHref": "/cricket-australia/org/southport-labrador-cricket-club/43830d9b/cricket-gold-coast-senior-competition-summer-202526/teams/southport-labrador-community-div-2/553fb999",
-          "P": "15",
-          "PTS": "92",
-          "Q": "1.652",
-          "W": "11",
-          "L": "3",
-          "TIE": "0",
-          "N/R": "1",
-          "BYE": "1",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Southport Labrador Community Div 2",
-            "position": "2",
-            "gradeName": "(5) CGC Community League - Division 2",
-            "stats": {
-              "wins": "11",
-              "losses": "3",
-              "points": "92",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "1"
-            }
-          }
-        },
-        {
-          "position": "3",
-          "teamName": "Helensvale Gold 5th Grade",
-          "teamHref": "/cricket-australia/org/helensvale-pacific-pines-cricket-club/5c8eb598/cricket-gold-coast-senior-competition-summer-202526/teams/helensvale-gold-5th-grade/4915c178",
-          "P": "15",
-          "PTS": "80",
-          "Q": "1.263",
-          "W": "9",
-          "L": "4",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "1",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Helensvale Gold 5th Grade",
-            "position": "3",
-            "gradeName": "(5) CGC Community League - Division 2",
-            "stats": {
-              "wins": "9",
-              "losses": "4",
-              "points": "80",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          }
-        },
-        {
-          "position": "4",
-          "teamName": "Mudgeeraba Community Div 2",
-          "teamHref": "/cricket-australia/org/mudgeeraba-nerang-and-districts-cricket-club/5eb8ee9a/cricket-gold-coast-senior-competition-summer-202526/teams/mudgeeraba-community-div-2/fc635db9",
-          "P": "15",
-          "PTS": "80",
-          "Q": "0.852",
-          "W": "9",
-          "L": "4",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "1",
-          "clubId": 32513,
-          "clubLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/CA_Play_Cricket_Logo_VERT_REV_RGB_23681f665f.png",
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_f9a9e4c1c3.jpg",
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Mudgeeraba Community Div 2",
-            "position": "4",
-            "gradeName": "(5) CGC Community League - Division 2",
-            "stats": {
-              "wins": "9",
-              "losses": "4",
-              "points": "80",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          }
-        },
-        {
-          "position": "5",
-          "teamName": "Broadbeach Blue Community Div 2",
-          "teamHref": "/cricket-australia/org/broadbeach-robina-cricket-club/b6e5d0f3/cricket-gold-coast-senior-competition-summer-202526/teams/broadbeach-blue-community-div-2/d8d94a98",
-          "P": "15",
-          "PTS": "76",
-          "Q": "1.114",
-          "W": "9",
-          "L": "5",
-          "TIE": "0",
-          "N/R": "1",
-          "BYE": "1",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Broadbeach Blue Community Div 2",
-            "position": "5",
-            "gradeName": "(5) CGC Community League - Division 2",
-            "stats": {
-              "wins": "9",
-              "losses": "5",
-              "points": "76",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "1"
-            }
-          }
-        },
-        {
-          "position": "6",
-          "teamName": "Helensvale Green 5th Grade",
-          "teamHref": "/cricket-australia/org/helensvale-pacific-pines-cricket-club/5c8eb598/cricket-gold-coast-senior-competition-summer-202526/teams/helensvale-green-5th-grade/aeff9ebf",
-          "P": "15",
-          "PTS": "72",
-          "Q": "1.714",
-          "W": "8",
-          "L": "5",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "1",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Helensvale Green 5th Grade",
-            "position": "6",
-            "gradeName": "(5) CGC Community League - Division 2",
-            "stats": {
-              "wins": "8",
-              "losses": "5",
-              "points": "72",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          }
-        },
-        {
-          "position": "7",
-          "teamName": "Queens 5th Grade",
-          "teamHref": "/cricket-australia/org/queens-cricket-club/1550d335/cricket-gold-coast-senior-competition-summer-202526/teams/queens-5th-grade/65128d11",
-          "P": "15",
-          "PTS": "72",
-          "Q": "1.288",
-          "W": "9",
-          "L": "6",
-          "TIE": "0",
-          "N/R": "0",
-          "BYE": "1",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Queens 5th Grade",
-            "position": "7",
-            "gradeName": "(5) CGC Community League - Division 2",
-            "stats": {
-              "wins": "9",
-              "losses": "6",
-              "points": "72",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "0"
-            }
-          }
-        },
-        {
-          "position": "8",
-          "teamName": "Burleigh Cricket Club Community Div 2",
-          "teamHref": "/cricket-australia/org/burleigh-cricket-club/74d56a83/cricket-gold-coast-senior-competition-summer-202526/teams/burleigh-cricket-club-community-div-2/e53caddb",
-          "P": "15",
-          "PTS": "72",
-          "Q": "1.212",
-          "W": "9",
-          "L": "6",
-          "TIE": "0",
-          "N/R": "0",
-          "BYE": "1",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Burleigh Cricket Club Community Div 2",
-            "position": "8",
-            "gradeName": "(5) CGC Community League - Division 2",
-            "stats": {
-              "wins": "9",
-              "losses": "6",
-              "points": "72",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "0"
-            }
-          }
-        },
-        {
-          "position": "9",
-          "teamName": "Bonogin Bulls Div 2",
-          "teamHref": "/cricket-australia/org/bonogin-valley-bulls-cricket-club/0820bdb7/cricket-gold-coast-senior-competition-summer-202526/teams/bonogin-bulls-div-2/9b261819",
-          "P": "15",
-          "PTS": "56",
-          "Q": "1.311",
-          "W": "6",
-          "L": "6",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "1",
-          "clubId": 29496,
-          "clubLogo": null,
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_70d301fe36.jpg",
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Bonogin Bulls Div 2",
-            "position": "9",
-            "gradeName": "(5) CGC Community League - Division 2",
-            "stats": {
-              "wins": "6",
-              "losses": "6",
-              "points": "56",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          }
-        },
-        {
-          "position": "10",
-          "teamName": "Tamborine Community Div 2",
-          "teamHref": "/cricket-australia/org/tamborine-mountain-canungra-cricket-club-inc/6ccf9729/cricket-gold-coast-senior-competition-summer-202526/teams/tamborine-community-div-2/ef733f18",
-          "P": "15",
-          "PTS": "56",
-          "Q": "1.064",
-          "W": "6",
-          "L": "7",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "1",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Tamborine Community Div 2",
-            "position": "10",
-            "gradeName": "(5) CGC Community League - Division 2",
-            "stats": {
-              "wins": "6",
-              "losses": "7",
-              "points": "56",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          }
-        },
-        {
-          "position": "11",
-          "teamName": "Broadbeach White Community Div 2",
-          "teamHref": "/cricket-australia/org/broadbeach-robina-cricket-club/b6e5d0f3/cricket-gold-coast-senior-competition-summer-202526/teams/broadbeach-white-community-div-2/2e01caa0",
-          "P": "14",
-          "PTS": "52",
-          "Q": "0.810",
-          "W": "6",
-          "L": "7",
-          "TIE": "0",
-          "N/R": "1",
-          "BYE": "2",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Broadbeach White Community Div 2",
-            "position": "11",
-            "gradeName": "(5) CGC Community League - Division 2",
-            "stats": {
-              "wins": "6",
-              "losses": "7",
-              "points": "52",
-              "pointsPlayed": "14",
-              "ties": "0",
-              "noResult": "1"
-            }
-          }
-        },
-        {
-          "position": "12",
-          "teamName": "Palm Beach Community Div 2",
-          "teamHref": "/cricket-australia/org/palm-beach-currumbin-cricket-club-inc/af1d388c/cricket-gold-coast-senior-competition-summer-202526/teams/palm-beach-community-div-2/af0b3c33",
-          "P": "15",
-          "PTS": "44",
-          "Q": "0.946",
-          "W": "5",
-          "L": "9",
-          "TIE": "0",
-          "N/R": "1",
-          "BYE": "1",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Palm Beach Community Div 2",
-            "position": "12",
-            "gradeName": "(5) CGC Community League - Division 2",
-            "stats": {
-              "wins": "5",
-              "losses": "9",
-              "points": "44",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "1"
-            }
-          }
-        },
-        {
-          "position": "13",
-          "teamName": "CHICC 5th grade",
-          "teamHref": "/cricket-australia/org/coomera-hope-island-cricket-club/e4b49fbd/cricket-gold-coast-senior-competition-summer-202526/teams/chicc-5th-grade/7d499a0c",
-          "P": "15",
-          "PTS": "28",
-          "Q": "0.536",
-          "W": "3",
-          "L": "11",
-          "TIE": "0",
-          "N/R": "1",
-          "BYE": "1",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "CHICC 5th grade",
-            "position": "13",
-            "gradeName": "(5) CGC Community League - Division 2",
-            "stats": {
-              "wins": "3",
-              "losses": "11",
-              "points": "28",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "1"
-            }
-          }
-        },
-        {
-          "position": "14",
-          "teamName": "Surfers Paradise 5th Grade",
-          "teamHref": "/cricket-australia/org/surfers-paradise-cricket-club/91aa3470/cricket-gold-coast-senior-competition-summer-202526/teams/surfers-paradise-5th-grade/8ad08144",
-          "P": "15",
-          "PTS": "20",
-          "Q": "1.012",
-          "W": "2",
-          "L": "12",
-          "TIE": "0",
-          "N/R": "1",
-          "BYE": "1",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Surfers Paradise 5th Grade",
-            "position": "14",
-            "gradeName": "(5) CGC Community League - Division 2",
-            "stats": {
-              "wins": "2",
-              "losses": "12",
-              "points": "20",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "1"
-            }
-          }
-        },
-        {
-          "position": "15",
-          "teamName": "Alberton Community Div 2",
-          "teamHref": "/cricket-australia/org/alberton-ormeau-cricket-club/1b01c8ba/cricket-gold-coast-senior-competition-summer-202526/teams/alberton-community-div-2/6845f83b",
-          "P": "15",
-          "PTS": "4",
-          "Q": "0.160",
-          "W": "0",
-          "L": "14",
-          "TIE": "0",
-          "N/R": "1",
-          "BYE": "1",
-          "clubId": 29060,
-          "clubLogo": null,
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_c89e75b12f.jpg",
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Alberton Community Div 2",
-            "position": "15",
-            "gradeName": "(5) CGC Community League - Division 2",
-            "stats": {
-              "wins": "0",
-              "losses": "14",
-              "points": "4",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "1"
-            }
-          }
-        }
-      ],
-      "bias": null,
-      "prompt": {
-        "gradeName": "(5) CGC Community League - Division 2",
-        "teams": [
-          {
-            "teamName": "Runaway Bay Community Div 2",
-            "position": "1",
-            "stats": {
-              "wins": "11",
-              "losses": "3",
-              "points": "92",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "1"
-            }
-          },
-          {
-            "teamName": "Southport Labrador Community Div 2",
-            "position": "2",
-            "stats": {
-              "wins": "11",
-              "losses": "3",
-              "points": "92",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "1"
-            }
-          },
-          {
-            "teamName": "Helensvale Gold 5th Grade",
-            "position": "3",
-            "stats": {
-              "wins": "9",
-              "losses": "4",
-              "points": "80",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          },
-          {
-            "teamName": "Mudgeeraba Community Div 2",
-            "position": "4",
-            "stats": {
-              "wins": "9",
-              "losses": "4",
-              "points": "80",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          },
-          {
-            "teamName": "Broadbeach Blue Community Div 2",
-            "position": "5",
-            "stats": {
-              "wins": "9",
-              "losses": "5",
-              "points": "76",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "1"
-            }
-          },
-          {
-            "teamName": "Helensvale Green 5th Grade",
-            "position": "6",
-            "stats": {
-              "wins": "8",
-              "losses": "5",
-              "points": "72",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          },
-          {
-            "teamName": "Queens 5th Grade",
-            "position": "7",
-            "stats": {
-              "wins": "9",
-              "losses": "6",
-              "points": "72",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "0"
-            }
-          },
-          {
-            "teamName": "Burleigh Cricket Club Community Div 2",
-            "position": "8",
-            "stats": {
-              "wins": "9",
-              "losses": "6",
-              "points": "72",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "0"
-            }
-          },
-          {
-            "teamName": "Bonogin Bulls Div 2",
-            "position": "9",
-            "stats": {
-              "wins": "6",
-              "losses": "6",
-              "points": "56",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          },
-          {
-            "teamName": "Tamborine Community Div 2",
-            "position": "10",
-            "stats": {
-              "wins": "6",
-              "losses": "7",
-              "points": "56",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "2"
-            }
-          },
-          {
-            "teamName": "Broadbeach White Community Div 2",
-            "position": "11",
-            "stats": {
-              "wins": "6",
-              "losses": "7",
-              "points": "52",
-              "pointsPlayed": "14",
-              "ties": "0",
-              "noResult": "1"
-            }
-          },
-          {
-            "teamName": "Palm Beach Community Div 2",
-            "position": "12",
-            "stats": {
-              "wins": "5",
-              "losses": "9",
-              "points": "44",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "1"
-            }
-          },
-          {
-            "teamName": "CHICC 5th grade",
-            "position": "13",
-            "stats": {
-              "wins": "3",
-              "losses": "11",
-              "points": "28",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "1"
-            }
-          },
-          {
-            "teamName": "Surfers Paradise 5th Grade",
-            "position": "14",
-            "stats": {
-              "wins": "2",
-              "losses": "12",
-              "points": "20",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "1"
-            }
-          },
-          {
-            "teamName": "Alberton Community Div 2",
-            "position": "15",
-            "stats": {
-              "wins": "0",
-              "losses": "14",
-              "points": "4",
-              "pointsPlayed": "15",
-              "ties": "0",
-              "noResult": "1"
-            }
-          }
-        ]
-      },
-      "assignSponsors": {
-        "competition": [],
-        "grade": [],
-        "team": []
-      }
-    },
-    {
-      "ID": 53297,
-      "gradeName": "(6) CGC Community League - Division 3",
-      "sortOrder": 7,
-      "League": [
-        {
-          "position": "1",
-          "teamName": "CHICC 6th grade",
-          "teamHref": "/cricket-australia/org/coomera-hope-island-cricket-club/e4b49fbd/cricket-gold-coast-senior-competition-summer-202526/teams/chicc-6th-grade/e1c24280",
-          "P": "16",
-          "PTS": "104",
-          "Q": "2.030",
-          "W": "12",
-          "L": "2",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "0",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "CHICC 6th grade",
-            "position": "1",
-            "gradeName": "(6) CGC Community League - Division 3",
-            "stats": {
-              "wins": "12",
-              "losses": "2",
-              "points": "104",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "2"
-            }
-          }
-        },
-        {
-          "position": "2",
-          "teamName": "Palm Beach Community Div 3",
-          "teamHref": "/cricket-australia/org/palm-beach-currumbin-cricket-club-inc/af1d388c/cricket-gold-coast-senior-competition-summer-202526/teams/palm-beach-community-div-3/d363fe55",
-          "P": "16",
-          "PTS": "96",
-          "Q": "1.452",
-          "W": "11",
-          "L": "3",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "0",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Palm Beach Community Div 3",
-            "position": "2",
-            "gradeName": "(6) CGC Community League - Division 3",
-            "stats": {
-              "wins": "11",
-              "losses": "3",
-              "points": "96",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "2"
-            }
-          }
-        },
-        {
-          "position": "3",
-          "teamName": "Surfers Paradise 6th Grade Red",
-          "teamHref": "/cricket-australia/org/surfers-paradise-cricket-club/91aa3470/cricket-gold-coast-senior-competition-summer-202526/teams/surfers-paradise-6th-grade-red/bf5ba854",
-          "P": "16",
-          "PTS": "92",
-          "Q": "1.373",
-          "W": "10",
-          "L": "3",
-          "TIE": "0",
-          "N/R": "3",
-          "BYE": "0",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Surfers Paradise 6th Grade Red",
-            "position": "3",
-            "gradeName": "(6) CGC Community League - Division 3",
-            "stats": {
-              "wins": "10",
-              "losses": "3",
-              "points": "92",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "3"
-            }
-          }
-        },
-        {
-          "position": "4",
-          "teamName": "Broadbeach Community Div 3",
-          "teamHref": "/cricket-australia/org/broadbeach-robina-cricket-club/b6e5d0f3/cricket-gold-coast-senior-competition-summer-202526/teams/broadbeach-community-div-3/fd7ee03e",
-          "P": "16",
-          "PTS": "84",
-          "Q": "0.984",
-          "W": "9",
-          "L": "4",
-          "TIE": "0",
-          "N/R": "3",
-          "BYE": "0",
-          "clubId": 29646,
-          "clubLogo": null,
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_f21335c38b.jpg",
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Broadbeach Community Div 3",
-            "position": "4",
-            "gradeName": "(6) CGC Community League - Division 3",
-            "stats": {
-              "wins": "9",
-              "losses": "4",
-              "points": "84",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "3"
-            }
-          }
-        },
-        {
-          "position": "5",
-          "teamName": "Runaway Bay Orange Community Div 3",
-          "teamHref": "/cricket-australia/org/runaway-bay-cricket-club-inc/5e70931e/cricket-gold-coast-senior-competition-summer-202526/teams/runaway-bay-orange-community-div-3/10296ac4",
-          "P": "16",
-          "PTS": "72",
-          "Q": "1.379",
-          "W": "7",
-          "L": "5",
-          "TIE": "0",
-          "N/R": "4",
-          "BYE": "0",
-          "clubId": 33572,
-          "clubLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_5b81de4f76.jpg",
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Runaway Bay Orange Community Div 3",
-            "position": "5",
-            "gradeName": "(6) CGC Community League - Division 3",
-            "stats": {
-              "wins": "7",
-              "losses": "5",
-              "points": "72",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "4"
-            }
-          }
-        },
-        {
-          "position": "6",
-          "teamName": "Alberton Community Div 3",
-          "teamHref": "/cricket-australia/org/alberton-ormeau-cricket-club/1b01c8ba/cricket-gold-coast-senior-competition-summer-202526/teams/alberton-community-div-3/5a1a69a1",
-          "P": "16",
-          "PTS": "72",
-          "Q": "1.086",
-          "W": "7",
-          "L": "5",
-          "TIE": "0",
-          "N/R": "4",
-          "BYE": "0",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Alberton Community Div 3",
-            "position": "6",
-            "gradeName": "(6) CGC Community League - Division 3",
-            "stats": {
-              "wins": "7",
-              "losses": "5",
-              "points": "72",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "4"
-            }
-          }
-        },
-        {
-          "position": "7",
-          "teamName": "Mudgeeraba Community Div 3",
-          "teamHref": "/cricket-australia/org/mudgeeraba-nerang-and-districts-cricket-club/5eb8ee9a/cricket-gold-coast-senior-competition-summer-202526/teams/mudgeeraba-community-div-3/bd8de077",
-          "P": "16",
-          "PTS": "68",
-          "Q": "0.899",
-          "W": "8",
-          "L": "7",
-          "TIE": "0",
-          "N/R": "1",
-          "BYE": "0",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Mudgeeraba Community Div 3",
-            "position": "7",
-            "gradeName": "(6) CGC Community League - Division 3",
-            "stats": {
-              "wins": "8",
-              "losses": "7",
-              "points": "68",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "1"
-            }
-          }
-        },
-        {
-          "position": "8",
-          "teamName": "Helensvale Gold 6th Grade",
-          "teamHref": "/cricket-australia/org/helensvale-pacific-pines-cricket-club/5c8eb598/cricket-gold-coast-senior-competition-summer-202526/teams/helensvale-gold-6th-grade/e9792383",
-          "P": "16",
-          "PTS": "56",
-          "Q": "0.921",
-          "W": "6",
-          "L": "8",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "0",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Helensvale Gold 6th Grade",
-            "position": "8",
-            "gradeName": "(6) CGC Community League - Division 3",
-            "stats": {
-              "wins": "6",
-              "losses": "8",
-              "points": "56",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "2"
-            }
-          }
-        },
-        {
-          "position": "9",
-          "teamName": "Surfers Paradise 6th Grade Blue",
-          "teamHref": "/cricket-australia/org/surfers-paradise-cricket-club/91aa3470/cricket-gold-coast-senior-competition-summer-202526/teams/surfers-paradise-6th-grade-blue/3258cb0b",
-          "P": "16",
-          "PTS": "40",
-          "Q": "0.775",
-          "W": "4",
-          "L": "10",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "0",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Surfers Paradise 6th Grade Blue",
-            "position": "9",
-            "gradeName": "(6) CGC Community League - Division 3",
-            "stats": {
-              "wins": "4",
-              "losses": "10",
-              "points": "40",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "2"
-            }
-          }
-        },
-        {
-          "position": "10",
-          "teamName": "Helensvale Green 6th Grade",
-          "teamHref": "/cricket-australia/org/helensvale-pacific-pines-cricket-club/5c8eb598/cricket-gold-coast-senior-competition-summer-202526/teams/helensvale-green-6th-grade/3de50047",
-          "P": "16",
-          "PTS": "32",
-          "Q": "0.592",
-          "W": "3",
-          "L": "10",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "0",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Helensvale Green 6th Grade",
-            "position": "10",
-            "gradeName": "(6) CGC Community League - Division 3",
-            "stats": {
-              "wins": "3",
-              "losses": "10",
-              "points": "32",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "2"
-            }
-          }
-        },
-        {
-          "position": "11",
-          "teamName": "Bonogin Bulls Div 3",
-          "teamHref": "/cricket-australia/org/bonogin-valley-bulls-cricket-club/0820bdb7/cricket-gold-coast-senior-competition-summer-202526/teams/bonogin-bulls-div-3/2219d8d4",
-          "P": "16",
-          "PTS": "32",
-          "Q": "0.745",
-          "W": "3",
-          "L": "10",
-          "TIE": "0",
-          "N/R": "2",
-          "BYE": "0",
-          "clubId": 29496,
-          "clubLogo": null,
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_70d301fe36.jpg",
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Bonogin Bulls Div 3",
-            "position": "11",
-            "gradeName": "(6) CGC Community League - Division 3",
-            "stats": {
-              "wins": "3",
-              "losses": "10",
-              "points": "32",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "2"
-            }
-          }
-        },
-        {
-          "position": "12",
-          "teamName": "Southport Labrador Community Div 3",
-          "teamHref": "/cricket-australia/org/southport-labrador-cricket-club/43830d9b/cricket-gold-coast-senior-competition-summer-202526/teams/southport-labrador-community-div-3/b5baaca2",
-          "P": "16",
-          "PTS": "20",
-          "Q": "0.534",
-          "W": "2",
-          "L": "13",
-          "TIE": "0",
-          "N/R": "1",
-          "BYE": "0",
-          "clubId": 33919,
-          "clubLogo": null,
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_1ec159bd66.jpg",
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Southport Labrador Community Div 3",
-            "position": "12",
-            "gradeName": "(6) CGC Community League - Division 3",
-            "stats": {
-              "wins": "2",
-              "losses": "13",
-              "points": "20",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "1"
-            }
-          }
-        }
-      ],
-      "bias": null,
-      "prompt": {
-        "gradeName": "(6) CGC Community League - Division 3",
-        "teams": [
-          {
-            "teamName": "CHICC 6th grade",
-            "position": "1",
-            "stats": {
-              "wins": "12",
-              "losses": "2",
-              "points": "104",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "2"
-            }
-          },
-          {
-            "teamName": "Palm Beach Community Div 3",
-            "position": "2",
-            "stats": {
-              "wins": "11",
-              "losses": "3",
-              "points": "96",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "2"
-            }
-          },
-          {
-            "teamName": "Surfers Paradise 6th Grade Red",
-            "position": "3",
-            "stats": {
-              "wins": "10",
-              "losses": "3",
-              "points": "92",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "3"
-            }
-          },
-          {
-            "teamName": "Broadbeach Community Div 3",
-            "position": "4",
-            "stats": {
-              "wins": "9",
-              "losses": "4",
-              "points": "84",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "3"
-            }
-          },
-          {
-            "teamName": "Runaway Bay Orange Community Div 3",
-            "position": "5",
-            "stats": {
-              "wins": "7",
-              "losses": "5",
-              "points": "72",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "4"
-            }
-          },
-          {
-            "teamName": "Alberton Community Div 3",
-            "position": "6",
-            "stats": {
-              "wins": "7",
-              "losses": "5",
-              "points": "72",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "4"
-            }
-          },
-          {
-            "teamName": "Mudgeeraba Community Div 3",
-            "position": "7",
-            "stats": {
-              "wins": "8",
-              "losses": "7",
-              "points": "68",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "1"
-            }
-          },
-          {
-            "teamName": "Helensvale Gold 6th Grade",
-            "position": "8",
-            "stats": {
-              "wins": "6",
-              "losses": "8",
-              "points": "56",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "2"
-            }
-          },
-          {
-            "teamName": "Surfers Paradise 6th Grade Blue",
-            "position": "9",
-            "stats": {
-              "wins": "4",
-              "losses": "10",
-              "points": "40",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "2"
-            }
-          },
-          {
-            "teamName": "Helensvale Green 6th Grade",
-            "position": "10",
-            "stats": {
-              "wins": "3",
-              "losses": "10",
-              "points": "32",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "2"
-            }
-          },
-          {
-            "teamName": "Bonogin Bulls Div 3",
-            "position": "11",
-            "stats": {
-              "wins": "3",
-              "losses": "10",
-              "points": "32",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "2"
-            }
-          },
-          {
-            "teamName": "Southport Labrador Community Div 3",
-            "position": "12",
-            "stats": {
-              "wins": "2",
-              "losses": "13",
-              "points": "20",
-              "pointsPlayed": "16",
-              "ties": "0",
-              "noResult": "1"
-            }
-          }
-        ]
-      },
-      "assignSponsors": {
-        "competition": [],
-        "grade": [],
-        "team": []
-      }
-    },
-    {
-      "ID": 57737,
-      "gradeName": "Senior Women Div 3",
-      "sortOrder": 12,
-      "League": [
-        {
-          "position": "1",
-          "teamName": "Helensvale Purple Women",
-          "teamHref": "/cricket-australia/org/helensvale-pacific-pines-cricket-club/5c8eb598/womens-social-competition-summer-202526/teams/helensvale-purple-women/d004d75a",
+          "teamName": "New Zealand",
+          "teamHref": "",
           "P": "7",
-          "PTS": "36",
-          "Q": "1.714",
-          "W": "4",
-          "L": "2",
-          "TIE": "0",
-          "N/R": "1",
-          "BYE": "0",
-          "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
-          "clubName": null,
-          "teamLogo": null,
-          "prompt": {
-            "teamName": "Helensvale Purple Women",
-            "position": "1",
-            "gradeName": "Senior Women Div 3",
-            "stats": {
-              "wins": "4",
-              "losses": "2",
-              "points": "36",
-              "pointsPlayed": "7",
-              "ties": "0",
-              "noResult": "1"
-            }
-          }
-        },
-        {
-          "position": "2",
-          "teamName": "Loganholme Queen Cobras",
-          "teamHref": "/cricket-australia/org/loganholme-cricket-club/99ab2cc0/womens-social-competition-summer-202526/teams/loganholme-queen-cobras/98e4a75c",
-          "P": "6",
-          "PTS": "36",
-          "Q": "1.121",
-          "W": "4",
+          "PTS": "11",
+          "Q": "1.396",
+          "W": "5",
           "L": "1",
           "TIE": "0",
           "N/R": "1",
           "BYE": "0",
-          "clubId": 32044,
-          "clubLogo": null,
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_24fc0193ba.jpg",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/nz.svg",
+          "playHQLogo": "/dummyAssetData/flags/nz.svg",
           "clubName": null,
           "teamLogo": null,
           "prompt": {
-            "teamName": "Loganholme Queen Cobras",
+            "teamName": "New Zealand",
+            "position": "1",
+            "gradeName": "2007 World Cup — Super Eight",
+            "stats": {
+              "wins": "5",
+              "losses": "1",
+              "points": "11",
+              "pointsPlayed": "7",
+              "ties": "0",
+              "noResult": "1"
+            }
+          }
+        },
+        {
+          "position": "2",
+          "teamName": "West Indies",
+          "teamHref": "",
+          "P": "7",
+          "PTS": "10",
+          "Q": "1.025",
+          "W": "4",
+          "L": "1",
+          "TIE": "1",
+          "N/R": "1",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/wi.svg",
+          "playHQLogo": "/dummyAssetData/flags/wi.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "West Indies",
             "position": "2",
-            "gradeName": "Senior Women Div 3",
+            "gradeName": "2007 World Cup — Super Eight",
             "stats": {
               "wins": "4",
               "losses": "1",
-              "points": "36",
-              "pointsPlayed": "6",
-              "ties": "0",
+              "points": "10",
+              "pointsPlayed": "7",
+              "ties": "1",
               "noResult": "1"
             }
           }
         },
         {
           "position": "3",
-          "teamName": "Surfers Paradise Women Blue",
-          "teamHref": "/cricket-australia/org/surfers-paradise-cricket-club/91aa3470/womens-social-competition-summer-202526/teams/surfers-paradise-women-blue/3cb7d29d",
+          "teamName": "Sri Lanka",
+          "teamHref": "",
           "P": "7",
-          "PTS": "36",
-          "Q": "0.894",
+          "PTS": "10",
+          "Q": "0.667",
           "W": "4",
-          "L": "2",
-          "TIE": "0",
+          "L": "1",
+          "TIE": "1",
           "N/R": "1",
           "BYE": "0",
           "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
+          "clubLogo": "/dummyAssetData/flags/lk.svg",
+          "playHQLogo": "/dummyAssetData/flags/lk.svg",
           "clubName": null,
           "teamLogo": null,
           "prompt": {
-            "teamName": "Surfers Paradise Women Blue",
+            "teamName": "Sri Lanka",
             "position": "3",
-            "gradeName": "Senior Women Div 3",
+            "gradeName": "2007 World Cup — Super Eight",
             "stats": {
               "wins": "4",
-              "losses": "2",
-              "points": "36",
+              "losses": "1",
+              "points": "10",
               "pointsPlayed": "7",
-              "ties": "0",
+              "ties": "1",
               "noResult": "1"
             }
           }
         },
         {
           "position": "4",
-          "teamName": "Broadbeach Div 3 Women",
-          "teamHref": "/cricket-australia/org/broadbeach-robina-cricket-club/b6e5d0f3/womens-social-competition-summer-202526/teams/broadbeach-div-3-women/83d3b36b",
+          "teamName": "Australia",
+          "teamHref": "",
           "P": "7",
-          "PTS": "28",
-          "Q": "0.973",
-          "W": "3",
-          "L": "3",
-          "TIE": "0",
-          "N/R": "1",
+          "PTS": "9",
+          "Q": "0.342",
+          "W": "4",
+          "L": "2",
+          "TIE": "1",
+          "N/R": "0",
           "BYE": "0",
           "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
+          "clubLogo": "/dummyAssetData/flags/au.svg",
+          "playHQLogo": "/dummyAssetData/flags/au.svg",
           "clubName": null,
           "teamLogo": null,
           "prompt": {
-            "teamName": "Broadbeach Div 3 Women",
+            "teamName": "Australia",
             "position": "4",
-            "gradeName": "Senior Women Div 3",
+            "gradeName": "2007 World Cup — Super Eight",
             "stats": {
-              "wins": "3",
-              "losses": "3",
-              "points": "28",
+              "wins": "4",
+              "losses": "2",
+              "points": "9",
               "pointsPlayed": "7",
-              "ties": "0",
-              "noResult": "1"
+              "ties": "1",
+              "noResult": "0"
             }
           }
         },
         {
           "position": "5",
-          "teamName": "Coomera Div 3 Women",
-          "teamHref": "/cricket-australia/org/coomera-hope-island-cricket-club/e4b49fbd/womens-social-competition-summer-202526/teams/coomera-div-3-women/1ead0276",
+          "teamName": "South Africa",
+          "teamHref": "",
           "P": "7",
-          "PTS": "28",
-          "Q": "0.750",
-          "W": "3",
-          "L": "3",
+          "PTS": "9",
+          "Q": "-0.030",
+          "W": "4",
+          "L": "2",
           "TIE": "0",
           "N/R": "1",
           "BYE": "0",
           "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
+          "clubLogo": "/dummyAssetData/flags/za.svg",
+          "playHQLogo": "/dummyAssetData/flags/za.svg",
           "clubName": null,
           "teamLogo": null,
           "prompt": {
-            "teamName": "Coomera Div 3 Women",
+            "teamName": "South Africa",
             "position": "5",
-            "gradeName": "Senior Women Div 3",
+            "gradeName": "2007 World Cup — Super Eight",
             "stats": {
-              "wins": "3",
-              "losses": "3",
-              "points": "28",
+              "wins": "4",
+              "losses": "2",
+              "points": "9",
               "pointsPlayed": "7",
               "ties": "0",
               "noResult": "1"
@@ -3943,60 +1266,60 @@
         },
         {
           "position": "6",
-          "teamName": "Runaway Bay Pink Women",
-          "teamHref": "/cricket-australia/org/runaway-bay-cricket-club-inc/5e70931e/womens-social-competition-summer-202526/teams/runaway-bay-pink-women/4b739016",
+          "teamName": "England",
+          "teamHref": "",
           "P": "7",
-          "PTS": "28",
-          "Q": "0.750",
-          "W": "3",
-          "L": "3",
+          "PTS": "4",
+          "Q": "-0.410",
+          "W": "2",
+          "L": "5",
           "TIE": "0",
-          "N/R": "1",
+          "N/R": "0",
           "BYE": "0",
-          "clubId": 33572,
-          "clubLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
-          "playHQLogo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/logo_5b81de4f76.jpg",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/gb-eng.svg",
+          "playHQLogo": "/dummyAssetData/flags/gb-eng.svg",
           "clubName": null,
           "teamLogo": null,
           "prompt": {
-            "teamName": "Runaway Bay Pink Women",
+            "teamName": "England",
             "position": "6",
-            "gradeName": "Senior Women Div 3",
+            "gradeName": "2007 World Cup — Super Eight",
             "stats": {
-              "wins": "3",
-              "losses": "3",
-              "points": "28",
+              "wins": "2",
+              "losses": "5",
+              "points": "4",
               "pointsPlayed": "7",
               "ties": "0",
-              "noResult": "1"
+              "noResult": "0"
             }
           }
         },
         {
           "position": "7",
-          "teamName": "Queens Women Div 3",
-          "teamHref": "/cricket-australia/org/queens-cricket-club/1550d335/womens-social-competition-summer-202526/teams/queens-women-div-3/bcb1867c",
+          "teamName": "Bangladesh",
+          "teamHref": "",
           "P": "7",
-          "PTS": "12",
-          "Q": "0.444",
+          "PTS": "3",
+          "Q": "-0.780",
           "W": "1",
           "L": "5",
           "TIE": "0",
           "N/R": "1",
           "BYE": "0",
           "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
+          "clubLogo": "/dummyAssetData/flags/bd.svg",
+          "playHQLogo": "/dummyAssetData/flags/bd.svg",
           "clubName": null,
           "teamLogo": null,
           "prompt": {
-            "teamName": "Queens Women Div 3",
+            "teamName": "Bangladesh",
             "position": "7",
-            "gradeName": "Senior Women Div 3",
+            "gradeName": "2007 World Cup — Super Eight",
             "stats": {
               "wins": "1",
               "losses": "5",
-              "points": "12",
+              "points": "3",
               "pointsPlayed": "7",
               "ties": "0",
               "noResult": "1"
@@ -4005,134 +1328,876 @@
         },
         {
           "position": "8",
-          "teamName": "Mudgee Women",
-          "teamHref": "/cricket-australia/org/mudgeeraba-nerang-and-districts-cricket-club/5eb8ee9a/womens-social-competition-summer-202526/teams/mudgee-women/9b8ea06f",
+          "teamName": "Ireland",
+          "teamHref": "",
           "P": "7",
-          "PTS": "4",
-          "Q": "0.595",
+          "PTS": "0",
+          "Q": "-1.148",
           "W": "0",
-          "L": "6",
+          "L": "7",
           "TIE": "0",
-          "N/R": "1",
+          "N/R": "0",
           "BYE": "0",
           "clubId": null,
-          "clubLogo": null,
-          "playHQLogo": null,
+          "clubLogo": "/dummyAssetData/flags/ie.svg",
+          "playHQLogo": "/dummyAssetData/flags/ie.svg",
           "clubName": null,
           "teamLogo": null,
           "prompt": {
-            "teamName": "Mudgee Women",
+            "teamName": "Ireland",
             "position": "8",
-            "gradeName": "Senior Women Div 3",
+            "gradeName": "2007 World Cup — Super Eight",
             "stats": {
               "wins": "0",
-              "losses": "6",
-              "points": "4",
+              "losses": "7",
+              "points": "0",
               "pointsPlayed": "7",
               "ties": "0",
-              "noResult": "1"
+              "noResult": "0"
             }
           }
         }
       ],
       "bias": null,
       "prompt": {
-        "gradeName": "Senior Women Div 3",
+        "gradeName": "2007 World Cup — Super Eight",
         "teams": [
           {
-            "teamName": "Helensvale Purple Women",
+            "teamName": "New Zealand",
             "position": "1",
             "stats": {
-              "wins": "4",
-              "losses": "2",
-              "points": "36",
+              "wins": "5",
+              "losses": "1",
+              "points": "11",
               "pointsPlayed": "7",
               "ties": "0",
               "noResult": "1"
             }
           },
           {
-            "teamName": "Loganholme Queen Cobras",
+            "teamName": "West Indies",
             "position": "2",
             "stats": {
               "wins": "4",
               "losses": "1",
-              "points": "36",
-              "pointsPlayed": "6",
-              "ties": "0",
+              "points": "10",
+              "pointsPlayed": "7",
+              "ties": "1",
               "noResult": "1"
             }
           },
           {
-            "teamName": "Surfers Paradise Women Blue",
+            "teamName": "Sri Lanka",
             "position": "3",
             "stats": {
               "wins": "4",
-              "losses": "2",
-              "points": "36",
+              "losses": "1",
+              "points": "10",
               "pointsPlayed": "7",
-              "ties": "0",
+              "ties": "1",
               "noResult": "1"
             }
           },
           {
-            "teamName": "Broadbeach Div 3 Women",
+            "teamName": "Australia",
             "position": "4",
             "stats": {
-              "wins": "3",
-              "losses": "3",
-              "points": "28",
+              "wins": "4",
+              "losses": "2",
+              "points": "9",
               "pointsPlayed": "7",
-              "ties": "0",
-              "noResult": "1"
+              "ties": "1",
+              "noResult": "0"
             }
           },
           {
-            "teamName": "Coomera Div 3 Women",
+            "teamName": "South Africa",
             "position": "5",
             "stats": {
-              "wins": "3",
-              "losses": "3",
-              "points": "28",
+              "wins": "4",
+              "losses": "2",
+              "points": "9",
               "pointsPlayed": "7",
               "ties": "0",
               "noResult": "1"
             }
           },
           {
-            "teamName": "Runaway Bay Pink Women",
+            "teamName": "England",
             "position": "6",
             "stats": {
-              "wins": "3",
-              "losses": "3",
-              "points": "28",
+              "wins": "2",
+              "losses": "5",
+              "points": "4",
               "pointsPlayed": "7",
               "ties": "0",
-              "noResult": "1"
+              "noResult": "0"
             }
           },
           {
-            "teamName": "Queens Women Div 3",
+            "teamName": "Bangladesh",
             "position": "7",
             "stats": {
               "wins": "1",
               "losses": "5",
-              "points": "12",
+              "points": "3",
               "pointsPlayed": "7",
               "ties": "0",
               "noResult": "1"
             }
           },
           {
-            "teamName": "Mudgee Women",
+            "teamName": "Ireland",
             "position": "8",
             "stats": {
               "wins": "0",
-              "losses": "6",
-              "points": "4",
+              "losses": "7",
+              "points": "0",
               "pointsPlayed": "7",
               "ties": "0",
+              "noResult": "0"
+            }
+          }
+        ]
+      },
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      }
+    },
+    {
+      "ID": 0,
+      "gradeName": "2017 Champions Trophy — Group A",
+      "sortOrder": 6,
+      "League": [
+        {
+          "position": "1",
+          "teamName": "Australia",
+          "teamHref": "",
+          "P": "3",
+          "PTS": "5",
+          "Q": "1.399",
+          "W": "2",
+          "L": "0",
+          "TIE": "1",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/au.svg",
+          "playHQLogo": "/dummyAssetData/flags/au.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Australia",
+            "position": "1",
+            "gradeName": "2017 Champions Trophy — Group A",
+            "stats": {
+              "wins": "2",
+              "losses": "0",
+              "points": "5",
+              "pointsPlayed": "3",
+              "ties": "1",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "2",
+          "teamName": "England",
+          "teamHref": "",
+          "P": "3",
+          "PTS": "2",
+          "Q": "0.574",
+          "W": "1",
+          "L": "2",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/gb-eng.svg",
+          "playHQLogo": "/dummyAssetData/flags/gb-eng.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "England",
+            "position": "2",
+            "gradeName": "2017 Champions Trophy — Group A",
+            "stats": {
+              "wins": "1",
+              "losses": "2",
+              "points": "2",
+              "pointsPlayed": "3",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "3",
+          "teamName": "Bangladesh",
+          "teamHref": "",
+          "P": "3",
+          "PTS": "2",
+          "Q": "-0.293",
+          "W": "1",
+          "L": "2",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/bd.svg",
+          "playHQLogo": "/dummyAssetData/flags/bd.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Bangladesh",
+            "position": "3",
+            "gradeName": "2017 Champions Trophy — Group A",
+            "stats": {
+              "wins": "1",
+              "losses": "2",
+              "points": "2",
+              "pointsPlayed": "3",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "4",
+          "teamName": "New Zealand",
+          "teamHref": "",
+          "P": "3",
+          "PTS": "2",
+          "Q": "-1.149",
+          "W": "1",
+          "L": "2",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/nz.svg",
+          "playHQLogo": "/dummyAssetData/flags/nz.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "New Zealand",
+            "position": "4",
+            "gradeName": "2017 Champions Trophy — Group A",
+            "stats": {
+              "wins": "1",
+              "losses": "2",
+              "points": "2",
+              "pointsPlayed": "3",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        }
+      ],
+      "bias": null,
+      "prompt": {
+        "gradeName": "2017 Champions Trophy — Group A",
+        "teams": [
+          {
+            "teamName": "Australia",
+            "position": "1",
+            "stats": {
+              "wins": "2",
+              "losses": "0",
+              "points": "5",
+              "pointsPlayed": "3",
+              "ties": "1",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "England",
+            "position": "2",
+            "stats": {
+              "wins": "1",
+              "losses": "2",
+              "points": "2",
+              "pointsPlayed": "3",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "Bangladesh",
+            "position": "3",
+            "stats": {
+              "wins": "1",
+              "losses": "2",
+              "points": "2",
+              "pointsPlayed": "3",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "New Zealand",
+            "position": "4",
+            "stats": {
+              "wins": "1",
+              "losses": "2",
+              "points": "2",
+              "pointsPlayed": "3",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        ]
+      },
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      }
+    },
+    {
+      "ID": 0,
+      "gradeName": "2022 T20 World Cup — Super 12 Group 1",
+      "sortOrder": 7,
+      "League": [
+        {
+          "position": "1",
+          "teamName": "Australia",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "9",
+          "Q": "1.384",
+          "W": "4",
+          "L": "0",
+          "TIE": "1",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/au.svg",
+          "playHQLogo": "/dummyAssetData/flags/au.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Australia",
+            "position": "1",
+            "gradeName": "2022 T20 World Cup — Super 12 Group 1",
+            "stats": {
+              "wins": "4",
+              "losses": "0",
+              "points": "9",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "2",
+          "teamName": "Sri Lanka",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "9",
+          "Q": "0.873",
+          "W": "4",
+          "L": "0",
+          "TIE": "0",
+          "N/R": "1",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/lk.svg",
+          "playHQLogo": "/dummyAssetData/flags/lk.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Sri Lanka",
+            "position": "2",
+            "gradeName": "2022 T20 World Cup — Super 12 Group 1",
+            "stats": {
+              "wins": "4",
+              "losses": "0",
+              "points": "9",
+              "pointsPlayed": "5",
+              "ties": "0",
               "noResult": "1"
+            }
+          }
+        },
+        {
+          "position": "3",
+          "teamName": "New Zealand",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "7",
+          "Q": "0.399",
+          "W": "3",
+          "L": "1",
+          "TIE": "1",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/nz.svg",
+          "playHQLogo": "/dummyAssetData/flags/nz.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "New Zealand",
+            "position": "3",
+            "gradeName": "2022 T20 World Cup — Super 12 Group 1",
+            "stats": {
+              "wins": "3",
+              "losses": "1",
+              "points": "7",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "4",
+          "teamName": "England",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "7",
+          "Q": "-0.107",
+          "W": "3",
+          "L": "1",
+          "TIE": "0",
+          "N/R": "1",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/gb-eng.svg",
+          "playHQLogo": "/dummyAssetData/flags/gb-eng.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "England",
+            "position": "4",
+            "gradeName": "2022 T20 World Cup — Super 12 Group 1",
+            "stats": {
+              "wins": "3",
+              "losses": "1",
+              "points": "7",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "1"
+            }
+          }
+        },
+        {
+          "position": "5",
+          "teamName": "Afghanistan",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "4",
+          "Q": "-0.630",
+          "W": "2",
+          "L": "3",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/af.svg",
+          "playHQLogo": "/dummyAssetData/flags/af.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Afghanistan",
+            "position": "5",
+            "gradeName": "2022 T20 World Cup — Super 12 Group 1",
+            "stats": {
+              "wins": "2",
+              "losses": "3",
+              "points": "4",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "6",
+          "teamName": "Ireland",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "2",
+          "Q": "-1.125",
+          "W": "1",
+          "L": "4",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/ie.svg",
+          "playHQLogo": "/dummyAssetData/flags/ie.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Ireland",
+            "position": "6",
+            "gradeName": "2022 T20 World Cup — Super 12 Group 1",
+            "stats": {
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        }
+      ],
+      "bias": null,
+      "prompt": {
+        "gradeName": "2022 T20 World Cup — Super 12 Group 1",
+        "teams": [
+          {
+            "teamName": "Australia",
+            "position": "1",
+            "stats": {
+              "wins": "4",
+              "losses": "0",
+              "points": "9",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "Sri Lanka",
+            "position": "2",
+            "stats": {
+              "wins": "4",
+              "losses": "0",
+              "points": "9",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "1"
+            }
+          },
+          {
+            "teamName": "New Zealand",
+            "position": "3",
+            "stats": {
+              "wins": "3",
+              "losses": "1",
+              "points": "7",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "England",
+            "position": "4",
+            "stats": {
+              "wins": "3",
+              "losses": "1",
+              "points": "7",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "1"
+            }
+          },
+          {
+            "teamName": "Afghanistan",
+            "position": "5",
+            "stats": {
+              "wins": "2",
+              "losses": "3",
+              "points": "4",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "Ireland",
+            "position": "6",
+            "stats": {
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        ]
+      },
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      }
+    },
+    {
+      "ID": 0,
+      "gradeName": "2022 T20 World Cup — Super 12 Group 2",
+      "sortOrder": 8,
+      "League": [
+        {
+          "position": "1",
+          "teamName": "India",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "9",
+          "Q": "1.404",
+          "W": "4",
+          "L": "0",
+          "TIE": "0",
+          "N/R": "1",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/in.svg",
+          "playHQLogo": "/dummyAssetData/flags/in.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "India",
+            "position": "1",
+            "gradeName": "2022 T20 World Cup — Super 12 Group 2",
+            "stats": {
+              "wins": "4",
+              "losses": "0",
+              "points": "9",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "1"
+            }
+          }
+        },
+        {
+          "position": "2",
+          "teamName": "Pakistan",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "8",
+          "Q": "0.895",
+          "W": "4",
+          "L": "1",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/pk.svg",
+          "playHQLogo": "/dummyAssetData/flags/pk.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Pakistan",
+            "position": "2",
+            "gradeName": "2022 T20 World Cup — Super 12 Group 2",
+            "stats": {
+              "wins": "4",
+              "losses": "1",
+              "points": "8",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "3",
+          "teamName": "Netherlands",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "4",
+          "Q": "0.366",
+          "W": "2",
+          "L": "3",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/nl.svg",
+          "playHQLogo": "/dummyAssetData/flags/nl.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Netherlands",
+            "position": "3",
+            "gradeName": "2022 T20 World Cup — Super 12 Group 2",
+            "stats": {
+              "wins": "2",
+              "losses": "3",
+              "points": "4",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "4",
+          "teamName": "South Africa",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "2",
+          "Q": "-0.101",
+          "W": "1",
+          "L": "4",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/za.svg",
+          "playHQLogo": "/dummyAssetData/flags/za.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "South Africa",
+            "position": "4",
+            "gradeName": "2022 T20 World Cup — Super 12 Group 2",
+            "stats": {
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "5",
+          "teamName": "Bangladesh",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "2",
+          "Q": "-0.627",
+          "W": "1",
+          "L": "4",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/bd.svg",
+          "playHQLogo": "/dummyAssetData/flags/bd.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Bangladesh",
+            "position": "5",
+            "gradeName": "2022 T20 World Cup — Super 12 Group 2",
+            "stats": {
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "6",
+          "teamName": "Zimbabwe",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "2",
+          "Q": "-1.131",
+          "W": "1",
+          "L": "4",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/zw.svg",
+          "playHQLogo": "/dummyAssetData/flags/zw.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Zimbabwe",
+            "position": "6",
+            "gradeName": "2022 T20 World Cup — Super 12 Group 2",
+            "stats": {
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        }
+      ],
+      "bias": null,
+      "prompt": {
+        "gradeName": "2022 T20 World Cup — Super 12 Group 2",
+        "teams": [
+          {
+            "teamName": "India",
+            "position": "1",
+            "stats": {
+              "wins": "4",
+              "losses": "0",
+              "points": "9",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "1"
+            }
+          },
+          {
+            "teamName": "Pakistan",
+            "position": "2",
+            "stats": {
+              "wins": "4",
+              "losses": "1",
+              "points": "8",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "Netherlands",
+            "position": "3",
+            "stats": {
+              "wins": "2",
+              "losses": "3",
+              "points": "4",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "South Africa",
+            "position": "4",
+            "stats": {
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "Bangladesh",
+            "position": "5",
+            "stats": {
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "Zimbabwe",
+            "position": "6",
+            "stats": {
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
             }
           }
         ]
@@ -4145,17 +2210,17 @@
     }
   ],
   "asset": {
-    "assetID": 12,
-    "assetTypeID": 3,
-    "assetCategoryID": 1,
-    "assetsLinkID": "05763f1db907a775e5af9d46dec676bb241639296872de01d0e7b8f07d03a553"
+    "assetID": 0,
+    "assetTypeID": 0,
+    "assetCategoryID": 0,
+    "assetsLinkID": 0
   },
   "render": {
-    "schedulerId": 317,
-    "renderId": 8725
+    "schedulerId": 0,
+    "renderId": 0
   },
   "account": {
-    "accountId": 430
+    "accountId": 0
   },
   "timings": {
     "FPS_MAIN": 2295,
@@ -4169,18 +2234,18 @@
   "videoMeta": {
     "club": {
       "logo": {
-        "hasLogo": true,
-        "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Untitled_design_5_b0cd1ca58c_fbae2b39a8.png",
+        "hasLogo": false,
+        "url": "",
         "width": 500,
         "height": 500
       },
-      "name": "Runaway Bay Cricket Club Inc",
+      "name": "International Cricket Demo Preview",
       "sport": "Cricket",
       "sponsors": {
         "primary": [],
         "default": {}
       },
-      "IsAccountClub": true
+      "IsAccountClub": false
     },
     "video": {
       "fixtureCategory": "SENIOR",
@@ -4206,7 +2271,7 @@
       },
       "media": {
         "HeroImage": {
-          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/gettyimages_913653610_2048x2048_2160b068ff.jpg",
+          "url": "",
           "ratio": "landscape",
           "width": 2048,
           "height": 1299,
@@ -4215,7 +2280,7 @@
           "markerPosition": null
         },
         "audio": {
-          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Marscott_Wild_Neon_Get_The_Gains_inst_3251aaa9af.mp3",
+          "url": "",
           "audioOption": null
         }
       },
@@ -4259,7 +2324,7 @@
                 "createdAt": "2023-09-27T10:34:46.702Z",
                 "updatedAt": "2025-06-15T04:53:45.558Z",
                 "publishedAt": "2023-09-27T10:34:48.455Z",
-                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Kidpenny_Single_Better_Start_Now_Inst_53b898d9ef.mp3",
+                "URL": "",
                 "CompositionID": "CricketLadder",
                 "ComponentName": "CricketLadder"
               },
@@ -4269,7 +2334,7 @@
                 "createdAt": "2022-12-20T01:59:28.337Z",
                 "updatedAt": "2025-06-15T04:53:11.194Z",
                 "publishedAt": "2022-12-20T01:59:29.080Z",
-                "URL": "https://lmssocialmediamanager.s3.ap-southeast-2.amazonaws.com/assets/Fifteen%20on%20Me.mp3",
+                "URL": "",
                 "CompositionID": "CricketUpcoming",
                 "ComponentName": "CricketUpcoming"
               },
@@ -4279,7 +2344,7 @@
                 "createdAt": "2023-09-27T10:35:01.053Z",
                 "updatedAt": "2025-06-15T04:53:59.493Z",
                 "publishedAt": "2023-09-27T10:35:29.163Z",
-                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_Marscott_Wild_Neon_Get_The_Gains_inst_3251aaa9af.mp3",
+                "URL": "",
                 "CompositionID": "CricketTop5Bowling",
                 "ComponentName": "CricketTop5Bowling"
               },
@@ -4289,7 +2354,7 @@
                 "createdAt": "2022-12-20T01:59:34.014Z",
                 "updatedAt": "2025-06-15T04:53:28.656Z",
                 "publishedAt": "2022-12-20T01:59:34.670Z",
-                "URL": "https://lmssocialmediamanager.s3.ap-southeast-2.amazonaws.com/assets/TournamentTitleMusic_v2.mp3",
+                "URL": "",
                 "CompositionID": "CricketTop5Batting",
                 "ComponentName": "CricketTop5Batting"
               },
@@ -4299,7 +2364,7 @@
                 "createdAt": "2022-12-12T05:19:56.353Z",
                 "updatedAt": "2025-06-15T04:50:50.079Z",
                 "publishedAt": "2022-12-12T05:19:57.408Z",
-                "URL": "https://lmssocialmediamanager.s3.ap-southeast-2.amazonaws.com/assets/Saltine_1.mp3",
+                "URL": "",
                 "CompositionID": "CricketResults",
                 "ComponentName": "CricketResults"
               },
@@ -4309,7 +2374,7 @@
                 "createdAt": "2024-06-05T04:31:26.640Z",
                 "updatedAt": "2026-01-05T09:04:09.788Z",
                 "publishedAt": "2024-06-07T12:45:32.118Z",
-                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_BEECH_LOVE_Pieces_Inst_0b547f2b20.mp3",
+                "URL": "",
                 "CompositionID": "CricketUpcoming",
                 "ComponentName": "CricketUpcoming"
               },
@@ -4319,7 +2384,7 @@
                 "createdAt": "2024-06-05T04:33:33.970Z",
                 "updatedAt": "2024-06-07T12:48:03.161Z",
                 "publishedAt": "2024-06-07T12:47:53.394Z",
-                "URL": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Audiio_FAYV_Single_Encore_INST_d7b21f5451.mp3",
+                "URL": "",
                 "CompositionID": "WeekendResultsAFL",
                 "ComponentName": "Weekend Results"
               }
@@ -4378,7 +2443,7 @@
         },
         "texture": {
           "name": "Print Texture",
-          "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Geometric_Halftone_Print_Texture_cb888287e4.png",
+          "url": "",
           "repeat": "cover",
           "scale": "100%",
           "overlay": {

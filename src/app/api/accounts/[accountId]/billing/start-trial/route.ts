@@ -52,7 +52,11 @@ export async function POST(_request: Request, context: RouteContext) {
 
     const payload = await jsonFromStrapiResponse(strapiRes);
     if (!strapiRes.ok && typeof payload === "object" && payload !== null && "error" in payload) {
-      return NextResponse.json(payload as Record<string, unknown>, { status: strapiRes.status });
+      const retryAfter = strapiRes.headers.get("Retry-After");
+      return NextResponse.json(payload as Record<string, unknown>, {
+        status: strapiRes.status,
+        ...(retryAfter ? { headers: { "Retry-After": retryAfter } } : {}),
+      });
     }
 
     return nextResponseFromStrapi(strapiRes, payload);

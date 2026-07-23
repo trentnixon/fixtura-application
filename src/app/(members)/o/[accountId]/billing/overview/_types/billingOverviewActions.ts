@@ -7,4 +7,5 @@ export type BillingOverviewActionsProps = {
   billingSummary: AccountBillingSummaryV1;
   trialDetailsTrigger: ReturnType<typeof billingTrialDetailsTriggerState>;
   createHref: string;
+  organisationTrialNoticePresentation?: "active_on_another_account" | null;
 };

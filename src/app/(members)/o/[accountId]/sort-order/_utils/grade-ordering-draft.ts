@@ -55,6 +55,7 @@ export function equalDraft(a: GradeOrderingDraft, b: GradeOrderingDraft): boolea
   for (let i = 0; i < a.groups.length; i += 1) {
     const ga = a.groups[i];
     const gb = b.groups[i];
+    if (!ga || !gb) return false;
     if (ga.groupType !== gb.groupType || ga.groupKey !== gb.groupKey) return false;
     if (ga.itemIds.length !== gb.itemIds.length) return false;
     for (let j = 0; j < ga.itemIds.length; j += 1) {

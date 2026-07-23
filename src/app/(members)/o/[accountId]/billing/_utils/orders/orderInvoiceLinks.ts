@@ -38,17 +38,13 @@ export function extractInvoiceLinksFromHistoryOrder(
 }
 
 /**
- * Stripe-backed orders may expose hosted invoice / PDF URLs on the history row or billing summary active order.
- * Non-Stripe invoice flows are intentionally omitted until CMS exposes a stable contract per order.
+ * Hosted invoice / PDF URLs on the history row or billing summary active order.
+ * Supports Stripe and manual invoice-channel orders when CMS exposes URLs per order.
  */
 export function resolveHistoryOrderInvoiceLinks(
   order: AccountBillingOrderHistoryDto,
   activeOrder: AccountBillingOrderDto | null,
 ): OrderInvoiceLinks {
-  if (!isStripePaymentChannel(order.paymentChannel)) {
-    return { hostedInvoiceUrl: null, invoicePdfUrl: null };
-  }
-
   const fromRow = extractInvoiceLinksFromHistoryOrder(order);
   if (fromRow.hostedInvoiceUrl || fromRow.invoicePdfUrl) {
     return fromRow;
@@ -61,12 +57,12 @@ export function resolveHistoryOrderInvoiceLinks(
   return { hostedInvoiceUrl: null, invoicePdfUrl: null };
 }
 
-/** Invoice links for the paid-active status card (summary first, then matching/active Stripe history row). */
+/** Invoice links for the paid-active status card (summary first, then matching/active history row). */
 export function resolvePaidActiveInvoiceLinks(
   activeOrder: AccountBillingOrderDto | null,
   orders: AccountBillingOrderHistoryDto[] | null | undefined,
 ): OrderInvoiceLinks {
-  if (activeOrder && isStripePaymentChannel(activeOrder.payment_channel)) {
+  if (activeOrder) {
     const fromSummary = extractInvoiceLinksFromSummaryOrder(activeOrder);
     if (fromSummary.hostedInvoiceUrl || fromSummary.invoicePdfUrl) {
       return fromSummary;
@@ -78,7 +74,7 @@ export function resolvePaidActiveInvoiceLinks(
     (activeOrder
       ? list.find((row) => historyRowMatchesSummaryActiveOrder(row, activeOrder))
       : null) ??
-    list.find((row) => row.isActive && isStripePaymentChannel(row.paymentChannel)) ??
+    list.find((row) => row.isActive) ??
     null;
 
   if (highlighted) {

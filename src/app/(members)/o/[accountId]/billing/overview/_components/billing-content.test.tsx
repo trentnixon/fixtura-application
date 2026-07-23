@@ -3,6 +3,7 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { BillingContent } from "./BillingContent";
 
+import type { OrganisationTrialPresentation } from "../../_types/trial/organisationTrialPresentation";
 import type { BillingOverviewState } from "../_hooks/useBillingOverviewContentState";
 import type { AccountBillingSummaryV1 } from "@/types/api/account";
 
@@ -16,6 +17,18 @@ vi.mock("../../trial/billing-trial-start-card", () => ({
   BillingTrialStartCard: ({ accountId }: { accountId: string }) => (
     <div data-testid="billing-trial-start-card">trial-{accountId}</div>
   ),
+}));
+
+vi.mock("../../trial/billing-trial-used-card", () => ({
+  BillingTrialUsedCard: () => <div data-testid="billing-trial-used-card" />,
+}));
+
+vi.mock("../../season-pass/billing-create-season-pass-card", () => ({
+  BillingCreateSeasonPassCard: () => <div data-testid="billing-create-season-pass-card" />,
+}));
+
+vi.mock("../../_components/banners/BillingPaymentPendingBanner", () => ({
+  BillingPaymentPendingBanner: () => <div data-testid="billing-payment-pending-banner" />,
 }));
 
 vi.mock("../../_components/overview/BillingSections", () => ({
@@ -35,12 +48,44 @@ function mockHook(state: BillingOverviewState, refetchBilling: ReturnType<typeof
   return refetchBilling;
 }
 
-const minimalSummary = {
+const minimalSummary: AccountBillingSummaryV1 = {
   billingStatus: "trial_available",
   accessStatus: "pending",
-  trial: { eligible: true, isActive: false },
+  currentPlan: null,
+  trial: { isEligible: true, isActive: false },
+  organisationTrial: {
+    consumptionStatus: "available",
+    allocationStatus: "none",
+    canStartTrial: true,
+  },
+  activeOrder: null,
+  latestInvoiceRequest: null,
   availableActions: { canStartTrial: true },
-} as AccountBillingSummaryV1;
+};
+
+type ReadyStateOverrides = Partial<Extract<BillingOverviewState, { kind: "ready" }>>;
+
+function readyState(
+  overrides: ReadyStateOverrides = {},
+): Extract<BillingOverviewState, { kind: "ready" }> {
+  return {
+    kind: "ready",
+    accountId: "42",
+    segmentOk: true,
+    checkoutReturnNotice: null,
+    billingSummary: minimalSummary,
+    billingUiMode: "free_trial_available",
+    ordersPayload: [],
+    ordersLoadError: null,
+    trialDetailsTrigger: null,
+    historyHref: "/o/42/billing/history",
+    createHref: "/o/42/billing/create",
+    availableActions: { canStartTrial: true },
+    organisationTrialPresentation: "start_available",
+    refetchOrders: vi.fn(),
+    ...overrides,
+  };
+}
 
 describe("BillingContent", () => {
   beforeEach(() => {
@@ -103,21 +148,7 @@ describe("BillingContent", () => {
   });
 
   it("renders ready state UI for free trial available mode", () => {
-    mockHook({
-      kind: "ready",
-      accountId: "42",
-      segmentOk: true,
-      checkoutReturnNotice: null,
-      billingSummary: minimalSummary,
-      billingUiMode: "free_trial_available",
-      ordersPayload: [],
-      ordersLoadError: null,
-      trialDetailsTrigger: null,
-      historyHref: "/o/42/billing/history",
-      createHref: "/o/42/billing/create",
-      availableActions: { canStartTrial: true },
-      refetchOrders: vi.fn(),
-    });
+    mockHook(readyState());
 
     render(<BillingContent accountId="42" />);
 
@@ -126,25 +157,166 @@ describe("BillingContent", () => {
     expect(screen.getByTestId("billing-sections")).toBeInTheDocument();
   });
 
+  it("shows start card for start_available presentation with free_trial_available mode", () => {
+    mockHook(
+      readyState({
+        billingUiMode: "free_trial_available",
+        organisationTrialPresentation: "start_available",
+      }),
+    );
+
+    render(<BillingContent accountId="42" />);
+
+    expect(screen.getByTestId("billing-trial-start-card")).toBeInTheDocument();
+  });
+
+  it("hides start card and org notice for active_on_this_account", () => {
+    mockHook(
+      readyState({
+        billingUiMode: "active_trial",
+        organisationTrialPresentation: "active_on_this_account",
+      }),
+    );
+
+    render(<BillingContent accountId="42" />);
+
+    expect(screen.queryByTestId("billing-trial-start-card")).not.toBeInTheDocument();
+    expect(screen.queryByTestId(/billing-org-trial-notice-/)).not.toBeInTheDocument();
+  });
+
   it("shows checkout return banner when checkout was cancelled", () => {
-    mockHook({
-      kind: "ready",
-      accountId: "42",
-      segmentOk: true,
-      checkoutReturnNotice: "cancelled",
-      billingSummary: minimalSummary,
-      billingUiMode: "free_trial_available",
-      ordersPayload: [],
-      ordersLoadError: null,
-      trialDetailsTrigger: null,
-      historyHref: "/o/42/billing/history",
-      createHref: "/o/42/billing/create",
-      availableActions: { canStartTrial: true },
-      refetchOrders: vi.fn(),
-    });
+    mockHook(
+      readyState({
+        checkoutReturnNotice: "cancelled",
+      }),
+    );
 
     render(<BillingContent accountId="42" />);
 
     expect(screen.getByRole("status")).toHaveTextContent(/Checkout was cancelled/);
+  });
+
+  it.each<[OrganisationTrialPresentation]>([
+    ["unavailable"],
+    ["used"],
+    ["active_on_another_account"],
+    ["blocked_by_billing"],
+  ])("hides start card when presentation is %s", (organisationTrialPresentation) => {
+    mockHook(
+      readyState({
+        billingUiMode: "free_trial_available",
+        organisationTrialPresentation,
+      }),
+    );
+
+    render(<BillingContent accountId="42" />);
+
+    expect(screen.queryByTestId("billing-trial-start-card")).not.toBeInTheDocument();
+  });
+
+  it.each<[OrganisationTrialPresentation, string]>([
+    ["used", "Organisation free trial already used"],
+    ["unavailable", "Organisation trial eligibility unavailable"],
+  ])("shows prominent org notice for %s", (organisationTrialPresentation, title) => {
+    mockHook(
+      readyState({
+        billingUiMode: "no_billing",
+        organisationTrialPresentation,
+      }),
+    );
+
+    render(<BillingContent accountId="42" />);
+
+    expect(
+      screen.getByTestId(`billing-org-trial-notice-${organisationTrialPresentation}`),
+    ).toHaveTextContent(title);
+  });
+
+  it("does not show prominent org notice for active_on_another_account", () => {
+    mockHook(
+      readyState({
+        billingUiMode: "unknown",
+        organisationTrialPresentation: "active_on_another_account",
+        availableActions: { canStartCheckout: true, canStartTrial: false },
+      }),
+    );
+
+    render(<BillingContent accountId="42" />);
+
+    expect(
+      screen.queryByTestId("billing-org-trial-notice-active_on_another_account"),
+    ).not.toBeInTheDocument();
+  });
+
+  it("suppresses org notices under paid_active and payment_pending", () => {
+    mockHook(
+      readyState({
+        billingUiMode: "paid_active",
+        organisationTrialPresentation: "used",
+      }),
+    );
+
+    const { rerender } = render(<BillingContent accountId="42" />);
+    expect(screen.queryByTestId("billing-org-trial-notice-used")).not.toBeInTheDocument();
+
+    mockHook(
+      readyState({
+        billingUiMode: "payment_pending",
+        organisationTrialPresentation: "active_on_another_account",
+      }),
+    );
+    rerender(<BillingContent accountId="42" />);
+    expect(
+      screen.queryByTestId("billing-org-trial-notice-active_on_another_account"),
+    ).not.toBeInTheDocument();
+  });
+
+  it("does not show org notice for blocked_by_billing", () => {
+    mockHook(
+      readyState({
+        billingUiMode: "no_billing",
+        organisationTrialPresentation: "blocked_by_billing",
+      }),
+    );
+
+    render(<BillingContent accountId="42" />);
+
+    expect(screen.queryByTestId(/billing-org-trial-notice-/)).not.toBeInTheDocument();
+  });
+
+  it("prefers org used notice over account used card on trial_expired", () => {
+    mockHook(
+      readyState({
+        billingUiMode: "trial_expired",
+        organisationTrialPresentation: "used",
+        trialDetailsTrigger: { emphasize: false },
+      }),
+    );
+
+    render(<BillingContent accountId="42" />);
+
+    expect(screen.getByTestId("billing-org-trial-notice-used")).toBeInTheDocument();
+    expect(screen.queryByTestId("billing-trial-used-card")).not.toBeInTheDocument();
+  });
+
+  it("hides access uncertain card and shows season pass when org trial is active elsewhere", () => {
+    mockHook(
+      readyState({
+        billingUiMode: "unknown",
+        organisationTrialPresentation: "active_on_another_account",
+        availableActions: { canStartCheckout: true, canStartTrial: false },
+      }),
+    );
+
+    render(<BillingContent accountId="42" />);
+
+    expect(
+      screen.queryByTestId("billing-org-trial-notice-active_on_another_account"),
+    ).not.toBeInTheDocument();
+    expect(screen.getByTestId("billing-create-season-pass-card")).toBeInTheDocument();
+    expect(screen.queryByText(/Need help with billing/i)).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(/could not place this account in a standard billing state/i),
+    ).not.toBeInTheDocument();
   });
 });
