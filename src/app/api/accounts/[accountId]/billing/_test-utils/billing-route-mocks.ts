@@ -4,11 +4,13 @@ import { vi } from "vitest";
 
 import { AUTH_COOKIE_NAME } from "@/lib/auth/auth-constants";
 
-export type BillingRouteContext = { params: Promise<{ accountId: string }> };
+export type BillingRouteContext<TParams extends Record<string, string> = { accountId: string }> = {
+  params: Promise<TParams>;
+};
 
-export type BillingRouteHandler = (
+export type BillingRouteHandler<TParams extends Record<string, string> = { accountId: string }> = (
   request: Request,
-  context: BillingRouteContext,
+  context: BillingRouteContext<TParams>,
 ) => Promise<Response>;
 
 export const cookiesGet = vi.fn();

@@ -7,7 +7,7 @@ import {
   type BillingRouteHandler,
 } from "../../../_test-utils/billing-route-mocks";
 
-let POST: BillingRouteHandler;
+let POST: BillingRouteHandler<{ accountId: string; orderId: string }>;
 
 beforeAll(async () => {
   ({ POST } = await import("./route"));
