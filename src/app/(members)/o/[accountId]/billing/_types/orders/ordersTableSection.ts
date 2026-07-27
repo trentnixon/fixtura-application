@@ -20,4 +20,6 @@ export type OrdersTableRowProps = {
 export type OrdersTableInvoiceActionsProps = {
   hostedInvoiceUrl: string | null;
   invoicePdfUrl: string | null;
+  /** When true, hosted link is labeled Pay invoice (awaiting-payment only). */
+  showPayAction?: boolean;
 };

@@ -10,9 +10,14 @@ import {
   isAccessDenied,
   isActiveTrial,
   isEmptyBillingPortfolio,
-  normalizedStatus,
   qualifiesFreeTrialAvailable,
 } from "./billing-state-helpers";
+import {
+  getInvoiceOrderPresentation,
+  isInvoiceAwaitingPayment,
+  toInvoiceOrderStateFromHistory,
+  toInvoiceOrderStateFromSummary,
+} from "../../_utils/orders/invoiceOrderState";
 import { trueAvailableActionKeysAfterBillingUiMode } from "../../_utils/overview/availableActionsUiGate";
 import { deriveOrganisationTrialPresentation } from "../../_utils/trial/deriveOrganisationTrialPresentation";
 
@@ -28,6 +33,20 @@ export function getBillingDebugSnapshot(
   const orgTrial = deriveOrganisationTrialPresentation(summary);
   const actionsCanStartTrial = canStartTrial(summary.availableActions);
   const orgBlock = summary.organisationTrial;
+  const activeInvoiceState = summary.activeOrder
+    ? toInvoiceOrderStateFromSummary(summary.activeOrder)
+    : null;
+  const activeInvoicePresentation = activeInvoiceState
+    ? getInvoiceOrderPresentation(activeInvoiceState)
+    : null;
+  const ordersAwaitingPayment = Boolean(
+    options?.orders?.some((row) => isInvoiceAwaitingPayment(toInvoiceOrderStateFromHistory(row))),
+  );
+  const ordersHaveInconsistentInvoiceState = Boolean(
+    options?.orders?.some(
+      (row) => getInvoiceOrderPresentation(toInvoiceOrderStateFromHistory(row)).inconsistent,
+    ) || activeInvoicePresentation?.inconsistent,
+  );
 
   return {
     referenceIso: referenceDate.toISOString(),
@@ -68,11 +87,13 @@ export function getBillingDebugSnapshot(
         summary.availableActions,
         billingUiMode,
       ),
-      ordersHaveInvoiceIssuedCheckout: Boolean(
-        options?.orders?.some(
-          (row) => normalizedStatus(row.checkoutStatus ?? "") === "invoice_issued",
-        ),
-      ),
+      ordersHaveInvoiceIssuedCheckout:
+        ordersAwaitingPayment || Boolean(activeInvoicePresentation?.awaitingPayment),
+      invoiceOrderInconsistent: ordersHaveInconsistentInvoiceState,
+      invoiceOrderAwaitingPayment:
+        ordersAwaitingPayment || Boolean(activeInvoicePresentation?.awaitingPayment),
+      invoiceOrderPaidActive: Boolean(activeInvoicePresentation?.paidActive),
+      invoiceOrderCancelled: Boolean(activeInvoicePresentation?.cancelled),
     },
     helpers: {
       canStartTrial: actionsCanStartTrial,

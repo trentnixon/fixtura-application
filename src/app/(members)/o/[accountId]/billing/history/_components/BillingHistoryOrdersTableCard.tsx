@@ -13,6 +13,10 @@ import { OrdersTableInvoiceActions } from "../../_components/orders/OrdersTableI
 import { ordersTableSectionCopy } from "../../_constants/orders/ordersTableSection";
 import { getHistoryOrderStatus } from "../../_utils/orders/billingHistoryOrderUtils";
 import { resolveHistoryOrderTotalForDisplay } from "../../_utils/orders/billingHistoryOrderUtils";
+import {
+  getInvoiceOrderPresentation,
+  toInvoiceOrderStateFromHistory,
+} from "../../_utils/orders/invoiceOrderState";
 import { getOrdersTableInvoiceLinks } from "../../_utils/orders/ordersTableSectionTableUtils";
 import { formatBillingDateTable } from "../../_utils/overview/formatBillingDisplay";
 import { formatBillingHistoryMoney } from "../_utils/formatBillingHistory";
@@ -62,10 +66,12 @@ export function BillingHistoryOrdersTableCard({
               </thead>
               <tbody>
                 {orders.map((order, index) => {
-                  const { hostedInvoiceUrl, invoicePdfUrl } = getOrdersTableInvoiceLinks(
-                    order,
-                    activeOrder,
+                  const links = getOrdersTableInvoiceLinks(order, activeOrder);
+                  const presentation = getInvoiceOrderPresentation(
+                    toInvoiceOrderStateFromHistory(order),
                   );
+                  const hostedInvoiceUrl = presentation.hostedInvoiceUrl ?? links.hostedInvoiceUrl;
+                  const invoicePdfUrl = presentation.invoicePdfUrl ?? links.invoicePdfUrl;
 
                   return (
                     <tr
@@ -91,6 +97,7 @@ export function BillingHistoryOrdersTableCard({
                         <OrdersTableInvoiceActions
                           hostedInvoiceUrl={hostedInvoiceUrl}
                           invoicePdfUrl={invoicePdfUrl}
+                          showPayAction={presentation.showPayAction}
                         />
                       </TypographyTableCell>
                     </tr>

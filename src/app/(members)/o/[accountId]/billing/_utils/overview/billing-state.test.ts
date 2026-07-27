@@ -534,7 +534,7 @@ describe("deriveBillingUiMode", () => {
     ).toBe("payment_pending");
   });
 
-  it("returns payment_pending when checkout_status is invoice_issued and invoice request is no longer in-flight", () => {
+  it("returns payment_pending when checkout_status is invoice_issued and unpaid/inactive", () => {
     expect(
       deriveBillingUiMode(
         baseSummary({
@@ -549,7 +549,9 @@ describe("deriveBillingUiMode", () => {
             ...incompleteCheckoutOrder,
             checkout_status: "invoice_issued",
             stripe_status: null,
-            payment_status: null,
+            payment_status: "unpaid",
+            OrderPaid: false,
+            isActive: false,
           },
         }),
         { referenceDate: ref },
@@ -557,7 +559,7 @@ describe("deriveBillingUiMode", () => {
     ).toBe("payment_pending");
   });
 
-  it("returns payment_pending when GET /orders shows invoice_issued but billing summary has no activeOrder", () => {
+  it("returns payment_pending when GET /orders shows invoice awaiting payment but billing summary has no activeOrder", () => {
     expect(
       deriveBillingUiMode(
         baseSummary({
@@ -570,10 +572,40 @@ describe("deriveBillingUiMode", () => {
         }),
         {
           referenceDate: ref,
-          orders: [minimalHistoryOrder({ checkoutStatus: "invoice_issued" })],
+          orders: [
+            minimalHistoryOrder({
+              checkoutStatus: "invoice_issued",
+              paymentStatus: "unpaid",
+              isPaid: false,
+              isActive: false,
+            }),
+          ],
         },
       ),
     ).toBe("payment_pending");
+  });
+
+  it("does not treat cancelled invoice orders as payment_pending", () => {
+    expect(
+      deriveBillingUiMode(
+        baseSummary({
+          billingStatus: "none",
+          accessStatus: "none",
+          activeOrder: null,
+        }),
+        {
+          referenceDate: ref,
+          orders: [
+            minimalHistoryOrder({
+              checkoutStatus: "cancelled",
+              paymentStatus: "unpaid",
+              isPaid: false,
+              isActive: false,
+            }),
+          ],
+        },
+      ),
+    ).not.toBe("payment_pending");
   });
 });
 
@@ -614,20 +646,35 @@ describe("getBillingDebugSnapshot", () => {
     expect(snap.derivationFlags.uiModeIsPaymentPending).toBe(true);
   });
 
-  it("sets ordersHaveInvoiceIssuedCheckout when orders include invoice_issued", () => {
+  it("sets ordersHaveInvoiceIssuedCheckout when orders await invoice payment", () => {
     const s = baseSummary({ activeOrder: null });
     const snap = getBillingDebugSnapshot(s, {
       referenceDate: ref,
-      orders: [minimalHistoryOrder({ checkoutStatus: "invoice_issued" })],
+      orders: [
+        minimalHistoryOrder({
+          checkoutStatus: "invoice_issued",
+          paymentStatus: "unpaid",
+          isPaid: false,
+          isActive: false,
+        }),
+      ],
     });
     expect(snap.summarySlice.ordersHaveInvoiceIssuedCheckout).toBe(true);
+    expect(snap.summarySlice.invoiceOrderAwaitingPayment).toBe(true);
   });
 
   it("sets paidEntitlementFromOrderHistory when any order row is isPaid and isActive", () => {
     const s = baseSummary({ activeOrder: null });
     const snap = getBillingDebugSnapshot(s, {
       referenceDate: ref,
-      orders: [minimalHistoryOrder({ isPaid: true, isActive: true, checkoutStatus: "active" })],
+      orders: [
+        minimalHistoryOrder({
+          isPaid: true,
+          isActive: true,
+          checkoutStatus: "active",
+          paymentStatus: "paid",
+        }),
+      ],
     });
     expect(snap.derivationFlags.paidEntitlementFromOrderHistory).toBe(true);
   });

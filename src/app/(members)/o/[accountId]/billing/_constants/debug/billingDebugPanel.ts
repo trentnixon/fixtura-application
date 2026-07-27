@@ -34,6 +34,10 @@ export const BILLING_DEBUG_SUMMARY_SLICE_KEYS = [
   "availableActionsTrueFromApi",
   "availableActionsTrueShownInOverview",
   "ordersHaveInvoiceIssuedCheckout",
+  "invoiceOrderInconsistent",
+  "invoiceOrderAwaitingPayment",
+  "invoiceOrderPaidActive",
+  "invoiceOrderCancelled",
 ] as const satisfies readonly (keyof BillingDebugSnapshot["summarySlice"])[];
 
 export const BILLING_DEBUG_ORG_TRIAL_KEYS = [

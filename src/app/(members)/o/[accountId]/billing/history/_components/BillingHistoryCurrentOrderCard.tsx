@@ -17,9 +17,15 @@ import {
   resolveSummaryOrderTotalForDisplay,
 } from "../../_utils/orders/billingHistoryOrderUtils";
 import {
+  getInvoiceOrderPresentation,
+  toInvoiceOrderStateFromHistory,
+  toInvoiceOrderStateFromSummary,
+} from "../../_utils/orders/invoiceOrderState";
+import {
   extractInvoiceLinksFromSummaryOrder,
   resolveHistoryOrderInvoiceLinks,
 } from "../../_utils/orders/orderInvoiceLinks";
+import { resolveSummaryOrderSeasonPassStatus } from "../../_utils/orders/orderSeasonPassDisplayState";
 import {
   formatBillingHistoryDate,
   formatBillingHistoryMoney,
@@ -41,7 +47,12 @@ function HistoryOrderDetailSection({
 }) {
   const tierLabel = order.subscriptionTier?.name ?? null;
   const status = getHistoryOrderStatus(order);
-  const invoiceLinks = resolveHistoryOrderInvoiceLinks(order, activeOrder);
+  const links = resolveHistoryOrderInvoiceLinks(order, activeOrder);
+  const presentation = getInvoiceOrderPresentation(toInvoiceOrderStateFromHistory(order));
+  const invoiceLinks = {
+    hostedInvoiceUrl: presentation.hostedInvoiceUrl ?? links.hostedInvoiceUrl,
+    invoicePdfUrl: presentation.invoicePdfUrl ?? links.invoicePdfUrl,
+  };
 
   return (
     <dl className="grid gap-2">
@@ -92,6 +103,7 @@ function HistoryOrderDetailSection({
           <OrdersTableInvoiceActions
             hostedInvoiceUrl={invoiceLinks.hostedInvoiceUrl}
             invoicePdfUrl={invoiceLinks.invoicePdfUrl}
+            showPayAction={presentation.showPayAction}
           />
         </div>
       ) : null}
@@ -100,8 +112,18 @@ function HistoryOrderDetailSection({
 }
 
 function ActiveOrderSection({ order }: { order: AccountBillingOrderDto }) {
-  const status = order.stripe_status ?? order.payment_status ?? "—";
-  const invoiceLinks = extractInvoiceLinksFromSummaryOrder(order);
+  const presentation = getInvoiceOrderPresentation(toInvoiceOrderStateFromSummary(order));
+  const seasonPassStatus = resolveSummaryOrderSeasonPassStatus(order);
+  const status =
+    seasonPassStatus ??
+    (presentation.awaitingPayment || presentation.paidActive || presentation.cancelled
+      ? presentation.statusLabel
+      : (order.stripe_status ?? order.payment_status ?? "—"));
+  const links = extractInvoiceLinksFromSummaryOrder(order);
+  const invoiceLinks = {
+    hostedInvoiceUrl: presentation.hostedInvoiceUrl ?? links.hostedInvoiceUrl,
+    invoicePdfUrl: presentation.invoicePdfUrl ?? links.invoicePdfUrl,
+  };
 
   return (
     <dl className="grid gap-2">
@@ -142,6 +164,7 @@ function ActiveOrderSection({ order }: { order: AccountBillingOrderDto }) {
           <OrdersTableInvoiceActions
             hostedInvoiceUrl={invoiceLinks.hostedInvoiceUrl}
             invoicePdfUrl={invoiceLinks.invoicePdfUrl}
+            showPayAction={presentation.showPayAction}
           />
         </div>
       ) : null}

@@ -29,12 +29,12 @@ export function resolveOrganisationTrialNoticePresentation(
   return null;
 }
 
-/** Page banner notices — active-elsewhere copy lives in Trial information dialog instead. */
+/** Page banner notices — active-elsewhere and org-used copy are not shown on the overview. */
 export function resolveProminentOrganisationTrialNoticePresentation(
   organisationTrialPresentation: OrganisationTrialPresentation,
 ): BillingOrganisationTrialNoticePresentation | null {
   const notice = resolveOrganisationTrialNoticePresentation(organisationTrialPresentation);
-  if (notice === "active_on_another_account") {
+  if (notice === "active_on_another_account" || notice === "used") {
     return null;
   }
   return notice;
@@ -80,7 +80,7 @@ export function shouldShowBillingTrialUsedCardForUiMode(
   }
 
   if (billingUiMode === "trial_expired") {
-    return organisationTrialPresentation !== "used";
+    return true;
   }
 
   return false;

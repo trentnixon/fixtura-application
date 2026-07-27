@@ -703,12 +703,15 @@ describe("SelectOrganisationContent UX enhancements", () => {
   });
 
   it("shows a New badge when createdAt is within 14 days", async () => {
+    vi.useFakeTimers({ toFake: ["Date"] });
+    vi.setSystemTime(new Date("2026-07-27T12:00:00.000Z"));
+
     useAccountMeMock.mockReturnValue({
       data: accountMeResponse(
         [
           row({
             id: 101,
-            createdAt: "2026-07-10T00:00:00.000Z",
+            createdAt: "2026-07-20T00:00:00.000Z",
             onboardingWizardCompletedAt: "2026-01-01T00:00:00.000Z",
             accountOrganisationDetails: orgDetails(1, "Fresh Org"),
           }),
@@ -735,6 +738,8 @@ describe("SelectOrganisationContent UX enhancements", () => {
     expect(
       within(screen.getByRole("article", { name: /Established Org/i })).queryByText("New"),
     ).not.toBeInTheDocument();
+
+    vi.useRealTimers();
   });
 
   it("applies primary and secondary brand colors from me-row theme", async () => {

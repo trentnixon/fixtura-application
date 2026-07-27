@@ -288,7 +288,7 @@ describe("getHistoryOrderSubscriptionDayCount", () => {
 });
 
 describe("getHistoryOrderStatus", () => {
-  it("displays Invoice issued for invoice_issued checkout when it is the shown status", () => {
+  it("displays awaiting-payment label for invoice_issued unpaid inactive orders", () => {
     const order: AccountBillingOrderHistoryDto = {
       id: 1,
       name: null,
@@ -296,7 +296,7 @@ describe("getHistoryOrderStatus", () => {
       currency: "AUD",
       total: "100",
       isPaid: false,
-      paymentStatus: null,
+      paymentStatus: "unpaid",
       checkoutStatus: "invoice_issued",
       paymentChannel: null,
       isActive: false,
@@ -310,10 +310,10 @@ describe("getHistoryOrderStatus", () => {
       updatedAt: "2026-01-01",
       subscriptionTier: null,
     };
-    expect(getHistoryOrderStatus(order)).toBe("Invoice issued");
+    expect(getHistoryOrderStatus(order)).toBe("Invoice issued — awaiting payment");
   });
 
-  it("prefers stripe status over checkout when both present", () => {
+  it("prefers awaiting-payment presentation over stripe status while invoice is unpaid", () => {
     const order: AccountBillingOrderHistoryDto = {
       id: 1,
       name: null,
@@ -321,7 +321,7 @@ describe("getHistoryOrderStatus", () => {
       currency: "AUD",
       total: "100",
       isPaid: false,
-      paymentStatus: null,
+      paymentStatus: "unpaid",
       checkoutStatus: "invoice_issued",
       paymentChannel: null,
       isActive: false,
@@ -335,6 +335,33 @@ describe("getHistoryOrderStatus", () => {
       updatedAt: "2026-01-01",
       subscriptionTier: null,
     };
-    expect(getHistoryOrderStatus(order)).toBe("active");
+    expect(getHistoryOrderStatus(order)).toBe("Invoice issued — awaiting payment");
+  });
+
+  it("displays Cancelled for cancelled checkout", () => {
+    expect(
+      getHistoryOrderStatus(
+        baseOrder({
+          checkoutStatus: "cancelled",
+          paymentStatus: "unpaid",
+          isPaid: false,
+          isActive: false,
+        }),
+      ),
+    ).toBe("Cancelled");
+  });
+
+  it("displays paid awaiting start label for future paid complete inactive orders", () => {
+    expect(
+      getHistoryOrderStatus(
+        baseOrder({
+          isPaid: true,
+          isActive: false,
+          paymentStatus: "paid",
+          checkoutStatus: "complete",
+          startAt: "2099-01-01",
+        }),
+      ),
+    ).toContain("Order ready — starting in");
   });
 });

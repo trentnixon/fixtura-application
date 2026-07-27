@@ -87,8 +87,13 @@ export type BillingDebugSnapshot = {
     availableActionsTrueFromApi: string[];
     /** Same as above after overview UI gate (e.g. invoice action keys hidden when `paid_active`). */
     availableActionsTrueShownInOverview: string[];
-    /** Any GET /orders row has normalized checkout `invoice_issued`. */
+    /** Any GET /orders (or summary active order) satisfies invoice awaiting-payment AND. */
     ordersHaveInvoiceIssuedCheckout: boolean;
+    /** Contradictory invoice/order field combinations (fail-closed; no unlock). */
+    invoiceOrderInconsistent: boolean;
+    invoiceOrderAwaitingPayment: boolean;
+    invoiceOrderPaidActive: boolean;
+    invoiceOrderCancelled: boolean;
   };
   helpers: {
     canStartTrial: boolean;

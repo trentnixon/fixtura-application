@@ -215,7 +215,6 @@ describe("BillingContent", () => {
   });
 
   it.each<[OrganisationTrialPresentation, string]>([
-    ["used", "Organisation free trial already used"],
     ["unavailable", "Organisation trial eligibility unavailable"],
   ])("shows prominent org notice for %s", (organisationTrialPresentation, title) => {
     mockHook(
@@ -284,7 +283,20 @@ describe("BillingContent", () => {
     expect(screen.queryByTestId(/billing-org-trial-notice-/)).not.toBeInTheDocument();
   });
 
-  it("prefers org used notice over account used card on trial_expired", () => {
+  it("does not show org used notice on billing overview", () => {
+    mockHook(
+      readyState({
+        billingUiMode: "no_billing",
+        organisationTrialPresentation: "used",
+      }),
+    );
+
+    render(<BillingContent accountId="42" />);
+
+    expect(screen.queryByTestId("billing-org-trial-notice-used")).not.toBeInTheDocument();
+  });
+
+  it("shows account used card on trial_expired when org trial is used", () => {
     mockHook(
       readyState({
         billingUiMode: "trial_expired",
@@ -295,8 +307,8 @@ describe("BillingContent", () => {
 
     render(<BillingContent accountId="42" />);
 
-    expect(screen.getByTestId("billing-org-trial-notice-used")).toBeInTheDocument();
-    expect(screen.queryByTestId("billing-trial-used-card")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("billing-org-trial-notice-used")).not.toBeInTheDocument();
+    expect(screen.getByTestId("billing-trial-used-card")).toBeInTheDocument();
   });
 
   it("hides access uncertain card and shows season pass when org trial is active elsewhere", () => {

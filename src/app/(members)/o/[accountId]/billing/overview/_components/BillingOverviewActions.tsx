@@ -33,8 +33,11 @@ export function BillingOverviewActions({
   trialDetailsTrigger,
   createHref,
   organisationTrialNoticePresentation = null,
+  suppressCreateSubscriptionCta = false,
 }: BillingOverviewActionsProps) {
-  const showCreateCta = showCreateSubscriptionCta(billingUiMode, billingSummary.availableActions);
+  const showCreateCta =
+    !suppressCreateSubscriptionCta &&
+    showCreateSubscriptionCta(billingUiMode, billingSummary.availableActions);
   const createCtaLabel =
     billingUiMode === "active_trial"
       ? ACTIVE_TRIAL_CREATE_SUBSCRIPTION_LABEL

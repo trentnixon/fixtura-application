@@ -10,6 +10,7 @@ import type { OrdersTableInvoiceActionsProps } from "../../_types/orders/ordersT
 export function OrdersTableInvoiceActions({
   hostedInvoiceUrl,
   invoicePdfUrl,
+  showPayAction = false,
 }: OrdersTableInvoiceActionsProps) {
   if (!hostedInvoiceUrl && !invoicePdfUrl) {
     return (
@@ -17,23 +18,40 @@ export function OrdersTableInvoiceActions({
     );
   }
 
+  const hostedLabel = showPayAction
+    ? ordersTableSectionCopy.payInvoice
+    : ordersTableSectionCopy.viewHostedInvoice;
+
   return (
     <div className="flex flex-wrap justify-end gap-2">
-      {invoicePdfUrl ? (
-        <Button variant="brand" size="sm" className="h-8" asChild>
-          <a href={invoicePdfUrl} target="_blank" rel="noopener noreferrer">
-            <Download className="size-3.5" aria-hidden />
-            {ordersTableSectionCopy.downloadInvoicePdf}
+      {hostedInvoiceUrl ? (
+        <Button
+          variant={invoicePdfUrl && !showPayAction ? "outline" : "brand"}
+          size="sm"
+          className="h-8"
+          asChild
+        >
+          <a
+            href={hostedInvoiceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${hostedLabel} (opens in a new tab)`}
+          >
+            <ExternalLink className="size-3.5" aria-hidden />
+            {hostedLabel}
           </a>
         </Button>
       ) : null}
-      {hostedInvoiceUrl ? (
-        <Button variant={invoicePdfUrl ? "outline" : "brand"} size="sm" className="h-8" asChild>
-          <a href={hostedInvoiceUrl} target="_blank" rel="noopener noreferrer">
-            <ExternalLink className="size-3.5" aria-hidden />
-            {invoicePdfUrl
-              ? ordersTableSectionCopy.viewHostedInvoice
-              : ordersTableSectionCopy.downloadInvoicePdf}
+      {invoicePdfUrl ? (
+        <Button variant={hostedInvoiceUrl ? "outline" : "brand"} size="sm" className="h-8" asChild>
+          <a
+            href={invoicePdfUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${ordersTableSectionCopy.downloadInvoicePdf} (opens in a new tab)`}
+          >
+            <Download className="size-3.5" aria-hidden />
+            {ordersTableSectionCopy.downloadInvoicePdf}
           </a>
         </Button>
       ) : null}

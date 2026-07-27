@@ -186,4 +186,15 @@ describe("extractInvoiceLinksFromHistoryOrder", () => {
       ),
     ).toEqual({ hostedInvoiceUrl: null, invoicePdfUrl: null });
   });
+
+  it("rejects invalid URLs", () => {
+    expect(
+      extractInvoiceLinksFromHistoryOrder(
+        baseHistoryOrder({
+          hostedInvoiceUrl: "not-a-url",
+          invoicePdfUrl: "/relative.pdf",
+        }),
+      ),
+    ).toEqual({ hostedInvoiceUrl: null, invoicePdfUrl: null });
+  });
 });

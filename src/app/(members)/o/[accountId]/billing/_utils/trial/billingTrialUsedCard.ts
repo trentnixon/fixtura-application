@@ -3,5 +3,9 @@ const BILLING_TRIAL_USED_ACCOUNT_NAME_FALLBACK = "this organisation";
 export function formatBillingTrialUsedCardDescription(accountName: string): string {
   const target = accountName.trim() || BILLING_TRIAL_USED_ACCOUNT_NAME_FALLBACK;
 
-  return `The free trial for ${target} has already been used.`;
+  if (target === BILLING_TRIAL_USED_ACCOUNT_NAME_FALLBACK) {
+    return "This organisation has already used its free trial.";
+  }
+
+  return `${target} has already used its free trial.`;
 }

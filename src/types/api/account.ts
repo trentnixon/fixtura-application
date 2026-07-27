@@ -1465,6 +1465,11 @@ export interface AccountBillingOrderHistoryDto {
   invoicePdfUrl?: string | null;
   /** Stripe invoice PDF download URL when Strapi returns raw CMS field names. */
   invoice_pdf?: string | null;
+  /**
+   * Optional alias some CMS payloads may send; prefer `isPaid` when both exist.
+   * Helpers treat either true as paid.
+   */
+  orderPaid?: boolean | null;
   createdAt: string;
   updatedAt: string;
   subscriptionTier: AccountBillingOrderHistorySubscriptionTierDto | null;

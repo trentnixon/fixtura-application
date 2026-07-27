@@ -16,6 +16,10 @@ import {
   type BillingProductState,
   type BillingUiMode,
 } from "../_core/billing-state";
+import {
+  findPaidAwaitingStartOrder,
+  paidAwaitingStartBadgeLabel,
+} from "../_utils/orders/orderSeasonPassDisplayState";
 import { labelForBillingProductState } from "../_utils/overview/billingProductStateDisplay";
 import { resolveEffectiveBillingProductState } from "../overview/_utils/billingOverviewPresentation";
 
@@ -74,6 +78,7 @@ export function useBillingProductStateSnapshot(
   const organisationTrialPresentation = deriveOrganisationTrialPresentation(
     q.data.data,
   ).presentation;
+  const paidAwaitingStartOrder = findPaidAwaitingStartOrder(ordersPayload);
   const productState = resolveEffectiveBillingProductState(
     billingUiMode,
     organisationTrialPresentation,
@@ -83,7 +88,9 @@ export function useBillingProductStateSnapshot(
   return {
     status: "ready",
     billingUiMode,
-    productState,
-    label: labelForBillingProductState(productState),
+    productState: paidAwaitingStartOrder ? "pending" : productState,
+    label: paidAwaitingStartOrder
+      ? paidAwaitingStartBadgeLabel()
+      : labelForBillingProductState(productState),
   };
 }

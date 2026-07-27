@@ -5,13 +5,16 @@ import { formatBillingTrialUsedCardDescription } from "./billingTrialUsedCard";
 describe("formatBillingTrialUsedCardDescription", () => {
   it("uses account name when available", () => {
     expect(formatBillingTrialUsedCardDescription("Westside Cricket Club")).toBe(
-      "The free trial for Westside Cricket Club has already been used.",
+      "Westside Cricket Club has already used its free trial.",
+    );
+    expect(formatBillingTrialUsedCardDescription("Darwin And Districts Cricket Competition")).toBe(
+      "Darwin And Districts Cricket Competition has already used its free trial.",
     );
   });
 
   it("falls back to organisation wording when account name is missing", () => {
     expect(formatBillingTrialUsedCardDescription("")).toBe(
-      "The free trial for this organisation has already been used.",
+      "This organisation has already used its free trial.",
     );
   });
 });

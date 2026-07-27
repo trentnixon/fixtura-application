@@ -1,3 +1,10 @@
+import {
+  hasInvoiceAwaitingPaymentInOrders,
+  isInvoiceAwaitingPayment,
+  isInvoiceOrderPaidAndActive,
+  toInvoiceOrderStateFromHistory,
+  toInvoiceOrderStateFromSummary,
+} from "../../_utils/orders/invoiceOrderState";
 import { normalizeBillingCode } from "../../_utils/overview/billingSummaryLabels";
 import {
   ACCESS_DENIED_CODES,
@@ -47,6 +54,10 @@ function statusIndicatesPendingCheckout(checkout: string): boolean {
 export function orderHistoryRowIndicatesPaymentPending(
   row: AccountBillingOrderHistoryDto,
 ): boolean {
+  if (isInvoiceAwaitingPayment(toInvoiceOrderStateFromHistory(row))) {
+    return true;
+  }
+
   const stripe = normalizedStatus(row.stripeStatus ?? "");
   if (stripe && ORDER_STRIPE_PENDING.has(stripe)) {
     return true;
@@ -54,6 +65,14 @@ export function orderHistoryRowIndicatesPaymentPending(
 
   const pay = normalizedStatus(row.paymentStatus ?? "");
   if (pay && ORDER_PAYMENT_PENDING.has(pay)) {
+    const checkout = normalizedStatus(row.checkoutStatus ?? "");
+    // Avoid treating cancelled unpaid rows as pending via paymentStatus alone.
+    if (checkout === "cancelled" || checkout === "canceled" || checkout === "incomplete_expired") {
+      return false;
+    }
+    if (row.isPaid === true || row.isActive === true) {
+      return false;
+    }
     return true;
   }
 
@@ -77,6 +96,10 @@ export function hasPaymentPendingFromOrderHistory(
 export function activeOrderIndicatesPaymentPending(
   order: NonNullable<AccountBillingSummaryV1["activeOrder"]>,
 ): boolean {
+  if (isInvoiceAwaitingPayment(toInvoiceOrderStateFromSummary(order))) {
+    return true;
+  }
+
   const stripe = normalizedStatus(order.stripe_status ?? "");
   if (stripe && ORDER_STRIPE_PENDING.has(stripe)) {
     return true;
@@ -84,6 +107,13 @@ export function activeOrderIndicatesPaymentPending(
 
   const pay = normalizedStatus(order.payment_status ?? "");
   if (pay && ORDER_PAYMENT_PENDING.has(pay)) {
+    const checkout = normalizedStatus(order.checkout_status ?? "");
+    if (checkout === "cancelled" || checkout === "canceled" || checkout === "incomplete_expired") {
+      return false;
+    }
+    if (order.OrderPaid === true || order.isActive === true) {
+      return false;
+    }
     return true;
   }
 
@@ -167,10 +197,20 @@ export function hasPaidPlanWithoutPendingOrder(
 
 /**
  * Paid entitlement on file - conservative so incomplete checkout rows favour `payment_pending` instead.
+ * Invoice lifecycle rows must satisfy paid + active + checkout complete/active; Stripe incomplete still blocks.
  */
 export function hasPaidActiveOrder(summary: AccountBillingSummaryV1): boolean {
   const activeOrder = summary.activeOrder;
   if (!activeOrder) {
+    return false;
+  }
+
+  const invoiceState = toInvoiceOrderStateFromSummary(activeOrder);
+  if (isInvoiceOrderPaidAndActive(invoiceState)) {
+    return true;
+  }
+
+  if (isInvoiceAwaitingPayment(invoiceState)) {
     return false;
   }
 
@@ -185,21 +225,29 @@ export function hasPaidActiveOrder(summary: AccountBillingSummaryV1): boolean {
       return false;
     }
 
-    return true;
+    // Fail closed: unpaid + active is inconsistent for entitlement.
+    if (pay === "unpaid") {
+      return false;
+    }
+
+    // Prefer OrderPaid when present; allow Stripe active/trialing without invoice conservative checkout.
+    if (activeOrder.OrderPaid === true) {
+      return pay === "" || pay === "paid";
+    }
+
+    if (stripe === "active" || stripe === "trialing") {
+      return true;
+    }
+
+    return pay === "paid";
   }
 
-  if (activeOrder.OrderPaid === true) {
-    return true;
-  }
-
-  const stripe = normalizedStatus(activeOrder.stripe_status ?? "");
-  return stripe === "active" || stripe === "trialing";
+  return false;
 }
 
 /**
  * True when GET /orders includes at least one row that CMS marks as paid and active (strict booleans).
- * Used when billing summary omits `activeOrder` but order history is current - can override stale
- * `latestInvoiceRequest` pending (e.g. still `submitted` after payment).
+ * Prefers conservative invoice lifecycle AND; falls back to isPaid+isActive when not awaiting payment.
  */
 export function hasPaidActiveOrderFromOrderHistory(
   orders: AccountBillingOrderHistoryDto[] | null | undefined,
@@ -207,7 +255,17 @@ export function hasPaidActiveOrderFromOrderHistory(
   if (!orders?.length) {
     return false;
   }
-  return orders.some((row) => row.isPaid === true && row.isActive === true);
+  return orders.some((row) => {
+    const state = toInvoiceOrderStateFromHistory(row);
+    if (isInvoiceOrderPaidAndActive(state)) return true;
+    if (isInvoiceAwaitingPayment(state)) return false;
+    if (row.isPaid !== true || row.isActive !== true) return false;
+    const pay = normalizedStatus(row.paymentStatus ?? "");
+    if (pay === "unpaid" || ORDER_PAYMENT_PENDING.has(pay)) return false;
+    const checkout = normalizedStatus(row.checkoutStatus ?? "");
+    if (checkout === "invoice_issued") return false;
+    return true;
+  });
 }
 
 export function hasTrialExpiredBranchPreconditions(
@@ -284,3 +342,6 @@ export function qualifiesFreeTrialAvailable(
   }
   return canStartTrial(summary.availableActions);
 }
+
+/** Re-export for debug / callers that need invoice awaiting across order lists. */
+export { hasInvoiceAwaitingPaymentInOrders };

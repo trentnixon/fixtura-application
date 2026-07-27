@@ -1,3 +1,5 @@
+import { getInvoiceOrderPresentation, toInvoiceOrderStateFromHistory } from "./invoiceOrderState";
+import { resolveHistoryOrderSeasonPassStatus } from "./orderSeasonPassDisplayState";
 import { normalizeBillingCode } from "../overview/billingSummaryLabels";
 
 import type { AccountBillingOrderDto, AccountBillingOrderHistoryDto } from "@/types/api/account";
@@ -97,6 +99,16 @@ export function parseHistoryOrderTotal(total: string | null): number | null {
 }
 
 export function getHistoryOrderStatus(order: AccountBillingOrderHistoryDto): string {
+  const seasonPassStatus = resolveHistoryOrderSeasonPassStatus(order);
+  if (seasonPassStatus != null) {
+    return seasonPassStatus;
+  }
+
+  const presentation = getInvoiceOrderPresentation(toInvoiceOrderStateFromHistory(order));
+  if (presentation.awaitingPayment || presentation.paidActive || presentation.cancelled) {
+    return presentation.statusLabel;
+  }
+
   const raw = order.stripeStatus ?? order.paymentStatus ?? order.checkoutStatus ?? "—";
   if (raw === "—") return raw;
   if (normalizeBillingCode(raw) === "invoice_issued") {

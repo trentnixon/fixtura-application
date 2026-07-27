@@ -14,6 +14,54 @@
 
 ---
 
+## APP-INV-001 (In Progress)
+
+```md
+---
+ID: APP-INV-001
+Status: In Progress
+Priority: High
+Owner: Frontend
+Created: 2026-07-24
+Updated: 2026-07-24
+Related: Monday-2801897240, cms-handoff-simplified-invoice-lifecycle-member.md
+---
+```
+
+### Overview
+
+Align Member billing, order history, and access with the CMS simplified invoice lifecycle (`invoice_received` → `invoice_created` → `paid`) using authoritative order fields only.
+
+### What We Need to Do
+
+Centralize order-derived selectors; tighten awaiting-payment and paid/active rules; fix invoice actions; remove IR-status entitlement coupling; cover with unit/component tests and staging E2E.
+
+### Phases & Tasks
+
+#### Phase 1: Contract + helpers
+
+- [x] Sync CMS Member/order handoff into `.comms/response/`
+- [x] Add `invoiceOrderState` helpers (awaiting / paid / cancelled / URLs / presentation)
+
+#### Phase 2: Wire billing UI + access
+
+- [x] Wire helpers into payment-pending banner, billing-state helpers, history labels, debug
+- [x] Fix invoice action labels (payable vs document), URL validity, a11y
+- [x] Remove invoice-request status from awaiting-payment / entitlement paths
+
+#### Phase 3: Verification
+
+- [x] Unit + component tests for links, awaiting, paid, cancelled, contradictions
+- [ ] Staging E2E create → paid → cancel against CMS fixtures _(see `.comms/resources/app-inv-001-staging-e2e-checklist.md`)_
+
+### Constraints, Risks, Assumptions
+
+- Application does not drive CMS invoice-request FSM or set payment/activation flags
+- Paid `checkoutStatus` default: `active`; cancellation clears awaiting-payment signals
+- Mixed-version dual FSM dropped by CMS; Application still fails closed on unknowns
+
+---
+
 ## APP-TRIAL-007 (In Progress)
 
 ```md

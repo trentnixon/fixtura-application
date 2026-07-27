@@ -78,6 +78,11 @@ export function getScopedNavSections(
           url: accountScopedRoutes.season(accountId),
           icon: IconEye,
         },
+        {
+          title: "Settings",
+          url: accountScopedRoutes.settings(accountId),
+          icon: IconSettings,
+        },
       ],
     },
     {
@@ -88,20 +93,16 @@ export function getScopedNavSections(
           url: accountScopedRoutes.templateBuilder(accountId),
           icon: IconFileDescription,
         },
-        {
-          title: "Sort Order",
-          url: accountScopedRoutes.sortOrder(accountId),
-          icon: IconArrowsSort,
-        },
+
         {
           title: "Background images",
           url: accountScopedRoutes.mediaGallery(accountId),
           icon: IconCamera,
         },
         {
-          title: "Settings",
-          url: accountScopedRoutes.settings(accountId),
-          icon: IconSettings,
+          title: "Sort Order",
+          url: accountScopedRoutes.sortOrder(accountId),
+          icon: IconArrowsSort,
         },
       ],
     },

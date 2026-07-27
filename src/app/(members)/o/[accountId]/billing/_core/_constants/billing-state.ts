@@ -30,7 +30,7 @@ export const ACCESS_PAID_SIGNALS = new Set<string>(["granted", "full", "active"]
 export const ORDER_PENDING_CHECKOUT_STATUSES = new Set<string>([
   "open",
   "incomplete",
-  "invoice_issued",
+  // `invoice_issued` alone is not pending — use isInvoiceAwaitingPayment (unpaid + inactive).
 ]);
 
 export const DAY_IN_MS = 86400000;

@@ -1,4 +1,5 @@
 import { historyRowMatchesSummaryActiveOrder } from "./billingHistoryOrderUtils";
+import { sanitizeInvoiceUrl } from "./invoiceOrderState";
 
 import type { AccountBillingOrderDto, AccountBillingOrderHistoryDto } from "@/types/api/account";
 
@@ -18,22 +19,18 @@ export function extractInvoiceLinksFromSummaryOrder(
     return { hostedInvoiceUrl: null, invoicePdfUrl: null };
   }
 
-  const hosted = order.hosted_invoice_url?.trim() ?? "";
-  const pdf = order.invoice_pdf?.trim() ?? "";
   return {
-    hostedInvoiceUrl: hosted !== "" ? hosted : null,
-    invoicePdfUrl: pdf !== "" ? pdf : null,
+    hostedInvoiceUrl: sanitizeInvoiceUrl(order.hosted_invoice_url),
+    invoicePdfUrl: sanitizeInvoiceUrl(order.invoice_pdf),
   };
 }
 
 export function extractInvoiceLinksFromHistoryOrder(
   order: AccountBillingOrderHistoryDto,
 ): OrderInvoiceLinks {
-  const hosted = (order.hostedInvoiceUrl ?? order.hosted_invoice_url)?.trim() ?? "";
-  const pdf = (order.invoicePdfUrl ?? order.invoice_pdf)?.trim() ?? "";
   return {
-    hostedInvoiceUrl: hosted !== "" ? hosted : null,
-    invoicePdfUrl: pdf !== "" ? pdf : null,
+    hostedInvoiceUrl: sanitizeInvoiceUrl(order.hostedInvoiceUrl ?? order.hosted_invoice_url),
+    invoicePdfUrl: sanitizeInvoiceUrl(order.invoicePdfUrl ?? order.invoice_pdf),
   };
 }
 

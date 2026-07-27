@@ -7,13 +7,20 @@ import {
   getHistoryOrderSubscriptionDayCount,
   resolveHistoryOrderTotalForDisplay,
 } from "../../_utils/orders/billingHistoryOrderUtils";
+import {
+  getInvoiceOrderPresentation,
+  toInvoiceOrderStateFromHistory,
+} from "../../_utils/orders/invoiceOrderState";
 import { getOrdersTableInvoiceLinks } from "../../_utils/orders/ordersTableSectionTableUtils";
 import { formatBillingDateTable, formatMoney } from "../../_utils/overview/formatBillingDisplay";
 
 import type { OrdersTableRowProps } from "../../_types/orders/ordersTableSection";
 
 export function OrdersTableRow({ order, activeOrder }: OrdersTableRowProps) {
-  const { hostedInvoiceUrl, invoicePdfUrl } = getOrdersTableInvoiceLinks(order, activeOrder);
+  const links = getOrdersTableInvoiceLinks(order, activeOrder);
+  const presentation = getInvoiceOrderPresentation(toInvoiceOrderStateFromHistory(order));
+  const hostedInvoiceUrl = presentation.hostedInvoiceUrl ?? links.hostedInvoiceUrl;
+  const invoicePdfUrl = presentation.invoicePdfUrl ?? links.invoicePdfUrl;
   const dayCount = getHistoryOrderSubscriptionDayCount(order);
 
   return (
@@ -35,6 +42,7 @@ export function OrdersTableRow({ order, activeOrder }: OrdersTableRowProps) {
         <OrdersTableInvoiceActions
           hostedInvoiceUrl={hostedInvoiceUrl}
           invoicePdfUrl={invoicePdfUrl}
+          showPayAction={presentation.showPayAction}
         />
       </TableCell>
     </TableRow>

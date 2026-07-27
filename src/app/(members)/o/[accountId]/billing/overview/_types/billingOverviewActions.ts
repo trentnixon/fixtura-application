@@ -8,4 +8,6 @@ export type BillingOverviewActionsProps = {
   trialDetailsTrigger: ReturnType<typeof billingTrialDetailsTriggerState>;
   createHref: string;
   organisationTrialNoticePresentation?: "active_on_another_account" | null;
+  /** Hide create-subscription CTA when a paid future-start order is already on file. */
+  suppressCreateSubscriptionCta?: boolean;
 };

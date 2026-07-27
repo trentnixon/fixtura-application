@@ -103,16 +103,16 @@ describe("paymentPendingBannerVariant / copy", () => {
     expect(copy.title.toLowerCase()).toContain("payment");
   });
 
-  it("uses invoice variant when invoice request is pending and order signals checkout in flight", () => {
+  it("uses checkout variant when open checkout is in flight without invoice channel", () => {
     const summary = emptySummary({
       latestInvoiceRequest: { status: "submitted" },
       activeOrder: null,
     });
     const orders = [minimalHistoryOrder({ checkoutStatus: "open" })];
-    expect(paymentPendingBannerVariant(summary, orders)).toBe("invoice");
+    expect(paymentPendingBannerVariant(summary, orders)).toBe("checkout");
     const copy = paymentPendingBannerCopy(summary, orders);
-    expect(copy.variant).toBe("invoice");
-    expect(copy.title.toLowerCase()).toContain("invoice");
+    expect(copy.variant).toBe("checkout");
+    expect(copy.title.toLowerCase()).toContain("payment");
   });
 
   it("uses checkout variant when only order signals are pending", () => {
@@ -160,7 +160,7 @@ describe("paymentPendingBannerVariant / copy", () => {
         Name: null,
         total: null,
         currency: null,
-        OrderPaid: null,
+        OrderPaid: false,
         payment_status: "unpaid",
         checkout_status: "invoice_issued",
         payment_channel: null,
@@ -170,7 +170,7 @@ describe("paymentPendingBannerVariant / copy", () => {
         isPaused: false,
         cancel_at_period_end: null,
         stripe_subscription_id: null,
-        stripe_status: "incomplete",
+        stripe_status: null,
         hosted_invoice_url: null,
         invoice_pdf: null,
         invoice_number: null,
@@ -193,7 +193,14 @@ describe("paymentPendingBannerVariant / copy", () => {
       latestInvoiceRequest: { status: "submitted", submittedAt: "2026-05-05" },
       activeOrder: null,
     });
-    const orders = [minimalHistoryOrder({ checkoutStatus: "invoice_issued" })];
+    const orders = [
+      minimalHistoryOrder({
+        checkoutStatus: "invoice_issued",
+        paymentStatus: "unpaid",
+        isPaid: false,
+        isActive: false,
+      }),
+    ];
     expect(paymentPendingBannerVariant(summary, orders)).toBe("invoice");
     const copy = paymentPendingBannerCopy(summary, orders);
     expect(copy.eyebrow).toBe("Invoice issued");
@@ -226,8 +233,9 @@ describe("paymentPendingBannerVariant / copy", () => {
     expect(paymentPendingBannerVariant(summary)).toBe("invoice");
     const copy = paymentPendingBannerCopy(summary);
     expect(copy.variant).toBe("invoice");
-    expect(copy.eyebrow).toBe("Invoice request pending");
+    expect(copy.eyebrow).toBe("Payment pending");
     expect(copy.eyebrow).not.toBe("Invoice issued");
+    expect(copy.title.toLowerCase()).toContain("invoice");
   });
 });
 
@@ -262,24 +270,24 @@ describe("orderShowsPaymentPending", () => {
     expect(orderShowsPaymentPending(summary)).toBe(true);
   });
 
-  it("detects invoice_issued checkout on activeOrder", () => {
+  it("detects invoice_issued checkout on activeOrder when unpaid and inactive", () => {
     const summary = emptySummary({
       activeOrder: {
         id: 1,
         Name: null,
         total: null,
         currency: null,
-        OrderPaid: null,
-        payment_status: null,
+        OrderPaid: false,
+        payment_status: "unpaid",
         checkout_status: "invoice_issued",
-        payment_channel: null,
+        payment_channel: "invoice",
         startOrderAt: null,
         endOrderAt: null,
         isActive: false,
         isPaused: false,
         cancel_at_period_end: null,
         stripe_subscription_id: null,
-        stripe_status: "active",
+        stripe_status: null,
         hosted_invoice_url: null,
         invoice_pdf: null,
         invoice_number: null,
@@ -294,7 +302,27 @@ describe("orderShowsPaymentPending", () => {
 
   it("detects invoice_issued on order history when activeOrder is absent", () => {
     const summary = emptySummary({ activeOrder: null });
-    const orders = [minimalHistoryOrder({ checkoutStatus: "invoice_issued" })];
+    const orders = [
+      minimalHistoryOrder({
+        checkoutStatus: "invoice_issued",
+        paymentStatus: "unpaid",
+        isPaid: false,
+        isActive: false,
+      }),
+    ];
     expect(orderShowsPaymentPending(summary, orders)).toBe(true);
+  });
+
+  it("does not treat cancelled unpaid orders as payment pending", () => {
+    const summary = emptySummary({ activeOrder: null });
+    const orders = [
+      minimalHistoryOrder({
+        checkoutStatus: "cancelled",
+        paymentStatus: "unpaid",
+        isPaid: false,
+        isActive: false,
+      }),
+    ];
+    expect(orderShowsPaymentPending(summary, orders)).toBe(false);
   });
 });

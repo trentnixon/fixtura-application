@@ -2,18 +2,12 @@
 
 import { useMemo } from "react";
 
-import { TypographyH4, TypographyMuted } from "@/components/typography";
-import { Surface } from "@/components/ui/container";
+import { TypographyCaption, TypographyMuted } from "@/components/typography";
 import {
   isAccountOrganisationContextGatewayRedirect,
   useAccountOrganisationContext,
 } from "@/lib/api/hooks/account/useAccountOrganisationContext";
-import { cn } from "@/lib/utils";
 
-import {
-  BILLING_TRIAL_USED_CARD_COPY,
-  BILLING_TRIAL_USED_CARD_SURFACE_CLASS_NAME,
-} from "../../_constants/trial/billingTrialUsedCard";
 import { formatBillingDateRangeLine } from "../../_utils/overview/formatBillingDisplay";
 import { resolveBillingTrialAccountName } from "../../_utils/trial/billingTrialStart";
 import { formatBillingTrialUsedCardDescription } from "../../_utils/trial/billingTrialUsedCard";
@@ -43,19 +37,13 @@ export function BillingTrialUsedCard({ accountId, trial, uiMode }: BillingTrialU
       : null;
 
   return (
-    <Surface
-      className={cn(BILLING_TRIAL_USED_CARD_SURFACE_CLASS_NAME, "space-y-1 p-4 shadow-md")}
-      role="status"
-    >
-      <TypographyH4 className="text-destructive text-sm font-semibold">
-        {BILLING_TRIAL_USED_CARD_COPY.title}
-      </TypographyH4>
-      <TypographyMuted className="text-sm leading-snug">
+    <div className="grid gap-1" role="status" data-testid="billing-trial-used-card">
+      <TypographyMuted as="p" className="text-sm leading-snug">
         {formatBillingTrialUsedCardDescription(accountName)}
       </TypographyMuted>
       {trialDateLine && (uiMode === "trial_expired" || uiMode === "payment_pending") ? (
-        <TypographyMuted className="text-sm">{trialDateLine}</TypographyMuted>
+        <TypographyCaption>{trialDateLine}</TypographyCaption>
       ) : null}
-    </Surface>
+    </div>
   );
 }

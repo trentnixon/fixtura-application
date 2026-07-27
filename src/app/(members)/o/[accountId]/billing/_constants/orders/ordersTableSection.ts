@@ -6,7 +6,10 @@ export const ordersTableSectionCopy = {
   missingName: "–",
   planColumn: "Plan",
   actionsColumn: "Actions",
-  viewHostedInvoice: "View in Stripe",
+  /** Hosted invoice while awaiting payment. */
+  payInvoice: "Pay invoice",
+  /** Hosted invoice as document (paid / cancelled / non-payable). */
+  viewHostedInvoice: "View invoice",
   downloadInvoicePdf: "Download invoice",
   startedColumn: "Started",
   endedColumn: "Ended",

@@ -6,12 +6,19 @@ import { Card, CardHeader } from "@/components/ui/card";
 import { BillingOverviewActions } from "./BillingOverviewActions";
 import { BillingOverviewPageHeader } from "./BillingOverviewPageHeader";
 import { BillingOverviewStatusState } from "./BillingOverviewStatusState";
+import { BillingAccountExpiringSoonBanner } from "../../_components/banners/BillingAccountExpiringSoonBanner";
 import { BillingEndingBanner } from "../../_components/banners/BillingEndingBanner";
 import { BillingPaymentPendingBanner } from "../../_components/banners/BillingPaymentPendingBanner";
 import { CheckoutReturnBanner } from "../../_components/banners/CheckoutReturnBanner";
 import { BillingProductStateBadge } from "../../_components/billing-product-state-badge";
+import { BillingPaidAwaitingStartCard } from "../../_components/overview/BillingPaidAwaitingStartCard";
 import { BillingSections } from "../../_components/overview/BillingSections";
 import { BillingOrganisationTrialNotice } from "../../_components/trial/BillingOrganisationTrialNotice";
+import {
+  findPaidAwaitingStartOrder,
+  paidAwaitingStartDaysForOrder,
+  resolveEndingSoonContext,
+} from "../../_utils/orders/orderSeasonPassDisplayState";
 import {
   resolveOrganisationTrialNoticePresentation,
   shouldShowBillingTrialStartCard,
@@ -77,10 +84,20 @@ export function BillingContent({ accountId }: { accountId: string }) {
     state.organisationTrialPresentation,
     state.availableActions,
   );
-  const showCreateSeasonPassSection = shouldShowCreateSeasonPassSection(
-    state.billingUiMode,
-    state.organisationTrialPresentation,
-    state.availableActions,
+  const paidAwaitingStartOrder = findPaidAwaitingStartOrder(state.ordersPayload);
+  const paidAwaitingStartDays = paidAwaitingStartOrder
+    ? paidAwaitingStartDaysForOrder(paidAwaitingStartOrder)
+    : null;
+  const showCreateSeasonPassSection =
+    paidAwaitingStartOrder == null &&
+    shouldShowCreateSeasonPassSection(
+      state.billingUiMode,
+      state.organisationTrialPresentation,
+      state.availableActions,
+    );
+  const endingSoonContext = resolveEndingSoonContext(
+    state.billingSummary.activeOrder,
+    state.ordersPayload,
   );
 
   return (
@@ -91,6 +108,10 @@ export function BillingContent({ accountId }: { accountId: string }) {
       />
       {state.checkoutReturnNotice ? (
         <CheckoutReturnBanner outcome={state.checkoutReturnNotice} />
+      ) : null}
+
+      {state.billingUiMode === "paid_active" && endingSoonContext != null ? (
+        <BillingAccountExpiringSoonBanner daysUntilEnd={endingSoonContext.daysUntilEnd} />
       ) : null}
 
       {(state.billingUiMode === "paid_active" || state.billingUiMode === "active_trial") &&
@@ -110,7 +131,7 @@ export function BillingContent({ accountId }: { accountId: string }) {
         <BillingOrganisationTrialNotice presentation={orgTrialNoticePresentation} />
       ) : null}
 
-      {state.billingUiMode !== "payment_pending" ? (
+      {state.billingUiMode !== "payment_pending" && paidAwaitingStartOrder == null ? (
         <div
           className="border-border bg-muted/30 flex flex-wrap items-center justify-between gap-3 rounded-lg border px-4 py-3"
           role="region"
@@ -123,6 +144,7 @@ export function BillingContent({ accountId }: { accountId: string }) {
             trialDetailsTrigger={state.trialDetailsTrigger}
             createHref={state.createHref}
             organisationTrialNoticePresentation={orgTrialDialogNoticePresentation}
+            suppressCreateSubscriptionCta={false}
           />
         </div>
       ) : null}
@@ -151,6 +173,13 @@ export function BillingContent({ accountId }: { accountId: string }) {
         />
       ) : null}
 
+      {paidAwaitingStartOrder != null && paidAwaitingStartDays != null ? (
+        <BillingPaidAwaitingStartCard
+          daysUntilStart={paidAwaitingStartDays}
+          order={paidAwaitingStartOrder}
+        />
+      ) : null}
+
       {showCreateSeasonPassSection ? (
         <div className="grid gap-3">
           <BillingCreateSeasonPassCard accountId={accountId} />
@@ -171,6 +200,16 @@ export function BillingContent({ accountId }: { accountId: string }) {
             />
           ) : null}
         </div>
+      ) : null}
+
+      {showTrialUsedCardForUiMode &&
+      paidAwaitingStartOrder != null &&
+      state.billingUiMode === "trial_expired" ? (
+        <BillingTrialUsedCard
+          accountId={accountId}
+          trial={state.billingSummary.trial}
+          uiMode={state.billingUiMode}
+        />
       ) : null}
 
       <BillingSections
