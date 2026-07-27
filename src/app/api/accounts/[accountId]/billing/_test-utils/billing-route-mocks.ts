@@ -1,8 +1,15 @@
-// Import this module BEFORE any route handler under test.
-// vi.mock here is not hoisted into the test file, so route imports must come after this module.
+// Import this module BEFORE dynamically importing any route handler under test.
+// vi.mock here is not hoisted into the test file; use beforeAll(() => import("./route")).
 import { vi } from "vitest";
 
 import { AUTH_COOKIE_NAME } from "@/lib/auth/auth-constants";
+
+export type BillingRouteContext = { params: Promise<{ accountId: string }> };
+
+export type BillingRouteHandler = (
+  request: Request,
+  context: BillingRouteContext,
+) => Promise<Response>;
 
 export const cookiesGet = vi.fn();
 export const getStrapiUrlMock = vi.fn(() => "https://cms.example");

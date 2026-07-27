@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -6,39 +7,53 @@ import {
 } from "./format-tracking-updated-at";
 
 describe("formatTrackingUpdatedAt", () => {
-  const referenceDate = new Date("2026-07-08T13:23:00+10:00");
+  const referenceDate = new Date(2026, 6, 8, 13, 23);
 
   it("returns just now for timestamps under one minute old", () => {
-    expect(formatTrackingUpdatedAt("2026-07-08T13:22:45+10:00", referenceDate)).toBe("just now");
+    const recent = new Date(2026, 6, 8, 13, 22, 45);
+    expect(formatTrackingUpdatedAt(recent.toISOString(), referenceDate)).toBe("just now");
   });
 
   it("returns minutes ago for recent timestamps", () => {
-    expect(formatTrackingUpdatedAt("2026-07-08T13:18:00+10:00", referenceDate)).toBe(
-      "5 minutes ago",
-    );
+    const recent = new Date(2026, 6, 8, 13, 18);
+    expect(formatTrackingUpdatedAt(recent.toISOString(), referenceDate)).toBe("5 minutes ago");
   });
 
   it("returns hours ago for same-day timestamps", () => {
-    expect(formatTrackingUpdatedAt("2026-07-08T10:23:00+10:00", referenceDate)).toBe("3 hours ago");
+    const earlier = new Date(2026, 6, 8, 10, 23);
+    expect(formatTrackingUpdatedAt(earlier.toISOString(), referenceDate)).toBe("3 hours ago");
   });
 
   it("returns yesterday with time for prior-day timestamps", () => {
-    expect(formatTrackingUpdatedAt("2026-07-07T09:15:00+10:00", referenceDate)).toBe(
-      "yesterday at 9:15 AM",
+    const priorDay = new Date(2026, 6, 7, 9, 15);
+    expect(formatTrackingUpdatedAt(priorDay.toISOString(), referenceDate)).toBe(
+      `yesterday at ${format(priorDay, "h:mm a")}`,
     );
   });
 
   it("returns day and time for older same-year timestamps", () => {
-    expect(formatTrackingUpdatedAt("2026-06-01T16:40:00+10:00", referenceDate)).toBe(
-      "1 Jun at 4:40 PM",
+    const older = new Date(2026, 5, 1, 16, 40);
+    expect(formatTrackingUpdatedAt(older.toISOString(), referenceDate)).toBe(
+      `${format(older, "d MMM")} at ${format(older, "h:mm a")}`,
     );
   });
 });
 
 describe("formatTrackingUpdatedAtAbsolute", () => {
   it("returns a locale-aware absolute timestamp", () => {
-    const formatted = formatTrackingUpdatedAtAbsolute("2026-07-08T13:23:00+10:00");
-    expect(formatted).toContain("2026");
-    expect(formatted).toMatch(/1:23|13:23/);
+    const date = new Date(2026, 6, 8, 13, 23);
+    const formatted = formatTrackingUpdatedAtAbsolute(date.toISOString());
+    const datePart = date.toLocaleDateString(undefined, {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+    const timePart = date.toLocaleTimeString(undefined, {
+      hour: "numeric",
+      minute: "2-digit",
+    });
+
+    expect(formatted).toBe(timePart ? `${datePart}, ${timePart}` : datePart);
   });
 });
