@@ -57,6 +57,6 @@ export function multipartRequest(
   return new Request(url, {
     method: "POST",
     headers: { "Content-Type": contentType },
-    body,
+    body: body instanceof Uint8Array ? Uint8Array.from(body) : body,
   });
 }

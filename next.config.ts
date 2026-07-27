@@ -3,6 +3,9 @@ import process from "node:process";
 
 import type { NextConfig } from "next";
 
+const uploadsSentrySourceMaps =
+  process.env["GITHUB_ACTIONS"] === "true" || process.env["VERCEL"] === "1";
+
 const nextConfig: NextConfig = {
   /* config options here */
   async rewrites() {
@@ -29,8 +32,13 @@ export default withSentryConfig(nextConfig, {
 
   project: "fixtura-application",
 
-  // Only print logs for uploading source maps in CI
-  silent: !process.env["CI"],
+  // Only print logs for uploading source maps in deployment builds.
+  silent: !uploadsSentrySourceMaps,
+
+  // Keep local verification builds from publishing source maps.
+  sourcemaps: {
+    disable: !uploadsSentrySourceMaps,
+  },
 
   // For all available options, see:
   // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/

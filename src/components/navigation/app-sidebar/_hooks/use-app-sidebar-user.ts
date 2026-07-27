@@ -6,10 +6,7 @@ import {
   organisationDetailsFromAccountRow,
 } from "@/lib/account/account-me-rows";
 import { useAccountMe } from "@/lib/api/hooks/account/useAccountMe";
-import {
-  isAccountOrganisationContextGatewayRedirect,
-  useAccountOrganisationContext,
-} from "@/lib/api/hooks/account/useAccountOrganisationContext";
+import { useAccountOrganisationContext } from "@/lib/api/hooks/account/useAccountOrganisationContext";
 
 import type { NavUserProps } from "@/types/api/auth";
 
@@ -20,10 +17,7 @@ export function useAppSidebarUser(
   const { data: meData } = useAccountMe();
   const scopedAccountId = navMode === "scoped" && accountId ? accountId : undefined;
   const { data: orgQueryData } = useAccountOrganisationContext(scopedAccountId ?? "");
-  const orgData =
-    orgQueryData && !isAccountOrganisationContextGatewayRedirect(orgQueryData)
-      ? orgQueryData
-      : undefined;
+  const orgContextData = orgQueryData && "data" in orgQueryData ? orgQueryData.data : undefined;
 
   const bootstrapRow =
     navMode === "scoped"
@@ -36,6 +30,6 @@ export function useAppSidebarUser(
     bootstrapRow,
     bootstrapOrg,
     sessionEmail: meData?.data?.user?.email,
-    orgContextData: orgData?.data,
+    orgContextData,
   });
 }
