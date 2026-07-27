@@ -309,12 +309,12 @@ export function sanitiseLadderVideoMeta(
   clone.club.sponsors = { primary: [], default: {} };
   clone.club.IsAccountClub = false;
   clone.video.metadata.includeSponsors = false;
-  if (typeof clone.video.metadata.videoTitle === "string") {
+  if (typeof clone.video.metadata["videoTitle"] === "string") {
     const compositionId =
-      typeof clone.video.metadata.compositionId === "string"
-        ? clone.video.metadata.compositionId
+      typeof clone.video.metadata["compositionId"] === "string"
+        ? clone.video.metadata["compositionId"]
         : "CricketDemo";
-    clone.video.metadata.videoTitle = `International Cricket Demo Preview ${compositionId}`;
+    clone.video.metadata["videoTitle"] = `International Cricket Demo Preview ${compositionId}`;
   }
   clone.video.media.HeroImage.url = "";
   clone.video.media.audio.url = "";

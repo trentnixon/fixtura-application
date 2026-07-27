@@ -38,7 +38,7 @@ export function BillingTrialUsedCard({ accountId, trial, uiMode }: BillingTrialU
 
   return (
     <div className="grid gap-1" role="status" data-testid="billing-trial-used-card">
-      <TypographyMuted as="p" className="text-sm leading-snug">
+      <TypographyMuted className="text-sm leading-snug">
         {formatBillingTrialUsedCardDescription(accountName)}
       </TypographyMuted>
       {trialDateLine && (uiMode === "trial_expired" || uiMode === "payment_pending") ? (

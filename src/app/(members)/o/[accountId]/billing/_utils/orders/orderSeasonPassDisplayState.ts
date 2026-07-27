@@ -57,7 +57,13 @@ function formatSydneyYmd(date: Date): string {
 }
 
 function ymdToUtcMs(ymd: string): number {
-  const [year, month, day] = ymd.split("-").map(Number);
+  const parts = ymd.split("-").map(Number);
+  const year = parts[0];
+  const month = parts[1];
+  const day = parts[2];
+  if (year === undefined || month === undefined || day === undefined) {
+    return Number.NaN;
+  }
   return Date.UTC(year, month - 1, day);
 }
 

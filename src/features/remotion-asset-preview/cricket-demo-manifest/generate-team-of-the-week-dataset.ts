@@ -334,9 +334,9 @@ export function generateTeamOfTheWeekRows(
       prompt: buildPrompt({
         plan,
         teamName,
-        batting,
-        bowling,
-        allRounderScore: allRounder?.score,
+        ...(batting !== undefined ? { batting } : {}),
+        ...(bowling !== undefined ? { bowling } : {}),
+        ...(allRounder?.score !== undefined ? { allRounderScore: allRounder.score } : {}),
       }),
     };
 

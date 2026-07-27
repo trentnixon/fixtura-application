@@ -1,4 +1,4 @@
-import { TypographyMuted } from "@/components/typography";
+import { cn } from "@/lib/utils";
 
 import { formatAccountExpiringSoonStatus } from "../../_utils/orders/orderSeasonPassDisplayState";
 
@@ -11,13 +11,12 @@ export function BillingAccountExpiringSoonBanner({
   daysUntilEnd,
 }: BillingAccountExpiringSoonBannerProps) {
   return (
-    <TypographyMuted
-      as="p"
-      className="text-sm leading-snug"
+    <p
       role="status"
       data-testid="billing-account-expiring-soon-banner"
+      className={cn("text-muted-foreground font-sans text-sm leading-snug")}
     >
       {formatAccountExpiringSoonStatus(daysUntilEnd)}
-    </TypographyMuted>
+    </p>
   );
 }
