@@ -7,8 +7,6 @@ import type { DashboardViewModel } from "../dashboard-view-model";
 
 const dashboardStatusBadgeBase = "text-xs font-medium";
 
-const dashboardStatusBadgeNeutral = "border-border bg-muted/40 text-muted-foreground";
-
 const dashboardStatusBadgeActive =
   "border-emerald-500/35 bg-emerald-500/12 text-emerald-950 dark:text-emerald-50";
 
@@ -23,20 +21,15 @@ export function DashboardAccountStatusStrip({
   model,
   className,
 }: DashboardAccountStatusStripProps) {
-  const isProcessing = model.settings?.isUpdating === true;
-
   return (
     <div className={cn("flex shrink-0 flex-wrap items-center justify-end gap-2", className)}>
       <DashboardBillingStatus accountId={accountId} />
-      {model.settings ? (
+      {model.settings?.isUpdating === true ? (
         <Badge
           variant="outline"
-          className={cn(
-            dashboardStatusBadgeBase,
-            isProcessing ? dashboardStatusBadgeActive : dashboardStatusBadgeNeutral,
-          )}
+          className={cn(dashboardStatusBadgeBase, dashboardStatusBadgeActive)}
         >
-          {isProcessing ? "Processing" : "Inactive"}
+          Processing
         </Badge>
       ) : null}
     </div>

@@ -202,7 +202,7 @@ describe("buildBillingRouteCard", () => {
     expect(view.primaryMetric.value).toBe("Pending");
   });
 
-  it("maps funnel modes to create subscription href", () => {
+  it("maps funnel modes to billing overview href", () => {
     const expired = buildBillingRouteCard({
       accountId: "575",
       billingUiMode: "trial_expired",
@@ -218,9 +218,9 @@ describe("buildBillingRouteCard", () => {
       orders: [],
     });
 
-    expect(expired.href).toBe("/o/575/billing/create");
+    expect(expired.href).toBe("/o/575/billing");
     expect(expired.ctaLabel).toBe("Create subscription");
-    expect(noBilling.href).toBe("/o/575/billing/create");
+    expect(noBilling.href).toBe("/o/575/billing");
   });
 
   it("sets ending notice when subscription cancels at period end", () => {

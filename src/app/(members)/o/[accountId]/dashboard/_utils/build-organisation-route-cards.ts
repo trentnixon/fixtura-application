@@ -130,7 +130,7 @@ export function buildBrandingRouteCard({
 
   return {
     title: "Look & feel",
-    description: "Logo, brand colours, and contrast.",
+    description: "Logo and brand colours.",
     logoUrl: resolvedLogoUrl,
     paletteSwatches,
   };
@@ -140,10 +140,6 @@ function formatDaysRemainingMetric(daysRemaining: number | null): string {
   if (daysRemaining == null) return "—";
   if (daysRemaining === 0) return "Last day";
   return `${daysRemaining} day${daysRemaining === 1 ? "" : "s"}`;
-}
-
-function billingCreateHref(accountId: string): string {
-  return `/o/${encodeURIComponent(accountId)}/billing/create`;
 }
 
 function billingDetailRowsFromSummary(
@@ -184,7 +180,6 @@ export function buildBillingRouteCard({
   orders: AccountBillingOrderHistoryDto[];
 }): BillingRouteCardView {
   const billingHref = accountScopedRoutes.billing(accountId);
-  const createHref = billingCreateHref(accountId);
   const statusLabel = labelForBillingProductState(productState);
 
   const activeOrder = billingSummary.activeOrder;
@@ -270,7 +265,6 @@ export function buildBillingRouteCard({
     case "no_billing":
       primaryMetric = { label: "Processing", value: "Not enabled" };
       ctaLabel = "Create subscription";
-      href = createHref;
       break;
     case "access_denied":
     case "unknown":
