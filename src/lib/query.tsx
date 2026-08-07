@@ -12,7 +12,7 @@ export function createQueryClient(): QueryClient {
   return new QueryClient({
     queryCache: new QueryCache({
       onError: (error, query) => {
-        if (query.meta?.suppressGlobalError) return;
+        if (query.meta?.["suppressGlobalError"]) return;
         globalThis.console?.error?.("Query error:", error);
         toastError(error, "Request failed");
       },

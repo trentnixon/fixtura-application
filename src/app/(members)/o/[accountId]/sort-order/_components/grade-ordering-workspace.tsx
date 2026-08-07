@@ -53,7 +53,9 @@ export function GradeOrderingWorkspace({
     hasGroups: draft.groups.length > 0,
     onReset: handleReset,
     onClear: () => setClearDialogOpen(true),
-    onSave: () => void handleSave(),
+    onSave: () => {
+      void handleSave();
+    },
   };
 
   return (
@@ -89,7 +91,7 @@ export function GradeOrderingWorkspace({
             gradeLookup={gradeLookup}
             onReorder={(itemIds) => handleReorder(group.groupKey, itemIds)}
             disabled={mutation.isPending || readOnly}
-            saveFooter={readOnly ? undefined : saveFooter}
+            {...(readOnly ? {} : { saveFooter })}
           />
         ))}
       </div>

@@ -43,12 +43,12 @@ export function BillingHistoryContent({ accountId }: { accountId: string }) {
         <div className="min-w-0">
           <BillingHistoryInvoiceRequestsCard
             invoiceRequests={state.invoiceRequests}
-            description={
-              state.isSupportView
-                ? BILLING_SUPPORT_READ_ONLY_COPY.invoiceRequestsCardDescription
-                : undefined
-            }
             withdrawPending={showInvoiceWithdraw ? withdraw.isPending : false}
+            {...(state.isSupportView
+              ? {
+                  description: BILLING_SUPPORT_READ_ONLY_COPY.invoiceRequestsCardDescription,
+                }
+              : {})}
             {...(showInvoiceWithdraw
               ? { onWithdraw: withdraw.openWithdrawFromInvoiceRequest }
               : {})}

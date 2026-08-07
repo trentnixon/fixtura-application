@@ -95,8 +95,8 @@ export function BillingHistoryInvoiceRequestsCard({
               <InvoiceRequestRow
                 key={String(request.invoiceRequestId ?? request.id ?? index)}
                 request={request}
-                withdrawPending={withdrawPending}
-                {...(request.canWithdraw === true
+                {...(withdrawPending !== undefined ? { withdrawPending } : {})}
+                {...(request.canWithdraw === true && onWithdraw
                   ? {
                       onWithdraw: () => onWithdraw(request),
                     }
