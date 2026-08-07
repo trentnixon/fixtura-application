@@ -9,6 +9,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { SUPPORT_READ_ONLY_FORM_DESCRIPTION } from "@/lib/support/support-read-only-copy";
+import { useAccountReadOnly } from "@/lib/support/use-account-read-only";
 
 import { GradeOrderingGroupCard } from "./grade-ordering-group-card";
 import { GradeOrderingHeader } from "./grade-ordering-header";
@@ -25,6 +27,7 @@ export function GradeOrderingWorkspace({
   orgParams: GradeOrderingGetParams;
   canonicalData: GradeOrderingResponseData;
 }) {
+  const readOnly = useAccountReadOnly();
   const {
     draft,
     gradeLookup,
@@ -55,6 +58,15 @@ export function GradeOrderingWorkspace({
 
   return (
     <div className="space-y-8">
+      {readOnly ? (
+        <div
+          role="status"
+          className="border-border bg-muted/40 text-muted-foreground rounded-lg border px-4 py-3 text-sm"
+        >
+          {SUPPORT_READ_ONLY_FORM_DESCRIPTION}
+        </div>
+      ) : null}
+
       <GradeOrderingHeader
         organisationName={canonicalData.organisation.name}
         revision={draft.revision}
@@ -76,8 +88,8 @@ export function GradeOrderingWorkspace({
             group={group}
             gradeLookup={gradeLookup}
             onReorder={(itemIds) => handleReorder(group.groupKey, itemIds)}
-            disabled={mutation.isPending}
-            saveFooter={saveFooter}
+            disabled={mutation.isPending || readOnly}
+            saveFooter={readOnly ? undefined : saveFooter}
           />
         ))}
       </div>

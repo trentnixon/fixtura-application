@@ -23,6 +23,7 @@ export function SponsorLibraryPanel({
   activeFilter,
   onFilterChange,
   disabled = false,
+  readOnly = false,
   onEditSponsor,
 }: SponsorLibraryPanelProps) {
   return (
@@ -65,6 +66,7 @@ export function SponsorLibraryPanel({
                   key={sponsor.id}
                   sponsor={sponsor}
                   disabled={disabled}
+                  readOnly={readOnly}
                   onEditSponsor={onEditSponsor}
                 />
               ))}

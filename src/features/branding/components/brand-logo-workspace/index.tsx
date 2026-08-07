@@ -25,6 +25,7 @@ import {
 import { useUpdateOnboardingStep2 } from "@/lib/api/hooks/account/useUpdateOnboardingStep2";
 import { themeColoursFromAccountBrandingTheme } from "@/lib/branding/theme-colours-from-account";
 import { SELECTABLE_LOGO_CROP_PRESETS } from "@/lib/media/selectable-logo-crop-presets";
+import { SUPPORT_READ_ONLY_FORM_DESCRIPTION } from "@/lib/support/support-read-only-copy";
 import { cn } from "@/lib/utils";
 
 import {
@@ -44,6 +45,7 @@ import type { AccountBrandingData } from "@/types/api/account";
 export type BrandLogoWorkspaceProps = {
   accountId: string;
   data: AccountBrandingData;
+  readOnly?: boolean;
 };
 
 export type LogoChangeKind = "none" | "first-upload" | "replacement" | "recrop";
@@ -90,7 +92,7 @@ function deriveLogoChangeKind(params: {
   return savedLogoUrl === null ? "first-upload" : "replacement";
 }
 
-export function BrandLogoWorkspace({ accountId, data }: BrandLogoWorkspaceProps) {
+export function BrandLogoWorkspace({ accountId, data, readOnly = false }: BrandLogoWorkspaceProps) {
   const updateStep2 = useUpdateOnboardingStep2(accountId);
 
   const palette = useMemo(() => themeColoursFromAccountBrandingTheme(data.theme), [data.theme]);
@@ -205,9 +207,22 @@ export function BrandLogoWorkspace({ accountId, data }: BrandLogoWorkspaceProps)
 
   return (
     <div className="space-y-8">
+      {readOnly ? (
+        <div
+          role="status"
+          className="border-border bg-muted/40 text-muted-foreground rounded-lg border px-4 py-3 text-sm"
+        >
+          {SUPPORT_READ_ONLY_FORM_DESCRIPTION}
+        </div>
+      ) : null}
+
       <PageHeader
         title="Brand logo"
-        description="Add or replace your organisation logo, crop it, preview how it appears on assets, then save."
+        description={
+          readOnly
+            ? "Organisation logo as saved for this account (read-only in support view)."
+            : "Add or replace your organisation logo, crop it, preview how it appears on assets, then save."
+        }
       />
 
       <div
@@ -228,60 +243,80 @@ export function BrandLogoWorkspace({ accountId, data }: BrandLogoWorkspaceProps)
             }
             body={
               <div className="space-y-5">
-                <div className="space-y-3">
-                  <p className="text-sm leading-relaxed">
-                    PNG, JPEG, or WebP up to 8MB. Choose a file to crop; you can change the aspect
-                    ratio in the dialog.
-                  </p>
-                </div>
-                <ImageUploaderCrop
-                  aspect={1}
-                  aspectPresets={[...SELECTABLE_LOGO_CROP_PRESETS]}
-                  defaultAspectPresetIndex={0}
-                  hideAspectPresetOnUploader
-                  label=""
-                  maxFileSizeMb={8}
-                  editableSourceUrl={editableSourceUrl}
-                  minSourceWidth={LOGO_MIN_SOURCE_WIDTH_PX}
-                  minSourceHeight={LOGO_MIN_SOURCE_HEIGHT_PX}
-                  minOutputWidth={LOGO_MIN_OUTPUT_WIDTH_PX}
-                  minOutputHeight={LOGO_MIN_OUTPUT_HEIGHT_PX}
-                  showValidationHints
-                  onComplete={handleLogoCropComplete}
-                  onReset={handleLogoUploaderReset}
-                />
+                {readOnly ? (
+                  effectiveLogoSrc ? (
+                    <div className="border-border bg-muted/30 flex justify-center rounded-lg border p-6">
+                      <img
+                        src={effectiveLogoSrc}
+                        alt="Organisation logo"
+                        className="max-h-48 max-w-full object-contain"
+                      />
+                    </div>
+                  ) : (
+                    <TypographyMuted className="text-sm">
+                      No logo uploaded for this account.
+                    </TypographyMuted>
+                  )
+                ) : (
+                  <>
+                    <div className="space-y-3">
+                      <p className="text-sm leading-relaxed">
+                        PNG, JPEG, or WebP up to 8MB. Choose a file to crop; you can change the
+                        aspect ratio in the dialog.
+                      </p>
+                    </div>
+                    <ImageUploaderCrop
+                      aspect={1}
+                      aspectPresets={[...SELECTABLE_LOGO_CROP_PRESETS]}
+                      defaultAspectPresetIndex={0}
+                      hideAspectPresetOnUploader
+                      label=""
+                      maxFileSizeMb={8}
+                      editableSourceUrl={editableSourceUrl}
+                      minSourceWidth={LOGO_MIN_SOURCE_WIDTH_PX}
+                      minSourceHeight={LOGO_MIN_SOURCE_HEIGHT_PX}
+                      minOutputWidth={LOGO_MIN_OUTPUT_WIDTH_PX}
+                      minOutputHeight={LOGO_MIN_OUTPUT_HEIGHT_PX}
+                      showValidationHints
+                      onComplete={handleLogoCropComplete}
+                      onReset={handleLogoUploaderReset}
+                    />
+                  </>
+                )}
               </div>
             }
             footer={
-              <div className="flex w-full min-w-0 flex-col gap-3">
-                <div className="flex w-full flex-col gap-2 sm:ml-auto sm:w-fit sm:flex-row sm:items-center sm:gap-2">
-                  {canOfferClear ? (
+              readOnly ? null : (
+                <div className="flex w-full min-w-0 flex-col gap-3">
+                  <div className="flex w-full flex-col gap-2 sm:ml-auto sm:w-fit sm:flex-row sm:items-center sm:gap-2">
+                    {canOfferClear ? (
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        className="w-full shrink-0 sm:w-auto"
+                        disabled={updateStep2.isPending}
+                        onClick={() => setClearDialogOpen(true)}
+                      >
+                        Remove logo
+                      </Button>
+                    ) : null}
                     <Button
                       type="button"
-                      variant="destructive"
+                      variant="brand"
                       className="w-full shrink-0 sm:w-auto"
-                      disabled={updateStep2.isPending}
-                      onClick={() => setClearDialogOpen(true)}
+                      disabled={saveDisabled}
+                      onClick={() => setSaveDialogOpen(true)}
                     >
-                      Remove logo
+                      {updateStep2.isPending ? "Saving…" : "Save logo"}
                     </Button>
+                  </div>
+                  {confirmedAt ? (
+                    <PersistentFieldFeedback variant="success">
+                      Saved at {confirmedAt}.
+                    </PersistentFieldFeedback>
                   ) : null}
-                  <Button
-                    type="button"
-                    variant="brand"
-                    className="w-full shrink-0 sm:w-auto"
-                    disabled={saveDisabled}
-                    onClick={() => setSaveDialogOpen(true)}
-                  >
-                    {updateStep2.isPending ? "Saving…" : "Save logo"}
-                  </Button>
                 </div>
-                {confirmedAt ? (
-                  <PersistentFieldFeedback variant="success">
-                    Saved at {confirmedAt}.
-                  </PersistentFieldFeedback>
-                ) : null}
-              </div>
+              )
             }
           />
         </div>
@@ -304,79 +339,91 @@ export function BrandLogoWorkspace({ accountId, data }: BrandLogoWorkspaceProps)
         </div>
       </div>
 
-      <Dialog open={saveDialogOpen} onOpenChange={setSaveDialogOpen}>
-        <DialogContent className="max-h-[min(90vh,800px)] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Save logo?</DialogTitle>
-            <DialogDescription>
-              This uploads your cropped image and sets it as the logo for your organisation.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div className="border-border space-y-2 rounded-lg border p-3">
-              <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-                Logo
-              </p>
-              {logoCropMeta && logoFile ? (
-                <ul className="text-foreground space-y-1 font-mono text-xs">
-                  <li>Change type: {changeKindLabel(changeKind)}</li>
-                  <li>File: {logoCropMeta.fileName}</li>
-                  <li>MIME: {logoCropMeta.mimeType}</li>
-                  <li>Size: {formatBytes(logoCropMeta.byteSize)}</li>
-                  <li>
-                    Output: {logoCropMeta.width}×{logoCropMeta.height}px
-                  </li>
-                  <li>
-                    Aspect:{" "}
-                    {logoCropMeta.aspectLabel ??
-                      `${logoCropMeta.aspectRatio.toFixed(4)}`.replace(/\.?0+$/, "")}
-                  </li>
-                </ul>
-              ) : (
-                <TypographyMuted className="text-sm">No cropped file selected.</TypographyMuted>
-              )}
-            </div>
-          </div>
-          <DialogFooter>
-            <Button type="button" variant="brandOutline" onClick={() => setSaveDialogOpen(false)}>
-              Cancel
-            </Button>
-            <Button
-              type="button"
-              variant="brand"
-              disabled={saveDisabled}
-              onClick={() => void handleConfirmSave()}
-            >
-              Save logo
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      {!readOnly ? (
+        <>
+          <Dialog open={saveDialogOpen} onOpenChange={setSaveDialogOpen}>
+            <DialogContent className="max-h-[min(90vh,800px)] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>Save logo?</DialogTitle>
+                <DialogDescription>
+                  This uploads your cropped image and sets it as the logo for your organisation.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4">
+                <div className="border-border space-y-2 rounded-lg border p-3">
+                  <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+                    Logo
+                  </p>
+                  {logoCropMeta && logoFile ? (
+                    <ul className="text-foreground space-y-1 font-mono text-xs">
+                      <li>Change type: {changeKindLabel(changeKind)}</li>
+                      <li>File: {logoCropMeta.fileName}</li>
+                      <li>MIME: {logoCropMeta.mimeType}</li>
+                      <li>Size: {formatBytes(logoCropMeta.byteSize)}</li>
+                      <li>
+                        Output: {logoCropMeta.width}×{logoCropMeta.height}px
+                      </li>
+                      <li>
+                        Aspect:{" "}
+                        {logoCropMeta.aspectLabel ??
+                          `${logoCropMeta.aspectRatio.toFixed(4)}`.replace(/\.?0+$/, "")}
+                      </li>
+                    </ul>
+                  ) : (
+                    <TypographyMuted className="text-sm">No cropped file selected.</TypographyMuted>
+                  )}
+                </div>
+              </div>
+              <DialogFooter>
+                <Button
+                  type="button"
+                  variant="brandOutline"
+                  onClick={() => setSaveDialogOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="button"
+                  variant="brand"
+                  disabled={saveDisabled}
+                  onClick={() => void handleConfirmSave()}
+                >
+                  Save logo
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
 
-      <Dialog open={clearDialogOpen} onOpenChange={setClearDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Remove logo?</DialogTitle>
-            <DialogDescription>
-              Your organisation will have no logo until you upload a new one. Generated assets and
-              previews may show a placeholder.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button type="button" variant="brandOutline" onClick={() => setClearDialogOpen(false)}>
-              Cancel
-            </Button>
-            <Button
-              type="button"
-              variant="destructive"
-              disabled={updateStep2.isPending}
-              onClick={() => void handleConfirmClear()}
-            >
-              {updateStep2.isPending ? "Removing…" : "Remove logo"}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          <Dialog open={clearDialogOpen} onOpenChange={setClearDialogOpen}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Remove logo?</DialogTitle>
+                <DialogDescription>
+                  Your organisation will have no logo until you upload a new one. Generated assets
+                  and previews may show a placeholder.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button
+                  type="button"
+                  variant="brandOutline"
+                  onClick={() => setClearDialogOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="button"
+                  variant="destructive"
+                  disabled={updateStep2.isPending}
+                  onClick={() => void handleConfirmClear()}
+                >
+                  {updateStep2.isPending ? "Removing…" : "Remove logo"}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </>
+      ) : null}
     </div>
   );
 }

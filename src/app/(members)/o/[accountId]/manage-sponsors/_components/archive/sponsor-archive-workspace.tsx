@@ -1,5 +1,7 @@
 "use client";
 
+import { useAccountReadOnly } from "@/lib/support/use-account-read-only";
+
 import { useSponsorArchiveActions } from "./_hooks/use-sponsor-archive-actions";
 import { SponsorArchiveDeleteDialog } from "./sponsor-archive-delete-dialog";
 import { SponsorArchiveEmptyState } from "./sponsor-archive-empty-state";
@@ -12,6 +14,7 @@ import { ManageSponsorsLoadingState } from "../shared/manage-sponsors-loading-st
 import { ManageSponsorsShell } from "../shared/manage-sponsors-shell";
 
 export function SponsorArchiveWorkspace({ accountId }: { accountId: string }) {
+  const readOnly = useAccountReadOnly();
   const {
     isRedirecting,
     isLoading,
@@ -62,6 +65,7 @@ export function SponsorArchiveWorkspace({ accountId }: { accountId: string }) {
               sponsors={archivedSponsors}
               restoringSponsorId={restoringSponsorId}
               isDeleting={isDeleting}
+              readOnly={readOnly}
               onRestoreSponsor={(sponsor) => void restoreSponsor(sponsor)}
               onSelectDeleteTarget={setDeleteTarget}
             />
@@ -69,13 +73,15 @@ export function SponsorArchiveWorkspace({ accountId }: { accountId: string }) {
         </div>
       ) : null}
 
-      <SponsorArchiveDeleteDialog
-        deleteTarget={deleteTarget}
-        isDeleting={isDeleting}
-        onOpenChange={handleDeleteDialogOpenChange}
-        onCancel={() => setDeleteTarget(null)}
-        onConfirm={() => void confirmDeleteSponsor()}
-      />
+      {!readOnly ? (
+        <SponsorArchiveDeleteDialog
+          deleteTarget={deleteTarget}
+          isDeleting={isDeleting}
+          onOpenChange={handleDeleteDialogOpenChange}
+          onCancel={() => setDeleteTarget(null)}
+          onConfirm={() => void confirmDeleteSponsor()}
+        />
+      ) : null}
     </ManageSponsorsShell>
   );
 }

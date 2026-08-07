@@ -3,6 +3,7 @@
 import {
   IconCreditCard,
   IconDotsVertical,
+  IconLifebuoy,
   IconList,
   IconLogout,
   IconNotification,
@@ -28,6 +29,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { useSupportCapability } from "@/lib/api/hooks/account/useSupportCapability";
 import { ROUTES } from "@/lib/config/routes";
 import { useUnsavedChangesContext } from "@/lib/navigation/unsaved-changes-context";
 
@@ -38,6 +40,7 @@ import {
   NAV_USER_MENU_LABEL_LOGGING_OUT,
   NAV_USER_MENU_LABEL_LOGOUT,
   NAV_USER_MENU_LABEL_NOTIFICATIONS,
+  NAV_USER_MENU_LABEL_SUPPORT_ACCOUNTS,
 } from "./_constants/nav-user-ui";
 import { useNavUserLogout } from "./_hooks/use-nav-user-logout";
 import { getNavUserInitials } from "./_utils/get-nav-user-initials";
@@ -56,6 +59,7 @@ export function NavUser({ user, accountId }: NavUserComponentProps) {
   const { confirmIfDirty } = useUnsavedChangesContext();
   const { logout, handleLogout } = useNavUserLogout();
   const initials = getNavUserInitials(user.name);
+  const { canAccessAllAccounts, ownedAccountIds } = useSupportCapability();
 
   const guardedNavigate = (href: string) => (event: MouseEvent) => {
     event.preventDefault();
@@ -139,15 +143,28 @@ export function NavUser({ user, accountId }: NavUserComponentProps) {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-              <Link
-                href={ROUTES.selectOrganisation}
-                onClick={guardedNavigate(ROUTES.selectOrganisation)}
-              >
-                <IconList />
-                {NAV_USER_MENU_LABEL_ALL_ORGANISATIONS}
-              </Link>
-            </DropdownMenuItem>
+            {canAccessAllAccounts && accountId ? (
+              <DropdownMenuItem asChild>
+                <Link
+                  href={ROUTES.supportAccounts}
+                  onClick={guardedNavigate(ROUTES.supportAccounts)}
+                >
+                  <IconLifebuoy />
+                  {NAV_USER_MENU_LABEL_SUPPORT_ACCOUNTS}
+                </Link>
+              </DropdownMenuItem>
+            ) : null}
+            {ownedAccountIds.length > 0 ? (
+              <DropdownMenuItem asChild>
+                <Link
+                  href={ROUTES.selectOrganisation}
+                  onClick={guardedNavigate(ROUTES.selectOrganisation)}
+                >
+                  <IconList />
+                  {NAV_USER_MENU_LABEL_ALL_ORGANISATIONS}
+                </Link>
+              </DropdownMenuItem>
+            ) : null}
             <DropdownMenuSeparator />
             <DropdownMenuItem disabled={logout.isPending} onClick={handleLogout}>
               <IconLogout />

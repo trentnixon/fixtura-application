@@ -10,6 +10,8 @@ import {
   useSeasonHubRecon,
   useSeasonHubStats,
 } from "@/lib/api/hooks/season-hub";
+import { useSupportView } from "@/lib/support/support-view-context";
+import { useSeasonHubQueriesEnabled } from "@/lib/support/use-season-hub-queries-enabled";
 
 import { SEASON_LOADING_COPY } from "./_constants";
 import { useSeasonOverviewFilters, useSeasonOverviewState } from "./_hooks";
@@ -20,9 +22,15 @@ import { SeasonOverviewSyncDialog } from "./_sections/season-overview-sync-dialo
 import { SeasonOverviewTrackedCompetitionsSection } from "./_sections/season-overview-tracked-competitions-section";
 
 export function SeasonOverview({ accountId }: { accountId: string }) {
-  const recon = useSeasonHubRecon(accountId);
-  const stats = useSeasonHubStats(accountId);
-  const competitions = useSeasonHubCompetitions(accountId, { page: 1, pageSize: 25 });
+  const { isSupportView } = useSupportView();
+  const seasonHubEnabled = useSeasonHubQueriesEnabled(accountId);
+  const recon = useSeasonHubRecon(accountId, { enabled: seasonHubEnabled });
+  const stats = useSeasonHubStats(accountId, { enabled: seasonHubEnabled });
+  const competitions = useSeasonHubCompetitions(
+    accountId,
+    { page: 1, pageSize: 25 },
+    { enabled: seasonHubEnabled },
+  );
   const orgSync = useTriggerOrgSingleScrape(accountId);
   const [syncDialogOpen, setSyncDialogOpen] = useState(false);
 
@@ -49,6 +57,15 @@ export function SeasonOverview({ accountId }: { accountId: string }) {
     void stats.refetch();
     void competitions.refetch();
   };
+
+  if (isSupportView) {
+    return (
+      <ErrorState
+        title="Vision unavailable in support view"
+        description="Season hub data is not available when browsing a customer account as support staff."
+      />
+    );
+  }
 
   if (anyError && firstError) {
     return (

@@ -66,23 +66,28 @@ function InvoiceRequestRow({
 
 export function BillingHistoryInvoiceRequestsCard({
   invoiceRequests,
+  description,
   withdrawPending,
   onWithdraw,
 }: {
   invoiceRequests: InvoiceRequestSummary[];
-  withdrawPending: boolean;
-  onWithdraw: (request: InvoiceRequestSummary) => void;
+  description?: string;
+  withdrawPending?: boolean;
+  onWithdraw?: (request: InvoiceRequestSummary) => void;
 }) {
   return (
     <AccountSectionShell
       title="Invoice requests"
+      {...(description ? { description } : {})}
       icon={<FileText className="size-5" aria-hidden />}
       headerTone="slate"
     >
       <div className="px-0 pb-0">
         {invoiceRequests.length === 0 ? (
           <TypographyBodySmall className="px-6 py-5" role="status">
-            No invoice requests yet.
+            {description
+              ? "No latest invoice request on billing summary."
+              : "No invoice requests yet."}
           </TypographyBodySmall>
         ) : (
           <ul className="border-border divide-border divide-y border-t">

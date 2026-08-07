@@ -37,7 +37,7 @@ export function ScopedOnboardingSyncBanner() {
   }
 
   return (
-    <div className="border-border w-full border-t px-4 pb-3 lg:px-6">
+    <div className="border-border mt-8 mb-4 w-full border-t px-4 pt-8 pb-3 lg:px-6">
       <InlineAlert
         variant="info"
         message="We are still preparing your organisation in the background. Some features may update when setup finishes."

@@ -11,6 +11,7 @@ export type BillingHistoryReadyState = {
   invoiceRequests: InvoiceRequestSummary[];
   orders: AccountBillingOrderHistoryDto[];
   ordersLoadError: Error | null;
+  isSupportView: boolean;
   baseHref: string;
   refetchHistory: () => void;
   refetchOrders: () => void;

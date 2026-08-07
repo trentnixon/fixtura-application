@@ -24,6 +24,7 @@ import {
   SELECT_ORG_GATEWAY_REASON,
   selectOrganisationUrlWithReason,
 } from "@/lib/config/gateway-reasons";
+import { useAccountReadOnly } from "@/lib/support/use-account-read-only";
 
 import { MediaGalleryDeleteDialog } from "./_components/media-gallery-delete-dialog";
 import { MediaGalleryEditDialog } from "./_components/media-gallery-edit-dialog";
@@ -58,6 +59,7 @@ import type { AccountMediaLibraryItem } from "@/types/api/account";
 const SEARCH_DEBOUNCE_MS = 250;
 
 export function MediaGalleryContent({ accountId }: { accountId: string }) {
+  const readOnly = useAccountReadOnly();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -283,14 +285,16 @@ export function MediaGalleryContent({ accountId }: { accountId: string }) {
                 activeFilterCount={countActiveMediaGalleryFilters(queryState)}
                 onOpenChange={setFiltersOpen}
               />
-              <Button
-                type="button"
-                variant="outline"
-                className="cursor-pointer border-emerald-600 text-emerald-700 hover:bg-emerald-50 hover:text-emerald-800 dark:border-emerald-500 dark:text-emerald-400 dark:hover:bg-emerald-950"
-                onClick={() => setUploadOpen(true)}
-              >
-                Upload background
-              </Button>
+              {!readOnly ? (
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="cursor-pointer border-emerald-600 text-emerald-700 hover:bg-emerald-50 hover:text-emerald-800 dark:border-emerald-500 dark:text-emerald-400 dark:hover:bg-emerald-950"
+                  onClick={() => setUploadOpen(true)}
+                >
+                  Upload background
+                </Button>
+              ) : null}
             </div>
           </div>
           <MediaGalleryToolbar
@@ -310,7 +314,7 @@ export function MediaGalleryContent({ accountId }: { accountId: string }) {
       ) : null}
 
       {items.length === 0 ? (
-        <MediaGalleryEmpty onUploadClick={() => setUploadOpen(true)} />
+        <MediaGalleryEmpty onUploadClick={() => setUploadOpen(true)} readOnly={readOnly} />
       ) : filteredItems.length === 0 ? (
         <MediaGalleryNoResults onClearFilters={handleClearFilters} />
       ) : (
@@ -322,33 +326,38 @@ export function MediaGalleryContent({ accountId }: { accountId: string }) {
           assetTypeOptions={assetTypeOptions}
           categoryConfig={categoryConfig}
           coverage={coverage}
+          readOnly={readOnly}
           onEdit={setEditItem}
           onDelete={setDeleteItem}
           onAddBackground={() => setUploadOpen(true)}
         />
       )}
 
-      <MediaGalleryUploadDialog
-        accountId={accountId}
-        accountSport={accountSport}
-        open={uploadOpen}
-        onOpenChange={setUploadOpen}
-      />
-      <MediaGalleryEditDialog
-        accountId={accountId}
-        accountSport={accountSport}
-        item={editItem}
-        onOpenChange={(open) => {
-          if (!open) setEditItem(null);
-        }}
-      />
-      <MediaGalleryDeleteDialog
-        accountId={accountId}
-        item={deleteItem}
-        onOpenChange={(open) => {
-          if (!open) setDeleteItem(null);
-        }}
-      />
+      {!readOnly ? (
+        <>
+          <MediaGalleryUploadDialog
+            accountId={accountId}
+            accountSport={accountSport}
+            open={uploadOpen}
+            onOpenChange={setUploadOpen}
+          />
+          <MediaGalleryEditDialog
+            accountId={accountId}
+            accountSport={accountSport}
+            item={editItem}
+            onOpenChange={(open) => {
+              if (!open) setEditItem(null);
+            }}
+          />
+          <MediaGalleryDeleteDialog
+            accountId={accountId}
+            item={deleteItem}
+            onOpenChange={(open) => {
+              if (!open) setDeleteItem(null);
+            }}
+          />
+        </>
+      ) : null}
     </>
   );
 }

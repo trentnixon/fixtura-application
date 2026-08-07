@@ -6,6 +6,7 @@ import {
   IconEye,
   IconFileDescription,
   IconFolder,
+  IconLifebuoy,
   IconMoneybag,
   IconPalette,
   IconPhoto,
@@ -23,23 +24,39 @@ import type {
   NavMainSection,
 } from "@/components/navigation/app-sidebar/_types/nav-section";
 
-export function getGatewayNavItems(): NavMainItem[] {
-  return [
+export function getGatewayNavItems(options?: { canAccessSupport?: boolean }): NavMainItem[] {
+  const items: NavMainItem[] = [
     { title: "Select organisation", url: ROUTES.selectOrganisation, icon: IconUsers },
     { title: "Create organisation", url: ROUTES.createOrganisation, icon: IconBuildingPlus },
   ];
+  if (options?.canAccessSupport) {
+    items.splice(1, 0, {
+      title: "Support accounts",
+      url: ROUTES.supportAccounts,
+      icon: IconLifebuoy,
+    });
+  }
+  return items;
 }
 
 export function getScopedNavSections(
   accountId: string | undefined,
-  options?: { accountType?: number | null },
+  options?: { accountType?: number | null; isSupportView?: boolean },
 ): NavMainSection[] {
   if (accountId == null) return [];
 
+  const isSupportView = options?.isSupportView === true;
   const showClubLogosNav =
-    options?.accountType !== undefined && options.accountType !== CLUB_ACCOUNT_TYPE_ID;
+    !isSupportView &&
+    options?.accountType !== undefined &&
+    options.accountType !== CLUB_ACCOUNT_TYPE_ID;
 
-  return [
+  const supportHiddenNavTitles = new Set(["Vision", "Templates", "Club Logos"]);
+
+  const filterSupportHidden = (items: NavMainItem[]): NavMainItem[] =>
+    isSupportView ? items.filter((item) => !supportHiddenNavTitles.has(item.title)) : items;
+
+  const sections: NavMainSection[] = [
     {
       label: "",
       items: [
@@ -67,7 +84,7 @@ export function getScopedNavSections(
     }, */
     {
       label: "Bundles",
-      items: [
+      items: filterSupportHidden([
         {
           title: "Bundles",
           url: accountScopedRoutes.bundles(accountId),
@@ -83,11 +100,11 @@ export function getScopedNavSections(
           url: accountScopedRoutes.settings(accountId),
           icon: IconSettings,
         },
-      ],
+      ]),
     },
     {
       label: "Assets",
-      items: [
+      items: filterSupportHidden([
         {
           title: "Templates",
           url: accountScopedRoutes.templateBuilder(accountId),
@@ -104,11 +121,11 @@ export function getScopedNavSections(
           url: accountScopedRoutes.sortOrder(accountId),
           icon: IconArrowsSort,
         },
-      ],
+      ]),
     },
     {
       label: "Organisation",
-      items: [
+      items: filterSupportHidden([
         {
           title: "Branding",
           url: accountScopedRoutes.branding(accountId),
@@ -133,7 +150,9 @@ export function getScopedNavSections(
           url: accountScopedRoutes.manageSponsors(accountId),
           icon: IconMoneybag,
         },
-      ],
+      ]),
     },
   ];
+
+  return sections.filter((section) => section.items.length > 0);
 }

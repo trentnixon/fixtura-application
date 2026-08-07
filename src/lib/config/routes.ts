@@ -23,6 +23,8 @@ export const ROUTES = {
 
   // (members) gateway — authenticated, no account scope yet
   selectOrganisation: "/select-organisation",
+  /** Internal support super-user account directory (not the public /support contact page). */
+  supportAccounts: "/support/accounts",
   createOrganisation: "/create-organisation",
   /** Gateway: poll setup / retry after wizard complete (lifecycle v1). */
   createOrganisationSetup: "/create-organisation/setup",

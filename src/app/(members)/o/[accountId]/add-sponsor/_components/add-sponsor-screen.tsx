@@ -7,14 +7,30 @@ import { ManageSponsorsContainerHeaderTitle } from "@/app/(members)/o/[accountId
 import { ManageSponsorsErrorState } from "@/app/(members)/o/[accountId]/manage-sponsors/_components/shared/manage-sponsors-error-state";
 import { ManageSponsorsLoadingState } from "@/app/(members)/o/[accountId]/manage-sponsors/_components/shared/manage-sponsors-loading-state";
 import { ManageSponsorsShell } from "@/app/(members)/o/[accountId]/manage-sponsors/_components/shared/manage-sponsors-shell";
+import { accountScopedRoutes } from "@/lib/config/account-routes";
+import { SupportReadOnlyUnavailable } from "@/lib/support/support-read-only-unavailable";
+import { useAccountReadOnly } from "@/lib/support/use-account-read-only";
 
 import { AddSponsorHeader } from "./add-sponsor-header";
 import { ADD_SPONSOR_SIDEBAR_COPY } from "../_constants/add-sponsor-sidebar";
 import { useAddSponsorScreen } from "../_hooks/use-add-sponsor-screen";
 
 export function AddSponsorScreen({ accountId }: { accountId: string }) {
+  const readOnly = useAccountReadOnly();
   const { isRedirecting, isLoading, isError, errorMessage, sponsor, saveSponsor, refetch } =
     useAddSponsorScreen(accountId);
+
+  if (readOnly) {
+    return (
+      <ManageSponsorsShell>
+        <SupportReadOnlyUnavailable
+          accountId={accountId}
+          backHref={accountScopedRoutes.manageSponsors(accountId)}
+          backLabel="Back to sponsors"
+        />
+      </ManageSponsorsShell>
+    );
+  }
 
   if (isRedirecting) {
     return <ManageSponsorsLoadingState />;

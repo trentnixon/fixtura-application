@@ -32,6 +32,7 @@ export function SponsorEntityAssignmentSidebar({
   setEntityRowFilter,
   setEntityTypeFilter,
   onClearAll,
+  readOnly = false,
 }: SponsorEntityAssignmentSidebarProps) {
   const clearAllDisabled =
     metrics.totalAllocations === 0 ||
@@ -104,19 +105,23 @@ export function SponsorEntityAssignmentSidebar({
             </SelectContent>
           </Select>
         </div>
-        <Separator />
-        <div className="bg-muted/25 px-5 pt-0 pb-4">
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="border-destructive text-destructive hover:bg-destructive/10 hover:text-destructive hover:border-destructive h-9 w-full"
-            disabled={clearAllDisabled}
-            onClick={onClearAll}
-          >
-            Clear all
-          </Button>
-        </div>
+        {!readOnly ? (
+          <>
+            <Separator />
+            <div className="bg-muted/25 px-5 pt-0 pb-4">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="border-destructive text-destructive hover:bg-destructive/10 hover:text-destructive hover:border-destructive h-9 w-full"
+                disabled={clearAllDisabled}
+                onClick={onClearAll}
+              >
+                Clear all
+              </Button>
+            </div>
+          </>
+        ) : null}
       </div>
     </div>
   );

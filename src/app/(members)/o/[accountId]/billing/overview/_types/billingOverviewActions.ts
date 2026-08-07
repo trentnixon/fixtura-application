@@ -10,4 +10,6 @@ export type BillingOverviewActionsProps = {
   organisationTrialNoticePresentation?: "active_on_another_account" | null;
   /** Hide create-subscription CTA when a paid future-start order is already on file. */
   suppressCreateSubscriptionCta?: boolean;
+  /** Support view: hide billing mutation CTAs (reads only). */
+  readOnly?: boolean;
 };

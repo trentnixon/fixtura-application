@@ -13,6 +13,7 @@ export function EntityAssignmentTargetRow({
   setRowSelection,
   assignToTarget,
   clearTarget,
+  readOnly = false,
 }: EntityAssignmentTargetRowProps) {
   return (
     <TableRow>
@@ -39,6 +40,8 @@ export function EntityAssignmentTargetRow({
                 <Badge variant="destructive">+{row.assignments.length - 1}</Badge>
               ) : null}
             </div>
+          ) : readOnly ? (
+            <span className="text-muted-foreground text-sm">Unassigned</span>
           ) : (
             <SponsorPlacementSponsorSelect
               selectionKey={row.key}
@@ -50,32 +53,34 @@ export function EntityAssignmentTargetRow({
           )}
         </div>
       </TableCell>
-      <TableCell className="text-right whitespace-normal">
-        <div className="flex justify-end gap-2">
-          {!row.hasAssignment ? (
+      {!readOnly ? (
+        <TableCell className="text-right whitespace-normal">
+          <div className="flex justify-end gap-2">
+            {!row.hasAssignment ? (
+              <Button
+                type="button"
+                variant="brand"
+                size="sm"
+                className="h-8"
+                disabled={row.rowBusy || !row.selectValue}
+                onClick={() => void assignToTarget(row.target)}
+              >
+                Assign
+              </Button>
+            ) : null}
             <Button
               type="button"
-              variant="brand"
-              size="sm"
-              className="h-8"
-              disabled={row.rowBusy || !row.selectValue}
-              onClick={() => void assignToTarget(row.target)}
+              variant="ghost"
+              size="compact"
+              className="text-destructive hover:bg-destructive/10 hover:text-destructive border-transparent shadow-none hover:translate-y-0 hover:border-transparent"
+              disabled={row.rowBusy || !row.hasAssignment}
+              onClick={() => void clearTarget(row.target)}
             >
-              Assign
+              Clear
             </Button>
-          ) : null}
-          <Button
-            type="button"
-            variant="ghost"
-            size="compact"
-            className="text-destructive hover:bg-destructive/10 hover:text-destructive border-transparent shadow-none hover:translate-y-0 hover:border-transparent"
-            disabled={row.rowBusy || !row.hasAssignment}
-            onClick={() => void clearTarget(row.target)}
-          >
-            Clear
-          </Button>
-        </div>
-      </TableCell>
+          </div>
+        </TableCell>
+      ) : null}
     </TableRow>
   );
 }

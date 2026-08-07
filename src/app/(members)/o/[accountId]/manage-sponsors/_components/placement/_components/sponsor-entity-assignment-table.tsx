@@ -25,6 +25,7 @@ export function SponsorEntityAssignmentTable({
   setRowSelection,
   assignToTarget,
   clearTarget,
+  readOnly = false,
 }: SponsorEntityAssignmentTableProps) {
   const rows = useMemo(
     () =>
@@ -55,13 +56,16 @@ export function SponsorEntityAssignmentTable({
           <TableRow className="bg-muted hover:bg-muted/55">
             <TableHead>Entity</TableHead>
             <TableHead>Sponsor</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
+            {!readOnly ? <TableHead className="text-right">Actions</TableHead> : null}
           </TableRow>
         </TableHeader>
         <TableBody>
           {rows.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={3} className="text-muted-foreground h-24 text-center">
+              <TableCell
+                colSpan={readOnly ? 2 : 3}
+                className="text-muted-foreground h-24 text-center"
+              >
                 No entity targets match filters.
               </TableCell>
             </TableRow>
@@ -77,6 +81,7 @@ export function SponsorEntityAssignmentTable({
                   setRowSelection={setRowSelection}
                   assignToTarget={assignToTarget}
                   clearTarget={clearTarget}
+                  readOnly={readOnly}
                 />
               ),
             )

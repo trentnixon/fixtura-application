@@ -10,6 +10,7 @@ import type { ManageSponsorsWorkspaceContentProps } from "../_types/manage-spons
 export function ManageSponsorsWorkspaceContent({
   accountId,
   workspace,
+  readOnly = false,
   onEditSponsor,
 }: ManageSponsorsWorkspaceContentProps) {
   const hasAnySponsors = workspace.workspaceSponsors.length > 0;
@@ -28,7 +29,7 @@ export function ManageSponsorsWorkspaceContent({
   }
 
   if (!hasAnySponsors) {
-    return <ManageSponsorsEmptyState accountId={accountId} />;
+    return <ManageSponsorsEmptyState accountId={accountId} readOnly={readOnly} />;
   }
 
   return (
@@ -41,7 +42,8 @@ export function ManageSponsorsWorkspaceContent({
         onSearchChange={workspace.setSearchValue}
         activeFilter={workspace.activeFilter}
         onFilterChange={workspace.setActiveFilter}
-        onEditSponsor={onEditSponsor}
+        readOnly={readOnly}
+        onEditSponsor={readOnly ? undefined : onEditSponsor}
       />
     </div>
   );

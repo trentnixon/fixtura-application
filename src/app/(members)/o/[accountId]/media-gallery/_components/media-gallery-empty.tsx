@@ -6,9 +6,10 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 
 type MediaGalleryEmptyProps = {
   onUploadClick: () => void;
+  readOnly?: boolean;
 };
 
-export function MediaGalleryEmpty({ onUploadClick }: MediaGalleryEmptyProps) {
+export function MediaGalleryEmpty({ onUploadClick, readOnly = false }: MediaGalleryEmptyProps) {
   return (
     <Card className="border-primary/15 bg-primary/5 shadow-sm ring-0" role="status">
       <CardContent className="flex flex-col items-center px-6 pt-8 text-center">
@@ -26,11 +27,13 @@ export function MediaGalleryEmpty({ onUploadClick }: MediaGalleryEmptyProps) {
           asset type so each image appears in the right places.
         </TypographyMuted>
       </CardContent>
-      <CardFooter className="flex justify-center px-6 pb-6">
-        <Button type="button" variant="accent" onClick={onUploadClick}>
-          Upload your first background
-        </Button>
-      </CardFooter>
+      {!readOnly ? (
+        <CardFooter className="flex justify-center px-6 pb-6">
+          <Button type="button" variant="accent" onClick={onUploadClick}>
+            Upload your first background
+          </Button>
+        </CardFooter>
+      ) : null}
     </Card>
   );
 }

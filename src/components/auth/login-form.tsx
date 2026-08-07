@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -9,10 +10,12 @@ import { z } from "zod";
 import { SubmitButton, ForgotPasswordLink, InlineAlert } from "@/components/auth/actions";
 import { AuthForm, EmailInput, PasswordInput } from "@/components/auth/forms";
 import { useLogin } from "@/lib/api/hooks/auth/useLogin";
+import { queryKeys } from "@/lib/api/query/query-keys";
+import { accountApi } from "@/lib/api/services/account.api";
 import { AUTH_ERROR_MESSAGES } from "@/lib/auth/auth-errors";
 import { LOGIN_REASON_SESSION } from "@/lib/config/auth-redirect";
-import { ROUTES } from "@/lib/config/routes";
 import { isSafeAppReturnPath } from "@/lib/config/safe-return-path";
+import { resolvePostLoginDestination } from "@/lib/support/resolve-post-login-destination";
 
 const loginSchema = z.object({
   email: z.string().email("Enter a valid email address"),
@@ -23,6 +26,7 @@ type LoginValues = z.infer<typeof loginSchema>;
 
 export function LoginForm() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const searchParams = useSearchParams();
   const login = useLogin();
   const reason = searchParams.get("reason");
@@ -50,9 +54,15 @@ export function LoginForm() {
       });
 
       toast.success("Signed in");
-      const from = searchParams.get("from");
-      const safePath = from && isSafeAppReturnPath(from) ? from : ROUTES.selectOrganisation;
-      router.push(safePath);
+      const me = await queryClient.fetchQuery({
+        queryKey: queryKeys.account.me,
+        queryFn: () => accountApi.getAccountMe(),
+      });
+      const destination = resolvePostLoginDestination({
+        mePayload: me.data,
+        fromParam: searchParams.get("from"),
+      });
+      router.push(destination);
     } catch (error: any) {
       // The error message from ApiError or network is surfaced by the hook or manually here
       toast.error(error.message ?? AUTH_ERROR_MESSAGES.loginUnavailable);

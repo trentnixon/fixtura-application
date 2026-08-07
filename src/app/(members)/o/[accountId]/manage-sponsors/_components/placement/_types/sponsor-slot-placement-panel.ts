@@ -72,6 +72,7 @@ export type SponsorSlotPlacementTableProps = {
   setRowSelection: Dispatch<SetStateAction<Record<string, string>>>;
   assignToSlot: (slot: SponsorPositionSlotDef) => Promise<void>;
   clearSlot: (slotId: string) => Promise<void>;
+  readOnly?: boolean;
 };
 
 export type SponsorSlotPlacementTableRow = {
@@ -98,6 +99,7 @@ export type SponsorSlotPlacementSidebarProps = {
   setSlotKindFilter: (value: SlotKindFilter) => void;
   onAddGeneralRow: () => void;
   onClearAll: () => void;
+  readOnly?: boolean;
 };
 
 export type SponsorSlotPlacementPanelProps = {

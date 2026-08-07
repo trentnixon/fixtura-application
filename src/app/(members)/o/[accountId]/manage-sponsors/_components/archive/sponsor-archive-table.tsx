@@ -19,12 +19,14 @@ export function SponsorArchiveTable({
   sponsors,
   restoringSponsorId,
   isDeleting,
+  readOnly = false,
   onRestoreSponsor,
   onSelectDeleteTarget,
 }: {
   sponsors: ManageSponsorsWorkspaceSponsor[];
   restoringSponsorId: ManageSponsorsWorkspaceSponsor["id"] | null;
   isDeleting: boolean;
+  readOnly?: boolean;
   onRestoreSponsor: (sponsor: ManageSponsorsWorkspaceSponsor) => void;
   onSelectDeleteTarget: (sponsor: ManageSponsorsWorkspaceSponsor) => void;
 }) {
@@ -36,7 +38,7 @@ export function SponsorArchiveTable({
             <TableHead>Sponsor</TableHead>
             <TableHead>Details</TableHead>
             <TableHead>Status</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
+            {!readOnly ? <TableHead className="text-right">Actions</TableHead> : null}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -69,32 +71,34 @@ export function SponsorArchiveTable({
                 <TableCell>
                   <Badge variant="outline">Archived</Badge>
                 </TableCell>
-                <TableCell className="text-right">
-                  <div className="flex justify-end gap-2">
-                    <Button
-                      type="button"
-                      variant="brandPrimaryOutline"
-                      size="sm"
-                      className="h-8"
-                      disabled={isRestoring || isDeleting}
-                      onClick={() => onRestoreSponsor(sponsor)}
-                    >
-                      <ArchiveRestore className="size-4" aria-hidden />
-                      {isRestoring ? "Restoring" : "Restore"}
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="destructive"
-                      size="sm"
-                      className="h-8"
-                      disabled={isRestoring || isDeleting}
-                      onClick={() => onSelectDeleteTarget(sponsor)}
-                    >
-                      <Trash2 className="size-4" aria-hidden />
-                      Delete
-                    </Button>
-                  </div>
-                </TableCell>
+                {!readOnly ? (
+                  <TableCell className="text-right">
+                    <div className="flex justify-end gap-2">
+                      <Button
+                        type="button"
+                        variant="brandPrimaryOutline"
+                        size="sm"
+                        className="h-8"
+                        disabled={isRestoring || isDeleting}
+                        onClick={() => onRestoreSponsor(sponsor)}
+                      >
+                        <ArchiveRestore className="size-4" aria-hidden />
+                        {isRestoring ? "Restoring" : "Restore"}
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        size="sm"
+                        className="h-8"
+                        disabled={isRestoring || isDeleting}
+                        onClick={() => onSelectDeleteTarget(sponsor)}
+                      >
+                        <Trash2 className="size-4" aria-hidden />
+                        Delete
+                      </Button>
+                    </div>
+                  </TableCell>
+                ) : null}
               </TableRow>
             );
           })}

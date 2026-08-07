@@ -16,6 +16,7 @@ import { getBillingInvoiceRequestWithdrawCopy } from "../../_constants/invoice-r
 import { BILLING_SUPPORT_EMAIL } from "../../_constants/support/billingSupport";
 import { useBillingInvoiceRequestWithdraw } from "../../_hooks/useBillingInvoiceRequestWithdraw";
 import { useBillingPaymentPendingBannerActions } from "../../_hooks/useBillingPaymentPendingBannerActions";
+import { useBillingSupportReadOnly } from "../../_hooks/useBillingSupportReadOnly";
 import { resolveWithdrawableInvoiceRequestId } from "../../_utils/invoice-request/resolveWithdrawableInvoiceRequestId";
 import {
   isInvoiceIssuedCheckout,
@@ -33,6 +34,7 @@ export function BillingPaymentPendingBanner({
   summary,
   orders,
 }: BillingPaymentPendingBannerProps) {
+  const isBillingReadOnly = useBillingSupportReadOnly();
   const { eyebrow, title, body, variant } = paymentPendingBannerCopy(summary, orders);
   const createHref = `/o/${encodeURIComponent(accountId)}/billing/create`;
 
@@ -74,7 +76,7 @@ export function BillingPaymentPendingBanner({
             </CardHeader>
           </div>
           <div className="bg-muted/30 flex w-full flex-col justify-center gap-3 border-t p-6 md:w-64 md:border-t-0 md:border-l">
-            {variant === "checkout" ? (
+            {!isBillingReadOnly && variant === "checkout" ? (
               <>
                 {orderId ? (
                   <Button
@@ -104,7 +106,7 @@ export function BillingPaymentPendingBanner({
                 ) : null}
               </>
             ) : null}
-            {showWithdrawInvoiceRequest && withdrawableInvoiceRequestId ? (
+            {!isBillingReadOnly && showWithdrawInvoiceRequest && withdrawableInvoiceRequestId ? (
               <Button
                 type="button"
                 variant="outline"
@@ -139,16 +141,18 @@ export function BillingPaymentPendingBanner({
         </div>
       </Card>
 
-      <BillingInvoiceRequestWithdrawDialog
-        open={withdraw.confirmOpen}
-        onOpenChange={withdraw.handleDialogOpenChange}
-        target={withdraw.withdrawTarget}
-        copyVariant={withdraw.copyVariant}
-        errorMessage={withdraw.errorMessage}
-        isPending={withdraw.isPending}
-        onCancel={withdraw.closeDialog}
-        onConfirm={withdraw.confirmWithdraw}
-      />
+      {!isBillingReadOnly ? (
+        <BillingInvoiceRequestWithdrawDialog
+          open={withdraw.confirmOpen}
+          onOpenChange={withdraw.handleDialogOpenChange}
+          target={withdraw.withdrawTarget}
+          copyVariant={withdraw.copyVariant}
+          errorMessage={withdraw.errorMessage}
+          isPending={withdraw.isPending}
+          onCancel={withdraw.closeDialog}
+          onConfirm={withdraw.confirmWithdraw}
+        />
+      ) : null}
     </>
   );
 }

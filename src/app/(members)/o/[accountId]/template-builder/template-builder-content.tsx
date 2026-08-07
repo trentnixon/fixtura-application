@@ -45,6 +45,8 @@ import {
   SELECT_ORG_GATEWAY_REASON,
   selectOrganisationUrlWithReason,
 } from "@/lib/config/gateway-reasons";
+import { SupportReadOnlyUnavailable } from "@/lib/support/support-read-only-unavailable";
+import { useAccountReadOnly } from "@/lib/support/use-account-read-only";
 
 import { TemplateBuilderPreviewPanel } from "./_components/template-builder-preview-panel";
 import {
@@ -103,6 +105,24 @@ function removeAllTemplateOptionsQueriesForAccount(
 }
 
 export function TemplateBuilderContent({ accountId }: { accountId: string }) {
+  const readOnly = useAccountReadOnly();
+
+  if (readOnly) {
+    return (
+      <div className="mx-auto max-w-2xl px-4 py-8">
+        <SupportReadOnlyUnavailable
+          accountId={accountId}
+          backHref={`/o/${encodeURIComponent(accountId)}/dashboard`}
+          backLabel="Back to dashboard"
+        />
+      </div>
+    );
+  }
+
+  return <TemplateBuilderContentEditable accountId={accountId} />;
+}
+
+function TemplateBuilderContentEditable({ accountId }: { accountId: string }) {
   const router = useRouter();
   const queryClient = useQueryClient();
   const redirectingRef = useRef(false);

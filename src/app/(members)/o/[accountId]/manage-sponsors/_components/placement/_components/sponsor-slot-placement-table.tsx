@@ -35,6 +35,7 @@ export function SponsorSlotPlacementTable({
   setRowSelection,
   assignToSlot,
   clearSlot,
+  readOnly = false,
 }: SponsorSlotPlacementTableProps) {
   const rows = useMemo(
     () =>
@@ -65,13 +66,16 @@ export function SponsorSlotPlacementTable({
           <TableRow className="bg-muted hover:bg-muted/55">
             <TableHead>Position</TableHead>
             <TableHead>Sponsor</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
+            {!readOnly ? <TableHead className="text-right">Actions</TableHead> : null}
           </TableRow>
         </TableHeader>
         <TableBody>
           {rows.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={3} className="text-muted-foreground h-24 text-center">
+              <TableCell
+                colSpan={readOnly ? 2 : 3}
+                className="text-muted-foreground h-24 text-center"
+              >
                 No positions match filters.
               </TableCell>
             </TableRow>
@@ -84,6 +88,7 @@ export function SponsorSlotPlacementTable({
                 setRowSelection={setRowSelection}
                 assignToSlot={assignToSlot}
                 clearSlot={clearSlot}
+                readOnly={readOnly}
               />
             ))
           )}
@@ -99,12 +104,14 @@ function SponsorSlotPlacementRow({
   setRowSelection,
   assignToSlot,
   clearSlot,
+  readOnly = false,
 }: {
   row: SponsorSlotPlacementTableRow;
   eligibleForPicker: ManageSponsorsWorkspaceSponsor[];
   setRowSelection: Dispatch<SetStateAction<Record<string, string>>>;
   assignToSlot: SponsorSlotPlacementTableProps["assignToSlot"];
   clearSlot: SponsorSlotPlacementTableProps["clearSlot"];
+  readOnly?: boolean;
 }) {
   return (
     <TableRow
@@ -139,6 +146,8 @@ function SponsorSlotPlacementRow({
           <span className="font-medium">
             {row.assigned?.name ?? `Sponsor #${row.occupant.sponsorId}`}
           </span>
+        ) : readOnly ? (
+          <span className="text-muted-foreground text-sm">Unassigned</span>
         ) : (
           <SponsorPlacementSponsorSelect
             selectionKey={row.slot.id}
@@ -149,32 +158,34 @@ function SponsorSlotPlacementRow({
           />
         )}
       </TableCell>
-      <TableCell className="text-right whitespace-normal">
-        <div className="flex justify-end gap-2">
-          {!row.occupant ? (
+      {!readOnly ? (
+        <TableCell className="text-right whitespace-normal">
+          <div className="flex justify-end gap-2">
+            {!row.occupant ? (
+              <Button
+                type="button"
+                variant="brand"
+                size="sm"
+                className="h-8"
+                disabled={row.rowBusy || !row.selectValue}
+                onClick={() => void assignToSlot(row.slot)}
+              >
+                Assign
+              </Button>
+            ) : null}
             <Button
               type="button"
-              variant="brand"
-              size="sm"
-              className="h-8"
-              disabled={row.rowBusy || !row.selectValue}
-              onClick={() => void assignToSlot(row.slot)}
+              variant="ghost"
+              size="compact"
+              className="text-destructive hover:bg-destructive/10 hover:text-destructive border-transparent shadow-none hover:translate-y-0 hover:border-transparent"
+              disabled={row.rowBusy || !row.occupant}
+              onClick={() => void clearSlot(row.slot.id)}
             >
-              Assign
+              Clear
             </Button>
-          ) : null}
-          <Button
-            type="button"
-            variant="ghost"
-            size="compact"
-            className="text-destructive hover:bg-destructive/10 hover:text-destructive border-transparent shadow-none hover:translate-y-0 hover:border-transparent"
-            disabled={row.rowBusy || !row.occupant}
-            onClick={() => void clearSlot(row.slot.id)}
-          >
-            Clear
-          </Button>
-        </div>
-      </TableCell>
+          </div>
+        </TableCell>
+      ) : null}
     </TableRow>
   );
 }

@@ -3,6 +3,7 @@
 import { BrandedLoader } from "@/components/ui/branded-loader";
 import { ErrorState } from "@/components/ui/error-state";
 import { BrandingWorkspace } from "@/features/branding/components/branding-workspace";
+import { useAccountReadOnly } from "@/lib/support/use-account-read-only";
 
 import { BRANDING_SCREEN_COPY, BRANDING_SCREEN_WORKSPACE } from "./_consts";
 import { useBrandingScreen } from "./_hooks";
@@ -10,6 +11,7 @@ import { useBrandingScreen } from "./_hooks";
 import type { BrandingScreenProps } from "./_types";
 
 export function BrandingScreen({ accountId }: BrandingScreenProps) {
+  const readOnly = useAccountReadOnly();
   const view = useBrandingScreen(accountId);
 
   if (view.kind === "redirecting") {
@@ -44,7 +46,7 @@ export function BrandingScreen({ accountId }: BrandingScreenProps) {
         key={accountId}
         accountId={accountId}
         data={view.data}
-        mode={BRANDING_SCREEN_WORKSPACE.mode}
+        mode={readOnly ? "view" : BRANDING_SCREEN_WORKSPACE.mode}
         cmsSaveLabStub={BRANDING_SCREEN_WORKSPACE.cmsSaveLabStub}
       />
     </div>

@@ -19,6 +19,7 @@ export type SponsorLibraryPanelProps = {
   activeFilter: ManageSponsorsLibraryFilter;
   onFilterChange: (value: ManageSponsorsLibraryFilter) => void;
   disabled?: boolean;
+  readOnly?: boolean;
   /** When set, the pool card exposes Edit to manage sponsor fields remotely. */
   onEditSponsor?: ((sponsorId: number | string) => void) | undefined;
 };
@@ -39,6 +40,7 @@ export type SponsorLibraryFilterToggleProps = Pick<
 export type SponsorLibraryCardProps = {
   sponsor: ManageSponsorsWorkspaceSponsor;
   disabled?: boolean;
+  readOnly?: boolean;
   onEditSponsor?: ((sponsorId: number | string) => void) | undefined;
 };
 

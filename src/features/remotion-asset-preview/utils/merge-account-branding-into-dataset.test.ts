@@ -154,6 +154,45 @@ describe("mergeAccountBrandingIntoDataset", () => {
     expect(usedTemplateFallback).toBe(false);
   });
 
+  it("sets appearance.template to BroadcastProRounded from category slug", () => {
+    const base = minimalDataset();
+    const { data, usedTemplateFallback } = mergeAccountBrandingIntoDataset(base, {
+      branding: brandingFixture({
+        template: { ...brandingFixture().template!, category: "BroadcastProRounded" },
+      }),
+      logoUrl: null,
+      templateModeSlug: null,
+    });
+
+    const dataRec = data as unknown as Record<string, unknown>;
+    const vm = dataRec["videoMeta"] as Record<string, unknown>;
+    const video = vm["video"] as Record<string, unknown>;
+    const appearance = video["appearance"] as Record<string, unknown>;
+    const tv = video["templateVariation"] as Record<string, unknown>;
+    const category = tv["category"] as Record<string, unknown>;
+    expect(appearance["template"]).toBe("BroadcastProRounded");
+    expect(category["slug"]).toBe("BroadcastProRounded");
+    expect(usedTemplateFallback).toBe(false);
+  });
+
+  it("resolves BroadcastProRounded case-insensitively", () => {
+    const base = minimalDataset();
+    const { data, usedTemplateFallback } = mergeAccountBrandingIntoDataset(base, {
+      branding: brandingFixture({
+        template: { ...brandingFixture().template!, category: "broadcastprorounded" },
+      }),
+      logoUrl: null,
+      templateModeSlug: null,
+    });
+
+    const dataRec = data as unknown as Record<string, unknown>;
+    const vm = dataRec["videoMeta"] as Record<string, unknown>;
+    const video = vm["video"] as Record<string, unknown>;
+    const appearance = video["appearance"] as Record<string, unknown>;
+    expect(appearance["template"]).toBe("BroadcastProRounded");
+    expect(usedTemplateFallback).toBe(false);
+  });
+
   it("applies theme colours from branding.theme", () => {
     const base = minimalDataset();
     const { data } = mergeAccountBrandingIntoDataset(base, {

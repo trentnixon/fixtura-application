@@ -2,6 +2,8 @@
 
 import { BrandedLoader } from "@/components/ui/branded-loader";
 import { ErrorState } from "@/components/ui/error-state";
+import { SupportReadOnlyUnavailable } from "@/lib/support/support-read-only-unavailable";
+import { useAccountReadOnly } from "@/lib/support/use-account-read-only";
 
 import { ClubLogoEditorHeader } from "./club-logo-editor-header";
 import { ClubLogoWorkspace } from "./club-logo-workspace";
@@ -14,7 +16,20 @@ export type ClubLogoEditorScreenProps = {
 };
 
 export function ClubLogoEditorScreen({ accountId, clubId }: ClubLogoEditorScreenProps) {
+  const readOnly = useAccountReadOnly();
   const view = useClubLogoEditorScreen(accountId, clubId);
+
+  if (readOnly) {
+    return (
+      <div className="mx-auto max-w-2xl px-4 py-8">
+        <SupportReadOnlyUnavailable
+          accountId={accountId}
+          backHref={`/o/${encodeURIComponent(accountId)}/dashboard`}
+          backLabel="Back to dashboard"
+        />
+      </div>
+    );
+  }
 
   if (view.kind === "redirecting") {
     return (

@@ -17,6 +17,8 @@ import {
   WEEKDAY_OPTIONS,
   daysUntilNextDelivery,
 } from "@/features/settings/bundle-delivery-weekdays";
+import { SUPPORT_READ_ONLY_FORM_DESCRIPTION } from "@/lib/support/support-read-only-copy";
+import { useAccountReadOnly } from "@/lib/support/use-account-read-only";
 
 import { SaveSettingsDialog } from "./save-settings-dialog";
 import { SettingsSelectRow } from "./settings-select-row";
@@ -36,6 +38,7 @@ export function AccountSettingsPreferences({
   accountId,
   payload,
 }: AccountSettingsPreferencesProps) {
+  const readOnly = useAccountReadOnly();
   const {
     mutation,
     showAssocGrouping,
@@ -61,8 +64,19 @@ export function AccountSettingsPreferences({
     [payload.FirstName, payload.LastName].filter(Boolean).join(" ").trim() ||
     "Organisation";
 
+  const inputsDisabled = mutation.isPending || saveForbidden || readOnly;
+
   return (
     <div className="space-y-8">
+      {readOnly ? (
+        <div
+          role="status"
+          className="border-border bg-muted/40 text-muted-foreground rounded-lg border px-4 py-3 text-sm"
+        >
+          {SUPPORT_READ_ONLY_FORM_DESCRIPTION}
+        </div>
+      ) : null}
+
       {saveForbidden ? (
         <div
           role="alert"
@@ -114,14 +128,14 @@ export function AccountSettingsPreferences({
               id={settingsPrefId("deliveryWeekdayKey")}
               title="Bundle delivery day"
               description={`Weekly bundles target this delivery day - about ${daysUntilNextDelivery(draft.deliveryWeekdayKey)} days until the next cycle from today.${!hasParsableDeliveryFromServer ? " Could not resolve your saved weekday from CMS (name/id); the selection defaults until you save." : ""}`}
-              disabled={mutation.isPending}
+              disabled={inputsDisabled}
             >
               <Select
                 value={draft.deliveryWeekdayKey}
                 onValueChange={(next) =>
                   setDraft((prev) => ({ ...prev, deliveryWeekdayKey: next as WeekdayKey }))
                 }
-                disabled={mutation.isPending || saveForbidden}
+                disabled={inputsDisabled}
               >
                 <SelectTrigger className="h-9 rounded-xl">
                   <SelectValue />
@@ -141,7 +155,7 @@ export function AccountSettingsPreferences({
                 id={settingsPrefId("competitionsGroupedBy")}
                 title="Competitions grouped by"
                 description="Association preference - organise competition lists by competition or grade."
-                disabled={mutation.isPending || saveForbidden}
+                disabled={inputsDisabled}
               >
                 <Select
                   value={draft.competitionsGroupedBy}
@@ -151,7 +165,7 @@ export function AccountSettingsPreferences({
                       competitionsGroupedBy: next as CompetitionGroupingKey,
                     }))
                   }
-                  disabled={mutation.isPending || saveForbidden}
+                  disabled={inputsDisabled}
                 >
                   <SelectTrigger className="h-9 rounded-xl">
                     <SelectValue />
@@ -176,7 +190,7 @@ export function AccountSettingsPreferences({
               }
               description="Turn this off to omit junior players' surnames on bundle assets - for example when your club or association prefers not to publish them on junior outputs. Turn on to include surnames in those bundle assets."
               checked={draft.includeJuniorSurnames}
-              disabled={mutation.isPending || saveForbidden}
+              disabled={inputsDisabled}
               onCheckedChange={(next) =>
                 setDraft((prev) => ({
                   ...prev,
@@ -191,7 +205,7 @@ export function AccountSettingsPreferences({
                 title={<span className="text-sm font-medium">Split seniors and masters</span>}
                 description="Club preference - separates seniors and masters into distinct bundle groups when enabled."
                 checked={draft.splitSeniorsAndMasters}
-                disabled={mutation.isPending || saveForbidden}
+                disabled={inputsDisabled}
                 onCheckedChange={(next) =>
                   setDraft((prev) => ({ ...prev, splitSeniorsAndMasters: next }))
                 }
@@ -202,29 +216,33 @@ export function AccountSettingsPreferences({
           <div className="border-border px-6 py-4">
             <div className="flex w-full min-w-0 flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
               <TypographyMuted className="text-xs">
-                {!hasChanges
-                  ? "All preferences match saved values."
-                  : canSubmit
-                    ? "Review changes before saving."
-                    : "Adjust a preference above - some choices may be ignored until the CMS recognises new fields."}
+                {readOnly
+                  ? "Read-only support view."
+                  : !hasChanges
+                    ? "All preferences match saved values."
+                    : canSubmit
+                      ? "Review changes before saving."
+                      : "Adjust a preference above - some choices may be ignored until the CMS recognises new fields."}
               </TypographyMuted>
-              <div className="flex flex-wrap gap-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  disabled={mutation.isPending || !hasChanges || saveForbidden}
-                  onClick={() => setDraft(baselineDraft)}
-                >
-                  Reset
-                </Button>
-                <Button
-                  type="button"
-                  disabled={saveDisabled || saveForbidden}
-                  onClick={openSaveDialog}
-                >
-                  {mutation.isPending ? "Saving..." : "Save settings"}
-                </Button>
-              </div>
+              {!readOnly ? (
+                <div className="flex flex-wrap gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    disabled={mutation.isPending || !hasChanges || saveForbidden}
+                    onClick={() => setDraft(baselineDraft)}
+                  >
+                    Reset
+                  </Button>
+                  <Button
+                    type="button"
+                    disabled={saveDisabled || saveForbidden}
+                    onClick={openSaveDialog}
+                  >
+                    {mutation.isPending ? "Saving..." : "Save settings"}
+                  </Button>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>

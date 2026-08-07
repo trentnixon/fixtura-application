@@ -10,6 +10,7 @@ export type ManageSponsorsWorkspaceState = ManageSponsorsWorkspaceResult;
 
 export type ManageSponsorsWorkspaceContentProps = ManageSponsorsWorkspaceProps & {
   workspace: ManageSponsorsWorkspaceState;
+  readOnly?: boolean;
   onEditSponsor: (sponsorId: number | string) => void;
 };
 

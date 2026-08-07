@@ -26,7 +26,7 @@ export function GradeOrderingGroupCard({
   gradeLookup: GradeOrderingGradeLookup;
   onReorder: (itemIds: number[]) => void;
   disabled?: boolean;
-  saveFooter: GradeOrderingSaveFooterProps;
+  saveFooter?: GradeOrderingSaveFooterProps;
 }) {
   return (
     <MetricComparisonCard
@@ -47,7 +47,7 @@ export function GradeOrderingGroupCard({
           />
         </div>
       }
-      footer={<GradeOrderingSaveFooter {...saveFooter} />}
+      footer={saveFooter ? <GradeOrderingSaveFooter {...saveFooter} /> : undefined}
     />
   );
 }

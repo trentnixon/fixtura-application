@@ -18,7 +18,6 @@ export function SeasonFixtureResultSyncDialog({
   open,
   onOpenChange,
   isSyncMutating,
-  payload,
   onConfirm,
 }: SeasonFixtureResultSyncDialogProps) {
   return (
@@ -32,14 +31,6 @@ export function SeasonFixtureResultSyncDialog({
             instant refresh of the page.
           </DialogDescription>
         </DialogHeader>
-        <div>
-          <p className="text-muted-foreground mb-2 text-xs font-medium tracking-wide uppercase">
-            Request body
-          </p>
-          <pre className="bg-muted/50 text-muted-foreground max-h-40 overflow-auto rounded-md border p-3 text-xs">
-            {JSON.stringify(payload, null, 2)}
-          </pre>
-        </div>
         <DialogFooter>
           <Button
             type="button"

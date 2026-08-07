@@ -1,7 +1,7 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 import { ErrorState } from "@/components/ui/error-state";
 import { useTriggerResultSingleScrape } from "@/lib/api/hooks/account/useTriggerResultSingleScrape";
@@ -21,7 +21,6 @@ import {
 } from "./_utils";
 
 import type { SeasonFixtureViewProps } from "./_types";
-import type { TriggerResultSingleScrapeRequest } from "@/types/api/account";
 
 export function SeasonFixtureView({
   accountId,
@@ -49,10 +48,6 @@ export function SeasonFixtureView({
   const canQueueResultSync = Number.isInteger(cmsFixtureNumericId) && cmsFixtureNumericId > 0;
   const resultSingle = useTriggerResultSingleScrape(accountId, competitionId, gradeId, fixtureId);
   const [resultSyncDialogOpen, setResultSyncDialogOpen] = useState(false);
-
-  const resultSyncPayload = useMemo((): TriggerResultSingleScrapeRequest => {
-    return { cmsFixtureId: cmsFixtureNumericId };
-  }, [cmsFixtureNumericId]);
 
   const isFetching = fixture.isFetching || gradeFixtures.isFetching;
 
@@ -120,7 +115,6 @@ export function SeasonFixtureView({
         open={resultSyncDialogOpen}
         onOpenChange={setResultSyncDialogOpen}
         isSyncMutating={resultSingle.isPending}
-        payload={resultSyncPayload}
         onConfirm={handleConfirmResultSync}
       />
 

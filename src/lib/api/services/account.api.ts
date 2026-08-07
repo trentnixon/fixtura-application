@@ -97,6 +97,8 @@ import type {
   PostAccountBillingCheckoutResumeRequest,
   PostAccountBillingInvoiceRequestBody,
   StartAccountBillingTrialResponse,
+  SupportDirectoryParams,
+  SupportDirectoryResponse,
 } from "@/types/api/account";
 import type {
   GradeOrderingGetParams,
@@ -143,6 +145,37 @@ export const accountApi = {
   createFirstAccount: async (body: CreateFirstAccountRequestBody = {}) => {
     const payload = await apiClient.post<unknown>(appRoutes.account.first.path, body);
     return parseCreateFirstAccountResponse(payload);
+  },
+
+  /** Support super-user paginated account directory (Phase 5). */
+  getSupportDirectory: (params?: SupportDirectoryParams) => {
+    const page = params?.page ?? 1;
+    const pageSize = params?.pageSize ?? 25;
+    const search = new URLSearchParams();
+    search.set("page", String(page));
+    search.set("pageSize", String(pageSize));
+    if (params?.search !== undefined && params.search !== "") {
+      search.set("search", params.search);
+    }
+    if (params?.sport !== undefined) {
+      search.set("sport", params.sport);
+    }
+    if (params?.isActive !== undefined) {
+      search.set("isActive", params.isActive ? "true" : "false");
+    }
+    if (params?.isSetup !== undefined) {
+      search.set("isSetup", params.isSetup ? "true" : "false");
+    }
+    if (params?.healthStatus !== undefined) {
+      search.set("healthStatus", params.healthStatus);
+    }
+    if (params?.sort !== undefined) {
+      search.set("sort", params.sort);
+    }
+    const qs = search.toString();
+    return apiClient.get<SupportDirectoryResponse>(
+      `${appRoutes.account.supportDirectory.path}${qs ? `?${qs}` : ""}`,
+    );
   },
 
   /** L1: sport options for onboarding Step 1. */

@@ -38,6 +38,7 @@ type MediaGalleryGridProps = {
   assetTypeOptions: AccountMediaLibraryAssetType[];
   categoryConfig: MediaGalleryCategoryConfig;
   coverage: MediaGalleryCoverage;
+  readOnly?: boolean;
   onEdit: (item: AccountMediaLibraryItem) => void;
   onDelete: (item: AccountMediaLibraryItem) => void;
   onAddBackground: () => void;
@@ -163,12 +164,14 @@ function MediaGalleryItemGrid({
   items,
   view,
   categoryConfig,
+  readOnly = false,
   onEdit,
   onDelete,
 }: {
   items: AccountMediaLibraryItem[];
   view: MediaGalleryView;
   categoryConfig: MediaGalleryCategoryConfig;
+  readOnly?: boolean;
   onEdit: (item: AccountMediaLibraryItem) => void;
   onDelete: (item: AccountMediaLibraryItem) => void;
 }) {
@@ -180,6 +183,7 @@ function MediaGalleryItemGrid({
             item={item}
             view={view}
             categoryConfig={categoryConfig}
+            readOnly={readOnly}
             onEdit={() => onEdit(item)}
             onDelete={() => onDelete(item)}
           />
@@ -197,6 +201,7 @@ export function MediaGalleryGrid({
   assetTypeOptions,
   categoryConfig,
   coverage,
+  readOnly = false,
   onEdit,
   onDelete,
   onAddBackground,
@@ -207,6 +212,7 @@ export function MediaGalleryGrid({
         items={items}
         view={view}
         categoryConfig={categoryConfig}
+        readOnly={readOnly}
         onEdit={onEdit}
         onDelete={onDelete}
       />
@@ -235,14 +241,14 @@ export function MediaGalleryGrid({
                   ? `No backgrounds assigned to this ${categoryConfig.categoryLabel.toLowerCase()} yet.`
                   : "No backgrounds assigned to this asset type yet."
               }
-              {...(group.showAddAction
+              {...(!readOnly && group.showAddAction
                 ? { actionLabel: "Add background", onAction: onAddBackground }
                 : {})}
             />
           );
         }
 
-        const hasFooter = crossCounts.length > 0 || group.showAddAction;
+        const hasFooter = crossCounts.length > 0 || (!readOnly && group.showAddAction);
 
         return (
           <MetricComparisonCard
@@ -269,6 +275,7 @@ export function MediaGalleryGrid({
                 items={group.items}
                 view={view}
                 categoryConfig={categoryConfig}
+                readOnly={readOnly}
                 onEdit={onEdit}
                 onDelete={onDelete}
               />
@@ -288,7 +295,7 @@ export function MediaGalleryGrid({
                       ))}
                     </ul>
                   ) : null}
-                  {group.showAddAction ? (
+                  {!readOnly && group.showAddAction ? (
                     <div>
                       <Button type="button" size="sm" variant="outline" onClick={onAddBackground}>
                         Add background

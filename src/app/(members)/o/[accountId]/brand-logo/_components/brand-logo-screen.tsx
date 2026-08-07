@@ -4,6 +4,7 @@ import { useBrandingScreen } from "@/app/(members)/o/[accountId]/branding/_compo
 import { BrandedLoader } from "@/components/ui/branded-loader";
 import { ErrorState } from "@/components/ui/error-state";
 import { BrandLogoWorkspace } from "@/features/branding/components/brand-logo-workspace";
+import { useAccountReadOnly } from "@/lib/support/use-account-read-only";
 
 import { BRAND_LOGO_SCREEN_COPY } from "./_consts";
 
@@ -12,6 +13,7 @@ export type BrandLogoScreenProps = {
 };
 
 export function BrandLogoScreen({ accountId }: BrandLogoScreenProps) {
+  const readOnly = useAccountReadOnly();
   const view = useBrandingScreen(accountId);
 
   if (view.kind === "redirecting") {
@@ -42,7 +44,7 @@ export function BrandLogoScreen({ accountId }: BrandLogoScreenProps) {
 
   return (
     <div className="mx-auto grid max-w-[88rem] gap-6 px-4 pb-12 sm:px-6 lg:px-8">
-      <BrandLogoWorkspace accountId={accountId} data={view.data} />
+      <BrandLogoWorkspace accountId={accountId} data={view.data} readOnly={readOnly} />
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 
 import { ScopedOnboardingSyncBanner } from "@/components/scoped-onboarding-sync-banner";
+import { SupportViewBanner } from "@/components/support-view-banner";
 import { TypographyNavLabel } from "@/components/typography";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -14,6 +15,7 @@ import { ROUTES } from "@/lib/config/routes";
  */
 function getPageTitle(pathname: string): string {
   if (pathname === ROUTES.selectOrganisation) return "Select organisation";
+  if (pathname === ROUTES.supportAccounts) return "Support accounts";
   if (pathname === ROUTES.createOrganisation) return "Create organisation";
 
   const scoped = parseAccountScopePath(pathname);
@@ -68,6 +70,7 @@ export function SiteHeader() {
         </div>
       </div>
       <ScopedOnboardingSyncBanner />
+      <SupportViewBanner />
     </header>
   );
 }

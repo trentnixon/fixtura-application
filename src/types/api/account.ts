@@ -38,6 +38,10 @@ export type AccountContentHubPayload = {
 /** Populated account document slice; shape follows Strapi entity API. */
 export type AccountMeExtended = Record<string, unknown>;
 
+export interface AccountMeUserCapabilities {
+  canAccessAllAccounts?: boolean;
+}
+
 export interface AccountMeUser {
   id: number;
   username: string;
@@ -49,6 +53,8 @@ export interface AccountMeUser {
     name?: string;
     type?: string;
   } | null;
+  /** Derived support super-user capability from GET /api/account/me (UI gating only). */
+  capabilities?: AccountMeUserCapabilities;
 }
 
 /**
@@ -114,6 +120,51 @@ export interface AccountMePayload {
 /** Success body for GET /api/account/me */
 export interface AccountMeResponse {
   data: AccountMePayload;
+}
+
+/** Support directory sport filter values (GET /api/account/support/directory). */
+export type SupportDirectorySport = "Cricket" | "AFL" | "Hockey" | "Netball" | "Basketball";
+
+/** Support directory health status filter values. */
+export type SupportDirectoryHealthStatus =
+  "not_started" | "queued" | "running" | "completed" | "failed";
+
+export type SupportDirectorySort = "createdAt:asc" | "createdAt:desc";
+
+export interface SupportDirectoryParams {
+  page?: number;
+  pageSize?: number;
+  search?: string;
+  sport?: SupportDirectorySport;
+  isActive?: boolean;
+  isSetup?: boolean;
+  healthStatus?: SupportDirectoryHealthStatus;
+  sort?: SupportDirectorySort;
+}
+
+export interface SupportDirectoryRow {
+  id: number;
+  name: string;
+  ownerEmail: string | null;
+  accountType: string;
+  sport: string | null;
+  isActive: boolean;
+  isSetup: boolean;
+  onboardingStatus: string;
+  accountHealthStatus: string | null;
+  createdAt: string;
+}
+
+export interface SupportDirectoryMeta {
+  page: number;
+  pageSize: number;
+  total: number;
+  totalPages: number;
+}
+
+export interface SupportDirectoryResponse {
+  data: SupportDirectoryRow[];
+  meta: SupportDirectoryMeta;
 }
 
 /** Request body for POST /api/account/first (A1); forwarded to Strapi as-is. */
@@ -436,8 +487,7 @@ export type PatchAccountSettingsBody = {
 
 /** PATCH allows `{ data: { ... } }` wrapper per CMS contract. */
 export type PatchAccountSettingsRequest =
-  | PatchAccountSettingsBody
-  | { data: PatchAccountSettingsBody };
+  PatchAccountSettingsBody | { data: PatchAccountSettingsBody };
 
 /** Success envelope matches GET settings `data`. */
 export type PatchAccountSettingsResponse = AccountSettingsResponse;
@@ -461,19 +511,16 @@ export type PatchAccountNotificationsBody = {
 };
 
 export type PatchAccountNotificationsRequest =
-  | PatchAccountNotificationsBody
-  | { data: PatchAccountNotificationsBody };
+  PatchAccountNotificationsBody | { data: PatchAccountNotificationsBody };
 
 export type PatchAccountNotificationsResponse = AccountNotificationsResponse;
 
 /** PATCH /api/accounts/:accountId/security/profile — XOR: `userName` OR `firstName`/`lastName` (server enforces). */
 export type PatchAccountSecurityProfileBody =
-  | { userName: string }
-  | { firstName?: string; lastName?: string };
+  { userName: string } | { firstName?: string; lastName?: string };
 
 export type PatchAccountSecurityProfileRequest =
-  | PatchAccountSecurityProfileBody
-  | { data: PatchAccountSecurityProfileBody };
+  PatchAccountSecurityProfileBody | { data: PatchAccountSecurityProfileBody };
 
 export type PatchAccountSecurityProfileResponse = AccountSettingsResponse;
 
@@ -481,8 +528,7 @@ export type PatchAccountSecurityProfileResponse = AccountSettingsResponse;
 export type PatchAccountSecurityLoginEmailBody = { loginEmail: string } | { email: string };
 
 export type PatchAccountSecurityLoginEmailRequest =
-  | PatchAccountSecurityLoginEmailBody
-  | { data: PatchAccountSecurityLoginEmailBody };
+  PatchAccountSecurityLoginEmailBody | { data: PatchAccountSecurityLoginEmailBody };
 
 export interface PatchAccountSecurityLoginEmailResponse {
   data: { loginEmail: string };
@@ -1177,10 +1223,7 @@ export type OrganisationTrialConsumptionStatus = "available" | "used";
 
 /** Current org trial allocation lifecycle placement (BILL-TRIAL-007). */
 export type OrganisationTrialAllocationStatus =
-  | "none"
-  | "active_on_this_account"
-  | "active_on_another_account"
-  | "ended";
+  "none" | "active_on_this_account" | "active_on_another_account" | "ended";
 
 /**
  * Org-scoped trial block on GET /billing.
@@ -1303,9 +1346,7 @@ export interface StartAccountBillingTrialResponse {
 
 /** Stable organisation trial error codes on POST start-trial (409/503). */
 export type OrganisationTrialErrorCode =
-  | "TRIAL_ALREADY_CONSUMED"
-  | "TRIAL_ORGANISATION_UNAVAILABLE"
-  | "TRIAL_ALLOCATION_DISABLED";
+  "TRIAL_ALREADY_CONSUMED" | "TRIAL_ORGANISATION_UNAVAILABLE" | "TRIAL_ALLOCATION_DISABLED";
 
 export type OrganisationTrialErrorResponse = {
   error: {

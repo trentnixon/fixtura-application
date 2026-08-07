@@ -14,16 +14,22 @@ import {
 } from "@/lib/api/hooks/account/useAccountBillingOrders";
 import { AUTH_ERROR_MESSAGES } from "@/lib/auth/auth-errors";
 import { isValidAccountIdSegment } from "@/lib/config/account-routes";
+import { useSupportView } from "@/lib/support/support-view-context";
 
 import { useBillingHistoryLifecycle } from "./useBillingHistoryLifecycle";
+import { resolveBillingHistoryInvoiceRequests } from "../../_utils/support/resolveBillingHistoryInvoiceRequests";
 
 import type { BillingHistoryState } from "../_types/billingHistory";
 
 export function useBillingHistoryContentState(accountId: string): BillingHistoryState {
   const segmentOk = isValidAccountIdSegment(accountId);
+  const { isSupportView } = useSupportView();
+  const invoiceRequestsQueryEnabled = segmentOk && !isSupportView;
 
   const billingQuery = useAccountBilling(accountId, { enabled: segmentOk });
-  const invoiceRequestsQuery = useAccountBillingInvoiceRequests(accountId, { enabled: segmentOk });
+  const invoiceRequestsQuery = useAccountBillingInvoiceRequests(accountId, {
+    enabled: invoiceRequestsQueryEnabled,
+  });
 
   const billingReady = Boolean(
     billingQuery.isSuccess &&
@@ -35,8 +41,9 @@ export function useBillingHistoryContentState(accountId: string): BillingHistory
     invoiceRequestsQuery.data &&
     !isAccountBillingInvoiceRequestsGatewayRedirect(invoiceRequestsQuery.data),
   );
+  const ordersQueryEnabled = segmentOk && billingReady && (isSupportView || invoiceRequestsReady);
   const ordersQuery = useAccountBillingOrders(accountId, {
-    enabled: segmentOk && billingReady && invoiceRequestsReady,
+    enabled: ordersQueryEnabled,
   });
 
   useBillingHistoryLifecycle({
@@ -61,11 +68,10 @@ export function useBillingHistoryContentState(accountId: string): BillingHistory
       ? billingQuery.data.data
       : null;
 
-  if (
-    billingQuery.isPending ||
-    invoiceRequestsQuery.isPending ||
-    (segmentOk && billingReady && invoiceRequestsReady && ordersQuery.isPending)
-  ) {
+  const waitingForInvoiceRequests = invoiceRequestsQueryEnabled && invoiceRequestsQuery.isPending;
+  const waitingForOrders = ordersQueryEnabled && ordersQuery.isPending;
+
+  if (billingQuery.isPending || waitingForInvoiceRequests || waitingForOrders) {
     return {
       kind: "loading",
       accountId,
@@ -76,7 +82,8 @@ export function useBillingHistoryContentState(accountId: string): BillingHistory
     (billingQuery.isSuccess &&
       billingQuery.data &&
       isAccountBillingGatewayRedirect(billingQuery.data)) ||
-    (invoiceRequestsQuery.isSuccess &&
+    (invoiceRequestsQueryEnabled &&
+      invoiceRequestsQuery.isSuccess &&
       invoiceRequestsQuery.data &&
       isAccountBillingInvoiceRequestsGatewayRedirect(invoiceRequestsQuery.data)) ||
     (ordersQuery.isSuccess &&
@@ -89,7 +96,7 @@ export function useBillingHistoryContentState(accountId: string): BillingHistory
     };
   }
 
-  if (billingQuery.isError || invoiceRequestsQuery.isError) {
+  if (billingQuery.isError || (invoiceRequestsQueryEnabled && invoiceRequestsQuery.isError)) {
     const error = billingQuery.error ?? invoiceRequestsQuery.error;
 
     return {
@@ -98,17 +105,25 @@ export function useBillingHistoryContentState(accountId: string): BillingHistory
       message: error instanceof Error ? error.message : AUTH_ERROR_MESSAGES.network,
       refetchHistory: () => {
         void billingQuery.refetch();
-        void invoiceRequestsQuery.refetch();
+        if (invoiceRequestsQueryEnabled) {
+          void invoiceRequestsQuery.refetch();
+        }
       },
     };
   }
 
-  const invoiceRequests =
+  const listFromQuery =
     invoiceRequestsQuery.isSuccess &&
     invoiceRequestsQuery.data &&
     !isAccountBillingInvoiceRequestsGatewayRedirect(invoiceRequestsQuery.data)
       ? invoiceRequestsQuery.data.invoiceRequests
       : [];
+
+  const invoiceRequests = resolveBillingHistoryInvoiceRequests({
+    isSupportView,
+    summary,
+    listFromQuery,
+  });
 
   const orders =
     ordersQuery.isSuccess &&
@@ -130,7 +145,9 @@ export function useBillingHistoryContentState(accountId: string): BillingHistory
       message: AUTH_ERROR_MESSAGES.network,
       refetchHistory: () => {
         void billingQuery.refetch();
-        void invoiceRequestsQuery.refetch();
+        if (invoiceRequestsQueryEnabled) {
+          void invoiceRequestsQuery.refetch();
+        }
       },
     };
   }
@@ -142,10 +159,13 @@ export function useBillingHistoryContentState(accountId: string): BillingHistory
     invoiceRequests,
     orders,
     ordersLoadError,
+    isSupportView,
     baseHref: `/o/${encodeURIComponent(accountId)}/billing`,
     refetchHistory: () => {
       void billingQuery.refetch();
-      void invoiceRequestsQuery.refetch();
+      if (invoiceRequestsQueryEnabled) {
+        void invoiceRequestsQuery.refetch();
+      }
     },
     refetchOrders: () => void ordersQuery.refetch(),
   };

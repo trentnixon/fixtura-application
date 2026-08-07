@@ -2,6 +2,7 @@ import type {
   AccountAnalyticsOverviewParams,
   AccountRendersListParams,
   AllTemplateOptionsParams,
+  SupportDirectoryParams,
 } from "@/types/api/account";
 import type { SeasonHubCompetitionsListParams } from "@/types/api/season-hub";
 
@@ -100,6 +101,20 @@ export const queryKeys = {
       "template-categories",
       "list-for-selection",
     ] as const,
+    /** GET /api/account/support/directory — support super-user account picker */
+    supportDirectory: (params?: SupportDirectoryParams) =>
+      [
+        "account",
+        "support-directory",
+        params?.page ?? 1,
+        params?.pageSize ?? 25,
+        params?.search ?? null,
+        params?.sport ?? null,
+        params?.isActive ?? null,
+        params?.isSetup ?? null,
+        params?.healthStatus ?? null,
+        params?.sort ?? "createdAt:desc",
+      ] as const,
   },
   /** GET /api/assets/list-for-selection — published assets (BFF → Strapi) */
   assets: {

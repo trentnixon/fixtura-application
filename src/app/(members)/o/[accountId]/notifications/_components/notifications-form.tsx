@@ -40,6 +40,8 @@ import {
 import { usePatchAccountNotifications } from "@/lib/api/hooks/account/usePatchAccountNotifications";
 import { usePatchAccountSettings } from "@/lib/api/hooks/account/usePatchAccountSettings";
 import { toastError, toastSuccess } from "@/lib/notify";
+import { SUPPORT_READ_ONLY_FORM_DESCRIPTION } from "@/lib/support/support-read-only-copy";
+import { useAccountReadOnly } from "@/lib/support/use-account-read-only";
 
 import {
   applyPartialSaveToSavedDraft,
@@ -68,6 +70,7 @@ export function NotificationsForm({
   accountId: string;
   data: AccountNotificationsData;
 }) {
+  const readOnly = useAccountReadOnly();
   const orgQ = useAccountOrganisationContext(accountId);
   const orgName =
     orgQ.isSuccess &&
@@ -99,7 +102,7 @@ export function NotificationsForm({
   }, [bundleAddressedTo, deliveryEmail, assetDeliveryDay]);
 
   const saving = patchNotifications.isPending || patchSettings.isPending;
-  const interactive = !saving;
+  const interactive = !saving && !readOnly;
   const fieldsEditable = interactive;
 
   const hasChanges = !equalNotificationsDraft(draft, savedDraft);
@@ -256,20 +259,24 @@ export function NotificationsForm({
       <div className="border-border px-6 py-4">
         <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
           <TypographyMuted className="text-xs">
-            {interactive
-              ? hasChanges
-                ? "You have unsaved changes."
-                : "No changes yet."
-              : "Saving…"}
+            {readOnly
+              ? "Read-only support view."
+              : interactive
+                ? hasChanges
+                  ? "You have unsaved changes."
+                  : "No changes yet."
+                : "Saving…"}
           </TypographyMuted>
-          <div className="flex flex-wrap gap-2">
-            <Button type="button" variant="outline" disabled={!interactive} onClick={handleReset}>
-              Reset
-            </Button>
-            <Button type="button" disabled={saveDisabled} onClick={handleOpenSaveDialog}>
-              {saving ? "Saving…" : "Save changes"}
-            </Button>
-          </div>
+          {!readOnly ? (
+            <div className="flex flex-wrap gap-2">
+              <Button type="button" variant="outline" disabled={!interactive} onClick={handleReset}>
+                Reset
+              </Button>
+              <Button type="button" disabled={saveDisabled} onClick={handleOpenSaveDialog}>
+                {saving ? "Saving…" : "Save changes"}
+              </Button>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>
@@ -277,6 +284,15 @@ export function NotificationsForm({
 
   return (
     <div className="space-y-8">
+      {readOnly ? (
+        <div
+          role="status"
+          className="border-border bg-muted/40 text-muted-foreground rounded-lg border px-4 py-3 text-sm"
+        >
+          {SUPPORT_READ_ONLY_FORM_DESCRIPTION}
+        </div>
+      ) : null}
+
       {partialSaveAlert ? (
         <div
           role="alert"

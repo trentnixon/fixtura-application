@@ -8,7 +8,16 @@ import importPlugin from "eslint-plugin-import";
 
 export default [
   {
-    ignores: ["node_modules/**", ".next/**", "dist/**", "out/**", "**/*.md", "src/vendor/**"],
+    ignores: [
+      "node_modules/**",
+      ".next/**",
+      "dist/**",
+      "out/**",
+      "**/*.md",
+      "src/vendor/**",
+      "preview.mjs",
+      "**/preview.mjs",
+    ],
   },
   js.configs.recommended,
   {

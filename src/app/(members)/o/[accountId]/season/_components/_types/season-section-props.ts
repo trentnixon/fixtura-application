@@ -5,10 +5,7 @@ import type {
   SeasonGradeFixtureFilterOptions,
   SeasonOverviewCompetitionRow,
 } from "./season-components";
-import type {
-  TriggerGradesCompsSingleScrapeRequest,
-  TriggerResultSingleScrapeRequest,
-} from "@/types/api/account";
+import type { TriggerGradesCompsSingleScrapeRequest } from "@/types/api/account";
 import type {
   SeasonHubFixtureListItem,
   SeasonHubReconResponse,
@@ -218,7 +215,6 @@ export type SeasonFixtureResultSyncDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   isSyncMutating: boolean;
-  payload: TriggerResultSingleScrapeRequest;
   onConfirm: () => void | Promise<void>;
 };
 

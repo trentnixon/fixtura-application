@@ -44,6 +44,7 @@ type MediaGalleryItemCardProps = {
   item: AccountMediaLibraryItem;
   view: MediaGalleryView;
   categoryConfig: MediaGalleryCategoryConfig;
+  readOnly?: boolean;
   onEdit: () => void;
   onDelete: () => void;
 };
@@ -52,6 +53,7 @@ export function MediaGalleryItemCard({
   item,
   view,
   categoryConfig,
+  readOnly = false,
   onEdit,
   onDelete,
 }: MediaGalleryItemCardProps) {
@@ -124,14 +126,16 @@ export function MediaGalleryItemCard({
           </p>
         </CardContent>
 
-        <CardFooter className="border-primary/10 bg-primary/5 mt-auto flex-wrap justify-center gap-2 border-t px-4 py-2.5 pt-2.5">
-          <Button type="button" size="xs" variant="brandPrimaryOutline" onClick={onEdit}>
-            Edit
-          </Button>
-          <Button type="button" size="xs" variant="destructive" onClick={onDelete}>
-            Delete
-          </Button>
-        </CardFooter>
+        {!readOnly ? (
+          <CardFooter className="border-primary/10 bg-primary/5 mt-auto flex-wrap justify-center gap-2 border-t px-4 py-2.5 pt-2.5">
+            <Button type="button" size="xs" variant="brandPrimaryOutline" onClick={onEdit}>
+              Edit
+            </Button>
+            <Button type="button" size="xs" variant="destructive" onClick={onDelete}>
+              Delete
+            </Button>
+          </CardFooter>
+        ) : null}
       </Card>
 
       <Dialog open={viewOpen} onOpenChange={setViewOpen}>

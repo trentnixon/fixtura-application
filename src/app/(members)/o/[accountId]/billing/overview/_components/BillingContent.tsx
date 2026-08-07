@@ -14,6 +14,7 @@ import { BillingProductStateBadge } from "../../_components/billing-product-stat
 import { BillingPaidAwaitingStartCard } from "../../_components/overview/BillingPaidAwaitingStartCard";
 import { BillingSections } from "../../_components/overview/BillingSections";
 import { BillingOrganisationTrialNotice } from "../../_components/trial/BillingOrganisationTrialNotice";
+import { useBillingSupportReadOnly } from "../../_hooks/useBillingSupportReadOnly";
 import {
   findPaidAwaitingStartOrder,
   paidAwaitingStartDaysForOrder,
@@ -39,6 +40,7 @@ import {
 } from "../_utils/billingOverviewPresentation";
 
 export function BillingContent({ accountId }: { accountId: string }) {
+  const isBillingReadOnly = useBillingSupportReadOnly();
   const { state, refetchBilling } = useBillingOverviewContentState(accountId);
   const historyHref =
     state.kind === "ready"
@@ -145,6 +147,7 @@ export function BillingContent({ accountId }: { accountId: string }) {
             createHref={state.createHref}
             organisationTrialNoticePresentation={orgTrialDialogNoticePresentation}
             suppressCreateSubscriptionCta={false}
+            readOnly={isBillingReadOnly}
           />
         </div>
       ) : null}
@@ -162,7 +165,7 @@ export function BillingContent({ accountId }: { accountId: string }) {
         </Card>
       ) : null}
 
-      {showStartTrial ? (
+      {showStartTrial && !isBillingReadOnly ? (
         <BillingTrialStartCard
           accountId={accountId}
           enabled={state.segmentOk}
@@ -180,7 +183,7 @@ export function BillingContent({ accountId }: { accountId: string }) {
         />
       ) : null}
 
-      {showCreateSeasonPassSection ? (
+      {showCreateSeasonPassSection && !isBillingReadOnly ? (
         <div className="grid gap-3">
           <BillingCreateSeasonPassCard accountId={accountId} />
           {showTrialUsedCardForUiMode && state.billingUiMode === "trial_expired" ? (

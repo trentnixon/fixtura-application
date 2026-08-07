@@ -23,6 +23,8 @@ import {
   isAccountOrganisationContextGatewayRedirect,
   useAccountOrganisationContext,
 } from "@/lib/api/hooks/account/useAccountOrganisationContext";
+import { useSupportCapability } from "@/lib/api/hooks/account/useSupportCapability";
+import { useSupportView } from "@/lib/support/support-view-context";
 
 export function AppSidebar({
   navMode,
@@ -39,16 +41,21 @@ export function AppSidebar({
     { enabled: navMode === "scoped" && Boolean(accountId) },
   );
 
+  const { canAccessAllAccounts } = useSupportCapability();
+  const { isSupportView } = useSupportView();
+
   const accountTypeFromOrg =
     scopedOrgCtx.data && !isAccountOrganisationContextGatewayRedirect(scopedOrgCtx.data)
       ? scopedOrgCtx.data.data.account_type
       : undefined;
 
-  const gatewayNavSections = [{ items: getGatewayNavItems() }];
-  const scopedNavSections = getScopedNavSections(
-    accountId,
-    accountTypeFromOrg === undefined ? undefined : { accountType: accountTypeFromOrg },
-  );
+  const gatewayNavSections = [
+    { items: getGatewayNavItems({ canAccessSupport: canAccessAllAccounts }) },
+  ];
+  const scopedNavSections = getScopedNavSections(accountId, {
+    ...(accountTypeFromOrg === undefined ? {} : { accountType: accountTypeFromOrg }),
+    ...(navMode === "scoped" && isSupportView ? { isSupportView: true } : {}),
+  });
 
   return (
     <Sidebar collapsible="offcanvas" {...props}>

@@ -37,6 +37,7 @@ import { ReviewInvoiceRequestStep } from "./_components/ReviewInvoiceRequestStep
 import { SelectPaymentMethodStep } from "./_components/SelectPaymentMethodStep";
 import { SelectStartDateStep } from "./_components/SelectStartDateStep";
 import { SelectTimeframeStep } from "./_components/SelectTimeframeStep";
+import { BillingSupportReadOnlyGate } from "../_components/support/BillingSupportReadOnlyGate";
 import { deriveBillingUiMode } from "../_core/billing-state";
 import { useBillingInvoiceContactPrefill } from "../_hooks/useBillingInvoiceContactPrefill";
 import { useCreateSubscriptionReviewDisplay } from "./_hooks/useCreateSubscriptionReviewDisplay";
@@ -561,107 +562,109 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
     }
   }
   return (
-    <div className="grid gap-6">
-      {step === 1 ? (
-        <SelectTimeframeStep
-          tiersListLength={tiersList.length}
-          displayTiers={displayTiers}
-          selectedTierId={selectedTierId}
-          showPlanCategoryToggle={showPlanCategoryToggle}
-          effectivePlanCategory={effectivePlanCategory}
-          onPlanCategoryChange={setPlanCategoryFilter}
-          onSelectTierId={setSelectedTierId}
-          onContinue={() => setStep(2)}
-        />
-      ) : null}
+    <BillingSupportReadOnlyGate accountId={accountId} redirectWhenReadOnly>
+      <div className="grid gap-6">
+        {step === 1 ? (
+          <SelectTimeframeStep
+            tiersListLength={tiersList.length}
+            displayTiers={displayTiers}
+            selectedTierId={selectedTierId}
+            showPlanCategoryToggle={showPlanCategoryToggle}
+            effectivePlanCategory={effectivePlanCategory}
+            onPlanCategoryChange={setPlanCategoryFilter}
+            onSelectTierId={setSelectedTierId}
+            onContinue={() => setStep(2)}
+          />
+        ) : null}
 
-      {step === 2 ? (
-        <SelectStartDateStep
-          selectedDate={selectedDate}
-          daysInPass={selectedTier?.daysInPass}
-          today={today}
-          endMonth={endMonth}
-          startDate={startDate}
-          dateOk={dateOk}
-          onStartDateChange={setStartDate}
-          onBack={() => setStep(1)}
-          onContinue={advancePastStep2}
-        />
-      ) : null}
+        {step === 2 ? (
+          <SelectStartDateStep
+            selectedDate={selectedDate}
+            daysInPass={selectedTier?.daysInPass}
+            today={today}
+            endMonth={endMonth}
+            startDate={startDate}
+            dateOk={dateOk}
+            onStartDateChange={setStartDate}
+            onBack={() => setStep(1)}
+            onContinue={advancePastStep2}
+          />
+        ) : null}
 
-      {step === 3 ? (
-        <SelectPaymentMethodStep
-          canCard={canCard}
-          canInvoice={canInvoice}
-          paymentPath={paymentPath}
-          onPaymentPathChange={setPaymentPath}
-          onBack={() => setStep(2)}
-          onContinue={() => setStep(4)}
-        />
-      ) : null}
+        {step === 3 ? (
+          <SelectPaymentMethodStep
+            canCard={canCard}
+            canInvoice={canInvoice}
+            paymentPath={paymentPath}
+            onPaymentPathChange={setPaymentPath}
+            onBack={() => setStep(2)}
+            onContinue={() => setStep(4)}
+          />
+        ) : null}
 
-      {step === 4 && paymentPath === "card" ? (
-        <ReviewCardPaymentStep
-          selectedTier={selectedTier}
-          selectedTierName={selectedTierName}
-          selectedTierCoverage={selectedTierCoverage}
-          selectedStartDateLabel={
-            selectedDate != null ? format(selectedDate, "PPP") : startDate || "-"
-          }
-          paymentMethodLabel={paymentMethodLabel}
-          paymentMethodDescription={paymentMethodDescription}
-          checkoutError={checkoutError}
-          missingCheckoutUrl={missingCheckoutUrl}
-          canSubmit={Boolean(selectedTierId && dateOk && !checkoutMutation.isPending)}
-          isPending={checkoutMutation.isPending}
-          onSubmit={() => void submitCardCheckout()}
-          onBack={() => setStep(canCard && canInvoice ? 3 : 2)}
-        />
-      ) : null}
+        {step === 4 && paymentPath === "card" ? (
+          <ReviewCardPaymentStep
+            selectedTier={selectedTier}
+            selectedTierName={selectedTierName}
+            selectedTierCoverage={selectedTierCoverage}
+            selectedStartDateLabel={
+              selectedDate != null ? format(selectedDate, "PPP") : startDate || "-"
+            }
+            paymentMethodLabel={paymentMethodLabel}
+            paymentMethodDescription={paymentMethodDescription}
+            checkoutError={checkoutError}
+            missingCheckoutUrl={missingCheckoutUrl}
+            canSubmit={Boolean(selectedTierId && dateOk && !checkoutMutation.isPending)}
+            isPending={checkoutMutation.isPending}
+            onSubmit={() => void submitCardCheckout()}
+            onBack={() => setStep(canCard && canInvoice ? 3 : 2)}
+          />
+        ) : null}
 
-      {step === 4 && paymentPath === "invoice" ? (
-        <ReviewInvoiceRequestStep
-          accountId={accountId}
-          selectedTier={selectedTier}
-          selectedTierName={selectedTierName}
-          selectedTierCoverage={selectedTierCoverage}
-          selectedStartDateLabel={
-            selectedDate != null ? format(selectedDate, "PPP") : startDate || "-"
-          }
-          paymentMethodLabel={paymentMethodLabel}
-          paymentMethodDescription={paymentMethodDescription}
-          billingContactName={billingContactName}
-          billingEmail={billingEmail}
-          billingOrganisationName={billingOrganisationName}
-          notes={notes}
-          onBillingContactNameChange={setBillingContactName}
-          onBillingEmailChange={setBillingEmail}
-          onBillingOrganisationNameChange={setBillingOrganisationName}
-          onNotesChange={setNotes}
-          invoiceError={invoiceError}
-          showStripeImmediateInvoice={showStripeImmediateInvoice}
-          stripeImmediateError={stripeImmediateError}
-          stripeHostedUrl={stripeHostedUrl}
-          stripeInvoicePaidDetected={stripeInvoicePaidDetected}
-          stripeImmediatePending={stripeImmediatePending}
-          canSubmitStripeImmediate={canSubmitStripeImmediate}
-          onSubmitStripeImmediateInvoice={() => void submitStripeImmediateInvoice()}
-          canSubmitInvoice={canSubmitInvoice}
-          invoicePending={invoiceMutation.isPending}
-          onSubmitInvoice={() => void submitInvoiceRequest()}
-          onBack={() => setStep(canCard && canInvoice ? 3 : 2)}
-        />
-      ) : null}
+        {step === 4 && paymentPath === "invoice" ? (
+          <ReviewInvoiceRequestStep
+            accountId={accountId}
+            selectedTier={selectedTier}
+            selectedTierName={selectedTierName}
+            selectedTierCoverage={selectedTierCoverage}
+            selectedStartDateLabel={
+              selectedDate != null ? format(selectedDate, "PPP") : startDate || "-"
+            }
+            paymentMethodLabel={paymentMethodLabel}
+            paymentMethodDescription={paymentMethodDescription}
+            billingContactName={billingContactName}
+            billingEmail={billingEmail}
+            billingOrganisationName={billingOrganisationName}
+            notes={notes}
+            onBillingContactNameChange={setBillingContactName}
+            onBillingEmailChange={setBillingEmail}
+            onBillingOrganisationNameChange={setBillingOrganisationName}
+            onNotesChange={setNotes}
+            invoiceError={invoiceError}
+            showStripeImmediateInvoice={showStripeImmediateInvoice}
+            stripeImmediateError={stripeImmediateError}
+            stripeHostedUrl={stripeHostedUrl}
+            stripeInvoicePaidDetected={stripeInvoicePaidDetected}
+            stripeImmediatePending={stripeImmediatePending}
+            canSubmitStripeImmediate={canSubmitStripeImmediate}
+            onSubmitStripeImmediateInvoice={() => void submitStripeImmediateInvoice()}
+            canSubmitInvoice={canSubmitInvoice}
+            invoicePending={invoiceMutation.isPending}
+            onSubmitInvoice={() => void submitInvoiceRequest()}
+            onBack={() => setStep(canCard && canInvoice ? 3 : 2)}
+          />
+        ) : null}
 
-      <div className="text-muted-foreground flex flex-wrap items-center gap-2 text-xs">
-        <span>Step {step} of 4</span>
-        <span aria-hidden>.</span>
-        <Button type="button" variant="link" className="h-auto p-0 text-xs" asChild>
-          <Link href={`/o/${encodeURIComponent(accountId)}/billing`}>
-            Cancel and return to billing
-          </Link>
-        </Button>
+        <div className="text-muted-foreground flex flex-wrap items-center gap-2 text-xs">
+          <span>Step {step} of 4</span>
+          <span aria-hidden>.</span>
+          <Button type="button" variant="link" className="h-auto p-0 text-xs" asChild>
+            <Link href={`/o/${encodeURIComponent(accountId)}/billing`}>
+              Cancel and return to billing
+            </Link>
+          </Button>
+        </div>
       </div>
-    </div>
+    </BillingSupportReadOnlyGate>
   );
 }

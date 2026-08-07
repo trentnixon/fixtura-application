@@ -27,6 +27,8 @@ function isLegacyMemberPath(pathname: string): boolean {
  */
 export function isMembersGatewayProtectedPath(pathname: string): boolean {
   if (pathname === ROUTES.selectOrganisation) return true;
+  if (pathname === ROUTES.supportAccounts) return true;
+  if (pathname.startsWith(`${ROUTES.supportAccounts}/`)) return true;
   if (pathname === ROUTES.createOrganisation) return true;
   if (pathname.startsWith(`${ROUTES.createOrganisation}/`)) return true;
   return false;
@@ -96,6 +98,8 @@ export const config = {
     "/",
     "/o/:path*",
     "/select-organisation",
+    "/support/accounts",
+    "/support/accounts/:path*",
     "/create-organisation",
     "/create-organisation/:path*",
     "/admin/:path*",

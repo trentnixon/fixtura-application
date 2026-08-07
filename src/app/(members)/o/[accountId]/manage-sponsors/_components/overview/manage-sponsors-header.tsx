@@ -8,7 +8,7 @@ import { useSponsorAssignmentTargetCopy } from "../../_hooks/use-sponsor-assignm
 
 import type { ManageSponsorsHeaderProps } from "./_types/manage-sponsors-header";
 
-export function ManageSponsorsHeader({ accountId }: ManageSponsorsHeaderProps) {
+export function ManageSponsorsHeader({ accountId, readOnly = false }: ManageSponsorsHeaderProps) {
   const targetCopy = useSponsorAssignmentTargetCopy(accountId);
 
   return (
@@ -21,6 +21,7 @@ export function ManageSponsorsHeader({ accountId }: ManageSponsorsHeaderProps) {
         <div />
         <ManageSponsorsHeaderActions
           accountId={accountId}
+          readOnly={readOnly}
           entityButtonLabel={targetCopy.buttonLabel}
         />
       </div>

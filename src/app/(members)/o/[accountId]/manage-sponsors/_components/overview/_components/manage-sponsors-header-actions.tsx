@@ -10,8 +10,13 @@ import type { ManageSponsorsHeaderActionsProps } from "../_types/manage-sponsors
 
 export function ManageSponsorsHeaderActions({
   accountId,
+  readOnly = false,
   entityButtonLabel,
 }: ManageSponsorsHeaderActionsProps) {
+  if (readOnly) {
+    return null;
+  }
+
   return (
     <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
       <Button variant="brandPrimaryOutline" asChild>

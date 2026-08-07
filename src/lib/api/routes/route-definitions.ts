@@ -141,6 +141,17 @@ export const appRoutes = {
       description: "Full dashboard aggregate for a selected account (Strapi account id)",
       domain: "account",
     },
+    /** Support super-user paginated account directory (Phase 5). */
+    supportDirectory: {
+      key: "account.support-directory",
+      method: "GET",
+      path: "/api/account/support/directory",
+      authRequired: true,
+      status: "ready",
+      description:
+        "Support super-user directory — paginated account list with search and filters; 403 for non-support",
+      domain: "account",
+    },
   },
   /**
    * Dedicated account-scoped routes (Phases 2–9). Path is the base; services must append

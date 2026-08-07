@@ -5,6 +5,7 @@ export type ManageSponsorsHeaderCopy = {
 
 export type ManageSponsorsHeaderProps = {
   accountId: string;
+  readOnly?: boolean;
 };
 
 export type ManageSponsorsHeaderActionsProps = ManageSponsorsHeaderProps & {

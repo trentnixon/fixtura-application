@@ -8,6 +8,7 @@ import { BillingHistoryInvoiceRequestsCard } from "./BillingHistoryInvoiceReques
 import { BillingHistoryOrdersTableCard } from "./BillingHistoryOrdersTableCard";
 import { BillingHistoryStatusState } from "./BillingHistoryStatusState";
 import { BillingInvoiceRequestWithdrawDialog } from "../../_components/invoice-request/BillingInvoiceRequestWithdrawDialog";
+import { BILLING_SUPPORT_READ_ONLY_COPY } from "../../_constants/support/billingSupportReadOnly";
 import { useBillingInvoiceRequestWithdraw } from "../../_hooks/useBillingInvoiceRequestWithdraw";
 import { useBillingHistoryContentState } from "../_hooks/useBillingHistoryContentState";
 
@@ -18,6 +19,8 @@ export function BillingHistoryContent({ accountId }: { accountId: string }) {
   if (state.kind !== "ready") {
     return <BillingHistoryStatusState state={state} />;
   }
+
+  const showInvoiceWithdraw = !state.isSupportView;
 
   return (
     <div className="grid gap-6">
@@ -40,22 +43,31 @@ export function BillingHistoryContent({ accountId }: { accountId: string }) {
         <div className="min-w-0">
           <BillingHistoryInvoiceRequestsCard
             invoiceRequests={state.invoiceRequests}
-            withdrawPending={withdraw.isPending}
-            onWithdraw={withdraw.openWithdrawFromInvoiceRequest}
+            description={
+              state.isSupportView
+                ? BILLING_SUPPORT_READ_ONLY_COPY.invoiceRequestsCardDescription
+                : undefined
+            }
+            withdrawPending={showInvoiceWithdraw ? withdraw.isPending : false}
+            {...(showInvoiceWithdraw
+              ? { onWithdraw: withdraw.openWithdrawFromInvoiceRequest }
+              : {})}
           />
         </div>
       </div>
 
-      <BillingInvoiceRequestWithdrawDialog
-        open={withdraw.confirmOpen}
-        onOpenChange={withdraw.handleDialogOpenChange}
-        target={withdraw.withdrawTarget}
-        copyVariant={withdraw.copyVariant}
-        errorMessage={withdraw.errorMessage}
-        isPending={withdraw.isPending}
-        onCancel={withdraw.closeDialog}
-        onConfirm={withdraw.confirmWithdraw}
-      />
+      {showInvoiceWithdraw ? (
+        <BillingInvoiceRequestWithdrawDialog
+          open={withdraw.confirmOpen}
+          onOpenChange={withdraw.handleDialogOpenChange}
+          target={withdraw.withdrawTarget}
+          copyVariant={withdraw.copyVariant}
+          errorMessage={withdraw.errorMessage}
+          isPending={withdraw.isPending}
+          onCancel={withdraw.closeDialog}
+          onConfirm={withdraw.confirmWithdraw}
+        />
+      ) : null}
     </div>
   );
 }

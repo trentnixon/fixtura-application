@@ -3,6 +3,7 @@
 import { MapPinned } from "lucide-react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useAccountReadOnly } from "@/lib/support/use-account-read-only";
 import { cn } from "@/lib/utils";
 
 import { ClearAllPositionAssignmentsDialog } from "./_components/clear-all-position-assignments-dialog";
@@ -27,6 +28,7 @@ import type {
 } from "./_types/sponsor-slot-placement-panel";
 
 export function SponsorSlotPlacementPanel({ accountId, sponsors }: SponsorSlotPlacementPanelProps) {
+  const readOnly = useAccountReadOnly();
   const { state, actions } = useSponsorSlotPlacementPanel({ accountId, sponsors });
 
   return (
@@ -37,7 +39,7 @@ export function SponsorSlotPlacementPanel({ accountId, sponsors }: SponsorSlotPl
         <div className="bg-card text-card-foreground ring-border w-full min-w-0 overflow-hidden rounded-2xl border-none shadow-xl ring-1">
           <SponsorSlotPlacementPanelHeader />
           <div className="p-5">
-            <SponsorSlotPlacementTabs state={state} actions={actions} />
+            <SponsorSlotPlacementTabs state={state} actions={actions} readOnly={readOnly} />
           </div>
         </div>
 
@@ -55,16 +57,19 @@ export function SponsorSlotPlacementPanel({ accountId, sponsors }: SponsorSlotPl
           setSlotKindFilter={actions.setSlotKindFilter}
           onAddGeneralRow={actions.addGeneralSlotRow}
           onClearAll={() => actions.setClearAllDialogOpen(true)}
+          readOnly={readOnly}
         />
       </div>
 
-      <ClearAllPositionAssignmentsDialog
-        open={state.clearAllDialogOpen}
-        isClearingAll={state.mutationState.isClearingAll}
-        metrics={state.metrics}
-        onOpenChange={actions.setClearAllDialogOpen}
-        onConfirm={() => void actions.confirmClearAllPositionAssignments()}
-      />
+      {!readOnly ? (
+        <ClearAllPositionAssignmentsDialog
+          open={state.clearAllDialogOpen}
+          isClearingAll={state.mutationState.isClearingAll}
+          metrics={state.metrics}
+          onOpenChange={actions.setClearAllDialogOpen}
+          onConfirm={() => void actions.confirmClearAllPositionAssignments()}
+        />
+      ) : null}
     </>
   );
 }
@@ -84,9 +89,11 @@ function SponsorSlotPlacementPanelHeader() {
 function SponsorSlotPlacementTabs({
   state,
   actions,
+  readOnly = false,
 }: {
   state: SponsorSlotPlacementState;
   actions: SponsorSlotPlacementActions;
+  readOnly?: boolean;
 }) {
   return (
     <Tabs defaultValue="assign" className="w-full">
@@ -109,6 +116,7 @@ function SponsorSlotPlacementTabs({
           setRowSelection={actions.setRowSelection}
           assignToSlot={actions.assignToSlot}
           clearSlot={actions.clearSlot}
+          readOnly={readOnly}
         />
       </TabsContent>
       <TabsContent value="preview" className="mt-4">

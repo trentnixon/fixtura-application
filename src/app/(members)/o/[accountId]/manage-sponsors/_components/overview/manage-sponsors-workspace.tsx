@@ -1,5 +1,7 @@
 "use client";
 
+import { useAccountReadOnly } from "@/lib/support/use-account-read-only";
+
 import { ManageSponsorsEditorSheet } from "./_components/manage-sponsors-editor-sheet";
 import { ManageSponsorsWorkspaceContent } from "./_components/manage-sponsors-workspace-content";
 import { useManageSponsorsEditorSelection } from "./_hooks/use-manage-sponsors-editor-selection";
@@ -11,6 +13,7 @@ import { ManageSponsorsShell } from "../shared/manage-sponsors-shell";
 import type { ManageSponsorsWorkspaceProps } from "./_types/manage-sponsors-workspace";
 
 export function ManageSponsorsWorkspace({ accountId }: ManageSponsorsWorkspaceProps) {
+  const readOnly = useAccountReadOnly();
   const workspace = useManageSponsorsWorkspace(accountId);
   const editor = useManageSponsorsEditorSelection({
     sponsors: workspace.workspaceSponsors,
@@ -22,21 +25,24 @@ export function ManageSponsorsWorkspace({ accountId }: ManageSponsorsWorkspacePr
 
   return (
     <ManageSponsorsShell>
-      <ManageSponsorsHeader accountId={accountId} />
+      <ManageSponsorsHeader accountId={accountId} readOnly={readOnly} />
 
       <ManageSponsorsWorkspaceContent
         accountId={accountId}
         workspace={workspace}
-        onEditSponsor={editor.openEditor}
+        readOnly={readOnly}
+        onEditSponsor={readOnly ? () => {} : editor.openEditor}
       />
 
-      <ManageSponsorsEditorSheet
-        open={editor.editorOpen}
-        sponsor={editor.editorSponsor}
-        onOpenChange={editor.handleEditorOpenChange}
-        onSaveSponsor={workspace.saveSponsorEdits}
-        onSaved={editor.closeEditor}
-      />
+      {!readOnly ? (
+        <ManageSponsorsEditorSheet
+          open={editor.editorOpen}
+          sponsor={editor.editorSponsor}
+          onOpenChange={editor.handleEditorOpenChange}
+          onSaveSponsor={workspace.saveSponsorEdits}
+          onSaved={editor.closeEditor}
+        />
+      ) : null}
     </ManageSponsorsShell>
   );
 }

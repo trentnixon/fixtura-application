@@ -34,8 +34,10 @@ export function BillingOverviewActions({
   createHref,
   organisationTrialNoticePresentation = null,
   suppressCreateSubscriptionCta = false,
+  readOnly = false,
 }: BillingOverviewActionsProps) {
   const showCreateCta =
+    !readOnly &&
     !suppressCreateSubscriptionCta &&
     showCreateSubscriptionCta(billingUiMode, billingSummary.availableActions);
   const createCtaLabel =

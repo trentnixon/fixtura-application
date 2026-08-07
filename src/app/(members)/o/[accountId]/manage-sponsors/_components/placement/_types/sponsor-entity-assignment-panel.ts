@@ -139,6 +139,7 @@ export type SponsorEntityAssignmentTableProps = {
   setRowSelection: Dispatch<SetStateAction<Record<string, string>>>;
   assignToTarget: (target: AccountSponsorEntityTarget) => Promise<void>;
   clearTarget: (target: AccountSponsorEntityTarget) => Promise<void>;
+  readOnly?: boolean;
 };
 
 export type EntityAssignmentTableGroupRow = {
@@ -163,8 +164,7 @@ export type EntityAssignmentTableTargetRow = {
 };
 
 export type EntityAssignmentTableRow =
-  | EntityAssignmentTableGroupRow
-  | EntityAssignmentTableTargetRow;
+  EntityAssignmentTableGroupRow | EntityAssignmentTableTargetRow;
 
 export type EntityAssignmentGroupRowProps = {
   row: EntityAssignmentTableGroupRow;
@@ -176,6 +176,7 @@ export type EntityAssignmentTargetRowProps = {
   setRowSelection: Dispatch<SetStateAction<Record<string, string>>>;
   assignToTarget: SponsorEntityAssignmentTableProps["assignToTarget"];
   clearTarget: SponsorEntityAssignmentTableProps["clearTarget"];
+  readOnly?: boolean;
 };
 
 export type SponsorEntityAssignmentSidebarProps = {
@@ -189,6 +190,7 @@ export type SponsorEntityAssignmentSidebarProps = {
   setEntityRowFilter: (value: EntityRowFilter) => void;
   setEntityTypeFilter: (value: EntityTypeFilter) => void;
   onClearAll: () => void;
+  readOnly?: boolean;
 };
 
 export type SponsorEntityAssignmentPanelProps = {

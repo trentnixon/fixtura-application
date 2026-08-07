@@ -4,6 +4,7 @@ import { Network } from "lucide-react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { isAccountSponsorEntityTargetsGatewayRedirect } from "@/lib/api/hooks/account/useAccountSponsorEntityTargets";
+import { useAccountReadOnly } from "@/lib/support/use-account-read-only";
 import { cn } from "@/lib/utils";
 
 import { ClearAllEntityAssignmentsDialog } from "./_components/clear-all-entity-assignments-dialog";
@@ -35,6 +36,7 @@ export function SponsorEntityAssignmentPanel({
   accountId,
   sponsors,
 }: SponsorEntityAssignmentPanelProps) {
+  const readOnly = useAccountReadOnly();
   const { targetsQuery, state, actions } = useSponsorEntityAssignmentPanel({
     accountId,
     sponsors,
@@ -60,7 +62,7 @@ export function SponsorEntityAssignmentPanel({
         <div className="bg-card text-card-foreground ring-border w-full min-w-0 overflow-hidden rounded-2xl border-none shadow-xl ring-1">
           <SponsorEntityAssignmentPanelHeader />
           <div className="p-5">
-            <SponsorEntityAssignmentTabs state={state} actions={actions} />
+            <SponsorEntityAssignmentTabs state={state} actions={actions} readOnly={readOnly} />
           </div>
         </div>
 
@@ -75,16 +77,19 @@ export function SponsorEntityAssignmentPanel({
           setEntityRowFilter={actions.setEntityRowFilter}
           setEntityTypeFilter={actions.setEntityTypeFilter}
           onClearAll={() => actions.setClearAllDialogOpen(true)}
+          readOnly={readOnly}
         />
       </div>
 
-      <ClearAllEntityAssignmentsDialog
-        open={state.clearAllDialogOpen}
-        isClearingAll={state.mutationState.isClearingAll}
-        metrics={state.metrics}
-        onOpenChange={actions.setClearAllDialogOpen}
-        onConfirm={() => void actions.confirmClearAllEntityAssignments()}
-      />
+      {!readOnly ? (
+        <ClearAllEntityAssignmentsDialog
+          open={state.clearAllDialogOpen}
+          isClearingAll={state.mutationState.isClearingAll}
+          metrics={state.metrics}
+          onOpenChange={actions.setClearAllDialogOpen}
+          onConfirm={() => void actions.confirmClearAllEntityAssignments()}
+        />
+      ) : null}
     </>
   );
 }
@@ -104,9 +109,11 @@ function SponsorEntityAssignmentPanelHeader() {
 function SponsorEntityAssignmentTabs({
   state,
   actions,
+  readOnly = false,
 }: {
   state: SponsorEntityAssignmentState;
   actions: SponsorEntityAssignmentActions;
+  readOnly?: boolean;
 }) {
   return (
     <Tabs defaultValue="assign" className="w-full">
@@ -132,6 +139,7 @@ function SponsorEntityAssignmentTabs({
           setRowSelection={actions.setRowSelection}
           assignToTarget={actions.assignToTarget}
           clearTarget={actions.clearTarget}
+          readOnly={readOnly}
         />
       </TabsContent>
       <TabsContent value="preview" className="mt-4">
