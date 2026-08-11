@@ -182,7 +182,7 @@ describe("DialogOverlay", () => {
       </Dialog>,
     );
     const overlay = screen.getAllByTestId("dialog-overlay")[0];
-    expect(overlay).toHaveClass("fixed", "inset-0", "z-50", "bg-black/50");
+    expect(overlay).toHaveClass("fixed", "inset-0", "z-50", "bg-black/60", "backdrop-blur-sm");
   });
 });
 
@@ -227,7 +227,7 @@ describe("DialogContent", () => {
       </Dialog>,
     );
     const content = screen.getByTestId("dialog-content");
-    expect(content).toHaveClass("bg-background", "fixed", "rounded-lg", "border", "shadow-lg");
+    expect(content).toHaveClass("fixed", "top-[50%]", "left-[50%]", "z-50", "grid", "w-full");
   });
 
   it("shows close button by default", () => {

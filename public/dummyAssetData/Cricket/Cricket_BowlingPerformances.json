@@ -1,0 +1,562 @@
+{
+  "data": [
+    {
+      "name": "Shapoor Zadran",
+      "runs": 22,
+      "overs": "5",
+      "prompt": "Shapoor Zadran played for Afghanistan, taking 2 wickets from 5 overs, conceding 22 runs (economy 4.40). Competition: 2015 Cricket World Cup. Grade: ODI / Pool Stage. This is a fictional demonstration performance for archive preview only.",
+      "wickets": 2,
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/af.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "Afghanistan",
+      "assignSponsors": {
+        "Team": {
+          "name": "Afghanistan"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Pool Stage"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2015 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "name": "Mitchell Starc",
+      "runs": 53,
+      "overs": "8.4",
+      "prompt": "Mitchell Starc played for Australia, taking 3 wickets from 8.4 overs, conceding 53 runs (economy 6.12). Competition: 2015 Cricket World Cup. Grade: ODI / Pool Stage. This is a fictional demonstration performance for archive preview only.",
+      "wickets": 3,
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/au.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "Australia",
+      "assignSponsors": {
+        "Team": {
+          "name": "Australia"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Pool Stage"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2015 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "name": "Rubel Hossain",
+      "runs": 38,
+      "overs": "7",
+      "prompt": "Rubel Hossain played for Bangladesh, taking 6 wickets from 7 overs, conceding 38 runs (economy 5.43). Competition: 2015 Cricket World Cup. Grade: ODI / Pool Stage. This is a fictional demonstration performance for archive preview only.",
+      "wickets": 6,
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/bd.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "Bangladesh",
+      "assignSponsors": {
+        "Team": {
+          "name": "Bangladesh"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Pool Stage"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2015 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "name": "Steven Finn",
+      "runs": 35,
+      "overs": "10",
+      "prompt": "Steven Finn played for England, taking 5 wickets from 10 overs, conceding 35 runs (economy 3.50). Competition: 2015 Cricket World Cup. Grade: ODI / Pool Stage. This is a fictional demonstration performance for archive preview only.",
+      "wickets": 5,
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/gb-eng.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "England",
+      "assignSponsors": {
+        "Team": {
+          "name": "England"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Pool Stage"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2015 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "name": "Mohammed Shami",
+      "runs": 28,
+      "overs": "8.2",
+      "prompt": "Mohammed Shami played for India, taking 4 wickets from 8.2 overs, conceding 28 runs (economy 3.36). Competition: 2015 Cricket World Cup. Grade: ODI / Pool Stage. This is a fictional demonstration performance for archive preview only.",
+      "wickets": 4,
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/in.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "India",
+      "assignSponsors": {
+        "Team": {
+          "name": "India"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Pool Stage"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2015 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "name": "John Mooney",
+      "runs": 43,
+      "overs": "10",
+      "prompt": "John Mooney played for Ireland, taking 2 wickets from 10 overs, conceding 43 runs (economy 4.30). Competition: 2015 Cricket World Cup. Grade: ODI / Pool Stage. This is a fictional demonstration performance for archive preview only.",
+      "wickets": 2,
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/ie.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "Ireland",
+      "assignSponsors": {
+        "Team": {
+          "name": "Ireland"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Pool Stage"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2015 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "name": "Trent Boult",
+      "runs": 48,
+      "overs": "4",
+      "prompt": "Trent Boult played for New Zealand, taking 3 wickets from 4 overs, conceding 48 runs (economy 12.00). Competition: 2015 Cricket World Cup. Grade: ODI / Pool Stage. This is a fictional demonstration performance for archive preview only.",
+      "wickets": 3,
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/nz.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "New Zealand",
+      "assignSponsors": {
+        "Team": {
+          "name": "New Zealand"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Pool Stage"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2015 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "name": "Wahab Riaz",
+      "runs": 31,
+      "overs": "7",
+      "prompt": "Wahab Riaz played for Pakistan, taking 3 wickets from 7 overs, conceding 31 runs (economy 4.43). Competition: 2015 Cricket World Cup. Grade: ODI / Pool Stage. This is a fictional demonstration performance for archive preview only.",
+      "wickets": 3,
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/pk.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "Pakistan",
+      "assignSponsors": {
+        "Team": {
+          "name": "Pakistan"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Pool Stage"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2015 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "name": "Morne Morkel",
+      "runs": 37,
+      "overs": "8",
+      "prompt": "Morne Morkel played for South Africa, taking 6 wickets from 8 overs, conceding 37 runs (economy 4.63). Competition: 2015 Cricket World Cup. Grade: ODI / Pool Stage. This is a fictional demonstration performance for archive preview only.",
+      "wickets": 6,
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/za.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "South Africa",
+      "assignSponsors": {
+        "Team": {
+          "name": "South Africa"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Pool Stage"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2015 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "name": "Lasith Malinga",
+      "runs": 39,
+      "overs": "7",
+      "prompt": "Lasith Malinga played for Sri Lanka, taking 6 wickets from 7 overs, conceding 39 runs (economy 5.57). Competition: 2015 Cricket World Cup. Grade: ODI / Pool Stage. This is a fictional demonstration performance for archive preview only.",
+      "wickets": 6,
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/lk.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "Sri Lanka",
+      "assignSponsors": {
+        "Team": {
+          "name": "Sri Lanka"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Pool Stage"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2015 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "name": "Jerome Taylor",
+      "runs": 20,
+      "overs": "8.3",
+      "prompt": "Jerome Taylor played for West Indies, taking 3 wickets from 8.3 overs, conceding 20 runs (economy 2.35). Competition: 2015 Cricket World Cup. Grade: ODI / Pool Stage. This is a fictional demonstration performance for archive preview only.",
+      "wickets": 3,
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/wi.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "West Indies",
+      "assignSponsors": {
+        "Team": {
+          "name": "West Indies"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Pool Stage"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2015 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "name": "Tinashe Panyangara",
+      "runs": 47,
+      "overs": "7",
+      "prompt": "Tinashe Panyangara played for Zimbabwe, taking 3 wickets from 7 overs, conceding 47 runs (economy 6.71). Competition: 2015 Cricket World Cup. Grade: ODI / Pool Stage. This is a fictional demonstration performance for archive preview only.",
+      "wickets": 3,
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/zw.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "Zimbabwe",
+      "assignSponsors": {
+        "Team": {
+          "name": "Zimbabwe"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Pool Stage"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2015 Cricket World Cup"
+        }
+      }
+    }
+  ],
+  "asset": {
+    "assetID": 0,
+    "assetTypeID": 0,
+    "assetCategoryID": 0,
+    "assetsLinkID": ""
+  },
+  "render": {
+    "schedulerId": 0,
+    "renderId": 0
+  },
+  "account": {
+    "accountId": 0
+  },
+  "timings": {
+    "FPS_MAIN": 510,
+    "FPS_INTRO": 90,
+    "FPS_OUTRO": 30,
+    "FPS_LADDER": 0,
+    "FPS_SCORECARD": 0,
+    "FPS_PREFORMANCECARD": 180
+  },
+  "frames": [45, 180, 345, 510],
+  "videoMeta": {
+    "club": {
+      "logo": {
+        "hasLogo": false,
+        "url": "",
+        "width": 500,
+        "height": 500
+      },
+      "name": "International Cricket Demo Preview",
+      "sport": "Cricket",
+      "sponsors": {
+        "primary": [],
+        "default": {}
+      },
+      "IsAccountClub": false
+    },
+    "video": {
+      "fixtureCategory": "International Cricket Demo Preview",
+      "groupingCategory": "International Cricket Demo Preview",
+      "metadata": {
+        "title": "Bowling Performances",
+        "titleSplit": ["Performances"],
+        "videoTitle": "Bowling Performances",
+        "compositionId": "CricketBowlingPerformances",
+        "assetId": 66,
+        "assetTypeId": 3,
+        "frames": [],
+        "includeSponsors": false
+      },
+      "appearance": {
+        "theme": {
+          "dark": "#111",
+          "white": "#FFF",
+          "primary": "#352466",
+          "secondary": "#ffa500"
+        },
+        "template": "TwoColumnClassic"
+      },
+      "media": {
+        "HeroImage": {
+          "url": "",
+          "ratio": "landscape",
+          "width": 830,
+          "height": 400,
+          "AgeGroup": "Both",
+          "AssetType": "ALL",
+          "markerPosition": null
+        },
+        "audio": {
+          "url": "",
+          "audioOption": null
+        }
+      },
+      "contentLayout": {
+        "divideFixturesBy": {
+          "CricketLadder": 1,
+          "CricketRoster": 1,
+          "CricketResults": 2,
+          "CricketUpcoming": 3,
+          "CricketResultSingle": 1,
+          "CricketBattingPerformances": 5,
+          "CricketBowlingPerformances": 5,
+          "CricketTeamOfTheWeek": 2
+        }
+      },
+      "templateVariation": {
+        "useBackground": "Texture",
+        "mode": "lightAlt",
+        "category": {
+          "slug": "TwoColumnClassic",
+          "name": "Classic Two Column ",
+          "divideFixturesBy": {
+            "CricketUpcoming": 3,
+            "CricketResults": 2,
+            "CricketResultSingle": 1,
+            "CricketLadder": 1,
+            "CricketRoster": 1,
+            "CricketBowlingPerformances": 5,
+            "CricketBattingPerformances": 5
+          },
+          "bundleAudio": {
+            "id": 1,
+            "Name": "Basic",
+            "createdAt": "2023-09-27T10:36:24.428Z",
+            "updatedAt": "2025-06-15T04:50:57.910Z",
+            "publishedAt": "2023-09-27T10:36:25.639Z",
+            "audio_options": [
+              {
+                "id": 4,
+                "Name": "Better Start Now",
+                "createdAt": "2023-09-27T10:34:46.702Z",
+                "updatedAt": "2025-06-15T04:53:45.558Z",
+                "publishedAt": "2023-09-27T10:34:48.455Z",
+                "URL": "",
+                "CompositionID": "CricketLadder",
+                "ComponentName": "CricketLadder"
+              },
+              {
+                "id": 2,
+                "Name": "Fifteen on Me",
+                "createdAt": "2022-12-20T01:59:28.337Z",
+                "updatedAt": "2025-06-15T04:53:11.194Z",
+                "publishedAt": "2022-12-20T01:59:29.080Z",
+                "URL": "",
+                "CompositionID": "CricketUpcoming",
+                "ComponentName": "CricketUpcoming"
+              },
+              {
+                "id": 5,
+                "Name": "Get The Gains",
+                "createdAt": "2023-09-27T10:35:01.053Z",
+                "updatedAt": "2025-06-15T04:53:59.493Z",
+                "publishedAt": "2023-09-27T10:35:29.163Z",
+                "URL": "",
+                "CompositionID": "CricketTop5Bowling",
+                "ComponentName": "CricketTop5Bowling"
+              },
+              {
+                "id": 3,
+                "Name": "Groover",
+                "createdAt": "2022-12-20T01:59:34.014Z",
+                "updatedAt": "2025-06-15T04:53:28.656Z",
+                "publishedAt": "2022-12-20T01:59:34.670Z",
+                "URL": "",
+                "CompositionID": "CricketTop5Batting",
+                "ComponentName": "CricketTop5Batting"
+              },
+              {
+                "id": 1,
+                "Name": "Saltine",
+                "createdAt": "2022-12-12T05:19:56.353Z",
+                "updatedAt": "2025-06-15T04:50:50.079Z",
+                "publishedAt": "2022-12-12T05:19:57.408Z",
+                "URL": "",
+                "CompositionID": "CricketResults",
+                "ComponentName": "CricketResults"
+              },
+              {
+                "id": 16,
+                "Name": "BEECH LOVE",
+                "createdAt": "2024-06-05T04:31:26.640Z",
+                "updatedAt": "2026-01-05T09:04:09.788Z",
+                "publishedAt": "2024-06-07T12:45:32.118Z",
+                "URL": "",
+                "CompositionID": "CricketUpcoming",
+                "ComponentName": "CricketUpcoming"
+              },
+              {
+                "id": 17,
+                "Name": "FAY V",
+                "createdAt": "2024-06-05T04:33:33.970Z",
+                "updatedAt": "2024-06-07T12:48:03.161Z",
+                "publishedAt": "2024-06-07T12:47:53.394Z",
+                "URL": "",
+                "CompositionID": "WeekendResultsAFL",
+                "ComponentName": "Weekend Results"
+              }
+            ]
+          }
+        },
+        "video": {
+          "url": null,
+          "fallbackUrl": null,
+          "position": "left",
+          "size": "cover",
+          "loop": null,
+          "muted": true,
+          "overlay": {
+            "color": "rgba(0,0,0,0.5)",
+            "opacity": 0.7
+          },
+          "useOffthreadVideo": null,
+          "volume": 0.8,
+          "playbackRate": null
+        },
+        "image": {
+          "url": null,
+          "ratio": null,
+          "width": null,
+          "height": null,
+          "type": "pan",
+          "direction": "left",
+          "overlayStyle": "vignette",
+          "gradientType": "linear",
+          "overlayOpacity": 0.3
+        },
+        "palette": "primaryOnWhite",
+        "gradient": {
+          "type": "primary",
+          "direction": "HORIZONTAL"
+        },
+        "noise": {
+          "type": "floatingParticles"
+        },
+        "pattern": {
+          "type": "dots",
+          "animation": "none",
+          "scale": 0.75,
+          "rotation": null,
+          "opacity": 0.35,
+          "animationDuration": null,
+          "animationSpeed": 0.8
+        },
+        "particle": {
+          "type": "lines",
+          "particleCount": "300",
+          "speed": 0.8,
+          "direction": "up",
+          "animation": "scale"
+        },
+        "texture": {
+          "name": "Print Texture",
+          "url": "",
+          "repeat": "cover",
+          "scale": "100%",
+          "overlay": {
+            "opacity": 0.8,
+            "blendMode": "multiply"
+          }
+        }
+      }
+    }
+  },
+  "errors": []
+}

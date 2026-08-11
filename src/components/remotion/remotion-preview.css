@@ -1,0 +1,26 @@
+/* Isolate Remotion Player subtree from host app global/preflight styles. */
+
+[data-remotion-preview-root],
+[data-remotion-preview-root] * {
+  box-sizing: border-box;
+}
+
+[data-remotion-preview-root] h1,
+[data-remotion-preview-root] h2,
+[data-remotion-preview-root] h3,
+[data-remotion-preview-root] h4,
+[data-remotion-preview-root] h5,
+[data-remotion-preview-root] h6,
+[data-remotion-preview-root] p,
+[data-remotion-preview-root] ul,
+[data-remotion-preview-root] ol,
+[data-remotion-preview-root] figure {
+  margin: 0;
+}
+
+[data-remotion-preview-root] img,
+[data-remotion-preview-root] svg,
+[data-remotion-preview-root] video,
+[data-remotion-preview-root] canvas {
+  max-width: none;
+}

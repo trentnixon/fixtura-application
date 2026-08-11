@@ -1,23 +1,164 @@
 /* Edit this file to change brand colors/fonts. Overrides globals via CSS cascade. */
 
 :root {
-  /* Brand palette - light */
-  --primary: oklch(0.6 0.12 255);
-  --primary-foreground: oklch(0.985 0 0);
+  /* General Scales (Generated 50-950) */
+  --neutral-50: #fafbfc;
+  --neutral-100: #f3f4f6;
+  --neutral-200: #e6eaf0;
+  --neutral-300: #d1d5db;
+  --neutral-400: #9ca3af;
+  --neutral-500: #6b7280;
+  --neutral-600: #4b5563;
+  --neutral-700: #374151;
+  --neutral-800: #1f2937;
+  --neutral-900: #111827;
+  --neutral-950: #030712;
+
+  --primary-50: #eff6ff;
+  --primary-100: #dbeafe;
+  --primary-200: #bfdbfe;
+  --primary-300: #93c5fd;
+  --primary-400: #60a5fa;
+  --primary-500: #4c82c6;
+  --primary-600: #2563eb;
+  --primary-700: #1d4ed8;
+  --primary-800: #1e40af;
+  --primary-900: #1e3a8a;
+  --primary-950: #172554;
+
+  --brand-secondary-50: #f0fdfa;
+  --brand-secondary-100: #ccfbf1;
+  --brand-secondary-200: #99f6e4;
+  --brand-secondary-300: #5eead4;
+  --brand-secondary-400: #2dd4bf;
+  --brand-secondary-500: #14b8a6;
+  --brand-secondary-600: #0d9488;
+  --brand-secondary-700: #0f766e;
+  --brand-secondary-800: #115e59;
+  --brand-secondary-900: #134e4a;
+  --brand-secondary-950: #042f2e;
+
+  --brand-accent-50: #fff7ed;
+  --brand-accent-100: #ffedd5;
+  --brand-accent-200: #fed7aa;
+  --brand-accent-300: #fdba74;
+  --brand-accent-400: #fb923c;
+  --brand-accent-500: #f97316;
+  --brand-accent-600: #ea580c;
+  --brand-accent-700: #c2410c;
+  --brand-accent-800: #9a3412;
+  --brand-accent-900: #7c2d12;
+  --brand-accent-950: #431407;
+
+  --success-50: #f0fdf4;
+  --success-100: #dcfce7;
+  --success-200: #bbf7d0;
+  --success-300: #86efac;
+  --success-400: #4ade80;
+  --success-500: #2ca58d;
+  --success-600: #16a34a;
+  --success-700: #15803d;
+  --success-800: #166534;
+  --success-900: #14532d;
+  --success-950: #052e16;
+
+  --warning-50: #fefce8;
+  --warning-100: #fef9c3;
+  --warning-200: #fef08a;
+  --warning-300: #fde047;
+  --warning-400: #facc15;
+  --warning-500: #e6a23c;
+  --warning-600: #ca8a04;
+  --warning-700: #a16207;
+  --warning-800: #854d0e;
+  --warning-900: #713f12;
+  --warning-950: #422006;
+
+  --error-50: #fef2f2;
+  --error-100: #fee2e2;
+  --error-200: #fecaca;
+  --error-300: #fca5a5;
+  --error-400: #f87171;
+  --error-500: #d64545;
+  --error-600: #dc2626;
+  --error-700: #b91c1c;
+  --error-800: #991b1b;
+  --error-900: #7f1d1d;
+  --error-950: #450a0a;
+
+  /* Overriding default OKLCH token mapping */
+  --background: var(--neutral-50);
+  --foreground: var(--neutral-900);
+
+  --card: #ffffff;
+  --card-foreground: var(--neutral-900);
+
+  --popover: #ffffff;
+  --popover-foreground: var(--neutral-900);
+
+  --primary: var(--primary-500);
+  --primary-foreground: #ffffff;
+
+  --secondary: var(--neutral-100);
+  --secondary-foreground: var(--neutral-900);
+
+  --muted: var(--neutral-100);
+  --muted-foreground: var(--neutral-600);
+
+  --accent: var(--neutral-100);
+  --accent-foreground: var(--neutral-900);
+
+  --destructive: var(--error-500);
+  --destructive-foreground: #ffffff;
+
+  --border: var(--neutral-200);
+  --input: var(--neutral-200);
+  --ring: var(--primary-500);
+
+  /* Specific states */
+  --success: var(--success-500);
+  --warning: var(--warning-500);
 
   --brand-primary: var(--primary);
   --brand-foreground: var(--primary-foreground);
-  --brand-secondary: oklch(0.85 0.05 255);
-  --brand-accent: oklch(0.92 0.1 255);
+  --brand-secondary: var(--brand-secondary-500);
+  --brand-accent: var(--brand-accent-500);
 }
 
 .dark {
-  /* Brand palette - dark */
-  --primary: oklch(0.7 0.12 255);
-  --primary-foreground: oklch(0.205 0 0);
+  --background: var(--neutral-950);
+  --foreground: var(--neutral-50);
+
+  --card: var(--neutral-900);
+  --card-foreground: var(--neutral-50);
+
+  --popover: var(--neutral-900);
+  --popover-foreground: var(--neutral-50);
+
+  --primary: var(--primary-400);
+  --primary-foreground: var(--neutral-950);
+
+  --secondary: var(--neutral-800);
+  --secondary-foreground: var(--neutral-50);
+
+  --muted: var(--neutral-800);
+  --muted-foreground: var(--neutral-400);
+
+  --accent: var(--neutral-800);
+  --accent-foreground: var(--neutral-50);
+
+  --destructive: var(--error-600);
+  --destructive-foreground: var(--neutral-50);
+
+  --border: var(--neutral-800);
+  --input: var(--neutral-800);
+  --ring: var(--primary-400);
+
+  --success: var(--success-400);
+  --warning: var(--warning-400);
 
   --brand-primary: var(--primary);
   --brand-foreground: var(--primary-foreground);
-  --brand-secondary: oklch(0.4 0.06 255);
-  --brand-accent: oklch(0.35 0.1 255);
+  --brand-secondary: var(--brand-secondary-400);
+  --brand-accent: var(--brand-accent-400);
 }

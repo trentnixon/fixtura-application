@@ -1,0 +1,408 @@
+{
+  "data": [
+    {
+      "date": "Thu, 30 May",
+      "time": "10:30 AM",
+      "type": "One Day",
+      "round": "2019 World Cup — Group Stage",
+      "gameID": "bc4e8d79",
+      "gender": "Men",
+      "ground": "The Oval",
+      "prompt": "Archive preview — upcoming cricket fixture:\n- Teams: England vs South Africa\n- Date and Time: Thursday, 30 May 2019, 10:30 AM\n- Location: The Oval\n- Round: 2019 World Cup — Group Stage\n- Match Type: One Day\n- League: 2019 World Cup — Group Stage",
+      "ageGroup": "Senior",
+      "teamAway": "South Africa",
+      "teamHome": "England",
+      "gradeName": "2019 World Cup — Group Stage",
+      "teamAwayLogo": {
+        "url": "/dummyAssetData/flags/za.svg",
+        "width": 640,
+        "height": 480
+      },
+      "teamHomeLogo": {
+        "url": "/dummyAssetData/flags/gb-eng.svg",
+        "width": 640,
+        "height": 480
+      },
+      "assignSponsors": {
+        "team": [],
+        "grade": [],
+        "competition": []
+      }
+    },
+    {
+      "date": "Fri, 31 May",
+      "time": "10:30 AM",
+      "type": "One Day",
+      "round": "2019 World Cup — Group Stage",
+      "gameID": "496a009c",
+      "gender": "Men",
+      "ground": "Trent Bridge",
+      "prompt": "Archive preview — upcoming cricket fixture:\n- Teams: West Indies vs Pakistan\n- Date and Time: Friday, 31 May 2019, 10:30 AM\n- Location: Trent Bridge\n- Round: 2019 World Cup — Group Stage\n- Match Type: One Day\n- League: 2019 World Cup — Group Stage",
+      "ageGroup": "Senior",
+      "teamAway": "Pakistan",
+      "teamHome": "West Indies",
+      "gradeName": "2019 World Cup — Group Stage",
+      "teamAwayLogo": {
+        "url": "/dummyAssetData/flags/pk.svg",
+        "width": 640,
+        "height": 480
+      },
+      "teamHomeLogo": {
+        "url": "/dummyAssetData/flags/wi.svg",
+        "width": 640,
+        "height": 480
+      },
+      "assignSponsors": {
+        "team": [],
+        "grade": [],
+        "competition": []
+      }
+    },
+    {
+      "date": "Sat, 1 Jun",
+      "time": "10:30 AM",
+      "type": "One Day",
+      "round": "2019 World Cup — Group Stage",
+      "gameID": "d39b9fbf",
+      "gender": "Men",
+      "ground": "Cardiff Wales Stadium",
+      "prompt": "Archive preview — upcoming cricket fixture:\n- Teams: New Zealand vs Sri Lanka\n- Date and Time: Saturday, 1 June 2019, 10:30 AM\n- Location: Cardiff Wales Stadium\n- Round: 2019 World Cup — Group Stage\n- Match Type: One Day\n- League: 2019 World Cup — Group Stage",
+      "ageGroup": "Senior",
+      "teamAway": "Sri Lanka",
+      "teamHome": "New Zealand",
+      "gradeName": "2019 World Cup — Group Stage",
+      "teamAwayLogo": {
+        "url": "/dummyAssetData/flags/lk.svg",
+        "width": 640,
+        "height": 480
+      },
+      "teamHomeLogo": {
+        "url": "/dummyAssetData/flags/nz.svg",
+        "width": 640,
+        "height": 480
+      },
+      "assignSponsors": {
+        "team": [],
+        "grade": [],
+        "competition": []
+      }
+    },
+    {
+      "date": "Sat, 1 Jun",
+      "time": "02:00 PM",
+      "type": "One Day",
+      "round": "2019 World Cup — Group Stage",
+      "gameID": "21d62c3f",
+      "gender": "Men",
+      "ground": "County Ground, Bristol",
+      "prompt": "Archive preview — upcoming cricket fixture:\n- Teams: Afghanistan vs Australia\n- Date and Time: Saturday, 1 June 2019, 02:00 PM\n- Location: County Ground, Bristol\n- Round: 2019 World Cup — Group Stage\n- Match Type: One Day\n- League: 2019 World Cup — Group Stage",
+      "ageGroup": "Senior",
+      "teamAway": "Australia",
+      "teamHome": "Afghanistan",
+      "gradeName": "2019 World Cup — Group Stage",
+      "teamAwayLogo": {
+        "url": "/dummyAssetData/flags/au.svg",
+        "width": 640,
+        "height": 480
+      },
+      "teamHomeLogo": {
+        "url": "/dummyAssetData/flags/af.svg",
+        "width": 640,
+        "height": 480
+      },
+      "assignSponsors": {
+        "team": [],
+        "grade": [],
+        "competition": []
+      }
+    },
+    {
+      "date": "Wed, 5 Jun",
+      "time": "10:30 AM",
+      "type": "One Day",
+      "round": "2019 World Cup — Group Stage",
+      "gameID": "c369ad68",
+      "gender": "Men",
+      "ground": "Hampshire Bowl",
+      "prompt": "Archive preview — upcoming cricket fixture:\n- Teams: India vs South Africa\n- Date and Time: Wednesday, 5 June 2019, 10:30 AM\n- Location: Hampshire Bowl\n- Round: 2019 World Cup — Group Stage\n- Match Type: One Day\n- League: 2019 World Cup — Group Stage",
+      "ageGroup": "Senior",
+      "teamAway": "South Africa",
+      "teamHome": "India",
+      "gradeName": "2019 World Cup — Group Stage",
+      "teamAwayLogo": {
+        "url": "/dummyAssetData/flags/za.svg",
+        "width": 640,
+        "height": 480
+      },
+      "teamHomeLogo": {
+        "url": "/dummyAssetData/flags/in.svg",
+        "width": 640,
+        "height": 480
+      },
+      "assignSponsors": {
+        "team": [],
+        "grade": [],
+        "competition": []
+      }
+    },
+    {
+      "date": "Wed, 5 Jun",
+      "time": "01:30 PM",
+      "type": "One Day",
+      "round": "2019 World Cup — Group Stage",
+      "gameID": "c64843da",
+      "gender": "Men",
+      "ground": "The Oval",
+      "prompt": "Archive preview — upcoming cricket fixture:\n- Teams: Bangladesh vs New Zealand\n- Date and Time: Wednesday, 5 June 2019, 01:30 PM\n- Location: The Oval\n- Round: 2019 World Cup — Group Stage\n- Match Type: One Day\n- League: 2019 World Cup — Group Stage",
+      "ageGroup": "Senior",
+      "teamAway": "New Zealand",
+      "teamHome": "Bangladesh",
+      "gradeName": "2019 World Cup — Group Stage",
+      "teamAwayLogo": {
+        "url": "/dummyAssetData/flags/nz.svg",
+        "width": 640,
+        "height": 480
+      },
+      "teamHomeLogo": {
+        "url": "/dummyAssetData/flags/bd.svg",
+        "width": 640,
+        "height": 480
+      },
+      "assignSponsors": {
+        "team": [],
+        "grade": [],
+        "competition": []
+      }
+    }
+  ],
+  "asset": {
+    "assetID": 0,
+    "assetTypeID": 0,
+    "assetCategoryID": 0,
+    "assetsLinkID": 0
+  },
+  "errors": [],
+  "frames": [45, 195, 390],
+  "render": {
+    "schedulerId": 0,
+    "renderId": 0
+  },
+  "account": {
+    "accountId": 0
+  },
+  "timings": {
+    "FPS_MAIN": 405,
+    "FPS_INTRO": 90,
+    "FPS_OUTRO": 30,
+    "FPS_LADDER": 0,
+    "FPS_SCORECARD": 210
+  },
+  "videoMeta": {
+    "club": {
+      "logo": {
+        "hasLogo": false,
+        "url": "",
+        "width": 1031,
+        "height": 1330
+      },
+      "name": "International Cricket Demo Preview",
+      "sport": "Cricket",
+      "sponsors": {
+        "primary": [],
+        "default": {}
+      },
+      "IsAccountClub": false
+    },
+    "video": {
+      "media": {
+        "audio": {
+          "url": "",
+          "audioOption": null
+        },
+        "HeroImage": {
+          "url": "",
+          "ratio": "",
+          "width": 0,
+          "height": 0,
+          "AgeGroup": "",
+          "AssetType": "",
+          "markerPosition": ""
+        }
+      },
+      "metadata": {
+        "title": "Fixtures",
+        "frames": [],
+        "assetId": 2,
+        "titleSplit": ["Fixtures", ""],
+        "videoTitle": "Upcoming Fixtures",
+        "assetTypeId": 1,
+        "compositionId": "CricketUpcoming",
+        "includeSponsors": false
+      },
+      "appearance": {
+        "theme": {
+          "dark": "#111",
+          "white": "#FFF",
+          "primary": "#de0000",
+          "secondary": "#ffa300"
+        },
+        "template": "CNSW"
+      },
+      "contentLayout": {
+        "divideFixturesBy": {
+          "CricketLadder": 1,
+          "CricketRoster": 1,
+          "CricketResults": 2,
+          "CricketUpcoming": 3,
+          "CricketResultSingle": 1
+        }
+      },
+      "fixtureCategory": "International Cricket Demo Preview",
+      "groupingCategory": "International Cricket Demo Preview",
+      "templateVariation": {
+        "mode": "lightAlt",
+        "image": {
+          "url": null,
+          "type": "pan",
+          "ratio": null,
+          "width": null,
+          "height": null,
+          "direction": "left",
+          "gradientType": "linear",
+          "overlayStyle": "vignette",
+          "overlayOpacity": 0.3
+        },
+        "noise": {
+          "type": "floatingParticles"
+        },
+        "video": {
+          "url": null,
+          "loop": null,
+          "size": "cover",
+          "muted": true,
+          "volume": 0.8,
+          "overlay": {
+            "color": "rgba(0,0,0,0.5)",
+            "opacity": 0.7
+          },
+          "position": "left",
+          "fallbackUrl": null,
+          "playbackRate": null,
+          "useOffthreadVideo": null
+        },
+        "palette": "secondary",
+        "pattern": {
+          "type": "dots",
+          "scale": 0.75,
+          "opacity": 0.35,
+          "rotation": null,
+          "animation": "none",
+          "animationSpeed": 0.8,
+          "animationDuration": null
+        },
+        "texture": {
+          "url": "",
+          "name": "Stone 2",
+          "scale": "100%",
+          "repeat": "cover",
+          "overlay": {
+            "opacity": 0.7,
+            "blendMode": "multiply"
+          }
+        },
+        "category": {
+          "name": "Cricket NSW",
+          "slug": "CNSW",
+          "bundleAudio": {
+            "id": 6,
+            "Name": "Muted",
+            "createdAt": "2024-10-30T00:35:16.398Z",
+            "updatedAt": "2024-10-30T00:35:17.926Z",
+            "publishedAt": "2024-10-30T00:35:17.915Z",
+            "audio_options": [
+              {
+                "id": 33,
+                "URL": "",
+                "Name": "HelloStranger_Instrumental",
+                "createdAt": "2024-10-30T00:35:04.160Z",
+                "updatedAt": "2024-10-30T00:36:30.358Z",
+                "publishedAt": "2024-10-30T00:35:05.839Z",
+                "ComponentName": "Top 5 Bowling",
+                "CompositionID": "Top5BowlingList"
+              },
+              {
+                "id": 34,
+                "URL": "",
+                "Name": "GoodGoodFeeling_Inst",
+                "createdAt": "2024-10-30T00:37:09.563Z",
+                "updatedAt": "2024-10-30T00:38:09.963Z",
+                "publishedAt": "2024-10-30T00:38:09.959Z",
+                "ComponentName": "UpComing Fixtures",
+                "CompositionID": "UpComingFixtures"
+              },
+              {
+                "id": 35,
+                "URL": "",
+                "Name": "Collateral-NoGuitarSolo_Inst",
+                "createdAt": "2024-10-30T00:38:02.552Z",
+                "updatedAt": "2024-10-30T00:38:04.070Z",
+                "publishedAt": "2024-10-30T00:38:04.063Z",
+                "ComponentName": "Weekend Results",
+                "CompositionID": "WeekendResults"
+              },
+              {
+                "id": 36,
+                "URL": "",
+                "Name": "Wall-Of-Sound_Instrumental",
+                "createdAt": "2024-10-30T00:39:02.570Z",
+                "updatedAt": "2024-10-30T00:39:04.182Z",
+                "publishedAt": "2024-10-30T00:39:04.177Z",
+                "ComponentName": "Ladder",
+                "CompositionID": "Ladder"
+              },
+              {
+                "id": 38,
+                "URL": "",
+                "Name": "So Good To Be Alive_Inst_Ohhs",
+                "createdAt": "2024-10-30T01:00:28.630Z",
+                "updatedAt": "2024-10-30T01:00:30.327Z",
+                "publishedAt": "2024-10-30T01:00:30.319Z",
+                "ComponentName": "Top 5 Batting",
+                "CompositionID": "Top5BattingList"
+              },
+              {
+                "id": 39,
+                "URL": "",
+                "Name": "KnuckleSandwhich",
+                "createdAt": "2024-10-30T01:01:10.581Z",
+                "updatedAt": "2024-10-30T01:01:13.949Z",
+                "publishedAt": "2024-10-30T01:01:13.932Z",
+                "ComponentName": "UpComing Fixtures",
+                "CompositionID": "UpComingFixtures"
+              }
+            ]
+          },
+          "divideFixturesBy": {
+            "CricketLadder": 1,
+            "CricketRoster": 1,
+            "CricketResults": 2,
+            "CricketUpcoming": 3,
+            "CricketResultSingle": 1
+          }
+        },
+        "gradient": {
+          "type": "primary",
+          "direction": "HORIZONTAL"
+        },
+        "particle": {
+          "type": "lines",
+          "speed": 0.8,
+          "animation": "scale",
+          "direction": "up",
+          "particleCount": "300"
+        },
+        "useBackground": "Texture"
+      }
+    }
+  }
+}

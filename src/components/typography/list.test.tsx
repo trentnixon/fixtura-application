@@ -15,4 +15,15 @@ describe("TypographyList", () => {
     expect(screen.getByText(/one/i)).toBeInTheDocument();
     expect(screen.getByText(/two/i)).toBeInTheDocument();
   });
+
+  it("merges className onto the ul", () => {
+    render(
+      <TypographyList className="text-muted-foreground list-inside space-y-1">
+        <li>A</li>
+      </TypographyList>,
+    );
+    const list = screen.getByRole("list");
+    expect(list).toHaveClass("list-inside");
+    expect(list).toHaveClass("list-disc");
+  });
 });

@@ -1,3 +1,8 @@
+import {
+  TypographyEmptyStateDescription,
+  TypographyEmptyStateTitle,
+} from "@/components/typography";
+
 import type { ReactNode } from "react";
 
 export function EmptyState({
@@ -11,8 +16,12 @@ export function EmptyState({
 }) {
   return (
     <div className="grid gap-3 rounded-xl border p-6 text-center">
-      <h3 className="text-lg font-semibold">{title}</h3>
-      <p className="text-muted-foreground text-sm">{description}</p>
+      <TypographyEmptyStateTitle as="h3" className="text-lg font-semibold sm:text-xl">
+        {title}
+      </TypographyEmptyStateTitle>
+      <TypographyEmptyStateDescription className="text-sm">
+        {description}
+      </TypographyEmptyStateDescription>
       {action ? <div className="flex items-center justify-center">{action}</div> : null}
     </div>
   );

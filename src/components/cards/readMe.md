@@ -12,13 +12,15 @@ Reusable card wrappers built on shadcn/ui `Card` primitives. All components acce
 - `MediaCard.test.tsx`: media-card component tests
 - `ListCard.tsx`: list slot + footer
 - `ListCard.test.tsx`: list-card component tests
+- `MetricComparisonCard.tsx`: two-column metric compare with banded header/body/footer; `layout` surface or card
+- `MetricComparisonCard.test.tsx`: metric comparison card tests
 - `config.ts`: shared classNames for card internals
 - `index.ts`: barrel exports
 
 ## Relations
 
 - Parent folder: [../../readMe.md](../../readMe.md)
-- Used by: `src/app/components/components/cards.tsx`
+- Used by: `src/app/components/components/cards.tsx`, `src/app/sandbox/kitchen-sink/cards/page.tsx`
 
 ## Dependencies
 

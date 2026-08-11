@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { TypographyCardDescription, TypographyCardTitle } from "@/components/typography";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 import type { ReactNode } from "react";
@@ -23,8 +24,16 @@ export function ActionHeaderCard({
       {(title || description || actions) && (
         <CardHeader className="flex-row items-start justify-between">
           <div>
-            {title ? <CardTitle>{title}</CardTitle> : null}
-            {description ? <CardDescription>{description}</CardDescription> : null}
+            {title ? (
+              <CardTitle>
+                <TypographyCardTitle as="span">{title}</TypographyCardTitle>
+              </CardTitle>
+            ) : null}
+            {description ? (
+              <CardDescription>
+                <TypographyCardDescription as="span">{description}</TypographyCardDescription>
+              </CardDescription>
+            ) : null}
           </div>
           {actions ? <div className="flex items-center gap-2">{actions}</div> : null}
         </CardHeader>

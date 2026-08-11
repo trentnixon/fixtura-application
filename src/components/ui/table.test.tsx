@@ -296,7 +296,7 @@ describe("TableHead", () => {
       </Table>,
     );
     const head = screen.getByTestId("table-head");
-    expect(head).toHaveClass("text-foreground", "h-10", "px-2", "text-left", "font-medium");
+    expect(head).toHaveClass("text-muted-foreground", "h-12", "px-4", "text-left", "font-bold");
   });
 });
 
@@ -344,7 +344,7 @@ describe("TableCell", () => {
       </Table>,
     );
     const cell = screen.getByTestId("table-cell");
-    expect(cell).toHaveClass("p-2", "align-middle", "whitespace-nowrap");
+    expect(cell).toHaveClass("p-4", "align-middle", "whitespace-nowrap");
   });
 });
 

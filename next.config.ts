@@ -3,6 +3,9 @@ import process from "node:process";
 
 import type { NextConfig } from "next";
 
+const uploadsSentrySourceMaps =
+  process.env["GITHUB_ACTIONS"] === "true" || process.env["VERCEL"] === "1";
+
 const nextConfig: NextConfig = {
   /* config options here */
   async rewrites() {
@@ -27,10 +30,15 @@ export default withSentryConfig(nextConfig, {
 
   org: "na-g0d",
 
-  project: "fixtura-marketing",
+  project: "fixtura-application",
 
-  // Only print logs for uploading source maps in CI
-  silent: !process.env["CI"],
+  // Only print logs for uploading source maps in deployment builds.
+  silent: !uploadsSentrySourceMaps,
+
+  // Keep local verification builds from publishing source maps.
+  sourcemaps: {
+    disable: !uploadsSentrySourceMaps,
+  },
 
   // For all available options, see:
   // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
@@ -44,12 +52,17 @@ export default withSentryConfig(nextConfig, {
   // side errors will fail.
   // tunnelRoute: "/monitoring",
 
-  // Automatically tree-shake Sentry logger statements to reduce bundle size
-  disableLogger: true,
+  webpack: {
+    // Enables automatic instrumentation of Vercel Cron Monitors. (Does not yet work with App Router route handlers.)
+    // See the following for more information:
+    // https://docs.sentry.io/product/crons/
+    // https://vercel.com/docs/cron-jobs
+    automaticVercelMonitors: true,
 
-  // Enables automatic instrumentation of Vercel Cron Monitors. (Does not yet work with App Router route handlers.)
-  // See the following for more information:
-  // https://docs.sentry.io/product/crons/
-  // https://vercel.com/docs/cron-jobs
-  automaticVercelMonitors: true,
+    // Tree-shaking options for reducing bundle size
+    treeshake: {
+      // Automatically tree-shake Sentry logger statements to reduce bundle size
+      removeDebugLogging: true,
+    },
+  },
 });

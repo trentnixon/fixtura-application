@@ -1,0 +1,380 @@
+{
+  "data": [
+    {
+      "name": "Zaheer Khan",
+      "runs": 36,
+      "overs": "10",
+      "prompt": "Zaheer Khan played for India, taking 4 wickets from 10 overs, conceding 36 runs. Competition: ICC KnockOut Kenya 2000. Grade: ODI / Knockout Stage. This is a fictional demonstration performance for archive preview only.",
+      "wickets": 4,
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/in.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "India",
+      "assignSponsors": {
+        "Team": {
+          "name": "India"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Knockout Stage"
+        },
+        "competition": {
+          "id": 0,
+          "name": "ICC KnockOut Kenya 2000"
+        }
+      }
+    },
+    {
+      "name": "Muttiah Muralitharan",
+      "runs": 41,
+      "overs": "10",
+      "prompt": "Muttiah Muralitharan played for Sri Lanka, taking 4 wickets from 10 overs, conceding 41 runs. Competition: ICC KnockOut Kenya 2000. Grade: ODI / Knockout Stage. This is a fictional demonstration performance for archive preview only.",
+      "wickets": 4,
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/lk.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "Sri Lanka",
+      "assignSponsors": {
+        "Team": {
+          "name": "Sri Lanka"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Knockout Stage"
+        },
+        "competition": {
+          "id": 0,
+          "name": "ICC KnockOut Kenya 2000"
+        }
+      }
+    },
+    {
+      "name": "Shaun Pollock",
+      "runs": 28,
+      "overs": "10",
+      "prompt": "Shaun Pollock played for South Africa, taking 3 wickets from 10 overs, conceding 28 runs. Competition: ICC KnockOut Kenya 2000. Grade: ODI / Knockout Stage. This is a fictional demonstration performance for archive preview only.",
+      "wickets": 3,
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/za.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "South Africa",
+      "assignSponsors": {
+        "Team": {
+          "name": "South Africa"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Knockout Stage"
+        },
+        "competition": {
+          "id": 0,
+          "name": "ICC KnockOut Kenya 2000"
+        }
+      }
+    },
+    {
+      "name": "Venkatesh Prasad",
+      "runs": 33,
+      "overs": "9",
+      "prompt": "Venkatesh Prasad played for India, taking 3 wickets from 9 overs, conceding 33 runs. Competition: ICC KnockOut Kenya 2000. Grade: ODI / Knockout Stage. This is a fictional demonstration performance for archive preview only.",
+      "wickets": 3,
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/in.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "India",
+      "assignSponsors": {
+        "Team": {
+          "name": "India"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Knockout Stage"
+        },
+        "competition": {
+          "id": 0,
+          "name": "ICC KnockOut Kenya 2000"
+        }
+      }
+    },
+    {
+      "name": "Shayne O'Connor",
+      "runs": 39,
+      "overs": "10",
+      "prompt": "Shayne O'Connor played for New Zealand, taking 3 wickets from 10 overs, conceding 39 runs. Competition: ICC KnockOut Kenya 2000. Grade: ODI / Knockout Stage. This is a fictional demonstration performance for archive preview only.",
+      "wickets": 3,
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/nz.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "New Zealand",
+      "assignSponsors": {
+        "Team": {
+          "name": "New Zealand"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Knockout Stage"
+        },
+        "competition": {
+          "id": 0,
+          "name": "ICC KnockOut Kenya 2000"
+        }
+      }
+    }
+  ],
+  "asset": {
+    "assetID": 0,
+    "assetTypeID": 0,
+    "assetCategoryID": 0,
+    "assetsLinkID": ""
+  },
+  "render": {
+    "schedulerId": 0,
+    "renderId": 0
+  },
+  "account": {
+    "accountId": 0
+  },
+  "timings": {
+    "FPS_MAIN": 360,
+    "FPS_INTRO": 90,
+    "FPS_OUTRO": 30,
+    "FPS_LADDER": 0,
+    "FPS_SCORECARD": 0,
+    "FPS_PREFORMANCECARD": 0
+  },
+  "frames": [390, 45],
+  "videoMeta": {
+    "club": {
+      "logo": {
+        "hasLogo": false,
+        "url": "",
+        "width": 1106,
+        "height": 1843
+      },
+      "name": "International Cricket Demo Preview",
+      "sport": "Cricket",
+      "sponsors": {
+        "primary": [],
+        "default": {}
+      },
+      "IsAccountClub": false
+    },
+    "video": {
+      "fixtureCategory": "International Cricket Demo Preview",
+      "groupingCategory": "International Cricket Demo Preview",
+      "metadata": {
+        "title": "Top 5",
+        "titleSplit": ["Bowlers", ""],
+        "videoTitle": "Top 5 Bowlers",
+        "compositionId": "CricketTop5Bowling",
+        "assetId": 7,
+        "assetTypeId": 3,
+        "frames": [],
+        "includeSponsors": false
+      },
+      "appearance": {
+        "theme": {
+          "dark": "#111",
+          "white": "#FFF",
+          "primary": "#002855",
+          "secondary": "#00AEEF"
+        },
+        "template": "TwoColumnClassic"
+      },
+      "media": {
+        "HeroImage": {
+          "url": "",
+          "ratio": "",
+          "width": 0,
+          "height": 0,
+          "AgeGroup": "",
+          "AssetType": "",
+          "markerPosition": ""
+        },
+        "audio": {
+          "url": "",
+          "audioOption": null
+        }
+      },
+      "contentLayout": {
+        "divideFixturesBy": {
+          "CricketLadder": 1,
+          "CricketRoster": 1,
+          "CricketResults": 2,
+          "CricketUpcoming": 3,
+          "CricketResultSingle": 1,
+          "CricketBattingPerformances": 5,
+          "CricketBowlingPerformances": 5,
+          "CricketTeamOfTheWeek": 2
+        }
+      },
+      "templateVariation": {
+        "useBackground": "Texture",
+        "mode": "lightAlt",
+        "category": {
+          "slug": "TwoColumnClassic",
+          "name": "Classic Two Column ",
+          "divideFixturesBy": {
+            "CricketUpcoming": 3,
+            "CricketResults": 2,
+            "CricketResultSingle": 1,
+            "CricketLadder": 1,
+            "CricketRoster": 1,
+            "CricketBowlingPerformances": 5,
+            "CricketBattingPerformances": 5
+          },
+          "bundleAudio": {
+            "id": 1,
+            "Name": "Basic",
+            "createdAt": "2023-09-27T10:36:24.428Z",
+            "updatedAt": "2025-06-15T04:50:57.910Z",
+            "publishedAt": "2023-09-27T10:36:25.639Z",
+            "audio_options": [
+              {
+                "id": 4,
+                "Name": "Better Start Now",
+                "createdAt": "2023-09-27T10:34:46.702Z",
+                "updatedAt": "2025-06-15T04:53:45.558Z",
+                "publishedAt": "2023-09-27T10:34:48.455Z",
+                "URL": "",
+                "CompositionID": "CricketLadder",
+                "ComponentName": "CricketLadder"
+              },
+              {
+                "id": 2,
+                "Name": "Fifteen on Me",
+                "createdAt": "2022-12-20T01:59:28.337Z",
+                "updatedAt": "2025-06-15T04:53:11.194Z",
+                "publishedAt": "2022-12-20T01:59:29.080Z",
+                "URL": "",
+                "CompositionID": "CricketUpcoming",
+                "ComponentName": "CricketUpcoming"
+              },
+              {
+                "id": 5,
+                "Name": "Get The Gains",
+                "createdAt": "2023-09-27T10:35:01.053Z",
+                "updatedAt": "2025-06-15T04:53:59.493Z",
+                "publishedAt": "2023-09-27T10:35:29.163Z",
+                "URL": "",
+                "CompositionID": "CricketTop5Bowling",
+                "ComponentName": "CricketTop5Bowling"
+              },
+              {
+                "id": 3,
+                "Name": "Groover",
+                "createdAt": "2022-12-20T01:59:34.014Z",
+                "updatedAt": "2025-06-15T04:53:28.656Z",
+                "publishedAt": "2022-12-20T01:59:34.670Z",
+                "URL": "",
+                "CompositionID": "CricketTop5Batting",
+                "ComponentName": "CricketTop5Batting"
+              },
+              {
+                "id": 1,
+                "Name": "Saltine",
+                "createdAt": "2022-12-12T05:19:56.353Z",
+                "updatedAt": "2025-06-15T04:50:50.079Z",
+                "publishedAt": "2022-12-12T05:19:57.408Z",
+                "URL": "",
+                "CompositionID": "CricketResults",
+                "ComponentName": "CricketResults"
+              },
+              {
+                "id": 16,
+                "Name": "BEECH LOVE",
+                "createdAt": "2024-06-05T04:31:26.640Z",
+                "updatedAt": "2026-01-05T09:04:09.788Z",
+                "publishedAt": "2024-06-07T12:45:32.118Z",
+                "URL": "",
+                "CompositionID": "CricketUpcoming",
+                "ComponentName": "CricketUpcoming"
+              },
+              {
+                "id": 17,
+                "Name": "FAY V",
+                "createdAt": "2024-06-05T04:33:33.970Z",
+                "updatedAt": "2024-06-07T12:48:03.161Z",
+                "publishedAt": "2024-06-07T12:47:53.394Z",
+                "URL": "",
+                "CompositionID": "WeekendResultsAFL",
+                "ComponentName": "Weekend Results"
+              }
+            ]
+          }
+        },
+        "video": {
+          "url": null,
+          "fallbackUrl": null,
+          "position": "left",
+          "size": "cover",
+          "loop": null,
+          "muted": true,
+          "overlay": {
+            "color": "rgba(0,0,0,0.5)",
+            "opacity": 0.7
+          },
+          "useOffthreadVideo": null,
+          "volume": 0.8,
+          "playbackRate": null
+        },
+        "image": {
+          "url": null,
+          "ratio": null,
+          "width": null,
+          "height": null,
+          "type": "pan",
+          "direction": "left",
+          "overlayStyle": "vignette",
+          "gradientType": "linear",
+          "overlayOpacity": 0.3
+        },
+        "palette": "primary",
+        "gradient": {
+          "type": "primary",
+          "direction": "VERTICAL"
+        },
+        "noise": {
+          "type": "floatingParticles"
+        },
+        "pattern": {
+          "type": "dots",
+          "animation": "none",
+          "scale": 0.75,
+          "rotation": null,
+          "opacity": 0.35,
+          "animationDuration": null,
+          "animationSpeed": 0.8
+        },
+        "particle": {
+          "type": "lines",
+          "particleCount": "300",
+          "speed": 0.8,
+          "direction": "up",
+          "animation": "scale"
+        },
+        "texture": {
+          "name": "Stone 2",
+          "url": "",
+          "repeat": "cover",
+          "scale": "100%",
+          "overlay": {
+            "opacity": 0.8,
+            "blendMode": "multiply"
+          }
+        }
+      }
+    }
+  },
+  "errors": []
+}

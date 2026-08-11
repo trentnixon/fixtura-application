@@ -1,0 +1,101 @@
+{
+  "meta": {
+    "id": 18030,
+    "competitionId": "9db774bd",
+    "name": "03 - Junior Competition",
+    "season": "Winter 2026",
+    "status": "Active",
+    "isActive": true,
+    "timeframe": {
+      "start": "2026-03-31",
+      "end": "2026-09-29"
+    },
+    "url": "https://www.playhq.com/cricket-australia/org/darwin-and-districts-cricket-competition/03-junior-competition-winter-2026/9db774bd"
+  },
+  "association": {
+    "id": 2964,
+    "name": "Darwin And Districts Cricket Competition",
+    "sport": "Cricket",
+    "playHqId": "a44c6113",
+    "href": "https://www.playhq.com/cricket-australia/org/darwin-and-districts-cricket-competition/a44c6113"
+  },
+  "counts": {
+    "gradeCount": 6,
+    "teamCount": 44,
+    "fixtureCount": 214
+  },
+  "grades": [
+    {
+      "id": 71344,
+      "name": "Under 16 Blue (McDonald's)",
+      "gender": "Mixed",
+      "ageGroup": "U16",
+      "gradeCode": "4c61c970",
+      "teamCount": 7,
+      "links": {
+        "self": "/api/season-hub/575/competitions/18030/grades/71344",
+        "fixtures": "/api/season-hub/575/competitions/18030/grades/71344/fixtures"
+      }
+    },
+    {
+      "id": 71345,
+      "name": "Under 16 Red (McDonald's)",
+      "gender": "Mixed",
+      "ageGroup": "U16",
+      "gradeCode": "b1cae193",
+      "teamCount": 8,
+      "links": {
+        "self": "/api/season-hub/575/competitions/18030/grades/71345",
+        "fixtures": "/api/season-hub/575/competitions/18030/grades/71345/fixtures"
+      }
+    },
+    {
+      "id": 71346,
+      "name": "Under 13 Blue (McDonald's)",
+      "gender": "Mixed",
+      "ageGroup": "U13",
+      "gradeCode": "a4ada27c",
+      "teamCount": 8,
+      "links": {
+        "self": "/api/season-hub/575/competitions/18030/grades/71346",
+        "fixtures": "/api/season-hub/575/competitions/18030/grades/71346/fixtures"
+      }
+    },
+    {
+      "id": 71347,
+      "name": "Under 13 Red (McDonald's)",
+      "gender": "Mixed",
+      "ageGroup": "U13",
+      "gradeCode": "73ee0d2f",
+      "teamCount": 14,
+      "links": {
+        "self": "/api/season-hub/575/competitions/18030/grades/71347",
+        "fixtures": "/api/season-hub/575/competitions/18030/grades/71347/fixtures"
+      }
+    },
+    {
+      "id": 71348,
+      "name": "Under 11 (McDonald's)",
+      "gender": "Mixed",
+      "ageGroup": "U11",
+      "gradeCode": "f9cd50eb",
+      "teamCount": 7,
+      "links": {
+        "self": "/api/season-hub/575/competitions/18030/grades/71348",
+        "fixtures": "/api/season-hub/575/competitions/18030/grades/71348/fixtures"
+      }
+    },
+    {
+      "id": 71349,
+      "name": "Under 9 (McDonald's)",
+      "gender": "Mixed",
+      "ageGroup": "U9",
+      "gradeCode": "45585e0a",
+      "teamCount": 0,
+      "links": {
+        "self": "/api/season-hub/575/competitions/18030/grades/71349",
+        "fixtures": "/api/season-hub/575/competitions/18030/grades/71349/fixtures"
+      }
+    }
+  ]
+}

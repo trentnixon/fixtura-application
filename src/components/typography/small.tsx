@@ -1,5 +1,12 @@
+import { cn } from "@/lib/utils";
+
 import type { ReactNode } from "react";
 
-export function TypographySmall({ children }: { children: ReactNode }) {
-  return <p className="text-sm">{children}</p>;
+interface TypographySmallProps {
+  children: ReactNode;
+  className?: string;
+}
+
+export function TypographySmall({ children, className }: TypographySmallProps) {
+  return <p className={cn("text-foreground font-sans text-sm leading-6", className)}>{children}</p>;
 }

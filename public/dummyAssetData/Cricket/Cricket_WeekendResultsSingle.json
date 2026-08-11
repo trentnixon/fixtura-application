@@ -1,0 +1,1906 @@
+{
+  "data": [
+    {
+      "gameID": "371b1e58",
+      "status": "Final",
+      "homeTeam": {
+        "name": "Australia",
+        "isHome": true,
+        "logo": {
+          "url": "/dummyAssetData/flags/au.svg",
+          "width": 640,
+          "height": 480
+        },
+        "score": "5/179",
+        "overs": "(20)",
+        "homeScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Aaron Finch",
+            "runs": 58,
+            "balls": 42,
+            "fours": 5,
+            "sixes": 2,
+            "SR": 138.1,
+            "team": "Australia",
+            "notOut": false
+          },
+          {
+            "player": "Glenn Maxwell",
+            "runs": 41,
+            "balls": 24,
+            "fours": 3,
+            "sixes": 2,
+            "SR": 170.83,
+            "team": "Australia",
+            "notOut": true
+          },
+          {
+            "player": "David Warner",
+            "runs": 33,
+            "balls": 28,
+            "fours": 3,
+            "sixes": 1,
+            "SR": 117.86,
+            "team": "Australia",
+            "notOut": false
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Trent Boult",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 32,
+            "wickets": 2,
+            "economy": "8.00",
+            "team": "New Zealand"
+          },
+          {
+            "player": "Lockie Ferguson",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 38,
+            "wickets": 2,
+            "economy": "9.50",
+            "team": "New Zealand"
+          },
+          {
+            "player": "Ish Sodhi",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 29,
+            "wickets": 1,
+            "economy": "7.25",
+            "team": "New Zealand"
+          }
+        ],
+        "isClubTeam": false
+      },
+      "awayTeam": {
+        "name": "New Zealand",
+        "isHome": false,
+        "logo": {
+          "url": "/dummyAssetData/flags/nz.svg",
+          "width": 640,
+          "height": 480
+        },
+        "score": "8/161",
+        "overs": "(20)",
+        "awayScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Kane Williamson",
+            "runs": 47,
+            "balls": 39,
+            "fours": 4,
+            "sixes": 1,
+            "SR": 120.51,
+            "team": "New Zealand",
+            "notOut": false
+          },
+          {
+            "player": "Devon Conway",
+            "runs": 36,
+            "balls": 31,
+            "fours": 3,
+            "sixes": 1,
+            "SR": 116.13,
+            "team": "New Zealand",
+            "notOut": false
+          },
+          {
+            "player": "Glenn Phillips",
+            "runs": 28,
+            "balls": 19,
+            "fours": 2,
+            "sixes": 1,
+            "SR": 147.37,
+            "team": "New Zealand",
+            "notOut": false
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Mitchell Starc",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 29,
+            "wickets": 3,
+            "economy": "7.25",
+            "team": "Australia"
+          },
+          {
+            "player": "Pat Cummins",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 34,
+            "wickets": 2,
+            "economy": "8.50",
+            "team": "Australia"
+          },
+          {
+            "player": "Adam Zampa",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 27,
+            "wickets": 2,
+            "economy": "6.75",
+            "team": "Australia"
+          }
+        ],
+        "isClubTeam": false
+      },
+      "teamHomeLogo": {
+        "url": "/dummyAssetData/flags/au.svg",
+        "width": 640,
+        "height": 480
+      },
+      "teamAwayLogo": {
+        "url": "/dummyAssetData/flags/nz.svg",
+        "width": 640,
+        "height": 480
+      },
+      "date": "22 Oct 2022",
+      "type": "T20",
+      "ground": "SCG",
+      "round": "2022 T20 World Cup",
+      "gender": "Men",
+      "ageGroup": "Senior",
+      "gradeName": "2022 T20 World Cup",
+      "gradeSortOrder": 0,
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "result": "Australia won by 18 runs",
+      "resultShort": "Australia def New Zealand",
+      "resultSummary": {
+        "homeTeam": "Australia",
+        "awayTeam": "New Zealand",
+        "winner": "Australia",
+        "resultWord": "won"
+      },
+      "prompt": "{\n  \"matchContext\": {\n    \"competition\": \"2022 Men's T20 World Cup\",\n    \"grade\": \"2022 T20 World Cup\",\n    \"round\": \"2022 T20 World Cup\",\n    \"ground\": \"SCG\",\n    \"matchType\": \"T20\",\n    \"tossWinner\": \"Australia\",\n    \"tossResult\": \"Australia won the toss and elected to bat\",\n    \"resultStatement\": \"Australia won by 18 runs\",\n    \"dayOne\": \"2022-10-22\",\n    \"finalDaysPlay\": \"2022-10-22\",\n    \"note\": \"Fictional demonstration scorecard for archive preview only.\"\n  },\n  \"homeTeam\": {\n    \"teamName\": \"Australia\",\n    \"innings\": [\n      {\n        \"teamName\": \"Australia\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 5,\n        \"battingOrder\": [\n          {\n            \"description\": \"Aaron Finch, scored 58 Runs from (42) balls, with 5 fours, with 2 sixes, at a strike Rate of 138.10., they were dismissed.\"\n          },\n          {\n            \"description\": \"Glenn Maxwell, scored 41 Runs from (24) balls, with 3 fours, with 2 sixes, at a strike Rate of 170.83., they were not out.\"\n          },\n          {\n            \"description\": \"David Warner, scored 33 Runs from (28) balls, with 3 fours, with 1 six, at a strike Rate of 117.86., they were dismissed.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Trent Boult, bowled 4 overs, took 2 wickets for 32 runs, at an economy of 8.00.\"\n          },\n          {\n            \"description\": \"Lockie Ferguson, bowled 4 overs, took 2 wickets for 38 runs, at an economy of 9.50.\"\n          },\n          {\n            \"description\": \"Ish Sodhi, bowled 4 overs, took 1 wicket for 29 runs, at an economy of 7.25.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Australia Batting\"\n      }\n    ],\n    \"totalScore\": \"179\",\n    \"totalWickets\": 5\n  },\n  \"awayTeam\": {\n    \"teamName\": \"New Zealand\",\n    \"innings\": [\n      {\n        \"teamName\": \"New Zealand\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 8,\n        \"battingOrder\": [\n          {\n            \"description\": \"Kane Williamson, scored 47 Runs from (39) balls, with 4 fours, with 1 six, at a strike Rate of 120.51., they were dismissed.\"\n          },\n          {\n            \"description\": \"Devon Conway, scored 36 Runs from (31) balls, with 3 fours, with 1 six, at a strike Rate of 116.13., they were dismissed.\"\n          },\n          {\n            \"description\": \"Glenn Phillips, scored 28 Runs from (19) balls, with 2 fours, with 1 six, at a strike Rate of 147.37., they were dismissed.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Mitchell Starc, bowled 4 overs, took 3 wickets for 29 runs, at an economy of 7.25.\"\n          },\n          {\n            \"description\": \"Pat Cummins, bowled 4 overs, took 2 wickets for 34 runs, at an economy of 8.50.\"\n          },\n          {\n            \"description\": \"Adam Zampa, bowled 4 overs, took 2 wickets for 27 runs, at an economy of 6.75.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"New Zealand Batting\"\n      }\n    ],\n    \"totalScore\": \"161\",\n    \"totalWickets\": 8\n  }\n}"
+    },
+    {
+      "gameID": "971ed6ed",
+      "status": "Final",
+      "homeTeam": {
+        "name": "India",
+        "isHome": true,
+        "logo": {
+          "url": "/dummyAssetData/flags/in.svg",
+          "width": 640,
+          "height": 480
+        },
+        "score": "6/168",
+        "overs": "(20)",
+        "homeScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Virat Kohli",
+            "runs": 62,
+            "balls": 44,
+            "fours": 5,
+            "sixes": 2,
+            "SR": 140.91,
+            "team": "India",
+            "notOut": false
+          },
+          {
+            "player": "Suryakumar Yadav",
+            "runs": 39,
+            "balls": 22,
+            "fours": 3,
+            "sixes": 2,
+            "SR": 177.27,
+            "team": "India",
+            "notOut": true
+          },
+          {
+            "player": "Rohit Sharma",
+            "runs": 28,
+            "balls": 21,
+            "fours": 2,
+            "sixes": 1,
+            "SR": 133.33,
+            "team": "India",
+            "notOut": false
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Shaheen Shah Afridi",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 31,
+            "wickets": 2,
+            "economy": "7.75",
+            "team": "Pakistan"
+          },
+          {
+            "player": "Haris Rauf",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 36,
+            "wickets": 2,
+            "economy": "9.00",
+            "team": "Pakistan"
+          },
+          {
+            "player": "Shadab Khan",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 28,
+            "wickets": 1,
+            "economy": "7.00",
+            "team": "Pakistan"
+          }
+        ],
+        "isClubTeam": false
+      },
+      "awayTeam": {
+        "name": "Pakistan",
+        "isHome": false,
+        "logo": {
+          "url": "/dummyAssetData/flags/pk.svg",
+          "width": 640,
+          "height": 480
+        },
+        "score": "8/156",
+        "overs": "(20)",
+        "awayScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Babar Azam",
+            "runs": 51,
+            "balls": 42,
+            "fours": 4,
+            "sixes": 1,
+            "SR": 121.43,
+            "team": "Pakistan",
+            "notOut": false
+          },
+          {
+            "player": "Mohammad Rizwan",
+            "runs": 34,
+            "balls": 29,
+            "fours": 2,
+            "sixes": 1,
+            "SR": 117.24,
+            "team": "Pakistan",
+            "notOut": false
+          },
+          {
+            "player": "Iftikhar Ahmed",
+            "runs": 26,
+            "balls": 18,
+            "fours": 1,
+            "sixes": 1,
+            "SR": 144.44,
+            "team": "Pakistan",
+            "notOut": false
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Jasprit Bumrah",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 24,
+            "wickets": 3,
+            "economy": "6.00",
+            "team": "India"
+          },
+          {
+            "player": "Hardik Pandya",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 30,
+            "wickets": 2,
+            "economy": "7.50",
+            "team": "India"
+          },
+          {
+            "player": "Ravindra Jadeja",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 27,
+            "wickets": 2,
+            "economy": "6.75",
+            "team": "India"
+          }
+        ],
+        "isClubTeam": false
+      },
+      "teamHomeLogo": {
+        "url": "/dummyAssetData/flags/in.svg",
+        "width": 640,
+        "height": 480
+      },
+      "teamAwayLogo": {
+        "url": "/dummyAssetData/flags/pk.svg",
+        "width": 640,
+        "height": 480
+      },
+      "date": "23 Oct 2022",
+      "type": "T20",
+      "ground": "MCG",
+      "round": "2022 T20 World Cup",
+      "gender": "Men",
+      "ageGroup": "Senior",
+      "gradeName": "2022 T20 World Cup",
+      "gradeSortOrder": 0,
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "result": "India won by 12 runs",
+      "resultShort": "India def Pakistan",
+      "resultSummary": {
+        "homeTeam": "India",
+        "awayTeam": "Pakistan",
+        "winner": "India",
+        "resultWord": "won"
+      },
+      "prompt": "{\n  \"matchContext\": {\n    \"competition\": \"2022 Men's T20 World Cup\",\n    \"grade\": \"2022 T20 World Cup\",\n    \"round\": \"2022 T20 World Cup\",\n    \"ground\": \"MCG\",\n    \"matchType\": \"T20\",\n    \"tossWinner\": \"India\",\n    \"tossResult\": \"India won the toss and elected to bat\",\n    \"resultStatement\": \"India won by 12 runs\",\n    \"dayOne\": \"2022-10-23\",\n    \"finalDaysPlay\": \"2022-10-23\",\n    \"note\": \"Fictional demonstration scorecard for archive preview only.\"\n  },\n  \"homeTeam\": {\n    \"teamName\": \"India\",\n    \"innings\": [\n      {\n        \"teamName\": \"India\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 6,\n        \"battingOrder\": [\n          {\n            \"description\": \"Virat Kohli, scored 62 Runs from (44) balls, with 5 fours, with 2 sixes, at a strike Rate of 140.91., they were dismissed.\"\n          },\n          {\n            \"description\": \"Suryakumar Yadav, scored 39 Runs from (22) balls, with 3 fours, with 2 sixes, at a strike Rate of 177.27., they were not out.\"\n          },\n          {\n            \"description\": \"Rohit Sharma, scored 28 Runs from (21) balls, with 2 fours, with 1 six, at a strike Rate of 133.33., they were dismissed.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Shaheen Shah Afridi, bowled 4 overs, took 2 wickets for 31 runs, at an economy of 7.75.\"\n          },\n          {\n            \"description\": \"Haris Rauf, bowled 4 overs, took 2 wickets for 36 runs, at an economy of 9.00.\"\n          },\n          {\n            \"description\": \"Shadab Khan, bowled 4 overs, took 1 wicket for 28 runs, at an economy of 7.00.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"India Batting\"\n      }\n    ],\n    \"totalScore\": \"168\",\n    \"totalWickets\": 6\n  },\n  \"awayTeam\": {\n    \"teamName\": \"Pakistan\",\n    \"innings\": [\n      {\n        \"teamName\": \"Pakistan\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 8,\n        \"battingOrder\": [\n          {\n            \"description\": \"Babar Azam, scored 51 Runs from (42) balls, with 4 fours, with 1 six, at a strike Rate of 121.43., they were dismissed.\"\n          },\n          {\n            \"description\": \"Mohammad Rizwan, scored 34 Runs from (29) balls, with 2 fours, with 1 six, at a strike Rate of 117.24., they were dismissed.\"\n          },\n          {\n            \"description\": \"Iftikhar Ahmed, scored 26 Runs from (18) balls, with 1 four, with 1 six, at a strike Rate of 144.44., they were dismissed.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Jasprit Bumrah, bowled 4 overs, took 3 wickets for 24 runs, at an economy of 6.00.\"\n          },\n          {\n            \"description\": \"Hardik Pandya, bowled 4 overs, took 2 wickets for 30 runs, at an economy of 7.50.\"\n          },\n          {\n            \"description\": \"Ravindra Jadeja, bowled 4 overs, took 2 wickets for 27 runs, at an economy of 6.75.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Pakistan Batting\"\n      }\n    ],\n    \"totalScore\": \"156\",\n    \"totalWickets\": 8\n  }\n}"
+    },
+    {
+      "gameID": "3de4537d",
+      "status": "Final",
+      "homeTeam": {
+        "name": "England",
+        "isHome": true,
+        "logo": {
+          "url": "/dummyAssetData/flags/gb-eng.svg",
+          "width": 640,
+          "height": 480
+        },
+        "score": "5/142",
+        "overs": "(18.2)",
+        "homeScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Jos Buttler",
+            "runs": 44,
+            "balls": 33,
+            "fours": 4,
+            "sixes": 1,
+            "SR": 133.33,
+            "team": "England",
+            "notOut": true
+          },
+          {
+            "player": "Dawid Malan",
+            "runs": 36,
+            "balls": 28,
+            "fours": 3,
+            "sixes": 1,
+            "SR": 128.57,
+            "team": "England",
+            "notOut": false
+          },
+          {
+            "player": "Ben Stokes",
+            "runs": 29,
+            "balls": 21,
+            "fours": 2,
+            "sixes": 1,
+            "SR": 138.1,
+            "team": "England",
+            "notOut": false
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Fazalhaq Farooqi",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 28,
+            "wickets": 2,
+            "economy": "7.00",
+            "team": "Afghanistan"
+          },
+          {
+            "player": "Rashid Khan",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 26,
+            "wickets": 2,
+            "economy": "6.50",
+            "team": "Afghanistan"
+          },
+          {
+            "player": "Mujeeb Ur Rahman",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 31,
+            "wickets": 1,
+            "economy": "7.75",
+            "team": "Afghanistan"
+          }
+        ],
+        "isClubTeam": false
+      },
+      "awayTeam": {
+        "name": "Afghanistan",
+        "isHome": false,
+        "logo": {
+          "url": "/dummyAssetData/flags/af.svg",
+          "width": 640,
+          "height": 480
+        },
+        "score": "9/138",
+        "overs": "(20)",
+        "awayScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Rahmanullah Gurbaz",
+            "runs": 41,
+            "balls": 32,
+            "fours": 3,
+            "sixes": 2,
+            "SR": 128.13,
+            "team": "Afghanistan",
+            "notOut": false
+          },
+          {
+            "player": "Ibrahim Zadran",
+            "runs": 33,
+            "balls": 30,
+            "fours": 2,
+            "sixes": 1,
+            "SR": 110,
+            "team": "Afghanistan",
+            "notOut": false
+          },
+          {
+            "player": "Mohammad Nabi",
+            "runs": 24,
+            "balls": 18,
+            "fours": 1,
+            "sixes": 1,
+            "SR": 133.33,
+            "team": "Afghanistan",
+            "notOut": false
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Mark Wood",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 25,
+            "wickets": 3,
+            "economy": "6.25",
+            "team": "England"
+          },
+          {
+            "player": "Sam Curran",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 29,
+            "wickets": 3,
+            "economy": "7.25",
+            "team": "England"
+          },
+          {
+            "player": "Adil Rashid",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 27,
+            "wickets": 2,
+            "economy": "6.75",
+            "team": "England"
+          }
+        ],
+        "isClubTeam": false
+      },
+      "teamHomeLogo": {
+        "url": "/dummyAssetData/flags/gb-eng.svg",
+        "width": 640,
+        "height": 480
+      },
+      "teamAwayLogo": {
+        "url": "/dummyAssetData/flags/af.svg",
+        "width": 640,
+        "height": 480
+      },
+      "date": "22 Oct 2022",
+      "type": "T20",
+      "ground": "Perth Stadium",
+      "round": "2022 T20 World Cup",
+      "gender": "Men",
+      "ageGroup": "Senior",
+      "gradeName": "2022 T20 World Cup",
+      "gradeSortOrder": 0,
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "result": "England won by 5 wickets",
+      "resultShort": "England def Afghanistan",
+      "resultSummary": {
+        "homeTeam": "England",
+        "awayTeam": "Afghanistan",
+        "winner": "England",
+        "resultWord": "won"
+      },
+      "prompt": "{\n  \"matchContext\": {\n    \"competition\": \"2022 Men's T20 World Cup\",\n    \"grade\": \"2022 T20 World Cup\",\n    \"round\": \"2022 T20 World Cup\",\n    \"ground\": \"Perth Stadium\",\n    \"matchType\": \"T20\",\n    \"tossWinner\": \"England\",\n    \"tossResult\": \"England won the toss and elected to bat\",\n    \"resultStatement\": \"England won by 5 wickets\",\n    \"dayOne\": \"2022-10-22\",\n    \"finalDaysPlay\": \"2022-10-22\",\n    \"note\": \"Fictional demonstration scorecard for archive preview only.\"\n  },\n  \"homeTeam\": {\n    \"teamName\": \"England\",\n    \"innings\": [\n      {\n        \"teamName\": \"England\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 5,\n        \"battingOrder\": [\n          {\n            \"description\": \"Jos Buttler, scored 44 Runs from (33) balls, with 4 fours, with 1 six, at a strike Rate of 133.33., they were not out.\"\n          },\n          {\n            \"description\": \"Dawid Malan, scored 36 Runs from (28) balls, with 3 fours, with 1 six, at a strike Rate of 128.57., they were dismissed.\"\n          },\n          {\n            \"description\": \"Ben Stokes, scored 29 Runs from (21) balls, with 2 fours, with 1 six, at a strike Rate of 138.10., they were dismissed.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Fazalhaq Farooqi, bowled 4 overs, took 2 wickets for 28 runs, at an economy of 7.00.\"\n          },\n          {\n            \"description\": \"Rashid Khan, bowled 4 overs, took 2 wickets for 26 runs, at an economy of 6.50.\"\n          },\n          {\n            \"description\": \"Mujeeb Ur Rahman, bowled 4 overs, took 1 wicket for 31 runs, at an economy of 7.75.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"England Batting\"\n      }\n    ],\n    \"totalScore\": \"142\",\n    \"totalWickets\": 5\n  },\n  \"awayTeam\": {\n    \"teamName\": \"Afghanistan\",\n    \"innings\": [\n      {\n        \"teamName\": \"Afghanistan\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 9,\n        \"battingOrder\": [\n          {\n            \"description\": \"Rahmanullah Gurbaz, scored 41 Runs from (32) balls, with 3 fours, with 2 sixes, at a strike Rate of 128.13., they were dismissed.\"\n          },\n          {\n            \"description\": \"Ibrahim Zadran, scored 33 Runs from (30) balls, with 2 fours, with 1 six, at a strike Rate of 110.00., they were dismissed.\"\n          },\n          {\n            \"description\": \"Mohammad Nabi, scored 24 Runs from (18) balls, with 1 four, with 1 six, at a strike Rate of 133.33., they were dismissed.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Mark Wood, bowled 4 overs, took 3 wickets for 25 runs, at an economy of 6.25.\"\n          },\n          {\n            \"description\": \"Sam Curran, bowled 4 overs, took 3 wickets for 29 runs, at an economy of 7.25.\"\n          },\n          {\n            \"description\": \"Adil Rashid, bowled 4 overs, took 2 wickets for 27 runs, at an economy of 6.75.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Afghanistan Batting\"\n      }\n    ],\n    \"totalScore\": \"138\",\n    \"totalWickets\": 9\n  }\n}"
+    },
+    {
+      "gameID": "bda41dab",
+      "status": "Final",
+      "homeTeam": {
+        "name": "South Africa",
+        "isHome": true,
+        "logo": {
+          "url": "/dummyAssetData/flags/za.svg",
+          "width": 640,
+          "height": 480
+        },
+        "score": "8/137",
+        "overs": "(20)",
+        "homeScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Quinton de Kock",
+            "runs": 39,
+            "balls": 31,
+            "fours": 3,
+            "sixes": 1,
+            "SR": 125.81,
+            "team": "South Africa",
+            "notOut": false
+          },
+          {
+            "player": "Aiden Markram",
+            "runs": 31,
+            "balls": 26,
+            "fours": 2,
+            "sixes": 1,
+            "SR": 119.23,
+            "team": "South Africa",
+            "notOut": false
+          },
+          {
+            "player": "David Miller",
+            "runs": 27,
+            "balls": 18,
+            "fours": 1,
+            "sixes": 2,
+            "SR": 150,
+            "team": "South Africa",
+            "notOut": false
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Arshdeep Singh",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 28,
+            "wickets": 3,
+            "economy": "7.00",
+            "team": "India"
+          },
+          {
+            "player": "Bhuvneshwar Kumar",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 26,
+            "wickets": 2,
+            "economy": "6.50",
+            "team": "India"
+          },
+          {
+            "player": "Axar Patel",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 24,
+            "wickets": 2,
+            "economy": "6.00",
+            "team": "India"
+          }
+        ],
+        "isClubTeam": false
+      },
+      "awayTeam": {
+        "name": "India",
+        "isHome": false,
+        "logo": {
+          "url": "/dummyAssetData/flags/in.svg",
+          "width": 640,
+          "height": 480
+        },
+        "score": "6/158",
+        "overs": "(20)",
+        "awayScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "KL Rahul",
+            "runs": 52,
+            "balls": 39,
+            "fours": 4,
+            "sixes": 2,
+            "SR": 133.33,
+            "team": "India",
+            "notOut": false
+          },
+          {
+            "player": "Hardik Pandya",
+            "runs": 38,
+            "balls": 24,
+            "fours": 2,
+            "sixes": 2,
+            "SR": 158.33,
+            "team": "India",
+            "notOut": true
+          },
+          {
+            "player": "Suryakumar Yadav",
+            "runs": 29,
+            "balls": 19,
+            "fours": 2,
+            "sixes": 1,
+            "SR": 152.63,
+            "team": "India",
+            "notOut": false
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Kagiso Rabada",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 33,
+            "wickets": 2,
+            "economy": "8.25",
+            "team": "South Africa"
+          },
+          {
+            "player": "Anrich Nortje",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 35,
+            "wickets": 2,
+            "economy": "8.75",
+            "team": "South Africa"
+          },
+          {
+            "player": "Tabraiz Shamsi",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 28,
+            "wickets": 1,
+            "economy": "7.00",
+            "team": "South Africa"
+          }
+        ],
+        "isClubTeam": false
+      },
+      "teamHomeLogo": {
+        "url": "/dummyAssetData/flags/za.svg",
+        "width": 640,
+        "height": 480
+      },
+      "teamAwayLogo": {
+        "url": "/dummyAssetData/flags/in.svg",
+        "width": 640,
+        "height": 480
+      },
+      "date": "30 Oct 2022",
+      "type": "T20",
+      "ground": "Perth Stadium",
+      "round": "2022 T20 World Cup",
+      "gender": "Men",
+      "ageGroup": "Senior",
+      "gradeName": "2022 T20 World Cup",
+      "gradeSortOrder": 0,
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "result": "India won by 21 runs",
+      "resultShort": "India def South Africa",
+      "resultSummary": {
+        "homeTeam": "South Africa",
+        "awayTeam": "India",
+        "winner": "India",
+        "resultWord": "won"
+      },
+      "prompt": "{\n  \"matchContext\": {\n    \"competition\": \"2022 Men's T20 World Cup\",\n    \"grade\": \"2022 T20 World Cup\",\n    \"round\": \"2022 T20 World Cup\",\n    \"ground\": \"Perth Stadium\",\n    \"matchType\": \"T20\",\n    \"tossWinner\": \"South Africa\",\n    \"tossResult\": \"South Africa won the toss and elected to bat\",\n    \"resultStatement\": \"India won by 21 runs\",\n    \"dayOne\": \"2022-10-30\",\n    \"finalDaysPlay\": \"2022-10-30\",\n    \"note\": \"Fictional demonstration scorecard for archive preview only.\"\n  },\n  \"homeTeam\": {\n    \"teamName\": \"South Africa\",\n    \"innings\": [\n      {\n        \"teamName\": \"South Africa\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 8,\n        \"battingOrder\": [\n          {\n            \"description\": \"Quinton de Kock, scored 39 Runs from (31) balls, with 3 fours, with 1 six, at a strike Rate of 125.81., they were dismissed.\"\n          },\n          {\n            \"description\": \"Aiden Markram, scored 31 Runs from (26) balls, with 2 fours, with 1 six, at a strike Rate of 119.23., they were dismissed.\"\n          },\n          {\n            \"description\": \"David Miller, scored 27 Runs from (18) balls, with 1 four, with 2 sixes, at a strike Rate of 150.00., they were dismissed.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Arshdeep Singh, bowled 4 overs, took 3 wickets for 28 runs, at an economy of 7.00.\"\n          },\n          {\n            \"description\": \"Bhuvneshwar Kumar, bowled 4 overs, took 2 wickets for 26 runs, at an economy of 6.50.\"\n          },\n          {\n            \"description\": \"Axar Patel, bowled 4 overs, took 2 wickets for 24 runs, at an economy of 6.00.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"South Africa Batting\"\n      }\n    ],\n    \"totalScore\": \"137\",\n    \"totalWickets\": 8\n  },\n  \"awayTeam\": {\n    \"teamName\": \"India\",\n    \"innings\": [\n      {\n        \"teamName\": \"India\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 6,\n        \"battingOrder\": [\n          {\n            \"description\": \"KL Rahul, scored 52 Runs from (39) balls, with 4 fours, with 2 sixes, at a strike Rate of 133.33., they were dismissed.\"\n          },\n          {\n            \"description\": \"Hardik Pandya, scored 38 Runs from (24) balls, with 2 fours, with 2 sixes, at a strike Rate of 158.33., they were not out.\"\n          },\n          {\n            \"description\": \"Suryakumar Yadav, scored 29 Runs from (19) balls, with 2 fours, with 1 six, at a strike Rate of 152.63., they were dismissed.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Kagiso Rabada, bowled 4 overs, took 2 wickets for 33 runs, at an economy of 8.25.\"\n          },\n          {\n            \"description\": \"Anrich Nortje, bowled 4 overs, took 2 wickets for 35 runs, at an economy of 8.75.\"\n          },\n          {\n            \"description\": \"Tabraiz Shamsi, bowled 4 overs, took 1 wicket for 28 runs, at an economy of 7.00.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"India Batting\"\n      }\n    ],\n    \"totalScore\": \"158\",\n    \"totalWickets\": 6\n  }\n}"
+    },
+    {
+      "gameID": "82c43070",
+      "status": "Final",
+      "homeTeam": {
+        "name": "Bangladesh",
+        "isHome": true,
+        "logo": {
+          "url": "/dummyAssetData/flags/bd.svg",
+          "width": 640,
+          "height": 480
+        },
+        "score": "8/145",
+        "overs": "(20)",
+        "homeScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Litton Das",
+            "runs": 48,
+            "balls": 36,
+            "fours": 4,
+            "sixes": 1,
+            "SR": 133.33,
+            "team": "Bangladesh",
+            "notOut": false
+          },
+          {
+            "player": "Shakib Al Hasan",
+            "runs": 34,
+            "balls": 27,
+            "fours": 2,
+            "sixes": 1,
+            "SR": 125.93,
+            "team": "Bangladesh",
+            "notOut": false
+          },
+          {
+            "player": "Afif Hossain",
+            "runs": 26,
+            "balls": 19,
+            "fours": 1,
+            "sixes": 1,
+            "SR": 136.84,
+            "team": "Bangladesh",
+            "notOut": false
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Mohammed Shami",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 27,
+            "wickets": 3,
+            "economy": "6.75",
+            "team": "India"
+          },
+          {
+            "player": "Ravindra Jadeja",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 29,
+            "wickets": 2,
+            "economy": "7.25",
+            "team": "India"
+          },
+          {
+            "player": "Hardik Pandya",
+            "overs": 3,
+            "maidens": 0,
+            "runs": 24,
+            "wickets": 2,
+            "economy": "8.00",
+            "team": "India"
+          }
+        ],
+        "isClubTeam": false
+      },
+      "awayTeam": {
+        "name": "India",
+        "isHome": false,
+        "logo": {
+          "url": "/dummyAssetData/flags/in.svg",
+          "width": 640,
+          "height": 480
+        },
+        "score": "5/148",
+        "overs": "(18.5)",
+        "awayScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Rohit Sharma",
+            "runs": 46,
+            "balls": 34,
+            "fours": 4,
+            "sixes": 2,
+            "SR": 135.29,
+            "team": "India",
+            "notOut": false
+          },
+          {
+            "player": "Virat Kohli",
+            "runs": 41,
+            "balls": 31,
+            "fours": 3,
+            "sixes": 1,
+            "SR": 132.26,
+            "team": "India",
+            "notOut": true
+          },
+          {
+            "player": "Rishabh Pant",
+            "runs": 27,
+            "balls": 18,
+            "fours": 2,
+            "sixes": 1,
+            "SR": 150,
+            "team": "India",
+            "notOut": false
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Taskin Ahmed",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 31,
+            "wickets": 2,
+            "economy": "7.75",
+            "team": "Bangladesh"
+          },
+          {
+            "player": "Mustafizur Rahman",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 29,
+            "wickets": 2,
+            "economy": "7.25",
+            "team": "Bangladesh"
+          },
+          {
+            "player": "Shakib Al Hasan",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 27,
+            "wickets": 1,
+            "economy": "6.75",
+            "team": "Bangladesh"
+          }
+        ],
+        "isClubTeam": false
+      },
+      "teamHomeLogo": {
+        "url": "/dummyAssetData/flags/bd.svg",
+        "width": 640,
+        "height": 480
+      },
+      "teamAwayLogo": {
+        "url": "/dummyAssetData/flags/in.svg",
+        "width": 640,
+        "height": 480
+      },
+      "date": "2 Nov 2022",
+      "type": "T20",
+      "ground": "Adelaide Oval",
+      "round": "2022 T20 World Cup",
+      "gender": "Men",
+      "ageGroup": "Senior",
+      "gradeName": "2022 T20 World Cup",
+      "gradeSortOrder": 0,
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "result": "India won by 5 wickets",
+      "resultShort": "India def Bangladesh",
+      "resultSummary": {
+        "homeTeam": "Bangladesh",
+        "awayTeam": "India",
+        "winner": "India",
+        "resultWord": "won"
+      },
+      "prompt": "{\n  \"matchContext\": {\n    \"competition\": \"2022 Men's T20 World Cup\",\n    \"grade\": \"2022 T20 World Cup\",\n    \"round\": \"2022 T20 World Cup\",\n    \"ground\": \"Adelaide Oval\",\n    \"matchType\": \"T20\",\n    \"tossWinner\": \"Bangladesh\",\n    \"tossResult\": \"Bangladesh won the toss and elected to bat\",\n    \"resultStatement\": \"India won by 5 wickets\",\n    \"dayOne\": \"2022-11-02\",\n    \"finalDaysPlay\": \"2022-11-02\",\n    \"note\": \"Fictional demonstration scorecard for archive preview only.\"\n  },\n  \"homeTeam\": {\n    \"teamName\": \"Bangladesh\",\n    \"innings\": [\n      {\n        \"teamName\": \"Bangladesh\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 8,\n        \"battingOrder\": [\n          {\n            \"description\": \"Litton Das, scored 48 Runs from (36) balls, with 4 fours, with 1 six, at a strike Rate of 133.33., they were dismissed.\"\n          },\n          {\n            \"description\": \"Shakib Al Hasan, scored 34 Runs from (27) balls, with 2 fours, with 1 six, at a strike Rate of 125.93., they were dismissed.\"\n          },\n          {\n            \"description\": \"Afif Hossain, scored 26 Runs from (19) balls, with 1 four, with 1 six, at a strike Rate of 136.84., they were dismissed.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Mohammed Shami, bowled 4 overs, took 3 wickets for 27 runs, at an economy of 6.75.\"\n          },\n          {\n            \"description\": \"Ravindra Jadeja, bowled 4 overs, took 2 wickets for 29 runs, at an economy of 7.25.\"\n          },\n          {\n            \"description\": \"Hardik Pandya, bowled 3 overs, took 2 wickets for 24 runs, at an economy of 8.00.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Bangladesh Batting\"\n      }\n    ],\n    \"totalScore\": \"145\",\n    \"totalWickets\": 8\n  },\n  \"awayTeam\": {\n    \"teamName\": \"India\",\n    \"innings\": [\n      {\n        \"teamName\": \"India\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 5,\n        \"battingOrder\": [\n          {\n            \"description\": \"Rohit Sharma, scored 46 Runs from (34) balls, with 4 fours, with 2 sixes, at a strike Rate of 135.29., they were dismissed.\"\n          },\n          {\n            \"description\": \"Virat Kohli, scored 41 Runs from (31) balls, with 3 fours, with 1 six, at a strike Rate of 132.26., they were not out.\"\n          },\n          {\n            \"description\": \"Rishabh Pant, scored 27 Runs from (18) balls, with 2 fours, with 1 six, at a strike Rate of 150.00., they were dismissed.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Taskin Ahmed, bowled 4 overs, took 2 wickets for 31 runs, at an economy of 7.75.\"\n          },\n          {\n            \"description\": \"Mustafizur Rahman, bowled 4 overs, took 2 wickets for 29 runs, at an economy of 7.25.\"\n          },\n          {\n            \"description\": \"Shakib Al Hasan, bowled 4 overs, took 1 wicket for 27 runs, at an economy of 6.75.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"India Batting\"\n      }\n    ],\n    \"totalScore\": \"148\",\n    \"totalWickets\": 5\n  }\n}"
+    },
+    {
+      "gameID": "d276cdc8",
+      "status": "Final",
+      "homeTeam": {
+        "name": "Australia",
+        "isHome": true,
+        "logo": {
+          "url": "/dummyAssetData/flags/au.svg",
+          "width": 640,
+          "height": 480
+        },
+        "score": "4/183",
+        "overs": "(20)",
+        "homeScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "David Warner",
+            "runs": 64,
+            "balls": 41,
+            "fours": 5,
+            "sixes": 3,
+            "SR": 156.1,
+            "team": "Australia",
+            "notOut": false
+          },
+          {
+            "player": "Mitchell Marsh",
+            "runs": 45,
+            "balls": 29,
+            "fours": 3,
+            "sixes": 2,
+            "SR": 155.17,
+            "team": "Australia",
+            "notOut": true
+          },
+          {
+            "player": "Aaron Finch",
+            "runs": 32,
+            "balls": 24,
+            "fours": 3,
+            "sixes": 1,
+            "SR": 133.33,
+            "team": "Australia",
+            "notOut": false
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Naveen-ul-Haq",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 38,
+            "wickets": 2,
+            "economy": "9.50",
+            "team": "Afghanistan"
+          },
+          {
+            "player": "Rashid Khan",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 34,
+            "wickets": 1,
+            "economy": "8.50",
+            "team": "Afghanistan"
+          },
+          {
+            "player": "Fazalhaq Farooqi",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 36,
+            "wickets": 1,
+            "economy": "9.00",
+            "team": "Afghanistan"
+          }
+        ],
+        "isClubTeam": false
+      },
+      "awayTeam": {
+        "name": "Afghanistan",
+        "isHome": false,
+        "logo": {
+          "url": "/dummyAssetData/flags/af.svg",
+          "width": 640,
+          "height": 480
+        },
+        "score": "9/152",
+        "overs": "(20)",
+        "awayScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Hazratullah Zazai",
+            "runs": 42,
+            "balls": 29,
+            "fours": 3,
+            "sixes": 2,
+            "SR": 144.83,
+            "team": "Afghanistan",
+            "notOut": false
+          },
+          {
+            "player": "Najibullah Zadran",
+            "runs": 35,
+            "balls": 27,
+            "fours": 2,
+            "sixes": 2,
+            "SR": 129.63,
+            "team": "Afghanistan",
+            "notOut": false
+          },
+          {
+            "player": "Rashid Khan",
+            "runs": 24,
+            "balls": 16,
+            "fours": 1,
+            "sixes": 1,
+            "SR": 150,
+            "team": "Afghanistan",
+            "notOut": false
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Josh Hazlewood",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 26,
+            "wickets": 3,
+            "economy": "6.50",
+            "team": "Australia"
+          },
+          {
+            "player": "Mitchell Starc",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 31,
+            "wickets": 3,
+            "economy": "7.75",
+            "team": "Australia"
+          },
+          {
+            "player": "Adam Zampa",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 28,
+            "wickets": 2,
+            "economy": "7.00",
+            "team": "Australia"
+          }
+        ],
+        "isClubTeam": false
+      },
+      "teamHomeLogo": {
+        "url": "/dummyAssetData/flags/au.svg",
+        "width": 640,
+        "height": 480
+      },
+      "teamAwayLogo": {
+        "url": "/dummyAssetData/flags/af.svg",
+        "width": 640,
+        "height": 480
+      },
+      "date": "4 Nov 2022",
+      "type": "T20",
+      "ground": "Adelaide Oval",
+      "round": "2022 T20 World Cup",
+      "gender": "Men",
+      "ageGroup": "Senior",
+      "gradeName": "2022 T20 World Cup",
+      "gradeSortOrder": 0,
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "result": "Australia won by 31 runs",
+      "resultShort": "Australia def Afghanistan",
+      "resultSummary": {
+        "homeTeam": "Australia",
+        "awayTeam": "Afghanistan",
+        "winner": "Australia",
+        "resultWord": "won"
+      },
+      "prompt": "{\n  \"matchContext\": {\n    \"competition\": \"2022 Men's T20 World Cup\",\n    \"grade\": \"2022 T20 World Cup\",\n    \"round\": \"2022 T20 World Cup\",\n    \"ground\": \"Adelaide Oval\",\n    \"matchType\": \"T20\",\n    \"tossWinner\": \"Australia\",\n    \"tossResult\": \"Australia won the toss and elected to bat\",\n    \"resultStatement\": \"Australia won by 31 runs\",\n    \"dayOne\": \"2022-11-04\",\n    \"finalDaysPlay\": \"2022-11-04\",\n    \"note\": \"Fictional demonstration scorecard for archive preview only.\"\n  },\n  \"homeTeam\": {\n    \"teamName\": \"Australia\",\n    \"innings\": [\n      {\n        \"teamName\": \"Australia\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 4,\n        \"battingOrder\": [\n          {\n            \"description\": \"David Warner, scored 64 Runs from (41) balls, with 5 fours, with 3 sixes, at a strike Rate of 156.10., they were dismissed.\"\n          },\n          {\n            \"description\": \"Mitchell Marsh, scored 45 Runs from (29) balls, with 3 fours, with 2 sixes, at a strike Rate of 155.17., they were not out.\"\n          },\n          {\n            \"description\": \"Aaron Finch, scored 32 Runs from (24) balls, with 3 fours, with 1 six, at a strike Rate of 133.33., they were dismissed.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Naveen-ul-Haq, bowled 4 overs, took 2 wickets for 38 runs, at an economy of 9.50.\"\n          },\n          {\n            \"description\": \"Rashid Khan, bowled 4 overs, took 1 wicket for 34 runs, at an economy of 8.50.\"\n          },\n          {\n            \"description\": \"Fazalhaq Farooqi, bowled 4 overs, took 1 wicket for 36 runs, at an economy of 9.00.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Australia Batting\"\n      }\n    ],\n    \"totalScore\": \"183\",\n    \"totalWickets\": 4\n  },\n  \"awayTeam\": {\n    \"teamName\": \"Afghanistan\",\n    \"innings\": [\n      {\n        \"teamName\": \"Afghanistan\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 9,\n        \"battingOrder\": [\n          {\n            \"description\": \"Hazratullah Zazai, scored 42 Runs from (29) balls, with 3 fours, with 2 sixes, at a strike Rate of 144.83., they were dismissed.\"\n          },\n          {\n            \"description\": \"Najibullah Zadran, scored 35 Runs from (27) balls, with 2 fours, with 2 sixes, at a strike Rate of 129.63., they were dismissed.\"\n          },\n          {\n            \"description\": \"Rashid Khan, scored 24 Runs from (16) balls, with 1 four, with 1 six, at a strike Rate of 150.00., they were dismissed.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Josh Hazlewood, bowled 4 overs, took 3 wickets for 26 runs, at an economy of 6.50.\"\n          },\n          {\n            \"description\": \"Mitchell Starc, bowled 4 overs, took 3 wickets for 31 runs, at an economy of 7.75.\"\n          },\n          {\n            \"description\": \"Adam Zampa, bowled 4 overs, took 2 wickets for 28 runs, at an economy of 7.00.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Afghanistan Batting\"\n      }\n    ],\n    \"totalScore\": \"152\",\n    \"totalWickets\": 9\n  }\n}"
+    },
+    {
+      "gameID": "33befbed",
+      "status": "Final",
+      "homeTeam": {
+        "name": "Pakistan",
+        "isHome": true,
+        "logo": {
+          "url": "/dummyAssetData/flags/pk.svg",
+          "width": 640,
+          "height": 480
+        },
+        "score": "7/163",
+        "overs": "(20)",
+        "homeScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Mohammad Rizwan",
+            "runs": 55,
+            "balls": 43,
+            "fours": 4,
+            "sixes": 1,
+            "SR": 127.91,
+            "team": "Pakistan",
+            "notOut": false
+          },
+          {
+            "player": "Babar Azam",
+            "runs": 41,
+            "balls": 33,
+            "fours": 3,
+            "sixes": 1,
+            "SR": 124.24,
+            "team": "Pakistan",
+            "notOut": false
+          },
+          {
+            "player": "Shadab Khan",
+            "runs": 28,
+            "balls": 17,
+            "fours": 1,
+            "sixes": 2,
+            "SR": 164.71,
+            "team": "Pakistan",
+            "notOut": true
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Kagiso Rabada",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 32,
+            "wickets": 2,
+            "economy": "8.00",
+            "team": "South Africa"
+          },
+          {
+            "player": "Anrich Nortje",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 35,
+            "wickets": 2,
+            "economy": "8.75",
+            "team": "South Africa"
+          },
+          {
+            "player": "Lungi Ngidi",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 29,
+            "wickets": 2,
+            "economy": "7.25",
+            "team": "South Africa"
+          }
+        ],
+        "isClubTeam": false
+      },
+      "awayTeam": {
+        "name": "South Africa",
+        "isHome": false,
+        "logo": {
+          "url": "/dummyAssetData/flags/za.svg",
+          "width": 640,
+          "height": 480
+        },
+        "score": "9/148",
+        "overs": "(20)",
+        "awayScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Temba Bavuma",
+            "runs": 38,
+            "balls": 32,
+            "fours": 3,
+            "sixes": 1,
+            "SR": 118.75,
+            "team": "South Africa",
+            "notOut": false
+          },
+          {
+            "player": "Rassie van der Dussen",
+            "runs": 34,
+            "balls": 28,
+            "fours": 2,
+            "sixes": 1,
+            "SR": 121.43,
+            "team": "South Africa",
+            "notOut": false
+          },
+          {
+            "player": "Heinrich Klaasen",
+            "runs": 29,
+            "balls": 18,
+            "fours": 2,
+            "sixes": 1,
+            "SR": 161.11,
+            "team": "South Africa",
+            "notOut": false
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Shaheen Shah Afridi",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 27,
+            "wickets": 3,
+            "economy": "6.75",
+            "team": "Pakistan"
+          },
+          {
+            "player": "Naseem Shah",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 30,
+            "wickets": 3,
+            "economy": "7.50",
+            "team": "Pakistan"
+          },
+          {
+            "player": "Haris Rauf",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 33,
+            "wickets": 2,
+            "economy": "8.25",
+            "team": "Pakistan"
+          }
+        ],
+        "isClubTeam": false
+      },
+      "teamHomeLogo": {
+        "url": "/dummyAssetData/flags/pk.svg",
+        "width": 640,
+        "height": 480
+      },
+      "teamAwayLogo": {
+        "url": "/dummyAssetData/flags/za.svg",
+        "width": 640,
+        "height": 480
+      },
+      "date": "3 Nov 2022",
+      "type": "T20",
+      "ground": "SCG",
+      "round": "2022 T20 World Cup",
+      "gender": "Men",
+      "ageGroup": "Senior",
+      "gradeName": "2022 T20 World Cup",
+      "gradeSortOrder": 0,
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "result": "Pakistan won by 15 runs",
+      "resultShort": "Pakistan def South Africa",
+      "resultSummary": {
+        "homeTeam": "Pakistan",
+        "awayTeam": "South Africa",
+        "winner": "Pakistan",
+        "resultWord": "won"
+      },
+      "prompt": "{\n  \"matchContext\": {\n    \"competition\": \"2022 Men's T20 World Cup\",\n    \"grade\": \"2022 T20 World Cup\",\n    \"round\": \"2022 T20 World Cup\",\n    \"ground\": \"SCG\",\n    \"matchType\": \"T20\",\n    \"tossWinner\": \"Pakistan\",\n    \"tossResult\": \"Pakistan won the toss and elected to bat\",\n    \"resultStatement\": \"Pakistan won by 15 runs\",\n    \"dayOne\": \"2022-11-03\",\n    \"finalDaysPlay\": \"2022-11-03\",\n    \"note\": \"Fictional demonstration scorecard for archive preview only.\"\n  },\n  \"homeTeam\": {\n    \"teamName\": \"Pakistan\",\n    \"innings\": [\n      {\n        \"teamName\": \"Pakistan\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 7,\n        \"battingOrder\": [\n          {\n            \"description\": \"Mohammad Rizwan, scored 55 Runs from (43) balls, with 4 fours, with 1 six, at a strike Rate of 127.91., they were dismissed.\"\n          },\n          {\n            \"description\": \"Babar Azam, scored 41 Runs from (33) balls, with 3 fours, with 1 six, at a strike Rate of 124.24., they were dismissed.\"\n          },\n          {\n            \"description\": \"Shadab Khan, scored 28 Runs from (17) balls, with 1 four, with 2 sixes, at a strike Rate of 164.71., they were not out.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Kagiso Rabada, bowled 4 overs, took 2 wickets for 32 runs, at an economy of 8.00.\"\n          },\n          {\n            \"description\": \"Anrich Nortje, bowled 4 overs, took 2 wickets for 35 runs, at an economy of 8.75.\"\n          },\n          {\n            \"description\": \"Lungi Ngidi, bowled 4 overs, took 2 wickets for 29 runs, at an economy of 7.25.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Pakistan Batting\"\n      }\n    ],\n    \"totalScore\": \"163\",\n    \"totalWickets\": 7\n  },\n  \"awayTeam\": {\n    \"teamName\": \"South Africa\",\n    \"innings\": [\n      {\n        \"teamName\": \"South Africa\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 9,\n        \"battingOrder\": [\n          {\n            \"description\": \"Temba Bavuma, scored 38 Runs from (32) balls, with 3 fours, with 1 six, at a strike Rate of 118.75., they were dismissed.\"\n          },\n          {\n            \"description\": \"Rassie van der Dussen, scored 34 Runs from (28) balls, with 2 fours, with 1 six, at a strike Rate of 121.43., they were dismissed.\"\n          },\n          {\n            \"description\": \"Heinrich Klaasen, scored 29 Runs from (18) balls, with 2 fours, with 1 six, at a strike Rate of 161.11., they were dismissed.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Shaheen Shah Afridi, bowled 4 overs, took 3 wickets for 27 runs, at an economy of 6.75.\"\n          },\n          {\n            \"description\": \"Naseem Shah, bowled 4 overs, took 3 wickets for 30 runs, at an economy of 7.50.\"\n          },\n          {\n            \"description\": \"Haris Rauf, bowled 4 overs, took 2 wickets for 33 runs, at an economy of 8.25.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"South Africa Batting\"\n      }\n    ],\n    \"totalScore\": \"148\",\n    \"totalWickets\": 9\n  }\n}"
+    },
+    {
+      "gameID": "9c016e94",
+      "status": "Final",
+      "homeTeam": {
+        "name": "New Zealand",
+        "isHome": true,
+        "logo": {
+          "url": "/dummyAssetData/flags/nz.svg",
+          "width": 640,
+          "height": 480
+        },
+        "score": "8/152",
+        "overs": "(20)",
+        "homeScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Finn Allen",
+            "runs": 42,
+            "balls": 26,
+            "fours": 3,
+            "sixes": 2,
+            "SR": 161.54,
+            "team": "New Zealand",
+            "notOut": false
+          },
+          {
+            "player": "Kane Williamson",
+            "runs": 37,
+            "balls": 33,
+            "fours": 3,
+            "sixes": 0,
+            "SR": 112.12,
+            "team": "New Zealand",
+            "notOut": false
+          },
+          {
+            "player": "Daryl Mitchell",
+            "runs": 31,
+            "balls": 24,
+            "fours": 2,
+            "sixes": 1,
+            "SR": 129.17,
+            "team": "New Zealand",
+            "notOut": false
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Sam Curran",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 28,
+            "wickets": 3,
+            "economy": "7.00",
+            "team": "England"
+          },
+          {
+            "player": "Chris Jordan",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 31,
+            "wickets": 2,
+            "economy": "7.75",
+            "team": "England"
+          },
+          {
+            "player": "Adil Rashid",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 26,
+            "wickets": 2,
+            "economy": "6.50",
+            "team": "England"
+          }
+        ],
+        "isClubTeam": false
+      },
+      "awayTeam": {
+        "name": "England",
+        "isHome": false,
+        "logo": {
+          "url": "/dummyAssetData/flags/gb-eng.svg",
+          "width": 640,
+          "height": 480
+        },
+        "score": "6/155",
+        "overs": "(19.1)",
+        "awayScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Alex Hales",
+            "runs": 48,
+            "balls": 32,
+            "fours": 4,
+            "sixes": 2,
+            "SR": 150,
+            "team": "England",
+            "notOut": false
+          },
+          {
+            "player": "Jos Buttler",
+            "runs": 41,
+            "balls": 29,
+            "fours": 3,
+            "sixes": 1,
+            "SR": 141.38,
+            "team": "England",
+            "notOut": true
+          },
+          {
+            "player": "Harry Brook",
+            "runs": 29,
+            "balls": 21,
+            "fours": 2,
+            "sixes": 1,
+            "SR": 138.1,
+            "team": "England",
+            "notOut": false
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Trent Boult",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 30,
+            "wickets": 2,
+            "economy": "7.50",
+            "team": "New Zealand"
+          },
+          {
+            "player": "Tim Southee",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 33,
+            "wickets": 2,
+            "economy": "8.25",
+            "team": "New Zealand"
+          },
+          {
+            "player": "Lockie Ferguson",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 29,
+            "wickets": 1,
+            "economy": "7.25",
+            "team": "New Zealand"
+          }
+        ],
+        "isClubTeam": false
+      },
+      "teamHomeLogo": {
+        "url": "/dummyAssetData/flags/nz.svg",
+        "width": 640,
+        "height": 480
+      },
+      "teamAwayLogo": {
+        "url": "/dummyAssetData/flags/gb-eng.svg",
+        "width": 640,
+        "height": 480
+      },
+      "date": "1 Nov 2022",
+      "type": "T20",
+      "ground": "The Gabba",
+      "round": "2022 T20 World Cup",
+      "gender": "Men",
+      "ageGroup": "Senior",
+      "gradeName": "2022 T20 World Cup",
+      "gradeSortOrder": 0,
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "result": "England won by 4 wickets",
+      "resultShort": "England def New Zealand",
+      "resultSummary": {
+        "homeTeam": "New Zealand",
+        "awayTeam": "England",
+        "winner": "England",
+        "resultWord": "won"
+      },
+      "prompt": "{\n  \"matchContext\": {\n    \"competition\": \"2022 Men's T20 World Cup\",\n    \"grade\": \"2022 T20 World Cup\",\n    \"round\": \"2022 T20 World Cup\",\n    \"ground\": \"The Gabba\",\n    \"matchType\": \"T20\",\n    \"tossWinner\": \"New Zealand\",\n    \"tossResult\": \"New Zealand won the toss and elected to bat\",\n    \"resultStatement\": \"England won by 4 wickets\",\n    \"dayOne\": \"2022-11-01\",\n    \"finalDaysPlay\": \"2022-11-01\",\n    \"note\": \"Fictional demonstration scorecard for archive preview only.\"\n  },\n  \"homeTeam\": {\n    \"teamName\": \"New Zealand\",\n    \"innings\": [\n      {\n        \"teamName\": \"New Zealand\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 8,\n        \"battingOrder\": [\n          {\n            \"description\": \"Finn Allen, scored 42 Runs from (26) balls, with 3 fours, with 2 sixes, at a strike Rate of 161.54., they were dismissed.\"\n          },\n          {\n            \"description\": \"Kane Williamson, scored 37 Runs from (33) balls, with 3 fours, at a strike Rate of 112.12., they were dismissed.\"\n          },\n          {\n            \"description\": \"Daryl Mitchell, scored 31 Runs from (24) balls, with 2 fours, with 1 six, at a strike Rate of 129.17., they were dismissed.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Sam Curran, bowled 4 overs, took 3 wickets for 28 runs, at an economy of 7.00.\"\n          },\n          {\n            \"description\": \"Chris Jordan, bowled 4 overs, took 2 wickets for 31 runs, at an economy of 7.75.\"\n          },\n          {\n            \"description\": \"Adil Rashid, bowled 4 overs, took 2 wickets for 26 runs, at an economy of 6.50.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"New Zealand Batting\"\n      }\n    ],\n    \"totalScore\": \"152\",\n    \"totalWickets\": 8\n  },\n  \"awayTeam\": {\n    \"teamName\": \"England\",\n    \"innings\": [\n      {\n        \"teamName\": \"England\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 6,\n        \"battingOrder\": [\n          {\n            \"description\": \"Alex Hales, scored 48 Runs from (32) balls, with 4 fours, with 2 sixes, at a strike Rate of 150.00., they were dismissed.\"\n          },\n          {\n            \"description\": \"Jos Buttler, scored 41 Runs from (29) balls, with 3 fours, with 1 six, at a strike Rate of 141.38., they were not out.\"\n          },\n          {\n            \"description\": \"Harry Brook, scored 29 Runs from (21) balls, with 2 fours, with 1 six, at a strike Rate of 138.10., they were dismissed.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Trent Boult, bowled 4 overs, took 2 wickets for 30 runs, at an economy of 7.50.\"\n          },\n          {\n            \"description\": \"Tim Southee, bowled 4 overs, took 2 wickets for 33 runs, at an economy of 8.25.\"\n          },\n          {\n            \"description\": \"Lockie Ferguson, bowled 4 overs, took 1 wicket for 29 runs, at an economy of 7.25.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"England Batting\"\n      }\n    ],\n    \"totalScore\": \"155\",\n    \"totalWickets\": 6\n  }\n}"
+    },
+    {
+      "gameID": "656aa26e",
+      "status": "Final",
+      "homeTeam": {
+        "name": "West Indies",
+        "isHome": true,
+        "logo": {
+          "url": "/dummyAssetData/flags/wi.svg",
+          "width": 640,
+          "height": 480
+        },
+        "score": "6/171",
+        "overs": "(20)",
+        "homeScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Nicholas Pooran",
+            "runs": 57,
+            "balls": 38,
+            "fours": 4,
+            "sixes": 3,
+            "SR": 150,
+            "team": "West Indies",
+            "notOut": false
+          },
+          {
+            "player": "Johnson Charles",
+            "runs": 39,
+            "balls": 27,
+            "fours": 3,
+            "sixes": 2,
+            "SR": 144.44,
+            "team": "West Indies",
+            "notOut": false
+          },
+          {
+            "player": "Rovman Powell",
+            "runs": 31,
+            "balls": 19,
+            "fours": 1,
+            "sixes": 2,
+            "SR": 163.16,
+            "team": "West Indies",
+            "notOut": true
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Josh Little",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 34,
+            "wickets": 2,
+            "economy": "8.50",
+            "team": "Ireland"
+          },
+          {
+            "player": "Mark Adair",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 36,
+            "wickets": 2,
+            "economy": "9.00",
+            "team": "Ireland"
+          },
+          {
+            "player": "Gareth Delany",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 29,
+            "wickets": 1,
+            "economy": "7.25",
+            "team": "Ireland"
+          }
+        ],
+        "isClubTeam": false
+      },
+      "awayTeam": {
+        "name": "Ireland",
+        "isHome": false,
+        "logo": {
+          "url": "/dummyAssetData/flags/ie.svg",
+          "width": 640,
+          "height": 480
+        },
+        "score": "9/147",
+        "overs": "(20)",
+        "awayScoresFirstInnings": "1",
+        "battingPerformances": [
+          {
+            "player": "Paul Stirling",
+            "runs": 44,
+            "balls": 33,
+            "fours": 4,
+            "sixes": 1,
+            "SR": 133.33,
+            "team": "Ireland",
+            "notOut": false
+          },
+          {
+            "player": "Lorcan Tucker",
+            "runs": 33,
+            "balls": 28,
+            "fours": 2,
+            "sixes": 1,
+            "SR": 117.86,
+            "team": "Ireland",
+            "notOut": false
+          },
+          {
+            "player": "Harry Tector",
+            "runs": 27,
+            "balls": 21,
+            "fours": 2,
+            "sixes": 0,
+            "SR": 128.57,
+            "team": "Ireland",
+            "notOut": false
+          }
+        ],
+        "bowlingPerformances": [
+          {
+            "player": "Alzarri Joseph",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 28,
+            "wickets": 3,
+            "economy": "7.00",
+            "team": "West Indies"
+          },
+          {
+            "player": "Odean Smith",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 31,
+            "wickets": 3,
+            "economy": "7.75",
+            "team": "West Indies"
+          },
+          {
+            "player": "Akeal Hosein",
+            "overs": 4,
+            "maidens": 0,
+            "runs": 26,
+            "wickets": 2,
+            "economy": "6.50",
+            "team": "West Indies"
+          }
+        ],
+        "isClubTeam": false
+      },
+      "teamHomeLogo": {
+        "url": "/dummyAssetData/flags/wi.svg",
+        "width": 640,
+        "height": 480
+      },
+      "teamAwayLogo": {
+        "url": "/dummyAssetData/flags/ie.svg",
+        "width": 640,
+        "height": 480
+      },
+      "date": "21 Oct 2022",
+      "type": "T20",
+      "ground": "Bellerive Oval",
+      "round": "2022 T20 World Cup",
+      "gender": "Men",
+      "ageGroup": "Senior",
+      "gradeName": "2022 T20 World Cup",
+      "gradeSortOrder": 0,
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "result": "West Indies won by 24 runs",
+      "resultShort": "West Indies def Ireland",
+      "resultSummary": {
+        "homeTeam": "West Indies",
+        "awayTeam": "Ireland",
+        "winner": "West Indies",
+        "resultWord": "won"
+      },
+      "prompt": "{\n  \"matchContext\": {\n    \"competition\": \"2022 Men's T20 World Cup\",\n    \"grade\": \"2022 T20 World Cup\",\n    \"round\": \"2022 T20 World Cup\",\n    \"ground\": \"Bellerive Oval\",\n    \"matchType\": \"T20\",\n    \"tossWinner\": \"West Indies\",\n    \"tossResult\": \"West Indies won the toss and elected to bat\",\n    \"resultStatement\": \"West Indies won by 24 runs\",\n    \"dayOne\": \"2022-10-21\",\n    \"finalDaysPlay\": \"2022-10-21\",\n    \"note\": \"Fictional demonstration scorecard for archive preview only.\"\n  },\n  \"homeTeam\": {\n    \"teamName\": \"West Indies\",\n    \"innings\": [\n      {\n        \"teamName\": \"West Indies\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 6,\n        \"battingOrder\": [\n          {\n            \"description\": \"Nicholas Pooran, scored 57 Runs from (38) balls, with 4 fours, with 3 sixes, at a strike Rate of 150.00., they were dismissed.\"\n          },\n          {\n            \"description\": \"Johnson Charles, scored 39 Runs from (27) balls, with 3 fours, with 2 sixes, at a strike Rate of 144.44., they were dismissed.\"\n          },\n          {\n            \"description\": \"Rovman Powell, scored 31 Runs from (19) balls, with 1 four, with 2 sixes, at a strike Rate of 163.16., they were not out.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Josh Little, bowled 4 overs, took 2 wickets for 34 runs, at an economy of 8.50.\"\n          },\n          {\n            \"description\": \"Mark Adair, bowled 4 overs, took 2 wickets for 36 runs, at an economy of 9.00.\"\n          },\n          {\n            \"description\": \"Gareth Delany, bowled 4 overs, took 1 wicket for 29 runs, at an economy of 7.25.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"West Indies Batting\"\n      }\n    ],\n    \"totalScore\": \"171\",\n    \"totalWickets\": 6\n  },\n  \"awayTeam\": {\n    \"teamName\": \"Ireland\",\n    \"innings\": [\n      {\n        \"teamName\": \"Ireland\",\n        \"score\": \"\",\n        \"overs\": \"\",\n        \"wickets\": 9,\n        \"battingOrder\": [\n          {\n            \"description\": \"Paul Stirling, scored 44 Runs from (33) balls, with 4 fours, with 1 six, at a strike Rate of 133.33., they were dismissed.\"\n          },\n          {\n            \"description\": \"Lorcan Tucker, scored 33 Runs from (28) balls, with 2 fours, with 1 six, at a strike Rate of 117.86., they were dismissed.\"\n          },\n          {\n            \"description\": \"Harry Tector, scored 27 Runs from (21) balls, with 2 fours, at a strike Rate of 128.57., they were dismissed.\"\n          }\n        ],\n        \"bowlingFigures\": [\n          {\n            \"description\": \"Alzarri Joseph, bowled 4 overs, took 3 wickets for 28 runs, at an economy of 7.00.\"\n          },\n          {\n            \"description\": \"Odean Smith, bowled 4 overs, took 3 wickets for 31 runs, at an economy of 7.75.\"\n          },\n          {\n            \"description\": \"Akeal Hosein, bowled 4 overs, took 2 wickets for 26 runs, at an economy of 6.50.\"\n          }\n        ],\n        \"fieldingStats\": [],\n        \"fallOfWickets\": [],\n        \"inningsNumber\": 1,\n        \"inningsName\": \"Ireland Batting\"\n      }\n    ],\n    \"totalScore\": \"147\",\n    \"totalWickets\": 9\n  }\n}"
+    }
+  ],
+  "asset": {
+    "assetID": 0,
+    "assetTypeID": 0,
+    "assetCategoryID": 0,
+    "assetsLinkID": ""
+  },
+  "render": {
+    "schedulerId": 0,
+    "renderId": 0
+  },
+  "account": {
+    "accountId": 0
+  },
+  "timings": {
+    "FPS_MAIN": 10000,
+    "FPS_INTRO": 90,
+    "FPS_OUTRO": 30,
+    "FPS_LADDER": 0,
+    "FPS_SCORECARD": 210,
+    "FPS_PREFORMANCECARD": 0
+  },
+  "frames": [195, 390, 585, 780, 975, 1170, 1365, 1560, 1755],
+  "videoMeta": {
+    "club": {
+      "logo": {
+        "hasLogo": false,
+        "url": "",
+        "width": 500,
+        "height": 500
+      },
+      "name": "International Cricket Demo Preview",
+      "sport": "Cricket",
+      "sponsors": {
+        "primary": [],
+        "default": {}
+      },
+      "IsAccountClub": false
+    },
+    "video": {
+      "fixtureCategory": "International Cricket Demo Preview",
+      "groupingCategory": "International Cricket Demo Preview",
+      "metadata": {
+        "title": "Weekend Result",
+        "titleSplit": ["Weekend", "Result"],
+        "videoTitle": "International Cricket Demo Preview CricketResultSingle",
+        "compositionId": "CricketResultSingle",
+        "assetId": 29,
+        "assetTypeId": 2,
+        "frames": [],
+        "includeSponsors": false
+      },
+      "appearance": {
+        "theme": {
+          "dark": "#111",
+          "white": "#FFF",
+          "primary": "#352466",
+          "secondary": "#ffa500"
+        },
+        "template": "TwoColumnClassic"
+      },
+      "media": {
+        "HeroImage": {
+          "url": "",
+          "ratio": "landscape",
+          "width": 1920,
+          "height": 1083,
+          "AgeGroup": "Both",
+          "AssetType": "ALL",
+          "markerPosition": null
+        },
+        "audio": {
+          "url": "",
+          "audioOption": null
+        }
+      },
+      "contentLayout": {
+        "divideFixturesBy": {
+          "CricketLadder": 1,
+          "CricketRoster": 1,
+          "CricketResults": 2,
+          "CricketUpcoming": 3,
+          "CricketResultSingle": 1,
+          "CricketBattingPerformances": 5,
+          "CricketBowlingPerformances": 5,
+          "CricketTeamOfTheWeek": 2
+        }
+      },
+      "templateVariation": {
+        "useBackground": "Texture",
+        "mode": "lightAlt",
+        "category": {
+          "slug": "TwoColumnClassic",
+          "name": "Classic Two Column ",
+          "divideFixturesBy": {
+            "CricketUpcoming": 3,
+            "CricketResults": 2,
+            "CricketResultSingle": 1,
+            "CricketLadder": 1,
+            "CricketRoster": 1,
+            "CricketBowlingPerformances": 5,
+            "CricketBattingPerformances": 5
+          },
+          "bundleAudio": {
+            "id": 1,
+            "Name": "Basic",
+            "createdAt": "2023-09-27T10:36:24.428Z",
+            "updatedAt": "2025-06-15T04:50:57.910Z",
+            "publishedAt": "2023-09-27T10:36:25.639Z",
+            "audio_options": [
+              {
+                "id": 4,
+                "Name": "Better Start Now",
+                "createdAt": "2023-09-27T10:34:46.702Z",
+                "updatedAt": "2025-06-15T04:53:45.558Z",
+                "publishedAt": "2023-09-27T10:34:48.455Z",
+                "URL": "",
+                "CompositionID": "CricketLadder",
+                "ComponentName": "CricketLadder"
+              },
+              {
+                "id": 2,
+                "Name": "Fifteen on Me",
+                "createdAt": "2022-12-20T01:59:28.337Z",
+                "updatedAt": "2025-06-15T04:53:11.194Z",
+                "publishedAt": "2022-12-20T01:59:29.080Z",
+                "URL": "",
+                "CompositionID": "CricketUpcoming",
+                "ComponentName": "CricketUpcoming"
+              },
+              {
+                "id": 5,
+                "Name": "Get The Gains",
+                "createdAt": "2023-09-27T10:35:01.053Z",
+                "updatedAt": "2025-06-15T04:53:59.493Z",
+                "publishedAt": "2023-09-27T10:35:29.163Z",
+                "URL": "",
+                "CompositionID": "CricketTop5Bowling",
+                "ComponentName": "CricketTop5Bowling"
+              },
+              {
+                "id": 3,
+                "Name": "Groover",
+                "createdAt": "2022-12-20T01:59:34.014Z",
+                "updatedAt": "2025-06-15T04:53:28.656Z",
+                "publishedAt": "2022-12-20T01:59:34.670Z",
+                "URL": "",
+                "CompositionID": "CricketTop5Batting",
+                "ComponentName": "CricketTop5Batting"
+              },
+              {
+                "id": 1,
+                "Name": "Saltine",
+                "createdAt": "2022-12-12T05:19:56.353Z",
+                "updatedAt": "2025-06-15T04:50:50.079Z",
+                "publishedAt": "2022-12-12T05:19:57.408Z",
+                "URL": "",
+                "CompositionID": "CricketResults",
+                "ComponentName": "CricketResults"
+              },
+              {
+                "id": 16,
+                "Name": "BEECH LOVE",
+                "createdAt": "2024-06-05T04:31:26.640Z",
+                "updatedAt": "2026-01-05T09:04:09.788Z",
+                "publishedAt": "2024-06-07T12:45:32.118Z",
+                "URL": "",
+                "CompositionID": "CricketUpcoming",
+                "ComponentName": "CricketUpcoming"
+              },
+              {
+                "id": 17,
+                "Name": "FAY V",
+                "createdAt": "2024-06-05T04:33:33.970Z",
+                "updatedAt": "2024-06-07T12:48:03.161Z",
+                "publishedAt": "2024-06-07T12:47:53.394Z",
+                "URL": "",
+                "CompositionID": "WeekendResultsAFL",
+                "ComponentName": "Weekend Results"
+              }
+            ]
+          }
+        },
+        "video": {
+          "url": null,
+          "fallbackUrl": null,
+          "position": "left",
+          "size": "cover",
+          "loop": null,
+          "muted": true,
+          "overlay": {
+            "color": "rgba(0,0,0,0.5)",
+            "opacity": 0.7
+          },
+          "useOffthreadVideo": null,
+          "volume": 0.8,
+          "playbackRate": null
+        },
+        "image": {
+          "url": null,
+          "ratio": null,
+          "width": null,
+          "height": null,
+          "type": "pan",
+          "direction": "left",
+          "overlayStyle": "vignette",
+          "gradientType": "linear",
+          "overlayOpacity": 0.3
+        },
+        "palette": "primaryOnWhite",
+        "gradient": {
+          "type": "primary",
+          "direction": "HORIZONTAL"
+        },
+        "noise": {
+          "type": "floatingParticles"
+        },
+        "pattern": {
+          "type": "dots",
+          "animation": "none",
+          "scale": 0.75,
+          "rotation": null,
+          "opacity": 0.35,
+          "animationDuration": null,
+          "animationSpeed": 0.8
+        },
+        "particle": {
+          "type": "lines",
+          "particleCount": "300",
+          "speed": 0.8,
+          "direction": "up",
+          "animation": "scale"
+        },
+        "texture": {
+          "name": "Print Texture",
+          "url": "",
+          "repeat": "cover",
+          "scale": "100%",
+          "overlay": {
+            "opacity": 0.8,
+            "blendMode": "multiply"
+          }
+        }
+      }
+    }
+  },
+  "errors": []
+}

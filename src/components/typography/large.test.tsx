@@ -8,4 +8,9 @@ describe("TypographyLarge", () => {
     render(<TypographyLarge>Large</TypographyLarge>);
     expect(screen.getByText(/large/i)).toBeInTheDocument();
   });
+
+  it("merges className", () => {
+    render(<TypographyLarge className="text-sm">Compact</TypographyLarge>);
+    expect(screen.getByText(/compact/i)).toHaveClass("text-sm");
+  });
 });

@@ -1,5 +1,14 @@
+import { cn } from "@/lib/utils";
+
 import type { ReactNode } from "react";
 
-export function TypographyP({ children }: { children: ReactNode }) {
-  return <p className="leading-7 [&:not(:first-child)]:mt-2">{children}</p>;
+interface TypographyPProps {
+  children: ReactNode;
+  className?: string;
+}
+
+export function TypographyP({ children, className }: TypographyPProps) {
+  return (
+    <p className={cn("text-foreground font-sans text-base leading-7", className)}>{children}</p>
+  );
 }

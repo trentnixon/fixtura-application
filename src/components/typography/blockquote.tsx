@@ -1,5 +1,21 @@
+import { cn } from "@/lib/utils";
+
 import type { ReactNode } from "react";
 
-export function TypographyBlockquote({ children }: { children: ReactNode }) {
-  return <blockquote className="mt-2 border-l-2 pl-6 italic">{children}</blockquote>;
+interface TypographyBlockquoteProps {
+  children: ReactNode;
+  className?: string;
+}
+
+export function TypographyBlockquote({ children, className }: TypographyBlockquoteProps) {
+  return (
+    <blockquote
+      className={cn(
+        "border-primary text-muted-foreground border-l-4 py-1 pl-4 font-sans text-lg italic",
+        className,
+      )}
+    >
+      {children}
+    </blockquote>
+  );
 }

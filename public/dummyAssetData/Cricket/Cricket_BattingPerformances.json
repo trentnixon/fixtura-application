@@ -1,0 +1,752 @@
+{
+  "data": [
+    {
+      "SR": 128.7,
+      "name": "Matthew Hayden",
+      "runs": 139,
+      "balls": 108,
+      "notOut": false,
+      "prompt": "Matthew Hayden played for Australia, scoring 139 runs from 108 balls with a strike rate of 128.70 (dismissed). Venue context: Kensington Oval. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/au.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "Australia",
+      "assignSponsors": {
+        "Team": {
+          "name": "Australia"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Super Eight"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2007 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "SR": 169.14,
+      "name": "Adam Gilchrist",
+      "runs": 137,
+      "balls": 81,
+      "notOut": false,
+      "prompt": "Adam Gilchrist played for Australia, scoring 137 runs from 81 balls with a strike rate of 169.14 (dismissed). Venue context: Sabina Park. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/au.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "Australia",
+      "assignSponsors": {
+        "Team": {
+          "name": "Australia"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Super Eight"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2007 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "SR": 133.66,
+      "name": "Ricky Ponting",
+      "runs": 135,
+      "balls": 101,
+      "notOut": false,
+      "prompt": "Ricky Ponting played for Australia, scoring 135 runs from 101 balls with a strike rate of 133.66 (dismissed). Venue context: Sir Vivian Richards Stadium. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/au.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "Australia",
+      "assignSponsors": {
+        "Team": {
+          "name": "Australia"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Super Eight"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2007 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "SR": 90.91,
+      "name": "Mahela Jayawardene",
+      "runs": 90,
+      "balls": 99,
+      "notOut": false,
+      "prompt": "Mahela Jayawardene played for Sri Lanka, scoring 90 runs from 99 balls with a strike rate of 90.91 (dismissed). Venue context: Providence Stadium. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/lk.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "Sri Lanka",
+      "assignSponsors": {
+        "Team": {
+          "name": "Sri Lanka"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Super Eight"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2007 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "SR": 108.55,
+      "name": "Kumar Sangakkara",
+      "runs": 127,
+      "balls": 117,
+      "notOut": false,
+      "prompt": "Kumar Sangakkara played for Sri Lanka, scoring 127 runs from 117 balls with a strike rate of 108.55 (dismissed). Venue context: Queen's Park Oval. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/lk.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "Sri Lanka",
+      "assignSponsors": {
+        "Team": {
+          "name": "Sri Lanka"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Super Eight"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2007 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "SR": 67.05,
+      "name": "Sanath Jayasuriya",
+      "runs": 59,
+      "balls": 88,
+      "notOut": true,
+      "prompt": "Sanath Jayasuriya played for Sri Lanka, scoring 59 runs from 88 balls with a strike rate of 67.05 (not out). Venue context: Beausejour Cricket Ground. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/lk.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "Sri Lanka",
+      "assignSponsors": {
+        "Team": {
+          "name": "Sri Lanka"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Super Eight"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2007 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "SR": 101.75,
+      "name": "Jacques Kallis",
+      "runs": 116,
+      "balls": 114,
+      "notOut": false,
+      "prompt": "Jacques Kallis played for South Africa, scoring 116 runs from 114 balls with a strike rate of 101.75 (dismissed). Venue context: Kensington Oval. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/za.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "South Africa",
+      "assignSponsors": {
+        "Team": {
+          "name": "South Africa"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Super Eight"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2007 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "SR": 84.29,
+      "name": "Graeme Smith",
+      "runs": 59,
+      "balls": 70,
+      "notOut": false,
+      "prompt": "Graeme Smith played for South Africa, scoring 59 runs from 70 balls with a strike rate of 84.29 (dismissed). Venue context: Sabina Park. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/za.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "South Africa",
+      "assignSponsors": {
+        "Team": {
+          "name": "South Africa"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Super Eight"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2007 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "SR": 113.21,
+      "name": "AB de Villiers",
+      "runs": 60,
+      "balls": 53,
+      "notOut": true,
+      "prompt": "AB de Villiers played for South Africa, scoring 60 runs from 53 balls with a strike rate of 113.21 (not out). Venue context: Sir Vivian Richards Stadium. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/za.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "South Africa",
+      "assignSponsors": {
+        "Team": {
+          "name": "South Africa"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Super Eight"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2007 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "SR": 144.93,
+      "name": "Scott Styris",
+      "runs": 100,
+      "balls": 69,
+      "notOut": false,
+      "prompt": "Scott Styris played for New Zealand, scoring 100 runs from 69 balls with a strike rate of 144.93 (dismissed). Venue context: Providence Stadium. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/nz.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "New Zealand",
+      "assignSponsors": {
+        "Team": {
+          "name": "New Zealand"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Super Eight"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2007 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "SR": 72.44,
+      "name": "Stephen Fleming",
+      "runs": 92,
+      "balls": 127,
+      "notOut": false,
+      "prompt": "Stephen Fleming played for New Zealand, scoring 92 runs from 127 balls with a strike rate of 72.44 (dismissed). Venue context: Queen's Park Oval. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/nz.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "New Zealand",
+      "assignSponsors": {
+        "Team": {
+          "name": "New Zealand"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Super Eight"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2007 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "SR": 112.26,
+      "name": "Kevin Pietersen",
+      "runs": 119,
+      "balls": 106,
+      "notOut": true,
+      "prompt": "Kevin Pietersen played for England, scoring 119 runs from 106 balls with a strike rate of 112.26 (not out). Venue context: Beausejour Cricket Ground. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/gb-eng.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "England",
+      "assignSponsors": {
+        "Team": {
+          "name": "England"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Super Eight"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2007 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "SR": 127.27,
+      "name": "Brian Lara",
+      "runs": 112,
+      "balls": 88,
+      "notOut": false,
+      "prompt": "Brian Lara played for West Indies, scoring 112 runs from 88 balls with a strike rate of 127.27 (dismissed). Venue context: Kensington Oval. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/wi.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "West Indies",
+      "assignSponsors": {
+        "Team": {
+          "name": "West Indies"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Super Eight"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2007 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "SR": 75.95,
+      "name": "Shivnarine Chanderpaul",
+      "runs": 60,
+      "balls": 79,
+      "notOut": false,
+      "prompt": "Shivnarine Chanderpaul played for West Indies, scoring 60 runs from 79 balls with a strike rate of 75.95 (dismissed). Venue context: Sabina Park. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/wi.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "West Indies",
+      "assignSponsors": {
+        "Team": {
+          "name": "West Indies"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Super Eight"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2007 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "SR": 161.11,
+      "name": "Yuvraj Singh",
+      "runs": 58,
+      "balls": 36,
+      "notOut": false,
+      "prompt": "Yuvraj Singh played for India, scoring 58 runs from 36 balls with a strike rate of 161.11 (dismissed). Venue context: Sir Vivian Richards Stadium. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/in.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "India",
+      "assignSponsors": {
+        "Team": {
+          "name": "India"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Super Eight"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2007 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "SR": 94.12,
+      "name": "Rahul Dravid",
+      "runs": 96,
+      "balls": 102,
+      "notOut": false,
+      "prompt": "Rahul Dravid played for India, scoring 96 runs from 102 balls with a strike rate of 94.12 (dismissed). Venue context: Providence Stadium. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/in.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "India",
+      "assignSponsors": {
+        "Team": {
+          "name": "India"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Super Eight"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2007 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "SR": 98.15,
+      "name": "Mohammad Yousuf",
+      "runs": 106,
+      "balls": 108,
+      "notOut": false,
+      "prompt": "Mohammad Yousuf played for Pakistan, scoring 106 runs from 108 balls with a strike rate of 98.15 (dismissed). Venue context: Queen's Park Oval. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/pk.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "Pakistan",
+      "assignSponsors": {
+        "Team": {
+          "name": "Pakistan"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Super Eight"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2007 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "SR": 133.03,
+      "name": "Tamim Iqbal",
+      "runs": 145,
+      "balls": 109,
+      "notOut": false,
+      "prompt": "Tamim Iqbal played for Bangladesh, scoring 145 runs from 109 balls with a strike rate of 133.03 (dismissed). Venue context: Beausejour Cricket Ground. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/bd.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "Bangladesh",
+      "assignSponsors": {
+        "Team": {
+          "name": "Bangladesh"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Super Eight"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2007 Cricket World Cup"
+        }
+      }
+    },
+    {
+      "SR": 123.53,
+      "name": "Kevin O'Brien",
+      "runs": 63,
+      "balls": 51,
+      "notOut": false,
+      "prompt": "Kevin O'Brien played for Ireland, scoring 63 runs from 51 balls with a strike rate of 123.53 (dismissed). Venue context: Kensington Oval. Competition: 2007 Cricket World Cup. Grade: ODI / Super Eight. This is a fictional demonstration performance for archive preview only.",
+      "teamLogo": {
+        "url": "/dummyAssetData/flags/ie.svg",
+        "width": 640,
+        "height": 480
+      },
+      "playedFor": "Ireland",
+      "assignSponsors": {
+        "Team": {
+          "name": "Ireland"
+        },
+        "grade": {
+          "id": 0,
+          "name": "ODI / Super Eight"
+        },
+        "competition": {
+          "id": 0,
+          "name": "2007 Cricket World Cup"
+        }
+      }
+    }
+  ],
+  "asset": {
+    "assetID": 0,
+    "assetTypeID": 0,
+    "assetCategoryID": 0,
+    "assetsLinkID": ""
+  },
+  "render": {
+    "schedulerId": 0,
+    "renderId": 0
+  },
+  "account": {
+    "accountId": 0
+  },
+  "timings": {
+    "FPS_MAIN": 510,
+    "FPS_INTRO": 90,
+    "FPS_OUTRO": 90,
+    "FPS_LADDER": 0,
+    "FPS_SCORECARD": 0,
+    "FPS_PREFORMANCECARD": 180
+  },
+  "frames": [45, 180, 345, 510, 645],
+  "videoMeta": {
+    "club": {
+      "logo": {
+        "hasLogo": false,
+        "url": "",
+        "width": 1031,
+        "height": 1330
+      },
+      "name": "International Cricket Demo Preview",
+      "sport": "Cricket",
+      "sponsors": {
+        "primary": [],
+        "default": {}
+      },
+      "IsAccountClub": false
+    },
+    "video": {
+      "media": {
+        "audio": {
+          "url": "",
+          "audioOption": null
+        },
+        "HeroImage": {
+          "url": "",
+          "ratio": "",
+          "width": 0,
+          "height": 0,
+          "AgeGroup": "",
+          "AssetType": "",
+          "markerPosition": ""
+        }
+      },
+      "metadata": {
+        "title": "Batting Performances",
+        "frames": [],
+        "assetId": 65,
+        "titleSplit": ["Performances"],
+        "videoTitle": "Batting Performances",
+        "assetTypeId": 3,
+        "compositionId": "CricketBattingPerformances",
+        "includeSponsors": false
+      },
+      "appearance": {
+        "theme": {
+          "dark": "#111",
+          "white": "#FFF",
+          "primary": "#de0000",
+          "secondary": "#ffa300"
+        },
+        "template": "CNSW"
+      },
+      "contentLayout": {
+        "divideFixturesBy": {
+          "CricketLadder": 1,
+          "CricketRoster": 1,
+          "CricketResults": 2,
+          "CricketUpcoming": 3,
+          "CricketResultSingle": 1,
+          "CricketBattingPerformances": 7,
+          "CricketBowlingPerformances": 7
+        }
+      },
+      "fixtureCategory": "International Cricket Demo Preview",
+      "groupingCategory": "International Cricket Demo Preview",
+      "templateVariation": {
+        "mode": "lightAlt",
+        "image": {
+          "url": null,
+          "type": "pan",
+          "ratio": null,
+          "width": null,
+          "height": null,
+          "direction": "left",
+          "gradientType": "linear",
+          "overlayStyle": "vignette",
+          "overlayOpacity": 0.3
+        },
+        "noise": {
+          "type": "floatingParticles"
+        },
+        "video": {
+          "url": null,
+          "loop": null,
+          "size": "cover",
+          "muted": true,
+          "volume": 0.8,
+          "overlay": {
+            "color": "rgba(0,0,0,0.5)",
+            "opacity": 0.7
+          },
+          "position": "left",
+          "fallbackUrl": null,
+          "playbackRate": null,
+          "useOffthreadVideo": null
+        },
+        "palette": "secondary",
+        "pattern": {
+          "type": "dots",
+          "scale": 0.75,
+          "opacity": 0.35,
+          "rotation": null,
+          "animation": "none",
+          "animationSpeed": 0.8,
+          "animationDuration": null
+        },
+        "texture": {
+          "url": "",
+          "name": "Stone 2",
+          "scale": "100%",
+          "repeat": "cover",
+          "overlay": {
+            "opacity": 0.7,
+            "blendMode": "multiply"
+          }
+        },
+        "category": {
+          "name": "Cricket NSW",
+          "slug": "CNSW",
+          "bundleAudio": {
+            "id": 6,
+            "Name": "Muted",
+            "createdAt": "2024-10-30T00:35:16.398Z",
+            "updatedAt": "2024-10-30T00:35:17.926Z",
+            "publishedAt": "2024-10-30T00:35:17.915Z",
+            "audio_options": [
+              {
+                "id": 33,
+                "URL": "",
+                "Name": "HelloStranger_Instrumental",
+                "createdAt": "2024-10-30T00:35:04.160Z",
+                "updatedAt": "2024-10-30T00:36:30.358Z",
+                "publishedAt": "2024-10-30T00:35:05.839Z",
+                "ComponentName": "Top 5 Bowling",
+                "CompositionID": "Top5BowlingList"
+              },
+              {
+                "id": 34,
+                "URL": "",
+                "Name": "GoodGoodFeeling_Inst",
+                "createdAt": "2024-10-30T00:37:09.563Z",
+                "updatedAt": "2024-10-30T00:38:09.963Z",
+                "publishedAt": "2024-10-30T00:38:09.959Z",
+                "ComponentName": "UpComing Fixtures",
+                "CompositionID": "UpComingFixtures"
+              },
+              {
+                "id": 35,
+                "URL": "",
+                "Name": "Collateral-NoGuitarSolo_Inst",
+                "createdAt": "2024-10-30T00:38:02.552Z",
+                "updatedAt": "2024-10-30T00:38:04.070Z",
+                "publishedAt": "2024-10-30T00:38:04.063Z",
+                "ComponentName": "Weekend Results",
+                "CompositionID": "WeekendResults"
+              },
+              {
+                "id": 36,
+                "URL": "",
+                "Name": "Wall-Of-Sound_Instrumental",
+                "createdAt": "2024-10-30T00:39:02.570Z",
+                "updatedAt": "2024-10-30T00:39:04.182Z",
+                "publishedAt": "2024-10-30T00:39:04.177Z",
+                "ComponentName": "Ladder",
+                "CompositionID": "Ladder"
+              },
+              {
+                "id": 38,
+                "URL": "",
+                "Name": "So Good To Be Alive_Inst_Ohhs",
+                "createdAt": "2024-10-30T01:00:28.630Z",
+                "updatedAt": "2024-10-30T01:00:30.327Z",
+                "publishedAt": "2024-10-30T01:00:30.319Z",
+                "ComponentName": "Top 5 Batting",
+                "CompositionID": "Top5BattingList"
+              },
+              {
+                "id": 39,
+                "URL": "",
+                "Name": "KnuckleSandwhich",
+                "createdAt": "2024-10-30T01:01:10.581Z",
+                "updatedAt": "2024-10-30T01:01:13.949Z",
+                "publishedAt": "2024-10-30T01:01:13.932Z",
+                "ComponentName": "UpComing Fixtures",
+                "CompositionID": "UpComingFixtures"
+              }
+            ]
+          },
+          "divideFixturesBy": {
+            "CricketLadder": 1,
+            "CricketRoster": 1,
+            "CricketResults": 2,
+            "CricketUpcoming": 3,
+            "CricketResultSingle": 1,
+            "CricketBattingPerformances": 7,
+            "CricketBowlingPerformances": 7
+          }
+        },
+        "gradient": {
+          "type": "primary",
+          "direction": "HORIZONTAL"
+        },
+        "particle": {
+          "type": "lines",
+          "speed": 0.8,
+          "animation": "scale",
+          "direction": "up",
+          "particleCount": "300"
+        },
+        "useBackground": "Texture"
+      }
+    }
+  },
+  "errors": []
+}

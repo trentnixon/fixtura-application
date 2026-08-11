@@ -1,0 +1,664 @@
+{
+  "data": [
+    {
+      "category": "Batter",
+      "categoryDetail": {
+        "type": "Batter",
+        "position": "higheststrikerate"
+      },
+      "rank": 1,
+      "player": "Virat Kohli",
+      "primaryTeam": "India",
+      "club": {
+        "name": "India",
+        "logo": {
+          "url": "/dummyAssetData/flags/in.svg",
+          "width": 640,
+          "height": 480
+        }
+      },
+      "rankings": {
+        "topRunScorer": 3,
+        "highestStrikeRate": 1
+      },
+      "prompt": "Virat Kohli from India. has been selected as the top batter in the Team of the Week. Batting: scored 68 runs, from 32 balls, with a strike rate of 212.5, including 5 fours, and 4 sixes. This is a fictional demonstration selection for archive preview only.",
+      "batting": {
+        "runs": 68,
+        "balls": 32,
+        "fours": 5,
+        "sixes": 4,
+        "strikeRate": 212.5,
+        "notOut": false,
+        "team": "India"
+      }
+    },
+    {
+      "category": "Batter",
+      "categoryDetail": {
+        "type": "Batter",
+        "position": "higheststrikerate"
+      },
+      "rank": 2,
+      "player": "Jos Buttler",
+      "primaryTeam": "England",
+      "club": {
+        "name": "England",
+        "logo": {
+          "url": "/dummyAssetData/flags/gb-eng.svg",
+          "width": 640,
+          "height": 480
+        }
+      },
+      "rankings": {
+        "topRunScorer": 5,
+        "highestStrikeRate": 2
+      },
+      "prompt": "Jos Buttler from England. has been selected as the rank 2 batter in the Team of the Week. Batting: scored 54 runs, from 27 balls, with a strike rate of 200.0, including 4 fours, and 3 sixes. This is a fictional demonstration selection for archive preview only.",
+      "batting": {
+        "runs": 54,
+        "balls": 27,
+        "fours": 4,
+        "sixes": 3,
+        "strikeRate": 200,
+        "notOut": true,
+        "team": "England"
+      }
+    },
+    {
+      "category": "Batter",
+      "categoryDetail": {
+        "type": "Batter",
+        "position": "higheststrikerate"
+      },
+      "rank": 3,
+      "player": "Babar Azam",
+      "primaryTeam": "Pakistan",
+      "club": {
+        "name": "Pakistan",
+        "logo": {
+          "url": "/dummyAssetData/flags/pk.svg",
+          "width": 640,
+          "height": 480
+        }
+      },
+      "rankings": {
+        "topRunScorer": 6,
+        "highestStrikeRate": 3
+      },
+      "prompt": "Babar Azam from Pakistan. has been selected as the rank 3 batter in the Team of the Week. Batting: scored 49 runs, from 28 balls, with a strike rate of 175.0, including 5 fours, and 2 sixes. This is a fictional demonstration selection for archive preview only.",
+      "batting": {
+        "runs": 49,
+        "balls": 28,
+        "fours": 5,
+        "sixes": 2,
+        "strikeRate": 175,
+        "notOut": false,
+        "team": "Pakistan"
+      }
+    },
+    {
+      "category": "Batter",
+      "categoryDetail": {
+        "type": "Batter",
+        "position": "topscorer"
+      },
+      "rank": 4,
+      "player": "Litton Das",
+      "primaryTeam": "Bangladesh",
+      "club": {
+        "name": "Bangladesh",
+        "logo": {
+          "url": "/dummyAssetData/flags/bd.svg",
+          "width": 640,
+          "height": 480
+        }
+      },
+      "rankings": {
+        "topRunScorer": 1,
+        "highestStrikeRate": 7
+      },
+      "prompt": "Litton Das from Bangladesh. has been selected as the rank 4 batter in the Team of the Week. Batting: scored 82 runs, from 51 balls, with a strike rate of 160.8, including 7 fours, and 3 sixes. This is a fictional demonstration selection for archive preview only.",
+      "batting": {
+        "runs": 82,
+        "balls": 51,
+        "fours": 7,
+        "sixes": 3,
+        "strikeRate": 160.78,
+        "notOut": false,
+        "team": "Bangladesh"
+      }
+    },
+    {
+      "category": "Batter",
+      "categoryDetail": {
+        "type": "Batter",
+        "position": "topscorer"
+      },
+      "rank": 5,
+      "player": "Pathum Nissanka",
+      "primaryTeam": "Sri Lanka",
+      "club": {
+        "name": "Sri Lanka",
+        "logo": {
+          "url": "/dummyAssetData/flags/lk.svg",
+          "width": 640,
+          "height": 480
+        }
+      },
+      "rankings": {
+        "topRunScorer": 2,
+        "highestStrikeRate": 8
+      },
+      "prompt": "Pathum Nissanka from Sri Lanka. has been selected as the rank 5 batter in the Team of the Week. Batting: scored 71 runs, from 48 balls, with a strike rate of 147.9, including 6 fours, and 2 sixes. This is a fictional demonstration selection for archive preview only.",
+      "batting": {
+        "runs": 71,
+        "balls": 48,
+        "fours": 6,
+        "sixes": 2,
+        "strikeRate": 147.92,
+        "notOut": false,
+        "team": "Sri Lanka"
+      }
+    },
+    {
+      "category": "All-Rounder",
+      "categoryDetail": {
+        "type": "All-Rounder",
+        "position": "topallrounder"
+      },
+      "rank": 1,
+      "player": "Sikandar Raza",
+      "primaryTeam": "Zimbabwe",
+      "club": {
+        "name": "Zimbabwe",
+        "logo": {
+          "url": "/dummyAssetData/flags/zw.svg",
+          "width": 640,
+          "height": 480
+        }
+      },
+      "rankings": {
+        "topRunScorer": 7,
+        "highestStrikeRate": 5,
+        "mostWickets": 5,
+        "bestEconomy": 3,
+        "topAllRounder": 1
+      },
+      "prompt": "Sikandar Raza from Zimbabwe. has been selected as the top all-rounder in the Team of the Week. Batting: scored 46 runs, from 31 balls, with a strike rate of 148.4, including 3 fours, and 2 sixes. Bowling: took 2 wickets, from 4 overs, conceding 22 runs, with an economy rate of 5.5. All-rounder score: 92.0. This is a fictional demonstration selection for archive preview only.",
+      "batting": {
+        "runs": 46,
+        "balls": 31,
+        "fours": 3,
+        "sixes": 2,
+        "strikeRate": 148.39,
+        "notOut": false,
+        "team": "Zimbabwe"
+      },
+      "bowling": {
+        "wickets": 2,
+        "overs": 4,
+        "maidens": 0,
+        "runs": 22,
+        "economy": 5.5,
+        "team": "Zimbabwe"
+      },
+      "allRounder": {
+        "score": 92,
+        "formula": "runs × wickets",
+        "battingContribution": 46,
+        "bowlingContribution": 2
+      }
+    },
+    {
+      "category": "All-Rounder",
+      "categoryDetail": {
+        "type": "All-Rounder",
+        "position": "topallrounder"
+      },
+      "rank": 2,
+      "player": "Mohammad Nabi",
+      "primaryTeam": "Afghanistan",
+      "club": {
+        "name": "Afghanistan",
+        "logo": {
+          "url": "/dummyAssetData/flags/af.svg",
+          "width": 640,
+          "height": 480
+        }
+      },
+      "rankings": {
+        "topRunScorer": 8,
+        "highestStrikeRate": 6,
+        "mostWickets": 6,
+        "bestEconomy": 4,
+        "topAllRounder": 2
+      },
+      "prompt": "Mohammad Nabi from Afghanistan. has been selected as the rank 2 all-rounder in the Team of the Week. Batting: scored 38 runs, from 26 balls, with a strike rate of 146.2, including 2 fours, and 2 sixes. Bowling: took 2 wickets, from 4 overs, conceding 24 runs, with an economy rate of 6. All-rounder score: 76.0. This is a fictional demonstration selection for archive preview only.",
+      "batting": {
+        "runs": 38,
+        "balls": 26,
+        "fours": 2,
+        "sixes": 2,
+        "strikeRate": 146.15,
+        "notOut": true,
+        "team": "Afghanistan"
+      },
+      "bowling": {
+        "wickets": 2,
+        "overs": 4,
+        "maidens": 0,
+        "runs": 24,
+        "economy": 6,
+        "team": "Afghanistan"
+      },
+      "allRounder": {
+        "score": 76,
+        "formula": "runs × wickets",
+        "battingContribution": 38,
+        "bowlingContribution": 2
+      }
+    },
+    {
+      "category": "Bowler",
+      "categoryDetail": {
+        "type": "Bowler",
+        "position": "mostwickets"
+      },
+      "rank": 1,
+      "player": "Trent Boult",
+      "primaryTeam": "New Zealand",
+      "club": {
+        "name": "New Zealand",
+        "logo": {
+          "url": "/dummyAssetData/flags/nz.svg",
+          "width": 640,
+          "height": 480
+        }
+      },
+      "rankings": {
+        "mostWickets": 1,
+        "bestEconomy": 1
+      },
+      "prompt": "Trent Boult from New Zealand. has been selected as the top bowler in the Team of the Week. Bowling: took 4 wickets, from 4 overs, conceding 18 runs, with an economy rate of 4.5. This is a fictional demonstration selection for archive preview only.",
+      "bowling": {
+        "wickets": 4,
+        "overs": 4,
+        "maidens": 0,
+        "runs": 18,
+        "economy": 4.5,
+        "team": "New Zealand"
+      }
+    },
+    {
+      "category": "Bowler",
+      "categoryDetail": {
+        "type": "Bowler",
+        "position": "mostwickets"
+      },
+      "rank": 2,
+      "player": "Kagiso Rabada",
+      "primaryTeam": "South Africa",
+      "club": {
+        "name": "South Africa",
+        "logo": {
+          "url": "/dummyAssetData/flags/za.svg",
+          "width": 640,
+          "height": 480
+        }
+      },
+      "rankings": {
+        "mostWickets": 2,
+        "bestEconomy": 2
+      },
+      "prompt": "Kagiso Rabada from South Africa. has been selected as the rank 2 bowler in the Team of the Week. Bowling: took 3 wickets, from 4 overs, conceding 21 runs, with an economy rate of 5.25. This is a fictional demonstration selection for archive preview only.",
+      "bowling": {
+        "wickets": 3,
+        "overs": 4,
+        "maidens": 0,
+        "runs": 21,
+        "economy": 5.25,
+        "team": "South Africa"
+      }
+    },
+    {
+      "category": "Bowler",
+      "categoryDetail": {
+        "type": "Bowler",
+        "position": "mostwickets"
+      },
+      "rank": 3,
+      "player": "Josh Little",
+      "primaryTeam": "Ireland",
+      "club": {
+        "name": "Ireland",
+        "logo": {
+          "url": "/dummyAssetData/flags/ie.svg",
+          "width": 640,
+          "height": 480
+        }
+      },
+      "rankings": {
+        "mostWickets": 3,
+        "bestEconomy": 5
+      },
+      "prompt": "Josh Little from Ireland. has been selected as the rank 3 bowler in the Team of the Week. Bowling: took 3 wickets, from 3.4 overs, conceding 23 runs, with an economy rate of 6.27. This is a fictional demonstration selection for archive preview only.",
+      "bowling": {
+        "wickets": 3,
+        "overs": 3.4,
+        "maidens": 0,
+        "runs": 23,
+        "economy": 6.27,
+        "team": "Ireland"
+      }
+    },
+    {
+      "category": "Bowler",
+      "categoryDetail": {
+        "type": "Bowler",
+        "position": "mostwickets"
+      },
+      "rank": 4,
+      "player": "Alzarri Joseph",
+      "primaryTeam": "West Indies",
+      "club": {
+        "name": "West Indies",
+        "logo": {
+          "url": "/dummyAssetData/flags/wi.svg",
+          "width": 640,
+          "height": 480
+        }
+      },
+      "rankings": {
+        "mostWickets": 4,
+        "bestEconomy": 6
+      },
+      "prompt": "Alzarri Joseph from West Indies. has been selected as the rank 4 bowler in the Team of the Week. Bowling: took 2 wickets, from 4 overs, conceding 27 runs, with an economy rate of 6.75. This is a fictional demonstration selection for archive preview only.",
+      "bowling": {
+        "wickets": 2,
+        "overs": 4,
+        "maidens": 0,
+        "runs": 27,
+        "economy": 6.75,
+        "team": "West Indies"
+      }
+    },
+    {
+      "category": "Twelfth Man",
+      "categoryDetail": {
+        "type": "Twelfth Man",
+        "position": "bestoftherest"
+      },
+      "rank": 1,
+      "player": "Glenn Maxwell",
+      "primaryTeam": "Australia",
+      "club": {
+        "name": "Australia",
+        "logo": {
+          "url": "/dummyAssetData/flags/au.svg",
+          "width": 640,
+          "height": 480
+        }
+      },
+      "rankings": {
+        "topRunScorer": 9,
+        "highestStrikeRate": 4
+      },
+      "prompt": "Glenn Maxwell from Australia. has been selected as the twelfth man in the Team of the Week. Batting: scored 33 runs, from 18 balls, with a strike rate of 183.3, including 2 fours, and 2 sixes. This is a fictional demonstration selection for archive preview only.",
+      "batting": {
+        "runs": 33,
+        "balls": 18,
+        "fours": 2,
+        "sixes": 2,
+        "strikeRate": 183.33,
+        "notOut": false,
+        "team": "Australia"
+      }
+    }
+  ],
+  "asset": {
+    "assetID": 0,
+    "assetTypeID": 0,
+    "assetCategoryID": 0,
+    "assetsLinkID": ""
+  },
+  "render": {
+    "schedulerId": 0,
+    "renderId": 0
+  },
+  "account": {
+    "accountId": 0
+  },
+  "timings": {
+    "FPS_MAIN": 180,
+    "FPS_INTRO": 90,
+    "FPS_OUTRO": 30,
+    "FPS_LADDER": 0,
+    "FPS_SCORECARD": 0,
+    "FPS_PREFORMANCECARD": 180
+  },
+  "frames": [45, 180],
+  "videoMeta": {
+    "club": {
+      "logo": {
+        "hasLogo": false,
+        "url": "",
+        "width": 500,
+        "height": 500
+      },
+      "name": "International Cricket Demo Preview",
+      "sport": "Cricket",
+      "sponsors": {
+        "primary": [],
+        "default": {}
+      },
+      "IsAccountClub": false
+    },
+    "video": {
+      "fixtureCategory": "International Cricket Demo Preview",
+      "groupingCategory": "2022 T20 World Cup Demo XI",
+      "metadata": {
+        "title": "Team of the Week",
+        "titleSplit": ["Team of the Week"],
+        "videoTitle": "International Cricket Demo Preview CricketTeamOfTheWeek",
+        "compositionId": "CricketTeamOfTheWeek",
+        "assetId": 69,
+        "assetTypeId": 3,
+        "frames": [],
+        "includeSponsors": false
+      },
+      "appearance": {
+        "theme": {
+          "dark": "#111",
+          "white": "#FFF",
+          "primary": "#352466",
+          "secondary": "#ffa500"
+        },
+        "template": "TwoColumnClassic"
+      },
+      "media": {
+        "HeroImage": {
+          "url": "",
+          "ratio": "landscape",
+          "width": 830,
+          "height": 400,
+          "AgeGroup": "Both",
+          "AssetType": "ALL",
+          "markerPosition": null
+        },
+        "audio": {
+          "url": "",
+          "audioOption": null
+        }
+      },
+      "contentLayout": {
+        "divideFixturesBy": {
+          "CricketLadder": 1,
+          "CricketRoster": 1,
+          "CricketResults": 2,
+          "CricketUpcoming": 3,
+          "CricketResultSingle": 1,
+          "CricketBattingPerformances": 5,
+          "CricketBowlingPerformances": 5,
+          "CricketTeamOfTheWeek": 2
+        }
+      },
+      "templateVariation": {
+        "useBackground": "Texture",
+        "mode": "lightAlt",
+        "category": {
+          "slug": "TwoColumnClassic",
+          "name": "Classic Two Column ",
+          "divideFixturesBy": {
+            "CricketUpcoming": 3,
+            "CricketResults": 2,
+            "CricketResultSingle": 1,
+            "CricketLadder": 1,
+            "CricketRoster": 1,
+            "CricketBowlingPerformances": 5,
+            "CricketBattingPerformances": 5
+          },
+          "bundleAudio": {
+            "id": 1,
+            "Name": "Basic",
+            "createdAt": "2023-09-27T10:36:24.428Z",
+            "updatedAt": "2025-06-15T04:50:57.910Z",
+            "publishedAt": "2023-09-27T10:36:25.639Z",
+            "audio_options": [
+              {
+                "id": 4,
+                "Name": "Better Start Now",
+                "createdAt": "2023-09-27T10:34:46.702Z",
+                "updatedAt": "2025-06-15T04:53:45.558Z",
+                "publishedAt": "2023-09-27T10:34:48.455Z",
+                "URL": "",
+                "CompositionID": "CricketLadder",
+                "ComponentName": "CricketLadder"
+              },
+              {
+                "id": 2,
+                "Name": "Fifteen on Me",
+                "createdAt": "2022-12-20T01:59:28.337Z",
+                "updatedAt": "2025-06-15T04:53:11.194Z",
+                "publishedAt": "2022-12-20T01:59:29.080Z",
+                "URL": "",
+                "CompositionID": "CricketUpcoming",
+                "ComponentName": "CricketUpcoming"
+              },
+              {
+                "id": 5,
+                "Name": "Get The Gains",
+                "createdAt": "2023-09-27T10:35:01.053Z",
+                "updatedAt": "2025-06-15T04:53:59.493Z",
+                "publishedAt": "2023-09-27T10:35:29.163Z",
+                "URL": "",
+                "CompositionID": "CricketTop5Bowling",
+                "ComponentName": "CricketTop5Bowling"
+              },
+              {
+                "id": 3,
+                "Name": "Groover",
+                "createdAt": "2022-12-20T01:59:34.014Z",
+                "updatedAt": "2025-06-15T04:53:28.656Z",
+                "publishedAt": "2022-12-20T01:59:34.670Z",
+                "URL": "",
+                "CompositionID": "CricketTop5Batting",
+                "ComponentName": "CricketTop5Batting"
+              },
+              {
+                "id": 1,
+                "Name": "Saltine",
+                "createdAt": "2022-12-12T05:19:56.353Z",
+                "updatedAt": "2025-06-15T04:50:50.079Z",
+                "publishedAt": "2022-12-12T05:19:57.408Z",
+                "URL": "",
+                "CompositionID": "CricketResults",
+                "ComponentName": "CricketResults"
+              },
+              {
+                "id": 16,
+                "Name": "BEECH LOVE",
+                "createdAt": "2024-06-05T04:31:26.640Z",
+                "updatedAt": "2026-01-05T09:04:09.788Z",
+                "publishedAt": "2024-06-07T12:45:32.118Z",
+                "URL": "",
+                "CompositionID": "CricketUpcoming",
+                "ComponentName": "CricketUpcoming"
+              },
+              {
+                "id": 17,
+                "Name": "FAY V",
+                "createdAt": "2024-06-05T04:33:33.970Z",
+                "updatedAt": "2024-06-07T12:48:03.161Z",
+                "publishedAt": "2024-06-07T12:47:53.394Z",
+                "URL": "",
+                "CompositionID": "WeekendResultsAFL",
+                "ComponentName": "Weekend Results"
+              }
+            ]
+          }
+        },
+        "video": {
+          "url": null,
+          "fallbackUrl": null,
+          "position": "left",
+          "size": "cover",
+          "loop": null,
+          "muted": true,
+          "overlay": {
+            "color": "rgba(0,0,0,0.5)",
+            "opacity": 0.7
+          },
+          "useOffthreadVideo": null,
+          "volume": 0.8,
+          "playbackRate": null
+        },
+        "image": {
+          "url": null,
+          "ratio": null,
+          "width": null,
+          "height": null,
+          "type": "pan",
+          "direction": "left",
+          "overlayStyle": "vignette",
+          "gradientType": "linear",
+          "overlayOpacity": 0.3
+        },
+        "palette": "primaryOnWhite",
+        "gradient": {
+          "type": "primary",
+          "direction": "HORIZONTAL"
+        },
+        "noise": {
+          "type": "floatingParticles"
+        },
+        "pattern": {
+          "type": "dots",
+          "animation": "none",
+          "scale": 0.75,
+          "rotation": null,
+          "opacity": 0.35,
+          "animationDuration": null,
+          "animationSpeed": 0.8
+        },
+        "particle": {
+          "type": "lines",
+          "particleCount": "300",
+          "speed": 0.8,
+          "direction": "up",
+          "animation": "scale"
+        },
+        "texture": {
+          "name": "Print Texture",
+          "url": "",
+          "repeat": "cover",
+          "scale": "100%",
+          "overlay": {
+            "opacity": 0.8,
+            "blendMode": "multiply"
+          }
+        }
+      }
+    }
+  },
+  "errors": []
+}

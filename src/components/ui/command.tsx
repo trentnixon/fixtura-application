@@ -4,6 +4,7 @@ import { Command as CommandPrimitive } from "cmdk";
 import { SearchIcon } from "lucide-react";
 import * as React from "react";
 
+import { TypographyDialogDescription, TypographyDialogTitle } from "@/components/typography";
 import {
   Dialog,
   DialogContent,
@@ -42,8 +43,12 @@ function CommandDialog({
   return (
     <Dialog {...props}>
       <DialogHeader className="sr-only">
-        <DialogTitle>{title}</DialogTitle>
-        <DialogDescription>{description}</DialogDescription>
+        <DialogTitle asChild>
+          <TypographyDialogTitle>{title}</TypographyDialogTitle>
+        </DialogTitle>
+        <DialogDescription asChild>
+          <TypographyDialogDescription>{description}</TypographyDialogDescription>
+        </DialogDescription>
       </DialogHeader>
       <DialogContent
         className={cn("overflow-hidden p-0", className)}

@@ -1,0 +1,542 @@
+{
+  "data": [
+    {
+      "date": "Sunday, 16 October 2022",
+      "type": "T20",
+      "round": "2022 T20 World Cup — First Round",
+      "gameId": "dc12b017",
+      "gender": "Men",
+      "ground": "Kardinia Park",
+      "ageGroup": "Senior",
+      "sponsors": [],
+      "teamAway": "Namibia",
+      "teamHome": "Sri Lanka",
+      "gradeName": "2022 T20 World Cup",
+      "isHomeTeam": true,
+      "teamRoster": [
+        "Dasun Shanaka\nc",
+        "Pathum Nissanka",
+        "Kusal Mendis\nwk",
+        "Charith Asalanka",
+        "Bhanuka Rajapaksa",
+        "Dhananjaya de Silva",
+        "Wanindu Hasaranga",
+        "Chamika Karunaratne",
+        "Maheesh Theekshana",
+        "Lahiru Kumara",
+        "Dilshan Madushanka"
+      ],
+      "teamAwayLogo": "/dummyAssetData/flags/na.svg",
+      "teamHomeLogo": "/dummyAssetData/flags/lk.svg"
+    },
+    {
+      "date": "Friday, 21 October 2022",
+      "type": "T20",
+      "round": "2022 T20 World Cup — First Round",
+      "gameId": "cfd44730",
+      "gender": "Men",
+      "ground": "Bellerive Oval",
+      "ageGroup": "Senior",
+      "sponsors": [],
+      "teamAway": "Ireland",
+      "teamHome": "West Indies",
+      "gradeName": "2022 T20 World Cup",
+      "isHomeTeam": false,
+      "teamRoster": [
+        "Andrew Balbirnie\nc",
+        "Paul Stirling",
+        "Lorcan Tucker\nwk",
+        "Harry Tector",
+        "Curtis Campher",
+        "George Dockrell",
+        "Gareth Delany",
+        "Mark Adair",
+        "Josh Little",
+        "Barry McCarthy",
+        "Simi Singh"
+      ],
+      "teamAwayLogo": "/dummyAssetData/flags/ie.svg",
+      "teamHomeLogo": "/dummyAssetData/flags/wi.svg"
+    },
+    {
+      "date": "Saturday, 22 October 2022",
+      "type": "T20",
+      "round": "2022 T20 World Cup — Super 12",
+      "gameId": "8d409c5b",
+      "gender": "Men",
+      "ground": "SCG",
+      "ageGroup": "Senior",
+      "sponsors": [],
+      "teamAway": "New Zealand",
+      "teamHome": "Australia",
+      "gradeName": "2022 T20 World Cup",
+      "isHomeTeam": true,
+      "teamRoster": [
+        "Aaron Finch\nc",
+        "David Warner",
+        "Mitchell Marsh",
+        "Glenn Maxwell",
+        "Marcus Stoinis",
+        "Steven Smith",
+        "Matthew Wade\nwk",
+        "Pat Cummins",
+        "Mitchell Starc",
+        "Adam Zampa",
+        "Josh Hazlewood"
+      ],
+      "teamAwayLogo": "/dummyAssetData/flags/nz.svg",
+      "teamHomeLogo": "/dummyAssetData/flags/au.svg"
+    },
+    {
+      "date": "Saturday, 22 October 2022",
+      "type": "T20",
+      "round": "2022 T20 World Cup — Super 12",
+      "gameId": "9a034742",
+      "gender": "Men",
+      "ground": "Perth Stadium",
+      "ageGroup": "Senior",
+      "sponsors": [],
+      "teamAway": "Afghanistan",
+      "teamHome": "England",
+      "gradeName": "2022 T20 World Cup",
+      "isHomeTeam": false,
+      "teamRoster": [
+        "Mohammad Nabi\nc",
+        "Hazratullah Zazai",
+        "Rahmanullah Gurbaz\nwk",
+        "Ibrahim Zadran",
+        "Najibullah Zadran",
+        "Rashid Khan",
+        "Azmatullah Omarzai",
+        "Mujeeb Ur Rahman",
+        "Fazalhaq Farooqi",
+        "Naveen-ul-Haq",
+        "Fareed Ahmad"
+      ],
+      "teamAwayLogo": "/dummyAssetData/flags/af.svg",
+      "teamHomeLogo": "/dummyAssetData/flags/gb-eng.svg"
+    },
+    {
+      "date": "Sunday, 23 October 2022",
+      "type": "T20",
+      "round": "2022 T20 World Cup — Super 12",
+      "gameId": "cff918bf",
+      "gender": "Men",
+      "ground": "MCG",
+      "ageGroup": "Senior",
+      "sponsors": [],
+      "teamAway": "Pakistan",
+      "teamHome": "India",
+      "gradeName": "2022 T20 World Cup",
+      "isHomeTeam": true,
+      "teamRoster": [
+        "Rohit Sharma\nc",
+        "KL Rahul",
+        "Virat Kohli",
+        "Suryakumar Yadav",
+        "Hardik Pandya",
+        "Rishabh Pant\nwk",
+        "Ravindra Jadeja",
+        "Axar Patel",
+        "Bhuvneshwar Kumar",
+        "Mohammed Shami",
+        "Arshdeep Singh"
+      ],
+      "teamAwayLogo": "/dummyAssetData/flags/pk.svg",
+      "teamHomeLogo": "/dummyAssetData/flags/in.svg"
+    },
+    {
+      "date": "Thursday, 27 October 2022",
+      "type": "T20",
+      "round": "2022 T20 World Cup — Super 12",
+      "gameId": "13c07c38",
+      "gender": "Men",
+      "ground": "SCG",
+      "ageGroup": "Senior",
+      "sponsors": [],
+      "teamAway": "Bangladesh",
+      "teamHome": "South Africa",
+      "gradeName": "2022 T20 World Cup",
+      "isHomeTeam": false,
+      "teamRoster": [
+        "Shakib Al Hasan\nc",
+        "Litton Das\nwk",
+        "Najmul Hossain Shanto",
+        "Afif Hossain",
+        "Mosaddek Hossain",
+        "Yasir Ali",
+        "Nurul Hasan",
+        "Mehidy Hasan Miraz",
+        "Taskin Ahmed",
+        "Mustafizur Rahman",
+        "Hasan Mahmud"
+      ],
+      "teamAwayLogo": "/dummyAssetData/flags/bd.svg",
+      "teamHomeLogo": "/dummyAssetData/flags/za.svg"
+    },
+    {
+      "date": "Wednesday, 26 October 2022",
+      "type": "T20",
+      "round": "2022 T20 World Cup — Super 12",
+      "gameId": "1e5c32db",
+      "gender": "Men",
+      "ground": "MCG",
+      "ageGroup": "Senior",
+      "sponsors": [],
+      "teamAway": "England",
+      "teamHome": "Ireland",
+      "gradeName": "2022 T20 World Cup",
+      "isHomeTeam": false,
+      "teamRoster": [
+        "Jos Buttler\nc",
+        "Alex Hales",
+        "Dawid Malan",
+        "Ben Stokes",
+        "Harry Brook",
+        "Moeen Ali",
+        "Sam Curran",
+        "Chris Woakes",
+        "Adil Rashid",
+        "Mark Wood",
+        "Chris Jordan"
+      ],
+      "teamAwayLogo": "/dummyAssetData/flags/gb-eng.svg",
+      "teamHomeLogo": "/dummyAssetData/flags/ie.svg"
+    },
+    {
+      "date": "Saturday, 29 October 2022",
+      "type": "T20",
+      "round": "2022 T20 World Cup — Super 12",
+      "gameId": "b14bd36f",
+      "gender": "Men",
+      "ground": "SCG",
+      "ageGroup": "Senior",
+      "sponsors": [],
+      "teamAway": "Sri Lanka",
+      "teamHome": "New Zealand",
+      "gradeName": "2022 T20 World Cup",
+      "isHomeTeam": true,
+      "teamRoster": [
+        "Kane Williamson\nc",
+        "Finn Allen",
+        "Devon Conway\nwk",
+        "Glenn Phillips",
+        "Daryl Mitchell",
+        "Jimmy Neesham",
+        "Mitchell Santner",
+        "Ish Sodhi",
+        "Tim Southee",
+        "Lockie Ferguson",
+        "Trent Boult"
+      ],
+      "teamAwayLogo": "/dummyAssetData/flags/lk.svg",
+      "teamHomeLogo": "/dummyAssetData/flags/nz.svg"
+    },
+    {
+      "date": "Thursday, 27 October 2022",
+      "type": "T20",
+      "round": "2022 T20 World Cup — Super 12",
+      "gameId": "d1a63dbe",
+      "gender": "Men",
+      "ground": "Perth Stadium",
+      "ageGroup": "Senior",
+      "sponsors": [],
+      "teamAway": "Pakistan",
+      "teamHome": "Zimbabwe",
+      "gradeName": "2022 T20 World Cup",
+      "isHomeTeam": false,
+      "teamRoster": [
+        "Babar Azam\nc",
+        "Mohammad Rizwan\nwk",
+        "Shan Masood",
+        "Iftikhar Ahmed",
+        "Shadab Khan",
+        "Mohammad Nawaz",
+        "Shaheen Shah Afridi",
+        "Haris Rauf",
+        "Naseem Shah",
+        "Mohammad Wasim",
+        "Asif Ali"
+      ],
+      "teamAwayLogo": "/dummyAssetData/flags/pk.svg",
+      "teamHomeLogo": "/dummyAssetData/flags/zw.svg"
+    },
+    {
+      "date": "Wednesday, 2 November 2022",
+      "type": "T20",
+      "round": "2022 T20 World Cup — Super 12",
+      "gameId": "5de63b43",
+      "gender": "Men",
+      "ground": "Adelaide Oval",
+      "ageGroup": "Senior",
+      "sponsors": [],
+      "teamAway": "India",
+      "teamHome": "Bangladesh",
+      "gradeName": "2022 T20 World Cup",
+      "isHomeTeam": true,
+      "teamRoster": [
+        "Shakib Al Hasan\nc",
+        "Litton Das\nwk",
+        "Najmul Hossain Shanto",
+        "Afif Hossain",
+        "Mosaddek Hossain",
+        "Yasir Ali",
+        "Nurul Hasan",
+        "Mehidy Hasan Miraz",
+        "Taskin Ahmed",
+        "Mustafizur Rahman",
+        "Hasan Mahmud"
+      ],
+      "teamAwayLogo": "/dummyAssetData/flags/in.svg",
+      "teamHomeLogo": "/dummyAssetData/flags/bd.svg"
+    },
+    {
+      "date": "Friday, 4 November 2022",
+      "type": "T20",
+      "round": "2022 T20 World Cup — Super 12",
+      "gameId": "11be1e64",
+      "gender": "Men",
+      "ground": "Adelaide Oval",
+      "ageGroup": "Senior",
+      "sponsors": [],
+      "teamAway": "Afghanistan",
+      "teamHome": "Australia",
+      "gradeName": "2022 T20 World Cup",
+      "isHomeTeam": false,
+      "teamRoster": [
+        "Mohammad Nabi\nc",
+        "Hazratullah Zazai",
+        "Rahmanullah Gurbaz\nwk",
+        "Ibrahim Zadran",
+        "Najibullah Zadran",
+        "Rashid Khan",
+        "Azmatullah Omarzai",
+        "Mujeeb Ur Rahman",
+        "Fazalhaq Farooqi",
+        "Naveen-ul-Haq",
+        "Fareed Ahmad"
+      ],
+      "teamAwayLogo": "/dummyAssetData/flags/af.svg",
+      "teamHomeLogo": "/dummyAssetData/flags/au.svg"
+    }
+  ],
+  "asset": {
+    "assetID": 0,
+    "assetTypeID": 0,
+    "assetCategoryID": 0,
+    "assetsLinkID": ""
+  },
+  "errors": [],
+  "frames": [120, 180, 240, 300, 360, 420, 480, 540, 600, 660, 720],
+  "render": {
+    "schedulerId": 0,
+    "renderId": 0
+  },
+  "account": {
+    "accountId": 0
+  },
+  "timings": {
+    "FPS_MAIN": 660,
+    "FPS_INTRO": 90,
+    "FPS_OUTRO": 180,
+    "FPS_LADDER": 0,
+    "FPS_SCORECARD": 60
+  },
+  "videoMeta": {
+    "club": {
+      "logo": {
+        "hasLogo": false,
+        "url": "",
+        "width": 338,
+        "height": 354
+      },
+      "name": "International Cricket Demo Preview",
+      "sport": "Cricket",
+      "IsAccountClub": false,
+      "sponsors": {
+        "primary": [],
+        "default": {}
+      }
+    },
+    "video": {
+      "media": {
+        "audio": {
+          "url": ""
+        },
+        "HeroImage": {
+          "url": "",
+          "ratio": "",
+          "width": 0,
+          "height": 0,
+          "AgeGroup": "SENIOR",
+          "AssetType": "CricketRoster",
+          "markerPosition": ""
+        }
+      },
+      "metadata": {
+        "title": "Team List",
+        "frames": [120, 180, 240, 300, 360, 420, 480, 540, 600, 660, 720],
+        "assetId": 32,
+        "titleSplit": ["Team", "List"],
+        "videoTitle": "International Cricket Demo Preview CricketRoster",
+        "assetTypeId": 1,
+        "compositionId": "CricketRoster",
+        "includeSponsors": false
+      },
+      "appearance": {
+        "theme": {
+          "dark": "#111",
+          "white": "#FFF",
+          "primary": "#16543d",
+          "secondary": "#f1cd58"
+        },
+        "template": "Basic"
+      },
+      "contentLayout": {
+        "divideFixturesBy": {
+          "CricketLadder": 1,
+          "CricketRoster": 1,
+          "CricketResults": 2,
+          "CricketUpcoming": 3,
+          "CricketResultSingle": 1
+        }
+      },
+      "fixtureCategory": "International Cricket Demo Preview",
+      "groupingCategory": "International Cricket Demo Preview",
+      "templateVariation": {
+        "mode": "dark",
+        "image": {
+          "url": null,
+          "type": "pan",
+          "ratio": null,
+          "width": null,
+          "height": null,
+          "direction": "left",
+          "gradientType": "linear",
+          "overlayStyle": "vignette",
+          "overlayOpacity": 0.3
+        },
+        "noise": {
+          "type": "floatingParticles"
+        },
+        "video": {
+          "url": null,
+          "loop": null,
+          "size": "cover",
+          "muted": true,
+          "volume": 0.8,
+          "overlay": {
+            "color": "rgba(0,0,0,0.5)",
+            "opacity": 0.7
+          },
+          "position": "left",
+          "fallbackUrl": null,
+          "playbackRate": null,
+          "useOffthreadVideo": null
+        },
+        "palette": "primary",
+        "pattern": {
+          "type": "dots",
+          "scale": 0.75,
+          "opacity": 0.35,
+          "rotation": null,
+          "animation": "none",
+          "animationSpeed": 0.8,
+          "animationDuration": null
+        },
+        "texture": {
+          "url": "",
+          "name": null,
+          "scale": "100%",
+          "repeat": "cover",
+          "overlay": {
+            "opacity": 0.5,
+            "blendMode": "multiply"
+          }
+        },
+        "category": {
+          "name": "Basic",
+          "slug": "Basic",
+          "bundleAudio": {
+            "id": 1,
+            "Name": "Upbeat Pop",
+            "createdAt": "2023-09-28T06:18:07.674Z",
+            "updatedAt": "2023-09-28T06:40:48.135Z",
+            "publishedAt": "2023-09-28T06:40:48.131Z",
+            "audio_options": [
+              {
+                "id": 13,
+                "URL": "",
+                "Name": "Better Start Now",
+                "createdAt": "2023-08-31T12:30:51.127Z",
+                "updatedAt": "2023-09-28T06:41:12.356Z",
+                "publishedAt": "2023-09-28T06:40:26.025Z",
+                "ComponentName": "Ladder",
+                "CompositionID": "Ladder"
+              },
+              {
+                "id": 11,
+                "URL": "",
+                "Name": "Bru ha ha",
+                "createdAt": "2023-08-31T12:30:14.961Z",
+                "updatedAt": "2023-09-28T06:42:51.950Z",
+                "publishedAt": "2023-08-31T12:30:16.245Z",
+                "ComponentName": "Top 5 Bowling",
+                "CompositionID": "Top5BowlingList"
+              },
+              {
+                "id": 2,
+                "URL": "",
+                "Name": "Fifteen on Me",
+                "createdAt": "2023-01-30T15:18:49.326Z",
+                "updatedAt": "2023-09-28T06:43:06.236Z",
+                "publishedAt": "2023-01-30T15:18:50.933Z",
+                "ComponentName": "Weekend Results",
+                "CompositionID": "WeekendResults"
+              },
+              {
+                "id": 10,
+                "URL": "",
+                "Name": "FireEscape",
+                "createdAt": "2023-08-31T12:29:50.321Z",
+                "updatedAt": "2023-09-28T06:43:47.509Z",
+                "publishedAt": "2023-08-31T12:29:51.668Z",
+                "ComponentName": "UpComing Fixtures",
+                "CompositionID": "UpComingFixtures"
+              },
+              {
+                "id": 9,
+                "URL": "",
+                "Name": "Let's Go",
+                "createdAt": "2023-08-31T12:29:27.628Z",
+                "updatedAt": "2023-09-28T06:51:54.865Z",
+                "publishedAt": "2023-08-31T12:29:29.315Z",
+                "ComponentName": "Top 5 Batting",
+                "CompositionID": "Top5BattingList"
+              }
+            ]
+          },
+          "divideFixturesBy": {
+            "CricketLadder": 1,
+            "CricketRoster": 1,
+            "CricketResults": 2,
+            "CricketUpcoming": 3,
+            "CricketResultSingle": 1
+          }
+        },
+        "gradient": {
+          "type": "primary",
+          "direction": "VERTICAL"
+        },
+        "particle": {
+          "type": "lines",
+          "speed": 0.8,
+          "animation": "scale",
+          "direction": "up",
+          "particleCount": "300"
+        },
+        "useBackground": "Graphics"
+      }
+    }
+  }
+}

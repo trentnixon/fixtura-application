@@ -1,0 +1,2458 @@
+{
+  "data": [
+    {
+      "ID": 0,
+      "gradeName": "1996 World Cup — Group A",
+      "sortOrder": 1,
+      "League": [
+        {
+          "position": "1",
+          "teamName": "Sri Lanka",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "8",
+          "Q": "1.403",
+          "W": "4",
+          "L": "1",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/lk.svg",
+          "playHQLogo": "/dummyAssetData/flags/lk.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Sri Lanka",
+            "position": "1",
+            "gradeName": "1996 World Cup — Group A",
+            "stats": {
+              "wins": "4",
+              "losses": "1",
+              "points": "8",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "2",
+          "teamName": "Zimbabwe",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "7",
+          "Q": "0.866",
+          "W": "3",
+          "L": "1",
+          "TIE": "1",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/zw.svg",
+          "playHQLogo": "/dummyAssetData/flags/zw.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Zimbabwe",
+            "position": "2",
+            "gradeName": "1996 World Cup — Group A",
+            "stats": {
+              "wins": "3",
+              "losses": "1",
+              "points": "7",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "3",
+          "teamName": "Australia",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "5",
+          "Q": "0.395",
+          "W": "2",
+          "L": "2",
+          "TIE": "1",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/au.svg",
+          "playHQLogo": "/dummyAssetData/flags/au.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Australia",
+            "position": "3",
+            "gradeName": "1996 World Cup — Group A",
+            "stats": {
+              "wins": "2",
+              "losses": "2",
+              "points": "5",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "4",
+          "teamName": "India",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "5",
+          "Q": "-0.121",
+          "W": "2",
+          "L": "2",
+          "TIE": "1",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/in.svg",
+          "playHQLogo": "/dummyAssetData/flags/in.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "India",
+            "position": "4",
+            "gradeName": "1996 World Cup — Group A",
+            "stats": {
+              "wins": "2",
+              "losses": "2",
+              "points": "5",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "5",
+          "teamName": "West Indies",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "2",
+          "Q": "-0.612",
+          "W": "1",
+          "L": "4",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/wi.svg",
+          "playHQLogo": "/dummyAssetData/flags/wi.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "West Indies",
+            "position": "5",
+            "gradeName": "1996 World Cup — Group A",
+            "stats": {
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "6",
+          "teamName": "Kenya",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "1",
+          "Q": "-1.153",
+          "W": "0",
+          "L": "4",
+          "TIE": "0",
+          "N/R": "1",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/ke.svg",
+          "playHQLogo": "/dummyAssetData/flags/ke.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Kenya",
+            "position": "6",
+            "gradeName": "1996 World Cup — Group A",
+            "stats": {
+              "wins": "0",
+              "losses": "4",
+              "points": "1",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "1"
+            }
+          }
+        }
+      ],
+      "bias": null,
+      "prompt": {
+        "gradeName": "1996 World Cup — Group A",
+        "teams": [
+          {
+            "teamName": "Sri Lanka",
+            "position": "1",
+            "stats": {
+              "wins": "4",
+              "losses": "1",
+              "points": "8",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "Zimbabwe",
+            "position": "2",
+            "stats": {
+              "wins": "3",
+              "losses": "1",
+              "points": "7",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "Australia",
+            "position": "3",
+            "stats": {
+              "wins": "2",
+              "losses": "2",
+              "points": "5",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "India",
+            "position": "4",
+            "stats": {
+              "wins": "2",
+              "losses": "2",
+              "points": "5",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "West Indies",
+            "position": "5",
+            "stats": {
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "Kenya",
+            "position": "6",
+            "stats": {
+              "wins": "0",
+              "losses": "4",
+              "points": "1",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "1"
+            }
+          }
+        ]
+      },
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      }
+    },
+    {
+      "ID": 0,
+      "gradeName": "1996 World Cup — Group B",
+      "sortOrder": 2,
+      "League": [
+        {
+          "position": "1",
+          "teamName": "South Africa",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "6",
+          "Q": "1.398",
+          "W": "3",
+          "L": "2",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/za.svg",
+          "playHQLogo": "/dummyAssetData/flags/za.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "South Africa",
+            "position": "1",
+            "gradeName": "1996 World Cup — Group B",
+            "stats": {
+              "wins": "3",
+              "losses": "2",
+              "points": "6",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "2",
+          "teamName": "Pakistan",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "6",
+          "Q": "0.896",
+          "W": "3",
+          "L": "2",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/pk.svg",
+          "playHQLogo": "/dummyAssetData/flags/pk.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Pakistan",
+            "position": "2",
+            "gradeName": "1996 World Cup — Group B",
+            "stats": {
+              "wins": "3",
+              "losses": "2",
+              "points": "6",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "3",
+          "teamName": "New Zealand",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "6",
+          "Q": "0.382",
+          "W": "3",
+          "L": "2",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/nz.svg",
+          "playHQLogo": "/dummyAssetData/flags/nz.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "New Zealand",
+            "position": "3",
+            "gradeName": "1996 World Cup — Group B",
+            "stats": {
+              "wins": "3",
+              "losses": "2",
+              "points": "6",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "4",
+          "teamName": "United Arab Emirates",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "5",
+          "Q": "-0.132",
+          "W": "2",
+          "L": "2",
+          "TIE": "0",
+          "N/R": "1",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/ae.svg",
+          "playHQLogo": "/dummyAssetData/flags/ae.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "United Arab Emirates",
+            "position": "4",
+            "gradeName": "1996 World Cup — Group B",
+            "stats": {
+              "wins": "2",
+              "losses": "2",
+              "points": "5",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "1"
+            }
+          }
+        },
+        {
+          "position": "5",
+          "teamName": "England",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "3",
+          "Q": "-0.625",
+          "W": "1",
+          "L": "3",
+          "TIE": "0",
+          "N/R": "1",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/gb-eng.svg",
+          "playHQLogo": "/dummyAssetData/flags/gb-eng.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "England",
+            "position": "5",
+            "gradeName": "1996 World Cup — Group B",
+            "stats": {
+              "wins": "1",
+              "losses": "3",
+              "points": "3",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "1"
+            }
+          }
+        },
+        {
+          "position": "6",
+          "teamName": "Netherlands",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "0",
+          "Q": "-1.150",
+          "W": "0",
+          "L": "5",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/nl.svg",
+          "playHQLogo": "/dummyAssetData/flags/nl.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Netherlands",
+            "position": "6",
+            "gradeName": "1996 World Cup — Group B",
+            "stats": {
+              "wins": "0",
+              "losses": "5",
+              "points": "0",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        }
+      ],
+      "bias": null,
+      "prompt": {
+        "gradeName": "1996 World Cup — Group B",
+        "teams": [
+          {
+            "teamName": "South Africa",
+            "position": "1",
+            "stats": {
+              "wins": "3",
+              "losses": "2",
+              "points": "6",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "Pakistan",
+            "position": "2",
+            "stats": {
+              "wins": "3",
+              "losses": "2",
+              "points": "6",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "New Zealand",
+            "position": "3",
+            "stats": {
+              "wins": "3",
+              "losses": "2",
+              "points": "6",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "United Arab Emirates",
+            "position": "4",
+            "stats": {
+              "wins": "2",
+              "losses": "2",
+              "points": "5",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "1"
+            }
+          },
+          {
+            "teamName": "England",
+            "position": "5",
+            "stats": {
+              "wins": "1",
+              "losses": "3",
+              "points": "3",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "1"
+            }
+          },
+          {
+            "teamName": "Netherlands",
+            "position": "6",
+            "stats": {
+              "wins": "0",
+              "losses": "5",
+              "points": "0",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        ]
+      },
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      }
+    },
+    {
+      "ID": 0,
+      "gradeName": "1999 World Cup — Group A",
+      "sortOrder": 3,
+      "League": [
+        {
+          "position": "1",
+          "teamName": "India",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "7",
+          "Q": "1.408",
+          "W": "3",
+          "L": "1",
+          "TIE": "0",
+          "N/R": "1",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/in.svg",
+          "playHQLogo": "/dummyAssetData/flags/in.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "India",
+            "position": "1",
+            "gradeName": "1999 World Cup — Group A",
+            "stats": {
+              "wins": "3",
+              "losses": "1",
+              "points": "7",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "1"
+            }
+          }
+        },
+        {
+          "position": "2",
+          "teamName": "South Africa",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "7",
+          "Q": "0.896",
+          "W": "3",
+          "L": "1",
+          "TIE": "1",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/za.svg",
+          "playHQLogo": "/dummyAssetData/flags/za.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "South Africa",
+            "position": "2",
+            "gradeName": "1999 World Cup — Group A",
+            "stats": {
+              "wins": "3",
+              "losses": "1",
+              "points": "7",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "3",
+          "teamName": "Sri Lanka",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "7",
+          "Q": "0.377",
+          "W": "3",
+          "L": "1",
+          "TIE": "1",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/lk.svg",
+          "playHQLogo": "/dummyAssetData/flags/lk.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Sri Lanka",
+            "position": "3",
+            "gradeName": "1999 World Cup — Group A",
+            "stats": {
+              "wins": "3",
+              "losses": "1",
+              "points": "7",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "4",
+          "teamName": "Kenya",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "6",
+          "Q": "-0.142",
+          "W": "3",
+          "L": "2",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/ke.svg",
+          "playHQLogo": "/dummyAssetData/flags/ke.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Kenya",
+            "position": "4",
+            "gradeName": "1999 World Cup — Group A",
+            "stats": {
+              "wins": "3",
+              "losses": "2",
+              "points": "6",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "5",
+          "teamName": "Zimbabwe",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "4",
+          "Q": "-0.609",
+          "W": "2",
+          "L": "3",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/zw.svg",
+          "playHQLogo": "/dummyAssetData/flags/zw.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Zimbabwe",
+            "position": "5",
+            "gradeName": "1999 World Cup — Group A",
+            "stats": {
+              "wins": "2",
+              "losses": "3",
+              "points": "4",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "6",
+          "teamName": "England",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "2",
+          "Q": "-1.121",
+          "W": "1",
+          "L": "4",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/gb-eng.svg",
+          "playHQLogo": "/dummyAssetData/flags/gb-eng.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "England",
+            "position": "6",
+            "gradeName": "1999 World Cup — Group A",
+            "stats": {
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        }
+      ],
+      "bias": null,
+      "prompt": {
+        "gradeName": "1999 World Cup — Group A",
+        "teams": [
+          {
+            "teamName": "India",
+            "position": "1",
+            "stats": {
+              "wins": "3",
+              "losses": "1",
+              "points": "7",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "1"
+            }
+          },
+          {
+            "teamName": "South Africa",
+            "position": "2",
+            "stats": {
+              "wins": "3",
+              "losses": "1",
+              "points": "7",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "Sri Lanka",
+            "position": "3",
+            "stats": {
+              "wins": "3",
+              "losses": "1",
+              "points": "7",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "Kenya",
+            "position": "4",
+            "stats": {
+              "wins": "3",
+              "losses": "2",
+              "points": "6",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "Zimbabwe",
+            "position": "5",
+            "stats": {
+              "wins": "2",
+              "losses": "3",
+              "points": "4",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "England",
+            "position": "6",
+            "stats": {
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        ]
+      },
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      }
+    },
+    {
+      "ID": 0,
+      "gradeName": "1999 World Cup — Group B",
+      "sortOrder": 4,
+      "League": [
+        {
+          "position": "1",
+          "teamName": "Pakistan",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "5",
+          "Q": "1.406",
+          "W": "2",
+          "L": "2",
+          "TIE": "1",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/pk.svg",
+          "playHQLogo": "/dummyAssetData/flags/pk.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Pakistan",
+            "position": "1",
+            "gradeName": "1999 World Cup — Group B",
+            "stats": {
+              "wins": "2",
+              "losses": "2",
+              "points": "5",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "2",
+          "teamName": "Australia",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "4",
+          "Q": "0.894",
+          "W": "2",
+          "L": "3",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/au.svg",
+          "playHQLogo": "/dummyAssetData/flags/au.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Australia",
+            "position": "2",
+            "gradeName": "1999 World Cup — Group B",
+            "stats": {
+              "wins": "2",
+              "losses": "3",
+              "points": "4",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "3",
+          "teamName": "New Zealand",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "2",
+          "Q": "0.385",
+          "W": "1",
+          "L": "4",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/nz.svg",
+          "playHQLogo": "/dummyAssetData/flags/nz.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "New Zealand",
+            "position": "3",
+            "gradeName": "1999 World Cup — Group B",
+            "stats": {
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "4",
+          "teamName": "West Indies",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "2",
+          "Q": "-0.121",
+          "W": "1",
+          "L": "4",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/wi.svg",
+          "playHQLogo": "/dummyAssetData/flags/wi.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "West Indies",
+            "position": "4",
+            "gradeName": "1999 World Cup — Group B",
+            "stats": {
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "5",
+          "teamName": "Scotland",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "2",
+          "Q": "-0.627",
+          "W": "1",
+          "L": "4",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/gb-sct.svg",
+          "playHQLogo": "/dummyAssetData/flags/gb-sct.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Scotland",
+            "position": "5",
+            "gradeName": "1999 World Cup — Group B",
+            "stats": {
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "6",
+          "teamName": "Bangladesh",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "0",
+          "Q": "-1.132",
+          "W": "0",
+          "L": "5",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/bd.svg",
+          "playHQLogo": "/dummyAssetData/flags/bd.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Bangladesh",
+            "position": "6",
+            "gradeName": "1999 World Cup — Group B",
+            "stats": {
+              "wins": "0",
+              "losses": "5",
+              "points": "0",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        }
+      ],
+      "bias": null,
+      "prompt": {
+        "gradeName": "1999 World Cup — Group B",
+        "teams": [
+          {
+            "teamName": "Pakistan",
+            "position": "1",
+            "stats": {
+              "wins": "2",
+              "losses": "2",
+              "points": "5",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "Australia",
+            "position": "2",
+            "stats": {
+              "wins": "2",
+              "losses": "3",
+              "points": "4",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "New Zealand",
+            "position": "3",
+            "stats": {
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "West Indies",
+            "position": "4",
+            "stats": {
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "Scotland",
+            "position": "5",
+            "stats": {
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "Bangladesh",
+            "position": "6",
+            "stats": {
+              "wins": "0",
+              "losses": "5",
+              "points": "0",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        ]
+      },
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      }
+    },
+    {
+      "ID": 0,
+      "gradeName": "2007 World Cup — Super Eight",
+      "sortOrder": 5,
+      "League": [
+        {
+          "position": "1",
+          "teamName": "New Zealand",
+          "teamHref": "",
+          "P": "7",
+          "PTS": "11",
+          "Q": "1.396",
+          "W": "5",
+          "L": "1",
+          "TIE": "0",
+          "N/R": "1",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/nz.svg",
+          "playHQLogo": "/dummyAssetData/flags/nz.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "New Zealand",
+            "position": "1",
+            "gradeName": "2007 World Cup — Super Eight",
+            "stats": {
+              "wins": "5",
+              "losses": "1",
+              "points": "11",
+              "pointsPlayed": "7",
+              "ties": "0",
+              "noResult": "1"
+            }
+          }
+        },
+        {
+          "position": "2",
+          "teamName": "West Indies",
+          "teamHref": "",
+          "P": "7",
+          "PTS": "10",
+          "Q": "1.025",
+          "W": "4",
+          "L": "1",
+          "TIE": "1",
+          "N/R": "1",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/wi.svg",
+          "playHQLogo": "/dummyAssetData/flags/wi.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "West Indies",
+            "position": "2",
+            "gradeName": "2007 World Cup — Super Eight",
+            "stats": {
+              "wins": "4",
+              "losses": "1",
+              "points": "10",
+              "pointsPlayed": "7",
+              "ties": "1",
+              "noResult": "1"
+            }
+          }
+        },
+        {
+          "position": "3",
+          "teamName": "Sri Lanka",
+          "teamHref": "",
+          "P": "7",
+          "PTS": "10",
+          "Q": "0.667",
+          "W": "4",
+          "L": "1",
+          "TIE": "1",
+          "N/R": "1",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/lk.svg",
+          "playHQLogo": "/dummyAssetData/flags/lk.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Sri Lanka",
+            "position": "3",
+            "gradeName": "2007 World Cup — Super Eight",
+            "stats": {
+              "wins": "4",
+              "losses": "1",
+              "points": "10",
+              "pointsPlayed": "7",
+              "ties": "1",
+              "noResult": "1"
+            }
+          }
+        },
+        {
+          "position": "4",
+          "teamName": "Australia",
+          "teamHref": "",
+          "P": "7",
+          "PTS": "9",
+          "Q": "0.342",
+          "W": "4",
+          "L": "2",
+          "TIE": "1",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/au.svg",
+          "playHQLogo": "/dummyAssetData/flags/au.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Australia",
+            "position": "4",
+            "gradeName": "2007 World Cup — Super Eight",
+            "stats": {
+              "wins": "4",
+              "losses": "2",
+              "points": "9",
+              "pointsPlayed": "7",
+              "ties": "1",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "5",
+          "teamName": "South Africa",
+          "teamHref": "",
+          "P": "7",
+          "PTS": "9",
+          "Q": "-0.030",
+          "W": "4",
+          "L": "2",
+          "TIE": "0",
+          "N/R": "1",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/za.svg",
+          "playHQLogo": "/dummyAssetData/flags/za.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "South Africa",
+            "position": "5",
+            "gradeName": "2007 World Cup — Super Eight",
+            "stats": {
+              "wins": "4",
+              "losses": "2",
+              "points": "9",
+              "pointsPlayed": "7",
+              "ties": "0",
+              "noResult": "1"
+            }
+          }
+        },
+        {
+          "position": "6",
+          "teamName": "England",
+          "teamHref": "",
+          "P": "7",
+          "PTS": "4",
+          "Q": "-0.410",
+          "W": "2",
+          "L": "5",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/gb-eng.svg",
+          "playHQLogo": "/dummyAssetData/flags/gb-eng.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "England",
+            "position": "6",
+            "gradeName": "2007 World Cup — Super Eight",
+            "stats": {
+              "wins": "2",
+              "losses": "5",
+              "points": "4",
+              "pointsPlayed": "7",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "7",
+          "teamName": "Bangladesh",
+          "teamHref": "",
+          "P": "7",
+          "PTS": "3",
+          "Q": "-0.780",
+          "W": "1",
+          "L": "5",
+          "TIE": "0",
+          "N/R": "1",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/bd.svg",
+          "playHQLogo": "/dummyAssetData/flags/bd.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Bangladesh",
+            "position": "7",
+            "gradeName": "2007 World Cup — Super Eight",
+            "stats": {
+              "wins": "1",
+              "losses": "5",
+              "points": "3",
+              "pointsPlayed": "7",
+              "ties": "0",
+              "noResult": "1"
+            }
+          }
+        },
+        {
+          "position": "8",
+          "teamName": "Ireland",
+          "teamHref": "",
+          "P": "7",
+          "PTS": "0",
+          "Q": "-1.148",
+          "W": "0",
+          "L": "7",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/ie.svg",
+          "playHQLogo": "/dummyAssetData/flags/ie.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Ireland",
+            "position": "8",
+            "gradeName": "2007 World Cup — Super Eight",
+            "stats": {
+              "wins": "0",
+              "losses": "7",
+              "points": "0",
+              "pointsPlayed": "7",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        }
+      ],
+      "bias": null,
+      "prompt": {
+        "gradeName": "2007 World Cup — Super Eight",
+        "teams": [
+          {
+            "teamName": "New Zealand",
+            "position": "1",
+            "stats": {
+              "wins": "5",
+              "losses": "1",
+              "points": "11",
+              "pointsPlayed": "7",
+              "ties": "0",
+              "noResult": "1"
+            }
+          },
+          {
+            "teamName": "West Indies",
+            "position": "2",
+            "stats": {
+              "wins": "4",
+              "losses": "1",
+              "points": "10",
+              "pointsPlayed": "7",
+              "ties": "1",
+              "noResult": "1"
+            }
+          },
+          {
+            "teamName": "Sri Lanka",
+            "position": "3",
+            "stats": {
+              "wins": "4",
+              "losses": "1",
+              "points": "10",
+              "pointsPlayed": "7",
+              "ties": "1",
+              "noResult": "1"
+            }
+          },
+          {
+            "teamName": "Australia",
+            "position": "4",
+            "stats": {
+              "wins": "4",
+              "losses": "2",
+              "points": "9",
+              "pointsPlayed": "7",
+              "ties": "1",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "South Africa",
+            "position": "5",
+            "stats": {
+              "wins": "4",
+              "losses": "2",
+              "points": "9",
+              "pointsPlayed": "7",
+              "ties": "0",
+              "noResult": "1"
+            }
+          },
+          {
+            "teamName": "England",
+            "position": "6",
+            "stats": {
+              "wins": "2",
+              "losses": "5",
+              "points": "4",
+              "pointsPlayed": "7",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "Bangladesh",
+            "position": "7",
+            "stats": {
+              "wins": "1",
+              "losses": "5",
+              "points": "3",
+              "pointsPlayed": "7",
+              "ties": "0",
+              "noResult": "1"
+            }
+          },
+          {
+            "teamName": "Ireland",
+            "position": "8",
+            "stats": {
+              "wins": "0",
+              "losses": "7",
+              "points": "0",
+              "pointsPlayed": "7",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        ]
+      },
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      }
+    },
+    {
+      "ID": 0,
+      "gradeName": "2017 Champions Trophy — Group A",
+      "sortOrder": 6,
+      "League": [
+        {
+          "position": "1",
+          "teamName": "Australia",
+          "teamHref": "",
+          "P": "3",
+          "PTS": "5",
+          "Q": "1.399",
+          "W": "2",
+          "L": "0",
+          "TIE": "1",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/au.svg",
+          "playHQLogo": "/dummyAssetData/flags/au.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Australia",
+            "position": "1",
+            "gradeName": "2017 Champions Trophy — Group A",
+            "stats": {
+              "wins": "2",
+              "losses": "0",
+              "points": "5",
+              "pointsPlayed": "3",
+              "ties": "1",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "2",
+          "teamName": "England",
+          "teamHref": "",
+          "P": "3",
+          "PTS": "2",
+          "Q": "0.574",
+          "W": "1",
+          "L": "2",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/gb-eng.svg",
+          "playHQLogo": "/dummyAssetData/flags/gb-eng.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "England",
+            "position": "2",
+            "gradeName": "2017 Champions Trophy — Group A",
+            "stats": {
+              "wins": "1",
+              "losses": "2",
+              "points": "2",
+              "pointsPlayed": "3",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "3",
+          "teamName": "Bangladesh",
+          "teamHref": "",
+          "P": "3",
+          "PTS": "2",
+          "Q": "-0.293",
+          "W": "1",
+          "L": "2",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/bd.svg",
+          "playHQLogo": "/dummyAssetData/flags/bd.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Bangladesh",
+            "position": "3",
+            "gradeName": "2017 Champions Trophy — Group A",
+            "stats": {
+              "wins": "1",
+              "losses": "2",
+              "points": "2",
+              "pointsPlayed": "3",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "4",
+          "teamName": "New Zealand",
+          "teamHref": "",
+          "P": "3",
+          "PTS": "2",
+          "Q": "-1.149",
+          "W": "1",
+          "L": "2",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/nz.svg",
+          "playHQLogo": "/dummyAssetData/flags/nz.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "New Zealand",
+            "position": "4",
+            "gradeName": "2017 Champions Trophy — Group A",
+            "stats": {
+              "wins": "1",
+              "losses": "2",
+              "points": "2",
+              "pointsPlayed": "3",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        }
+      ],
+      "bias": null,
+      "prompt": {
+        "gradeName": "2017 Champions Trophy — Group A",
+        "teams": [
+          {
+            "teamName": "Australia",
+            "position": "1",
+            "stats": {
+              "wins": "2",
+              "losses": "0",
+              "points": "5",
+              "pointsPlayed": "3",
+              "ties": "1",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "England",
+            "position": "2",
+            "stats": {
+              "wins": "1",
+              "losses": "2",
+              "points": "2",
+              "pointsPlayed": "3",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "Bangladesh",
+            "position": "3",
+            "stats": {
+              "wins": "1",
+              "losses": "2",
+              "points": "2",
+              "pointsPlayed": "3",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "New Zealand",
+            "position": "4",
+            "stats": {
+              "wins": "1",
+              "losses": "2",
+              "points": "2",
+              "pointsPlayed": "3",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        ]
+      },
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      }
+    },
+    {
+      "ID": 0,
+      "gradeName": "2022 T20 World Cup — Super 12 Group 1",
+      "sortOrder": 7,
+      "League": [
+        {
+          "position": "1",
+          "teamName": "Australia",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "9",
+          "Q": "1.384",
+          "W": "4",
+          "L": "0",
+          "TIE": "1",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/au.svg",
+          "playHQLogo": "/dummyAssetData/flags/au.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Australia",
+            "position": "1",
+            "gradeName": "2022 T20 World Cup — Super 12 Group 1",
+            "stats": {
+              "wins": "4",
+              "losses": "0",
+              "points": "9",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "2",
+          "teamName": "Sri Lanka",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "9",
+          "Q": "0.873",
+          "W": "4",
+          "L": "0",
+          "TIE": "0",
+          "N/R": "1",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/lk.svg",
+          "playHQLogo": "/dummyAssetData/flags/lk.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Sri Lanka",
+            "position": "2",
+            "gradeName": "2022 T20 World Cup — Super 12 Group 1",
+            "stats": {
+              "wins": "4",
+              "losses": "0",
+              "points": "9",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "1"
+            }
+          }
+        },
+        {
+          "position": "3",
+          "teamName": "New Zealand",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "7",
+          "Q": "0.399",
+          "W": "3",
+          "L": "1",
+          "TIE": "1",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/nz.svg",
+          "playHQLogo": "/dummyAssetData/flags/nz.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "New Zealand",
+            "position": "3",
+            "gradeName": "2022 T20 World Cup — Super 12 Group 1",
+            "stats": {
+              "wins": "3",
+              "losses": "1",
+              "points": "7",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "4",
+          "teamName": "England",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "7",
+          "Q": "-0.107",
+          "W": "3",
+          "L": "1",
+          "TIE": "0",
+          "N/R": "1",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/gb-eng.svg",
+          "playHQLogo": "/dummyAssetData/flags/gb-eng.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "England",
+            "position": "4",
+            "gradeName": "2022 T20 World Cup — Super 12 Group 1",
+            "stats": {
+              "wins": "3",
+              "losses": "1",
+              "points": "7",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "1"
+            }
+          }
+        },
+        {
+          "position": "5",
+          "teamName": "Afghanistan",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "4",
+          "Q": "-0.630",
+          "W": "2",
+          "L": "3",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/af.svg",
+          "playHQLogo": "/dummyAssetData/flags/af.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Afghanistan",
+            "position": "5",
+            "gradeName": "2022 T20 World Cup — Super 12 Group 1",
+            "stats": {
+              "wins": "2",
+              "losses": "3",
+              "points": "4",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "6",
+          "teamName": "Ireland",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "2",
+          "Q": "-1.125",
+          "W": "1",
+          "L": "4",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/ie.svg",
+          "playHQLogo": "/dummyAssetData/flags/ie.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Ireland",
+            "position": "6",
+            "gradeName": "2022 T20 World Cup — Super 12 Group 1",
+            "stats": {
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        }
+      ],
+      "bias": null,
+      "prompt": {
+        "gradeName": "2022 T20 World Cup — Super 12 Group 1",
+        "teams": [
+          {
+            "teamName": "Australia",
+            "position": "1",
+            "stats": {
+              "wins": "4",
+              "losses": "0",
+              "points": "9",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "Sri Lanka",
+            "position": "2",
+            "stats": {
+              "wins": "4",
+              "losses": "0",
+              "points": "9",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "1"
+            }
+          },
+          {
+            "teamName": "New Zealand",
+            "position": "3",
+            "stats": {
+              "wins": "3",
+              "losses": "1",
+              "points": "7",
+              "pointsPlayed": "5",
+              "ties": "1",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "England",
+            "position": "4",
+            "stats": {
+              "wins": "3",
+              "losses": "1",
+              "points": "7",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "1"
+            }
+          },
+          {
+            "teamName": "Afghanistan",
+            "position": "5",
+            "stats": {
+              "wins": "2",
+              "losses": "3",
+              "points": "4",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "Ireland",
+            "position": "6",
+            "stats": {
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        ]
+      },
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      }
+    },
+    {
+      "ID": 0,
+      "gradeName": "2022 T20 World Cup — Super 12 Group 2",
+      "sortOrder": 8,
+      "League": [
+        {
+          "position": "1",
+          "teamName": "India",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "9",
+          "Q": "1.404",
+          "W": "4",
+          "L": "0",
+          "TIE": "0",
+          "N/R": "1",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/in.svg",
+          "playHQLogo": "/dummyAssetData/flags/in.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "India",
+            "position": "1",
+            "gradeName": "2022 T20 World Cup — Super 12 Group 2",
+            "stats": {
+              "wins": "4",
+              "losses": "0",
+              "points": "9",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "1"
+            }
+          }
+        },
+        {
+          "position": "2",
+          "teamName": "Pakistan",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "8",
+          "Q": "0.895",
+          "W": "4",
+          "L": "1",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/pk.svg",
+          "playHQLogo": "/dummyAssetData/flags/pk.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Pakistan",
+            "position": "2",
+            "gradeName": "2022 T20 World Cup — Super 12 Group 2",
+            "stats": {
+              "wins": "4",
+              "losses": "1",
+              "points": "8",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "3",
+          "teamName": "Netherlands",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "4",
+          "Q": "0.366",
+          "W": "2",
+          "L": "3",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/nl.svg",
+          "playHQLogo": "/dummyAssetData/flags/nl.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Netherlands",
+            "position": "3",
+            "gradeName": "2022 T20 World Cup — Super 12 Group 2",
+            "stats": {
+              "wins": "2",
+              "losses": "3",
+              "points": "4",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "4",
+          "teamName": "South Africa",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "2",
+          "Q": "-0.101",
+          "W": "1",
+          "L": "4",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/za.svg",
+          "playHQLogo": "/dummyAssetData/flags/za.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "South Africa",
+            "position": "4",
+            "gradeName": "2022 T20 World Cup — Super 12 Group 2",
+            "stats": {
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "5",
+          "teamName": "Bangladesh",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "2",
+          "Q": "-0.627",
+          "W": "1",
+          "L": "4",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/bd.svg",
+          "playHQLogo": "/dummyAssetData/flags/bd.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Bangladesh",
+            "position": "5",
+            "gradeName": "2022 T20 World Cup — Super 12 Group 2",
+            "stats": {
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        },
+        {
+          "position": "6",
+          "teamName": "Zimbabwe",
+          "teamHref": "",
+          "P": "5",
+          "PTS": "2",
+          "Q": "-1.131",
+          "W": "1",
+          "L": "4",
+          "TIE": "0",
+          "N/R": "0",
+          "BYE": "0",
+          "clubId": null,
+          "clubLogo": "/dummyAssetData/flags/zw.svg",
+          "playHQLogo": "/dummyAssetData/flags/zw.svg",
+          "clubName": null,
+          "teamLogo": null,
+          "prompt": {
+            "teamName": "Zimbabwe",
+            "position": "6",
+            "gradeName": "2022 T20 World Cup — Super 12 Group 2",
+            "stats": {
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        }
+      ],
+      "bias": null,
+      "prompt": {
+        "gradeName": "2022 T20 World Cup — Super 12 Group 2",
+        "teams": [
+          {
+            "teamName": "India",
+            "position": "1",
+            "stats": {
+              "wins": "4",
+              "losses": "0",
+              "points": "9",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "1"
+            }
+          },
+          {
+            "teamName": "Pakistan",
+            "position": "2",
+            "stats": {
+              "wins": "4",
+              "losses": "1",
+              "points": "8",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "Netherlands",
+            "position": "3",
+            "stats": {
+              "wins": "2",
+              "losses": "3",
+              "points": "4",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "South Africa",
+            "position": "4",
+            "stats": {
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "Bangladesh",
+            "position": "5",
+            "stats": {
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          },
+          {
+            "teamName": "Zimbabwe",
+            "position": "6",
+            "stats": {
+              "wins": "1",
+              "losses": "4",
+              "points": "2",
+              "pointsPlayed": "5",
+              "ties": "0",
+              "noResult": "0"
+            }
+          }
+        ]
+      },
+      "assignSponsors": {
+        "competition": [],
+        "grade": [],
+        "team": []
+      }
+    }
+  ],
+  "asset": {
+    "assetID": 0,
+    "assetTypeID": 0,
+    "assetCategoryID": 0,
+    "assetsLinkID": 0
+  },
+  "render": {
+    "schedulerId": 0,
+    "renderId": 0
+  },
+  "account": {
+    "accountId": 0
+  },
+  "timings": {
+    "FPS_MAIN": 2295,
+    "FPS_INTRO": 90,
+    "FPS_OUTRO": 30,
+    "FPS_LADDER": 300,
+    "FPS_SCORECARD": 0,
+    "FPS_PREFORMANCECARD": 0
+  },
+  "frames": [45, 240, 525, 810, 1095, 1380, 1665, 1950, 2235],
+  "videoMeta": {
+    "club": {
+      "logo": {
+        "hasLogo": false,
+        "url": "",
+        "width": 500,
+        "height": 500
+      },
+      "name": "International Cricket Demo Preview",
+      "sport": "Cricket",
+      "sponsors": {
+        "primary": [],
+        "default": {}
+      },
+      "IsAccountClub": false
+    },
+    "video": {
+      "fixtureCategory": "SENIOR",
+      "groupingCategory": "SENIOR",
+      "metadata": {
+        "title": "Ladder",
+        "titleSplit": ["Ladder", ""],
+        "videoTitle": "League Tables",
+        "compositionId": "CricketLadder",
+        "assetId": 12,
+        "assetTypeId": 3,
+        "frames": [],
+        "includeSponsors": false
+      },
+      "appearance": {
+        "theme": {
+          "dark": "#111",
+          "white": "#FFF",
+          "primary": "#352466",
+          "secondary": "#ffa500"
+        },
+        "template": "TwoColumnClassic"
+      },
+      "media": {
+        "HeroImage": {
+          "url": "",
+          "ratio": "landscape",
+          "width": 2048,
+          "height": 1299,
+          "AgeGroup": "Both",
+          "AssetType": "ALL",
+          "markerPosition": null
+        },
+        "audio": {
+          "url": "",
+          "audioOption": null
+        }
+      },
+      "contentLayout": {
+        "divideFixturesBy": {
+          "CricketLadder": 1,
+          "CricketRoster": 1,
+          "CricketResults": 2,
+          "CricketUpcoming": 3,
+          "CricketResultSingle": 1,
+          "CricketBattingPerformances": 5,
+          "CricketBowlingPerformances": 5,
+          "CricketTeamOfTheWeek": 2
+        }
+      },
+      "templateVariation": {
+        "useBackground": "Texture",
+        "mode": "lightAlt",
+        "category": {
+          "slug": "TwoColumnClassic",
+          "name": "Classic Two Column ",
+          "divideFixturesBy": {
+            "CricketUpcoming": 3,
+            "CricketResults": 2,
+            "CricketResultSingle": 1,
+            "CricketLadder": 1,
+            "CricketRoster": 1,
+            "CricketBowlingPerformances": 5,
+            "CricketBattingPerformances": 5
+          },
+          "bundleAudio": {
+            "id": 1,
+            "Name": "Basic",
+            "createdAt": "2023-09-27T10:36:24.428Z",
+            "updatedAt": "2025-06-15T04:50:57.910Z",
+            "publishedAt": "2023-09-27T10:36:25.639Z",
+            "audio_options": [
+              {
+                "id": 4,
+                "Name": "Better Start Now",
+                "createdAt": "2023-09-27T10:34:46.702Z",
+                "updatedAt": "2025-06-15T04:53:45.558Z",
+                "publishedAt": "2023-09-27T10:34:48.455Z",
+                "URL": "",
+                "CompositionID": "CricketLadder",
+                "ComponentName": "CricketLadder"
+              },
+              {
+                "id": 2,
+                "Name": "Fifteen on Me",
+                "createdAt": "2022-12-20T01:59:28.337Z",
+                "updatedAt": "2025-06-15T04:53:11.194Z",
+                "publishedAt": "2022-12-20T01:59:29.080Z",
+                "URL": "",
+                "CompositionID": "CricketUpcoming",
+                "ComponentName": "CricketUpcoming"
+              },
+              {
+                "id": 5,
+                "Name": "Get The Gains",
+                "createdAt": "2023-09-27T10:35:01.053Z",
+                "updatedAt": "2025-06-15T04:53:59.493Z",
+                "publishedAt": "2023-09-27T10:35:29.163Z",
+                "URL": "",
+                "CompositionID": "CricketTop5Bowling",
+                "ComponentName": "CricketTop5Bowling"
+              },
+              {
+                "id": 3,
+                "Name": "Groover",
+                "createdAt": "2022-12-20T01:59:34.014Z",
+                "updatedAt": "2025-06-15T04:53:28.656Z",
+                "publishedAt": "2022-12-20T01:59:34.670Z",
+                "URL": "",
+                "CompositionID": "CricketTop5Batting",
+                "ComponentName": "CricketTop5Batting"
+              },
+              {
+                "id": 1,
+                "Name": "Saltine",
+                "createdAt": "2022-12-12T05:19:56.353Z",
+                "updatedAt": "2025-06-15T04:50:50.079Z",
+                "publishedAt": "2022-12-12T05:19:57.408Z",
+                "URL": "",
+                "CompositionID": "CricketResults",
+                "ComponentName": "CricketResults"
+              },
+              {
+                "id": 16,
+                "Name": "BEECH LOVE",
+                "createdAt": "2024-06-05T04:31:26.640Z",
+                "updatedAt": "2026-01-05T09:04:09.788Z",
+                "publishedAt": "2024-06-07T12:45:32.118Z",
+                "URL": "",
+                "CompositionID": "CricketUpcoming",
+                "ComponentName": "CricketUpcoming"
+              },
+              {
+                "id": 17,
+                "Name": "FAY V",
+                "createdAt": "2024-06-05T04:33:33.970Z",
+                "updatedAt": "2024-06-07T12:48:03.161Z",
+                "publishedAt": "2024-06-07T12:47:53.394Z",
+                "URL": "",
+                "CompositionID": "WeekendResultsAFL",
+                "ComponentName": "Weekend Results"
+              }
+            ]
+          }
+        },
+        "video": {
+          "url": null,
+          "fallbackUrl": null,
+          "position": "left",
+          "size": "cover",
+          "loop": null,
+          "muted": true,
+          "overlay": {
+            "color": "rgba(0,0,0,0.5)",
+            "opacity": 0.7
+          },
+          "useOffthreadVideo": null,
+          "volume": 0.8,
+          "playbackRate": null
+        },
+        "image": {
+          "url": null,
+          "ratio": null,
+          "width": null,
+          "height": null,
+          "type": "pan",
+          "direction": "left",
+          "overlayStyle": "vignette",
+          "gradientType": "linear",
+          "overlayOpacity": 0.3
+        },
+        "palette": "primaryOnWhite",
+        "gradient": {
+          "type": "primary",
+          "direction": "HORIZONTAL"
+        },
+        "noise": {
+          "type": "floatingParticles"
+        },
+        "pattern": {
+          "type": "dots",
+          "animation": "none",
+          "scale": 0.75,
+          "rotation": null,
+          "opacity": 0.35,
+          "animationDuration": null,
+          "animationSpeed": 0.8
+        },
+        "particle": {
+          "type": "lines",
+          "particleCount": "300",
+          "speed": 0.8,
+          "direction": "up",
+          "animation": "scale"
+        },
+        "texture": {
+          "name": "Print Texture",
+          "url": "",
+          "repeat": "cover",
+          "scale": "100%",
+          "overlay": {
+            "opacity": 0.8,
+            "blendMode": "multiply"
+          }
+        }
+      }
+    }
+  },
+  "errors": []
+}

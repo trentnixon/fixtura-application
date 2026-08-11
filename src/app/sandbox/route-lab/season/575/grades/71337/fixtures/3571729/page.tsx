@@ -1,0 +1,45 @@
+"use client";
+
+import { useSeasonHubFixture } from "@/lib/api/hooks/season-hub";
+import { accountScopedRoutes } from "@/lib/config/account-routes";
+
+import {
+  SeasonRouteLabFrame,
+  SeasonRouteLabPayloadCard,
+  SeasonRouteLabStatus,
+} from "../../../../_components/season-route-lab-frame";
+
+const ACCOUNT_ID = "575";
+const GRADE_ID = "71337";
+const FIXTURE_ID = "3571729";
+
+export default function RouteLabSeasonFixtureAliasPage() {
+  const fixture = useSeasonHubFixture(
+    { accountId: ACCOUNT_ID, gradeId: GRADE_ID, fixtureId: FIXTURE_ID },
+    { enabled: true },
+  );
+
+  return (
+    <SeasonRouteLabFrame
+      title="Season - Fixture (alias) #3571729"
+      description="Grade-only fixture alias endpoint."
+      productionRoute={`${accountScopedRoutes.season(ACCOUNT_ID)}/grades/${GRADE_ID}/fixtures/${FIXTURE_ID}`}
+      endpoints={["GET /api/season-hub/575/grades/71337/fixtures/3571729"]}
+      onRefetch={() => {
+        void fixture.refetch();
+      }}
+      isFetching={fixture.isFetching}
+    >
+      <SeasonRouteLabStatus
+        isPending={fixture.isPending}
+        isError={fixture.isError}
+        errorMessage={fixture.error instanceof Error ? fixture.error.message : "Request failed"}
+        pendingLabel="Loading fixture alias detail..."
+      />
+
+      {!fixture.isPending && !fixture.isError ? (
+        <SeasonRouteLabPayloadCard title="Fixture payload (alias)" payload={fixture.data ?? null} />
+      ) : null}
+    </SeasonRouteLabFrame>
+  );
+}

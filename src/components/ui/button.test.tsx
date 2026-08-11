@@ -159,4 +159,87 @@ describe("Button", () => {
     const button = screen.getByTestId("button");
     expect(button).toHaveClass("bg-destructive", "h-10", "px-6");
   });
+
+  it("applies brand variant", () => {
+    render(
+      <Button variant="brand" data-testid="button">
+        Brand
+      </Button>,
+    );
+    const button = screen.getByTestId("button");
+    expect(button.getAttribute("class")).toContain("brand-secondary");
+  });
+
+  it("applies brandPrimary variant", () => {
+    render(
+      <Button variant="brandPrimary" data-testid="button">
+        Brand primary
+      </Button>,
+    );
+    const button = screen.getByTestId("button");
+    expect(button.getAttribute("class")).toContain("brand-primary");
+  });
+
+  it("applies accent variant", () => {
+    render(
+      <Button variant="accent" data-testid="button">
+        Accent
+      </Button>,
+    );
+    const button = screen.getByTestId("button");
+    expect(button.getAttribute("class")).toContain("brand-accent");
+  });
+
+  it("applies compact size", () => {
+    render(
+      <Button size="compact" data-testid="button">
+        Compact
+      </Button>,
+    );
+    const button = screen.getByTestId("button");
+    expect(button).toHaveClass("h-7", "text-xs");
+  });
+
+  it("applies fullWidth", () => {
+    render(
+      <Button fullWidth data-testid="button">
+        Wide
+      </Button>,
+    );
+    expect(screen.getByTestId("button")).toHaveClass("w-full");
+  });
+
+  it("loading disables button and sets aria-busy", () => {
+    render(
+      <Button loading data-testid="button">
+        Save
+      </Button>,
+    );
+    const button = screen.getByTestId("button");
+    expect(button).toBeDisabled();
+    expect(button).toHaveAttribute("aria-busy", "true");
+    expect(button).toHaveTextContent("Save");
+    expect(button.querySelector(".animate-spin")).toBeInTheDocument();
+  });
+
+  it("loadingText overrides visible label while loading", () => {
+    render(
+      <Button loading loadingText="Saving..." data-testid="button">
+        Save
+      </Button>,
+    );
+    expect(screen.getByTestId("button")).toHaveTextContent("Saving...");
+  });
+
+  it("ignores loading when asChild", () => {
+    render(
+      <Button asChild loading data-testid="button">
+        <a href="/test">Go</a>
+      </Button>,
+    );
+    const el = screen.getByTestId("button");
+    expect(el.tagName).toBe("A");
+    expect(el).not.toHaveAttribute("aria-busy", "true");
+    expect(el.querySelector(".animate-spin")).not.toBeInTheDocument();
+  });
 });

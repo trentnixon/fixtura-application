@@ -1,0 +1,165 @@
+{
+  "json": {
+    "fixture": {
+      "id": 81411,
+      "gameID": "bf20bec7",
+      "round": "Round 8",
+      "status": "Final",
+      "type": "T20",
+      "isFinished": true,
+      "dates": {
+        "dayOne": "2026-05-28T14:00:00.000Z",
+        "finalDaysPlay": "2026-05-29",
+        "date": "Friday 29 May 2026",
+        "time": "06:00 PM",
+        "dateRange": "Fri, 29 May 26",
+        "dateRangeObj": ["Fri, 29 May 26"]
+      },
+      "venue": { "ground": "Nightcliff Oval" },
+      "teams": {
+        "home": {
+          "name": "Waratah Women's Div 1",
+          "scores": { "total": "0/229", "overs": "(20)", "firstInnings": null }
+        },
+        "away": {
+          "name": "Nightcliff Div 1",
+          "scores": { "total": "6/162", "overs": "", "firstInnings": null }
+        }
+      },
+      "matchDetails": {
+        "tossWinner": "Waratah Women's Div 1",
+        "tossResult": "bat",
+        "urlToScoreCard": "https://www.playhq.com/cricket-australia/org/darwin-and-districts-cricket-competition/womens-competition-winter-2026/womens-div-1-arafura-connect/game-centre/bf20bec7",
+        "scorecards": {
+          "innings1": {
+            "FOW": [],
+            "battingRows": [
+              [
+                "Alice Caldow (c)",
+                "Caldow (c)",
+                "not out",
+                "not out",
+                "119*",
+                "77",
+                "16",
+                "1",
+                "154.54"
+              ]
+            ],
+            "bowlingRows": [["Di Venuto (c)", "Venuto (c)", "4", "0", "32", "0", "8", "4", "0"]],
+            "fieldersData": {
+              "headers": ["Fielders", "CF", "CWK", "C", "ROU", "ROA", "RO", "S"],
+              "fieldersData": []
+            },
+            "Battingheaders": ["Batters", "R", "B", "4S", "6s", "SR"],
+            "Bowlingheaders": ["Bowlers", "O", "M", "R", "W", "E", "WD", "NB"],
+            "BattinginningsName": "Waratah Women's Div 1 Batting",
+            "BowlinginningsName": "Nightcliff Div 1 Bowling"
+          },
+          "innings2": {
+            "FOW": [],
+            "battingRows": [
+              [
+                "Lilith Ryan",
+                "Ryan",
+                "b: Candida Rego",
+                "b: Candida Rego",
+                "55",
+                "34",
+                "11",
+                "0",
+                "161.76"
+              ]
+            ],
+            "bowlingRows": [["Caldow (c)", "Caldow (c)", "4", "1", "10", "0", "2.5", "0", "0"]],
+            "fieldersData": {
+              "headers": ["Fielders", "CF", "CWK", "C", "ROU", "ROA", "RO", "S"],
+              "fieldersData": []
+            },
+            "Battingheaders": ["Batters", "R", "B", "4S", "6s", "SR"],
+            "Bowlingheaders": ["Bowlers", "O", "M", "R", "W", "E", "WD", "NB"],
+            "BattinginningsName": "Nightcliff Div 1 Batting",
+            "BowlinginningsName": "Waratah Women's Div 1 Bowling"
+          }
+        },
+        "resultStatement": "Waratah Women's Div 1 won by 67 runs"
+      },
+      "content": {
+        "gameContext": null,
+        "basePromptInformation": null,
+        "hasBasePrompt": false,
+        "upcomingFixturePrompt": null,
+        "hasUpcomingFixturePrompt": false,
+        "lastPromptUpdate": null
+      },
+      "teamRoster": null
+    },
+    "grade": {
+      "id": 71338,
+      "gradeName": "Women's Div 1 (Arafura Connect)",
+      "logoUrl": null,
+      "association": {
+        "id": 2964,
+        "name": "Darwin And Districts Cricket Competition",
+        "href": "https://www.playhq.com/cricket-australia/org/darwin-and-districts-cricket-competition/a44c6113",
+        "logo": "https://fixtura.s3.ap-southeast-2.amazonaws.com/Frogs_Logo_JPEG_1343ff6db2_cropped_010a3dc72f.png"
+      },
+      "competition": { "id": 18034, "name": "01 - Women's Competition" }
+    },
+    "teamsData": [
+      { "id": 42808, "name": "Waratah Women's Div 1", "logoUrl": null },
+      { "id": 42807, "name": "Nightcliff Div 1", "logoUrl": null }
+    ],
+    "downloads": [],
+    "renderStatus": {
+      "upcomingGamesRenders": [],
+      "gameResultsRenders": [
+        {
+          "id": 40420,
+          "status": "unknown",
+          "processedAt": "2026-05-30T11:45:25.520Z"
+        }
+      ]
+    },
+    "club": [
+      { "id": 42808, "name": "Waratah Women's Div 1", "logoUrl": null },
+      { "id": 42807, "name": "Nightcliff Div 1", "logoUrl": null }
+    ],
+    "context": {
+      "admin": {
+        "createdAt": "2026-04-24T06:06:08.469Z",
+        "updatedAt": "2026-06-03T05:45:25.055Z",
+        "publishedAt": "2026-06-03T05:45:25.045Z",
+        "lastPromptUpdate": null
+      }
+    },
+    "meta": {
+      "generatedAt": "2026-06-03T09:35:35.895Z",
+      "fixtureId": 81411,
+      "validation": {
+        "overallScore": 82,
+        "status": "good",
+        "statusBased": true,
+        "breakdown": {
+          "basicInfo": 100,
+          "scheduling": 100,
+          "matchDetails": 100,
+          "content": 25,
+          "relations": 80,
+          "results": 75
+        },
+        "missingFields": [],
+        "recommendations": []
+      },
+      "performance": {
+        "fetchTimeMs": 3,
+        "processingTimeMs": 1,
+        "totalTimeMs": 4
+      }
+    },
+    "links": {
+      "canonical": "/api/season-hub/575/competitions/18034/grades/71338/fixtures/81411",
+      "alias": "/api/season-hub/575/grades/71338/fixtures/81411"
+    }
+  }
+}

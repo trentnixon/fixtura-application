@@ -1,0 +1,28 @@
+{
+  "json": {
+    "data": {
+      "account": { "id": 575, "sport": "Cricket", "orgType": "Association" },
+      "scope": {
+        "clubIds": [],
+        "associationIds": [2964],
+        "competitionIds": [18030, 18031, 18032, 18033, 18034],
+        "gradeIds": [
+          71337, 71338, 71339, 71340, 71341, 71342, 71343, 71344, 71345, 71346, 71347, 71348, 71349,
+          71350, 71351, 71352, 71353
+        ]
+      },
+      "counts": { "competitions": 5, "grades": 17, "teams": 134, "fixtures": 831 },
+      "available": {
+        "stats": true,
+        "competitions": true,
+        "grades": true,
+        "teams": true,
+        "fixtures": true
+      },
+      "links": {
+        "stats": "/api/season-hub/575/stats",
+        "competitions": "/api/season-hub/575/competitions"
+      }
+    }
+  }
+}

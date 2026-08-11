@@ -1,5 +1,6 @@
 "use client";
 
+import { TypographyAlertDescription, TypographyAlertTitle } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 
 export function ErrorState({
@@ -20,8 +21,12 @@ export function ErrorState({
 
   return (
     <div className="grid gap-3 rounded-xl border p-6 text-center">
-      <h3 className="text-lg font-semibold">{title}</h3>
-      <p className="text-muted-foreground text-sm">{description}</p>
+      <TypographyAlertTitle as="h3" className="text-lg font-semibold sm:text-xl">
+        {title}
+      </TypographyAlertTitle>
+      <TypographyAlertDescription tone="muted" className="text-sm">
+        {description}
+      </TypographyAlertDescription>
       {canRetry ? (
         <div className="flex items-center justify-center">
           <Button size="sm" onClick={handleRetry}>

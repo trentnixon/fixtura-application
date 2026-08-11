@@ -1,0 +1,1 @@
+export const SPONSOR_SELECT_OPTION_LABEL_NO_LOGO_TEXT = "No logo";

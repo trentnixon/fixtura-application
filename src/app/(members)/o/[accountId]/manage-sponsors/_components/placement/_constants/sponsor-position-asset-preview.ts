@@ -1,0 +1,1 @@
+export const SPONSOR_POSITION_PREVIEW_PAGE_SIZE = 8;

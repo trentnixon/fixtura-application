@@ -84,9 +84,9 @@ describe("MediaCard", () => {
       </MediaCard>,
     );
     const card = screen.getByTestId("media-card");
-    const content = card.querySelector('[class*="grid"]');
+    const content = card.querySelector('[data-slot="card-content"]');
     expect(content).toBeInTheDocument();
-    expect(content).toHaveClass("grid", "gap-3");
+    expect(content).toHaveClass("flex", "flex-1", "flex-col", "gap-3", "min-h-0");
   });
 
   it("applies correct media container classes", () => {
@@ -94,7 +94,7 @@ describe("MediaCard", () => {
     const card = screen.getByTestId("media-card");
     const mediaContainer = card.querySelector('[class*="overflow-hidden"]');
     expect(mediaContainer).toBeInTheDocument();
-    expect(mediaContainer).toHaveClass("overflow-hidden", "rounded-md", "border");
+    expect(mediaContainer).toHaveClass("overflow-hidden", "rounded-xl", "border");
   });
 
   it("does not render header when no title or description", () => {

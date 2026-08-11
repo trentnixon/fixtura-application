@@ -1,0 +1,9 @@
+{
+  "json": {
+    "data": {
+      "accountId": 575,
+      "summary": { "competitions": 5, "grades": 17, "teams": 134, "fixtures": 831 },
+      "freshness": { "lastUpdatedAt": "2026-04-25T12:34:31.744Z" }
+    }
+  }
+}

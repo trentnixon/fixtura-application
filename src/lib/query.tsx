@@ -11,13 +11,15 @@ import type { PropsWithChildren } from "react";
 export function createQueryClient(): QueryClient {
   return new QueryClient({
     queryCache: new QueryCache({
-      onError: (error) => {
+      onError: (error, query) => {
+        if (query.meta?.["suppressGlobalError"]) return;
         globalThis.console?.error?.("Query error:", error);
         toastError(error, "Request failed");
       },
     }),
     mutationCache: new MutationCache({
-      onError: (error) => {
+      onError: (error, _variables, _context, mutation) => {
+        if (mutation.meta?.["suppressGlobalError"]) return;
         globalThis.console?.error?.("Mutation error:", error);
         toastError(error, "Action failed");
       },

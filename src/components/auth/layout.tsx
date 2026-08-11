@@ -1,0 +1,180 @@
+import { HelpCircle, LifeBuoy } from "lucide-react";
+import Link from "next/link";
+
+import { TypographyBodySmall, TypographyNavLabel } from "@/components/typography";
+import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { ROUTES } from "@/lib/config/routes";
+import { isDevSandboxEnabled } from "@/lib/dev-sandbox";
+import { cn } from "@/lib/utils";
+
+import type { ReactNode } from "react";
+
+/**
+ * PublicTopBar: Provides lightweight navigation and brand framing.
+ */
+export function PublicTopBar() {
+  return (
+    <header className="sticky top-0 z-50 border-b bg-white/50 backdrop-blur-md">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
+        <Link href={ROUTES.home} className="transition-opacity hover:opacity-90">
+          <img src="/logos/apple-touch-icon.png" alt="Fixtura Home" className="h-8 w-8" />
+        </Link>
+        <nav className="flex items-center gap-1 sm:gap-2">
+          {isDevSandboxEnabled ? (
+            <Button
+              asChild
+              variant="ghost"
+              size="sm"
+              className="text-muted-foreground hover:text-foreground mr-1 font-medium"
+            >
+              <Link href={ROUTES.sandbox}>Sandbox</Link>
+            </Button>
+          ) : null}
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  asChild
+                  variant="ghost"
+                  size="icon"
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  <Link href={ROUTES.help} aria-label="Support">
+                    <LifeBuoy className="h-5 w-5" />
+                  </Link>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">Support</TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  asChild
+                  variant="ghost"
+                  size="icon"
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  <Link href={ROUTES.help} aria-label="Help Center">
+                    <HelpCircle className="h-5 w-5" />
+                  </Link>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">Help</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </nav>
+      </div>
+    </header>
+  );
+}
+
+/**
+ * PublicFooter: Provides legal and support links.
+ */
+export function PublicFooter() {
+  return (
+    <footer className="bg-muted/50 border-t">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 md:py-12 lg:px-8">
+        <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
+          <TypographyBodySmall as="div" tone="muted" className="font-medium">
+            © {new Date().getFullYear()} Fixtura. All rights reserved.
+          </TypographyBodySmall>
+          <div className="flex gap-x-8">
+            <Link href={ROUTES.help} className="hover:text-foreground transition-colors">
+              <TypographyNavLabel as="span" tone="muted">
+                Support
+              </TypographyNavLabel>
+            </Link>
+            <Link href="#" className="hover:text-foreground transition-colors">
+              <TypographyNavLabel as="span" tone="muted">
+                Privacy Policy
+              </TypographyNavLabel>
+            </Link>
+            <Link href="#" className="hover:text-foreground transition-colors">
+              <TypographyNavLabel as="span" tone="muted">
+                Terms of Service
+              </TypographyNavLabel>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+/**
+ * PublicPageWrapper: Defines page-level vertical structure.
+ * Use `contentAs="div"` when children include their own `<main>` (e.g. sandbox tool layouts with a sidebar).
+ */
+export function PublicPageWrapper({
+  children,
+  className,
+  contentAs = "main",
+}: {
+  children: ReactNode;
+  className?: string;
+  /** `div` avoids invalid nested `<main>` when a child layout renders `<main>`. */
+  contentAs?: "main" | "div";
+}) {
+  const Content = contentAs === "main" ? "main" : "div";
+
+  return (
+    <div
+      className={cn(
+        "bg-background selection:bg-brand/10 relative flex min-h-screen flex-col overflow-hidden",
+        className,
+      )}
+    >
+      {/* Decorative premium background elements */}
+      <div className="bg-primary/10 absolute top-0 right-0 -z-10 h-96 w-96 rounded-full opacity-50 blur-3xl sm:opacity-100" />
+      <div className="bg-brand-secondary/15 absolute bottom-40 left-0 -z-10 h-96 w-96 rounded-full opacity-50 blur-3xl sm:opacity-100" />
+
+      <PublicTopBar />
+      <Content className={cn("flex-1", contentAs === "main" ? "py-12" : "py-0")}>
+        {children}
+      </Content>
+      <PublicFooter />
+    </div>
+  );
+}
+
+/**
+ * PublicShellContainer: Share responsive width constraint.
+ */
+export function PublicShellContainer({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return <div className={cn("mx-auto max-w-7xl px-4 sm:px-6 lg:px-8", className)}>{children}</div>;
+}
+
+/**
+ * AuthContentContainer: Constrains auth-specific content to narrower width.
+ */
+export function AuthContentContainer({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return <div className={cn("mx-auto w-full max-w-md px-4 sm:px-0", className)}>{children}</div>;
+}
+
+/**
+ * AuthPageSection: Consistent vertical spacing between auth blocks.
+ */
+export function AuthPageSection({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return <section className={cn("space-y-6", className)}>{children}</section>;
+}

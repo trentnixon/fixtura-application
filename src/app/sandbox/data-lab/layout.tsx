@@ -1,0 +1,64 @@
+import Link from "next/link";
+
+import { SandboxToolsShell } from "@/components/dev/sandbox-tools-shell";
+import { TypographyH2, TypographyMuted } from "@/components/typography";
+import { ROUTES } from "@/lib/config/routes";
+import { DATA_LAB_NAV_SECTIONS } from "@/lib/dev-sandbox-nav";
+
+import type { ReactNode } from "react";
+
+const DL = ROUTES.dataLab;
+
+export default function DataLabLayout({ children }: { children: ReactNode }) {
+  return (
+    <SandboxToolsShell
+      sidebar={
+        <aside className="border-border bg-card sticky top-0 flex h-screen w-64 shrink-0 flex-col gap-4 overflow-y-auto border-r p-6">
+          <div>
+            <Link
+              href={ROUTES.sandbox}
+              className="text-primary hover:text-primary/90 mb-3 block text-sm font-semibold underline-offset-4 hover:underline"
+            >
+              ← Sandbox portal
+            </Link>
+            <TypographyH2 className="text-xl font-semibold tracking-tight">Data lab</TypographyH2>
+            <TypographyMuted className="mt-1">
+              Selects, checkboxes, lists and other patterns wired to live CMS data via the app BFF.
+            </TypographyMuted>
+          </div>
+          <nav className="mt-4 flex flex-col gap-6">
+            <Link
+              href={DL}
+              className="text-muted-foreground hover:bg-secondary hover:text-foreground rounded-md px-3 py-2 text-sm font-medium transition-colors"
+            >
+              Overview
+            </Link>
+            {DATA_LAB_NAV_SECTIONS.map((section) => (
+              <div key={section.title}>
+                <div className="mb-2 flex items-center gap-2 px-3">
+                  <TypographyMuted className="text-foreground/80 text-[11px] font-semibold tracking-[0.06em]">
+                    {section.title}
+                  </TypographyMuted>
+                  <span className="bg-border h-px flex-1" aria-hidden="true" />
+                </div>
+                <div className="flex flex-col gap-1">
+                  {section.links.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className="text-muted-foreground hover:bg-secondary hover:text-foreground rounded-md px-3 py-2 text-sm font-medium transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </nav>
+        </aside>
+      }
+    >
+      {children}
+    </SandboxToolsShell>
+  );
+}

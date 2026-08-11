@@ -92,7 +92,7 @@ describe("CalendarDayButton", () => {
     );
     const button = screen.getByTestId("day-button");
     expect(button).toBeInTheDocument();
-    expect(button).toHaveAttribute("data-day", "15/01/2024");
+    expect(button).toHaveAttribute("data-day", "2024-01-15");
   });
 
   it("applies custom className", () => {
