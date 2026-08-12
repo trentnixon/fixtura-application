@@ -7,6 +7,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BrandedLoader } from "@/components/ui/branded-loader";
 import { ErrorState } from "@/components/ui/error-state";
 import { resolveTemplateModeSlugFromBranding } from "@/features/remotion-asset-preview";
+import { ApiError } from "@/lib/api/client/api-error";
 import {
   isAccountBrandingGatewayRedirect,
   useAccountBranding,
@@ -38,6 +39,7 @@ import {
 } from "@/lib/api/hooks/account/usePutTemplateOptions";
 import { useTemplateCategoriesListForSelection } from "@/lib/api/hooks/account/useTemplateCategoriesListForSelection";
 import { useTemplateModesUi } from "@/lib/api/hooks/template-modes/useTemplateModesUi";
+import { useTemplateTexturesUi } from "@/lib/api/hooks/template-textures/useTemplateTexturesUi";
 import { queryKeys } from "@/lib/api/query/query-keys";
 import { AUTH_ERROR_MESSAGES } from "@/lib/auth/auth-errors";
 import { isValidAccountIdSegment } from "@/lib/config/account-routes";
@@ -55,6 +57,11 @@ import {
 } from "./_utils/template-builder-media-preview";
 import { buildTemplateBuilderPreviewBranding } from "./_utils/template-builder-preview-branding";
 import { mapTemplateBuilderEditorStateToPutBody } from "./_utils/template-builder-save-payload";
+import {
+  mapCatalogTexturesToPickerItems,
+  mapTemplateTexturesUiToPickerItems,
+  TEMPLATE_TEXTURE_UI_PERMISSION_HINT,
+} from "./_utils/template-builder-texture-catalog";
 import { TemplateBuilderEditor } from "./template-builder-editor";
 import { DashboardAssetPreviewBrandingDebug } from "../dashboard/_components/dashboard-asset-preview-branding-debug";
 import { buildDashboardViewModel } from "../dashboard/dashboard-view-model";
@@ -135,6 +142,7 @@ function TemplateBuilderContentEditable({ accountId }: { accountId: string }) {
   const organisationContextQ = useAccountOrganisationContext(accountId, { enabled: segmentOk });
   const sponsorsQ = useAccountSponsors(accountId);
   const templateModesQuery = useTemplateModesUi();
+  const templateTexturesQuery = useTemplateTexturesUi({ enabled: segmentOk });
 
   const templateOptionIdForCatalog = useMemo(() => {
     if (!segmentOk) return null;
@@ -273,6 +281,66 @@ function TemplateBuilderContentEditable({ accountId }: { accountId: string }) {
       ? catalogQ.data.data
       : null;
 
+  const textureCatalogResolution = useMemo(() => {
+    if (templateTexturesQuery.isSuccess) {
+      return {
+        items: mapTemplateTexturesUiToPickerItems(templateTexturesQuery.data?.data ?? []),
+        loadState: "ready" as const,
+        error: null as string | null,
+        notice: null as string | null,
+      };
+    }
+
+    if (templateTexturesQuery.isPending) {
+      return {
+        items: [] as ReturnType<typeof mapTemplateTexturesUiToPickerItems>,
+        loadState: "loading" as const,
+        error: null as string | null,
+        notice: null as string | null,
+      };
+    }
+
+    const fallbackItems = catalogPayload?.textures
+      ? mapCatalogTexturesToPickerItems(catalogPayload.textures)
+      : [];
+
+    if (fallbackItems.length > 0) {
+      const isPermissionDenied =
+        templateTexturesQuery.error instanceof ApiError &&
+        templateTexturesQuery.error.status === 403;
+
+      return {
+        items: fallbackItems,
+        loadState: "ready" as const,
+        error: null as string | null,
+        notice: isPermissionDenied
+          ? `${TEMPLATE_TEXTURE_UI_PERMISSION_HINT} Showing textures from the template catalog without category grouping until the permission is enabled.`
+          : null,
+      };
+    }
+
+    return {
+      items: fallbackItems,
+      loadState: "error" as const,
+      error:
+        templateTexturesQuery.error instanceof Error
+          ? templateTexturesQuery.error.message
+          : "Could not load textures.",
+      notice: null as string | null,
+    };
+  }, [
+    catalogPayload?.textures,
+    templateTexturesQuery.data,
+    templateTexturesQuery.error,
+    templateTexturesQuery.isPending,
+    templateTexturesQuery.isSuccess,
+  ]);
+
+  const textureCatalog = textureCatalogResolution.items;
+  const textureCatalogLoadState = textureCatalogResolution.loadState;
+  const textureCatalogError = textureCatalogResolution.error;
+  const textureCatalogNotice = textureCatalogResolution.notice;
+
   const previewBranding = useMemo(
     () =>
       buildTemplateBuilderPreviewBranding({
@@ -281,6 +349,7 @@ function TemplateBuilderContentEditable({ accountId }: { accountId: string }) {
         categoryOptions: templateCategoriesListQ.data?.data ?? null,
         draft: previewDraftState,
         previewImage: selectedPreviewMediaItem?.image ?? null,
+        textureCatalog,
       }),
     [
       brandingData,
@@ -288,6 +357,7 @@ function TemplateBuilderContentEditable({ accountId }: { accountId: string }) {
       previewDraftState,
       selectedPreviewMediaItem?.image,
       templateCategoriesListQ.data,
+      textureCatalog,
     ],
   );
 
@@ -467,6 +537,11 @@ function TemplateBuilderContentEditable({ accountId }: { accountId: string }) {
             payload={catalogPayload}
             categoryOptions={templateCategoriesListQ.data?.data ?? null}
             branding={brandingData}
+            textureCatalog={textureCatalog}
+            textureCatalogLoadState={textureCatalogLoadState}
+            textureCatalogError={textureCatalogError}
+            textureCatalogNotice={textureCatalogNotice}
+            onTexturesRetry={() => void templateTexturesQuery.refetch()}
             save={editorSave}
             previewConfig={previewConfig}
             mediaPreview={mediaPreviewState}

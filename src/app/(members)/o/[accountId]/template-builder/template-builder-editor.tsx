@@ -60,6 +60,10 @@ import {
   optionIdToSelectValue,
   resolveRelationSelectValue,
 } from "./_utils/template-builder-select-value";
+import {
+  groupTemplateTexturesByCategory,
+  type TemplateBuilderTexturePickerItem,
+} from "./_utils/template-builder-texture-catalog";
 
 import type {
   TemplateBuilderEditorField,
@@ -237,11 +241,18 @@ export type TemplateBuilderPreviewConfig = {
   templateModeSlug: string | null;
 };
 
+export type TemplateBuilderTextureCatalogLoadState = "loading" | "ready" | "error";
+
 export function TemplateBuilderEditor({
   accountId,
   payload,
   categoryOptions,
   branding,
+  textureCatalog,
+  textureCatalogLoadState = "ready",
+  textureCatalogError = null,
+  textureCatalogNotice = null,
+  onTexturesRetry,
   save,
   previewConfig,
   mediaPreview,
@@ -253,6 +264,11 @@ export function TemplateBuilderEditor({
   payload: AllTemplateOptionsPayload;
   categoryOptions?: TemplateCategoryCatalogItem[] | null;
   branding: AccountBrandingData | null;
+  textureCatalog?: TemplateBuilderTexturePickerItem[];
+  textureCatalogLoadState?: TemplateBuilderTextureCatalogLoadState;
+  textureCatalogError?: string | null;
+  textureCatalogNotice?: string | null;
+  onTexturesRetry?: () => void;
   save: TemplateBuilderEditorSaveProps;
   previewConfig?: TemplateBuilderPreviewConfig;
   mediaPreview: TemplateBuilderMediaPreviewState;
@@ -326,6 +342,12 @@ export function TemplateBuilderEditor({
         categoryOptions,
       }),
     [categoryOptions, payload.categories],
+  );
+
+  const textureCatalogItems = textureCatalog ?? [];
+  const textureCategoryGroups = useMemo(
+    () => groupTemplateTexturesByCategory(textureCatalogItems),
+    [textureCatalogItems],
   );
 
   const handleSave = useCallback(async () => {
@@ -429,7 +451,11 @@ export function TemplateBuilderEditor({
   const renderRelationField = useCallback(
     (config: (typeof RELATION_FIELD_CONFIGS)[number]) => {
       const items =
-        config.field === "templateCategoryId" ? categoryItems : config.getItems(payload);
+        config.field === "templateCategoryId"
+          ? categoryItems
+          : config.field === "templateTextureId"
+            ? textureCatalogItems
+            : config.getItems(payload);
       const field = config.field;
       const draftId = draftState[field];
       const isBackgroundField = (BACKGROUND_RELATION_FIELDS as readonly string[]).includes(field);
@@ -468,18 +494,48 @@ export function TemplateBuilderEditor({
         }
 
         if (field === "templateTextureId") {
+          if (textureCatalogLoadState === "loading") {
+            return (
+              <p key={field} className="text-muted-foreground text-sm">
+                Loading textures…
+              </p>
+            );
+          }
+
+          if (textureCatalogLoadState === "error") {
+            return (
+              <div key={field} className="grid gap-2">
+                <p className="text-destructive text-sm" role="alert">
+                  {textureCatalogError ?? "Could not load textures."}
+                </p>
+                {onTexturesRetry ? (
+                  <Button type="button" variant="outline" size="sm" onClick={onTexturesRetry}>
+                    Retry
+                  </Button>
+                ) : null}
+              </div>
+            );
+          }
+
           return (
-            <TemplateBuilderTextureCardPicker
-              key={field}
-              branding={branding}
-              palettes={payload.palettes}
-              selectedPaletteId={draftState.templatePaletteId}
-              items={items as TemplateTextureCatalogItem[]}
-              selectedId={draftId}
-              isChanged={changedFieldSet.has(field)}
-              onSelect={(id) => updateField(field, id)}
-              centerTiles
-            />
+            <div key={field} className="grid gap-3">
+              {textureCatalogNotice ? (
+                <p className="border-border bg-muted/40 text-muted-foreground rounded-md border px-3 py-2 text-xs">
+                  {textureCatalogNotice}
+                </p>
+              ) : null}
+              <TemplateBuilderTextureCardPicker
+                branding={branding}
+                palettes={payload.palettes}
+                selectedPaletteId={draftState.templatePaletteId}
+                items={items as TemplateTextureCatalogItem[]}
+                groups={textureCategoryGroups}
+                selectedId={draftId}
+                isChanged={changedFieldSet.has(field)}
+                onSelect={(id) => updateField(field, id)}
+                centerTiles
+              />
+            </div>
           );
         }
 
@@ -509,7 +565,20 @@ export function TemplateBuilderEditor({
         />
       );
     },
-    [branding, categoryItems, changedFieldSet, draftState, payload, updateField],
+    [
+      branding,
+      categoryItems,
+      changedFieldSet,
+      draftState,
+      onTexturesRetry,
+      payload,
+      textureCatalogItems,
+      textureCatalogError,
+      textureCatalogLoadState,
+      textureCatalogNotice,
+      textureCategoryGroups,
+      updateField,
+    ],
   );
 
   const renderPrimaryTabPanel = () => {

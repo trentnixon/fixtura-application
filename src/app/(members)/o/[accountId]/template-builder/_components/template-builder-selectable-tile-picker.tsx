@@ -139,6 +139,7 @@ export function TemplateBuilderSelectableTilePicker({
   centerTiles = false,
   orientation = "horizontal",
   scrollClassName,
+  embedded = false,
 }: {
   label: string;
   groupAriaLabel: string;
@@ -161,6 +162,8 @@ export function TemplateBuilderSelectableTilePicker({
   orientation?: "horizontal" | "vertical";
   /** Max height / sizing for the vertical ScrollArea viewport. */
   scrollClassName?: string;
+  /** When true, vertical tiles render in a plain grid (no inner ScrollArea). */
+  embedded?: boolean;
 }) {
   if (items.length === 0) {
     return <p className="text-muted-foreground text-sm">{emptyMessage}</p>;
@@ -219,14 +222,20 @@ export function TemplateBuilderSelectableTilePicker({
       )}
 
       {isVertical ? (
-        <ScrollArea
-          className={cn("w-full pr-2", scrollClassName ?? "h-[min(50vh,22rem)]")}
-          aria-label={groupAriaLabel}
-        >
-          <div role="group" aria-label={groupAriaLabel} className="grid grid-cols-2 gap-1.5 pb-1">
+        embedded ? (
+          <div role="group" aria-label={groupAriaLabel} className="grid grid-cols-2 gap-1.5">
             {tiles}
           </div>
-        </ScrollArea>
+        ) : (
+          <ScrollArea
+            className={cn("w-full pr-2", scrollClassName ?? "h-[min(50vh,22rem)]")}
+            aria-label={groupAriaLabel}
+          >
+            <div role="group" aria-label={groupAriaLabel} className="grid grid-cols-2 gap-1.5 pb-1">
+              {tiles}
+            </div>
+          </ScrollArea>
+        )
       ) : (
         <div role="group" aria-label={groupAriaLabel} className="min-w-0 overflow-x-auto py-1">
           <div
