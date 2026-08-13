@@ -9,7 +9,6 @@ import {
 } from "@/features/remotion-asset-preview";
 import { themeColoursFromAccountBrandingTheme } from "@/lib/branding/theme-colours-from-account";
 
-
 import { TemplateBuilderSelectableTilePicker } from "./template-builder-selectable-tile-picker";
 import { formatCatalogItemLabel } from "../_utils/template-builder-option-labels";
 
@@ -102,7 +101,7 @@ function TemplateBuilderTextureTilePicker({
       emptyMessage="No textures available."
       centerTiles={centerTiles}
       orientation="vertical"
-      scrollClassName={embedded ? undefined : "h-[min(40vh,16rem)]"}
+      scrollClassName={embedded ? "" : "h-[min(40vh,16rem)]"}
       embedded={embedded}
       splitBackgroundVariant="icon"
       getTileBackgroundStyle={(item) => (previewLayersById.has(item.id) ? {} : undefined)}
