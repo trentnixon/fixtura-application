@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   resolveRemotionPaletteLayoutColors,
   resolveRemotionTexturePreviewLayers,
@@ -11,6 +12,7 @@ import { themeColoursFromAccountBrandingTheme } from "@/lib/branding/theme-colou
 import { TemplateBuilderSelectableTilePicker } from "./template-builder-selectable-tile-picker";
 import { formatCatalogItemLabel } from "../_utils/template-builder-option-labels";
 
+import type { TemplateTextureCategoryGroup } from "../_utils/template-builder-texture-catalog";
 import type { AccountBrandingData } from "@/types/api/account";
 import type {
   TemplatePaletteItem,
@@ -25,24 +27,16 @@ function findPaletteById(
   return palettes.find((palette) => palette.id === paletteId) ?? null;
 }
 
-export function TemplateBuilderTextureCardPicker({
+function useTextureTilePreviewState({
   branding,
   palettes,
   selectedPaletteId,
   items,
-  selectedId,
-  isChanged,
-  onSelect,
-  centerTiles = false,
 }: {
   branding: AccountBrandingData | null;
   palettes: TemplatePaletteItem[];
   selectedPaletteId: number | null;
   items: TemplateTextureCatalogItem[];
-  selectedId: number | null;
-  isChanged: boolean;
-  onSelect: (id: number) => void;
-  centerTiles?: boolean;
 }) {
   const brandColors = useMemo(
     () => themeColoursFromAccountBrandingTheme(branding?.theme ?? null),
@@ -67,6 +61,29 @@ export function TemplateBuilderTextureCardPicker({
     return map;
   }, [items, overlayColor]);
 
+  return previewLayersById;
+}
+
+function TemplateBuilderTextureTilePicker({
+  items,
+  selectedId,
+  isChanged,
+  onSelect,
+  centerTiles,
+  previewLayersById,
+  embedded = false,
+}: {
+  items: TemplateTextureCatalogItem[];
+  selectedId: number | null;
+  isChanged: boolean;
+  onSelect: (id: number) => void;
+  centerTiles: boolean;
+  previewLayersById: Map<
+    number,
+    NonNullable<ReturnType<typeof resolveRemotionTexturePreviewLayers>>
+  >;
+  embedded?: boolean;
+}) {
   const tileItems = items.map((item) => ({
     id: item.id,
     title: formatCatalogItemLabel(item),
@@ -84,7 +101,8 @@ export function TemplateBuilderTextureCardPicker({
       emptyMessage="No textures available."
       centerTiles={centerTiles}
       orientation="vertical"
-      scrollClassName="h-[min(40vh,16rem)]"
+      scrollClassName={embedded ? "" : "h-[min(40vh,16rem)]"}
+      embedded={embedded}
       splitBackgroundVariant="icon"
       getTileBackgroundStyle={(item) => (previewLayersById.has(item.id) ? {} : undefined)}
       renderTileBackdrop={(item) => {
@@ -98,6 +116,78 @@ export function TemplateBuilderTextureCardPicker({
           </>
         );
       }}
+    />
+  );
+}
+
+export function TemplateBuilderTextureCardPicker({
+  branding,
+  palettes,
+  selectedPaletteId,
+  items,
+  groups,
+  selectedId,
+  isChanged,
+  onSelect,
+  centerTiles = false,
+}: {
+  branding: AccountBrandingData | null;
+  palettes: TemplatePaletteItem[];
+  selectedPaletteId: number | null;
+  items: TemplateTextureCatalogItem[];
+  groups?: TemplateTextureCategoryGroup[];
+  selectedId: number | null;
+  isChanged: boolean;
+  onSelect: (id: number) => void;
+  centerTiles?: boolean;
+}) {
+  const previewLayersById = useTextureTilePreviewState({
+    branding,
+    palettes,
+    selectedPaletteId,
+    items,
+  });
+
+  if (groups && groups.length > 0) {
+    return (
+      <ScrollArea className="h-[min(40vh,16rem)] w-full pr-2" aria-label="Texture categories">
+        <div className="grid gap-4 pb-1">
+          {groups.map((group) => (
+            <section
+              key={group.key}
+              className="grid gap-2"
+              aria-labelledby={`texture-group-${group.key}`}
+            >
+              <h3
+                id={`texture-group-${group.key}`}
+                className="text-muted-foreground text-xs font-semibold tracking-wide uppercase"
+              >
+                {group.label}
+              </h3>
+              <TemplateBuilderTextureTilePicker
+                items={group.items}
+                selectedId={selectedId}
+                isChanged={isChanged}
+                onSelect={onSelect}
+                centerTiles={centerTiles}
+                previewLayersById={previewLayersById}
+                embedded
+              />
+            </section>
+          ))}
+        </div>
+      </ScrollArea>
+    );
+  }
+
+  return (
+    <TemplateBuilderTextureTilePicker
+      items={items}
+      selectedId={selectedId}
+      isChanged={isChanged}
+      onSelect={onSelect}
+      centerTiles={centerTiles}
+      previewLayersById={previewLayersById}
     />
   );
 }

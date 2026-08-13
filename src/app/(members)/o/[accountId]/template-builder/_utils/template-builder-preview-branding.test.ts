@@ -148,6 +148,47 @@ describe("buildTemplateBuilderPreviewBranding", () => {
     expect(preview?.template_option?.["gradientId"]).toBe(4);
   });
 
+  it("resolves selected texture from ui catalog for preview", () => {
+    const preview = buildTemplateBuilderPreviewBranding({
+      branding,
+      catalog: {
+        ...catalog,
+        textures: [],
+        currentSelection: null,
+      },
+      textureCatalog: [
+        {
+          id: 7,
+          name: "Print Grain",
+          category: "Print",
+          opacity: 0.4,
+          blendMode: "multiply",
+          texture: {
+            id: 70,
+            url: "https://cdn.example/print.png",
+            width: 1024,
+            height: 1024,
+            mime: "image/png",
+            alternativeText: null,
+          },
+        },
+      ],
+      draft: {
+        ...draft,
+        useBackground: "Texture",
+        templateTextureId: 7,
+        templateNoiseId: null,
+      },
+    });
+
+    expect(preview?.template_option?.["texture"]).toMatchObject({
+      id: 7,
+      name: "Print Grain",
+      opacity: 0.4,
+    });
+    expect(preview?.template_option?.["textureId"]).toBe(7);
+  });
+
   it("enriches selected noise with normalized Remotion type for preview", () => {
     const preview = buildTemplateBuilderPreviewBranding({
       branding,

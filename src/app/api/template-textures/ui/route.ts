@@ -46,6 +46,17 @@ export async function GET() {
       } else {
         message = "Strapi error";
       }
+
+      if (strapiRes.status === 403) {
+        return NextResponse.json(
+          {
+            error: message,
+            hint: "Enable Strapi permission Template-texture → getTemplateTexturesForUi for the Authenticated role.",
+          },
+          { status: 403 },
+        );
+      }
+
       return NextResponse.json({ error: message }, { status: strapiRes.status });
     }
 

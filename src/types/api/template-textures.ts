@@ -1,5 +1,8 @@
 export type TemplateTextureBlendMode = "multiply";
 
+export type TemplateTextureCategory =
+  "Paper" | "Print" | "Turf" | "Infrastructure" | "Metal" | "Stadium";
+
 export type TextureMedia = {
   id: number;
   url: string | null;
@@ -12,6 +15,7 @@ export type TextureMedia = {
 export type TemplateTextureUiItem = {
   id: number;
   name: string | null;
+  category: TemplateTextureCategory | null;
   opacity: string | number | null;
   blendMode: TemplateTextureBlendMode | null;
   texture: TextureMedia | null;

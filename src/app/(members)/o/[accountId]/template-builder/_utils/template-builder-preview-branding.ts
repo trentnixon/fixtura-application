@@ -1,8 +1,10 @@
 import { resolveRemotionNoiseFromCatalogNoise } from "@/features/remotion-asset-preview/utils/read-remotion-noise-from-catalog";
 
 import { applyBackgroundVisibilityToEditorState } from "./template-builder-field-visibility";
+import { resolveTemplateTextureCatalogItem } from "./template-builder-texture-catalog";
 
 import type { TemplateBuilderEditorState } from "./template-builder-editor-state";
+import type { TemplateBuilderTexturePickerItem } from "./template-builder-texture-catalog";
 import type {
   AccountBrandingData,
   AccountBrandingTemplateOption,
@@ -82,6 +84,7 @@ function mergeTemplateOptionDraft(
   catalog: AllTemplateOptionsPayload,
   categoryOptions?: TemplateCategoryCatalogItem[] | null,
   previewImage?: AccountMediaLibraryImage | null,
+  textureCatalog?: TemplateBuilderTexturePickerItem[] | null,
 ): AccountBrandingTemplateOption {
   const categorySource =
     categoryOptions && categoryOptions.length > 0 ? categoryOptions : catalog.categories;
@@ -93,7 +96,12 @@ function mergeTemplateOptionDraft(
   const noise = enrichNoiseForPreview(resolveNoiseCatalogItem(catalog, draft.templateNoiseId));
   const particle = findById(catalog.particles, draft.templateParticleId);
   const pattern = findById(catalog.patterns, draft.templatePatternId);
-  const texture = findById(catalog.textures, draft.templateTextureId);
+  const texture = resolveTemplateTextureCatalogItem(
+    draft.templateTextureId,
+    textureCatalog,
+    catalog.textures,
+    catalog.currentSelection?.templateTexture,
+  );
   const video = findById(catalog.videos, draft.templateVideoId);
   const imageForPreview =
     draft.useBackground === "Image" && previewImage != null
@@ -135,12 +143,14 @@ export function buildTemplateBuilderPreviewBranding({
   categoryOptions,
   draft,
   previewImage = null,
+  textureCatalog = null,
 }: {
   branding: AccountBrandingData | null;
   catalog: AllTemplateOptionsPayload | null;
   categoryOptions?: TemplateCategoryCatalogItem[] | null;
   draft: TemplateBuilderEditorState | null;
   previewImage?: AccountMediaLibraryImage | null;
+  textureCatalog?: TemplateBuilderTexturePickerItem[] | null;
 }): AccountBrandingData | null {
   if (branding === null || catalog === null || draft === null) {
     return branding;
@@ -158,6 +168,7 @@ export function buildTemplateBuilderPreviewBranding({
     catalog,
     categoryOptions,
     previewImage,
+    textureCatalog,
   );
 
   return {
