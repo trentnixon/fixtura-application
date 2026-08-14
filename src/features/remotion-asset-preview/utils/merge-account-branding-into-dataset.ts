@@ -16,12 +16,15 @@ import { templateModeSlugToRemotionMode } from "./template-mode-to-remotion-mode
 export { readUseBackgroundFromAccountBranding } from "./read-use-background-from-account-branding";
 
 import type { AccountBrandingData, AccountSponsorDto } from "@/types/api/account";
+import type { TemplateCategoryCatalogItem } from "@/types/api/all-template-options";
 import type { FixturaDataset } from "@/vendor/fixtura-remotion-assets/preview";
 
 export type MergeAccountBrandingInput = {
   branding: AccountBrandingData | null;
   logoUrl: string | null;
   templateModeSlug: string | null;
+  /** Hydrates category slug when branding only has `template_option.categoryId`. */
+  templateCategoryCatalog?: TemplateCategoryCatalogItem[] | null;
   /**
    * GET /sponsors items. When null/undefined, example sponsor JSON is still removed and replaced
    * with an empty cricket-shaped payload until the client passes loaded rows.
@@ -48,7 +51,7 @@ export function mergeAccountBrandingIntoDataset(
 ): { data: FixturaDataset; usedTemplateFallback: boolean } {
   const next = structuredClone(base) as Record<string, unknown>;
   const { template, usedFallback } = resolveRemotionTemplateFromSlug(
-    resolveAccountTemplateCategorySlug(input.branding),
+    resolveAccountTemplateCategorySlug(input.branding, input.templateCategoryCatalog),
   );
   const themeColours = themeColoursFromAccountBrandingTheme(input.branding?.theme ?? null);
 

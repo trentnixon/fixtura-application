@@ -537,6 +537,59 @@ describe("mergeAccountBrandingIntoDataset", () => {
     expect(tv["mode"]).toBe("light");
   });
 
+  it("prefers template_option.category over template.category on linked template row", () => {
+    const base = minimalDataset();
+    const b = brandingFixture({
+      template: { ...brandingFixture().template!, category: "TwoColumnClassic" },
+      template_option: {
+        category: { slug: "Mudgeeraba", name: "Mudgeeraba" },
+      },
+    });
+    const { data, usedTemplateFallback } = mergeAccountBrandingIntoDataset(base, {
+      branding: b,
+      logoUrl: null,
+      templateModeSlug: null,
+    });
+
+    const dataRec = data as unknown as Record<string, unknown>;
+    const vm = dataRec["videoMeta"] as Record<string, unknown>;
+    const video = vm["video"] as Record<string, unknown>;
+    const appearance = video["appearance"] as Record<string, unknown>;
+    expect(appearance["template"]).toBe("Mudgeeraba");
+    expect(usedTemplateFallback).toBe(false);
+  });
+
+  it("resolves category from template_option.categoryId when GET branding omits nested category", () => {
+    const base = minimalDataset();
+    const b = brandingFixture({
+      template: { ...brandingFixture().template!, category: "TwoColumnClassic" },
+      template_option: { categoryId: 42, modeId: 1 },
+    });
+    const catalog = [
+      {
+        id: 42,
+        name: "Mudgeeraba",
+        slug: "Mudgeeraba",
+        divideFixturesBy: null,
+        isPrivate: false,
+        bundleAudio: null,
+      },
+    ];
+    const { data, usedTemplateFallback } = mergeAccountBrandingIntoDataset(base, {
+      branding: b,
+      logoUrl: null,
+      templateModeSlug: null,
+      templateCategoryCatalog: catalog,
+    });
+
+    const dataRec = data as unknown as Record<string, unknown>;
+    const vm = dataRec["videoMeta"] as Record<string, unknown>;
+    const video = vm["video"] as Record<string, unknown>;
+    const appearance = video["appearance"] as Record<string, unknown>;
+    expect(appearance["template"]).toBe("Mudgeeraba");
+    expect(usedTemplateFallback).toBe(false);
+  });
+
   it("handles null branding with default template resolution", () => {
     const base = minimalDataset();
     const { data, usedTemplateFallback } = mergeAccountBrandingIntoDataset(base, {

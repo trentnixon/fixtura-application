@@ -20,6 +20,7 @@ import {
   isAccountSettingsGatewayRedirect,
   useAccountSettings,
 } from "@/lib/api/hooks/account/useAccountSettings";
+import { useTemplateCategoriesListForSelection } from "@/lib/api/hooks/account/useTemplateCategoriesListForSelection";
 import { useTemplateModesUi } from "@/lib/api/hooks/template-modes/useTemplateModesUi";
 
 import { DashboardAssetPreviewPanel } from "./_components/dashboard-asset-preview-panel";
@@ -65,6 +66,12 @@ export function DashboardContent({ accountId }: { accountId: string }) {
   });
 
   const templateModesQuery = useTemplateModesUi();
+  const templateCategoriesQuery = useTemplateCategoriesListForSelection();
+  const templateCategoryCatalog = useMemo(
+    () => templateCategoriesQuery.data?.data ?? [],
+    [templateCategoriesQuery.data],
+  );
+
   const templateModeSlug = useMemo(
     () => resolveTemplateModeSlugFromBranding(model.branding, templateModesQuery.data?.data ?? []),
     [model.branding, templateModesQuery.data],
@@ -82,6 +89,7 @@ export function DashboardContent({ accountId }: { accountId: string }) {
               branding={model.branding}
               logoUrl={model.logoUrl}
               templateModeSlug={templateModeSlug}
+              templateCategoryCatalog={templateCategoryCatalog}
               debugPlacement="none"
             />
             <DashboardBrandingRouteCard accountId={accountId} logoUrl={model.logoUrl} />

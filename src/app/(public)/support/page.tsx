@@ -34,7 +34,7 @@ export default function SupportPage() {
             </div>
 
             <div className="bg-muted/50 rounded-lg p-4">
-              <p className="text-primary font-medium">support@fixtura.com.au</p>
+              <p className="text-primary font-medium">admin@fixtura.com.au</p>
             </div>
 
             <TypographyMuted>We typically respond within 24-48 hours.</TypographyMuted>

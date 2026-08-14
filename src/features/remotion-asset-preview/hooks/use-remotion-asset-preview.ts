@@ -37,6 +37,7 @@ export function useRemotionAssetPreview({
   branding,
   logoUrl,
   templateModeSlug,
+  templateCategoryCatalog = null,
   exampleCompositionId = null,
   accountSponsors = null,
   maxFrameTargets,
@@ -99,8 +100,8 @@ export function useRemotionAssetPreview({
   }, [datasetPath, enabled]);
 
   const mergeInput = useMemo(
-    () => ({ branding, logoUrl, templateModeSlug, accountSponsors }),
-    [accountSponsors, branding, logoUrl, templateModeSlug],
+    () => ({ branding, logoUrl, templateModeSlug, templateCategoryCatalog, accountSponsors }),
+    [accountSponsors, branding, logoUrl, templateCategoryCatalog, templateModeSlug],
   );
 
   const merged = useMemo(() => {
