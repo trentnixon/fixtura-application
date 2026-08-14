@@ -50,7 +50,7 @@ export function resolveAccountTemplateCategorySlug(
   const fromOption = resolveCategoryFromTemplateOption(branding?.template_option);
   if (fromOption) return fromOption;
 
-  const categoryId = readTemplateCategoryId(branding?.template_option);
+  const categoryId = readTemplateCategoryId(branding?.template_option ?? null);
   if (categoryId !== null && categoryCatalog != null && categoryCatalog.length > 0) {
     const fromCatalog = categoryCatalog.find((row) => row.id === categoryId);
     if (fromCatalog != null) {
