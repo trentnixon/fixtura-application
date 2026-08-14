@@ -1,19 +1,27 @@
-import type { AccountBrandingData } from "@/types/api/account";
+import { readTemplateCategoryId } from "@/features/branding/components/branding-workspace/_utils";
 
-/**
- * Template category slug for Remotion / merge: prefers `template.category`, then
- * `template_option.category.slug` (or `name`) when Phase-3 `template` is null.
- */
-export function resolveAccountTemplateCategorySlug(
-  branding: AccountBrandingData | null | undefined,
+import type { AccountBrandingData, AccountBrandingTemplateOption } from "@/types/api/account";
+import type { TemplateCategoryCatalogItem } from "@/types/api/all-template-options";
+
+function slugFromCategoryCatalogItem(category: TemplateCategoryCatalogItem): string | null {
+  const slug = category.slug?.trim();
+  if (slug) return slug;
+  const name = category.name?.trim();
+  return name || null;
+}
+
+function resolveCategoryFromTemplateOption(
+  templateOption: AccountBrandingTemplateOption | null | undefined,
 ): string | null {
-  const fromTemplate = branding?.template?.category?.trim();
-  if (fromTemplate) return fromTemplate;
+  if (
+    templateOption == null ||
+    typeof templateOption !== "object" ||
+    Array.isArray(templateOption)
+  ) {
+    return null;
+  }
 
-  const opt = branding?.template_option;
-  if (opt == null || typeof opt !== "object" || Array.isArray(opt)) return null;
-
-  const cat = (opt as Record<string, unknown>)["category"];
+  const cat = (templateOption as Record<string, unknown>)["category"];
   if (cat == null) return null;
   if (typeof cat === "string") {
     const t = cat.trim();
@@ -26,6 +34,33 @@ export function resolveAccountTemplateCategorySlug(
     const name = r["name"];
     if (typeof name === "string" && name.trim() !== "") return name.trim();
   }
+
+  return null;
+}
+
+/**
+ * Template category slug for Remotion / merge.
+ * Prefers `template_option.category` (saved template-builder selection / render pipeline),
+ * then `template.category` on the linked template row.
+ */
+export function resolveAccountTemplateCategorySlug(
+  branding: AccountBrandingData | null | undefined,
+  categoryCatalog?: TemplateCategoryCatalogItem[] | null,
+): string | null {
+  const fromOption = resolveCategoryFromTemplateOption(branding?.template_option);
+  if (fromOption) return fromOption;
+
+  const categoryId = readTemplateCategoryId(branding?.template_option);
+  if (categoryId !== null && categoryCatalog != null && categoryCatalog.length > 0) {
+    const fromCatalog = categoryCatalog.find((row) => row.id === categoryId);
+    if (fromCatalog != null) {
+      const slug = slugFromCategoryCatalogItem(fromCatalog);
+      if (slug) return slug;
+    }
+  }
+
+  const fromTemplate = branding?.template?.category?.trim();
+  if (fromTemplate) return fromTemplate;
 
   return null;
 }

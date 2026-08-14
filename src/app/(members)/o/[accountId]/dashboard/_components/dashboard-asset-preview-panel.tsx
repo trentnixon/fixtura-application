@@ -23,6 +23,7 @@ import { DashboardAssetPreviewBrandingDebug } from "./dashboard-asset-preview-br
 import { DashboardOverviewCarousel } from "./dashboard-overview-carousel";
 
 import type { AccountBrandingData } from "@/types/api/account";
+import type { TemplateCategoryCatalogItem } from "@/types/api/all-template-options";
 import type { ReactNode } from "react";
 
 type DashboardAssetPreviewPanelProps = {
@@ -31,6 +32,7 @@ type DashboardAssetPreviewPanelProps = {
   branding: AccountBrandingData | null;
   logoUrl: string | null;
   templateModeSlug: string | null;
+  templateCategoryCatalog?: TemplateCategoryCatalogItem[];
   debugPlacement?: "carousel" | "below" | "none";
   showAssetPicker?: boolean;
   previewTitle?: ReactNode;
@@ -43,6 +45,7 @@ export function DashboardAssetPreviewPanel({
   branding,
   logoUrl,
   templateModeSlug,
+  templateCategoryCatalog = [],
   debugPlacement = "carousel",
   showAssetPicker = true,
   previewTitle = null,
@@ -74,6 +77,7 @@ export function DashboardAssetPreviewPanel({
     branding,
     logoUrl,
     templateModeSlug,
+    templateCategoryCatalog,
     exampleCompositionId,
     accountSponsors,
   });
@@ -83,10 +87,11 @@ export function DashboardAssetPreviewPanel({
       <DashboardAssetPreviewBrandingDebug
         branding={branding}
         templateModeSlug={templateModeSlug}
+        templateCategoryCatalog={templateCategoryCatalog}
         accountSponsors={accountSponsors}
       />
     ),
-    [accountSponsors, branding, templateModeSlug],
+    [accountSponsors, branding, templateCategoryCatalog, templateModeSlug],
   );
 
   const shouldShowAssetPicker = showAssetPicker && isCricketSport(sport);

@@ -13,6 +13,7 @@ import { resolveAccountTemplateCategorySlug } from "@/lib/branding/resolve-accou
 import { themeColoursFromAccountBrandingTheme } from "@/lib/branding/theme-colours-from-account";
 
 import type { AccountBrandingData, AccountSponsorDto } from "@/types/api/account";
+import type { TemplateCategoryCatalogItem } from "@/types/api/all-template-options";
 
 function fmtJson(value: unknown, max = 200): string {
   if (value === undefined || value === null) return "—";
@@ -82,6 +83,7 @@ function bundleAudioTrackCount(opt: Record<string, unknown> | null): number | nu
 export type DashboardAssetPreviewBrandingDebugProps = {
   branding: AccountBrandingData | null;
   templateModeSlug: string | null;
+  templateCategoryCatalog?: TemplateCategoryCatalogItem[];
   /** GET /sponsors items; when null, sponsors query failed or is loading. */
   accountSponsors: AccountSponsorDto[] | null;
 };
@@ -89,12 +91,16 @@ export type DashboardAssetPreviewBrandingDebugProps = {
 export function DashboardAssetPreviewBrandingDebug({
   branding,
   templateModeSlug,
+  templateCategoryCatalog = [],
   accountSponsors,
 }: DashboardAssetPreviewBrandingDebugProps) {
   const themeObj = asRecord(branding?.theme?.theme);
   const optRec = asRecord(branding?.template_option);
 
-  const resolvedCategorySlug = resolveAccountTemplateCategorySlug(branding);
+  const resolvedCategorySlug = resolveAccountTemplateCategorySlug(
+    branding,
+    templateCategoryCatalog,
+  );
   const templateCategoryFromRow = branding?.template?.category?.trim() || null;
 
   const optCategoryRec = optRec != null ? asRecord(optRec["category"]) : null;

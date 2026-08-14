@@ -1,5 +1,6 @@
 import type { ThumbnailFrameTarget } from "./utils/build-thumbnail-frame-targets";
 import type { AccountBrandingData, AccountSponsorDto } from "@/types/api/account";
+import type { TemplateCategoryCatalogItem } from "@/types/api/all-template-options";
 import type { FixturaDataset } from "@/vendor/fixtura-remotion-assets/preview";
 
 export type { ThumbnailFrameTarget };
@@ -11,6 +12,8 @@ export type RemotionAssetPreviewInput = {
   branding: AccountBrandingData | null;
   logoUrl: string | null;
   templateModeSlug: string | null;
+  /** Resolves `template_option.categoryId` when GET branding omits nested category slug. */
+  templateCategoryCatalog?: TemplateCategoryCatalogItem[] | null;
   /** Bundled cricket example matching lab `CompositionID` (e.g. `CricketLadder`). */
   exampleCompositionId?: string | null;
   /** When null, merge clears example `videoMeta.club.sponsors` until sponsors load. */
@@ -21,11 +24,7 @@ export type RemotionAssetPreviewInput = {
 };
 
 export type RemotionAssetPreviewStatus =
-  | "idle"
-  | "loading"
-  | "ready"
-  | "error"
-  | "unsupported-sport";
+  "idle" | "loading" | "ready" | "error" | "unsupported-sport";
 
 export type RemotionAssetPreviewState = {
   status: RemotionAssetPreviewStatus;
