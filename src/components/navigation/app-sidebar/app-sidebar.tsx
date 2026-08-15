@@ -3,6 +3,7 @@
 import * as React from "react";
 
 import { AppSidebarAdminMenu } from "@/components/navigation/app-sidebar/_components/app-sidebar-admin-menu";
+import { AppSidebarEnvironment } from "@/components/navigation/app-sidebar/_components/app-sidebar-environment";
 import {
   getGatewayNavItems,
   getScopedNavSections,
@@ -67,6 +68,7 @@ export function AppSidebar({
         <AppSidebarAdminMenu />
         {/* <NavSecondary items={secondary} className="mt-auto" /> */}
       </SidebarContent>
+      <AppSidebarEnvironment />
       {/* {navMode === "scoped" && accountId ? (
         <SidebarFooter>
           <SidebarMenu>
