@@ -20,8 +20,7 @@ const BREAKPOINT_PREFIX: Record<Exclude<CarouselItemsInViewBreakpoint, "base">, 
 
 /** How many carousel slides are visible at once (per breakpoint). */
 export type CarouselItemsInViewConfig =
-  | number
-  | Partial<Record<CarouselItemsInViewBreakpoint, number>>;
+  number | Partial<Record<CarouselItemsInViewBreakpoint, number>>;
 
 function clampItemsInView(count: number): number {
   return Math.max(1, Math.min(6, Math.floor(count)));

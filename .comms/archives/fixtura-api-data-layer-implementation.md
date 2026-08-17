@@ -217,11 +217,7 @@ A proper route registry allows the app to:
 
 ```ts
 export type RouteImplementationStatus =
-  | "planned"
-  | "in-progress"
-  | "ready"
-  | "deprecated"
-  | "disabled";
+  "planned" | "in-progress" | "ready" | "deprecated" | "disabled";
 ```
 
 ### Recommended route definition type

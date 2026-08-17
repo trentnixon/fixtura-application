@@ -153,13 +153,13 @@ Catalog arrays are **published-only**, sorted by `id` ascending. Arrays may be e
 
 ### `textures` — `TemplateTextureCatalogItem[]`
 
-| Field       | Type         | Nullable |
+| Field | Type | Nullable |
 | ----------- | ------------ | -------- | --------------------------------------------------------- |
-| `id`        | number       | no       |
-| `name`      | string       | yes      |
-| `opacity`   | number       | yes      |
-| `blendMode` | string       | yes      |
-| `texture`   | MediaSummary | yes      | `id`, `url`, `width`, `height`, `mime`, `alternativeText` |
+| `id` | number | no |
+| `name` | string | yes |
+| `opacity` | number | yes |
+| `blendMode` | string | yes |
+| `texture` | MediaSummary | yes | `id`, `url`, `width`, `height`, `mime`, `alternativeText` |
 
 ### `videos` — `TemplateVideoItem[]`
 

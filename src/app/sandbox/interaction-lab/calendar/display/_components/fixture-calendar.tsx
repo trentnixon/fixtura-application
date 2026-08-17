@@ -149,9 +149,7 @@ export function FixtureCalendar({ events, onDateSelect, onFixtureSelect }: Fixtu
 
   function handleEventClick(arg: EventClickArg) {
     const renderKind = arg.event.extendedProps["renderKind"] as
-      | "raw-event"
-      | "fixture-day-total"
-      | undefined;
+      "raw-event" | "fixture-day-total" | undefined;
 
     if (renderKind === "fixture-day-total") {
       const dateKey = arg.event.extendedProps["dateKey"] as string | undefined;
@@ -186,9 +184,7 @@ export function FixtureCalendar({ events, onDateSelect, onFixtureSelect }: Fixtu
 
   function renderEventContent(eventInfo: EventContentArg) {
     const renderKind = eventInfo.event.extendedProps["renderKind"] as
-      | "raw-event"
-      | "fixture-day-total"
-      | undefined;
+      "raw-event" | "fixture-day-total" | undefined;
     const isDenseCalendarView = currentView === "dayGridMonth" || currentView === "multiMonthYear";
 
     if (renderKind === "fixture-day-total") {

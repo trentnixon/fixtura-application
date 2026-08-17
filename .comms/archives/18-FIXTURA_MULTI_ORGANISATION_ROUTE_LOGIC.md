@@ -449,17 +449,17 @@ Sections above use **`/app` and `/app/*` as generic examples** of an organisatio
 
 As implemented in this repository (aligned with this document and the CMS handoff for the selected-account aggregate):
 
-| Concern                                | Location                                                                                                                                                                                                 |
+| Concern | Location |
 | -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | --------------------------------------------- |
-| Members route group (shared shell)     | `src/app/(members)/layout.tsx` — `MembersSessionBoundary` + `MembersAppShell`                                                                                                                            |
-| Gateway pages                          | `src/app/(members)/select-organisation/`, `src/app/(members)/create-organisation/` (create API **TBC**)                                                                                                  |
-| Scoped pages                           | `src/app/(members)/o/[accountId]/...` — `OrgAccessBoundary` in `o/[accountId]/layout.tsx`                                                                                                                |
-| Path builders                          | `src/lib/config/account-routes.ts` (`accountScopedRoutes`, `parseAccountScopePath`)                                                                                                                      |
-| Route constants                        | `src/lib/config/routes.ts` (`ROUTES.selectOrganisation`, …)                                                                                                                                              |
-| Middleware                             | `src/middleware.ts` — JWT check; protects `/o/*`, gateway, `/admin/*`, `/logout`; legacy flat `/dashboard` etc. → `/select-organisation`                                                                 |
-| Post-login / safe return               | `src/components/auth/login-form.tsx`, `src/lib/config/safe-return-path.ts` (scoped `/o/...` only); logged-out deep links → `sign-in?from=…&reason=continue` via `src/lib/auth/member-route-sign-in.ts`   |
+| Members route group (shared shell) | `src/app/(members)/layout.tsx` — `MembersSessionBoundary` + `MembersAppShell` |
+| Gateway pages | `src/app/(members)/select-organisation/`, `src/app/(members)/create-organisation/` (create API **TBC**) |
+| Scoped pages | `src/app/(members)/o/[accountId]/...` — `OrgAccessBoundary` in `o/[accountId]/layout.tsx` |
+| Path builders | `src/lib/config/account-routes.ts` (`accountScopedRoutes`, `parseAccountScopePath`) |
+| Route constants | `src/lib/config/routes.ts` (`ROUTES.selectOrganisation`, …) |
+| Middleware | `src/middleware.ts` — JWT check; protects `/o/*`, gateway, `/admin/*`, `/logout`; legacy flat `/dashboard` etc. → `/select-organisation` |
+| Post-login / safe return | `src/components/auth/login-form.tsx`, `src/lib/config/safe-return-path.ts` (scoped `/o/...` only); logged-out deep links → `sign-in?from=…&reason=continue` via `src/lib/auth/member-route-sign-in.ts` |
 | Gateway banners (access / invalid org) | `src/lib/config/gateway-reasons.ts`, `select-organisation` page — `?reason=forbidden                                                                                                                     | not_found | invalid_org`after`OrgAccessBoundary` redirect |
-| Account list + aggregate               | `GET /api/account/me` (BFF), `GET /api/account/organisation/[accountId]` — see [`.comms/responses/app-handoff-account-organisation-endpoint.md`](responses/app-handoff-account-organisation-endpoint.md) |
-| Sidebar / switcher                     | `src/components/app-sidebar.tsx`, `src/components/layout/account-switcher.tsx`                                                                                                                           |
+| Account list + aggregate | `GET /api/account/me` (BFF), `GET /api/account/organisation/[accountId]` — see [`.comms/responses/app-handoff-account-organisation-endpoint.md`](responses/app-handoff-account-organisation-endpoint.md) |
+| Sidebar / switcher | `src/components/app-sidebar.tsx`, `src/components/layout/account-switcher.tsx` |
 
 LLM / developer onboarding: start with [`.skills/orchestrator-skill.md`](../.skills/orchestrator-skill.md) and [`.skills/index.md`](../.skills/index.md) (section **Members area — multi-organisation routes**).

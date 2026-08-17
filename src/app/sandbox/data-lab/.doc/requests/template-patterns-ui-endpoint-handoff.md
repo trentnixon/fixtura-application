@@ -82,13 +82,7 @@ Suggested TypeScript contracts:
 export type PatternType = "Triangles" | "lines" | "grid" | "dots" | "Crosshatch" | "Chevron";
 
 export type PatternAnimation =
-  | "none"
-  | "panDown"
-  | "panUp"
-  | "panRight"
-  | "panLeft"
-  | "rotate"
-  | "pulse";
+  "none" | "panDown" | "panUp" | "panRight" | "panLeft" | "rotate" | "pulse";
 
 export type TemplatePatternUi = {
   type: PatternType | null;

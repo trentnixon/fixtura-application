@@ -3,13 +3,7 @@
  * (`settings-lab-workspace.tsx`) so dropdown order and `dateIndex` stay identical.
  */
 export type WeekdayKey =
-  | "monday"
-  | "tuesday"
-  | "wednesday"
-  | "thursday"
-  | "friday"
-  | "saturday"
-  | "sunday";
+  "monday" | "tuesday" | "wednesday" | "thursday" | "friday" | "saturday" | "sunday";
 
 /** `dateIndex` matches `Date#getDay()` — Sunday `0` … Saturday `6` (not CMS ids `1`–`7`). */
 export const WEEKDAY_OPTIONS: { key: WeekdayKey; label: string; dateIndex: number }[] = [

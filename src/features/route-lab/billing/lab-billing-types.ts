@@ -162,7 +162,4 @@ export const BILLING_LAB_PATH_TRACKER_STEPS = [
 export type BillingLabPathStepId = (typeof BILLING_LAB_PATH_TRACKER_STEPS)[number];
 
 export type LabReturnSimulationState =
-  | "payment_ok"
-  | "payment_processing"
-  | "payment_not_found"
-  | "cancelled";
+  "payment_ok" | "payment_processing" | "payment_not_found" | "cancelled";

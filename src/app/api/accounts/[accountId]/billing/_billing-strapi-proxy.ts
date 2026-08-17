@@ -3,11 +3,7 @@ import { NextResponse } from "next/server";
 import { normalizeErrorFieldToString } from "@/lib/api/normalize-error-field";
 
 export type AccountBillingStrapiSubpath =
-  | "available-tiers"
-  | "checkout"
-  | "checkout/resume"
-  | "invoice-requests"
-  | "start-trial";
+  "available-tiers" | "checkout" | "checkout/resume" | "invoice-requests" | "start-trial";
 
 export function strapiAccountBillingUrl(
   strapiUrl: string,

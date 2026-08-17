@@ -15,7 +15,7 @@ export function SponsorLibraryFilterToggle({
       aria-label="Filter by placement"
       className="max-w-full min-w-0 border-0 px-4 py-3 sm:px-5"
     >
-      <div className="overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="[scrollbar-width:none] overflow-x-auto pb-0.5 [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
         <ToggleGroup
           type="single"
           variant="outline"

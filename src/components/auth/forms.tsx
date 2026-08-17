@@ -43,7 +43,7 @@ export interface EmailInputProps extends React.ComponentProps<"input"> {
 }
 
 export function EmailInput({
-  label = "Email Identity",
+  label = "Email",
   error,
   description,
   className,
@@ -94,7 +94,7 @@ export interface PasswordInputProps extends React.ComponentProps<"input"> {
 }
 
 export function PasswordInput({
-  label = "Security Key",
+  label = "Password",
   error,
   description,
   className,
