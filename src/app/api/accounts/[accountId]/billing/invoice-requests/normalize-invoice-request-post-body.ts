@@ -4,8 +4,7 @@
  * - Rejects partial `billingAddress` (any field set but required set incomplete) with a single message.
  */
 export type NormalizeInvoiceRequestPostBodyResult =
-  | { ok: true; body: Record<string, unknown> }
-  | { ok: false; message: string };
+  { ok: true; body: Record<string, unknown> } | { ok: false; message: string };
 
 function trimStringField(addr: Record<string, unknown>, key: string): string {
   const v = addr[key];

@@ -21,11 +21,7 @@ export type BillingUiMode =
  * Differs slightly from BillingUiMode: access_denied/unknown route to restrictive messaging, not funnel.
  */
 export type BillingProductState =
-  | "activate_trial"
-  | "active_account"
-  | "pending"
-  | "create_subscription"
-  | "access_uncertain";
+  "activate_trial" | "active_account" | "pending" | "create_subscription" | "access_uncertain";
 
 export type DeriveBillingUiModeOptions = {
   /** Defaults to runtime `new Date()`; inject in tests for stable behaviour. */

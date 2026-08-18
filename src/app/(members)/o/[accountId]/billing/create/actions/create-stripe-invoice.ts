@@ -27,8 +27,7 @@ export type StrapiCreateStripeInvoiceErr = {
 };
 
 export type StrapiCreateStripeInvoiceResult =
-  | StrapiCreateStripeInvoiceOk
-  | StrapiCreateStripeInvoiceErr;
+  StrapiCreateStripeInvoiceOk | StrapiCreateStripeInvoiceErr;
 
 function strapiErrorMessage(payload: unknown): string {
   if (typeof payload === "string" && payload.trim().length > 0) {

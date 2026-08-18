@@ -1,11 +1,7 @@
 import type { AccountBillingOrderDto, AccountBillingOrderHistoryDto } from "@/types/api/account";
 
 export type HighlightedHistoryOrderMatchReason =
-  | "stripe_subscription_id"
-  | "summary_order_id"
-  | "is_active_flag"
-  | "newest_first"
-  | "none";
+  "stripe_subscription_id" | "summary_order_id" | "is_active_flag" | "newest_first" | "none";
 
 /** Prefer the billing summary active order, then active flag, then newest (first in list). */
 export function resolveHighlightedHistoryOrder(

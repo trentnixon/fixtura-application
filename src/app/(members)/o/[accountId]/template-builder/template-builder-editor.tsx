@@ -344,7 +344,7 @@ export function TemplateBuilderEditor({
     [categoryOptions, payload.categories],
   );
 
-  const textureCatalogItems = textureCatalog ?? [];
+  const textureCatalogItems = useMemo(() => textureCatalog ?? [], [textureCatalog]);
   const textureCategoryGroups = useMemo(
     () => groupTemplateTexturesByCategory(textureCatalogItems),
     [textureCatalogItems],

@@ -7,8 +7,7 @@ export type LastSelectedOrganisationRecordV2 = {
 };
 
 export type LastSelectedOrganisationRecord =
-  | LastSelectedOrganisationRecordV2
-  | { accountId: string };
+  LastSelectedOrganisationRecordV2 | { accountId: string };
 
 function storageKey(userId: number): string {
   return `${LAST_ORG_STORAGE_KEY_PREFIX}${userId}`;

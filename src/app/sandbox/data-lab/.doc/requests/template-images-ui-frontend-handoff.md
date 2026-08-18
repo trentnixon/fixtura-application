@@ -94,30 +94,13 @@ export interface TemplateImageUiConfig {
 }
 
 export type TemplateImageAnimationType =
-  | "none"
-  | "zoom"
-  | "pan"
-  | "kenburns"
-  | "breathing"
-  | "focusblur";
+  "none" | "zoom" | "pan" | "kenburns" | "breathing" | "focusblur";
 
 export type TemplateImageAnimationDirection =
-  | "up"
-  | "down"
-  | "left"
-  | "right"
-  | "in"
-  | "out"
-  | "pulse";
+  "up" | "down" | "left" | "right" | "in" | "out" | "pulse";
 
 export type TemplateImageOverlayStyle =
-  | "none"
-  | "solid"
-  | "gradient"
-  | "vignette"
-  | "duotone"
-  | "pattern"
-  | "colorFilter";
+  "none" | "solid" | "gradient" | "vignette" | "duotone" | "pattern" | "colorFilter";
 
 export type TemplateImageGradientType = "linear" | "radial";
 ```
