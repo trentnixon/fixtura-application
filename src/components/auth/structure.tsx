@@ -12,7 +12,7 @@ export function AuthPageHeader({
   align = "center",
   className,
 }: {
-  title: string;
+  title?: string;
   description?: string;
   align?: "left" | "center";
   className?: string;
@@ -22,16 +22,20 @@ export function AuthPageHeader({
       <div className={cn("flex", align === "center" && "justify-center")}>
         <img src="/logos/apple-touch-icon.png" alt="Fixtura Logo" className="h-16 w-16" />
       </div>
-      <div className="space-y-1">
-        <h1 className="font-brand text-foreground text-3xl font-bold tracking-tight sm:text-4xl">
-          {title}
-        </h1>
-        {description && (
-          <p className="text-muted-foreground text-sm font-medium tracking-tight opacity-70">
-            {description}
-          </p>
-        )}
-      </div>
+      {title || description ? (
+        <div className="space-y-1">
+          {title ? (
+            <h1 className="font-brand text-foreground text-3xl font-bold tracking-tight sm:text-4xl">
+              {title}
+            </h1>
+          ) : null}
+          {description ? (
+            <p className="text-muted-foreground text-sm font-medium tracking-tight opacity-70">
+              {description}
+            </p>
+          ) : null}
+        </div>
+      ) : null}
     </header>
   );
 }

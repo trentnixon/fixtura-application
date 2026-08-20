@@ -1,36 +1,32 @@
-import { Loader2 } from "lucide-react";
 import { Suspense } from "react";
 
-import { AuthContentContainer, AuthPageSection } from "@/components/auth/layout";
 import { LoginForm } from "@/components/auth/login-form";
-import { AuthPageHeader, AuthSurface } from "@/components/auth/structure";
+import { SignInPageLayout } from "@/components/auth/sign-in-page-layout";
+import { BrandedLoader } from "@/components/ui/branded-loader";
 import { buildPageMetadata } from "@/lib/metadata/buildMetadata";
 
 export const metadata = buildPageMetadata({
-  title: "Sign In",
-  description: "Sign in to access your Fixtura Members account.",
+  title: "Members",
+  description:
+    "Sign in to your Fixtura Members account to manage competitions, branding, and weekly content.",
 });
 
 function LoginFormFallback() {
   return (
-    <div className="flex min-h-[320px] items-center justify-center py-12">
-      <Loader2 className="text-primary h-8 w-8 animate-spin" />
+    <div className="flex min-h-80 items-center justify-center py-12">
+      <BrandedLoader size="sm" label="Loading sign in..." />
     </div>
   );
 }
 
 export default function LoginPage() {
   return (
-    <AuthContentContainer>
-      <AuthPageSection>
-        <AuthPageHeader title="Sign in" />
-
-        <AuthSurface>
-          <Suspense fallback={<LoginFormFallback />}>
-            <LoginForm />
-          </Suspense>
-        </AuthSurface>
-      </AuthPageSection>
-    </AuthContentContainer>
+    <SignInPageLayout
+      form={
+        <Suspense fallback={<LoginFormFallback />}>
+          <LoginForm />
+        </Suspense>
+      }
+    />
   );
 }
