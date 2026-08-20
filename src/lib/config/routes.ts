@@ -1,3 +1,9 @@
+/** Public marketing site URLs (outside the members app). */
+export const EXTERNAL_LINKS = {
+  website: "https://www.fixtura.com.au",
+  contact: "https://www.fixtura.com.au/contact",
+} as const;
+
 export const ROUTES = {
   // (public)
   home: "/",
