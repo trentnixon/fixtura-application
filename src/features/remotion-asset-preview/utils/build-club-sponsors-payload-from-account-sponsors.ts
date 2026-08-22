@@ -8,24 +8,10 @@ import { parseGeneralAccountGroup } from "@/app/(members)/o/[accountId]/manage-s
 
 import type { AccountSponsorDto } from "@/types/api/account";
 
-/** Slim sponsor DTO on asset JSON (Scheduler → Remotion sponsors payload v2). */
-export type RemotionClubSponsorRow = {
-  id: number;
-  name: string;
-  logo: { id: number; url: string };
-};
+import type { ClubSponsorsPayload, RemotionClubSponsorRow } from "./sponsors-payload-v2";
 
-export type ClubSponsorsPayload = {
-  primary: RemotionClubSponsorRow[];
-  general: RemotionClubSponsorRow[];
-  sponsorNum: number;
-};
-
-export const EMPTY_ASSIGN_SPONSORS = {
-  competition: [] as RemotionClubSponsorRow[],
-  grade: [] as RemotionClubSponsorRow[],
-  team: [] as RemotionClubSponsorRow[],
-};
+export type { ClubSponsorsPayload, RemotionClubSponsorRow } from "./sponsors-payload-v2";
+export { EMPTY_ASSIGN_SPONSORS, EMPTY_CLUB_SPONSORS, EMPTY_ROW_ASSIGN_SPONSORS } from "./sponsors-payload-v2";
 
 function sortActiveSponsors(sponsors: AccountSponsorDto[]): AccountSponsorDto[] {
   return sponsors

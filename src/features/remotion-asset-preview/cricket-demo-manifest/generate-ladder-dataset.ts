@@ -1,3 +1,9 @@
+import {
+  EMPTY_CLUB_SPONSORS,
+  emptyDemoContentRowSponsorFields,
+  type DemoContentRowSponsorFields,
+} from "../utils/sponsors-payload-v2";
+
 import type { CricketHistoricalDemoManifest } from "./schema";
 
 export const PRESERVED_LADDER_FRAMES = [45, 240, 525, 810, 1095, 1380, 1665, 1950, 2235] as const;
@@ -57,13 +63,7 @@ export type LadderBlock = {
       stats: LadderTeamRow["prompt"]["stats"];
     }>;
   };
-  assignSponsors: {
-    competition: [];
-    grade: [];
-    team: [];
-  };
-  primaryForScreen: [];
-};
+} & DemoContentRowSponsorFields;
 
 /** Simple deterministic 32-bit PRNG (mulberry32). */
 export function createSeededRng(seedText: string): () => number {
@@ -238,12 +238,7 @@ export function generateLadderBlocks(manifest: CricketHistoricalDemoManifest): L
           stats: team.prompt.stats,
         })),
       },
-      assignSponsors: {
-        competition: [],
-        grade: [],
-        team: [],
-      },
-      primaryForScreen: [],
+      ...emptyDemoContentRowSponsorFields(),
     };
   });
 }
@@ -308,7 +303,7 @@ export function sanitiseLadderVideoMeta(
     width: clone.club.logo.width || 500,
     height: clone.club.logo.height || 500,
   };
-  clone.club.sponsors = { primary: [], general: [], sponsorNum: 0 };
+  clone.club.sponsors = { ...EMPTY_CLUB_SPONSORS };
   clone.club.IsAccountClub = false;
   clone.video.metadata.includeSponsors = false;
   if (typeof clone.video.metadata["videoTitle"] === "string") {

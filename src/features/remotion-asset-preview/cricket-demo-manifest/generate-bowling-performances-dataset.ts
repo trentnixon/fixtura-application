@@ -1,5 +1,10 @@
 import { createSeededRng, sanitiseLadderVideoMeta } from "./generate-ladder-dataset";
 
+import {
+  emptyDemoContentRowSponsorFields,
+  type DemoContentRowSponsorFields,
+} from "../utils/sponsors-payload-v2";
+
 import type { CricketHistoricalDemoManifest } from "./schema";
 
 export const PRESERVED_BOWLING_PERFORMANCES_FRAMES = [45, 180, 345, 510] as const;
@@ -25,13 +30,7 @@ export type BowlingPerformanceRow = {
   wickets: number;
   teamLogo: { url: string; width: number; height: number };
   playedFor: string;
-  assignSponsors: {
-    competition: [];
-    grade: [];
-    team: [];
-  };
-  primaryForScreen: [];
-};
+} & DemoContentRowSponsorFields;
 
 export type GeneratedSpell = {
   wickets: number;
@@ -143,12 +142,7 @@ export function generateBowlingPerformanceRows(
         height: 480,
       },
       playedFor: nation.displayName,
-      assignSponsors: {
-        competition: [],
-        grade: [],
-        team: [],
-      },
-      primaryForScreen: [],
+      ...emptyDemoContentRowSponsorFields(),
     };
   });
 }

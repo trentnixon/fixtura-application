@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { buildClubSponsorsPayloadFromAccountSponsors } from "./build-club-sponsors-payload-from-account-sponsors";
+import { EMPTY_CLUB_SPONSORS } from "./sponsors-payload-v2";
 
 import type { AccountSponsorDto } from "@/types/api/account";
 
@@ -27,14 +28,14 @@ function sponsorFixture(overrides: Partial<AccountSponsorDto> = {}): AccountSpon
 describe("buildClubSponsorsPayloadFromAccountSponsors", () => {
   it("returns empty primary, general, and sponsorNum 0 when sponsors are null", () => {
     const payload = buildClubSponsorsPayloadFromAccountSponsors(null);
-    expect(payload).toEqual({ primary: [], general: [], sponsorNum: 0 });
+    expect(payload).toEqual(EMPTY_CLUB_SPONSORS);
   });
 
   it("ignores inactive sponsors", () => {
     const payload = buildClubSponsorsPayloadFromAccountSponsors([
       sponsorFixture({ id: 10, name: "Off", isActive: false, isPrimary: true }),
     ]);
-    expect(payload).toEqual({ primary: [], general: [], sponsorNum: 0 });
+    expect(payload).toEqual(EMPTY_CLUB_SPONSORS);
   });
 
   it("places isPrimary unassigned sponsors in primary then general in general", () => {
@@ -95,5 +96,16 @@ describe("buildClubSponsorsPayloadFromAccountSponsors", () => {
     expect(payload.general.map((r) => r.id)).toEqual([50]);
     expect(payload.general[0]?.name).toBe("In slot 3");
     expect(payload.sponsorNum).toBe(1);
+  });
+
+  it("overflows unassigned primary sponsors into general slots after primary tier is full", () => {
+    const payload = buildClubSponsorsPayloadFromAccountSponsors(
+      [1, 2, 3, 4, 5].map((id) =>
+        sponsorFixture({ id, name: `Primary ${id}`, isPrimary: true, order: id }),
+      ),
+    );
+    expect(payload.primary.map((row) => row.id)).toEqual([1, 2, 3, 4]);
+    expect(payload.general.map((row) => row.id)).toEqual([5]);
+    expect(payload.sponsorNum).toBe(5);
   });
 });

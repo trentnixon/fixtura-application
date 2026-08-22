@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { mergeAccountBrandingIntoDataset } from "./merge-account-branding-into-dataset";
+import { EMPTY_CLUB_SPONSORS } from "./sponsors-payload-v2";
 
 import type { AccountBrandingData, AccountSponsorDto } from "@/types/api/account";
 import type { FixturaDataset } from "@/vendor/fixtura-remotion-assets/preview";
@@ -693,7 +694,7 @@ describe("mergeAccountBrandingIntoDataset", () => {
     const vm = dataRec["videoMeta"] as Record<string, unknown>;
     const club = vm["club"] as Record<string, unknown>;
     const sponsors = club["sponsors"] as Record<string, unknown>;
-    expect(sponsors).toEqual({ primary: [], general: [], sponsorNum: 0 });
+    expect(sponsors).toEqual(EMPTY_CLUB_SPONSORS);
 
     const video = vm["video"] as Record<string, unknown>;
     const metadata = video["metadata"] as Record<string, unknown>;
@@ -701,6 +702,54 @@ describe("mergeAccountBrandingIntoDataset", () => {
 
     const rows = dataRec["data"] as Array<Record<string, unknown>>;
     expect(rows[0]?.["primaryForScreen"]).toEqual([]);
+  });
+
+  it("sets includeSponsors when only general sponsors exist", () => {
+    const base = minimalDataset();
+    const { data } = mergeAccountBrandingIntoDataset(base, {
+      branding: brandingFixture(),
+      logoUrl: null,
+      templateModeSlug: null,
+      accountSponsors: [
+        {
+          id: 501,
+          name: "Outro Only",
+          url: null,
+          startDate: null,
+          endDate: null,
+          isActive: true,
+          isPrimary: false,
+          tagline: null,
+          order: 0,
+          description: null,
+          isVideo: false,
+          isArticle: false,
+          logo: {
+            id: 88,
+            url: "https://fixtura.example/outro.png",
+            width: 1,
+            height: 1,
+            mime: null,
+            alternativeText: null,
+          },
+          sponsorshipAllocations: [],
+        },
+      ],
+    });
+
+    const dataRec = data as unknown as Record<string, unknown>;
+    const vm = dataRec["videoMeta"] as Record<string, unknown>;
+    const club = vm["club"] as Record<string, unknown>;
+    const sponsors = club["sponsors"] as Record<string, unknown>;
+    expect(sponsors["primary"]).toEqual([]);
+    expect(sponsors["general"]).toEqual([
+      { id: 501, name: "Outro Only", logo: { id: 88, url: "https://fixtura.example/outro.png" } },
+    ]);
+    expect(sponsors["sponsorNum"]).toBe(1);
+
+    const video = vm["video"] as Record<string, unknown>;
+    const metadata = video["metadata"] as Record<string, unknown>;
+    expect(metadata["includeSponsors"]).toBe(true);
   });
 
   it("does not invent sponsor fields on nested objects that lack assignSponsors/primaryForScreen", () => {

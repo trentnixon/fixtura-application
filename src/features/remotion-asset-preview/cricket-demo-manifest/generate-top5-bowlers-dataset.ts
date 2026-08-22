@@ -1,5 +1,10 @@
 import { sanitiseLadderVideoMeta } from "./generate-ladder-dataset";
 
+import {
+  emptyDemoContentRowSponsorFields,
+  type DemoContentRowSponsorFields,
+} from "../utils/sponsors-payload-v2";
+
 import type { CricketHistoricalDemoManifest } from "./schema";
 
 export const PRESERVED_TOP5_BOWLERS_FRAMES = [390, 45] as const;
@@ -33,13 +38,7 @@ export type Top5BowlerRow = {
   wickets: number;
   teamLogo: { url: string; width: number; height: number };
   playedFor: string;
-  assignSponsors: {
-    competition: [];
-    grade: [];
-    team: [];
-  };
-  primaryForScreen: [];
-};
+} & DemoContentRowSponsorFields;
 
 export function generateTop5BowlerRows(manifest: CricketHistoricalDemoManifest): Top5BowlerRow[] {
   const nationsById = new Map(manifest.nations.map((nation) => [nation.id, nation]));
@@ -69,12 +68,7 @@ export function generateTop5BowlerRows(manifest: CricketHistoricalDemoManifest):
         height: 480,
       },
       playedFor: nation.displayName,
-      assignSponsors: {
-        competition: [],
-        grade: [],
-        team: [],
-      },
-      primaryForScreen: [],
+      ...emptyDemoContentRowSponsorFields(),
     };
   });
 }

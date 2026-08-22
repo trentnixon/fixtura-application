@@ -88,3 +88,4 @@ Update cricket example datasets and the account-sponsor merge path so preview as
 
 - Handoff checklist item “design for up to 4 primaries + 1 entity on a content screen” is Remotion layout ownership; preview only supplies empty entity arrays.
 - Team of the Week demo rows may lack `assignSponsors` / `primaryForScreen` keys; under the recursive stamp rule they are not forced. Account-level `club.sponsors` still drives intro/outro via Remotion fallbacks.
+- `LLM_Result_Data.json` was normalised to the same v2 empty shells for consistency; it is not loaded by cricket preview composition paths.

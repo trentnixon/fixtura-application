@@ -2,6 +2,11 @@ import { createHash } from "node:crypto";
 
 import { sanitiseLadderVideoMeta } from "./generate-ladder-dataset";
 
+import {
+  emptyDemoContentRowSponsorFields,
+  type DemoContentRowSponsorFields,
+} from "../utils/sponsors-payload-v2";
+
 import type { CricketHistoricalDemoManifest } from "./schema";
 
 export const PRESERVED_UPCOMING_FRAMES = [45, 195, 390] as const;
@@ -51,9 +56,7 @@ export type UpcomingFixtureRow = {
   gradeName: string;
   teamAwayLogo: { url: string; width: number; height: number };
   teamHomeLogo: { url: string; width: number; height: number };
-  assignSponsors: { team: []; grade: []; competition: [] };
-  primaryForScreen: [];
-};
+} & DemoContentRowSponsorFields;
 
 function formatUpcomingDate(isoDate: string): string {
   const date = new Date(`${isoDate}T12:00:00.000Z`);
@@ -143,12 +146,7 @@ export function generateUpcomingRows(
       gradeName: UPCOMING_GRADE_NAME,
       teamAwayLogo: flagLogo(away.flagPath),
       teamHomeLogo: flagLogo(home.flagPath),
-      assignSponsors: {
-        team: [],
-        grade: [],
-        competition: [],
-      },
-      primaryForScreen: [],
+      ...emptyDemoContentRowSponsorFields(),
     };
   });
 }

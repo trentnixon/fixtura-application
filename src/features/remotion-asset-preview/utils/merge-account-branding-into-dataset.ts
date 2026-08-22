@@ -4,9 +4,9 @@ import { themeColoursFromAccountBrandingTheme } from "@/lib/branding/theme-colou
 
 import {
   buildClubSponsorsPayloadFromAccountSponsors,
-  EMPTY_ASSIGN_SPONSORS,
   type RemotionClubSponsorRow,
 } from "./build-club-sponsors-payload-from-account-sponsors";
+import { EMPTY_ROW_ASSIGN_SPONSORS } from "./sponsors-payload-v2";
 import {
   readRemotionBackgroundAssetsPatch,
   REMOTION_BACKGROUND_TV_KEYS,
@@ -70,9 +70,9 @@ export function stampSponsorFieldsOnContentRows(
   if (hasAssign || hasPrimaryForScreen) {
     record["primaryForScreen"] = primaryForScreen.map((row) => ({ ...row, logo: { ...row.logo } }));
     record["assignSponsors"] = {
-      competition: [...EMPTY_ASSIGN_SPONSORS.competition],
-      grade: [...EMPTY_ASSIGN_SPONSORS.grade],
-      team: [...EMPTY_ASSIGN_SPONSORS.team],
+      competition: [...EMPTY_ROW_ASSIGN_SPONSORS.competition],
+      grade: [...EMPTY_ROW_ASSIGN_SPONSORS.grade],
+      team: [...EMPTY_ROW_ASSIGN_SPONSORS.team],
     };
   }
 

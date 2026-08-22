@@ -12,6 +12,7 @@ import {
   PRESERVED_LADDER_TIMINGS,
 } from "./generate-ladder-dataset";
 import { loadCricketHistoricalDemoManifest } from "./index";
+import { EMPTY_CLUB_SPONSORS } from "../utils/sponsors-payload-v2";
 
 import type { buildSanitisedLadderDataset } from "./generate-ladder-dataset";
 
@@ -85,6 +86,7 @@ describe("sanitised Cricket_Ladder.json", () => {
         name: "International Cricket Demo Preview",
         IsAccountClub: false,
         logo: { hasLogo: false, url: "" },
+        sponsors: EMPTY_CLUB_SPONSORS,
       },
     });
 

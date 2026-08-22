@@ -32,6 +32,7 @@ describe("generate-weekend-results-dataset", () => {
       expect(row.homeTeam.isClubTeam).toBe(false);
       expect(row.awayTeam.isClubTeam).toBe(false);
       expect(row.assignSponsors).toEqual({ competition: [], grade: [], team: [] });
+      expect(row.primaryForScreen).toEqual([]);
       expect(row.result).toContain(row.resultSummary.winner);
       expect(row.resultShort).toContain("def");
       expect(row.teamHomeLogo.url).toBe(row.homeTeam.logo.url);

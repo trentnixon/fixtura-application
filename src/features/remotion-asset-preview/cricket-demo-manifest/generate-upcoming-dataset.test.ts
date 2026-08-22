@@ -47,6 +47,8 @@ describe("generate-upcoming-dataset", () => {
       expect(row.teamHomeLogo.url.startsWith("/dummyAssetData/flags/")).toBe(true);
       expect(row.teamAwayLogo.url.startsWith("/dummyAssetData/flags/")).toBe(true);
       expect(row.gameID).toMatch(/^[a-f0-9]{8}$/);
+      expect(row.assignSponsors).toEqual({ competition: [], grade: [], team: [] });
+      expect(row.primaryForScreen).toEqual([]);
     }
   });
 });
