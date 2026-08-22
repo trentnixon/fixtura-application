@@ -167,27 +167,12 @@
       "resultWord": "won"
     },
     "assignSponsors": {
-      "team": [
-        {
-          "id": 1258,
-          "url": "Frank Dowling",
-          "logo": {
-            "id": 8528,
-            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/2_1_b9a6e52102.png"
-          },
-          "name": "Frank Dowling",
-          "isVideo": true,
-          "tagline": "Frank Dowling",
-          "isActive": true,
-          "isArticle": true,
-          "isPrimary": false,
-          "description": null
-        }
-      ],
+      "competition": [],
       "grade": [],
-      "competition": []
+      "team": []
     },
-    "gradeSortOrder": 0
+    "gradeSortOrder": 0,
+    "primaryForScreen": []
   },
   {
     "date": "13 Feb 2026",
@@ -308,26 +293,11 @@
       "resultWord": "lost"
     },
     "assignSponsors": {
-      "team": [
-        {
-          "id": 1258,
-          "url": "Frank Dowling",
-          "logo": {
-            "id": 8528,
-            "url": "https://fixtura.s3.ap-southeast-2.amazonaws.com/2_1_b9a6e52102.png"
-          },
-          "name": "Frank Dowling",
-          "isVideo": true,
-          "tagline": "Frank Dowling",
-          "isActive": true,
-          "isArticle": true,
-          "isPrimary": false,
-          "description": null
-        }
-      ],
+      "competition": [],
       "grade": [],
-      "competition": []
+      "team": []
     },
-    "gradeSortOrder": 0
+    "gradeSortOrder": 0,
+    "primaryForScreen": []
   }
 ]

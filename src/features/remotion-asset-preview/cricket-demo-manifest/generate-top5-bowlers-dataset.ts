@@ -34,10 +34,11 @@ export type Top5BowlerRow = {
   teamLogo: { url: string; width: number; height: number };
   playedFor: string;
   assignSponsors: {
-    Team: { name: string };
-    grade: { id: number; name: string };
-    competition: { id: number; name: string };
+    competition: [];
+    grade: [];
+    team: [];
   };
+  primaryForScreen: [];
 };
 
 export function generateTop5BowlerRows(manifest: CricketHistoricalDemoManifest): Top5BowlerRow[] {
@@ -69,10 +70,11 @@ export function generateTop5BowlerRows(manifest: CricketHistoricalDemoManifest):
       },
       playedFor: nation.displayName,
       assignSponsors: {
-        Team: { name: nation.displayName },
-        grade: { id: 0, name: TOP5_BOWLERS_GRADE },
-        competition: { id: 0, name: TOP5_BOWLERS_COMPETITION },
+        competition: [],
+        grade: [],
+        team: [],
       },
+      primaryForScreen: [],
     };
   });
 }

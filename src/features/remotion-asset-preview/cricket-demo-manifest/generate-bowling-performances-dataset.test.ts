@@ -3,8 +3,6 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 
 import {
-  BOWLING_PERFORMANCES_COMPETITION,
-  BOWLING_PERFORMANCES_GRADE,
   BOWLING_PERFORMANCES_POOL_ID,
   economyFromRunsAndOvers,
   generateBowlingPerformanceRows,
@@ -64,9 +62,9 @@ describe("generate-bowling-performances-dataset", () => {
       expect(row.prompt).toContain(
         `economy ${economyFromRunsAndOvers(row.runs, row.overs).toFixed(2)}`,
       );
-      expect(row.assignSponsors.competition.name).toBe(BOWLING_PERFORMANCES_COMPETITION);
-      expect(row.assignSponsors.grade.name).toBe(BOWLING_PERFORMANCES_GRADE);
-      expect(row.playedFor).toBe(row.assignSponsors.Team.name);
+      expect(row.assignSponsors).toEqual({ competition: [], grade: [], team: [] });
+      expect(row.primaryForScreen).toEqual([]);
+      expect(row.playedFor.length).toBeGreaterThan(0);
       expect(row.teamLogo.url.startsWith("/dummyAssetData/flags/")).toBe(true);
     }
   });

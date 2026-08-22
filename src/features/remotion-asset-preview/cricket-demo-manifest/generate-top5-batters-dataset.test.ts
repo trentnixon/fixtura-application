@@ -3,8 +3,6 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 
 import {
-  TOP5_BATTERS_COMPETITION,
-  TOP5_BATTERS_GRADE,
   TOP5_BATTERS_INNINGS,
   generateTop5BatterRows,
   PRESERVED_TOP5_BATTERS_FRAMES,
@@ -39,9 +37,9 @@ describe("generate-top5-batters-dataset", () => {
       expect(row.notOut).toBe(expected.notOut);
       expect(row.SR).toBe(strikeRateFromRunsAndBalls(expected.runs, expected.balls));
       expect(row.prompt).toContain("fictional demonstration performance");
-      expect(row.assignSponsors.competition.name).toBe(TOP5_BATTERS_COMPETITION);
-      expect(row.assignSponsors.grade.name).toBe(TOP5_BATTERS_GRADE);
-      expect(row.playedFor).toBe(row.assignSponsors.Team.name);
+      expect(row.assignSponsors).toEqual({ competition: [], grade: [], team: [] });
+      expect(row.primaryForScreen).toEqual([]);
+      expect(row.playedFor.length).toBeGreaterThan(0);
       expect(row.teamLogo.url.startsWith("/dummyAssetData/flags/")).toBe(true);
     }
   });

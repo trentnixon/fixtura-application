@@ -38,10 +38,11 @@ export type BattingPerformanceRow = {
   teamLogo: { url: string; width: number; height: number };
   playedFor: string;
   assignSponsors: {
-    Team: { name: string };
-    grade: { id: number; name: string };
-    competition: { id: number; name: string };
+    competition: [];
+    grade: [];
+    team: [];
   };
+  primaryForScreen: [];
 };
 
 export type GeneratedInnings = {
@@ -152,10 +153,11 @@ export function generateBattingPerformanceRows(
       },
       playedFor: nation.displayName,
       assignSponsors: {
-        Team: { name: nation.displayName },
-        grade: { id: 0, name: BATTING_PERFORMANCES_GRADE },
-        competition: { id: 0, name: BATTING_PERFORMANCES_COMPETITION },
+        competition: [],
+        grade: [],
+        team: [],
       },
+      primaryForScreen: [],
     };
   });
 }

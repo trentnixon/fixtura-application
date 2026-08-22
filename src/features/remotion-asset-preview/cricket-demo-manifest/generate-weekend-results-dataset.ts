@@ -89,6 +89,7 @@ export type WeekendResultsRow = {
   gradeName: string;
   gradeSortOrder: number;
   assignSponsors: { competition: []; grade: []; team: [] };
+  primaryForScreen: [];
   result: string;
   resultShort: string;
   resultSummary: {
@@ -704,6 +705,7 @@ export function generateWeekendResultsRows(
       gradeName: WEEKEND_RESULTS_GRADE,
       gradeSortOrder: 0,
       assignSponsors: { competition: [], grade: [], team: [] },
+      primaryForScreen: [],
       result,
       resultShort,
       resultSummary: {

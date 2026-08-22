@@ -24,10 +24,11 @@
         "height": 480
       },
       "assignSponsors": {
-        "team": [],
+        "competition": [],
         "grade": [],
-        "competition": []
-      }
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "date": "Fri, 31 May",
@@ -53,10 +54,11 @@
         "height": 480
       },
       "assignSponsors": {
-        "team": [],
+        "competition": [],
         "grade": [],
-        "competition": []
-      }
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "date": "Sat, 1 Jun",
@@ -82,10 +84,11 @@
         "height": 480
       },
       "assignSponsors": {
-        "team": [],
+        "competition": [],
         "grade": [],
-        "competition": []
-      }
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "date": "Sat, 1 Jun",
@@ -111,10 +114,11 @@
         "height": 480
       },
       "assignSponsors": {
-        "team": [],
+        "competition": [],
         "grade": [],
-        "competition": []
-      }
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "date": "Wed, 5 Jun",
@@ -140,10 +144,11 @@
         "height": 480
       },
       "assignSponsors": {
-        "team": [],
+        "competition": [],
         "grade": [],
-        "competition": []
-      }
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "date": "Wed, 5 Jun",
@@ -169,10 +174,11 @@
         "height": 480
       },
       "assignSponsors": {
-        "team": [],
+        "competition": [],
         "grade": [],
-        "competition": []
-      }
+        "team": []
+      },
+      "primaryForScreen": []
     }
   ],
   "asset": {
@@ -182,7 +188,11 @@
     "assetsLinkID": 0
   },
   "errors": [],
-  "frames": [45, 195, 390],
+  "frames": [
+    45,
+    195,
+    390
+  ],
   "render": {
     "schedulerId": 0,
     "renderId": 0
@@ -209,7 +219,8 @@
       "sport": "Cricket",
       "sponsors": {
         "primary": [],
-        "default": {}
+        "general": [],
+        "sponsorNum": 0
       },
       "IsAccountClub": false
     },
@@ -233,7 +244,10 @@
         "title": "Fixtures",
         "frames": [],
         "assetId": 2,
-        "titleSplit": ["Fixtures", ""],
+        "titleSplit": [
+          "Fixtures",
+          ""
+        ],
         "videoTitle": "Upcoming Fixtures",
         "assetTypeId": 1,
         "compositionId": "CricketUpcoming",

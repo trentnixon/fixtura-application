@@ -8,23 +8,23 @@ import { parseGeneralAccountGroup } from "@/app/(members)/o/[accountId]/manage-s
 
 import type { AccountSponsorDto } from "@/types/api/account";
 
-/** One sponsor row under `videoMeta.club.sponsors` (cricket-style example datasets). */
+/** Slim sponsor DTO on asset JSON (Scheduler → Remotion sponsors payload v2). */
 export type RemotionClubSponsorRow = {
   id: number;
-  url: string | null;
-  logo: { id: number; url: string };
   name: string;
-  isVideo: boolean;
-  tagline: string | null;
-  isActive: boolean;
-  isArticle: boolean;
-  isPrimary: boolean;
-  description: string | null;
+  logo: { id: number; url: string };
 };
 
 export type ClubSponsorsPayload = {
-  default: Record<string, RemotionClubSponsorRow[]>;
   primary: RemotionClubSponsorRow[];
+  general: RemotionClubSponsorRow[];
+  sponsorNum: number;
+};
+
+export const EMPTY_ASSIGN_SPONSORS = {
+  competition: [] as RemotionClubSponsorRow[],
+  grade: [] as RemotionClubSponsorRow[],
+  team: [] as RemotionClubSponsorRow[],
 };
 
 function sortActiveSponsors(sponsors: AccountSponsorDto[]): AccountSponsorDto[] {
@@ -45,18 +45,11 @@ export function accountSponsorDtoToRemotionClubSponsorRow(
   const logo = s.logo;
   return {
     id: s.id,
-    url: s.url,
+    name: s.name,
     logo:
       logo != null && logo.url != null && String(logo.url).trim() !== ""
         ? { id: logo.id, url: String(logo.url) }
         : { id: 0, url: "" },
-    name: s.name,
-    isVideo: s.isVideo,
-    tagline: s.tagline,
-    isActive: s.isActive,
-    isArticle: s.isArticle,
-    isPrimary: s.isPrimary,
-    description: s.description,
   };
 }
 
@@ -64,7 +57,7 @@ export function accountSponsorDtoToRemotionClubSponsorRow(
  * Builds `videoMeta.club.sponsors` for Remotion preview datasets from GET /accounts/:id/sponsors.
  * Active sponsors only. Position rows (`global` allocations) win; remaining sponsors fill empty slots
  * in `order` / name order (primary tier first when unassigned).
- * Never retains JSON from the example file — only this payload is written at merge time.
+ * Emits v2 arrays (`primary`, `general`, `sponsorNum`) — never retains example JSON.
  */
 export function buildClubSponsorsPayloadFromAccountSponsors(
   sponsors: AccountSponsorDto[] | null | undefined,
@@ -104,16 +97,21 @@ export function buildClubSponsorsPayloadFromAccountSponsors(
     if (next) slotToSponsor.set(slot.id, next);
   }
 
-  const defaultSlots: Record<string, RemotionClubSponsorRow[]> = {};
-  for (const [slotId, sponsor] of slotToSponsor) {
-    defaultSlots[slotId] = [accountSponsorDtoToRemotionClubSponsorRow(sponsor)];
-  }
-
-  const primaryRows: RemotionClubSponsorRow[] = [];
+  const primary: RemotionClubSponsorRow[] = [];
   for (const slot of PRIMARY_POSITION_SLOTS) {
     const sponsor = slotToSponsor.get(slot.id);
-    if (sponsor) primaryRows.push(accountSponsorDtoToRemotionClubSponsorRow(sponsor));
+    if (sponsor) primary.push(accountSponsorDtoToRemotionClubSponsorRow(sponsor));
   }
 
-  return { default: defaultSlots, primary: primaryRows };
+  const general: RemotionClubSponsorRow[] = [];
+  for (const slot of ALL_GENERAL_POSITION_SLOTS) {
+    const sponsor = slotToSponsor.get(slot.id);
+    if (sponsor) general.push(accountSponsorDtoToRemotionClubSponsorRow(sponsor));
+  }
+
+  return {
+    primary,
+    general,
+    sponsorNum: primary.length + general.length,
+  };
 }

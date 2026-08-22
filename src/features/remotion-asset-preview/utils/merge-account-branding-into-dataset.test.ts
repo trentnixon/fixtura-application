@@ -11,9 +11,9 @@ function minimalDataset(template = "TwoColumnClassic"): FixturaDataset {
       club: {
         logo: { hasLogo: false, url: "" },
         sponsors: {
-          default: {
-            primary_sponsor: [{ id: 999, name: "Example", isPrimary: true, isActive: true }],
-          },
+          primary: [{ id: 999, name: "Example", logo: { id: 1, url: "https://ex/e.png" } }],
+          general: [],
+          sponsorNum: 1,
           legacyTeam: [],
         },
       },
@@ -31,9 +31,16 @@ function minimalDataset(template = "TwoColumnClassic"): FixturaDataset {
           mode: "light",
           category: { slug: template },
         },
-        metadata: { compositionId: "CricketLadder" },
+        metadata: { compositionId: "CricketLadder", includeSponsors: true },
       },
     },
+    data: [
+      {
+        gradeName: "Demo",
+        assignSponsors: { competition: [], grade: [], team: [] },
+        primaryForScreen: [],
+      },
+    ],
     frames: [10],
   } as unknown as FixturaDataset;
 }
@@ -606,7 +613,7 @@ describe("mergeAccountBrandingIntoDataset", () => {
     expect(appearance["template"]).toBe("TwoColumnClassic");
   });
 
-  it("replaces example club.sponsors with account sponsors and drops extra example keys", () => {
+  it("replaces example club.sponsors with v2 primary/general and stamps content rows", () => {
     const base = minimalDataset();
     const accountSponsor: AccountSponsorDto = {
       id: 1390,
@@ -644,14 +651,34 @@ describe("mergeAccountBrandingIntoDataset", () => {
     const club = vm["club"] as Record<string, unknown>;
     const sponsors = club["sponsors"] as Record<string, unknown>;
     expect(sponsors["legacyTeam"]).toBeUndefined();
-    expect(sponsors["default"]).toBeDefined();
-    expect(sponsors["primary"]).toBeDefined();
+    expect(sponsors["default"]).toBeUndefined();
+    expect(sponsors["primary"]).toEqual([
+      {
+        id: 1390,
+        name: "Goulburn Soldiers Club",
+        logo: { id: 8796, url: "https://fixtura.example/logo.jpg" },
+      },
+    ]);
+    expect(sponsors["general"]).toEqual([]);
+    expect(sponsors["sponsorNum"]).toBe(1);
 
-    const def = sponsors["default"] as Record<string, unknown>;
-    const primarySlot = def["primary_sponsor"] as Array<Record<string, unknown>>;
-    expect(primarySlot[0]?.["id"]).toBe(1390);
-    expect(primarySlot[0]?.["name"]).toBe("Goulburn Soldiers Club");
-    expect(primarySlot[0]?.["id"]).not.toBe(999);
+    const video = vm["video"] as Record<string, unknown>;
+    const metadata = video["metadata"] as Record<string, unknown>;
+    expect(metadata["includeSponsors"]).toBe(true);
+
+    const rows = dataRec["data"] as Array<Record<string, unknown>>;
+    expect(rows[0]?.["primaryForScreen"]).toEqual([
+      {
+        id: 1390,
+        name: "Goulburn Soldiers Club",
+        logo: { id: 8796, url: "https://fixtura.example/logo.jpg" },
+      },
+    ]);
+    expect(rows[0]?.["assignSponsors"]).toEqual({
+      competition: [],
+      grade: [],
+      team: [],
+    });
   });
 
   it("clears example sponsors when accountSponsors is null", () => {
@@ -666,8 +693,50 @@ describe("mergeAccountBrandingIntoDataset", () => {
     const vm = dataRec["videoMeta"] as Record<string, unknown>;
     const club = vm["club"] as Record<string, unknown>;
     const sponsors = club["sponsors"] as Record<string, unknown>;
-    const def = sponsors["default"] as Record<string, unknown>;
-    expect(Object.keys(def)).toEqual([]);
-    expect(sponsors["primary"]).toEqual([]);
+    expect(sponsors).toEqual({ primary: [], general: [], sponsorNum: 0 });
+
+    const video = vm["video"] as Record<string, unknown>;
+    const metadata = video["metadata"] as Record<string, unknown>;
+    expect(metadata["includeSponsors"]).toBe(false);
+
+    const rows = dataRec["data"] as Array<Record<string, unknown>>;
+    expect(rows[0]?.["primaryForScreen"]).toEqual([]);
+  });
+
+  it("does not invent sponsor fields on nested objects that lack assignSponsors/primaryForScreen", () => {
+    const base = minimalDataset();
+    const baseRec = base as unknown as Record<string, unknown>;
+    const rows = baseRec["data"] as Array<Record<string, unknown>>;
+    rows[0]!["nestedMeta"] = { label: "untouched", count: 2 };
+
+    const { data } = mergeAccountBrandingIntoDataset(base, {
+      branding: brandingFixture(),
+      logoUrl: null,
+      templateModeSlug: null,
+      accountSponsors: [
+        {
+          id: 7,
+          name: "Only Row",
+          url: null,
+          startDate: null,
+          endDate: null,
+          isActive: true,
+          isPrimary: true,
+          tagline: null,
+          order: 0,
+          description: null,
+          isVideo: false,
+          isArticle: false,
+          logo: null,
+          sponsorshipAllocations: [],
+        },
+      ],
+    });
+
+    const dataRec = data as unknown as Record<string, unknown>;
+    const outRows = dataRec["data"] as Array<Record<string, unknown>>;
+    expect(outRows[0]?.["nestedMeta"]).toEqual({ label: "untouched", count: 2 });
+    expect(outRows[0]?.["nestedMeta"]).not.toHaveProperty("primaryForScreen");
+    expect(outRows[0]?.["nestedMeta"]).not.toHaveProperty("assignSponsors");
   });
 });

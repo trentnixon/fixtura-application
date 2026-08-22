@@ -3,8 +3,6 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 
 import {
-  BATTING_PERFORMANCES_COMPETITION,
-  BATTING_PERFORMANCES_GRADE,
   BATTING_PERFORMANCES_POOL_ID,
   BATTING_PERFORMANCES_VENUE_IDS,
   generateBattingPerformanceRows,
@@ -57,9 +55,9 @@ describe("generate-batting-performances-dataset", () => {
     for (const row of rows) {
       expect(row.SR).toBe(strikeRateFromRunsAndBalls(row.runs, row.balls));
       expect(row.prompt).toContain("fictional demonstration performance");
-      expect(row.assignSponsors.competition.name).toBe(BATTING_PERFORMANCES_COMPETITION);
-      expect(row.assignSponsors.grade.name).toBe(BATTING_PERFORMANCES_GRADE);
-      expect(row.playedFor).toBe(row.assignSponsors.Team.name);
+      expect(row.assignSponsors).toEqual({ competition: [], grade: [], team: [] });
+      expect(row.primaryForScreen).toEqual([]);
+      expect(row.playedFor.length).toBeGreaterThan(0);
       expect(row.teamLogo.url.startsWith("/dummyAssetData/flags/")).toBe(true);
       expect(
         BATTING_PERFORMANCES_VENUE_IDS.some((venueId) => {

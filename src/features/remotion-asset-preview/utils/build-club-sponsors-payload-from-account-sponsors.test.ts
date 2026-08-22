@@ -25,22 +25,20 @@ function sponsorFixture(overrides: Partial<AccountSponsorDto> = {}): AccountSpon
 }
 
 describe("buildClubSponsorsPayloadFromAccountSponsors", () => {
-  it("returns empty default and primary when sponsors are null", () => {
-    const { default: d, primary } = buildClubSponsorsPayloadFromAccountSponsors(null);
-    expect(primary).toEqual([]);
-    expect(Object.keys(d)).toEqual([]);
+  it("returns empty primary, general, and sponsorNum 0 when sponsors are null", () => {
+    const payload = buildClubSponsorsPayloadFromAccountSponsors(null);
+    expect(payload).toEqual({ primary: [], general: [], sponsorNum: 0 });
   });
 
   it("ignores inactive sponsors", () => {
-    const { default: d, primary } = buildClubSponsorsPayloadFromAccountSponsors([
+    const payload = buildClubSponsorsPayloadFromAccountSponsors([
       sponsorFixture({ id: 10, name: "Off", isActive: false, isPrimary: true }),
     ]);
-    expect(primary).toEqual([]);
-    expect(Object.keys(d)).toEqual([]);
+    expect(payload).toEqual({ primary: [], general: [], sponsorNum: 0 });
   });
 
-  it("places isPrimary unassigned sponsors in primary tier then general in general slots", () => {
-    const { default: d, primary } = buildClubSponsorsPayloadFromAccountSponsors([
+  it("places isPrimary unassigned sponsors in primary then general in general", () => {
+    const payload = buildClubSponsorsPayloadFromAccountSponsors([
       sponsorFixture({
         id: 2,
         name: "General Co",
@@ -57,13 +55,23 @@ describe("buildClubSponsorsPayloadFromAccountSponsors", () => {
       }),
       sponsorFixture({ id: 1, name: "Primary Co", isPrimary: true, order: 1 }),
     ]);
-    expect(d["primary_sponsor"]?.[0]?.id).toBe(1);
-    expect(d["general_sponsor_1"]?.[0]?.id).toBe(2);
-    expect(primary.map((r) => r.id)).toEqual([1]);
+    expect(payload.primary.map((r) => r.id)).toEqual([1]);
+    expect(payload.general.map((r) => r.id)).toEqual([2]);
+    expect(payload.sponsorNum).toBe(2);
+    expect(payload.primary[0]).toEqual({
+      id: 1,
+      name: "Primary Co",
+      logo: { id: 0, url: "" },
+    });
+    expect(payload.general[0]).toEqual({
+      id: 2,
+      name: "General Co",
+      logo: { id: 9, url: "https://x/g.png" },
+    });
   });
 
   it("honours global position allocation slot id when present", () => {
-    const { default: d, primary } = buildClubSponsorsPayloadFromAccountSponsors([
+    const payload = buildClubSponsorsPayloadFromAccountSponsors([
       sponsorFixture({
         id: 50,
         name: "In slot 3",
@@ -83,8 +91,9 @@ describe("buildClubSponsorsPayloadFromAccountSponsors", () => {
         ],
       }),
     ]);
-    expect(d["general_sponsor_3"]?.[0]?.name).toBe("In slot 3");
-    expect(d["general_sponsor_1"]).toBeUndefined();
-    expect(primary).toEqual([]);
+    expect(payload.primary).toEqual([]);
+    expect(payload.general.map((r) => r.id)).toEqual([50]);
+    expect(payload.general[0]?.name).toBe("In slot 3");
+    expect(payload.sponsorNum).toBe(1);
   });
 });

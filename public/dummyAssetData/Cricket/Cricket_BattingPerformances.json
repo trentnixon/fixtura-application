@@ -14,18 +14,11 @@
       },
       "playedFor": "Australia",
       "assignSponsors": {
-        "Team": {
-          "name": "Australia"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Super Eight"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2007 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "SR": 169.14,
@@ -41,18 +34,11 @@
       },
       "playedFor": "Australia",
       "assignSponsors": {
-        "Team": {
-          "name": "Australia"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Super Eight"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2007 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "SR": 133.66,
@@ -68,18 +54,11 @@
       },
       "playedFor": "Australia",
       "assignSponsors": {
-        "Team": {
-          "name": "Australia"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Super Eight"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2007 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "SR": 90.91,
@@ -95,18 +74,11 @@
       },
       "playedFor": "Sri Lanka",
       "assignSponsors": {
-        "Team": {
-          "name": "Sri Lanka"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Super Eight"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2007 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "SR": 108.55,
@@ -122,18 +94,11 @@
       },
       "playedFor": "Sri Lanka",
       "assignSponsors": {
-        "Team": {
-          "name": "Sri Lanka"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Super Eight"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2007 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "SR": 67.05,
@@ -149,18 +114,11 @@
       },
       "playedFor": "Sri Lanka",
       "assignSponsors": {
-        "Team": {
-          "name": "Sri Lanka"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Super Eight"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2007 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "SR": 101.75,
@@ -176,18 +134,11 @@
       },
       "playedFor": "South Africa",
       "assignSponsors": {
-        "Team": {
-          "name": "South Africa"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Super Eight"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2007 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "SR": 84.29,
@@ -203,18 +154,11 @@
       },
       "playedFor": "South Africa",
       "assignSponsors": {
-        "Team": {
-          "name": "South Africa"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Super Eight"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2007 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "SR": 113.21,
@@ -230,18 +174,11 @@
       },
       "playedFor": "South Africa",
       "assignSponsors": {
-        "Team": {
-          "name": "South Africa"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Super Eight"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2007 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "SR": 144.93,
@@ -257,18 +194,11 @@
       },
       "playedFor": "New Zealand",
       "assignSponsors": {
-        "Team": {
-          "name": "New Zealand"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Super Eight"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2007 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "SR": 72.44,
@@ -284,18 +214,11 @@
       },
       "playedFor": "New Zealand",
       "assignSponsors": {
-        "Team": {
-          "name": "New Zealand"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Super Eight"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2007 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "SR": 112.26,
@@ -311,18 +234,11 @@
       },
       "playedFor": "England",
       "assignSponsors": {
-        "Team": {
-          "name": "England"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Super Eight"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2007 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "SR": 127.27,
@@ -338,18 +254,11 @@
       },
       "playedFor": "West Indies",
       "assignSponsors": {
-        "Team": {
-          "name": "West Indies"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Super Eight"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2007 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "SR": 75.95,
@@ -365,18 +274,11 @@
       },
       "playedFor": "West Indies",
       "assignSponsors": {
-        "Team": {
-          "name": "West Indies"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Super Eight"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2007 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "SR": 161.11,
@@ -392,18 +294,11 @@
       },
       "playedFor": "India",
       "assignSponsors": {
-        "Team": {
-          "name": "India"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Super Eight"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2007 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "SR": 94.12,
@@ -419,18 +314,11 @@
       },
       "playedFor": "India",
       "assignSponsors": {
-        "Team": {
-          "name": "India"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Super Eight"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2007 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "SR": 98.15,
@@ -446,18 +334,11 @@
       },
       "playedFor": "Pakistan",
       "assignSponsors": {
-        "Team": {
-          "name": "Pakistan"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Super Eight"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2007 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "SR": 133.03,
@@ -473,18 +354,11 @@
       },
       "playedFor": "Bangladesh",
       "assignSponsors": {
-        "Team": {
-          "name": "Bangladesh"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Super Eight"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2007 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "SR": 123.53,
@@ -500,18 +374,11 @@
       },
       "playedFor": "Ireland",
       "assignSponsors": {
-        "Team": {
-          "name": "Ireland"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Super Eight"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2007 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     }
   ],
   "asset": {
@@ -535,7 +402,13 @@
     "FPS_SCORECARD": 0,
     "FPS_PREFORMANCECARD": 180
   },
-  "frames": [45, 180, 345, 510, 645],
+  "frames": [
+    45,
+    180,
+    345,
+    510,
+    645
+  ],
   "videoMeta": {
     "club": {
       "logo": {
@@ -548,7 +421,8 @@
       "sport": "Cricket",
       "sponsors": {
         "primary": [],
-        "default": {}
+        "general": [],
+        "sponsorNum": 0
       },
       "IsAccountClub": false
     },
@@ -572,7 +446,9 @@
         "title": "Batting Performances",
         "frames": [],
         "assetId": 65,
-        "titleSplit": ["Performances"],
+        "titleSplit": [
+          "Performances"
+        ],
         "videoTitle": "Batting Performances",
         "assetTypeId": 3,
         "compositionId": "CricketBattingPerformances",

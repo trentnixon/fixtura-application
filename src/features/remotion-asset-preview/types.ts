@@ -16,7 +16,7 @@ export type RemotionAssetPreviewInput = {
   templateCategoryCatalog?: TemplateCategoryCatalogItem[] | null;
   /** Bundled cricket example matching lab `CompositionID` (e.g. `CricketLadder`). */
   exampleCompositionId?: string | null;
-  /** When null, merge clears example `videoMeta.club.sponsors` until sponsors load. */
+  /** When null, merge clears example `videoMeta.club.sponsors` (v2 primary/general) until sponsors load. */
   accountSponsors?: AccountSponsorDto[] | null;
   /** Cap carousel slides after dataset `frames` are resolved (omit = show all). */
   maxFrameTargets?: number;

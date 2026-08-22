@@ -35,10 +35,11 @@ export type Top5BatterRow = {
   teamLogo: { url: string; width: number; height: number };
   playedFor: string;
   assignSponsors: {
-    Team: { name: string };
-    grade: { id: number; name: string };
-    competition: { id: number; name: string };
+    competition: [];
+    grade: [];
+    team: [];
   };
+  primaryForScreen: [];
 };
 
 export function strikeRateFromRunsAndBalls(runs: number, balls: number): number {
@@ -80,10 +81,11 @@ export function generateTop5BatterRows(manifest: CricketHistoricalDemoManifest):
       },
       playedFor: nation.displayName,
       assignSponsors: {
-        Team: { name: nation.displayName },
-        grade: { id: 0, name: TOP5_BATTERS_GRADE },
-        competition: { id: 0, name: TOP5_BATTERS_COMPETITION },
+        competition: [],
+        grade: [],
+        team: [],
       },
+      primaryForScreen: [],
     };
   });
 }

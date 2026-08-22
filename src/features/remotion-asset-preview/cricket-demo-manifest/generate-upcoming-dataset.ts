@@ -52,6 +52,7 @@ export type UpcomingFixtureRow = {
   teamAwayLogo: { url: string; width: number; height: number };
   teamHomeLogo: { url: string; width: number; height: number };
   assignSponsors: { team: []; grade: []; competition: [] };
+  primaryForScreen: [];
 };
 
 function formatUpcomingDate(isoDate: string): string {
@@ -147,6 +148,7 @@ export function generateUpcomingRows(
         grade: [],
         competition: [],
       },
+      primaryForScreen: [],
     };
   });
 }

@@ -88,6 +88,7 @@ export type ResultsMatchRow = {
     resultWord: string;
   };
   assignSponsors: { team: []; grade: []; competition: [] };
+  primaryForScreen: [];
   gradeSortOrder: number;
 };
 
@@ -550,6 +551,7 @@ export function generateResultsRows(manifest: CricketHistoricalDemoManifest): Re
         grade: [],
         competition: [],
       },
+      primaryForScreen: [],
       gradeSortOrder: 0,
     };
   });

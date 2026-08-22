@@ -62,6 +62,7 @@ export type LadderBlock = {
     grade: [];
     team: [];
   };
+  primaryForScreen: [];
 };
 
 /** Simple deterministic 32-bit PRNG (mulberry32). */
@@ -242,6 +243,7 @@ export function generateLadderBlocks(manifest: CricketHistoricalDemoManifest): L
         grade: [],
         team: [],
       },
+      primaryForScreen: [],
     };
   });
 }
@@ -279,7 +281,7 @@ export function sanitiseLadderVideoMeta(
       logo: { hasLogo: boolean; url: string; width: number; height: number };
       name: string;
       sport: string;
-      sponsors: { primary: unknown[]; default: Record<string, unknown> };
+      sponsors: { primary: unknown[]; general: unknown[]; sponsorNum: number };
       IsAccountClub: boolean;
     };
     video: {
@@ -306,7 +308,7 @@ export function sanitiseLadderVideoMeta(
     width: clone.club.logo.width || 500,
     height: clone.club.logo.height || 500,
   };
-  clone.club.sponsors = { primary: [], default: {} };
+  clone.club.sponsors = { primary: [], general: [], sponsorNum: 0 };
   clone.club.IsAccountClub = false;
   clone.video.metadata.includeSponsors = false;
   if (typeof clone.video.metadata["videoTitle"] === "string") {

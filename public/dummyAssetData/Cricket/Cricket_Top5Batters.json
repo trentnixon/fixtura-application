@@ -14,18 +14,11 @@
       },
       "playedFor": "India",
       "assignSponsors": {
-        "Team": {
-          "name": "India"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Knockout Stage"
-        },
-        "competition": {
-          "id": 0,
-          "name": "ICC KnockOut Kenya 2000"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "SR": 127.87,
@@ -41,18 +34,11 @@
       },
       "playedFor": "New Zealand",
       "assignSponsors": {
-        "Team": {
-          "name": "New Zealand"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Knockout Stage"
-        },
-        "competition": {
-          "id": 0,
-          "name": "ICC KnockOut Kenya 2000"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "SR": 125.42,
@@ -68,18 +54,11 @@
       },
       "playedFor": "India",
       "assignSponsors": {
-        "Team": {
-          "name": "India"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Knockout Stage"
-        },
-        "competition": {
-          "id": 0,
-          "name": "ICC KnockOut Kenya 2000"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "SR": 90.67,
@@ -95,18 +74,11 @@
       },
       "playedFor": "South Africa",
       "assignSponsors": {
-        "Team": {
-          "name": "South Africa"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Knockout Stage"
-        },
-        "competition": {
-          "id": 0,
-          "name": "ICC KnockOut Kenya 2000"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "SR": 140.91,
@@ -122,18 +94,11 @@
       },
       "playedFor": "Sri Lanka",
       "assignSponsors": {
-        "Team": {
-          "name": "Sri Lanka"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Knockout Stage"
-        },
-        "competition": {
-          "id": 0,
-          "name": "ICC KnockOut Kenya 2000"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     }
   ],
   "asset": {
@@ -157,7 +122,10 @@
     "FPS_SCORECARD": 0,
     "FPS_PREFORMANCECARD": 0
   },
-  "frames": [390, 45],
+  "frames": [
+    390,
+    45
+  ],
   "videoMeta": {
     "club": {
       "logo": {
@@ -170,7 +138,8 @@
       "sport": "Cricket",
       "sponsors": {
         "primary": [],
-        "default": {}
+        "general": [],
+        "sponsorNum": 0
       },
       "IsAccountClub": false
     },
@@ -179,7 +148,9 @@
       "groupingCategory": "International Cricket Demo Preview",
       "metadata": {
         "title": "Top 5",
-        "titleSplit": ["Batters"],
+        "titleSplit": [
+          "Batters"
+        ],
         "videoTitle": "Top 5 Run Scorers",
         "compositionId": "CricketTop5Batting",
         "assetId": 6,

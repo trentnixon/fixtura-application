@@ -26,10 +26,11 @@ export type BowlingPerformanceRow = {
   teamLogo: { url: string; width: number; height: number };
   playedFor: string;
   assignSponsors: {
-    Team: { name: string };
-    grade: { id: number; name: string };
-    competition: { id: number; name: string };
+    competition: [];
+    grade: [];
+    team: [];
   };
+  primaryForScreen: [];
 };
 
 export type GeneratedSpell = {
@@ -143,10 +144,11 @@ export function generateBowlingPerformanceRows(
       },
       playedFor: nation.displayName,
       assignSponsors: {
-        Team: { name: nation.displayName },
-        grade: { id: 0, name: BOWLING_PERFORMANCES_GRADE },
-        competition: { id: 0, name: BOWLING_PERFORMANCES_COMPETITION },
+        competition: [],
+        grade: [],
+        team: [],
       },
+      primaryForScreen: [],
     };
   });
 }
