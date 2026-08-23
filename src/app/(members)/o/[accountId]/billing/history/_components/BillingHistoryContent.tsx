@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 
 import { Button } from "@/components/ui/button";
+import { captureUserAction } from "@/lib/analytics";
 
 import { BillingHistoryInvoiceRequestsCard } from "./BillingHistoryInvoiceRequestsCard";
 import { BillingHistoryOrdersTableCard } from "./BillingHistoryOrdersTableCard";
@@ -15,6 +17,13 @@ import { useBillingHistoryContentState } from "../_hooks/useBillingHistoryConten
 export function BillingHistoryContent({ accountId }: { accountId: string }) {
   const state = useBillingHistoryContentState(accountId);
   const withdraw = useBillingInvoiceRequestWithdraw(accountId);
+  const viewedRef = useRef(false);
+
+  useEffect(() => {
+    if (state.kind !== "ready" || viewedRef.current) return;
+    viewedRef.current = true;
+    captureUserAction("billing_history_viewed", { accountId });
+  }, [accountId, state.kind]);
 
   if (state.kind !== "ready") {
     return <BillingHistoryStatusState state={state} />;

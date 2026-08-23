@@ -1,4 +1,8 @@
 import { sanitiseLadderVideoMeta } from "./generate-ladder-dataset";
+import {
+  emptyDemoContentRowSponsorFields,
+  type DemoContentRowSponsorFields,
+} from "../utils/sponsors-payload-v2";
 
 import type { CricketHistoricalDemoManifest } from "./schema";
 
@@ -34,12 +38,7 @@ export type Top5BatterRow = {
   prompt: string;
   teamLogo: { url: string; width: number; height: number };
   playedFor: string;
-  assignSponsors: {
-    Team: { name: string };
-    grade: { id: number; name: string };
-    competition: { id: number; name: string };
-  };
-};
+} & DemoContentRowSponsorFields;
 
 export function strikeRateFromRunsAndBalls(runs: number, balls: number): number {
   if (balls <= 0) {
@@ -79,11 +78,7 @@ export function generateTop5BatterRows(manifest: CricketHistoricalDemoManifest):
         height: 480,
       },
       playedFor: nation.displayName,
-      assignSponsors: {
-        Team: { name: nation.displayName },
-        grade: { id: 0, name: TOP5_BATTERS_GRADE },
-        competition: { id: 0, name: TOP5_BATTERS_COMPETITION },
-      },
+      ...emptyDemoContentRowSponsorFields(),
     };
   });
 }

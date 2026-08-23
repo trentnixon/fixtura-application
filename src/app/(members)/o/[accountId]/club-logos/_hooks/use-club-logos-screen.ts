@@ -4,6 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useMemo, useEffect, useRef } from "react";
 
+import { captureUserAction } from "@/lib/analytics";
 import {
   isAccountSettingsGatewayRedirect,
   useAccountSettings,
@@ -24,11 +25,13 @@ export function useClubLogosScreen(accountId: string): ClubLogosScreenView {
   const router = useRouter();
   const queryClient = useQueryClient();
   const redirectingRef = useRef(false);
+  const viewedRef = useRef(false);
   const segmentOk = isValidAccountIdSegment(accountId);
   const settings = useAccountSettings(accountId, { enabled: segmentOk });
 
   useEffect(() => {
     redirectingRef.current = false;
+    viewedRef.current = false;
   }, [accountId]);
 
   useEffect(() => {
@@ -53,6 +56,15 @@ export function useClubLogosScreen(accountId: string): ClubLogosScreenView {
     if (isAccountSettingsGatewayRedirect(settings.data)) return false;
     return settings.data.data.account_type === CLUB_ACCOUNT_TYPE_ID;
   }, [settings.data, settings.isSuccess]);
+
+  useEffect(() => {
+    if (!segmentOk || isClubAccount || viewedRef.current) return;
+    if (!settings.isSuccess || !settings.data || isAccountSettingsGatewayRedirect(settings.data)) {
+      return;
+    }
+    viewedRef.current = true;
+    captureUserAction("club_logos_viewed", { accountId });
+  }, [accountId, isClubAccount, segmentOk, settings.data, settings.isSuccess]);
 
   useEffect(() => {
     if (!segmentOk) return;

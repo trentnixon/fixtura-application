@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
+import { captureUserAction } from "@/lib/analytics";
 import { useAccountMe } from "@/lib/api/hooks/account/useAccountMe";
 import {
   isAccountOrganisationContextGatewayRedirect,
@@ -127,6 +128,7 @@ export function useAccountSecurityContentState({
 
     try {
       await patchProfile.mutateAsync({ userName: value });
+      captureUserAction("account_profile_updated", { accountId });
       toast.success(ACCOUNT_SECURITY_PROFILE_UPDATED_TOAST);
       setProfileOpen(false);
     } catch (error) {
@@ -145,6 +147,7 @@ export function useAccountSecurityContentState({
 
     try {
       await patchEmail.mutateAsync({ loginEmail: value });
+      captureUserAction("account_login_email_updated", { accountId });
       toast.success(ACCOUNT_SECURITY_EMAIL_UPDATED_TOAST);
       setEmailOpen(false);
     } catch (error) {

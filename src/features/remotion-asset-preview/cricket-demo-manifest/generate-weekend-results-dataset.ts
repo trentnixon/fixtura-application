@@ -6,6 +6,10 @@ import {
 } from "./generate-bowling-performances-dataset";
 import { sanitiseLadderVideoMeta } from "./generate-ladder-dataset";
 import { strikeRateFromRunsAndBalls } from "./generate-top5-batters-dataset";
+import {
+  emptyDemoContentRowSponsorFields,
+  type DemoContentRowSponsorFields,
+} from "../utils/sponsors-payload-v2";
 
 import type { CricketHistoricalDemoManifest } from "./schema";
 
@@ -88,7 +92,6 @@ export type WeekendResultsRow = {
   ageGroup: string;
   gradeName: string;
   gradeSortOrder: number;
-  assignSponsors: { competition: []; grade: []; team: [] };
   result: string;
   resultShort: string;
   resultSummary: {
@@ -98,7 +101,7 @@ export type WeekendResultsRow = {
     resultWord: string;
   };
   prompt: string;
-};
+} & DemoContentRowSponsorFields;
 
 type SidePlan = {
   nationId: string;
@@ -703,7 +706,7 @@ export function generateWeekendResultsRows(
       ageGroup: "Senior",
       gradeName: WEEKEND_RESULTS_GRADE,
       gradeSortOrder: 0,
-      assignSponsors: { competition: [], grade: [], team: [] },
+      ...emptyDemoContentRowSponsorFields(),
       result,
       resultShort,
       resultSummary: {

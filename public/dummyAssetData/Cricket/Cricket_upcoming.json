@@ -24,10 +24,11 @@
         "height": 480
       },
       "assignSponsors": {
-        "team": [],
+        "competition": [],
         "grade": [],
-        "competition": []
-      }
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "date": "Fri, 31 May",
@@ -53,10 +54,11 @@
         "height": 480
       },
       "assignSponsors": {
-        "team": [],
+        "competition": [],
         "grade": [],
-        "competition": []
-      }
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "date": "Sat, 1 Jun",
@@ -82,10 +84,11 @@
         "height": 480
       },
       "assignSponsors": {
-        "team": [],
+        "competition": [],
         "grade": [],
-        "competition": []
-      }
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "date": "Sat, 1 Jun",
@@ -111,10 +114,11 @@
         "height": 480
       },
       "assignSponsors": {
-        "team": [],
+        "competition": [],
         "grade": [],
-        "competition": []
-      }
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "date": "Wed, 5 Jun",
@@ -140,10 +144,11 @@
         "height": 480
       },
       "assignSponsors": {
-        "team": [],
+        "competition": [],
         "grade": [],
-        "competition": []
-      }
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "date": "Wed, 5 Jun",
@@ -169,10 +174,11 @@
         "height": 480
       },
       "assignSponsors": {
-        "team": [],
+        "competition": [],
         "grade": [],
-        "competition": []
-      }
+        "team": []
+      },
+      "primaryForScreen": []
     }
   ],
   "asset": {
@@ -209,7 +215,8 @@
       "sport": "Cricket",
       "sponsors": {
         "primary": [],
-        "default": {}
+        "general": [],
+        "sponsorNum": 0
       },
       "IsAccountClub": false
     },

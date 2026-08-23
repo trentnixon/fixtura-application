@@ -10,6 +10,7 @@ import { SubmitButton, InlineAlert } from "@/components/auth/actions";
 import { AuthForm, PasswordInput, ConfirmPasswordInput } from "@/components/auth/forms";
 import { PasswordStrengthMeter } from "@/components/auth/password-strength-meter";
 import { Button } from "@/components/ui/button";
+import { captureUserAction } from "@/lib/analytics";
 import { ApiError } from "@/lib/api/client/api-error";
 import { usePostAccountSecurityPassword } from "@/lib/api/hooks/account/usePostAccountSecurityPassword";
 import { AUTH_ERROR_MESSAGES } from "@/lib/auth/auth-errors";
@@ -58,6 +59,7 @@ export function ChangePasswordForm({
     setError(null);
     try {
       await mutation.mutateAsync(values);
+      captureUserAction("account_password_changed", { accountId });
       toast.success("Password changed successfully");
       reset();
       onSuccess?.();

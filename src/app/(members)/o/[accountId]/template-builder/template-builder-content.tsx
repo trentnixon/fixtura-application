@@ -7,6 +7,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BrandedLoader } from "@/components/ui/branded-loader";
 import { ErrorState } from "@/components/ui/error-state";
 import { resolveTemplateModeSlugFromBranding } from "@/features/remotion-asset-preview";
+import { captureUserAction } from "@/lib/analytics";
 import { ApiError } from "@/lib/api/client/api-error";
 import {
   isAccountBrandingGatewayRedirect,
@@ -133,6 +134,7 @@ function TemplateBuilderContentEditable({ accountId }: { accountId: string }) {
   const router = useRouter();
   const queryClient = useQueryClient();
   const redirectingRef = useRef(false);
+  const viewedRef = useRef(false);
   const segmentOk = isValidAccountIdSegment(accountId);
   const me = useAccountMe({ enabled: segmentOk });
   const brandingQ = useAccountBranding(accountId, { enabled: segmentOk });
@@ -281,6 +283,17 @@ function TemplateBuilderContentEditable({ accountId }: { accountId: string }) {
       ? catalogQ.data.data
       : null;
 
+  useEffect(() => {
+    viewedRef.current = false;
+  }, [accountId]);
+
+  useEffect(() => {
+    if (!catalogPayload || viewedRef.current) return;
+    if (!brandingQ.isSuccess || isAccountBrandingGatewayRedirect(brandingQ.data)) return;
+    viewedRef.current = true;
+    captureUserAction("template_builder_viewed", { accountId });
+  }, [accountId, brandingQ.data, brandingQ.isSuccess, catalogPayload]);
+
   const textureCatalogResolution = useMemo(() => {
     if (templateTexturesQuery.isSuccess) {
       return {
@@ -407,9 +420,10 @@ function TemplateBuilderContentEditable({ accountId }: { accountId: string }) {
     async (draft: TemplateBuilderEditorState) => {
       const body = mapTemplateBuilderEditorStateToPutBody(draft);
       await putTemplateOptions.mutateAsync(body);
+      captureUserAction("template_builder_saved", { accountId });
       setSaveSuccess(true);
     },
-    [putTemplateOptions],
+    [accountId, putTemplateOptions],
   );
 
   const saveError = putTemplateOptions.isError

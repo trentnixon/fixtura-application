@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
+import { captureUserAction } from "@/lib/analytics";
 import { useAccountSponsorAllocationsGeneralMutations } from "@/lib/api/hooks/account/useAccountSponsorAllocationsGeneralMutations";
 import { isValidAccountIdSegment } from "@/lib/config/account-routes";
 
@@ -163,6 +164,7 @@ export function useSponsorSlotPlacementPanel({
         sponsorId: targetId,
         body: buildGeneralPositionAllocationBody(slot),
       });
+      captureUserAction("sponsor_position_assigned", { accountId });
       toast.success(`Assigned ${target.name} to ${slot.title}.`);
       setRowSelection((prev) => ({ ...prev, [slot.id]: "" }));
     } catch (error) {
@@ -182,6 +184,7 @@ export function useSponsorSlotPlacementPanel({
         sponsorId: occupant.sponsorId,
         allocationId: occupant.allocationId,
       });
+      captureUserAction("sponsor_position_cleared", { accountId });
       toast.success("Removed assignment.");
       setRowSelection((prev) => ({ ...prev, [slotId]: "" }));
     } catch (error) {
@@ -202,6 +205,7 @@ export function useSponsorSlotPlacementPanel({
       }
       setRowSelection({});
       setClearAllDialogOpen(false);
+      captureUserAction("sponsor_positions_cleared_all", { accountId });
       toast.success(`Cleared ${tasks.length} position assignment${tasks.length === 1 ? "" : "s"}.`);
     } catch (error) {
       toast.error(allocationErrorMessage(error));

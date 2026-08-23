@@ -9,6 +9,12 @@ import { z } from "zod";
 
 import { SubmitButton, ForgotPasswordLink, InlineAlert } from "@/components/auth/actions";
 import { AuthForm, EmailInput, PasswordInput } from "@/components/auth/forms";
+import {
+  captureConversion,
+  identifyUser,
+  initAnalytics,
+  loginFailureReasonCode,
+} from "@/lib/analytics";
 import { useLogin } from "@/lib/api/hooks/auth/useLogin";
 import { queryKeys } from "@/lib/api/query/query-keys";
 import { accountApi } from "@/lib/api/services/account.api";
@@ -58,14 +64,22 @@ export function LoginForm() {
         queryKey: queryKeys.account.me,
         queryFn: () => accountApi.getAccountMe(),
       });
+      const userId = me.data.user?.id;
+      if (userId != null) {
+        initAnalytics();
+        identifyUser(String(userId));
+        captureConversion("login_success");
+      }
       const destination = resolvePostLoginDestination({
         mePayload: me.data,
         fromParam: searchParams.get("from"),
       });
       router.push(destination);
-    } catch (error: any) {
-      // The error message from ApiError or network is surfaced by the hook or manually here
-      toast.error(error.message ?? AUTH_ERROR_MESSAGES.loginUnavailable);
+    } catch (error: unknown) {
+      initAnalytics();
+      captureConversion("login_failed", { reason_code: loginFailureReasonCode(error) });
+      const message = error instanceof Error ? error.message : AUTH_ERROR_MESSAGES.loginUnavailable;
+      toast.error(message ?? AUTH_ERROR_MESSAGES.loginUnavailable);
     }
   }
 

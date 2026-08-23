@@ -4,6 +4,7 @@ import { Loader2 } from "lucide-react";
 import { useState } from "react";
 
 import { ErrorState } from "@/components/ui/error-state";
+import { captureUserAction } from "@/lib/analytics";
 import { useTriggerResultSingleScrape } from "@/lib/api/hooks/account/useTriggerResultSingleScrape";
 import { useSeasonHubFixture, useSeasonHubGradeFixtures } from "@/lib/api/hooks/season-hub";
 import { toastError, toastSuccess } from "@/lib/notify";
@@ -66,6 +67,7 @@ export function SeasonFixtureView({
     }
     try {
       await resultSingle.mutateAsync({ cmsFixtureId: cmsFixtureNumericId });
+      captureUserAction("vision_fixture_scrape_triggered", { accountId, fixtureId });
       toastSuccess(
         "Result scrape queued",
         "This may take about 30–60 seconds. Data will update after processing.",

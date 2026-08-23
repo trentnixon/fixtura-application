@@ -2,6 +2,10 @@ import { createHash } from "node:crypto";
 
 import { sanitiseLadderVideoMeta } from "./generate-ladder-dataset";
 import { strikeRateFromRunsAndBalls } from "./generate-top5-batters-dataset";
+import {
+  emptyDemoContentRowSponsorFields,
+  type DemoContentRowSponsorFields,
+} from "../utils/sponsors-payload-v2";
 
 import type { CricketHistoricalDemoManifest } from "./schema";
 
@@ -87,9 +91,8 @@ export type ResultsMatchRow = {
     homeTeam: string;
     resultWord: string;
   };
-  assignSponsors: { team: []; grade: []; competition: [] };
   gradeSortOrder: number;
-};
+} & DemoContentRowSponsorFields;
 
 type SideScorecard = {
   nationId: string;
@@ -545,11 +548,7 @@ export function generateResultsRows(manifest: CricketHistoricalDemoManifest): Re
         homeTeam: homeName,
         resultWord: "won",
       },
-      assignSponsors: {
-        team: [],
-        grade: [],
-        competition: [],
-      },
+      ...emptyDemoContentRowSponsorFields(),
       gradeSortOrder: 0,
     };
   });

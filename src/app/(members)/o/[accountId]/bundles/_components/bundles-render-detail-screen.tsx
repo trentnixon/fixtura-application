@@ -2,10 +2,12 @@
 
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect, useRef } from "react";
 
 import { TypographyMuted } from "@/components/typography";
 import { ErrorState } from "@/components/ui/error-state";
 import { FeedbackCardSoft, FeedbackCardStrong } from "@/components/ui/feedback-card";
+import { captureEvent } from "@/lib/analytics";
 import { accountScopedRoutes } from "@/lib/config/account-routes";
 
 import { BundlesRenderDetailHeader } from "./bundles-render-detail-header";
@@ -24,6 +26,17 @@ export function BundlesRenderDetailScreen({ accountId, renderId }: BundlesRender
     enabled: view.kind === "ready",
   });
   const bundlesHref = accountScopedRoutes.bundles(accountId);
+  const viewedRef = useRef(false);
+  const packRenderId = view.kind === "ready" ? view.render.id : null;
+
+  useEffect(() => {
+    if (packRenderId == null || viewedRef.current) return;
+    viewedRef.current = true;
+    captureEvent("pack_viewed", {
+      accountId,
+      renderId: packRenderId,
+    });
+  }, [accountId, packRenderId]);
 
   if (view.kind === "redirecting") {
     return (

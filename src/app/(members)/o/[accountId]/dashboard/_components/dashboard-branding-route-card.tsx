@@ -7,6 +7,7 @@ import { TypographyH4, TypographyMuted } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import { captureUserAction } from "@/lib/analytics";
 import {
   isAccountBrandingGatewayRedirect,
   useAccountBranding,
@@ -119,6 +120,12 @@ export function DashboardBrandingRouteCard({
                 href={logoHref}
                 className="border-border text-muted-foreground hover:border-primary hover:text-primary focus-visible:ring-ring mt-3 flex min-h-36 flex-1 flex-col items-center justify-center gap-2 rounded-lg border border-dashed transition-colors focus-visible:ring-2 focus-visible:outline-none"
                 aria-label="Add organisation logo"
+                onClick={() =>
+                  captureUserAction("dashboard_route_clicked", {
+                    destination: "brand_logo",
+                    accountId,
+                  })
+                }
               >
                 <span className="text-sm font-medium">Add logo</span>
               </Link>
@@ -126,7 +133,17 @@ export function DashboardBrandingRouteCard({
             {view.logoUrl ? (
               <div className="mt-4 flex justify-end">
                 <Button variant="outline" size="xs" className={LOOK_AND_FEEL_CTA_CLASS} asChild>
-                  <Link href={logoHref}>Update logo</Link>
+                  <Link
+                    href={logoHref}
+                    onClick={() =>
+                      captureUserAction("dashboard_route_clicked", {
+                        destination: "brand_logo",
+                        accountId,
+                      })
+                    }
+                  >
+                    Update logo
+                  </Link>
                 </Button>
               </div>
             ) : null}
@@ -143,7 +160,17 @@ export function DashboardBrandingRouteCard({
             )}
             <div className="mt-4 flex justify-end">
               <Button variant="outline" size="xs" className={LOOK_AND_FEEL_CTA_CLASS} asChild>
-                <Link href={brandingHref}>Update branding</Link>
+                <Link
+                  href={brandingHref}
+                  onClick={() =>
+                    captureUserAction("dashboard_route_clicked", {
+                      destination: "branding",
+                      accountId,
+                    })
+                  }
+                >
+                  Update branding
+                </Link>
               </Button>
             </div>
           </div>

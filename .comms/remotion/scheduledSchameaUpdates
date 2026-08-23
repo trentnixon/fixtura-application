@@ -1,0 +1,208 @@
+# Scheduler → Remotion: Sponsors payload v2
+
+**From:** Scheduler (Creators data path)
+**To:** Remotion / composition team
+**Date:** 2026-08-21
+**Related:** `.comms/cms-handoff-scheduler-sponsors-payload-v2.md` (CMS → Scheduler)
+**Status:** Scheduler ingestion live for cricket asset data. Remotion layout / dual placement still to adopt.
+
+---
+
+## Why this exists
+
+CMS changed how sponsors are allocated and shipped. Scheduler now normalises that into the **download / composition JSON** Remotion already consumes.
+
+This doc is the contract for **what Remotion reads on an asset**. It is not the raw CMS `AccountTheme.sponsors` shape.
+
+---
+
+## Breaking change (legacy → v2)
+
+| Gone (do not read) | Use instead |
+| ------------------ | ----------- |
+| `result.primary` / `result.default` / `result.aux` | See buckets below |
+| CMS `sponsorNum` on AccountTheme | Scheduler-derived `videoMeta.club.sponsors.sponsorNum` |
+| Looking up league/grade/team maps yourself from CMS | `data[].assignSponsors` (already matched) |
+
+---
+
+## Sponsor DTO (every logo)
+
+```ts
+{
+  id: number;
+  name: string;
+  logo: { id: number; url: string };
+}
+```
+
+No other fields are guaranteed.
+
+---
+
+## Where sponsors live on an asset
+
+```txt
+videoMeta.club.sponsors          ← account-level (whole video)
+videoMeta.club.sponsors.primary  ← up to 4 account primaries
+videoMeta.club.sponsors.general  ← ordered generals (outro / group)
+videoMeta.club.sponsors.sponsorNum ← primary.length + general.length
+videoMeta.data.includeSponsors   ← true when sponsorNum > 0
+
+data[n].primaryForScreen         ← primaries for THIS content row’s screens
+data[n].assignSponsors           ← entity sponsor(s) for THIS content row
+data[n].assignSponsors.competition
+data[n].assignSponsors.grade
+data[n].assignSponsors.team
+```
+
+Buckets stay **separate**. Remotion chooses placement; Scheduler does not merge primary + general + entity into one list.
+
+---
+
+## Allocation model (what each bucket means)
+
+| Bucket | Scope | Typical use | Max / notes |
+| ------ | ----- | ----------- | ----------- |
+| **Primary** | Account | Individual screens (always available on the asset) | Up to **4** |
+| **General** | Account | End-of-video / group sponsor sequence | Ordered; not mixed into primary |
+| **Entity (`assignSponsors`)** | Content row | Screen alongside primary for that game/grade/team | Club → **team**; Association → **grade**; `competition` reserved (usually `[]` until CMS ships it) |
+
+### Club vs Association
+
+- **Club:** use `assignSponsors.team` (grade array empty).
+- **Association:** use `assignSponsors.grade` (team array empty).
+- Never expect both team and grade filled for the same account type.
+
+### Screen composition (per content row)
+
+Scheduler attaches:
+
+1. **`primaryForScreen`** — account primaries for that row, with **entity-wins** applied: if the same sponsor `id` is already in that row’s `assignSponsors`, it is omitted from `primaryForScreen`. Account-level `videoMeta.club.sponsors.primary` is **not** mutated.
+2. **`assignSponsors`** — sponsors matched to ids present on that row (grade id and/or team ids).
+
+**Full house example:** 4 primaries + 1 grade/team assign → up to **5** logos relevant to one screen item (`primaryForScreen` + the non-empty assign array).
+
+Verified Association example (Results row):
+
+```txt
+primaryForScreen: [211, 212, 213, 214]   // 4
+assignSponsors.grade: [220]              // 1
+assignSponsors.team: []
+assignSponsors.competition: []
+```
+
+---
+
+## Account-level shape (template)
+
+```json
+{
+  "videoMeta": {
+    "club": {
+      "sponsors": {
+        "primary": [
+          { "id": 211, "name": "1", "logo": { "id": 31204, "url": "https://…" } },
+          { "id": 212, "name": "2", "logo": { "id": 31205, "url": "https://…" } }
+        ],
+        "general": [
+          { "id": 215, "name": "5", "logo": { "id": 31208, "url": "https://…" } }
+        ],
+        "sponsorNum": 16
+      }
+    },
+    "data": {
+      "includeSponsors": true
+    }
+  }
+}
+```
+
+Notes:
+
+- `primary` / `general` here are **arrays of sponsor DTOs** (not `{ sponsors: [...] }` — that nested form is CMS-only).
+- `sponsorNum` = `primary.length + general.length` (primary counted first for sequencing / timing).
+- Existing outro timing that uses `sponsorNum` (e.g. pages of 6) can keep using this derived number.
+- **Preview app note:** this repo’s asset preview merge writes `includeSponsors` on `videoMeta.video.metadata.includeSponsors` (Remotion vendor bundle path), not `videoMeta.data.includeSponsors` as written above.
+
+---
+
+## Per-row shape (content)
+
+```json
+{
+  "gradeName": "O60 Div 2 - Kerry Emery Shield",
+  "assignSponsors": {
+    "competition": [],
+    "grade": [
+      { "id": 220, "name": "10", "logo": { "id": 31213, "url": "https://…" } }
+    ],
+    "team": []
+  },
+  "primaryForScreen": [
+    { "id": 211, "name": "1", "logo": { "id": 31204, "url": "https://…" } },
+    { "id": 212, "name": "2", "logo": { "id": 31205, "url": "https://…" } },
+    { "id": 213, "name": "3", "logo": { "id": 31206, "url": "https://…" } },
+    { "id": 214, "name": "4", "logo": { "id": 31207, "url": "https://…" } }
+  ]
+}
+```
+
+**Prefer for on-screen primary placement:** `data[n].primaryForScreen` (already deduped vs that row’s entity).
+**Prefer for entity placement:** the non-empty of `assignSponsors.grade` or `assignSponsors.team`.
+**Prefer for outro / group:** `videoMeta.club.sponsors.general` (and timings via `sponsorNum` / `includeSponsors`).
+
+---
+
+## Empty / missing
+
+- No sponsors → empty arrays and `sponsorNum: 0` / `includeSponsors: false` (or absent truthy count). Do not treat as an error.
+- Missing entity match → the relevant `assignSponsors.*` array is `[]`.
+
+---
+
+## Remotion ownership (this phase)
+
+**Scheduler already does**
+
+- Ingest CMS v2
+- Put account primary + general on the template
+- Match entity sponsors onto content rows
+- Derive `sponsorNum` / `includeSponsors`
+- Compose `primaryForScreen` (entity wins on duplicate ids)
+
+**Remotion still owns**
+
+- Visual layout / dual placement (where primary vs general vs entity appear on compositions)
+- Any merge of primary + general for a single UI sequence (if product still wants that)
+- Handling assets that do not yet carry `primaryForScreen` / v2 `assignSponsors` until those compositions are migrated
+
+---
+
+## Cricket coverage (Scheduler)
+
+Entity + `primaryForScreen` wired on live cricket paths that attach sponsors to content rows, including:
+
+- Weekend / Cricket Results
+- Upcoming fixtures
+- Ladder
+
+Confirm per composition before assuming every Remotion input file has the new fields.
+
+---
+
+## Quick checklist for Remotion
+
+- [ ] Stop reading legacy `result.primary` / `result.default` / `result.aux`
+- [ ] Read account primaries / generals from `videoMeta.club.sponsors.{primary,general}`
+- [ ] Use `data[].primaryForScreen` for per-screen primary logos
+- [ ] Use `data[].assignSponsors.grade` (Association) or `.team` (Club) for entity logos
+- [ ] Keep using `sponsorNum` / `includeSponsors` for outro gating and timing
+- [ ] Design for up to **4** primaries + **1** entity on a content screen (5 logos)
+
+---
+
+## References
+
+- CMS contract: `.comms/cms-handoff-scheduler-sponsors-payload-v2.md`
+- Scheduler ingestion notes: `.scratch/sponsors-payload-v2/spec.md`

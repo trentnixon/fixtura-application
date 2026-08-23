@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 
+import { analyticsFailureReasonCode, captureConversion } from "@/lib/analytics";
 import {
   isAccountOrganisationContextGatewayRedirect,
   useAccountOrganisationContext,
@@ -58,9 +59,14 @@ export function useBillingTrialStart(
     setFeedback(null);
     try {
       const body = await mutation.mutateAsync();
+      captureConversion("trial_started", { accountId });
       setFeedback(parseBillingTrialStartResponseMessage(body));
       setConfirmOpen(false);
     } catch (e) {
+      captureConversion("trial_start_failed", {
+        accountId,
+        reason_code: analyticsFailureReasonCode(e),
+      });
       setErrorMessage(messageFromBillingTrialStartFailure(e));
     }
   }

@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import { analyticsFailureReasonCode, captureConversion } from "@/lib/analytics";
 import { ApiError } from "@/lib/api/client/api-error";
 import {
   isAccountBillingAvailableTiersGatewayRedirect,
@@ -85,7 +86,12 @@ export function useBillingInvoiceRequest(accountId: string, enabled: boolean) {
         }),
       );
       setSubmitSuccessMessage(res.message?.trim() || "Your invoice request was submitted.");
+      captureConversion("invoice_requested", { accountId, source: "billing_overview" });
     } catch (e) {
+      captureConversion("checkout_failed", {
+        accountId,
+        reason_code: analyticsFailureReasonCode(e),
+      });
       if (e instanceof ApiError) {
         setSubmitError(e.message);
       } else if (e instanceof Error) {

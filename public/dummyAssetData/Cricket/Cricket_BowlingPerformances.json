@@ -13,18 +13,11 @@
       },
       "playedFor": "Afghanistan",
       "assignSponsors": {
-        "Team": {
-          "name": "Afghanistan"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Pool Stage"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2015 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "name": "Mitchell Starc",
@@ -39,18 +32,11 @@
       },
       "playedFor": "Australia",
       "assignSponsors": {
-        "Team": {
-          "name": "Australia"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Pool Stage"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2015 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "name": "Rubel Hossain",
@@ -65,18 +51,11 @@
       },
       "playedFor": "Bangladesh",
       "assignSponsors": {
-        "Team": {
-          "name": "Bangladesh"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Pool Stage"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2015 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "name": "Steven Finn",
@@ -91,18 +70,11 @@
       },
       "playedFor": "England",
       "assignSponsors": {
-        "Team": {
-          "name": "England"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Pool Stage"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2015 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "name": "Mohammed Shami",
@@ -117,18 +89,11 @@
       },
       "playedFor": "India",
       "assignSponsors": {
-        "Team": {
-          "name": "India"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Pool Stage"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2015 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "name": "John Mooney",
@@ -143,18 +108,11 @@
       },
       "playedFor": "Ireland",
       "assignSponsors": {
-        "Team": {
-          "name": "Ireland"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Pool Stage"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2015 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "name": "Trent Boult",
@@ -169,18 +127,11 @@
       },
       "playedFor": "New Zealand",
       "assignSponsors": {
-        "Team": {
-          "name": "New Zealand"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Pool Stage"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2015 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "name": "Wahab Riaz",
@@ -195,18 +146,11 @@
       },
       "playedFor": "Pakistan",
       "assignSponsors": {
-        "Team": {
-          "name": "Pakistan"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Pool Stage"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2015 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "name": "Morne Morkel",
@@ -221,18 +165,11 @@
       },
       "playedFor": "South Africa",
       "assignSponsors": {
-        "Team": {
-          "name": "South Africa"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Pool Stage"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2015 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "name": "Lasith Malinga",
@@ -247,18 +184,11 @@
       },
       "playedFor": "Sri Lanka",
       "assignSponsors": {
-        "Team": {
-          "name": "Sri Lanka"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Pool Stage"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2015 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "name": "Jerome Taylor",
@@ -273,18 +203,11 @@
       },
       "playedFor": "West Indies",
       "assignSponsors": {
-        "Team": {
-          "name": "West Indies"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Pool Stage"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2015 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     },
     {
       "name": "Tinashe Panyangara",
@@ -299,18 +222,11 @@
       },
       "playedFor": "Zimbabwe",
       "assignSponsors": {
-        "Team": {
-          "name": "Zimbabwe"
-        },
-        "grade": {
-          "id": 0,
-          "name": "ODI / Pool Stage"
-        },
-        "competition": {
-          "id": 0,
-          "name": "2015 Cricket World Cup"
-        }
-      }
+        "competition": [],
+        "grade": [],
+        "team": []
+      },
+      "primaryForScreen": []
     }
   ],
   "asset": {
@@ -347,7 +263,8 @@
       "sport": "Cricket",
       "sponsors": {
         "primary": [],
-        "default": {}
+        "general": [],
+        "sponsorNum": 0
       },
       "IsAccountClub": false
     },

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
+import { captureUserAction } from "@/lib/analytics";
 import { ApiError } from "@/lib/api/client/api-error";
 import { useAccountGradeOrdering } from "@/lib/api/hooks/account/useAccountGradeOrdering";
 import { usePutAccountGradeOrdering } from "@/lib/api/hooks/account/usePutAccountGradeOrdering";
@@ -61,6 +62,7 @@ export function useGradeOrderingEditor({
   const handleSave = useCallback(async () => {
     try {
       await mutation.mutateAsync(buildPutPayload(draft));
+      captureUserAction("grade_order_saved", { accountId });
       toast.success("Grade order saved");
     } catch (error) {
       if (error instanceof ApiError && error.status === 409) {
@@ -74,7 +76,7 @@ export function useGradeOrderingEditor({
       const message = error instanceof Error ? error.message : "Could not save grade order";
       toast.error(message);
     }
-  }, [draft, mutation]);
+  }, [accountId, draft, mutation]);
 
   const handleLoadLatestAfterConflict = useCallback(async () => {
     setConflictOpen(false);
@@ -94,6 +96,7 @@ export function useGradeOrderingEditor({
     setClearDialogOpen(false);
     try {
       await mutation.mutateAsync(buildClearAllPayload(draft));
+      captureUserAction("grade_order_cleared", { accountId });
       toast.success("Custom grade order cleared");
     } catch (error) {
       if (error instanceof ApiError && error.status === 409) {
@@ -103,7 +106,7 @@ export function useGradeOrderingEditor({
       const message = error instanceof Error ? error.message : "Could not clear grade order";
       toast.error(message);
     }
-  }, [draft, mutation]);
+  }, [accountId, draft, mutation]);
 
   const saveDisabled = !hasChanges || mutation.isPending || draft.groups.length === 0;
 

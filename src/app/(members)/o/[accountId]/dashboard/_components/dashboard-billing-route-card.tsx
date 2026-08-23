@@ -8,6 +8,7 @@ import { TypographyDataLabel, TypographyH4, TypographyMuted } from "@/components
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { captureUserAction } from "@/lib/analytics";
 import {
   isAccountBillingGatewayRedirect,
   useAccountBilling,
@@ -190,7 +191,17 @@ export function DashboardBillingRouteCard({ accountId }: { accountId: string }) 
       footer={
         view ? (
           <Button variant="brand" className="w-full" asChild disabled={isPending}>
-            <Link href={view.href}>{view.ctaLabel}</Link>
+            <Link
+              href={view.href}
+              onClick={() =>
+                captureUserAction("dashboard_route_clicked", {
+                  destination: "billing",
+                  accountId,
+                })
+              }
+            >
+              {view.ctaLabel}
+            </Link>
           </Button>
         ) : null
       }

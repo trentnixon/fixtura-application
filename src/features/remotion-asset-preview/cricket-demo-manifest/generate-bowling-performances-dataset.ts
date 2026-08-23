@@ -1,4 +1,8 @@
 import { createSeededRng, sanitiseLadderVideoMeta } from "./generate-ladder-dataset";
+import {
+  emptyDemoContentRowSponsorFields,
+  type DemoContentRowSponsorFields,
+} from "../utils/sponsors-payload-v2";
 
 import type { CricketHistoricalDemoManifest } from "./schema";
 
@@ -25,12 +29,7 @@ export type BowlingPerformanceRow = {
   wickets: number;
   teamLogo: { url: string; width: number; height: number };
   playedFor: string;
-  assignSponsors: {
-    Team: { name: string };
-    grade: { id: number; name: string };
-    competition: { id: number; name: string };
-  };
-};
+} & DemoContentRowSponsorFields;
 
 export type GeneratedSpell = {
   wickets: number;
@@ -142,11 +141,7 @@ export function generateBowlingPerformanceRows(
         height: 480,
       },
       playedFor: nation.displayName,
-      assignSponsors: {
-        Team: { name: nation.displayName },
-        grade: { id: 0, name: BOWLING_PERFORMANCES_GRADE },
-        competition: { id: 0, name: BOWLING_PERFORMANCES_COMPETITION },
-      },
+      ...emptyDemoContentRowSponsorFields(),
     };
   });
 }

@@ -16,6 +16,7 @@ import {
 } from "@/components/auth/actions";
 import { AuthForm, PasswordInput, ConfirmPasswordInput } from "@/components/auth/forms";
 import { AuthSurfaceHeader } from "@/components/auth/structure";
+import { captureConversion } from "@/lib/analytics";
 
 const resetPasswordSchema = z
   .object({
@@ -68,13 +69,16 @@ export function ResetPasswordForm() {
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         setError(data.error || "The reset link is invalid or has expired.");
+        captureConversion("password_reset_failed");
         return;
       }
 
+      captureConversion("password_reset_success");
       setSuccess(true);
       toast.success("Password updated");
     } catch {
       setError("A network error occurred. Please try again.");
+      captureConversion("password_reset_failed");
     } finally {
       setSubmitting(false);
     }

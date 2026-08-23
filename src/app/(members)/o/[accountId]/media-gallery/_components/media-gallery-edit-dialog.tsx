@@ -5,12 +5,17 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { captureUserAction } from "@/lib/analytics";
 import { ApiError } from "@/lib/api/client/api-error";
 import { usePatchAccountMediaLibraryItem } from "@/lib/api/hooks/account/usePatchAccountMediaLibraryItem";
 import { parseMediaLibraryApiError } from "@/lib/api/media-library/parse-media-library-api-error";
 
 import { MediaGalleryFormDialogShell } from "./media-gallery-form-dialog-shell";
-import { MediaGalleryItemFormFields, useMediaGalleryForm } from "./media-gallery-item-form-fields";
+import {
+  MediaGalleryItemFormFields,
+  useMediaGalleryForm,
+  type MediaGalleryFormValues,
+} from "./media-gallery-item-form-fields";
 import { useMediaGalleryCategoryConfig } from "../_hooks/use-media-gallery-category-config";
 import {
   categoryAssignmentChangedOnEdit,
@@ -20,6 +25,34 @@ import {
 } from "../_utils/media-gallery-form";
 
 import type { AccountMediaLibraryItem } from "@/types/api/account";
+
+function mediaGalleryFieldsChanged(
+  item: AccountMediaLibraryItem,
+  values: MediaGalleryFormValues,
+  categoryConfig: ReturnType<typeof useMediaGalleryCategoryConfig>,
+): string[] {
+  const defaults = formDefaultsFromItem(item, categoryConfig);
+  const fields: string[] = [];
+
+  if (values.title !== defaults.title) fields.push("title");
+  if (values.isActive !== defaults.isActive) fields.push("is_active");
+  if (values.tagsInput !== defaults.tagsInput) fields.push("tags");
+  if (JSON.stringify(values.assetTypes) !== JSON.stringify(defaults.assetTypes)) {
+    fields.push("asset_types");
+  }
+  if (categoryAssignmentChangedOnEdit(item, values.categoryAssignment, categoryConfig)) {
+    fields.push("category_assignment");
+  }
+  if (
+    values.useFocalPoint !== defaults.useFocalPoint ||
+    values.markerTop !== defaults.markerTop ||
+    values.markerLeft !== defaults.markerLeft
+  ) {
+    fields.push("focal_point");
+  }
+
+  return fields;
+}
 
 type MediaGalleryEditDialogProps = {
   accountId: string;
@@ -95,6 +128,11 @@ export function MediaGalleryEditDialog({
       await patchMutation.mutateAsync({
         mediaId: String(item.id),
         body,
+      });
+      captureUserAction("media_updated", {
+        accountId,
+        media_id: String(item.id),
+        fields_changed: mediaGalleryFieldsChanged(item, values, categoryConfig),
       });
       toast.success("Background updated");
       onOpenChange(false);

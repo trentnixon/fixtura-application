@@ -7,6 +7,7 @@ import { MetricComparisonCard } from "@/components/cards";
 import { TypographyH4, TypographyMuted } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { captureUserAction } from "@/lib/analytics";
 import {
   isAccountSponsorsGatewayRedirect,
   useAccountSponsors,
@@ -113,7 +114,17 @@ export function DashboardSponsorsRouteCard({ accountId }: { accountId: string })
       body={body}
       footer={
         <Button variant="brand" className="w-full" asChild disabled={isPending}>
-          <Link href={view.href}>{view.ctaLabel}</Link>
+          <Link
+            href={view.href}
+            onClick={() =>
+              captureUserAction("dashboard_route_clicked", {
+                destination: "sponsors",
+                accountId,
+              })
+            }
+          >
+            {view.ctaLabel}
+          </Link>
         </Button>
       }
     />

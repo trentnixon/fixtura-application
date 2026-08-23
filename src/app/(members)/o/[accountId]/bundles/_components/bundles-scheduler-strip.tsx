@@ -8,6 +8,7 @@ import {
   weekdayKeyFromDaysOfWeekRelation,
   weekdayLabel,
 } from "@/features/settings/bundle-delivery-weekdays";
+import { captureUserAction } from "@/lib/analytics";
 import {
   isAccountSchedulerGatewayRedirect,
   useAccountScheduler,
@@ -25,6 +26,14 @@ export function BundlesSchedulerStrip({ accountId }: { accountId: string }) {
   const router = useRouter();
   const schedulerQuery = useAccountScheduler(accountId);
   const settingsHref = accountScopedRoutes.settings(accountId);
+
+  function openDeliverySettings() {
+    captureUserAction("delivery_settings_link_clicked", {
+      accountId,
+      source: "bundles_scheduler_strip",
+    });
+    router.push(settingsHref);
+  }
 
   if (schedulerQuery.isPending) {
     return <BundlesDeliveryScheduleSectionSkeleton />;
@@ -60,7 +69,7 @@ export function BundlesSchedulerStrip({ accountId }: { accountId: string }) {
         title={BUNDLES_SCREEN_COPY.schedulerNoSchedulerTitle}
         description={BUNDLES_SCREEN_COPY.schedulerNoSchedulerBody}
         primaryCta={BUNDLES_SCREEN_COPY.schedulerChangeDeliveryDayAction}
-        onPrimaryAction={() => router.push(settingsHref)}
+        onPrimaryAction={openDeliverySettings}
       />
     );
   }
@@ -77,6 +86,7 @@ export function BundlesSchedulerStrip({ accountId }: { accountId: string }) {
 
   return (
     <BundlesDeliveryScheduleSection
+      accountId={accountId}
       settingsHref={settingsHref}
       deliveryDayLabel={deliveryDayLabel}
       nextDeliveryLabel={nextDeliveryLabel}

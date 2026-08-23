@@ -15,6 +15,7 @@ export type ManageSponsorsWorkspaceContentProps = ManageSponsorsWorkspaceProps &
 };
 
 export type ManageSponsorsEditorSheetProps = {
+  accountId: string;
   open: boolean;
   sponsor: ManageSponsorsWorkspaceSponsor | null;
   onOpenChange: (open: boolean) => void;

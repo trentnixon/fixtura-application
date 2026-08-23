@@ -5,6 +5,7 @@ import { toast } from "sonner";
 
 import { weekdayKeyFromDaysOfWeekRelation } from "@/features/settings/bundle-delivery-weekdays";
 import { pickDaysOfWeekRelation } from "@/features/settings/pick-days-of-week-relation";
+import { captureUserAction, settingsFieldsChanged } from "@/lib/analytics";
 import { ApiError } from "@/lib/api/client/api-error";
 import {
   isAccountSchedulerGatewayRedirect,
@@ -75,6 +76,10 @@ export function useAccountSettingsPreferencesState(params: {
     mutation.reset();
     void mutation.mutateAsync(partialPatch).then(
       () => {
+        captureUserAction("settings_saved", {
+          accountId,
+          fields_changed: settingsFieldsChanged(partialPatch),
+        });
         toast.success("Settings saved", {
           description: "Your changes are stored on the server.",
         });

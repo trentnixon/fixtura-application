@@ -29,6 +29,12 @@ export type {
   ClubSponsorsPayload,
   RemotionClubSponsorRow,
 } from "./utils/build-club-sponsors-payload-from-account-sponsors";
+export {
+  EMPTY_CLUB_SPONSORS,
+  EMPTY_ROW_ASSIGN_SPONSORS,
+  emptyDemoContentRowSponsorFields,
+} from "./utils/sponsors-payload-v2";
+export type { DemoContentRowSponsorFields, RowAssignSponsors } from "./utils/sponsors-payload-v2";
 export { resolveTemplateModeSlugFromBranding } from "./utils/resolve-template-mode-slug-from-branding";
 export { isCricketSport, normalizeSport } from "./utils/sport";
 export { readRemotionModeFromBrandingThemeJson } from "./utils/read-remotion-mode-from-branding-theme";

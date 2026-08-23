@@ -8,6 +8,7 @@ import { BrandedLoader } from "@/components/ui/branded-loader";
 import { Button } from "@/components/ui/button";
 import { ErrorState } from "@/components/ui/error-state";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { captureUserAction } from "@/lib/analytics";
 import {
   isAccountMediaLibraryGatewayRedirect,
   useAccountMediaLibrary,
@@ -67,6 +68,7 @@ export function MediaGalleryContent({ accountId }: { accountId: string }) {
   const redirectingRef = useRef(false);
   const searchDebounceRef = useRef<number | null>(null);
   const segmentOk = isValidAccountIdSegment(accountId);
+  const viewedRef = useRef(false);
   const q = useAccountMediaLibrary(accountId, { enabled: segmentOk });
   const organisationQuery = useAccountOrganisationContext(accountId, { enabled: segmentOk });
   const accountSport =
@@ -95,6 +97,13 @@ export function MediaGalleryContent({ accountId }: { accountId: string }) {
   useEffect(() => {
     redirectingRef.current = false;
   }, [accountId]);
+
+  useEffect(() => {
+    if (!segmentOk || viewedRef.current) return;
+    if (!q.isSuccess || !q.data || isAccountMediaLibraryGatewayRedirect(q.data)) return;
+    viewedRef.current = true;
+    captureUserAction("media_gallery_viewed", { accountId });
+  }, [accountId, q.data, q.isSuccess, segmentOk]);
 
   useEffect(() => {
     if (segmentOk || redirectingRef.current) return;

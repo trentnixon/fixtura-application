@@ -1,6 +1,7 @@
 import { Plus_Jakarta_Sans, Inter, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 
+import { AnalyticsProvider } from "@/components/analytics/analytics-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { buildRootMetadata } from "@/lib/metadata/buildMetadata";
 import { QueryProvider } from "@/lib/query";
@@ -39,7 +40,9 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <QueryProvider>
-          <TooltipProvider delayDuration={0}>{children}</TooltipProvider>
+          <AnalyticsProvider>
+            <TooltipProvider delayDuration={0}>{children}</TooltipProvider>
+          </AnalyticsProvider>
           <Toaster position="top-right" richColors />
         </QueryProvider>
       </body>

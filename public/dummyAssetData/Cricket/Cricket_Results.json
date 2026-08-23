@@ -178,11 +178,12 @@
         "resultWord": "won"
       },
       "assignSponsors": {
-        "team": [],
+        "competition": [],
         "grade": [],
-        "competition": []
+        "team": []
       },
-      "gradeSortOrder": 0
+      "gradeSortOrder": 0,
+      "primaryForScreen": []
     },
     {
       "date": "1 Jun 2019",
@@ -352,11 +353,12 @@
         "resultWord": "won"
       },
       "assignSponsors": {
-        "team": [],
+        "competition": [],
         "grade": [],
-        "competition": []
+        "team": []
       },
-      "gradeSortOrder": 0
+      "gradeSortOrder": 0,
+      "primaryForScreen": []
     },
     {
       "date": "31 May 2019",
@@ -536,11 +538,12 @@
         "resultWord": "won"
       },
       "assignSponsors": {
-        "team": [],
+        "competition": [],
         "grade": [],
-        "competition": []
+        "team": []
       },
-      "gradeSortOrder": 0
+      "gradeSortOrder": 0,
+      "primaryForScreen": []
     },
     {
       "date": "16 Jun 2019",
@@ -720,11 +723,12 @@
         "resultWord": "won"
       },
       "assignSponsors": {
-        "team": [],
+        "competition": [],
         "grade": [],
-        "competition": []
+        "team": []
       },
-      "gradeSortOrder": 0
+      "gradeSortOrder": 0,
+      "primaryForScreen": []
     }
   ],
   "asset": {
@@ -762,7 +766,8 @@
       "sport": "Cricket",
       "sponsors": {
         "primary": [],
-        "default": {}
+        "general": [],
+        "sponsorNum": 0
       },
       "IsAccountClub": false
     },

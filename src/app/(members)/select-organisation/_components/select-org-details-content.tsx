@@ -11,6 +11,7 @@ import {
 } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { GridCardVisualSlot } from "@/components/ui/grid-card";
+import { captureUserAction } from "@/lib/analytics";
 import { ApiError } from "@/lib/api/client/api-error";
 import { useRetryOnboardingSetup } from "@/lib/api/hooks/account/useRetryOnboardingSetup";
 import { ROUTES } from "@/lib/config/routes";
@@ -170,6 +171,10 @@ export function SelectOrgDetailsContent({
             disabled={retryMutation.isPending}
             onClick={() => {
               setRetryError(null);
+              captureUserAction("onboarding_setup_retry", {
+                accountId: item.accountId,
+                source: "select_org_details",
+              });
               retryMutation.mutate(
                 {},
                 {

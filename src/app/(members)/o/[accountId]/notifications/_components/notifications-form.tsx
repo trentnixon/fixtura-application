@@ -32,6 +32,7 @@ import {
   notificationsFieldId,
 } from "@/features/notifications/bundle-delivery-profile-shared";
 import { type WeekdayKey, weekdayLabel } from "@/features/settings/bundle-delivery-weekdays";
+import { captureUserAction } from "@/lib/analytics";
 import { ApiError } from "@/lib/api/client/api-error";
 import {
   isAccountOrganisationContextGatewayRedirect,
@@ -160,6 +161,14 @@ export function NotificationsForm({
     const { toast, alert } = getNotificationsSaveUserMessage(outcome);
 
     if (isNotificationsSaveFullySuccessful(outcome)) {
+      const fieldsChanged: string[] = [];
+      if (contactPatch) {
+        if (contactPatch.deliveryEmail !== undefined) fieldsChanged.push("delivery_email");
+        if (contactPatch.bundleAddressedTo !== undefined) fieldsChanged.push("bundle_addressed_to");
+      }
+      if (dayChanged) fieldsChanged.push("delivery_weekday");
+      captureUserAction("notifications_saved", { accountId, fields_changed: fieldsChanged });
+
       const stamp = new Date().toLocaleTimeString(undefined, {
         hour: "2-digit",
         minute: "2-digit",

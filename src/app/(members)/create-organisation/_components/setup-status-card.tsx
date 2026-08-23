@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { InlineAlert } from "@/components/auth/actions";
 import { TypographyFinePrint } from "@/components/typography";
 import { Button } from "@/components/ui/button";
+import { captureConversion, captureUserAction } from "@/lib/analytics";
 import { ApiError } from "@/lib/api/client/api-error";
 import { useOnboardingSetupStatus } from "@/lib/api/hooks/account/useOnboardingSetupStatus";
 import { useRetryOnboardingSetup } from "@/lib/api/hooks/account/useRetryOnboardingSetup";
@@ -89,6 +90,14 @@ export function SetupStatusCard({
   const query = useOnboardingSetupStatus(accountId, { enabled: enabled && Boolean(accountId) });
   const retryMutation = useRetryOnboardingSetup(accountId);
   const [retryError, setRetryError] = useState<string | null>(null);
+  const setupReadyCapturedRef = useRef(false);
+
+  useEffect(() => {
+    const status = query.data?.status?.trim().toLowerCase();
+    if (!accountId || status !== "ready" || setupReadyCapturedRef.current) return;
+    setupReadyCapturedRef.current = true;
+    captureConversion("onboarding_setup_ready", { accountId });
+  }, [accountId, query.data?.status]);
 
   if (!accountId || !enabled) return null;
 
@@ -175,6 +184,7 @@ export function SetupStatusCard({
           disabled={retryMutation.isPending}
           onClick={() => {
             setRetryError(null);
+            captureUserAction("onboarding_setup_retry", { accountId });
             retryMutation.mutate(
               {},
               {

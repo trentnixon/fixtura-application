@@ -2,6 +2,7 @@ import { useQueryClient, type UseQueryResult } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
+import { captureConversion } from "@/lib/analytics";
 import {
   isAccountBillingGatewayRedirect,
   type AccountBillingQueryResult,
@@ -56,6 +57,12 @@ export function useBillingOverviewLifecycle({
     const signature = searchParams.toString();
     if (stripeReturnSignatureRef.current === signature) return;
     stripeReturnSignatureRef.current = signature;
+
+    captureConversion("billing_checkout_return", {
+      accountId,
+      result: outcome,
+      session_id_present: searchParams.has("session_id"),
+    });
 
     setCheckoutReturnNotice(outcome);
 

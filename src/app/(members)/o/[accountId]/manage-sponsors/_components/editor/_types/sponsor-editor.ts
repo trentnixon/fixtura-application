@@ -20,6 +20,7 @@ export type SponsorEditorSaveParams = {
 };
 
 export type SponsorEditorSheetProps = {
+  accountId: string;
   sponsor: ManageSponsorsWorkspaceSponsor | null;
   onSaveSponsor: (params: SponsorEditorSaveParams) => void | Promise<void>;
   onSaved?: () => void;

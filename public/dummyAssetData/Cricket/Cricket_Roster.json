@@ -355,7 +355,8 @@
       "IsAccountClub": false,
       "sponsors": {
         "primary": [],
-        "default": {}
+        "general": [],
+        "sponsorNum": 0
       }
     },
     "video": {

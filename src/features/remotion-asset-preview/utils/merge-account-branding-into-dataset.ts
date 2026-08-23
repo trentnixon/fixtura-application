@@ -2,7 +2,10 @@ import { resolveRemotionTemplateFromSlug } from "@/components/remotion/_utils/re
 import { resolveAccountTemplateCategorySlug } from "@/lib/branding/resolve-account-template-category-slug";
 import { themeColoursFromAccountBrandingTheme } from "@/lib/branding/theme-colours-from-account";
 
-import { buildClubSponsorsPayloadFromAccountSponsors } from "./build-club-sponsors-payload-from-account-sponsors";
+import {
+  buildClubSponsorsPayloadFromAccountSponsors,
+  type RemotionClubSponsorRow,
+} from "./build-club-sponsors-payload-from-account-sponsors";
 import {
   readRemotionBackgroundAssetsPatch,
   REMOTION_BACKGROUND_TV_KEYS,
@@ -11,6 +14,7 @@ import { readRemotionGradientFromBranding } from "./read-remotion-gradient-from-
 import { readRemotionModeFromBrandingThemeJson } from "./read-remotion-mode-from-branding-theme";
 import { readRemotionPaletteKeyFromBranding } from "./read-remotion-palette-key-from-branding";
 import { readUseBackgroundFromAccountBranding } from "./read-use-background-from-account-branding";
+import { EMPTY_ROW_ASSIGN_SPONSORS } from "./sponsors-payload-v2";
 import { templateModeSlugToRemotionMode } from "./template-mode-to-remotion-mode";
 
 export { readUseBackgroundFromAccountBranding } from "./read-use-background-from-account-branding";
@@ -43,7 +47,42 @@ function ensureRecord(parent: Record<string, unknown>, key: string): Record<stri
 }
 
 /**
- * Clone example dataset and apply account branding (template, theme, logo, template mode).
+ * Recursively stamp content rows that already carry `assignSponsors` and/or `primaryForScreen`.
+ * Demo previews show account primary + general only — entity arrays stay empty.
+ */
+export function stampSponsorFieldsOnContentRows(
+  node: unknown,
+  primaryForScreen: RemotionClubSponsorRow[],
+): void {
+  if (node == null || typeof node !== "object") return;
+
+  if (Array.isArray(node)) {
+    for (const item of node) {
+      stampSponsorFieldsOnContentRows(item, primaryForScreen);
+    }
+    return;
+  }
+
+  const record = node as Record<string, unknown>;
+  const hasAssign = "assignSponsors" in record;
+  const hasPrimaryForScreen = "primaryForScreen" in record;
+
+  if (hasAssign || hasPrimaryForScreen) {
+    record["primaryForScreen"] = primaryForScreen.map((row) => ({ ...row, logo: { ...row.logo } }));
+    record["assignSponsors"] = {
+      competition: [...EMPTY_ROW_ASSIGN_SPONSORS.competition],
+      grade: [...EMPTY_ROW_ASSIGN_SPONSORS.grade],
+      team: [...EMPTY_ROW_ASSIGN_SPONSORS.team],
+    };
+  }
+
+  for (const value of Object.values(record)) {
+    stampSponsorFieldsOnContentRows(value, primaryForScreen);
+  }
+}
+
+/**
+ * Clone example dataset and apply account branding (template, theme, logo, template mode, sponsors).
  */
 export function mergeAccountBrandingIntoDataset(
   base: FixturaDataset,
@@ -70,7 +109,15 @@ export function mergeAccountBrandingIntoDataset(
   };
 
   const club = ensureRecord(videoMeta, "club");
-  club["sponsors"] = buildClubSponsorsPayloadFromAccountSponsors(input.accountSponsors ?? null);
+  const sponsorsPayload = buildClubSponsorsPayloadFromAccountSponsors(
+    input.accountSponsors ?? null,
+  );
+  club["sponsors"] = sponsorsPayload;
+
+  const metadata = ensureRecord(video, "metadata");
+  metadata["includeSponsors"] = sponsorsPayload.sponsorNum > 0;
+
+  stampSponsorFieldsOnContentRows(next, sponsorsPayload.primary);
 
   const logo = ensureRecord(club, "logo");
   if (input.logoUrl != null && input.logoUrl.trim() !== "") {

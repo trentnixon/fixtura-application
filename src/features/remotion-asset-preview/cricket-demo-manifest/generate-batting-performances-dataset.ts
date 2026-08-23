@@ -1,5 +1,9 @@
 import { createSeededRng, sanitiseLadderVideoMeta } from "./generate-ladder-dataset";
 import { strikeRateFromRunsAndBalls } from "./generate-top5-batters-dataset";
+import {
+  emptyDemoContentRowSponsorFields,
+  type DemoContentRowSponsorFields,
+} from "../utils/sponsors-payload-v2";
 
 import type { CricketHistoricalDemoManifest } from "./schema";
 
@@ -37,12 +41,7 @@ export type BattingPerformanceRow = {
   prompt: string;
   teamLogo: { url: string; width: number; height: number };
   playedFor: string;
-  assignSponsors: {
-    Team: { name: string };
-    grade: { id: number; name: string };
-    competition: { id: number; name: string };
-  };
-};
+} & DemoContentRowSponsorFields;
 
 export type GeneratedInnings = {
   runs: number;
@@ -151,11 +150,7 @@ export function generateBattingPerformanceRows(
         height: 480,
       },
       playedFor: nation.displayName,
-      assignSponsors: {
-        Team: { name: nation.displayName },
-        grade: { id: 0, name: BATTING_PERFORMANCES_GRADE },
-        competition: { id: 0, name: BATTING_PERFORMANCES_COMPETITION },
-      },
+      ...emptyDemoContentRowSponsorFields(),
     };
   });
 }

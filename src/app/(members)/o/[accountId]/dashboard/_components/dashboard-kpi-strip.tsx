@@ -5,6 +5,7 @@ import { MetricComparisonCard } from "@/components/cards";
 import { TypographyH4, TypographyMuted } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { captureUserAction } from "@/lib/analytics";
 import { accountScopedRoutes } from "@/lib/config/account-routes";
 
 import type { AccountAnalyticsOverviewMeta, AccountAnalyticsRollup } from "@/types/api/account";
@@ -108,7 +109,17 @@ export function DashboardKpiStrip({
       body={body}
       footer={
         <Button variant="brand" className="w-full" asChild disabled={isPending}>
-          <Link href={bundlesHref}>View bundles</Link>
+          <Link
+            href={bundlesHref}
+            onClick={() =>
+              captureUserAction("dashboard_route_clicked", {
+                destination: "bundles",
+                accountId,
+              })
+            }
+          >
+            View bundles
+          </Link>
         </Button>
       }
     />

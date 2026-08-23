@@ -1,4 +1,8 @@
 import { sanitiseLadderVideoMeta } from "./generate-ladder-dataset";
+import {
+  emptyDemoContentRowSponsorFields,
+  type DemoContentRowSponsorFields,
+} from "../utils/sponsors-payload-v2";
 
 import type { CricketHistoricalDemoManifest } from "./schema";
 
@@ -33,12 +37,7 @@ export type Top5BowlerRow = {
   wickets: number;
   teamLogo: { url: string; width: number; height: number };
   playedFor: string;
-  assignSponsors: {
-    Team: { name: string };
-    grade: { id: number; name: string };
-    competition: { id: number; name: string };
-  };
-};
+} & DemoContentRowSponsorFields;
 
 export function generateTop5BowlerRows(manifest: CricketHistoricalDemoManifest): Top5BowlerRow[] {
   const nationsById = new Map(manifest.nations.map((nation) => [nation.id, nation]));
@@ -68,11 +67,7 @@ export function generateTop5BowlerRows(manifest: CricketHistoricalDemoManifest):
         height: 480,
       },
       playedFor: nation.displayName,
-      assignSponsors: {
-        Team: { name: nation.displayName },
-        grade: { id: 0, name: TOP5_BOWLERS_GRADE },
-        competition: { id: 0, name: TOP5_BOWLERS_COMPETITION },
-      },
+      ...emptyDemoContentRowSponsorFields(),
     };
   });
 }

@@ -12,6 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { captureUserAction } from "@/lib/analytics";
 import { accountScopedRoutes } from "@/lib/config/account-routes";
 
 import { BundlesRenderDateRangeFilter } from "./bundles-render-date-range-filter";
@@ -132,7 +133,16 @@ export function BundlesRenderListPanel({ accountId }: { accountId: string }) {
                           <TableCell className="text-right align-top">
                             <div className="flex flex-wrap items-center justify-end gap-2">
                               <Button variant="brandPrimaryOutline" size="sm" asChild>
-                                <Link href={adminHref}>
+                                <Link
+                                  href={adminHref}
+                                  onClick={() =>
+                                    captureUserAction("bundles_render_opened", {
+                                      accountId,
+                                      renderId: render.id,
+                                      source: "list_row",
+                                    })
+                                  }
+                                >
                                   {BUNDLES_RENDERS_LIST_COPY.viewOnAdminAction}
                                 </Link>
                               </Button>

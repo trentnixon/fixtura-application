@@ -3,6 +3,7 @@
 import { format } from "date-fns";
 import { useMemo, useState } from "react";
 
+import { captureUserAction } from "@/lib/analytics";
 import {
   isAccountRendersGatewayRedirect,
   useAccountRenders,
@@ -64,9 +65,22 @@ export function useBundlesRenderListPanel(accountId: string): BundlesRenderListP
 
   const rendersQuery = useAccountRenders(accountId, renderParams);
 
+  function captureFilterApplied(
+    nextSort: { column: BundlesRenderSortColumn; direction: BundlesRenderSortDirection },
+    range: DateRange | undefined,
+  ) {
+    captureUserAction("bundles_filter_applied", {
+      accountId,
+      sort_column: nextSort.column,
+      sort_direction: nextSort.direction,
+      has_date_range: Boolean(range?.from || range?.to),
+    });
+  }
+
   function setDateRange(range: DateRange | undefined) {
     setDateRangeState(range);
     setPage(1);
+    captureFilterApplied({ column: sortColumn, direction: sortDirection }, range);
   }
 
   const readyPayload = useMemo(() => {
@@ -131,11 +145,13 @@ export function useBundlesRenderListPanel(accountId: string): BundlesRenderListP
       const next = nextBundlesRenderSort({ column: sortColumn, direction: sortDirection }, column);
       setSortColumn(next.column);
       setSortDirection(next.direction);
+      captureFilterApplied(next, dateRange);
     },
     hasActiveFilters,
     clearFilters: () => {
       setDateRangeState(undefined);
       setPage(1);
+      captureFilterApplied({ column: sortColumn, direction: sortDirection }, undefined);
     },
     hasFilterMismatchOnPage: readyPayload.hasFilterMismatchOnPage,
   };

@@ -123,6 +123,7 @@ export function SeasonGradeView({ accountId, competitionId, gradeId }: SeasonGra
       />
 
       <SeasonGradeSyncDialog
+        accountId={accountId}
         open={syncDialogOpen}
         onOpenChange={setSyncDialogOpen}
         isSyncMutating={isSyncMutating}

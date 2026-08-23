@@ -36,6 +36,7 @@ export function SponsorArchiveWorkspace({ accountId }: { accountId: string }) {
     confirmDeleteSponsor,
     handleDeleteDialogOpenChange,
   } = useSponsorArchiveActions({
+    accountId,
     workspaceSponsors,
     restoreArchivedSponsor,
     deleteSponsor,

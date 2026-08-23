@@ -36,6 +36,7 @@ export function ManageSponsorsWorkspace({ accountId }: ManageSponsorsWorkspacePr
 
       {!readOnly ? (
         <ManageSponsorsEditorSheet
+          accountId={accountId}
           open={editor.editorOpen}
           sponsor={editor.editorSponsor}
           onOpenChange={editor.handleEditorOpenChange}

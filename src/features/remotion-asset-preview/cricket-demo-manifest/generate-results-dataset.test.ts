@@ -35,6 +35,7 @@ describe("generate-results-dataset", () => {
       expect(row.type).toBe("One Day");
       expect(row.status).toBe("Final");
       expect(row.assignSponsors).toEqual({ team: [], grade: [], competition: [] });
+      expect(row.primaryForScreen).toEqual([]);
       expect(row.homeTeam.name).toBe(row.resultSummary.homeTeam);
       expect(row.awayTeam.name).toBe(row.resultSummary.awayTeam);
       expect(row.teamHomeLogo.url).toBe(row.homeTeam.logo.url);

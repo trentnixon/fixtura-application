@@ -15,11 +15,12 @@ import { useSeasonOverviewSyncAction } from "../_hooks";
 import type { SeasonOverviewSyncDialogProps } from "../_types";
 
 export function SeasonOverviewSyncDialog({
+  accountId,
   open,
   onOpenChange,
   orgSync,
 }: SeasonOverviewSyncDialogProps) {
-  const { runSync } = useSeasonOverviewSyncAction({ orgSync, onOpenChange });
+  const { runSync } = useSeasonOverviewSyncAction({ accountId, orgSync, onOpenChange });
 
   return (
     <>

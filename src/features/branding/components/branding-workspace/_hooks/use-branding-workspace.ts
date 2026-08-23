@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { useTemplateModePickerList } from "@/components/pickers/template-mode";
 import { templateModeLabel } from "@/components/pickers/template-mode/_utils";
 import { LAB_BRANDING_ORG_LABEL } from "@/features/route-lab/fixtures/branding";
+import { brandingFieldsChanged, captureUserAction } from "@/lib/analytics";
 import { ApiError } from "@/lib/api/client/api-error";
 import { useOnboardingLookupThemes } from "@/lib/api/hooks/account/useOnboardingLookupThemes";
 import { usePatchAccountBranding } from "@/lib/api/hooks/account/usePatchAccountBranding";
@@ -153,6 +154,10 @@ export function useBrandingWorkspace({
 
     try {
       await patchBranding.mutateAsync(body);
+      captureUserAction("branding_saved", {
+        accountId,
+        fields_changed: brandingFieldsChanged(body),
+      });
       setSaveDialogOpen(false);
       const time = new Date().toLocaleTimeString(undefined, {
         hour: "2-digit",
