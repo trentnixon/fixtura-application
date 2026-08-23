@@ -1645,7 +1645,7 @@ var OUTRO_PAGE_ANIMATE_OUT_FRAMES = 15;
 var OUTRO_PAGE_DURATION_FRAMES =
   OUTRO_PAGE_ANIMATE_IN_FRAMES + OUTRO_PAGE_HOLD_FRAMES + OUTRO_PAGE_ANIMATE_OUT_FRAMES;
 var OUTRO_PAGE_LOGO_EXIT_FRAME = OUTRO_PAGE_DURATION_FRAMES - OUTRO_PAGE_ANIMATE_OUT_FRAMES;
-var OUTRO_NO_SPONSORS_DURATION_FRAMES = 30;
+var OUTRO_NO_SPONSORS_DURATION_FRAMES = 0;
 var buildOutroSponsorSequence = ({ primary, general }) => {
   return [...asSponsorArray(primary), ...asSponsorArray(general)];
 };
@@ -1752,6 +1752,7 @@ var BaseTemplateLayout = ({
   const { data, sponsors } = useVideoDataContext();
   const { doesAccountHaveSponsors } = useLayoutContext();
   const { timings } = data;
+  const outroDurationInFrames = calculateOutroDuration(timings, doesAccountHaveSponsors, sponsors);
   return /* @__PURE__ */ jsxs(AbsoluteFill2, {
     children: [
       /* @__PURE__ */ jsx9(AbsoluteFill2, {
@@ -1766,14 +1767,15 @@ var BaseTemplateLayout = ({
               durationInFrames: calculateMainDuration(timings),
               children: MainComponentLayout && /* @__PURE__ */ jsx9(MainComponentLayout, {}),
             }),
-            /* @__PURE__ */ jsx9(Series.Sequence, {
-              durationInFrames: calculateOutroDuration(timings, doesAccountHaveSponsors, sponsors),
-              children:
-                OutroComponent &&
-                /* @__PURE__ */ jsx9(OutroComponent, {
-                  doesAccountHaveSponsors,
-                }),
-            }),
+            outroDurationInFrames > 0 &&
+              /* @__PURE__ */ jsx9(Series.Sequence, {
+                durationInFrames: outroDurationInFrames,
+                children:
+                  OutroComponent &&
+                  /* @__PURE__ */ jsx9(OutroComponent, {
+                    doesAccountHaveSponsors,
+                  }),
+              }),
           ],
         }),
       }),
@@ -5215,7 +5217,7 @@ var BasicOutro = ({ doesAccountHaveSponsors }) => {
   const { animations } = useAnimationContext();
   const LogoAnimations = animations.image.sponsor.logo;
   if (!doesAccountHaveSponsors) {
-    return /* @__PURE__ */ jsx18(AlternativeOutro, {});
+    return null;
   }
   const sponsorsArray = buildOutroSponsorSequence({
     primary: (_a = sponsors == null ? void 0 : sponsors.primary) != null ? _a : [],
@@ -5235,14 +5237,6 @@ var BasicOutro = ({ doesAccountHaveSponsors }) => {
     timing: { type: "linear", durationInFrames: 1 },
   });
 };
-var AlternativeOutro = () =>
-  /* @__PURE__ */ jsx18(AbsoluteFill4, {
-    className: "flex flex-col justify-center items-center",
-    children: /* @__PURE__ */ jsx18("h2", {
-      className: "text-5xl font-bold text-center",
-      children: "Thank you for watching!",
-    }),
-  });
 
 // src/components/backgrounds/variants/Solid/SolidBackground.tsx
 import { AbsoluteFill as AbsoluteFill5 } from "remotion";
@@ -42348,7 +42342,7 @@ var BrickworkOutro = ({ doesAccountHaveSponsors }) => {
   const { animations } = useAnimationContext();
   const LogoAnimations = animations.image.sponsor.logo;
   if (!doesAccountHaveSponsors) {
-    return /* @__PURE__ */ jsx520(AlternativeOutro2, {});
+    return null;
   }
   const sponsorsArray = buildOutroSponsorSequence({
     primary: (_a = sponsors == null ? void 0 : sponsors.primary) != null ? _a : [],
@@ -42368,11 +42362,6 @@ var BrickworkOutro = ({ doesAccountHaveSponsors }) => {
     timing: { type: "linear", durationInFrames: 1 },
   });
 };
-var AlternativeOutro2 = () =>
-  /* @__PURE__ */ jsx520(AbsoluteFill40, {
-    className: "flex flex-col justify-center items-center",
-    children: /* @__PURE__ */ jsx520("h2", { className: "text-5xl font-bold text-center" }),
-  });
 
 // src/templates/variants/brickwork/components/brickworkBackground.tsx
 import { jsx as jsx521 } from "react/jsx-runtime";
@@ -42819,7 +42808,7 @@ var ClassicOutro = ({ doesAccountHaveSponsors }) => {
   const { animations } = useAnimationContext();
   const LogoAnimations = animations.image.sponsor.logo;
   if (!doesAccountHaveSponsors) {
-    return /* @__PURE__ */ jsx526(AlternativeOutro3, {});
+    return null;
   }
   const sponsorsArray = buildOutroSponsorSequence({
     primary: (_a = sponsors == null ? void 0 : sponsors.primary) != null ? _a : [],
@@ -42839,14 +42828,6 @@ var ClassicOutro = ({ doesAccountHaveSponsors }) => {
     timing: { type: "linear", durationInFrames: 1 },
   });
 };
-var AlternativeOutro3 = () =>
-  /* @__PURE__ */ jsx526(AbsoluteFill41, {
-    className: "flex flex-col justify-center items-center",
-    children: /* @__PURE__ */ jsx526("h2", {
-      className: "text-5xl font-bold text-center",
-      children: "Thank you for watching!",
-    }),
-  });
 
 // src/templates/variants/classic/components/ClassicBackground.tsx
 import { jsx as jsx527 } from "react/jsx-runtime";
@@ -43483,7 +43464,7 @@ var SixersOutro = ({ doesAccountHaveSponsors }) => {
   const { animations } = useAnimationContext();
   const LogoAnimations = animations.image.sponsor.logo;
   if (!doesAccountHaveSponsors) {
-    return /* @__PURE__ */ jsx532(AlternativeOutro4, {});
+    return null;
   }
   const sponsorsArray = buildOutroSponsorSequence({
     primary: (_a = sponsors == null ? void 0 : sponsors.primary) != null ? _a : [],
@@ -43503,14 +43484,6 @@ var SixersOutro = ({ doesAccountHaveSponsors }) => {
     timing: { type: "linear", durationInFrames: 1 },
   });
 };
-var AlternativeOutro4 = () =>
-  /* @__PURE__ */ jsx532(AbsoluteFill42, {
-    className: "flex flex-col justify-center items-center",
-    children: /* @__PURE__ */ jsx532("h2", {
-      className: "text-5xl font-bold text-center",
-      children: "Thank you for watching!",
-    }),
-  });
 
 // src/templates/variants/sixers/components/SixersBackground.tsx
 import { jsx as jsx533 } from "react/jsx-runtime";
@@ -44479,7 +44452,7 @@ var CNSWOutro = ({ doesAccountHaveSponsors }) => {
   const { animations } = useAnimationContext();
   const LogoAnimations = animations.image.sponsor.logo;
   if (!doesAccountHaveSponsors) {
-    return /* @__PURE__ */ jsx538(AlternativeOutro5, {});
+    return null;
   }
   const sponsorsArray = buildOutroSponsorSequence({
     primary: (_a = sponsors == null ? void 0 : sponsors.primary) != null ? _a : [],
@@ -44499,14 +44472,6 @@ var CNSWOutro = ({ doesAccountHaveSponsors }) => {
     timing: { type: "linear", durationInFrames: 1 },
   });
 };
-var AlternativeOutro5 = () =>
-  /* @__PURE__ */ jsx538(AbsoluteFill44, {
-    className: "flex flex-col justify-center items-center",
-    children: /* @__PURE__ */ jsx538("h2", {
-      className: "text-5xl font-bold text-center",
-      children: "Thank you for watching!",
-    }),
-  });
 
 // src/templates/variants/cnsw/components/CNSWBackground.tsx
 import { jsx as jsx539 } from "react/jsx-runtime";
@@ -45224,7 +45189,7 @@ var ThunderOutro = ({ doesAccountHaveSponsors }) => {
   const { animations } = useAnimationContext();
   const LogoAnimations = animations.image.sponsor.logo;
   if (!doesAccountHaveSponsors) {
-    return /* @__PURE__ */ jsx544(AlternativeOutro6, {});
+    return null;
   }
   const sponsorsArray = buildOutroSponsorSequence({
     primary: (_a = sponsors == null ? void 0 : sponsors.primary) != null ? _a : [],
@@ -45244,14 +45209,6 @@ var ThunderOutro = ({ doesAccountHaveSponsors }) => {
     timing: { type: "linear", durationInFrames: 1 },
   });
 };
-var AlternativeOutro6 = () =>
-  /* @__PURE__ */ jsx544(AbsoluteFill46, {
-    className: "flex flex-col justify-center items-center",
-    children: /* @__PURE__ */ jsx544("h2", {
-      className: "text-5xl font-bold text-center",
-      children: "Thank you for watching!",
-    }),
-  });
 
 // src/templates/variants/thunder/components/ThunderBackground.tsx
 import { jsx as jsx545 } from "react/jsx-runtime";
@@ -45863,7 +45820,7 @@ var ClassicOutro2 = ({ doesAccountHaveSponsors }) => {
   const { animations } = useAnimationContext();
   const LogoAnimations = animations.image.sponsor.logo;
   if (!doesAccountHaveSponsors) {
-    return /* @__PURE__ */ jsx550(AlternativeOutro7, {});
+    return null;
   }
   const sponsorsArray = buildOutroSponsorSequence({
     primary: (_a = sponsors == null ? void 0 : sponsors.primary) != null ? _a : [],
@@ -45883,14 +45840,6 @@ var ClassicOutro2 = ({ doesAccountHaveSponsors }) => {
     timing: { type: "linear", durationInFrames: 1 },
   });
 };
-var AlternativeOutro7 = () =>
-  /* @__PURE__ */ jsx550(AbsoluteFill47, {
-    className: "flex flex-col justify-center items-center",
-    children: /* @__PURE__ */ jsx550("h2", {
-      className: "text-5xl font-bold text-center",
-      children: "Thank you for watching!",
-    }),
-  });
 
 // src/templates/variants/twoColumnClassic/components/ClassicBackground.tsx
 import { jsx as jsx551 } from "react/jsx-runtime";
@@ -47062,7 +47011,7 @@ var CNSWOutro2 = ({ doesAccountHaveSponsors }) => {
   const { animations } = useAnimationContext();
   const LogoAnimations = animations.image.sponsor.logo;
   if (!doesAccountHaveSponsors) {
-    return /* @__PURE__ */ jsx557(AlternativeOutro8, {});
+    return null;
   }
   const sponsorsArray = buildOutroSponsorSequence({
     primary: (_a = sponsors == null ? void 0 : sponsors.primary) != null ? _a : [],
@@ -47082,14 +47031,6 @@ var CNSWOutro2 = ({ doesAccountHaveSponsors }) => {
     timing: { type: "linear", durationInFrames: 1 },
   });
 };
-var AlternativeOutro8 = () =>
-  /* @__PURE__ */ jsx557(AbsoluteFill50, {
-    className: "flex flex-col justify-center items-center",
-    children: /* @__PURE__ */ jsx557("h2", {
-      className: "text-5xl font-bold text-center",
-      children: "Thank you for watching!",
-    }),
-  });
 
 // src/templates/variants/cnsw-private/components/CNSWBackground.tsx
 import { jsx as jsx558 } from "react/jsx-runtime";
@@ -47973,7 +47914,7 @@ var MudgeerabaOutro = ({ doesAccountHaveSponsors }) => {
   const { animations } = useAnimationContext();
   const LogoAnimations = animations.image.sponsor.logo;
   if (!doesAccountHaveSponsors) {
-    return /* @__PURE__ */ jsx563(AlternativeOutro9, {});
+    return null;
   }
   const sponsorsArray = buildOutroSponsorSequence({
     primary: (_a = sponsors == null ? void 0 : sponsors.primary) != null ? _a : [],
@@ -47993,14 +47934,6 @@ var MudgeerabaOutro = ({ doesAccountHaveSponsors }) => {
     timing: { type: "linear", durationInFrames: 1 },
   });
 };
-var AlternativeOutro9 = () =>
-  /* @__PURE__ */ jsx563(AbsoluteFill52, {
-    className: "flex flex-col justify-center items-center",
-    children: /* @__PURE__ */ jsx563("h2", {
-      className: "text-5xl font-bold text-center",
-      children: "Thank you for watching!",
-    }),
-  });
 
 // src/templates/variants/mudgeeraba/components/MudgeerabaBackground.tsx
 import { jsx as jsx564 } from "react/jsx-runtime";
@@ -49444,7 +49377,7 @@ var BroadcastProOutro = ({ doesAccountHaveSponsors }) => {
   const { animations } = useAnimationContext();
   const LogoAnimations = animations.image.sponsor.logo;
   if (!doesAccountHaveSponsors) {
-    return /* @__PURE__ */ jsx571(AlternativeOutro10, {});
+    return null;
   }
   const sponsorsArray = buildOutroSponsorSequence({
     primary: (_a = sponsors == null ? void 0 : sponsors.primary) != null ? _a : [],
@@ -49464,14 +49397,6 @@ var BroadcastProOutro = ({ doesAccountHaveSponsors }) => {
     timing: { type: "linear", durationInFrames: 1 },
   });
 };
-var AlternativeOutro10 = () =>
-  /* @__PURE__ */ jsx571(AbsoluteFill53, {
-    className: "flex flex-col justify-center items-center",
-    children: /* @__PURE__ */ jsx571("h2", {
-      className: "text-5xl font-bold text-center",
-      children: "Thank you for watching!",
-    }),
-  });
 
 // src/templates/variants/broadcastPro/components/BroadcastProBackground.tsx
 import { jsx as jsx572 } from "react/jsx-runtime";
@@ -50894,7 +50819,7 @@ var BroadcastProRoundedOutro = ({ doesAccountHaveSponsors }) => {
   const LogoAnimations = animations.image.sponsor.logo;
   const imageRadius = (_a = layout.borderRadius.image) != null ? _a : layout.borderRadius.container;
   if (!doesAccountHaveSponsors) {
-    return /* @__PURE__ */ jsx579(AlternativeOutro11, {});
+    return null;
   }
   const sponsorsArray = buildOutroSponsorSequence({
     primary: (_b = sponsors == null ? void 0 : sponsors.primary) != null ? _b : [],
@@ -50918,14 +50843,6 @@ var BroadcastProRoundedOutro = ({ doesAccountHaveSponsors }) => {
     timing: { type: "linear", durationInFrames: 1 },
   });
 };
-var AlternativeOutro11 = () =>
-  /* @__PURE__ */ jsx579(AbsoluteFill54, {
-    className: "flex flex-col justify-center items-center",
-    children: /* @__PURE__ */ jsx579("h2", {
-      className: "text-5xl font-bold text-center",
-      children: "Thank you for watching!",
-    }),
-  });
 
 // src/templates/variants/broadcastProRounded/components/BroadcastProRoundedBackground.tsx
 import { jsx as jsx580 } from "react/jsx-runtime";
