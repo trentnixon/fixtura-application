@@ -11,6 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { captureEvent } from "@/lib/analytics";
 import { buildBundlesHubRenderGroupUrl } from "@/lib/config/bundles-hub";
 
 import { BUNDLES_RENDER_DETAIL_COPY } from "../_consts/render-detail";
@@ -99,7 +100,19 @@ export function BundlesRenderDownloadsPanel({
                   <TableCell className="text-right align-top">
                     {hubHref ? (
                       <Button variant="accent" size="sm" asChild>
-                        <a href={hubHref} target="_blank" rel="noopener noreferrer">
+                        <a
+                          href={hubHref}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => {
+                            captureEvent("hub_opened", {
+                              accountId,
+                              renderId: render.id,
+                              groupingCategory: group.groupingCategory,
+                              source: "app_bundles_downloads",
+                            });
+                          }}
+                        >
                           <ExternalLink className="size-3.5" aria-hidden />
                           {BUNDLES_RENDER_DETAIL_COPY.downloadsViewAction}
                         </a>

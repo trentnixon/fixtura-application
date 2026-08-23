@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/dialog";
 import { GridCard, GridCardVisualSlot } from "@/components/ui/grid-card";
 import { accountPickerRowsFromMePayload } from "@/lib/account/account-me-rows";
+import { captureEvent } from "@/lib/analytics";
 import {
   accountCreateBusyMessage,
   accountCreateBusyRetryAfterSeconds,
@@ -127,6 +128,8 @@ export function CreateOrganisationWizard() {
   const step3Ref = useRef<WizardStepContactHandle>(null);
   const step4Ref = useRef<WizardStepReviewHandle>(null);
   const stepHydratedFromServerRef = useRef(false);
+  const onboardingStartedRef = useRef(false);
+  const prevWizardStepRef = useRef(0);
   const prevAccountIdFromQueryRef = useRef<string | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -228,6 +231,26 @@ export function CreateOrganisationWizard() {
     }
   }, [accountId, onboardingData]);
 
+  useEffect(() => {
+    if (!accountId || stepIndex < 1) return;
+    if (onboardingStartedRef.current) return;
+    onboardingStartedRef.current = true;
+    captureEvent("onboarding_started", { accountId });
+  }, [accountId, stepIndex]);
+
+  useEffect(() => {
+    const previousStep = prevWizardStepRef.current;
+    if (stepIndex > previousStep && previousStep >= 1 && accountId) {
+      const completedStep = WIZARD_STEPS[previousStep - 1];
+      captureEvent("onboarding_step_completed", {
+        accountId,
+        step: previousStep,
+        step_key: completedStep?.key,
+      });
+    }
+    prevWizardStepRef.current = stepIndex;
+  }, [accountId, stepIndex]);
+
   const isGetStarted = stepIndex === 0;
   const wizardStepNumber = stepIndex; // 1–4 when in wizard
   const isOrganisationStep = wizardStepNumber === 1;
@@ -249,12 +272,26 @@ export function CreateOrganisationWizard() {
 
   const handleConfirmNav = useCallback(() => {
     if (pendingNav === "back") {
+      if (accountId && stepIndex >= 1) {
+        captureEvent("onboarding_abandoned", {
+          accountId,
+          step: stepIndex,
+          reason: "back",
+        });
+      }
       goBack();
     } else if (pendingNav === "selection") {
+      if (accountId && stepIndex >= 1) {
+        captureEvent("onboarding_abandoned", {
+          accountId,
+          step: stepIndex,
+          reason: "selection",
+        });
+      }
       router.push(ROUTES.selectOrganisation);
     }
     setPendingNav(null);
-  }, [goBack, pendingNav, router]);
+  }, [accountId, goBack, pendingNav, router, stepIndex]);
 
   const handleGetStarted = useCallback(() => {
     if (mePending || meError) return;
@@ -323,6 +360,7 @@ export function CreateOrganisationWizard() {
         return parsed;
       },
     });
+    captureEvent("onboarding_completed", { accountId });
     router.replace(accountScopedRoutes.dashboard(accountId));
   }, [accountId, queryClient, router]);
 

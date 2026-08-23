@@ -9,6 +9,7 @@ import { z } from "zod";
 
 import { SubmitButton, ForgotPasswordLink, InlineAlert } from "@/components/auth/actions";
 import { AuthForm, EmailInput, PasswordInput } from "@/components/auth/forms";
+import { captureConversion, identifyUser, initAnalytics } from "@/lib/analytics";
 import { useLogin } from "@/lib/api/hooks/auth/useLogin";
 import { queryKeys } from "@/lib/api/query/query-keys";
 import { accountApi } from "@/lib/api/services/account.api";
@@ -58,6 +59,12 @@ export function LoginForm() {
         queryKey: queryKeys.account.me,
         queryFn: () => accountApi.getAccountMe(),
       });
+      const userId = me.data.user?.id;
+      if (userId != null) {
+        initAnalytics();
+        identifyUser(String(userId));
+        captureConversion("login_success");
+      }
       const destination = resolvePostLoginDestination({
         mePayload: me.data,
         fromParam: searchParams.get("from"),

@@ -1,9 +1,11 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
+import { useEffect, useRef } from "react";
 
 import { TypographyMuted } from "@/components/typography";
 import { ErrorState } from "@/components/ui/error-state";
+import { captureEvent } from "@/lib/analytics";
 
 import { BundlesActiveRunBanner } from "./bundles-active-run-banner";
 import { BundlesRenderListPanel } from "./bundles-render-list-panel";
@@ -16,6 +18,13 @@ import type { BundlesScreenProps } from "../_types";
 
 export function BundlesScreen({ accountId }: BundlesScreenProps) {
   const view = useBundlesScreen(accountId);
+  const viewedRef = useRef(false);
+
+  useEffect(() => {
+    if (view.kind !== "ready" || viewedRef.current) return;
+    viewedRef.current = true;
+    captureEvent("user_action", { action: "bundles_viewed", accountId });
+  }, [accountId, view.kind]);
 
   if (view.kind === "redirecting") {
     return (
