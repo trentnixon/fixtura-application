@@ -402,13 +402,7 @@
     "FPS_SCORECARD": 0,
     "FPS_PREFORMANCECARD": 180
   },
-  "frames": [
-    45,
-    180,
-    345,
-    510,
-    645
-  ],
+  "frames": [45, 180, 345, 510, 645],
   "videoMeta": {
     "club": {
       "logo": {
@@ -446,9 +440,7 @@
         "title": "Batting Performances",
         "frames": [],
         "assetId": 65,
-        "titleSplit": [
-          "Performances"
-        ],
+        "titleSplit": ["Performances"],
         "videoTitle": "Batting Performances",
         "assetTypeId": 3,
         "compositionId": "CricketBattingPerformances",

@@ -1,8 +1,9 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
 import { resolveTemplateModeSlugFromBranding } from "@/features/remotion-asset-preview";
+import { captureUserAction } from "@/lib/analytics";
 import {
   isAccountAnalyticsOverviewGatewayRedirect,
   useAccountAnalyticsOverview,
@@ -33,6 +34,7 @@ import { DashboardVisionRouteCard } from "./_components/dashboard-vision-route-c
 import { buildDashboardViewModel } from "./dashboard-view-model";
 
 export function DashboardContent({ accountId }: { accountId: string }) {
+  const viewedRef = useRef(false);
   const me = useAccountMe();
   const settings = useAccountSettings(accountId);
   const branding = useAccountBranding(accountId);
@@ -76,6 +78,13 @@ export function DashboardContent({ accountId }: { accountId: string }) {
     () => resolveTemplateModeSlugFromBranding(model.branding, templateModesQuery.data?.data ?? []),
     [model.branding, templateModesQuery.data],
   );
+
+  useEffect(() => {
+    if (viewedRef.current || me.isPending || settings.isPending) return;
+    if (!me.isSuccess || !settings.isSuccess) return;
+    viewedRef.current = true;
+    captureUserAction("dashboard_viewed", { accountId });
+  }, [accountId, me.isPending, me.isSuccess, settings.isPending, settings.isSuccess]);
 
   return (
     <div className="grid gap-12">

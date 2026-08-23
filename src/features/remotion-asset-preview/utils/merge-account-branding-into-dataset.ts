@@ -6,7 +6,6 @@ import {
   buildClubSponsorsPayloadFromAccountSponsors,
   type RemotionClubSponsorRow,
 } from "./build-club-sponsors-payload-from-account-sponsors";
-import { EMPTY_ROW_ASSIGN_SPONSORS } from "./sponsors-payload-v2";
 import {
   readRemotionBackgroundAssetsPatch,
   REMOTION_BACKGROUND_TV_KEYS,
@@ -15,6 +14,7 @@ import { readRemotionGradientFromBranding } from "./read-remotion-gradient-from-
 import { readRemotionModeFromBrandingThemeJson } from "./read-remotion-mode-from-branding-theme";
 import { readRemotionPaletteKeyFromBranding } from "./read-remotion-palette-key-from-branding";
 import { readUseBackgroundFromAccountBranding } from "./read-use-background-from-account-branding";
+import { EMPTY_ROW_ASSIGN_SPONSORS } from "./sponsors-payload-v2";
 import { templateModeSlugToRemotionMode } from "./template-mode-to-remotion-mode";
 
 export { readUseBackgroundFromAccountBranding } from "./read-use-background-from-account-branding";
@@ -109,7 +109,9 @@ export function mergeAccountBrandingIntoDataset(
   };
 
   const club = ensureRecord(videoMeta, "club");
-  const sponsorsPayload = buildClubSponsorsPayloadFromAccountSponsors(input.accountSponsors ?? null);
+  const sponsorsPayload = buildClubSponsorsPayloadFromAccountSponsors(
+    input.accountSponsors ?? null,
+  );
   club["sponsors"] = sponsorsPayload;
 
   const metadata = ensureRecord(video, "metadata");

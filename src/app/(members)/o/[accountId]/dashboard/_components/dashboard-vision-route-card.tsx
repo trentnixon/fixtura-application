@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import { TypographyH4, TypographyMuted } from "@/components/typography";
 import { Button } from "@/components/ui/button";
+import { captureUserAction } from "@/lib/analytics";
 import { useSeasonHubRecon, useSeasonHubStats } from "@/lib/api/hooks/season-hub";
 import { accountScopedRoutes } from "@/lib/config/account-routes";
 import { useSupportView } from "@/lib/support/support-view-context";
@@ -59,7 +60,17 @@ export function DashboardVisionRouteCard({ accountId }: { accountId: string }) {
       <div className="mt-4 flex flex-wrap justify-end gap-2">
         {!isSupportView ? (
           <Button variant="outline" size="sm" asChild disabled={isPending}>
-            <Link href={accountScopedRoutes.season(accountId)}>Open Vision</Link>
+            <Link
+              href={accountScopedRoutes.season(accountId)}
+              onClick={() =>
+                captureUserAction("dashboard_route_clicked", {
+                  destination: "vision",
+                  accountId,
+                })
+              }
+            >
+              Open Vision
+            </Link>
           </Button>
         ) : null}
       </div>

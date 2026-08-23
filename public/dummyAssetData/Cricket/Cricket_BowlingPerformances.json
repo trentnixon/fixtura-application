@@ -250,12 +250,7 @@
     "FPS_SCORECARD": 0,
     "FPS_PREFORMANCECARD": 180
   },
-  "frames": [
-    45,
-    180,
-    345,
-    510
-  ],
+  "frames": [45, 180, 345, 510],
   "videoMeta": {
     "club": {
       "logo": {
@@ -278,9 +273,7 @@
       "groupingCategory": "International Cricket Demo Preview",
       "metadata": {
         "title": "Bowling Performances",
-        "titleSplit": [
-          "Performances"
-        ],
+        "titleSplit": ["Performances"],
         "videoTitle": "Bowling Performances",
         "compositionId": "CricketBowlingPerformances",
         "assetId": 66,

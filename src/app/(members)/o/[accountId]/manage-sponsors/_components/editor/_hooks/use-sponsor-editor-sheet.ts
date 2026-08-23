@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
+import { captureUserAction } from "@/lib/analytics";
+
 import {
   EMPTY_SPONSOR_EDITOR_FORM_VALUES,
   EMPTY_SPONSOR_EDITOR_LOGO_STATE,
@@ -34,6 +36,7 @@ import type {
 import type { ImageUploaderCropCompletePayload } from "@/components/media/image-uploader-crop";
 
 export function useSponsorEditorSheet({
+  accountId,
   sponsor,
   onSaveSponsor,
   onSaved,
@@ -221,6 +224,7 @@ export function useSponsorEditorSheet({
     toast.success(SPONSOR_EDITOR_ARCHIVED_TOAST.title, {
       description: SPONSOR_EDITOR_ARCHIVED_TOAST.description,
     });
+    captureUserAction("sponsor_archived", { accountId });
     onSaved?.();
   }
 

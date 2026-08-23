@@ -188,11 +188,7 @@
     "assetsLinkID": 0
   },
   "errors": [],
-  "frames": [
-    45,
-    195,
-    390
-  ],
+  "frames": [45, 195, 390],
   "render": {
     "schedulerId": 0,
     "renderId": 0
@@ -244,10 +240,7 @@
         "title": "Fixtures",
         "frames": [],
         "assetId": 2,
-        "titleSplit": [
-          "Fixtures",
-          ""
-        ],
+        "titleSplit": ["Fixtures", ""],
         "videoTitle": "Upcoming Fixtures",
         "assetTypeId": 1,
         "compositionId": "CricketUpcoming",

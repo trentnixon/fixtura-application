@@ -738,12 +738,7 @@
     "assetsLinkID": ""
   },
   "errors": [],
-  "frames": [
-    45,
-    240,
-    525,
-    705
-  ],
+  "frames": [45, 240, 525, 705],
   "render": {
     "schedulerId": 0,
     "renderId": 0
@@ -796,9 +791,7 @@
         "title": "Results",
         "frames": [],
         "assetId": 4,
-        "titleSplit": [
-          "Results"
-        ],
+        "titleSplit": ["Results"],
         "videoTitle": "International Cricket Demo Preview CricketResults",
         "assetTypeId": 2,
         "compositionId": "CricketResults",

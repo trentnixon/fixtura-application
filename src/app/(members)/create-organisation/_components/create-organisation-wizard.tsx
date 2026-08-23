@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/dialog";
 import { GridCard, GridCardVisualSlot } from "@/components/ui/grid-card";
 import { accountPickerRowsFromMePayload } from "@/lib/account/account-me-rows";
-import { captureEvent } from "@/lib/analytics";
+import { captureEvent, captureUserAction } from "@/lib/analytics";
 import {
   accountCreateBusyMessage,
   accountCreateBusyRetryAfterSeconds,
@@ -307,6 +307,7 @@ export function CreateOrganisationWizard() {
             const id = res.data.accountId;
             if (typeof id === "number" && Number.isFinite(id) && id > 0) {
               const idStr = String(id);
+              captureUserAction("onboarding_bootstrap_started", { accountId: idStr });
               setCreatedAccountId(idStr);
               setBusyCooldownUntilMs(null);
               setStepIndex(1);
@@ -869,6 +870,11 @@ export function CreateOrganisationWizard() {
               onClick={() => {
                 setDeleteError(null);
                 deleteAccountMutation.mutate(undefined, {
+                  onSuccess: () => {
+                    if (accountId) {
+                      captureUserAction("onboarding_account_deleted", { accountId });
+                    }
+                  },
                   onError: (e) => {
                     setDeleteError(deleteUnfinishedAccountErrorMessage(e));
                   },

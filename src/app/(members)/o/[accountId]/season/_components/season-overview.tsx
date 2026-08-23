@@ -1,9 +1,10 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { ErrorState } from "@/components/ui/error-state";
+import { captureUserAction } from "@/lib/analytics";
 import { useTriggerOrgSingleScrape } from "@/lib/api/hooks/account/useTriggerOrgSingleScrape";
 import {
   useSeasonHubCompetitions,
@@ -33,10 +34,22 @@ export function SeasonOverview({ accountId }: { accountId: string }) {
   );
   const orgSync = useTriggerOrgSingleScrape(accountId);
   const [syncDialogOpen, setSyncDialogOpen] = useState(false);
+  const viewedRef = useRef(false);
+
+  useEffect(() => {
+    viewedRef.current = false;
+  }, [accountId]);
 
   const anyError = recon.isError || stats.isError || competitions.isError;
   const firstError = recon.error ?? stats.error ?? competitions.error;
   const loading = recon.isPending || stats.isPending || competitions.isPending;
+
+  useEffect(() => {
+    if (viewedRef.current || loading || anyError || isSupportView) return;
+    viewedRef.current = true;
+    captureUserAction("vision_viewed", { accountId });
+  }, [accountId, anyError, isSupportView, loading]);
+
   const reconData = recon.data?.data;
   const statsData = stats.data?.data;
   const competitionDataList = competitions.data?.data;
@@ -100,6 +113,7 @@ export function SeasonOverview({ accountId }: { accountId: string }) {
         onOpenSync={() => setSyncDialogOpen(true)}
       />
       <SeasonOverviewSyncDialog
+        accountId={accountId}
         open={syncDialogOpen}
         onOpenChange={setSyncDialogOpen}
         orgSync={orgSync}

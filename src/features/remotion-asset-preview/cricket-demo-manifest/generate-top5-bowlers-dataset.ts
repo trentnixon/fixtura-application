@@ -1,5 +1,4 @@
 import { sanitiseLadderVideoMeta } from "./generate-ladder-dataset";
-
 import {
   emptyDemoContentRowSponsorFields,
   type DemoContentRowSponsorFields,

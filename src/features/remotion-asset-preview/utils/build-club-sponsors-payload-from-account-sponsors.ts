@@ -6,12 +6,15 @@ import {
 } from "@/app/(members)/o/[accountId]/manage-sponsors/_constants/sponsor-position-slots";
 import { parseGeneralAccountGroup } from "@/app/(members)/o/[accountId]/manage-sponsors/_utils/sponsorship-allocation-general";
 
+import type { ClubSponsorsPayload, RemotionClubSponsorRow } from "./sponsors-payload-v2";
 import type { AccountSponsorDto } from "@/types/api/account";
 
-import type { ClubSponsorsPayload, RemotionClubSponsorRow } from "./sponsors-payload-v2";
-
 export type { ClubSponsorsPayload, RemotionClubSponsorRow } from "./sponsors-payload-v2";
-export { EMPTY_ASSIGN_SPONSORS, EMPTY_CLUB_SPONSORS, EMPTY_ROW_ASSIGN_SPONSORS } from "./sponsors-payload-v2";
+export {
+  EMPTY_ASSIGN_SPONSORS,
+  EMPTY_CLUB_SPONSORS,
+  EMPTY_ROW_ASSIGN_SPONSORS,
+} from "./sponsors-payload-v2";
 
 function sortActiveSponsors(sponsors: AccountSponsorDto[]): AccountSponsorDto[] {
   return sponsors

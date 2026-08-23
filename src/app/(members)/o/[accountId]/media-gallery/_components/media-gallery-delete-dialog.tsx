@@ -11,6 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { captureUserAction } from "@/lib/analytics";
 import { ApiError } from "@/lib/api/client/api-error";
 import { useDeleteAccountMediaLibraryItem } from "@/lib/api/hooks/account/useDeleteAccountMediaLibraryItem";
 import { parseMediaLibraryApiError } from "@/lib/api/media-library/parse-media-library-api-error";
@@ -41,6 +42,7 @@ export function MediaGalleryDeleteDialog({
     if (!item) return;
     try {
       await deleteMutation.mutateAsync(String(item.id));
+      captureUserAction("media_deleted", { accountId, media_id: String(item.id) });
       toast.success("Background deleted");
       onOpenChange(false);
     } catch (error) {

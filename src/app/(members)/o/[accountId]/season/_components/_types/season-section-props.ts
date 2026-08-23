@@ -28,6 +28,7 @@ export type OrgSyncForDialog = {
 };
 
 export type SeasonOverviewSyncDialogProps = {
+  accountId: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   orgSync: OrgSyncForDialog;
@@ -99,6 +100,7 @@ export type SeasonCompetitionCoverageSummarySectionProps = {
 };
 
 export type SeasonCompetitionSyncGradesDialogProps = {
+  accountId: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   cmsCompetitionNumericId: number;
@@ -135,6 +137,7 @@ export type SeasonGradeCoverageSummarySectionProps = {
 };
 
 export type SeasonGradeSyncDialogProps = {
+  accountId: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   isSyncMutating: boolean;

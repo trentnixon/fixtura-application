@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 
-import { ANALYTICS_CONSENT_GRANTED, ANALYTICS_CONSENT_STORAGE_KEY } from "./constants";
 import { readAnalyticsConsent } from "./consent";
+import { ANALYTICS_CONSENT_GRANTED, ANALYTICS_CONSENT_STORAGE_KEY } from "./constants";
 import { canCaptureAnalytics, isAnalyticsConfigured } from "./enabled";
 
 describe("analytics consent", () => {

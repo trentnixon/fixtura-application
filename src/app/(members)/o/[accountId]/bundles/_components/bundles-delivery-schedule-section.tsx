@@ -3,12 +3,14 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { SectionBlock } from "@/components/ui/section";
+import { captureUserAction } from "@/lib/analytics";
 
 import { BundlesSchedulerRunStatusPill } from "./bundles-scheduler-run-status-pill";
 import { BUNDLES_SCREEN_COPY } from "../_consts";
 import { formatDeliveryScheduleSummary } from "../_utils/format-delivery-schedule-summary";
 
 type BundlesDeliveryScheduleSectionProps = {
+  accountId: string;
   settingsHref: string;
   deliveryDayLabel: string;
   nextDeliveryLabel: string;
@@ -18,6 +20,7 @@ type BundlesDeliveryScheduleSectionProps = {
 
 /** Compact delivery summary with inline run-status pill. Active runs also surface in the banner above the table. */
 export function BundlesDeliveryScheduleSection({
+  accountId,
   settingsHref,
   deliveryDayLabel,
   nextDeliveryLabel,
@@ -46,7 +49,17 @@ export function BundlesDeliveryScheduleSection({
           className="shrink-0 self-start sm:self-center"
           asChild
         >
-          <Link href={settingsHref}>{BUNDLES_SCREEN_COPY.schedulerChangeDeliveryDayAction}</Link>
+          <Link
+            href={settingsHref}
+            onClick={() =>
+              captureUserAction("delivery_settings_link_clicked", {
+                accountId,
+                source: "bundles_scheduler_strip",
+              })
+            }
+          >
+            {BUNDLES_SCREEN_COPY.schedulerChangeDeliveryDayAction}
+          </Link>
         </Button>
       </div>
     </SectionBlock>

@@ -4,6 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 
+import { captureUserAction } from "@/lib/analytics";
 import {
   isAccountSponsorsGatewayRedirect,
   useAccountSponsors,
@@ -44,6 +45,7 @@ export function useManageSponsorsWorkspace(accountId: string): ManageSponsorsWor
   const router = useRouter();
   const queryClient = useQueryClient();
   const redirectingRef = useRef(false);
+  const viewedRef = useRef(false);
   const segmentOk = isValidAccountIdSegment(accountId);
   const q = useAccountSponsors(accountId, { enabled: segmentOk });
   const objectUrlsRef = useRef<Set<string>>(new Set());
@@ -53,7 +55,15 @@ export function useManageSponsorsWorkspace(accountId: string): ManageSponsorsWor
 
   useEffect(() => {
     redirectingRef.current = false;
+    viewedRef.current = false;
   }, [accountId]);
+
+  useEffect(() => {
+    if (!segmentOk || viewedRef.current || q.isPending || q.isError) return;
+    if (!q.isSuccess || !q.data || isAccountSponsorsGatewayRedirect(q.data)) return;
+    viewedRef.current = true;
+    captureUserAction("manage_sponsors_viewed", { accountId });
+  }, [accountId, q.data, q.isError, q.isPending, q.isSuccess, segmentOk]);
 
   useEffect(() => {
     if (segmentOk || redirectingRef.current) return;
@@ -127,6 +137,7 @@ export function useManageSponsorsWorkspace(accountId: string): ManageSponsorsWor
       await queryClient.invalidateQueries({
         queryKey: queryKeys.account.sponsorAllocationsGeneral(accountId, sponsorId),
       });
+      captureUserAction("sponsor_updated", { accountId });
       return;
     }
 

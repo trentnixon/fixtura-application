@@ -10,6 +10,7 @@ import { BrandedLoader } from "@/components/ui/branded-loader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ErrorState } from "@/components/ui/error-state";
+import { analyticsFailureReasonCode, captureConversion, captureUserAction } from "@/lib/analytics";
 import { ApiError } from "@/lib/api/client/api-error";
 import {
   isAccountBillingGatewayRedirect,
@@ -223,6 +224,10 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
   }, [tiersQ.isSuccess, tiersQ.data, accountId, queryClient, router, segmentOk]);
 
   useEffect(() => {
+    captureUserAction("subscription_wizard_step_viewed", { accountId, step });
+  }, [accountId, step]);
+
+  useEffect(() => {
     if (stripeCreatedOrderId == null || stripeInvoicePaidDetected) {
       return;
     }
@@ -395,11 +400,20 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
         startDate,
       });
       if (res.checkoutUrl && res.checkoutUrl.length > 0) {
+        captureConversion("subscription_checkout_started", {
+          accountId,
+          tier_id: selectedTierId,
+          payment_path: "card",
+        });
         window.location.assign(res.checkoutUrl);
         return;
       }
       setMissingCheckoutUrl(true);
     } catch (e) {
+      captureConversion("checkout_failed", {
+        accountId,
+        reason_code: analyticsFailureReasonCode(e),
+      });
       if (e instanceof ApiError) {
         setCheckoutError(e.message);
       } else if (e instanceof Error) {
@@ -456,6 +470,7 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
     if (!canSubmitInvoice) return;
     try {
       await invoiceMutation.mutateAsync(buildInvoiceBody());
+      captureConversion("invoice_requested", { accountId });
       await queryClient.invalidateQueries({ queryKey: queryKeys.account.billing(accountId) });
       await queryClient.invalidateQueries({
         queryKey: queryKeys.account.billingInvoiceRequests(accountId),

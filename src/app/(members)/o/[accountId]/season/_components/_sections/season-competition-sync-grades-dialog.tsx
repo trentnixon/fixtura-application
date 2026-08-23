@@ -17,6 +17,7 @@ import { useSeasonCompetitionGradesSyncAction } from "../_hooks";
 import type { SeasonCompetitionSyncGradesDialogProps } from "../_types";
 
 export function SeasonCompetitionSyncGradesDialog({
+  accountId,
   open,
   onOpenChange,
   cmsCompetitionNumericId,
@@ -24,6 +25,7 @@ export function SeasonCompetitionSyncGradesDialog({
   mutateAsync,
 }: SeasonCompetitionSyncGradesDialogProps) {
   const { runSync } = useSeasonCompetitionGradesSyncAction({
+    accountId,
     cmsCompetitionNumericId,
     mutateAsync,
     onOpenChange,

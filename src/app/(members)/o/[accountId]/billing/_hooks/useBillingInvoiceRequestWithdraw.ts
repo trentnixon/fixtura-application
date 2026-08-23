@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import { captureConversion } from "@/lib/analytics";
 import { ApiError } from "@/lib/api/client/api-error";
 import { usePostAccountBillingCancelInvoiceRequest } from "@/lib/api/hooks/account/usePostAccountBillingCancelInvoiceRequest";
 
@@ -66,6 +67,7 @@ export function useBillingInvoiceRequestWithdraw(accountId: string) {
 
     try {
       await cancelInvoiceRequestMutation.mutateAsync(withdrawTarget.invoiceRequestId);
+      captureConversion("invoice_request_withdrawn", { accountId });
       setWithdrawTarget(null);
     } catch (error) {
       setErrorMessage(error instanceof ApiError ? error.message : FALLBACK_ERROR_MESSAGE);

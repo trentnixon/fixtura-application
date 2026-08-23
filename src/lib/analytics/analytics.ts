@@ -1,5 +1,6 @@
 import { readBrowserAnalyticsConsent } from "./consent";
 import { canCaptureAnalytics, isAnalyticsConfigured } from "./enabled";
+import { isAnalyticsExcludedPath, pathnameFromAnalyticsUrl } from "./excluded-path";
 import { buildPostHogInitOptions, createPostHogClient, type PostHogLike } from "./posthog-client";
 import { withAppSurface } from "./properties";
 
@@ -45,12 +46,19 @@ export function initAnalytics(): boolean {
   return true;
 }
 
+function isCurrentPathExcluded(): boolean {
+  if (typeof window === "undefined") return false;
+  return isAnalyticsExcludedPath(window.location.pathname);
+}
+
 export function captureEvent(event: string, properties?: Record<string, unknown>): void {
   if (!isReadyToCapture()) return;
+  if (isCurrentPathExcluded()) return;
   getClient().capture(event, withAppSurface(properties));
 }
 
 export function capturePageView(path: string): void {
+  if (isAnalyticsExcludedPath(pathnameFromAnalyticsUrl(path))) return;
   captureEvent("$pageview", { $current_url: path });
 }
 

@@ -436,10 +436,7 @@
     "FPS_SCORECARD": 0,
     "FPS_PREFORMANCECARD": 180
   },
-  "frames": [
-    45,
-    180
-  ],
+  "frames": [45, 180],
   "videoMeta": {
     "club": {
       "logo": {
@@ -462,9 +459,7 @@
       "groupingCategory": "2022 T20 World Cup Demo XI",
       "metadata": {
         "title": "Team of the Week",
-        "titleSplit": [
-          "Team of the Week"
-        ],
+        "titleSplit": ["Team of the Week"],
         "videoTitle": "International Cricket Demo Preview CricketTeamOfTheWeek",
         "compositionId": "CricketTeamOfTheWeek",
         "assetId": 69,

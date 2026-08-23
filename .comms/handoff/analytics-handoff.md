@@ -62,7 +62,8 @@ Clone or browse: `fixtura/marketing` on branch `staging`.
 
 ## App status (this repo)
 
-- Implemented: client module, consent gate, `$pageview` (`surface: app`), identify/group/reset, onboarding + bundles events
+- **Phase 1 (live):** client module, consent gate, `$pageview` (`surface: app`), identify/group/reset, onboarding + bundles core events
+- **Phase 2 (live):** full App product analytics — gateway, activation, billing, bundles, sponsors, vision, media, dashboard, auth recovery (~70+ explicit events; see catalog)
 - Event catalog (App): `.comms/handoff/analytics-app-events.md`
 - Enable: `NEXT_PUBLIC_FEATURE_ANALYTICS=true` + consent + shared project key
 - Hub (`surface: hub`): separate Delivery Hub codebase — not in this repo

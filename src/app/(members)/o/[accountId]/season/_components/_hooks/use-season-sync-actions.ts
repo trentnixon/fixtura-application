@@ -1,5 +1,6 @@
 "use client";
 
+import { captureUserAction } from "@/lib/analytics";
 import { toastError, toastSuccess } from "@/lib/notify";
 
 import type {
@@ -11,9 +12,12 @@ import type {
 type UseSeasonOverviewSyncActionArgs = Pick<
   SeasonOverviewSyncDialogProps,
   "orgSync" | "onOpenChange"
->;
+> & {
+  accountId: string;
+};
 
 export function useSeasonOverviewSyncAction({
+  accountId,
   orgSync,
   onOpenChange,
 }: UseSeasonOverviewSyncActionArgs) {
@@ -21,6 +25,7 @@ export function useSeasonOverviewSyncAction({
     void (async () => {
       try {
         await orgSync.triggerSync();
+        captureUserAction("vision_sync_triggered", { accountId, scope: "org" });
         toastSuccess("Sync queued successfully");
         onOpenChange(false);
       } catch (error) {
@@ -35,9 +40,12 @@ export function useSeasonOverviewSyncAction({
 type UseSeasonCompetitionGradesSyncActionArgs = Pick<
   SeasonCompetitionSyncGradesDialogProps,
   "cmsCompetitionNumericId" | "mutateAsync" | "onOpenChange"
->;
+> & {
+  accountId: string;
+};
 
 export function useSeasonCompetitionGradesSyncAction({
+  accountId,
   cmsCompetitionNumericId,
   mutateAsync,
   onOpenChange,
@@ -48,6 +56,7 @@ export function useSeasonCompetitionGradesSyncAction({
         await mutateAsync({
           competitionId: cmsCompetitionNumericId,
         });
+        captureUserAction("vision_sync_triggered", { accountId, scope: "competition" });
         toastSuccess(
           "Grade sync started",
           "This may take a few minutes. Use Refresh Vision to see the latest list after processing finishes.",
@@ -69,9 +78,12 @@ type UseSeasonGradeSyncActionArgs = Pick<
   | "teamsMutateAsync"
   | "fixturesMutateAsync"
   | "onSynced"
->;
+> & {
+  accountId: string;
+};
 
 export function useSeasonGradeSyncAction({
+  accountId,
   cmsCompetitionNumericId,
   cmsGradeNumericId,
   teamsMutateAsync,
@@ -93,11 +105,13 @@ export function useSeasonGradeSyncAction({
       const fixturesOk = fixturesResult.status === "fulfilled";
 
       if (teamsOk && fixturesOk) {
+        captureUserAction("vision_sync_triggered", { accountId, scope: "competition" });
         toastSuccess(
           "Grade sync started",
           "This can take a few minutes. This page will refresh in a moment.",
         );
       } else if (teamsOk) {
+        captureUserAction("vision_sync_triggered", { accountId, scope: "competition" });
         toastSuccess(
           "Grade sync started",
           "This can take a few minutes. This page will refresh in a moment.",
@@ -107,6 +121,7 @@ export function useSeasonGradeSyncAction({
           "Something did not finish updating",
         );
       } else if (fixturesOk) {
+        captureUserAction("vision_sync_triggered", { accountId, scope: "competition" });
         toastSuccess(
           "Grade sync started",
           "This can take a few minutes. This page will refresh in a moment.",

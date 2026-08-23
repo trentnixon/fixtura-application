@@ -22,6 +22,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { captureUserAction } from "@/lib/analytics";
 import { useUpdateOnboardingStep2 } from "@/lib/api/hooks/account/useUpdateOnboardingStep2";
 import { themeColoursFromAccountBrandingTheme } from "@/lib/branding/theme-colours-from-account";
 import { SELECTABLE_LOGO_CROP_PRESETS } from "@/lib/media/selectable-logo-crop-presets";
@@ -165,6 +166,7 @@ export function BrandLogoWorkspace({ accountId, data, readOnly = false }: BrandL
 
     try {
       await updateStep2.mutateAsync({ file: logoFile, body: {} });
+      captureUserAction("brand_logo_updated", { accountId, action: "upload" });
       const stamp = new Date().toLocaleTimeString(undefined, {
         hour: "2-digit",
         minute: "2-digit",
@@ -189,6 +191,7 @@ export function BrandLogoWorkspace({ accountId, data, readOnly = false }: BrandL
   async function handleConfirmClear() {
     try {
       await updateStep2.mutateAsync({ body: { logoMediaId: null } });
+      captureUserAction("brand_logo_updated", { accountId, action: "clear" });
       setClearDialogOpen(false);
       setConfirmedAt(null);
       handleLogoUploaderReset();

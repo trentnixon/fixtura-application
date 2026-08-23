@@ -4,6 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
+import { captureConversion } from "@/lib/analytics";
 import {
   isAccountSponsorsGatewayRedirect,
   useAccountSponsors,
@@ -102,6 +103,11 @@ export function useAddSponsorScreen(accountId: string) {
     }
 
     await queryClient.invalidateQueries({ queryKey: queryKeys.account.sponsors(accountId) });
+
+    captureConversion("sponsor_created", {
+      accountId,
+      has_logo: Boolean(params.logoFile),
+    });
 
     router.replace(accountScopedRoutes.manageSponsors(accountId));
   }

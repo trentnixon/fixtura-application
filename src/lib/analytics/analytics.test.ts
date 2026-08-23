@@ -16,6 +16,7 @@ import {
   __setAnalyticsClientForTests,
   captureConversion,
   captureEvent,
+  capturePageView,
   identifyUser,
   resetAnalytics,
 } from "./analytics";
@@ -70,5 +71,26 @@ describe("analytics capture", () => {
 
     resetAnalytics();
     expect(reset).toHaveBeenCalled();
+  });
+
+  it("skips capture on excluded paths", () => {
+    process.env[FEATURE_KEY] = "true";
+    process.env[POSTHOG_KEY] = "phc_test";
+    vi.spyOn(consent, "readBrowserAnalyticsConsent").mockReturnValue(true);
+
+    const capture = vi.fn();
+    __setAnalyticsClientForTests({ capture } as never);
+    __markAnalyticsInitializedForTests();
+
+    Object.defineProperty(window, "location", {
+      configurable: true,
+      value: { pathname: "/sandbox/kitchen-sink" },
+    });
+
+    captureEvent("user_action", { action: "test" });
+    expect(capture).not.toHaveBeenCalled();
+
+    capturePageView("/sandbox?page=1");
+    expect(capture).not.toHaveBeenCalled();
   });
 });

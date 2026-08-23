@@ -18,6 +18,7 @@ import {
 import { TypographyHelperText } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { captureUserAction } from "@/lib/analytics";
 import { ApiError } from "@/lib/api/client/api-error";
 import { useCreateAccountMediaLibraryItem } from "@/lib/api/hooks/account/useCreateAccountMediaLibraryItem";
 import { parseMediaLibraryApiError } from "@/lib/api/media-library/parse-media-library-api-error";
@@ -135,6 +136,11 @@ export function MediaGalleryUploadDialog({
             return markerPosition.length > 0 ? { markerPosition } : {};
           })(),
         },
+      });
+      captureUserAction("media_uploaded", {
+        accountId,
+        asset_types_count: values.assetTypes.length,
+        has_focal_point: values.useFocalPoint,
       });
       toast.success("Background uploaded");
       onOpenChange(false);

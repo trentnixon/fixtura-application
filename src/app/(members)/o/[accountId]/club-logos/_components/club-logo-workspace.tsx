@@ -31,6 +31,7 @@ import {
   BRANDING_CONTAINER_HEADER_CLASS_NAME,
   BrandingContainerHeaderTitle,
 } from "@/features/branding/components/branding-container-header-title";
+import { captureUserAction } from "@/lib/analytics";
 import { useUpdateClubLogo } from "@/lib/api/hooks/account/useUpdateClubLogo";
 import { themeColoursFromAccountBrandingTheme } from "@/lib/branding/theme-colours-from-account";
 import { SELECTABLE_LOGO_CROP_PRESETS } from "@/lib/media/selectable-logo-crop-presets";
@@ -179,6 +180,11 @@ export function ClubLogoWorkspace({ accountId, club, branding }: ClubLogoWorkspa
       setLastSessionSource(undefined);
       setLogoPreviewUrl(null);
       setConfirmedAt(stamp);
+      captureUserAction("club_logo_updated", {
+        accountId,
+        club_id: club.id,
+        change_kind: "upload",
+      });
       toast.success("Club logo saved", {
         description: `${club.name} logo was updated.`,
       });
@@ -195,6 +201,11 @@ export function ClubLogoWorkspace({ accountId, club, branding }: ClubLogoWorkspa
       setClearDialogOpen(false);
       setConfirmedAt(null);
       handleLogoUploaderReset();
+      captureUserAction("club_logo_updated", {
+        accountId,
+        club_id: club.id,
+        change_kind: "clear",
+      });
       toast.success(CLUB_LOGOS_SCREEN_COPY.removeUploadedLogoSuccessTitle, {
         description: CLUB_LOGOS_SCREEN_COPY.removeUploadedLogoSuccessDescription,
       });

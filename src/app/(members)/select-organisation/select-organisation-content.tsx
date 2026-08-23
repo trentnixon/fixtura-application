@@ -37,6 +37,7 @@ import {
   formatSelectOrgSummaryLine,
   sortSelectOrgRows,
 } from "@/lib/account/select-organisation-workspace";
+import { captureUserAction } from "@/lib/analytics";
 import { useAccountMe } from "@/lib/api/hooks/account/useAccountMe";
 import { parseOnboardingStatePayload } from "@/lib/api/parse-onboarding-state";
 import { queryKeys } from "@/lib/api/query/query-keys";
@@ -54,7 +55,10 @@ import {
   syntheticAccountMeResponseForSim,
 } from "@/lib/dev/select-organisation-sim";
 import { isSelectOrgSimulatorEnabled } from "@/lib/dev-sandbox";
-import { accountEntryFromOnboardingState } from "@/lib/onboarding/resolve-account-entry";
+import {
+  accountEntryFromOnboardingState,
+  resolveAccountEntry,
+} from "@/lib/onboarding/resolve-account-entry";
 import { cn } from "@/lib/utils";
 
 import { CreateOrganisationCard } from "./_components/create-organisation-card";
@@ -70,6 +74,7 @@ import {
 } from "./_hooks/use-select-org-preferences";
 import { buildSelectOrgItemViewModel } from "./_utils/build-select-org-item-view-model";
 
+import type { SelectOrganisationDisplayState } from "./_utils/select-org-display-state";
 import type { SelectOrganisationItemViewModel } from "./_utils/select-org-display-state";
 import type { LastSelectedOrganisationRecord } from "@/lib/account/last-selected-organisation";
 import type { SelectOrgSortMode } from "@/lib/account/select-organisation-workspace";
@@ -103,6 +108,7 @@ export function SelectOrganisationContent() {
     ? parseSelectOrgSim(searchParams.get(SELECT_ORG_SIM_QUERY))
     : null;
   const simulating = orgSim !== null;
+  const gatewayReason = parseSelectOrgGatewayReason(searchParams.get(SELECT_ORG_REASON_QUERY));
 
   const { data, isPending, isError, refetch } = useAccountMe({
     enabled: !simulating,
@@ -271,11 +277,14 @@ export function SelectOrganisationContent() {
     setDetailsOpen(true);
   }, []);
 
-  async function handleSelectOrganisation(accountId: string, itemName?: string) {
+  async function handleSelectOrganisation(
+    accountId: string,
+    context?: { itemName?: string; displayState?: SelectOrganisationDisplayState },
+  ) {
     if (pendingAccountId !== null) return;
     setSelectionError(null);
-    if (itemName) {
-      setLiveMessage(`Opening ${itemName}`);
+    if (context?.itemName) {
+      setLiveMessage(`Opening ${context.itemName}`);
     }
     if (simulating) {
       router.push(accountScopedRoutes.dashboard(accountId));
@@ -294,9 +303,17 @@ export function SelectOrganisationContent() {
           return parsed;
         },
       });
+      const entryRoute = resolveAccountEntry(onboardingData);
+      captureUserAction("organisation_selected", {
+        accountId,
+        entry_route: entryRoute,
+        ...(context?.displayState ? { display_state: context.displayState } : {}),
+        ...(gatewayReason ? { gateway_reason: gatewayReason } : {}),
+      });
       persistLastSelectedOrganisation(accountId);
       router.push(accountEntryFromOnboardingState(onboardingData, accountId));
     } catch {
+      captureUserAction("organisation_selection_failed", { accountId });
       setSelectionError(SELECTION_ERROR_MESSAGE);
     } finally {
       setPendingAccountId(null);
@@ -308,7 +325,10 @@ export function SelectOrganisationContent() {
       openDetails(item);
       return;
     }
-    void handleSelectOrganisation(item.accountId, item.name);
+    void handleSelectOrganisation(item.accountId, {
+      itemName: item.name,
+      displayState: item.displayState,
+    });
   }
 
   async function handleRefresh() {
@@ -629,7 +649,10 @@ export function SelectOrganisationContent() {
           onPrimaryAction={() => {
             if (!detailsItem) return;
             if (detailsItem.displayState === "needs-attention") {
-              void handleSelectOrganisation(detailsItem.accountId, detailsItem.name);
+              void handleSelectOrganisation(detailsItem.accountId, {
+                itemName: detailsItem.name,
+                displayState: detailsItem.displayState,
+              });
               return;
             }
             handlePrimaryAction(detailsItem);

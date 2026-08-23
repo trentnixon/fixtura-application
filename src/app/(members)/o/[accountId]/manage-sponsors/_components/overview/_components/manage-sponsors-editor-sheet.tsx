@@ -17,6 +17,7 @@ import {
 import type { ManageSponsorsEditorSheetProps } from "../_types/manage-sponsors-workspace";
 
 export function ManageSponsorsEditorSheet({
+  accountId,
   open,
   sponsor,
   onOpenChange,
@@ -31,6 +32,7 @@ export function ManageSponsorsEditorSheet({
           <SheetDescription>{MANAGE_SPONSORS_EDITOR_SHEET_COPY.description}</SheetDescription>
         </SheetHeader>
         <SponsorEditorSheet
+          accountId={accountId}
           mode="edit"
           sponsor={sponsor}
           onSaveSponsor={onSaveSponsor}

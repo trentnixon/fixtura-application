@@ -205,6 +205,7 @@ export function SeasonCompetitionDetail({
         onOpenSyncGrades={() => setGradesRefreshDialogOpen(true)}
       />
       <SeasonCompetitionSyncGradesDialog
+        accountId={accountId}
         open={gradesRefreshDialogOpen}
         onOpenChange={setGradesRefreshDialogOpen}
         cmsCompetitionNumericId={cmsCompetitionNumericId}

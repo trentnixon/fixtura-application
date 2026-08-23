@@ -1687,17 +1687,7 @@
     "FPS_SCORECARD": 210,
     "FPS_PREFORMANCECARD": 0
   },
-  "frames": [
-    195,
-    390,
-    585,
-    780,
-    975,
-    1170,
-    1365,
-    1560,
-    1755
-  ],
+  "frames": [195, 390, 585, 780, 975, 1170, 1365, 1560, 1755],
   "videoMeta": {
     "club": {
       "logo": {
@@ -1720,10 +1710,7 @@
       "groupingCategory": "International Cricket Demo Preview",
       "metadata": {
         "title": "Weekend Result",
-        "titleSplit": [
-          "Weekend",
-          "Result"
-        ],
+        "titleSplit": ["Weekend", "Result"],
         "videoTitle": "International Cricket Demo Preview CricketResultSingle",
         "compositionId": "CricketResultSingle",
         "assetId": 29,

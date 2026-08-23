@@ -48,7 +48,12 @@ export function AddSponsorScreen({ accountId }: { accountId: string }) {
       {!isLoading && !isError ? (
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(20rem,24rem)] lg:items-start">
           <div className="min-w-0">
-            <SponsorEditorSheet sponsor={sponsor} onSaveSponsor={saveSponsor} mode="create" />
+            <SponsorEditorSheet
+              accountId={accountId}
+              sponsor={sponsor}
+              onSaveSponsor={saveSponsor}
+              mode="create"
+            />
           </div>
 
           <aside className="min-w-0 lg:sticky lg:top-6">

@@ -2,12 +2,13 @@
 
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 import { InlineAlert } from "@/components/auth/actions";
 import { TypographyPageDescription, TypographyPageTitle } from "@/components/typography";
 import { BrandedLoader } from "@/components/ui/branded-loader";
 import { Button } from "@/components/ui/button";
+import { captureUserAction } from "@/lib/analytics";
 import { useOnboardingOnboardingState } from "@/lib/api/hooks/account/useOnboardingOnboardingState";
 import { useOnboardingSetupStatus } from "@/lib/api/hooks/account/useOnboardingSetupStatus";
 import { queryKeys } from "@/lib/api/query/query-keys";
@@ -40,6 +41,15 @@ export function CreateOrganisationSetupClient() {
   const setupPending = setupStatus.isPending && !setupRow;
   const setupFailed = isSetupStatusFailed(setupRow?.status);
   const holdRecovery = shouldHoldSetupRecoveryPage({ setupPending, setupFailed });
+  const setupViewedRef = useRef(false);
+
+  useEffect(() => {
+    if (!accountId || setupViewedRef.current) return;
+    if (!onboardingData || !holdRecovery) return;
+    if (resolveAccountEntry(onboardingData) === "wizard") return;
+    setupViewedRef.current = true;
+    captureUserAction("onboarding_setup_viewed", { accountId });
+  }, [accountId, holdRecovery, onboardingData]);
 
   useEffect(() => {
     if (!accountId || !onboardingData || holdRecovery) return;

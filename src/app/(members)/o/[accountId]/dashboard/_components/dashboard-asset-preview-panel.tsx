@@ -13,6 +13,7 @@ import { isRemotionSandboxCricketCompositionId } from "@/components/remotion/_co
 import { TypographyH4, TypographyMuted } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { isCricketSport, useRemotionAssetPreview } from "@/features/remotion-asset-preview";
+import { captureUserAction } from "@/lib/analytics";
 import {
   isAccountSponsorsGatewayRedirect,
   useAccountSponsors,
@@ -137,7 +138,17 @@ export function DashboardAssetPreviewPanel({
             className="border-primary text-primary hover:bg-primary/10 hover:text-primary ml-auto"
             asChild
           >
-            <Link href={accountScopedRoutes.templateBuilder(accountId)}>Change template</Link>
+            <Link
+              href={accountScopedRoutes.templateBuilder(accountId)}
+              onClick={() =>
+                captureUserAction("dashboard_route_clicked", {
+                  destination: "template_builder",
+                  accountId,
+                })
+              }
+            >
+              Change template
+            </Link>
           </Button>
         </div>
 

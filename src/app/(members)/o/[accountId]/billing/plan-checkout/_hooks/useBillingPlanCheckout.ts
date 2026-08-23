@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 
+import { analyticsFailureReasonCode, captureConversion } from "@/lib/analytics";
 import { ApiError } from "@/lib/api/client/api-error";
 import { useAccountBillingAvailableTiers } from "@/lib/api/hooks/account/useAccountBillingAvailableTiers";
 import { usePostAccountBillingCheckout } from "@/lib/api/hooks/account/usePostAccountBillingCheckout";
@@ -44,12 +45,22 @@ export function useBillingPlanCheckout(accountId: string, enabled: boolean) {
         startDate,
       });
       if (res.checkoutUrl && res.checkoutUrl.length > 0) {
+        captureConversion("subscription_checkout_started", {
+          accountId,
+          tier_id: selectedTierId,
+          payment_path: "card",
+          source: "plan_checkout",
+        });
         // Configure Stripe success_url / cancel_url per .comms/billing-checkout-return-urls.md so returns trigger a billing refetch.
         window.location.assign(res.checkoutUrl);
         return;
       }
       setMissingCheckoutUrl(true);
     } catch (e) {
+      captureConversion("checkout_failed", {
+        accountId,
+        reason_code: analyticsFailureReasonCode(e),
+      });
       if (e instanceof ApiError) {
         setCheckoutError(e.message);
       } else if (e instanceof Error) {

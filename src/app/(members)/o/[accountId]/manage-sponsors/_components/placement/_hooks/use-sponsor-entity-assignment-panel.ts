@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
+import { captureUserAction } from "@/lib/analytics";
 import { useAccountSponsorAllocationsEntityMutations } from "@/lib/api/hooks/account/useAccountSponsorAllocationsEntityMutations";
 import {
   isAccountSponsorEntityTargetsGatewayRedirect,
@@ -135,6 +136,7 @@ export function useSponsorEntityAssignmentPanel({
         entityId: target.id,
         body: { extra: { source: "manage-sponsors-assign-entity" } },
       });
+      captureUserAction("sponsor_entity_assigned", { accountId });
       toast.success(`Assigned ${sponsor.name} to ${targetLabel(target)}.`);
       setRowSelection((prev) => ({ ...prev, [key]: "" }));
     } catch (error) {
@@ -161,6 +163,7 @@ export function useSponsorEntityAssignmentPanel({
           allocationId: assignment.allocationId,
         });
       }
+      captureUserAction("sponsor_entity_cleared", { accountId });
       toast.success(`Cleared ${targetLabel(target)}.`);
       setRowSelection((prev) => ({ ...prev, [key]: "" }));
     } catch (error) {
@@ -180,6 +183,7 @@ export function useSponsorEntityAssignmentPanel({
       }
       setRowSelection({});
       setClearAllDialogOpen(false);
+      captureUserAction("sponsor_entities_cleared_all", { accountId });
       toast.success(`Cleared ${tasks.length} entity placement${tasks.length === 1 ? "" : "s"}.`);
     } catch (error) {
       toast.error(allocationErrorMessage(error));

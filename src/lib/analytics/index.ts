@@ -8,6 +8,14 @@ export {
   initAnalytics,
   resetAnalytics,
 } from "./analytics";
+export { isAnalyticsExcludedPath, pathnameFromAnalyticsUrl } from "./excluded-path";
+export {
+  analyticsFailureReasonCode,
+  loginFailureReasonCode,
+  type LoginFailureReasonCode,
+} from "./login-failure";
+export { brandingFieldsChanged, settingsFieldsChanged } from "./settings-fields-changed";
+export { captureFormSubmitted, captureUserAction } from "./user-action";
 export {
   ANALYTICS_CONSENT_GRANTED,
   ANALYTICS_CONSENT_STORAGE_KEY,

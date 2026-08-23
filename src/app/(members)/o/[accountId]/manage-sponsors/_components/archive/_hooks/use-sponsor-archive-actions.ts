@@ -1,15 +1,19 @@
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
+import { captureUserAction } from "@/lib/analytics";
+
 import { getArchivedSponsors, getSponsorMutationErrorMessage } from "../_utils/sponsor-archive";
 
 import type { ManageSponsorsWorkspaceSponsor } from "../../../_types/manage-sponsors";
 
 export function useSponsorArchiveActions({
+  accountId,
   workspaceSponsors,
   restoreArchivedSponsor,
   deleteSponsor,
 }: {
+  accountId: string;
   workspaceSponsors: ManageSponsorsWorkspaceSponsor[];
   restoreArchivedSponsor: (sponsorId: ManageSponsorsWorkspaceSponsor["id"]) => Promise<void>;
   deleteSponsor: (sponsorId: ManageSponsorsWorkspaceSponsor["id"]) => Promise<void>;
@@ -29,6 +33,7 @@ export function useSponsorArchiveActions({
     setRestoringSponsorId(sponsor.id);
     try {
       await restoreArchivedSponsor(sponsor.id);
+      captureUserAction("sponsor_restored", { accountId });
       toast.success("Sponsor restored", {
         description: `${sponsor.name} is back in the sponsor pool.`,
       });
@@ -45,6 +50,7 @@ export function useSponsorArchiveActions({
     setIsDeleting(true);
     try {
       await deleteSponsor(deleteTarget.id);
+      captureUserAction("sponsor_deleted", { accountId });
       toast.success("Sponsor deleted", {
         description: `${deleteTarget.name} was permanently removed.`,
       });

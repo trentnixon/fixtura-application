@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import { captureUserAction } from "@/lib/analytics";
 import { ApiError } from "@/lib/api/client/api-error";
 import { usePostAccountBillingCheckoutResume } from "@/lib/api/hooks/account/usePostAccountBillingCheckoutResume";
 import { usePostAccountBillingDeletePendingOrder } from "@/lib/api/hooks/account/usePostAccountBillingDeletePendingOrder";
@@ -43,6 +44,7 @@ export function useBillingPaymentPendingBannerActions({
     try {
       const data = await resume.mutateAsync({ orderId });
       if (data.checkoutUrl) {
+        captureUserAction("billing_checkout_resumed", { accountId });
         window.location.assign(data.checkoutUrl);
       } else {
         setResumeError(MISSING_CHECKOUT_LINK_MESSAGE);
@@ -57,6 +59,7 @@ export function useBillingPaymentPendingBannerActions({
     resetErrors();
     try {
       await discard.mutateAsync(deletableOrderId);
+      captureUserAction("billing_pending_order_discarded", { accountId });
     } catch (error) {
       setDiscardError(billingActionErrorMessage(error));
     }

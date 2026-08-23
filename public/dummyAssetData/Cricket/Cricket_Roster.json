@@ -327,19 +327,7 @@
     "assetsLinkID": ""
   },
   "errors": [],
-  "frames": [
-    120,
-    180,
-    240,
-    300,
-    360,
-    420,
-    480,
-    540,
-    600,
-    660,
-    720
-  ],
+  "frames": [120, 180, 240, 300, 360, 420, 480, 540, 600, 660, 720],
   "render": {
     "schedulerId": 0,
     "renderId": 0
@@ -388,24 +376,9 @@
       },
       "metadata": {
         "title": "Team List",
-        "frames": [
-          120,
-          180,
-          240,
-          300,
-          360,
-          420,
-          480,
-          540,
-          600,
-          660,
-          720
-        ],
+        "frames": [120, 180, 240, 300, 360, 420, 480, 540, 600, 660, 720],
         "assetId": 32,
-        "titleSplit": [
-          "Team",
-          "List"
-        ],
+        "titleSplit": ["Team", "List"],
         "videoTitle": "International Cricket Demo Preview CricketRoster",
         "assetTypeId": 1,
         "compositionId": "CricketRoster",

@@ -1,10 +1,30 @@
 #!/usr/bin/env sh
 
-# Block commit if package.json changed without package-lock.json
+# Block commit if dependency-related package.json fields changed without package-lock.json
 if git diff --name-only --cached | grep -q "^package.json$"; then
-  if ! git diff --name-only --cached | grep -q "^package-lock.json$"; then
-    echo "Error: package.json changed but package-lock.json is not staged. Run 'npm install' and commit package-lock.json'." >&2
-    exit 1
+  if ! node -e '
+const { execSync } = require("child_process");
+const keys = (pkg) =>
+  JSON.stringify({
+    dependencies: pkg.dependencies ?? null,
+    devDependencies: pkg.devDependencies ?? null,
+    peerDependencies: pkg.peerDependencies ?? null,
+    optionalDependencies: pkg.optionalDependencies ?? null,
+    overrides: pkg.overrides ?? null,
+    resolutions: pkg.resolutions ?? null,
+    packageManager: pkg.packageManager ?? null,
+  });
+const staged = JSON.parse(execSync("git show :package.json", { encoding: "utf8" }));
+let head = {};
+try {
+  head = JSON.parse(execSync("git show HEAD:package.json", { encoding: "utf8" }));
+} catch {}
+process.exit(keys(staged) === keys(head) ? 0 : 1);
+'; then
+    if ! git diff --name-only --cached | grep -q "^package-lock.json$"; then
+      echo "Error: package.json dependencies changed but package-lock.json is not staged. Run 'npm install' and commit package-lock.json'." >&2
+      exit 1
+    fi
   fi
 fi
 
