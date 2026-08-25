@@ -10299,6 +10299,7 @@ var TeamLogo = ({
   size = DEFAULT_TEAM_LOGO_SIZE,
   fit = DEFAULT_TEAM_LOGO_FIT,
   imgStyle,
+  animate = true,
 }) => {
   const { animations } = useAnimationContext();
   const logoAnimation = animations.image.main.item;
@@ -10330,7 +10331,7 @@ var TeamLogo = ({
           : "object-contain",
     fit,
     style: imgStyle,
-    animation: { ...logoAnimation.logo.itemIn, delay },
+    animation: animate ? { ...logoAnimation.logo.itemIn, delay } : "none",
     onError: handleError,
   });
 };
@@ -10782,6 +10783,7 @@ var LadderTeamName = ({
   className,
   fontFamily: fontFamilyProp,
   letterAnimation,
+  animate = true,
 }) => {
   const defaultFont = useFontFamily();
   const fontFamily = fontFamilyProp != null ? fontFamilyProp : defaultFont;
@@ -10791,7 +10793,8 @@ var LadderTeamName = ({
     variant,
     textAlign,
     fontFamily,
-    animation: { ...animations.text.main.copyIn, delay },
+    animation: animate ? { ...animations.text.main.copyIn, delay } : { type: "none" },
+    exitAnimation: animate ? void 0 : "none",
     letterAnimation,
     style,
     className,
@@ -14833,6 +14836,24 @@ var DEFAULT_BROADCAST_PRO_ROSTER_LIST_SIZING = {
   nameInnerClampMaxOffsetPx: 2,
   listChromeReservePx: 24,
 };
+var ROSTER_OUTER_MARGIN_PX = 48;
+var ROSTER_CONTENT_PADDING_PX = 16;
+var ROSTER_GRID_COLUMN_COUNT = 12;
+var ROSTER_SIDEBAR_COLUMN_SPAN = 5;
+var ROSTER_GRID_GAP_PX = 24;
+var getBroadcastProRosterSidebarWidth = (compositionWidth) => {
+  const gridWidth = Math.max(
+    0,
+    compositionWidth - ROSTER_OUTER_MARGIN_PX - ROSTER_CONTENT_PADDING_PX,
+  );
+  const totalGapWidth = (ROSTER_GRID_COLUMN_COUNT - 1) * ROSTER_GRID_GAP_PX;
+  const columnWidth = (gridWidth - totalGapWidth) / ROSTER_GRID_COLUMN_COUNT;
+  return Math.max(
+    0,
+    columnWidth * ROSTER_SIDEBAR_COLUMN_SPAN +
+      (ROSTER_SIDEBAR_COLUMN_SPAN - 1) * ROSTER_GRID_GAP_PX,
+  );
+};
 
 // src/templates/types/broadcast-pro/roster-index.ts
 var BROADCAST_PRO_ROSTER_INDEX_PAD_WIDTH = 2;
@@ -15764,6 +15785,7 @@ var BroadcastProGlassPanel = ({
   style,
   glass: glassOverride,
   surface = "panel",
+  connection = "standalone",
 }) => {
   const { selectedPalette, broadcastProGlassOpacity, broadcastProTransparentLayers } =
     useThemeContext();
@@ -15779,7 +15801,7 @@ var BroadcastProGlassPanel = ({
     className: `rounded-none ${className}`.trim(),
     style: {
       background: getBroadcastProGlassSurface(glass, surface),
-      border: glass.border,
+      border: connection === "standalone" ? glass.border : void 0,
       ...cellBlur,
       ...style,
     },
@@ -15789,7 +15811,7 @@ var BroadcastProGlassPanel = ({
 
 // src/templates/variants/broadcastPro/components/stat/BroadcastProStatMatrixResultCell.tsx
 import { Fragment as Fragment4, jsx as jsx133, jsxs as jsxs51 } from "react/jsx-runtime";
-var SINGLE_CELL_CLASS = "!flex !flex-col !items-start !justify-start gap-0 !py-3 !px-4";
+var SINGLE_CELL_CLASS = "!flex !flex-col !items-start !justify-start gap-0 !px-3 !py-2";
 var SINGLE_PLAYER_NAME_CLASS =
   "!text-4xl font-semibold !leading-none tracking-wide !opacity-100 -mt-1.5";
 var SINGLE_STAT_PRIMARY_CLASS = "font-teko !text-6xl font-bold !tracking-wide !leading-none";
@@ -15807,6 +15829,7 @@ var BroadcastProStatMatrixResultCell = ({
   glass,
   className = "",
   tier = "list",
+  connection = "standalone",
 }) => {
   var _a, _b, _c, _d;
   const { animations } = useAnimationContext();
@@ -15858,6 +15881,7 @@ var BroadcastProStatMatrixResultCell = ({
   return /* @__PURE__ */ jsx133(BroadcastProGlassPanel, {
     glass,
     className: `${cellClass} ${isSingle ? SINGLE_CELL_CLASS : ""} ${className}`.trim(),
+    connection,
     children: isSingle
       ? /* @__PURE__ */ jsxs51(Fragment4, { children: [statBlock, nameBlock] })
       : /* @__PURE__ */ jsxs51(Fragment4, { children: [nameBlock, statBlock] }),
@@ -15873,6 +15897,7 @@ var BroadcastProStatMatrixResultGrid = ({
   glass,
   className = "",
   tier = "list",
+  connection = "standalone",
 }) => {
   const { componentStyles } = useThemeContext();
   const gridClass = csClass(componentStyles, "broadcastProStatMatrixResultGrid");
@@ -15891,6 +15916,7 @@ var BroadcastProStatMatrixResultGrid = ({
           accentColor,
           glass,
           tier,
+          connection,
         },
         `${item.playerName}-${item.statValue}-${index}`,
       ),
@@ -16254,7 +16280,7 @@ var resolveBroadcastProTeamAccentColors = (input) => {
 };
 
 // src/compositions/cricket/utils/broadcastPro/results/BroadcastProResultMatchContent.tsx
-import { useMemo as useMemo7 } from "react";
+import { useMemo as useMemo8 } from "react";
 
 // src/templates/variants/broadcastPro/components/verdict/BroadcastProVerdictHeroLockup.tsx
 import { jsx as jsx136, jsxs as jsxs54 } from "react/jsx-runtime";
@@ -16496,20 +16522,25 @@ var BroadcastProResultVerdict = ({
   animation,
   exitAnimation,
   exitFrame,
+  connection = "standalone",
 }) => {
   const { componentStyles } = useThemeContext();
   const bandKey = BROADCAST_PRO_VERDICT_TIER_BAND_KEY[tier];
   const bandClass = csClass(componentStyles, bandKey);
-  const edgeMarkerStyle = resolveBroadcastProEdgeMarkerStyle("standard", "primary", {
-    accentColor,
-    mutedColor: accentColor,
-  });
+  const edgeMarkerStyle =
+    connection === "standalone"
+      ? resolveBroadcastProEdgeMarkerStyle("standard", "primary", {
+          accentColor,
+          mutedColor: accentColor,
+        })
+      : {};
   if (tier === "hero" && model.kind === "hero") {
     return /* @__PURE__ */ jsx139(BroadcastProGlassPanel, {
       glass,
       surface: "strong",
       className: `${bandClass} ${className}`.trim(),
       style: edgeMarkerStyle,
+      connection,
       children: /* @__PURE__ */ jsx139(BroadcastProVerdictHeroLockup, {
         winner: model.winner,
         contextLine: model.contextLine,
@@ -16527,6 +16558,7 @@ var BroadcastProResultVerdict = ({
       surface: "strong",
       className: `${bandClass} ${className}`.trim(),
       style: edgeMarkerStyle,
+      connection,
       children: /* @__PURE__ */ jsx139(BroadcastProVerdictCompactLine, {
         line: model.line,
         delay,
@@ -16542,6 +16574,7 @@ var BroadcastProResultVerdict = ({
       surface: "strong",
       className: `${bandClass} ${className}`.trim(),
       style: edgeMarkerStyle,
+      connection,
       children: /* @__PURE__ */ jsx139(BroadcastProVerdictAbandoned, {
         status: model.status,
         result: model.result,
@@ -16645,6 +16678,7 @@ var BroadcastProResultMetaStrip = ({
   delay = 0,
   className = "",
   showGround = true,
+  connection = "standalone",
 }) => {
   const { animations } = useAnimationContext();
   const { componentStyles } = useThemeContext();
@@ -16655,10 +16689,12 @@ var BroadcastProResultMetaStrip = ({
     className: `${stripClass} ${className}`.trim(),
     style: {
       background: glass.headerGradient,
-      ...resolveBroadcastProEdgeMarkerStyle("compact", "primary", {
-        accentColor: accent,
-        mutedColor: accent,
-      }),
+      ...(connection === "standalone"
+        ? resolveBroadcastProEdgeMarkerStyle("compact", "primary", {
+            accentColor: accent,
+            mutedColor: accent,
+          })
+        : {}),
       ...cellBlur,
     },
     children: [
@@ -16683,13 +16719,8 @@ var BroadcastProResultMetaStrip = ({
   });
 };
 
-// src/compositions/cricket/utils/broadcastPro/results/BroadcastProResultPlayerStatsGrid.tsx
-import { jsx as jsx141 } from "react/jsx-runtime";
-var BroadcastProResultPlayerStatsGrid = (props) =>
-  /* @__PURE__ */ jsx141(BroadcastProStatMatrixResultGrid, { ...props });
-
 // src/templates/variants/broadcastPro/components/crest/BroadcastProCrestWell.tsx
-import { jsx as jsx142 } from "react/jsx-runtime";
+import { jsx as jsx141 } from "react/jsx-runtime";
 var BroadcastProCrestWell = ({
   tier,
   logo,
@@ -16700,6 +16731,7 @@ var BroadcastProCrestWell = ({
   className = "",
   style,
   showBorder = false,
+  animate = true,
 }) => {
   const { componentStyles, broadcastProCrestSizing } = useThemeContext();
   const themeKey = BROADCAST_PRO_CREST_TIER_THEME_KEY[tier];
@@ -16712,7 +16744,7 @@ var BroadcastProCrestWell = ({
   const insetPct = `${contentInsetRatio * 100}%`;
   const sizeStyle =
     sizePx != null ? { width: sizePx, height: sizePx, minWidth: sizePx, minHeight: sizePx } : {};
-  return /* @__PURE__ */ jsx142("div", {
+  return /* @__PURE__ */ jsx141("div", {
     className: `${wellClass} ${className}`.trim(),
     style: {
       background: glass.logoWell,
@@ -16721,7 +16753,7 @@ var BroadcastProCrestWell = ({
       ...sizeStyle,
       ...style,
     },
-    children: /* @__PURE__ */ jsx142(TeamLogo, {
+    children: /* @__PURE__ */ jsx141(TeamLogo, {
       logo,
       teamName,
       delay,
@@ -16731,12 +16763,13 @@ var BroadcastProCrestWell = ({
         height: insetPct,
         objectFit: "contain",
       },
+      animate,
     }),
   });
 };
 
 // src/compositions/cricket/utils/primitives/ResultTeamName.tsx
-import { jsx as jsx143 } from "react/jsx-runtime";
+import { jsx as jsx142 } from "react/jsx-runtime";
 var ResultTeamName = ({
   value,
   animation,
@@ -16747,7 +16780,7 @@ var ResultTeamName = ({
   exitFrame,
 }) => {
   const fontFamily = useFontFamily();
-  return /* @__PURE__ */ jsx143(AnimatedText, {
+  return /* @__PURE__ */ jsx142(AnimatedText, {
     type: "ResultTeamName",
     variant,
     fontFamily,
@@ -16762,7 +16795,7 @@ var ResultTeamName = ({
 };
 
 // src/compositions/cricket/utils/primitives/ResultScore.tsx
-import { jsx as jsx144 } from "react/jsx-runtime";
+import { jsx as jsx143 } from "react/jsx-runtime";
 var ResultScore = ({
   value,
   animation,
@@ -16773,7 +16806,7 @@ var ResultScore = ({
   const fontFamilyFromTheme = useFontFamily();
   const fontFamily = fontFamilyOverride != null ? fontFamilyOverride : fontFamilyFromTheme;
   if (value === "Yet to Bat") {
-    return /* @__PURE__ */ jsx144(AnimatedText, {
+    return /* @__PURE__ */ jsx143(AnimatedText, {
       type: "ResultScoreYetToBat",
       variant,
       fontFamily,
@@ -16783,7 +16816,7 @@ var ResultScore = ({
       children: value,
     });
   }
-  return /* @__PURE__ */ jsx144(AnimatedText, {
+  return /* @__PURE__ */ jsx143(AnimatedText, {
     type: "ResultScore",
     variant,
     fontFamily,
@@ -16806,7 +16839,7 @@ var ResultScoreFirstInnings = ({
   const fontFamilyFromTheme = useFontFamily();
   const fontFamily = fontFamilyOverride != null ? fontFamilyOverride : fontFamilyFromTheme;
   if (value === "1") return null;
-  return /* @__PURE__ */ jsx144(AnimatedText, {
+  return /* @__PURE__ */ jsx143(AnimatedText, {
     type: "ResultScoreFirstInnings",
     variant,
     fontFamily,
@@ -16821,7 +16854,7 @@ var ResultScoreFirstInnings = ({
 };
 
 // src/compositions/cricket/utils/broadcastPro/results/BroadcastProResultScoreBadge.tsx
-import { jsx as jsx145, jsxs as jsxs57 } from "react/jsx-runtime";
+import { jsx as jsx144, jsxs as jsxs57 } from "react/jsx-runtime";
 var BroadcastProResultScoreBadge = ({
   score,
   firstInnings,
@@ -16829,6 +16862,7 @@ var BroadcastProResultScoreBadge = ({
   delay,
   matchType = "",
   className = "",
+  emphasis = "standard",
 }) => {
   var _a, _b, _c, _d;
   const { animations } = useAnimationContext();
@@ -16855,14 +16889,18 @@ var BroadcastProResultScoreBadge = ({
   return /* @__PURE__ */ jsxs57("div", {
     className: `${badgeClass} ${className}`.trim(),
     style: {
-      ...resolveBroadcastProEdgeMarkerStyle("standard", "primary", {
-        accentColor,
-        mutedColor: accentColor,
-      }),
+      ...resolveBroadcastProEdgeMarkerStyle(
+        emphasis === "winner" ? "standard" : "compact",
+        "primary",
+        {
+          accentColor,
+          mutedColor: accentColor,
+        },
+      ),
       background: glass.strong,
     },
     children: [
-      /* @__PURE__ */ jsx145(BroadcastProStructuredScore, {
+      /* @__PURE__ */ jsx144(BroadcastProStructuredScore, {
         value: score,
         variant: "match",
         animation: { ...copyIn, delay },
@@ -16871,7 +16909,7 @@ var BroadcastProResultScoreBadge = ({
         primaryStyle: { color: text.copy },
       }),
       showFirstInnings &&
-        /* @__PURE__ */ jsx145(ResultScoreFirstInnings, {
+        /* @__PURE__ */ jsx144(ResultScoreFirstInnings, {
           value: firstInnings,
           animation: { ...copyIn, delay: delay + 2 },
           variant: "onContainerCopy",
@@ -16882,8 +16920,7 @@ var BroadcastProResultScoreBadge = ({
 };
 
 // src/compositions/cricket/utils/broadcastPro/results/BroadcastProResultTeamRow.tsx
-import { jsx as jsx146, jsxs as jsxs58 } from "react/jsx-runtime";
-var MAX_TEAM_NAME = 32;
+import { jsx as jsx145, jsxs as jsxs58 } from "react/jsx-runtime";
 var BroadcastProResultTeamRow = ({
   teamName,
   score,
@@ -16894,30 +16931,33 @@ var BroadcastProResultTeamRow = ({
   matchType,
   glass,
   className = "",
+  connection = "standalone",
+  scoreEmphasis = "standard",
 }) => {
   const { animations } = useAnimationContext();
   const { componentStyles } = useThemeContext();
   const { glass: themeGlass, text } = useBroadcastProTheme();
   const copyIn = animations.text.main.copyIn;
   const rowClass = csClass(componentStyles, "broadcastProResultsTeamRow");
-  const nameClass = csClass(componentStyles, "broadcastProResultsTeamName");
+  const nameClass = `${csClass(componentStyles, "broadcastProResultsTeamName")} line-clamp-2`;
   const resolvedGlass = glass != null ? glass : themeGlass;
-  const displayName = truncateText2(teamName, MAX_TEAM_NAME).toUpperCase();
+  const displayName = teamName.toUpperCase();
   return /* @__PURE__ */ jsxs58(BroadcastProGlassPanel, {
     glass: resolvedGlass,
     className: `${rowClass} ${className}`.trim(),
+    connection,
     children: [
       /* @__PURE__ */ jsxs58("div", {
         className: "flex min-w-0 flex-1 items-center gap-4",
         children: [
-          /* @__PURE__ */ jsx146(BroadcastProCrestWell, {
+          /* @__PURE__ */ jsx145(BroadcastProCrestWell, {
             tier: "compact",
             logo: logo != null ? logo : null,
             teamName,
             delay: delay + 2,
             glass: resolvedGlass,
           }),
-          /* @__PURE__ */ jsx146(ResultTeamName, {
+          /* @__PURE__ */ jsx145(ResultTeamName, {
             value: displayName,
             animation: { ...copyIn, delay: delay + 4 },
             variant: "onContainerTitle",
@@ -16926,25 +16966,117 @@ var BroadcastProResultTeamRow = ({
           }),
         ],
       }),
-      /* @__PURE__ */ jsx146(BroadcastProResultScoreBadge, {
+      /* @__PURE__ */ jsx145(BroadcastProResultScoreBadge, {
         score,
         firstInnings,
         accentColor,
         delay: delay + 6,
         matchType,
+        emphasis: scoreEmphasis,
       }),
     ],
   });
 };
 
+// src/templates/variants/broadcastPro/components/matchup/BroadcastProMatchup.tsx
+import { useVideoConfig as useVideoConfig13 } from "remotion";
+
+// src/components/typography/utils/useFittedTextBoxFontSize.ts
+import { useMemo as useMemo7 } from "react";
+import { fillTextBox } from "@remotion/layout-utils";
+var computeFittedTextBoxFontSize = ({
+  text,
+  fontFamily,
+  withinWidth,
+  maxLines,
+  minFontSize,
+  maxFontSize,
+  fontWeight = 400,
+  letterSpacing = "normal",
+  textTransform = "uppercase",
+}) => {
+  const words = text.trim().split(/\s+/).filter(Boolean);
+  if (words.length === 0 || withinWidth <= 0 || maxLines <= 0) {
+    return maxFontSize;
+  }
+  const fitsAt = (fontSize) => {
+    const textBox = fillTextBox({ maxBoxWidth: withinWidth, maxLines });
+    return words.every((word, index) => {
+      const { exceedsBox } = textBox.add({
+        text: `${index === 0 ? "" : " "}${word}`,
+        fontFamily,
+        fontWeight,
+        fontSize,
+        letterSpacing,
+        textTransform,
+        validateFontIsLoaded: true,
+      });
+      return !exceedsBox;
+    });
+  };
+  for (let fontSize = maxFontSize; fontSize >= minFontSize; fontSize -= 1) {
+    if (fitsAt(fontSize)) {
+      return fontSize;
+    }
+  }
+  return minFontSize;
+};
+var useFittedTextBoxFontSize = (options) => {
+  const { fontsLoaded } = useFontContext();
+  const {
+    text,
+    fontFamily,
+    withinWidth,
+    maxLines,
+    minFontSize,
+    maxFontSize,
+    fontWeight,
+    letterSpacing,
+    textTransform,
+  } = options;
+  return useMemo7(() => {
+    if (!fontsLoaded || !text.trim() || !fontFamily) {
+      return void 0;
+    }
+    try {
+      return computeFittedTextBoxFontSize({
+        text,
+        fontFamily,
+        withinWidth,
+        maxLines,
+        minFontSize,
+        maxFontSize,
+        fontWeight,
+        letterSpacing,
+        textTransform,
+      });
+    } catch (error) {
+      console.warn("useFittedTextBoxFontSize: measurement failed, using max cap", error);
+      return maxFontSize;
+    }
+  }, [
+    fontsLoaded,
+    text,
+    fontFamily,
+    withinWidth,
+    maxLines,
+    minFontSize,
+    maxFontSize,
+    fontWeight,
+    letterSpacing,
+    textTransform,
+  ]);
+};
+
 // src/templates/variants/broadcastPro/components/matchup/BroadcastProMatchupDivider.tsx
-import { jsx as jsx147 } from "react/jsx-runtime";
+import { jsx as jsx146 } from "react/jsx-runtime";
 var BroadcastProMatchupDivider = ({
   variant,
   delay = 0,
   compact = false,
   fontFamily,
   className = "",
+  animateContent = true,
 }) => {
   const { animations } = useAnimationContext();
   const { componentStyles } = useThemeContext();
@@ -16953,14 +17085,15 @@ var BroadcastProMatchupDivider = ({
   const resolvedFont = fontFamily != null ? fontFamily : headingFont;
   if (variant === "vs") {
     const slotClass = csClass(componentStyles, "broadcastProMatchupDividerSlot");
-    return /* @__PURE__ */ jsx147("div", {
+    return /* @__PURE__ */ jsx146("div", {
       className: `${slotClass} ${className}`.trim(),
       style: { fontFamily: resolvedFont },
-      children: /* @__PURE__ */ jsx147(BroadcastProScoreText, {
+      children: /* @__PURE__ */ jsx146(BroadcastProScoreText, {
         value: "VS",
         role: "matchDivider",
         variant: "onContainerTitle",
-        animation: { ...copyIn, delay: delay + 9 },
+        animation: animateContent ? { ...copyIn, delay: delay + 9 } : { type: "none" },
+        exitAnimation: animateContent ? void 0 : "none",
         fontFamily: resolvedFont,
         compact,
         style: { color: textOnGlass.copy },
@@ -16968,20 +17101,21 @@ var BroadcastProMatchupDivider = ({
     });
   }
   const versusClass = csClass(componentStyles, "broadcastProMatchupDividerVersus");
-  return /* @__PURE__ */ jsx147(AnimatedText, {
+  return /* @__PURE__ */ jsx146(AnimatedText, {
     type: "bodyText",
     variant: "onContainerCopy",
     fontFamily: resolvedFont,
     className: `${versusClass} ${className}`.trim(),
     style: { color: textOnGlass.muted },
-    animation: { ...copyIn, delay },
+    animation: animateContent ? { ...copyIn, delay } : { type: "none" },
+    exitAnimation: animateContent ? void 0 : "none",
     letterAnimation: "none",
     children: "VERSUS",
   });
 };
 
 // src/templates/variants/broadcastPro/components/matchup/BroadcastProMatchupSide.tsx
-import { jsx as jsx148, jsxs as jsxs59 } from "react/jsx-runtime";
+import { jsx as jsx147, jsxs as jsxs59 } from "react/jsx-runtime";
 var BroadcastProMatchupSide = ({
   side,
   input,
@@ -16989,8 +17123,10 @@ var BroadcastProMatchupSide = ({
   glass,
   containerHeight,
   compact = false,
+  fixtureDensity = "standard",
   fontFamily,
   labelVariant = "onContainerCopy",
+  animateContent = true,
 }) => {
   const { animations } = useAnimationContext();
   const { componentStyles } = useThemeContext();
@@ -17003,8 +17139,14 @@ var BroadcastProMatchupSide = ({
   const roleLabelClass = csClass(componentStyles, "broadcastProMatchupRoleLabel");
   const teamNameBaseClass = csClass(componentStyles, "broadcastProMatchupFixtureTeamName");
   const upcomingTeamNameClass = csClass(componentStyles, "upcomingTeamName");
+  const densityClass =
+    fixtureDensity === "featured"
+      ? "!text-7xl"
+      : fixtureDensity === "compact" || compact
+        ? "!text-5xl"
+        : "!text-6xl";
   const teamNameClass =
-    `${upcomingTeamNameClass || teamNameBaseClass} line-clamp-2 !leading-[0.92] ${compact ? "!text-5xl" : "!text-6xl"}`.trim();
+    `${upcomingTeamNameClass || teamNameBaseClass} line-clamp-2 !leading-[0.92] ${densityClass}`.trim();
   const isHome = side === "home";
   const crestDelay = delay + 6;
   const labelDelay = delay + 8;
@@ -17013,27 +17155,29 @@ var BroadcastProMatchupSide = ({
     className: sideClass,
     children: [
       isHome &&
-        /* @__PURE__ */ jsx148(BroadcastProCrestWell, {
+        /* @__PURE__ */ jsx147(BroadcastProCrestWell, {
           tier: "fixture",
           logo: input.logo,
           teamName: input.teamName,
           delay: crestDelay,
           glass,
           containerHeight,
+          animate: animateContent,
         }),
       /* @__PURE__ */ jsxs59("div", {
         className: `flex min-w-0 flex-col gap-1 ${isHome ? "items-start" : "items-end"}`.trim(),
         children: [
           input.roleLabel != null &&
             input.roleLabel !== "" &&
-            /* @__PURE__ */ jsx148(MetadataMedium, {
+            /* @__PURE__ */ jsx147(MetadataMedium, {
               value: input.roleLabel,
-              animation: { ...copyIn, delay: labelDelay },
+              animation: animateContent ? { ...copyIn, delay: labelDelay } : { type: "none" },
+              exitAnimation: animateContent ? void 0 : "none",
               className: roleLabelClass,
               variant: labelVariant,
               style: { color: text.secondary },
             }),
-          /* @__PURE__ */ jsx148(ladderTeamName_default, {
+          /* @__PURE__ */ jsx147(ladderTeamName_default, {
             value: input.teamName,
             variant: labelVariant,
             textAlign: isHome ? "left" : "right",
@@ -17042,24 +17186,26 @@ var BroadcastProMatchupSide = ({
             className: teamNameClass,
             fontFamily,
             style: { color: text.copy },
+            animate: animateContent,
           }),
         ],
       }),
       !isHome &&
-        /* @__PURE__ */ jsx148(BroadcastProCrestWell, {
+        /* @__PURE__ */ jsx147(BroadcastProCrestWell, {
           tier: "fixture",
           logo: input.logo,
           teamName: input.teamName,
           delay: crestDelay,
           glass,
           containerHeight,
+          animate: animateContent,
         }),
     ],
   });
 };
 
 // src/templates/variants/broadcastPro/components/matchup/BroadcastProMatchup.tsx
-import { jsx as jsx149, jsxs as jsxs60 } from "react/jsx-runtime";
+import { jsx as jsx148, jsxs as jsxs60 } from "react/jsx-runtime";
 var BroadcastProMatchup = ({
   tier,
   home,
@@ -17067,15 +17213,35 @@ var BroadcastProMatchup = ({
   glass,
   delay = 0,
   compact = false,
+  fixtureDensity = "standard",
   containerHeight,
   className = "",
   style,
   fontFamily,
   renderResultBlock,
+  animateContent = true,
 }) => {
   const { componentStyles } = useThemeContext();
   const { textOnGlass, headingFont } = useBroadcastProTheme();
+  const { width: compositionWidth } = useVideoConfig13();
   const resolvedFont = fontFamily != null ? fontFamily : headingFont;
+  const rosterSidebarWidth = getBroadcastProRosterSidebarWidth(compositionWidth);
+  const homeTitleFontSize = useFittedTextBoxFontSize({
+    text: tier === "roster" ? home.teamName : "",
+    fontFamily: resolvedFont,
+    withinWidth: Math.max(0, rosterSidebarWidth - 42),
+    maxLines: 2,
+    minFontSize: 26,
+    maxFontSize: 36,
+  });
+  const awayTitleFontSize = useFittedTextBoxFontSize({
+    text: tier === "roster" ? away.teamName : "",
+    fontFamily: resolvedFont,
+    withinWidth: Math.max(0, rosterSidebarWidth - 34),
+    maxLines: 2,
+    minFontSize: 24,
+    maxFontSize: 32,
+  });
   const layoutKey = BROADCAST_PRO_MATCHUP_TIER_LAYOUT_KEY[tier];
   const layoutClass = csClass(componentStyles, layoutKey);
   if (tier === "fixture") {
@@ -17083,28 +17249,33 @@ var BroadcastProMatchup = ({
       className: `${layoutClass} ${className}`.trim(),
       style,
       children: [
-        /* @__PURE__ */ jsx149(BroadcastProMatchupSide, {
+        /* @__PURE__ */ jsx148(BroadcastProMatchupSide, {
           side: "home",
           input: home,
           delay,
           glass,
           containerHeight,
           compact,
+          fixtureDensity,
+          animateContent,
           fontFamily: resolvedFont,
         }),
-        /* @__PURE__ */ jsx149(BroadcastProMatchupDivider, {
+        /* @__PURE__ */ jsx148(BroadcastProMatchupDivider, {
           variant: "vs",
           delay,
           compact,
           fontFamily: resolvedFont,
+          animateContent,
         }),
-        /* @__PURE__ */ jsx149(BroadcastProMatchupSide, {
+        /* @__PURE__ */ jsx148(BroadcastProMatchupSide, {
           side: "away",
           input: away,
           delay,
           glass,
           containerHeight,
           compact,
+          fixtureDensity,
+          animateContent,
           fontFamily: resolvedFont,
         }),
       ],
@@ -17139,26 +17310,29 @@ var BroadcastProMatchup = ({
         className: homeCardClass,
         style: panelStyle,
         children: [
-          /* @__PURE__ */ jsx149(BroadcastProCrestWell, {
+          /* @__PURE__ */ jsx148(BroadcastProCrestWell, {
             tier: "rosterHome",
             logo: home.logo,
             teamName: home.teamName,
             delay,
             glass,
           }),
-          /* @__PURE__ */ jsx149(ladderTeamName_default, {
-            value: truncateText(home.teamName, 42).toUpperCase(),
+          /* @__PURE__ */ jsx148(ladderTeamName_default, {
+            value: home.teamName.toUpperCase(),
             variant: "onContainerTitle",
             fontFamily: resolvedFont,
             letterAnimation: "none",
             delay,
             textAlign: "center",
             className: homeTitleClass,
-            style: { color: textOnGlass.copy },
+            style: {
+              color: textOnGlass.copy,
+              fontSize: homeTitleFontSize,
+            },
           }),
           home.roleLabel != null &&
             home.roleLabel !== "" &&
-            /* @__PURE__ */ jsx149("span", {
+            /* @__PURE__ */ jsx148("span", {
               className: homeLabelClass,
               style: { color: textOnGlass.secondary },
               children: home.roleLabel,
@@ -17169,27 +17343,30 @@ var BroadcastProMatchup = ({
         className: awayCardClass,
         style: panelStyle,
         children: [
-          /* @__PURE__ */ jsx149(BroadcastProMatchupDivider, { variant: "versus", delay }),
-          /* @__PURE__ */ jsx149(BroadcastProCrestWell, {
+          /* @__PURE__ */ jsx148(BroadcastProMatchupDivider, { variant: "versus", delay }),
+          /* @__PURE__ */ jsx148(BroadcastProCrestWell, {
             tier: "rosterAway",
             logo: away.logo,
             teamName: away.teamName,
             delay,
             glass,
           }),
-          /* @__PURE__ */ jsx149(ladderTeamName_default, {
-            value: truncateText(away.teamName, 36).toUpperCase(),
+          /* @__PURE__ */ jsx148(ladderTeamName_default, {
+            value: away.teamName.toUpperCase(),
             variant: "onContainerTitle",
             fontFamily: resolvedFont,
             letterAnimation: "none",
             delay,
             textAlign: "center",
             className: awayTitleClass,
-            style: { color: textOnGlass.copy },
+            style: {
+              color: textOnGlass.copy,
+              fontSize: awayTitleFontSize,
+            },
           }),
           away.roleLabel != null &&
             away.roleLabel !== "" &&
-            /* @__PURE__ */ jsx149("span", {
+            /* @__PURE__ */ jsx148("span", {
               className: awayLabelClass,
               style: { color: textOnGlass.secondary },
               children: away.roleLabel,
@@ -17200,8 +17377,27 @@ var BroadcastProMatchup = ({
   });
 };
 
+// src/templates/variants/broadcastPro/components/fixture/BroadcastProFixtureFrame.tsx
+import { jsx as jsx149 } from "react/jsx-runtime";
+var BroadcastProFixtureFrame = ({ children, accentColor, glass, className = "", style }) =>
+  /* @__PURE__ */ jsx149("div", {
+    className:
+      `relative flex min-h-0 w-full flex-col overflow-hidden rounded-[2px] ${className}`.trim(),
+    style: {
+      background: glass.panel,
+      border: glass.border,
+      ...resolveBroadcastProEdgeMarkerStyle("compact", "primary", {
+        accentColor,
+        mutedColor: accentColor,
+      }),
+      ...cellBlur,
+      ...style,
+    },
+    children,
+  });
+
 // src/compositions/cricket/utils/broadcastPro/results/BroadcastProResultMatchContent.tsx
-import { Fragment as Fragment6, jsx as jsx150, jsxs as jsxs61 } from "react/jsx-runtime";
+import { jsx as jsx150, jsxs as jsxs61 } from "react/jsx-runtime";
 var teamForStatItems = (team, showBatting, showBowling) => ({
   ...team,
   battingPerformances: showBatting ? team.battingPerformances : [],
@@ -17217,7 +17413,7 @@ var BroadcastProResultMatchContent = ({
   showGround = true,
   playerStatsTier = "list",
 }) => {
-  var _a, _b, _c, _d;
+  var _a, _b, _c, _d, _e, _f, _g;
   const { animations } = useAnimationContext();
   const { isAccountClub } = useVideoDataContext();
   const {
@@ -17240,6 +17436,15 @@ var BroadcastProResultMatchContent = ({
   });
   const verdict = buildBroadcastProVerdictModel(match);
   const compactLine = buildCompactVerdictLine(match);
+  const winnerName =
+    (_e =
+      (_d = (_c = match.resultSummary) == null ? void 0 : _c.winner) == null
+        ? void 0
+        : _d.trim()) != null
+      ? _e
+      : "";
+  const homeIsWinner = winnerName === match.homeTeam.name.trim();
+  const awayIsWinner = winnerName === match.awayTeam.name.trim();
   const copyIn = animations.text.main.copyIn;
   const showHeroVerdict =
     statementPosition === "top" && (verdict == null ? void 0 : verdict.kind) === "hero";
@@ -17249,7 +17454,7 @@ var BroadcastProResultMatchContent = ({
     compactLine != null;
   const showAbandonedVerdict = (verdict == null ? void 0 : verdict.kind) === "abandoned";
   const metaDelay = showHeroVerdict ? baseDelay + 2 : baseDelay;
-  const glass = useMemo7(
+  const glass = useMemo8(
     () =>
       resolveBroadcastProGlass({
         surfaceBase: selectedPalette.container.background,
@@ -17287,108 +17492,127 @@ var BroadcastProResultMatchContent = ({
   );
   const matchBlockClass = csClass(componentStyles, "broadcastProResultsMatchBlock");
   const compactVerdictModel = compactLine != null ? { kind: "compact", line: compactLine } : null;
-  return /* @__PURE__ */ jsxs61("div", {
-    className: `mx-6 flex h-full w-auto flex-col gap-1 overflow-hidden md:mx-8 ${className}`.trim(),
+  return /* @__PURE__ */ jsx150("div", {
+    className: `mx-6 flex h-full w-auto flex-col overflow-hidden md:mx-8 ${className}`.trim(),
     style,
-    children: [
-      showHeroVerdict &&
-        (verdict == null ? void 0 : verdict.kind) === "hero" &&
-        /* @__PURE__ */ jsx150(BroadcastProResultVerdict, {
-          model: verdict,
-          tier: "hero",
-          accentColor: primaryAccent,
-          delay: baseDelay,
-          glass,
-          animation: copyIn,
-          className: "mb-2",
+    children: /* @__PURE__ */ jsxs61(BroadcastProFixtureFrame, {
+      accentColor: primaryAccent,
+      glass,
+      className: "min-h-0 flex-1",
+      children: [
+        showHeroVerdict &&
+          (verdict == null ? void 0 : verdict.kind) === "hero" &&
+          /* @__PURE__ */ jsx150(BroadcastProResultVerdict, {
+            model: verdict,
+            tier: "hero",
+            accentColor: primaryAccent,
+            delay: baseDelay,
+            glass,
+            animation: copyIn,
+            connection: "attached",
+          }),
+        /* @__PURE__ */ jsx150("div", {
+          style: { borderBottom: glass.border },
+          children: /* @__PURE__ */ jsx150(BroadcastProResultMetaStrip, {
+            gradeLabel: buildGradeLabel(match),
+            ground: match.ground,
+            delay: metaDelay,
+            showGround,
+            connection: "attached",
+          }),
         }),
-      /* @__PURE__ */ jsx150(BroadcastProResultMetaStrip, {
-        gradeLabel: buildGradeLabel(match),
-        ground: match.ground,
-        delay: metaDelay,
-        showGround,
-      }),
-      /* @__PURE__ */ jsx150(BroadcastProMatchup, {
-        tier: "result",
-        home: {
-          teamName: match.homeTeam.name,
-          logo: (_c = match.teamHomeLogo) != null ? _c : null,
-        },
-        away: {
-          teamName: match.awayTeam.name,
-          logo: (_d = match.teamAwayLogo) != null ? _d : null,
-        },
-        glass,
-        className: matchBlockClass,
-        renderResultBlock: (side) => {
-          if (side === "home") {
-            return /* @__PURE__ */ jsxs61(Fragment6, {
+        /* @__PURE__ */ jsx150(BroadcastProMatchup, {
+          tier: "result",
+          home: {
+            teamName: match.homeTeam.name,
+            logo: (_f = match.teamHomeLogo) != null ? _f : null,
+          },
+          away: {
+            teamName: match.awayTeam.name,
+            logo: (_g = match.teamAwayLogo) != null ? _g : null,
+          },
+          glass,
+          className: `${matchBlockClass} min-h-0 flex-1 justify-center !gap-0`,
+          renderResultBlock: (side) => {
+            if (side === "home") {
+              return /* @__PURE__ */ jsxs61("div", {
+                className: "flex min-h-0 flex-none flex-col",
+                children: [
+                  /* @__PURE__ */ jsx150(BroadcastProResultTeamRow, {
+                    teamName: match.homeTeam.name,
+                    score: normalizeScore(match.homeTeam.score),
+                    logo: match.teamHomeLogo,
+                    firstInnings: homeFirstInnings.show ? homeFirstInnings.value : null,
+                    accentColor: teamAccents.home,
+                    delay: metaDelay,
+                    matchType: match.type,
+                    glass,
+                    connection: "attached",
+                    scoreEmphasis: homeIsWinner ? "winner" : "standard",
+                  }),
+                  /* @__PURE__ */ jsx150(BroadcastProStatMatrixResultGrid, {
+                    items: homeStats,
+                    delay: statsDelay,
+                    accentColor: teamAccents.home,
+                    glass,
+                    tier: playerStatsTier,
+                    connection: "attached",
+                  }),
+                ],
+              });
+            }
+            return /* @__PURE__ */ jsxs61("div", {
+              className: "flex min-h-0 flex-none flex-col",
+              style: { borderTop: glass.border },
               children: [
                 /* @__PURE__ */ jsx150(BroadcastProResultTeamRow, {
-                  teamName: match.homeTeam.name,
-                  score: normalizeScore(match.homeTeam.score),
-                  logo: match.teamHomeLogo,
-                  firstInnings: homeFirstInnings.show ? homeFirstInnings.value : null,
-                  accentColor: teamAccents.home,
-                  delay: metaDelay,
+                  teamName: match.awayTeam.name,
+                  score: normalizeScore(match.awayTeam.score),
+                  logo: match.teamAwayLogo,
+                  firstInnings: awayFirstInnings.show ? awayFirstInnings.value : null,
+                  accentColor: teamAccents.away,
+                  delay: statsDelay + 4,
                   matchType: match.type,
                   glass,
+                  connection: "attached",
+                  scoreEmphasis: awayIsWinner ? "winner" : "standard",
                 }),
-                /* @__PURE__ */ jsx150(BroadcastProResultPlayerStatsGrid, {
-                  items: homeStats,
-                  delay: statsDelay,
-                  accentColor: teamAccents.home,
+                /* @__PURE__ */ jsx150(BroadcastProStatMatrixResultGrid, {
+                  items: awayStats,
+                  delay: statsDelay + 8,
+                  accentColor: teamAccents.away,
                   glass,
                   tier: playerStatsTier,
+                  connection: "attached",
                 }),
               ],
             });
-          }
-          return /* @__PURE__ */ jsxs61(Fragment6, {
-            children: [
-              /* @__PURE__ */ jsx150(BroadcastProResultTeamRow, {
-                teamName: match.awayTeam.name,
-                score: normalizeScore(match.awayTeam.score),
-                logo: match.teamAwayLogo,
-                firstInnings: awayFirstInnings.show ? awayFirstInnings.value : null,
-                accentColor: teamAccents.away,
-                delay: statsDelay + 4,
-                matchType: match.type,
-                glass,
-                className: "mt-2",
-              }),
-              /* @__PURE__ */ jsx150(BroadcastProResultPlayerStatsGrid, {
-                items: awayStats,
-                delay: statsDelay + 8,
-                accentColor: teamAccents.away,
-                glass,
-                tier: playerStatsTier,
-              }),
-            ],
-          });
-        },
-      }),
-      showAbandonedVerdict &&
-        (verdict == null ? void 0 : verdict.kind) === "abandoned" &&
-        /* @__PURE__ */ jsx150(BroadcastProResultVerdict, {
-          model: verdict,
-          tier: "abandoned",
-          accentColor: primaryAccent,
-          delay: headerDelay,
-          glass,
-          animation: copyIn,
+          },
         }),
-      showCompactVerdict &&
-        compactVerdictModel &&
-        /* @__PURE__ */ jsx150(BroadcastProResultVerdict, {
-          model: compactVerdictModel,
-          tier: "compact",
-          accentColor: primaryAccent,
-          delay: headerDelay + 2,
-          glass,
-          animation: copyIn,
-        }),
-    ],
+        showAbandonedVerdict &&
+          (verdict == null ? void 0 : verdict.kind) === "abandoned" &&
+          /* @__PURE__ */ jsx150(BroadcastProResultVerdict, {
+            model: verdict,
+            tier: "abandoned",
+            accentColor: primaryAccent,
+            delay: headerDelay,
+            glass,
+            animation: copyIn,
+            connection: "attached",
+          }),
+        showCompactVerdict &&
+          compactVerdictModel &&
+          /* @__PURE__ */ jsx150(BroadcastProResultVerdict, {
+            model: compactVerdictModel,
+            tier: "compact",
+            accentColor: primaryAccent,
+            delay: headerDelay + 2,
+            glass,
+            animation: copyIn,
+            connection: "attached",
+          }),
+      ],
+    }),
   });
 };
 
@@ -18001,7 +18225,7 @@ var resolveBroadcastProRoundedGlass = (opts) =>
   );
 
 // src/compositions/cricket/utils/broadcastProRounded/useBroadcastProRoundedTheme.ts
-import { useMemo as useMemo8 } from "react";
+import { useMemo as useMemo9 } from "react";
 
 // src/compositions/cricket/utils/broadcastProRounded/themeColors.ts
 import tinycolor21 from "tinycolor2";
@@ -18064,7 +18288,7 @@ var useBroadcastProRoundedTheme = () => {
   const surfaceBase = selectedPalette.container.background;
   const headingFont =
     (_b = (_a = fontClasses.heading) == null ? void 0 : _a.family) != null ? _b : "font-teko";
-  const glass = useMemo8(
+  const glass = useMemo9(
     () =>
       resolveBroadcastProRoundedGlass({
         surfaceBase,
@@ -18073,11 +18297,11 @@ var useBroadcastProRoundedTheme = () => {
       }),
     [surfaceBase, broadcastProRoundedGlassOpacity, broadcastProRoundedTransparentLayers],
   );
-  const textOnContainer = useMemo8(
+  const textOnContainer = useMemo9(
     () => resolveBroadcastProRoundedTextOnContainer(selectedPalette),
     [selectedPalette],
   );
-  const textOnGlass = useMemo8(
+  const textOnGlass = useMemo9(
     () => resolveBroadcastProRoundedTextOnGlass(surfaceBase, glass.panel, textOnContainer),
     [surfaceBase, glass.panel, textOnContainer],
   );
@@ -18655,7 +18879,7 @@ var parsePlayerStat2 = (value) => {
 };
 
 // src/templates/variants/broadcastProRounded/components/score/BroadcastProRoundedStructuredScore.tsx
-import { Fragment as Fragment7, jsx as jsx162, jsxs as jsxs67 } from "react/jsx-runtime";
+import { Fragment as Fragment6, jsx as jsx162, jsxs as jsxs67 } from "react/jsx-runtime";
 var BroadcastProRoundedStructuredScore = ({
   value,
   variant,
@@ -18718,7 +18942,7 @@ var BroadcastProRoundedStructuredScore = ({
         style: primaryStyle,
       }),
       suffix
-        ? /* @__PURE__ */ jsxs67(Fragment7, {
+        ? /* @__PURE__ */ jsxs67(Fragment6, {
             children: [
               " ",
               /* @__PURE__ */ jsx162(BroadcastProRoundedScoreText, {
@@ -18933,8 +19157,8 @@ var calculateBroadcastProRoundedResultExitFrame = (fpsScorecard) =>
   fpsScorecard ? fpsScorecard - 20 : 280;
 
 // src/templates/variants/broadcastProRounded/components/stat/BroadcastProRoundedStatMatrixResultCell.tsx
-import { Fragment as Fragment8, jsx as jsx165, jsxs as jsxs68 } from "react/jsx-runtime";
-var SINGLE_CELL_CLASS2 = "!flex !flex-col !items-start !justify-start gap-0 !py-3 !px-4";
+import { Fragment as Fragment7, jsx as jsx165, jsxs as jsxs68 } from "react/jsx-runtime";
+var SINGLE_CELL_CLASS2 = "!flex !flex-col !items-start !justify-start gap-0 !px-3 !py-2";
 var SINGLE_PLAYER_NAME_CLASS2 =
   "!text-[38px] font-semibold !leading-none tracking-wide !opacity-100 -mt-1.5";
 var SINGLE_STAT_PRIMARY_CLASS2 = "font-teko !text-[62px] !font-normal !tracking-wide !leading-none";
@@ -18943,6 +19167,9 @@ var SINGLE_STAT_SUFFIX_CLASS2 =
 var LIST_STAT_PRIMARY_CLASS2 = "font-teko !text-[32px] !font-normal !tracking-tight !leading-tight";
 var LIST_STAT_SUFFIX_CLASS2 =
   "font-teko !text-[26px] font-normal !tracking-tight !leading-tight opacity-70";
+var EMBEDDED_CELL_CLASS =
+  "flex min-w-0 items-center justify-between gap-2 border-l border-white/20 px-3 py-1 first:border-l-0";
+var EMBEDDED_PLAYER_NAME_CLASS = "!text-[18px] !font-semibold !leading-none uppercase !opacity-70";
 var BroadcastProRoundedStatMatrixResultCell = ({
   playerName,
   statValue,
@@ -18975,7 +19202,12 @@ var BroadcastProRoundedStatMatrixResultCell = ({
       ? _d
       : "Teko";
   const isSingle = tier === "single";
-  const resolvedNameClass = [nameClass, isSingle ? SINGLE_PLAYER_NAME_CLASS2 : ""]
+  const isEmbedded = tier === "listEmbedded";
+  const resolvedNameClass = [
+    nameClass,
+    isSingle ? SINGLE_PLAYER_NAME_CLASS2 : "",
+    isEmbedded ? EMBEDDED_PLAYER_NAME_CLASS : "",
+  ]
     .filter(Boolean)
     .join(" ");
   const statBlock = /* @__PURE__ */ jsx165("div", {
@@ -19006,14 +19238,21 @@ var BroadcastProRoundedStatMatrixResultCell = ({
     className: resolvedNameClass,
     style: { color: text.copy },
   });
+  const content = isSingle
+    ? /* @__PURE__ */ jsxs68(Fragment7, { children: [statBlock, nameBlock] })
+    : /* @__PURE__ */ jsxs68(Fragment7, { children: [nameBlock, statBlock] });
+  if (isEmbedded) {
+    return /* @__PURE__ */ jsx165("div", {
+      className: `${EMBEDDED_CELL_CLASS} ${className}`.trim(),
+      children: content,
+    });
+  }
   return /* @__PURE__ */ jsx165(BroadcastProRoundedGlassPanel, {
     glass,
     className: `${cellClass} ${isSingle ? SINGLE_CELL_CLASS2 : ""} ${className}`.trim(),
     animationDelay: resultContainerDelay(delay),
     exitFrame,
-    children: isSingle
-      ? /* @__PURE__ */ jsxs68(Fragment8, { children: [statBlock, nameBlock] })
-      : /* @__PURE__ */ jsxs68(Fragment8, { children: [nameBlock, statBlock] }),
+    children: content,
   });
 };
 
@@ -19031,7 +19270,12 @@ var BroadcastProRoundedStatMatrixResultGrid = ({
 }) => {
   const { componentStyles } = useThemeContext();
   const gridClass = csClass2(componentStyles, "broadcastProRoundedStatMatrixResultGrid");
-  const resolvedGridClass = tier === "single" ? `${gridClass} gap-2` : gridClass;
+  const resolvedGridClass =
+    tier === "single"
+      ? `${gridClass} gap-2`
+      : tier === "listEmbedded"
+        ? `${gridClass} w-full min-w-0 !gap-0 border-t border-white/20 pt-1`
+        : gridClass;
   if (items.length === 0) {
     return null;
   }
@@ -19346,7 +19590,7 @@ var resolveBroadcastProRoundedTeamAccentColors = (input) => {
 };
 
 // src/compositions/cricket/utils/broadcastProRounded/results/BroadcastProRoundedResultMatchContent.tsx
-import { useMemo as useMemo9 } from "react";
+import { useMemo as useMemo10 } from "react";
 
 // src/templates/types/broadcast-pro-rounded/verdict-typography.ts
 var BROADCAST_PRO_VERDICT_ROLE_THEME_KEY2 = {
@@ -19519,7 +19763,7 @@ var BroadcastProRoundedVerdictCompactLine = ({
 };
 
 // src/templates/variants/broadcastProRounded/components/verdict/BroadcastProRoundedVerdictAbandoned.tsx
-import { Fragment as Fragment9, jsx as jsx170, jsxs as jsxs72 } from "react/jsx-runtime";
+import { Fragment as Fragment8, jsx as jsx170, jsxs as jsxs72 } from "react/jsx-runtime";
 var BroadcastProRoundedVerdictAbandoned = ({
   status,
   result,
@@ -19571,7 +19815,7 @@ var BroadcastProRoundedVerdictAbandoned = ({
           : _l.className) != null
       ? _n
       : "";
-  return /* @__PURE__ */ jsxs72(Fragment9, {
+  return /* @__PURE__ */ jsxs72(Fragment8, {
     children: [
       status
         ? /* @__PURE__ */ jsx170(AnimatedText, {
@@ -19870,7 +20114,7 @@ var BroadcastProRoundedResultScoreBadge = ({
 
 // src/compositions/cricket/utils/broadcastProRounded/results/BroadcastProRoundedResultTeamRow.tsx
 import { jsx as jsx176, jsxs as jsxs75 } from "react/jsx-runtime";
-var MAX_TEAM_NAME2 = 32;
+var MAX_TEAM_NAME = 32;
 var BroadcastProRoundedResultTeamRow = ({
   teamName,
   score,
@@ -19880,56 +20124,114 @@ var BroadcastProRoundedResultTeamRow = ({
   delay,
   matchType,
   glass,
+  performanceContent,
   className = "",
   exitAnimation,
   exitFrame,
 }) => {
   const { animations } = useAnimationContext();
   const { componentStyles } = useThemeContext();
-  const { glass: themeGlass, text } = useBroadcastProRoundedTheme();
+  const { glass: themeGlass, headingFont, text } = useBroadcastProRoundedTheme();
   const copyIn = animations.text.main.copyIn;
   const rowClass = csClass2(componentStyles, "broadcastProRoundedResultsTeamRow");
   const nameClass = csClass2(componentStyles, "broadcastProRoundedResultsTeamName");
   const resolvedGlass = glass != null ? glass : themeGlass;
-  const displayName = truncateText2(teamName, MAX_TEAM_NAME2).toUpperCase();
+  const displayName = truncateText2(teamName, MAX_TEAM_NAME).toUpperCase();
+  const combinedTeamNameFontSize = useFittedTextBoxFontSize({
+    text: displayName,
+    fontFamily: headingFont,
+    withinWidth: 720,
+    maxLines: 1,
+    minFontSize: 24,
+    maxFontSize: 36,
+  });
   return /* @__PURE__ */ jsxs75(BroadcastProRoundedGlassPanel, {
     glass: resolvedGlass,
-    className: `${rowClass} ${className}`.trim(),
+    className:
+      `${rowClass} ${performanceContent == null ? "" : "!flex-col !items-stretch !gap-1.5"} ${className}`.trim(),
     animationDelay: resultContainerDelay(delay),
     exitFrame,
     children: [
       /* @__PURE__ */ jsxs75("div", {
-        className: "flex min-w-0 flex-1 items-center gap-4",
+        className: "flex w-full items-center justify-between gap-3",
         children: [
-          /* @__PURE__ */ jsx176(BroadcastProRoundedCrestWell, {
-            tier: "compact",
-            logo: logo != null ? logo : null,
-            teamName,
-            delay: delay + RESULT_TEAM_ROW_NESTED.crest,
-            glass: resolvedGlass,
+          /* @__PURE__ */ jsxs75("div", {
+            className: "flex min-w-0 flex-1 items-center gap-4",
+            children: [
+              /* @__PURE__ */ jsx176(BroadcastProRoundedCrestWell, {
+                tier: "compact",
+                logo: logo != null ? logo : null,
+                teamName,
+                delay: delay + RESULT_TEAM_ROW_NESTED.crest,
+                glass: resolvedGlass,
+              }),
+              /* @__PURE__ */ jsx176(ResultTeamName, {
+                value: displayName,
+                animation: {
+                  ...copyIn,
+                  delay: delay + RESULT_TEAM_ROW_NESTED.name,
+                },
+                exitAnimation,
+                exitFrame,
+                variant: "onContainerTitle",
+                className: nameClass,
+                style: {
+                  color: text.copy,
+                  fontSize: performanceContent == null ? void 0 : combinedTeamNameFontSize,
+                },
+              }),
+            ],
           }),
-          /* @__PURE__ */ jsx176(ResultTeamName, {
-            value: displayName,
-            animation: { ...copyIn, delay: delay + RESULT_TEAM_ROW_NESTED.name },
+          /* @__PURE__ */ jsx176(BroadcastProRoundedResultScoreBadge, {
+            score,
+            firstInnings,
+            accentColor,
+            delay: delay + RESULT_TEAM_ROW_NESTED.score,
+            matchType,
             exitAnimation,
             exitFrame,
-            variant: "onContainerTitle",
-            className: nameClass,
-            style: { color: text.copy },
           }),
         ],
       }),
-      /* @__PURE__ */ jsx176(BroadcastProRoundedResultScoreBadge, {
-        score,
-        firstInnings,
-        accentColor,
-        delay: delay + RESULT_TEAM_ROW_NESTED.score,
-        matchType,
-        exitAnimation,
-        exitFrame,
-      }),
+      performanceContent,
     ],
   });
+};
+
+// src/templates/variants/broadcastProRounded/components/matchup/BroadcastProRoundedMatchup.tsx
+import { useVideoConfig as useVideoConfig14 } from "remotion";
+
+// src/templates/types/broadcast-pro-rounded/roster-list-sizing.ts
+var DEFAULT_BROADCAST_PRO_ROSTER_LIST_SIZING2 = {
+  leftColumnHeaderReservePx: 36,
+  minRowPx: 26,
+  minNameFontPx: 12,
+  maxNameFontPx: 38,
+  minNumberFontPx: 11,
+  maxNumberFontPx: 36,
+  nameRowHeightMultiplier: 0.45,
+  numberRowHeightMultiplier: 0.41,
+  nameFontBonusPx: 2,
+  nameInnerClampMaxOffsetPx: 2,
+  listChromeReservePx: 24,
+};
+var ROSTER_OUTER_MARGIN_PX2 = 48;
+var ROSTER_CONTENT_PADDING_PX2 = 16;
+var ROSTER_GRID_COLUMN_COUNT2 = 12;
+var ROSTER_SIDEBAR_COLUMN_SPAN2 = 5;
+var ROSTER_GRID_GAP_PX2 = 24;
+var getBroadcastProRoundedRosterSidebarWidth = (compositionWidth) => {
+  const gridWidth = Math.max(
+    0,
+    compositionWidth - ROSTER_OUTER_MARGIN_PX2 - ROSTER_CONTENT_PADDING_PX2,
+  );
+  const totalGapWidth = (ROSTER_GRID_COLUMN_COUNT2 - 1) * ROSTER_GRID_GAP_PX2;
+  const columnWidth = (gridWidth - totalGapWidth) / ROSTER_GRID_COLUMN_COUNT2;
+  return Math.max(
+    0,
+    columnWidth * ROSTER_SIDEBAR_COLUMN_SPAN2 +
+      (ROSTER_SIDEBAR_COLUMN_SPAN2 - 1) * ROSTER_GRID_GAP_PX2,
+  );
 };
 
 // src/templates/variants/broadcastProRounded/components/matchup/BroadcastProRoundedMatchupDivider.tsx
@@ -20072,8 +20374,26 @@ var BroadcastProRoundedMatchup = ({
 }) => {
   const { componentStyles, layout } = useThemeContext();
   const { textOnGlass, headingFont } = useBroadcastProRoundedTheme();
+  const { width: compositionWidth } = useVideoConfig14();
   const cellRadius = layout.borderRadius.container;
   const resolvedFont = fontFamily != null ? fontFamily : headingFont;
+  const rosterSidebarWidth = getBroadcastProRoundedRosterSidebarWidth(compositionWidth);
+  const homeTitleFontSize = useFittedTextBoxFontSize({
+    text: tier === "roster" ? home.teamName : "",
+    fontFamily: resolvedFont,
+    withinWidth: Math.max(0, rosterSidebarWidth - 42),
+    maxLines: 2,
+    minFontSize: 26,
+    maxFontSize: 36,
+  });
+  const awayTitleFontSize = useFittedTextBoxFontSize({
+    text: tier === "roster" ? away.teamName : "",
+    fontFamily: resolvedFont,
+    withinWidth: Math.max(0, rosterSidebarWidth - 34),
+    maxLines: 2,
+    minFontSize: 24,
+    maxFontSize: 32,
+  });
   const layoutKey = BROADCAST_PRO_MATCHUP_TIER_LAYOUT_KEY2[tier];
   const layoutClass = csClass2(componentStyles, layoutKey);
   if (tier === "fixture") {
@@ -20145,14 +20465,17 @@ var BroadcastProRoundedMatchup = ({
             glass,
           }),
           /* @__PURE__ */ jsx179(ladderTeamName_default, {
-            value: truncateText(home.teamName, 42).toUpperCase(),
+            value: home.teamName.toUpperCase(),
             variant: "onContainerTitle",
             fontFamily: resolvedFont,
             letterAnimation: "none",
             delay,
             textAlign: "center",
             className: homeTitleClass,
-            style: { color: textOnGlass.copy },
+            style: {
+              color: textOnGlass.copy,
+              fontSize: homeTitleFontSize,
+            },
           }),
           home.roleLabel != null &&
             home.roleLabel !== "" &&
@@ -20176,14 +20499,17 @@ var BroadcastProRoundedMatchup = ({
             glass,
           }),
           /* @__PURE__ */ jsx179(ladderTeamName_default, {
-            value: truncateText(away.teamName, 36).toUpperCase(),
+            value: away.teamName.toUpperCase(),
             variant: "onContainerTitle",
             fontFamily: resolvedFont,
             letterAnimation: "none",
             delay,
             textAlign: "center",
             className: awayTitleClass,
-            style: { color: textOnGlass.copy },
+            style: {
+              color: textOnGlass.copy,
+              fontSize: awayTitleFontSize,
+            },
           }),
           away.roleLabel != null &&
             away.roleLabel !== "" &&
@@ -20199,7 +20525,7 @@ var BroadcastProRoundedMatchup = ({
 };
 
 // src/compositions/cricket/utils/broadcastProRounded/results/BroadcastProRoundedResultMatchContent.tsx
-import { Fragment as Fragment10, jsx as jsx180, jsxs as jsxs78 } from "react/jsx-runtime";
+import { Fragment as Fragment9, jsx as jsx180, jsxs as jsxs78 } from "react/jsx-runtime";
 var teamForStatItems2 = (team, showBatting, showBowling) => ({
   ...team,
   battingPerformances: showBatting ? team.battingPerformances : [],
@@ -20263,7 +20589,7 @@ var BroadcastProRoundedResultMatchContent = ({
     compactLine != null;
   const showAbandonedVerdict = (verdict == null ? void 0 : verdict.kind) === "abandoned";
   const metaDelay = showHeroVerdict ? baseDelay + 8 : calculatedMetaDelay;
-  const glass = useMemo9(
+  const glass = useMemo10(
     () =>
       resolveBroadcastProRoundedGlass({
         surfaceBase: selectedPalette.container.background,
@@ -20305,8 +20631,10 @@ var BroadcastProRoundedResultMatchContent = ({
   );
   const matchBlockClass = csClass2(componentStyles, "broadcastProRoundedResultsMatchBlock");
   const compactVerdictModel = compactLine != null ? { kind: "compact", line: compactLine } : null;
+  const combineTeamAndStats = playerStatsTier === "list";
   return /* @__PURE__ */ jsxs78("div", {
-    className: `mx-6 flex h-full w-auto flex-col gap-1 overflow-hidden md:mx-8 ${className}`.trim(),
+    className:
+      `mx-6 flex h-full w-auto flex-col gap-0.5 overflow-hidden md:mx-8 ${className}`.trim(),
     style,
     children: [
       showHeroVerdict &&
@@ -20344,7 +20672,7 @@ var BroadcastProRoundedResultMatchContent = ({
         className: matchBlockClass,
         renderResultBlock: (side) => {
           if (side === "home") {
-            return /* @__PURE__ */ jsxs78(Fragment10, {
+            return /* @__PURE__ */ jsxs78(Fragment9, {
               children: [
                 /* @__PURE__ */ jsx180(BroadcastProRoundedResultTeamRow, {
                   teamName: match.homeTeam.name,
@@ -20355,22 +20683,34 @@ var BroadcastProRoundedResultMatchContent = ({
                   delay: homeTeamDelay,
                   matchType: match.type,
                   glass,
+                  performanceContent: combineTeamAndStats
+                    ? /* @__PURE__ */ jsx180(BroadcastProRoundedResultPlayerStatsGrid, {
+                        items: homeStats,
+                        delay: homeStatsDelay,
+                        accentColor: teamAccents.home,
+                        glass,
+                        tier: "listEmbedded",
+                        exitAnimation: copyOut,
+                        exitFrame,
+                      })
+                    : void 0,
                   exitAnimation: copyOut,
                   exitFrame,
                 }),
-                /* @__PURE__ */ jsx180(BroadcastProRoundedResultPlayerStatsGrid, {
-                  items: homeStats,
-                  delay: homeStatsDelay,
-                  accentColor: teamAccents.home,
-                  glass,
-                  tier: playerStatsTier,
-                  exitAnimation: copyOut,
-                  exitFrame,
-                }),
+                !combineTeamAndStats &&
+                  /* @__PURE__ */ jsx180(BroadcastProRoundedResultPlayerStatsGrid, {
+                    items: homeStats,
+                    delay: homeStatsDelay,
+                    accentColor: teamAccents.home,
+                    glass,
+                    tier: playerStatsTier,
+                    exitAnimation: copyOut,
+                    exitFrame,
+                  }),
               ],
             });
           }
-          return /* @__PURE__ */ jsxs78(Fragment10, {
+          return /* @__PURE__ */ jsxs78(Fragment9, {
             children: [
               /* @__PURE__ */ jsx180(BroadcastProRoundedResultTeamRow, {
                 teamName: match.awayTeam.name,
@@ -20381,19 +20721,31 @@ var BroadcastProRoundedResultMatchContent = ({
                 delay: awayTeamDelay,
                 matchType: match.type,
                 glass,
+                performanceContent: combineTeamAndStats
+                  ? /* @__PURE__ */ jsx180(BroadcastProRoundedResultPlayerStatsGrid, {
+                      items: awayStats,
+                      delay: awayStatsDelay,
+                      accentColor: teamAccents.away,
+                      glass,
+                      tier: "listEmbedded",
+                      exitAnimation: copyOut,
+                      exitFrame,
+                    })
+                  : void 0,
                 className: "mt-2",
                 exitAnimation: copyOut,
                 exitFrame,
               }),
-              /* @__PURE__ */ jsx180(BroadcastProRoundedResultPlayerStatsGrid, {
-                items: awayStats,
-                delay: awayStatsDelay,
-                accentColor: teamAccents.away,
-                glass,
-                tier: playerStatsTier,
-                exitAnimation: copyOut,
-                exitFrame,
-              }),
+              !combineTeamAndStats &&
+                /* @__PURE__ */ jsx180(BroadcastProRoundedResultPlayerStatsGrid, {
+                  items: awayStats,
+                  delay: awayStatsDelay,
+                  accentColor: teamAccents.away,
+                  glass,
+                  tier: playerStatsTier,
+                  exitAnimation: copyOut,
+                  exitFrame,
+                }),
             ],
           });
         },
@@ -21210,12 +21562,14 @@ var DEFAULT_SPACING = {
 var BROADCAST_PRO_UPCOMING_SPACING = {
   headerHeight: 0,
   contentPadding: 0,
-  cardSpacing: 36,
+  cardSpacing: 30,
 };
 var BROADCAST_PRO_UPCOMING_LIST_ITEM_SPACING_PX = BROADCAST_PRO_UPCOMING_SPACING.cardSpacing;
-var BROADCAST_PRO_UPCOMING_SECTION_GAP_PX = 10;
-var BROADCAST_PRO_UPCOMING_LIST_DIVIDER_WIDTH_PX = 20;
-var BROADCAST_PRO_UPCOMING_LIST_DIVIDER_HEIGHT_PX = 2;
+var BROADCAST_PRO_UPCOMING_LIST_HEIGHT_PX = {
+  featured: 530,
+  standard: 760,
+  compact: 840,
+};
 var calculateDisplayedGames = (games, gamesPerScreen, screenIndex) => {
   const startIndex = screenIndex * gamesPerScreen;
   const endIndex = Math.min(startIndex + gamesPerScreen, games.length);
@@ -22777,16 +23131,11 @@ var mudgeeraba2 = () => {
   return /* @__PURE__ */ jsx222(UpcomingGamesWithTransitionsMudgeeraba, {});
 };
 
-// src/compositions/cricket/upcoming/controller/GamesList/games-list-broadcastPro.tsx
-import React26 from "react";
-
 // src/compositions/cricket/upcoming/layout/Card/game-card-broadcastPro.tsx
 import { jsx as jsx223, jsxs as jsxs99 } from "react/jsx-runtime";
-var UPCOMING_TEAM_NAME_MAX = 34;
-var formatUpcomingTeamName = (teamName) =>
-  truncateText(stripGradeNumberFromTeamName(teamName), UPCOMING_TEAM_NAME_MAX);
-var HEADER_STRIP_H = 40;
-var GameCardBroadcastPro = ({ game, index }) => {
+var formatUpcomingTeamName = (teamName) => stripGradeNumberFromTeamName(teamName);
+var HEADER_STRIP_H = 36;
+var GameCardBroadcastPro = ({ game, index, density = "standard", gameRowHeight }) => {
   var _a, _b;
   const { data } = useVideoDataContext();
   const { timings } = data;
@@ -22800,66 +23149,71 @@ var GameCardBroadcastPro = ({ game, index }) => {
   const metaVariant = "onContainerCopy";
   const metaCopyStyle = { color: text.copy };
   const metaMutedStyle = { color: text.muted };
+  const isCompact = density === "compact";
+  const matchupHeight = density === "featured" ? 330 : density === "standard" ? 240 : 170;
+  const bodyPadding = density === "featured" ? "18px 24px" : isCompact ? "8px 16px" : "14px 20px";
   return /* @__PURE__ */ jsx223("div", {
-    className: "flex w-full flex-col",
-    children: /* @__PURE__ */ jsxs99(AnimatedContainer, {
+    className: "flex min-h-0 w-full flex-col",
+    style:
+      gameRowHeight == null ? void 0 : { height: gameRowHeight, flex: `0 0 ${gameRowHeight}px` },
+    children: /* @__PURE__ */ jsx223(AnimatedContainer, {
       type: "full",
-      className: "flex w-full flex-col rounded-none",
-      style: { gap: `${BROADCAST_PRO_UPCOMING_SECTION_GAP_PX}px` },
+      size: "full",
+      className: "flex h-full w-full flex-col rounded-none",
       backgroundColor: "none",
       animation: ContainerAnimations.main.itemContainer.containerIn,
       animationDelay: delay,
       exitAnimation: ContainerAnimations.main.itemContainer.containerOut,
       exitFrame: animationOutFrame,
-      children: [
-        /* @__PURE__ */ jsxs99("div", {
-          className:
-            "grid w-full flex-shrink-0 grid-cols-[1fr_1fr_2fr] items-center gap-2 px-5 py-2 md:px-6",
-          style: {
-            minHeight: HEADER_STRIP_H,
-            background: glass.headerGradient,
-            ...resolveBroadcastProEdgeMarkerStyle("compact", "primary", {
-              accentColor: accent,
-              mutedColor: accent,
-            }),
-            ...cellBlur,
-          },
-          children: [
-            /* @__PURE__ */ jsx223(MetadataMedium, {
-              value: game.date,
-              animation: { ...animations.text.main.copyIn, delay },
-              className: "min-w-0 truncate font-bold uppercase tracking-wider",
-              variant: metaVariant,
-              style: metaCopyStyle,
-            }),
-            /* @__PURE__ */ jsx223(MetadataMedium, {
-              value: game.time,
-              animation: { ...animations.text.main.copyIn, delay: delay + 2 },
-              className: "min-w-0 truncate font-medium",
-              variant: metaVariant,
-              style: metaCopyStyle,
-            }),
-            /* @__PURE__ */ jsx223(MetadataMedium, {
-              value: (_b = game.gradeName) != null ? _b : "",
-              animation: {
-                ...animations.text.main.copyIn,
-                delay: delay + 3,
-              },
-              className: "min-w-0 truncate font-bold uppercase tracking-wider",
-              variant: metaVariant,
-              style: metaCopyStyle,
-            }),
-          ],
-        }),
-        /* @__PURE__ */ jsxs99("div", {
-          className: "flex w-full flex-col px-5 py-3 md:px-6",
-          style: {
-            background: glass.panel,
-            border: glass.border,
-            ...cellBlur,
-          },
-          children: [
-            /* @__PURE__ */ jsx223(BroadcastProMatchup, {
+      children: /* @__PURE__ */ jsxs99(BroadcastProFixtureFrame, {
+        accentColor: accent,
+        glass,
+        className: "h-full",
+        children: [
+          /* @__PURE__ */ jsxs99("div", {
+            className:
+              "grid w-full flex-shrink-0 grid-cols-[1fr_1fr_2fr] items-center gap-3 px-5 py-1.5 md:px-6",
+            style: {
+              minHeight: HEADER_STRIP_H,
+              background: glass.headerGradient,
+              ...cellBlur,
+            },
+            children: [
+              /* @__PURE__ */ jsx223(MetadataMedium, {
+                value: game.date,
+                animation: { type: "none" },
+                exitAnimation: "none",
+                className: "min-w-0 truncate font-bold uppercase tracking-wider",
+                variant: metaVariant,
+                style: metaCopyStyle,
+              }),
+              /* @__PURE__ */ jsx223(MetadataMedium, {
+                value: game.time,
+                animation: { type: "none" },
+                exitAnimation: "none",
+                className: "min-w-0 truncate font-medium",
+                variant: metaVariant,
+                style: metaCopyStyle,
+              }),
+              /* @__PURE__ */ jsx223(MetadataMedium, {
+                value: (_b = game.gradeName) != null ? _b : "",
+                animation: { type: "none" },
+                exitAnimation: "none",
+                className: "min-w-0 truncate text-right font-semibold uppercase tracking-wider",
+                variant: metaVariant,
+                style: metaMutedStyle,
+              }),
+            ],
+          }),
+          /* @__PURE__ */ jsx223("div", {
+            className: "flex min-h-0 w-full flex-1 flex-col justify-center",
+            style: {
+              padding: bodyPadding,
+              background: glass.panel,
+              borderTop: glass.border,
+              ...cellBlur,
+            },
+            children: /* @__PURE__ */ jsx223(BroadcastProMatchup, {
               tier: "fixture",
               home: {
                 teamName: formatUpcomingTeamName(game.teamHome),
@@ -22874,55 +23228,62 @@ var GameCardBroadcastPro = ({ game, index }) => {
               glass,
               delay,
               fontFamily: headingFont,
+              fixtureDensity: density,
+              containerHeight: matchupHeight,
+              animateContent: false,
             }),
-            /* @__PURE__ */ jsx223("div", {
-              className: "flex w-full flex-shrink-0 justify-center pt-2 md:pt-2.5",
-              children: /* @__PURE__ */ jsx223(MetadataMedium, {
-                value: formatGroundLocation(game.ground),
-                animation: { ...animations.text.main.copyIn, delay: delay + 4 },
-                className:
-                  "max-w-full truncate text-center font-semibold uppercase tracking-widest",
-                variant: metaVariant,
-                style: metaMutedStyle,
-              }),
+          }),
+          /* @__PURE__ */ jsx223("div", {
+            className: `flex w-full flex-shrink-0 justify-center px-5 ${isCompact ? "py-1" : "py-2"}`,
+            style: {
+              background: glass.muted,
+              borderTop: glass.border,
+            },
+            children: /* @__PURE__ */ jsx223(MetadataMedium, {
+              value: formatGroundLocation(game.ground),
+              animation: { type: "none" },
+              exitAnimation: "none",
+              className: "max-w-full truncate text-center font-semibold uppercase tracking-widest",
+              variant: metaVariant,
+              style: metaMutedStyle,
             }),
-          ],
-        }),
-      ],
+          }),
+        ],
+      }),
     }),
   });
 };
 var game_card_broadcastPro_default = GameCardBroadcastPro;
 
+// src/templates/types/broadcast-pro/fixture-density.ts
+var resolveBroadcastProFixtureDensity = (fixtureCount) => {
+  if (fixtureCount <= 1) return "featured";
+  if (fixtureCount === 2) return "standard";
+  return "compact";
+};
+
 // src/compositions/cricket/upcoming/controller/GamesList/games-list-broadcastPro.tsx
-import { jsx as jsx224, jsxs as jsxs100 } from "react/jsx-runtime";
+import { jsx as jsx224 } from "react/jsx-runtime";
 var GamesListBroadcastPro = ({ games }) => {
-  const { accent } = useBroadcastProTheme();
+  const density = resolveBroadcastProFixtureDensity(games.length);
+  const listHeight = BROADCAST_PRO_UPCOMING_LIST_HEIGHT_PX[density];
+  const cardHeight =
+    (listHeight - BROADCAST_PRO_UPCOMING_LIST_ITEM_SPACING_PX * Math.max(games.length - 1, 0)) /
+    Math.max(games.length, 1);
   return /* @__PURE__ */ jsx224("div", {
     className: "flex w-full max-w-full flex-col",
+    style: {
+      height: listHeight,
+      gap: BROADCAST_PRO_UPCOMING_LIST_ITEM_SPACING_PX,
+    },
     children: games.map((game, index) =>
-      /* @__PURE__ */ jsxs100(
-        React26.Fragment,
+      /* @__PURE__ */ jsx224(
+        game_card_broadcastPro_default,
         {
-          children: [
-            /* @__PURE__ */ jsx224(game_card_broadcastPro_default, { game, index }),
-            index < games.length - 1 &&
-              /* @__PURE__ */ jsx224("div", {
-                className: "flex w-full flex-shrink-0 items-center justify-center",
-                style: {
-                  height: `${BROADCAST_PRO_UPCOMING_LIST_ITEM_SPACING_PX}px`,
-                },
-                "aria-hidden": true,
-                children: /* @__PURE__ */ jsx224("div", {
-                  style: {
-                    width: `${BROADCAST_PRO_UPCOMING_LIST_DIVIDER_WIDTH_PX}px`,
-                    height: `${BROADCAST_PRO_UPCOMING_LIST_DIVIDER_HEIGHT_PX}px`,
-                    backgroundColor: accent,
-                    opacity: 0.55,
-                  },
-                }),
-              }),
-          ],
+          game,
+          index,
+          density,
+          gameRowHeight: cardHeight,
         },
         game.gameID,
       ),
@@ -22932,7 +23293,7 @@ var GamesListBroadcastPro = ({ games }) => {
 var games_list_broadcastPro_default = GamesListBroadcastPro;
 
 // src/compositions/cricket/upcoming/controller/GamesDisplay/FixtureDisplayBroadcastPro.tsx
-import { jsx as jsx225, jsxs as jsxs101 } from "react/jsx-runtime";
+import { jsx as jsx225, jsxs as jsxs100 } from "react/jsx-runtime";
 var FixtureDisplayBroadcastPro = ({ games, gamesPerScreen, screenIndex }) => {
   const { animations } = useAnimationContext();
   const panelAnimation = animations.container.main.itemContainerOuter;
@@ -22941,7 +23302,7 @@ var FixtureDisplayBroadcastPro = ({ games, gamesPerScreen, screenIndex }) => {
   const displayedGames = calculateDisplayedGames(games, gamesPerScreen, screenIndex);
   const mainContentHeight = getMainContentSectionHeight(heights);
   const footerSponsors = buildUpcomingFooterSponsors(displayedGames);
-  return /* @__PURE__ */ jsxs101("div", {
+  return /* @__PURE__ */ jsxs100("div", {
     className: "flex h-full w-full flex-col",
     children: [
       /* @__PURE__ */ jsx225("div", {
@@ -22952,7 +23313,7 @@ var FixtureDisplayBroadcastPro = ({ games, gamesPerScreen, screenIndex }) => {
         },
         children: /* @__PURE__ */ jsx225(AnimatedContainer, {
           type: "full",
-          className: "mx-4 flex w-full flex-shrink-0 flex-col rounded-none md:mx-6",
+          className: "mx-6 flex w-auto flex-shrink-0 flex-col rounded-none md:mx-8",
           backgroundColor: "none",
           animation: panelAnimation.containerIn,
           exitAnimation: panelAnimation.containerOut,
@@ -23020,11 +23381,9 @@ var BroadcastPro2 = () => {
 };
 
 // src/compositions/cricket/upcoming/layout/Card/game-card-broadcastProRounded.tsx
-import { jsx as jsx227, jsxs as jsxs102 } from "react/jsx-runtime";
-var UPCOMING_TEAM_NAME_MAX2 = 34;
-var formatUpcomingTeamName2 = (teamName) =>
-  truncateText(stripGradeNumberFromTeamName(teamName), UPCOMING_TEAM_NAME_MAX2);
-var HEADER_STRIP_H2 = 40;
+import { jsx as jsx227, jsxs as jsxs101 } from "react/jsx-runtime";
+var formatUpcomingTeamName2 = (teamName) => stripGradeNumberFromTeamName(teamName);
+var HEADER_STRIP_H2 = 36;
 var GROUND_STRIP_H = 36;
 var GameCardBroadcastProRounded = ({ game, index }) => {
   var _a, _b, _c, _d;
@@ -23043,7 +23402,7 @@ var GameCardBroadcastProRounded = ({ game, index }) => {
   const metaMutedStyle = { color: text.muted };
   return /* @__PURE__ */ jsx227("div", {
     className: "flex w-full flex-col overflow-hidden",
-    children: /* @__PURE__ */ jsxs102(AnimatedContainer, {
+    children: /* @__PURE__ */ jsxs101(AnimatedContainer, {
       type: "full",
       className: `flex w-full flex-col ${(_c = (_b = layout.spacing) == null ? void 0 : _b.stack) != null ? _c : "gap-1"}`,
       backgroundColor: "none",
@@ -23052,8 +23411,8 @@ var GameCardBroadcastProRounded = ({ game, index }) => {
       exitAnimation: ContainerAnimations.main.itemContainer.containerOut,
       exitFrame: animationOutFrame,
       children: [
-        /* @__PURE__ */ jsxs102("div", {
-          className: `grid w-full flex-shrink-0 grid-cols-[1fr_1fr_2fr] items-center gap-2 overflow-hidden px-5 py-2 md:px-6 ${cellRadius}`,
+        /* @__PURE__ */ jsxs101("div", {
+          className: `grid w-full flex-shrink-0 grid-cols-[1fr_1fr_2fr] items-center gap-2 overflow-hidden px-5 py-1.5 md:px-6 ${cellRadius}`,
           style: {
             minHeight: HEADER_STRIP_H2,
             background: glass.headerGradient,
@@ -23091,7 +23450,7 @@ var GameCardBroadcastProRounded = ({ game, index }) => {
           ],
         }),
         /* @__PURE__ */ jsx227("div", {
-          className: `flex w-full overflow-hidden px-5 py-3 md:px-6 ${cellRadius}`,
+          className: `flex w-full overflow-hidden px-5 py-2 md:px-6 ${cellRadius}`,
           style: {
             background: glass.panel,
             border: glass.border,
@@ -23115,7 +23474,7 @@ var GameCardBroadcastProRounded = ({ game, index }) => {
           }),
         }),
         /* @__PURE__ */ jsx227("div", {
-          className: `flex w-full flex-shrink-0 items-center overflow-hidden px-5 py-1.5 md:px-6 ${cellRadius}`,
+          className: `flex w-full flex-shrink-0 items-center overflow-hidden px-5 py-1 md:px-6 ${cellRadius}`,
           style: {
             minHeight: GROUND_STRIP_H,
             background: glass.muted,
@@ -23159,7 +23518,7 @@ var GamesListBroadcastProRounded = ({ games }) => {
 var games_list_broadcastProRounded_default = GamesListBroadcastProRounded;
 
 // src/compositions/cricket/upcoming/controller/GamesDisplay/FixtureDisplayBroadcastProRounded.tsx
-import { jsx as jsx229, jsxs as jsxs103 } from "react/jsx-runtime";
+import { jsx as jsx229, jsxs as jsxs102 } from "react/jsx-runtime";
 var FixtureDisplayBroadcastProRounded = ({ games, gamesPerScreen, screenIndex }) => {
   const { animations } = useAnimationContext();
   const panelAnimation = animations.container.main.itemContainerOuter;
@@ -23168,7 +23527,7 @@ var FixtureDisplayBroadcastProRounded = ({ games, gamesPerScreen, screenIndex })
   const displayedGames = calculateDisplayedGames(games, gamesPerScreen, screenIndex);
   const mainContentHeight = getMainContentSectionHeight(heights);
   const footerSponsors = buildUpcomingFooterSponsors(displayedGames);
-  return /* @__PURE__ */ jsxs103("div", {
+  return /* @__PURE__ */ jsxs102("div", {
     className: "flex h-full w-full flex-col",
     children: [
       /* @__PURE__ */ jsx229("div", {
@@ -23359,7 +23718,7 @@ var STAT_DELAY_OFFSET = 20;
 var STAT_SUFFIX_DELAY_OFFSET2 = 30;
 
 // src/compositions/cricket/top5/layout/StandardPlayerRow.tsx
-import { jsx as jsx235, jsxs as jsxs104 } from "react/jsx-runtime";
+import { jsx as jsx235, jsxs as jsxs103 } from "react/jsx-runtime";
 var StandardPlayerRow = ({ player, index, rowHeight, delay, restrictions }) => {
   const { animations } = useAnimationContext();
   const { selectedPalette } = useThemeContext();
@@ -23376,7 +23735,7 @@ var StandardPlayerRow = ({ player, index, rowHeight, delay, restrictions }) => {
   const playerName = truncateText4(player.name, restrictions.nameLength).toUpperCase();
   const teamName = truncateText4(player.playedFor, restrictions.teamLength).toUpperCase();
   const { mainValue, suffix } = getScoreValues(player);
-  return /* @__PURE__ */ jsxs104("div", {
+  return /* @__PURE__ */ jsxs103("div", {
     className: "flex items-stretch h-full overflow-hidden rounded-lg",
     style: { height: `${rowHeight}px` },
     children: [
@@ -23392,13 +23751,13 @@ var StandardPlayerRow = ({ player, index, rowHeight, delay, restrictions }) => {
           size: logoSize,
         }),
       }),
-      /* @__PURE__ */ jsxs104("div", {
+      /* @__PURE__ */ jsxs103("div", {
         className: `flex-grow flex items-center justify-between px-4 `,
         style: {
           background: bgColor,
         },
         children: [
-          /* @__PURE__ */ jsxs104("div", {
+          /* @__PURE__ */ jsxs103("div", {
             className: "flex flex-col justify-center",
             children: [
               /* @__PURE__ */ jsx235(Top5PlayerName, {
@@ -23419,7 +23778,7 @@ var StandardPlayerRow = ({ player, index, rowHeight, delay, restrictions }) => {
               }),
             ],
           }),
-          /* @__PURE__ */ jsxs104("div", {
+          /* @__PURE__ */ jsxs103("div", {
             className: "flex items-center justify-center whitespace-nowrap leading-none",
             children: [
               /* @__PURE__ */ jsx235(Top5PlayerScore, {
@@ -23522,7 +23881,7 @@ var calculateRowDimensions2 = (totalHeight, playerCount) => {
 };
 
 // src/compositions/cricket/top5/controller/PlayersDisplay/display-Basic.tsx
-import { jsx as jsx237, jsxs as jsxs105 } from "react/jsx-runtime";
+import { jsx as jsx237, jsxs as jsxs104 } from "react/jsx-runtime";
 var PlayersDisplayBasic = ({ players, sponsors }) => {
   var _a, _b;
   const { layout } = useThemeContext();
@@ -23535,7 +23894,7 @@ var PlayersDisplayBasic = ({ players, sponsors }) => {
     assignSponsors: (_b = players[0]) == null ? void 0 : _b.assignSponsors,
     fallbackPrimary: sponsors,
   });
-  return /* @__PURE__ */ jsxs105("div", {
+  return /* @__PURE__ */ jsxs104("div", {
     className: "flex flex-col h-full ",
     children: [
       /* @__PURE__ */ jsx237(AnimatedContainer, {
@@ -23613,7 +23972,7 @@ var getTitle = (compositionId) => {
 };
 
 // src/compositions/cricket/top5/modules/NoPlayersData/no-data.tsx
-import { jsx as jsx238, jsxs as jsxs106 } from "react/jsx-runtime";
+import { jsx as jsx238, jsxs as jsxs105 } from "react/jsx-runtime";
 var NoPlayersData = () => {
   var _a, _b;
   const { data } = useVideoDataContext();
@@ -23626,10 +23985,10 @@ var NoPlayersData = () => {
   const title = getTitle(compositionId);
   return /* @__PURE__ */ jsx238(AbsoluteFill32, {
     className: "flex items-center justify-center bg-gray-900 text-white",
-    children: /* @__PURE__ */ jsxs106("div", {
+    children: /* @__PURE__ */ jsxs105("div", {
       className: "text-center",
       children: [
-        /* @__PURE__ */ jsxs106("h2", {
+        /* @__PURE__ */ jsxs105("h2", {
           className: "text-2xl font-bold mb-4",
           children: ["No ", title, " Data Available"],
         }),
@@ -23716,7 +24075,7 @@ var Basic3 = () => {
 };
 
 // src/compositions/cricket/top5/layout/PlayerRowNameLogoWrapperValue.tsx
-import { jsx as jsx240, jsxs as jsxs107 } from "react/jsx-runtime";
+import { jsx as jsx240, jsxs as jsxs106 } from "react/jsx-runtime";
 var PlayerRowNameLogoWrapperValue = ({ player, index, rowHeight, delay, restrictions }) => {
   const { animations } = useAnimationContext();
   const { selectedPalette } = useThemeContext();
@@ -23729,14 +24088,14 @@ var PlayerRowNameLogoWrapperValue = ({ player, index, rowHeight, delay, restrict
   const playerName = truncateText4(player.name, restrictions.nameLength).toUpperCase();
   const teamName = truncateText4(player.playedFor, restrictions.teamLength).toUpperCase();
   const { mainValue, suffix } = getScoreValues(player);
-  return /* @__PURE__ */ jsxs107("div", {
+  return /* @__PURE__ */ jsxs106("div", {
     className: "grid grid-cols-12 items-center h-full overflow-hidden rounded-none",
     style: {
       height: `${rowHeight}px`,
       background: surfaces.rowSurface,
     },
     children: [
-      /* @__PURE__ */ jsxs107("div", {
+      /* @__PURE__ */ jsxs106("div", {
         className: "col-span-7 flex flex-col justify-center px-4 h-full",
         children: [
           /* @__PURE__ */ jsx240(Top5PlayerName, {
@@ -23773,7 +24132,7 @@ var PlayerRowNameLogoWrapperValue = ({ player, index, rowHeight, delay, restrict
           }),
         }),
       }),
-      /* @__PURE__ */ jsxs107("div", {
+      /* @__PURE__ */ jsxs106("div", {
         className:
           "col-span-3 flex items-center justify-center whitespace-nowrap leading-none px-4 h-full",
         style: { background: surfaces.statSurface },
@@ -23806,7 +24165,7 @@ var PlayerRowNameLogoWrapperValue = ({ player, index, rowHeight, delay, restrict
 var PlayerRowNameLogoWrapperValue_default = PlayerRowNameLogoWrapperValue;
 
 // src/compositions/cricket/top5/controller/PlayerRow/row-BrickWork.tsx
-import { jsx as jsx241, jsxs as jsxs108 } from "react/jsx-runtime";
+import { jsx as jsx241, jsxs as jsxs107 } from "react/jsx-runtime";
 var PlayerRowBrickWork = ({ player, index, rowHeight }) => {
   const { animations } = useAnimationContext();
   const { data } = useVideoDataContext();
@@ -23817,7 +24176,7 @@ var PlayerRowBrickWork = ({ player, index, rowHeight }) => {
   return /* @__PURE__ */ jsx241(MasonryRow, {
     index,
     className: "overflow-hidden",
-    children: /* @__PURE__ */ jsxs108(AnimatedContainer, {
+    children: /* @__PURE__ */ jsxs107(AnimatedContainer, {
       type: "full",
       className: "relative rounded-lg",
       backgroundColor: "none",
@@ -23845,7 +24204,7 @@ var PlayerRowBrickWork = ({ player, index, rowHeight }) => {
 var row_BrickWork_default2 = PlayerRowBrickWork;
 
 // src/compositions/cricket/top5/controller/PlayersDisplay/display-BrickWork.tsx
-import { jsx as jsx242, jsxs as jsxs109 } from "react/jsx-runtime";
+import { jsx as jsx242, jsxs as jsxs108 } from "react/jsx-runtime";
 var PlayersDisplayBrickWork = ({ players, sponsors }) => {
   var _a, _b;
   const { layout } = useThemeContext();
@@ -23858,7 +24217,7 @@ var PlayersDisplayBrickWork = ({ players, sponsors }) => {
     assignSponsors: (_b = players[0]) == null ? void 0 : _b.assignSponsors,
     fallbackPrimary: sponsors,
   });
-  return /* @__PURE__ */ jsxs109("div", {
+  return /* @__PURE__ */ jsxs108("div", {
     className: "flex flex-col h-full ",
     children: [
       /* @__PURE__ */ jsx242(AnimatedContainer, {
@@ -23918,7 +24277,7 @@ var BrickWork2 = () => {
 };
 
 // src/compositions/cricket/top5/layout/PlayerRowNameClassic.tsx
-import { jsx as jsx244, jsxs as jsxs110 } from "react/jsx-runtime";
+import { jsx as jsx244, jsxs as jsxs109 } from "react/jsx-runtime";
 var PlayerRowNameClassic = ({ player, rowHeight, delay }) => {
   const { animations } = useAnimationContext();
   const { layout } = useThemeContext();
@@ -23931,10 +24290,10 @@ var PlayerRowNameClassic = ({ player, rowHeight, delay }) => {
     height: rowHeight,
     delay,
     depth: "compact",
-    children: /* @__PURE__ */ jsxs110("div", {
+    children: /* @__PURE__ */ jsxs109("div", {
       className: `grid grid-cols-12 items-center overflow-hidden h-full ${layout.borderRadius.container}`,
       children: [
-        /* @__PURE__ */ jsxs110("div", {
+        /* @__PURE__ */ jsxs109("div", {
           className: "relative z-10 col-span-7 flex flex-col justify-center px-2 h-full",
           children: [
             /* @__PURE__ */ jsx244(Top5PlayerName, {
@@ -23965,7 +24324,7 @@ var PlayerRowNameClassic = ({ player, rowHeight, delay }) => {
             size: SMALL_LOGO_SIZE,
           }),
         }),
-        /* @__PURE__ */ jsxs110(ClassicStatWell, {
+        /* @__PURE__ */ jsxs109(ClassicStatWell, {
           variant: "recessed",
           width: "compact",
           className: "col-span-3",
@@ -24028,7 +24387,7 @@ var PlayerRowClassic = ({ player, index, rowHeight }) => {
 var row_Classic_default = PlayerRowClassic;
 
 // src/compositions/cricket/top5/controller/PlayersDisplay/display-Classic.tsx
-import { jsx as jsx246, jsxs as jsxs111 } from "react/jsx-runtime";
+import { jsx as jsx246, jsxs as jsxs110 } from "react/jsx-runtime";
 var PlayersDisplayClassic = ({ players, sponsors }) => {
   var _a, _b;
   const { layout } = useThemeContext();
@@ -24041,7 +24400,7 @@ var PlayersDisplayClassic = ({ players, sponsors }) => {
     assignSponsors: (_b = players[0]) == null ? void 0 : _b.assignSponsors,
     fallbackPrimary: sponsors,
   });
-  return /* @__PURE__ */ jsxs111("div", {
+  return /* @__PURE__ */ jsxs110("div", {
     className: "flex flex-col h-full ",
     children: [
       /* @__PURE__ */ jsx246(AnimatedContainer, {
@@ -24101,7 +24460,7 @@ var Classic3 = () => {
 };
 
 // src/compositions/cricket/top5/layout/PlayerRowNameClassicTwoColumn.tsx
-import { jsx as jsx248, jsxs as jsxs112 } from "react/jsx-runtime";
+import { jsx as jsx248, jsxs as jsxs111 } from "react/jsx-runtime";
 var PlayerRowNameClassicTwoColumn = ({ player, rowHeight, delay }) => {
   const { animations } = useAnimationContext();
   const { selectedPalette, layout, colors } = useThemeContext();
@@ -24118,10 +24477,10 @@ var PlayerRowNameClassicTwoColumn = ({ player, rowHeight, delay }) => {
     className: `${layout.borderRadius.container}`,
     backgroundColor: surfaceRoles.content.surface,
     style: { height: `${rowHeight}px` },
-    children: /* @__PURE__ */ jsxs112("div", {
+    children: /* @__PURE__ */ jsxs111("div", {
       className: "grid h-full grid-cols-12 items-center",
       children: [
-        /* @__PURE__ */ jsxs112("div", {
+        /* @__PURE__ */ jsxs111("div", {
           className: "col-span-7 flex h-full flex-col justify-center px-2",
           children: [
             /* @__PURE__ */ jsx248(Top5PlayerName, {
@@ -24152,7 +24511,7 @@ var PlayerRowNameClassicTwoColumn = ({ player, rowHeight, delay }) => {
             size: SMALL_LOGO_SIZE,
           }),
         }),
-        /* @__PURE__ */ jsxs112(ClassicStatWell, {
+        /* @__PURE__ */ jsxs111(ClassicStatWell, {
           variant: "recessed",
           width: "compact",
           className: "col-span-3",
@@ -24216,7 +24575,7 @@ var PlayerRowClassicTwoColumn = ({ player, index, rowHeight }) => {
 var row_ClassicTwoCoulmn_default = PlayerRowClassicTwoColumn;
 
 // src/compositions/cricket/top5/controller/PlayersDisplay/display-ClassicTwoColumn.tsx
-import { jsx as jsx250, jsxs as jsxs113 } from "react/jsx-runtime";
+import { jsx as jsx250, jsxs as jsxs112 } from "react/jsx-runtime";
 var PlayersDisplayClassicTwoColumn = ({ players, sponsors }) => {
   var _a, _b;
   const { layout } = useThemeContext();
@@ -24228,7 +24587,7 @@ var PlayersDisplayClassicTwoColumn = ({ players, sponsors }) => {
     assignSponsors: (_b = players[0]) == null ? void 0 : _b.assignSponsors,
     fallbackPrimary: sponsors,
   });
-  return /* @__PURE__ */ jsxs113("div", {
+  return /* @__PURE__ */ jsxs112("div", {
     className: "flex flex-col h-full w-full",
     children: [
       /* @__PURE__ */ jsx250(AnimatedContainer, {
@@ -24288,7 +24647,7 @@ var ClassicTwoColumn3 = () => {
 };
 
 // src/compositions/cricket/top5/layout/PlayerRowNameSixersThunder.tsx
-import { jsx as jsx252, jsxs as jsxs114 } from "react/jsx-runtime";
+import { jsx as jsx252, jsxs as jsxs113 } from "react/jsx-runtime";
 var PlayerRowNameSixersThunder = ({ player, rowHeight, delay }) => {
   const { animations } = useAnimationContext();
   const { selectedPalette, layout } = useThemeContext();
@@ -24300,14 +24659,14 @@ var PlayerRowNameSixersThunder = ({ player, rowHeight, delay }) => {
   const playerName = truncateText4(player.name, DEFAULT_NAME_LENGTH).toUpperCase();
   const teamName = truncateText4(player.playedFor, DEFAULT_TEAM_LENGTH).toUpperCase();
   const { mainValue, suffix } = getScoreValues(player);
-  return /* @__PURE__ */ jsxs114("div", {
+  return /* @__PURE__ */ jsxs113("div", {
     className: `grid grid-cols-12 p-2 items-center h-full overflow-hidden ${layout.borderRadius.container}`,
     style: {
       height: `${rowHeight}px`,
       background: bgColor,
     },
     children: [
-      /* @__PURE__ */ jsxs114("div", {
+      /* @__PURE__ */ jsxs113("div", {
         className: "col-span-7 flex flex-col justify-center px-2 h-full",
         children: [
           /* @__PURE__ */ jsx252(Top5PlayerName, {
@@ -24341,7 +24700,7 @@ var PlayerRowNameSixersThunder = ({ player, rowHeight, delay }) => {
           }),
         }),
       }),
-      /* @__PURE__ */ jsxs114("div", {
+      /* @__PURE__ */ jsxs113("div", {
         className:
           "col-span-3 flex items-center justify-center whitespace-nowrap leading-none px-0  h-full",
         style: { background: LogoBG },
@@ -24403,7 +24762,7 @@ var PlayerRowSixersThunder = ({ player, index, rowHeight }) => {
 var row_SixersThunder_default = PlayerRowSixersThunder;
 
 // src/components/layout/main/header/variants/TwoColumnLayout.tsx
-import { jsx as jsx254, jsxs as jsxs115 } from "react/jsx-runtime";
+import { jsx as jsx254, jsxs as jsxs114 } from "react/jsx-runtime";
 var getHorizontalHeaderAlignment2 = (alignment = "center") => {
   switch (alignment) {
     case "start":
@@ -24434,7 +24793,7 @@ var createTwoColumnHeader = (rightColumnElements) => {
     return /* @__PURE__ */ jsx254("div", {
       className: "w-full p-0 justify-center flex items-center",
       style: { height: `${height}px` },
-      children: /* @__PURE__ */ jsxs115("div", {
+      children: /* @__PURE__ */ jsxs114("div", {
         className: `flex ${horizontalAlignment} w-full p-2`,
         children: [
           /* @__PURE__ */ jsx254("div", {
@@ -24473,7 +24832,7 @@ var createReverseTwoColumnHeader = (leftColumnElements) => {
     return /* @__PURE__ */ jsx254("div", {
       className: "w-full p-0 justify-center flex items-center",
       style: { height: `${height}px` },
-      children: /* @__PURE__ */ jsxs115("div", {
+      children: /* @__PURE__ */ jsxs114("div", {
         className: `flex ${horizontalAlignment} w-full p-2`,
         children: [
           /* @__PURE__ */ jsx254("div", {
@@ -24604,7 +24963,7 @@ var getAlignmentClasses = (alignment = "center") => {
 };
 
 // src/components/layout/main/header/variants/InlineRowLayout.tsx
-import { jsx as jsx255, jsxs as jsxs116 } from "react/jsx-runtime";
+import { jsx as jsx255, jsxs as jsxs115 } from "react/jsx-runtime";
 var InlineHeaderLogoTitle = ({
   Logo,
   Title,
@@ -24617,7 +24976,7 @@ var InlineHeaderLogoTitle = ({
   return /* @__PURE__ */ jsx255("div", {
     className: `flex w-full min-h-0 overflow-visible px-2 py-0 ${alignmentClasses}`,
     style: { height: `${height}px` },
-    children: /* @__PURE__ */ jsxs116("div", {
+    children: /* @__PURE__ */ jsxs115("div", {
       className: `inline-flex max-w-full min-w-0 flex-row items-center ${rowClassName} ${alignmentClasses}`,
       children: [
         Logo
@@ -24639,7 +24998,7 @@ var InlineHeaderLogoTitle = ({
 };
 
 // src/compositions/cricket/top5/controller/PlayersDisplay/display-SixersThunder.tsx
-import { jsx as jsx256, jsxs as jsxs117 } from "react/jsx-runtime";
+import { jsx as jsx256, jsxs as jsxs116 } from "react/jsx-runtime";
 var PlayersDisplaySixersThunder = ({ players }) => {
   var _a;
   const { layout } = useThemeContext();
@@ -24649,7 +25008,7 @@ var PlayersDisplaySixersThunder = ({ players }) => {
   const LogoAnimations = animations.image.main.title.logo;
   const ContainerAnimations = animations.container;
   const { rowHeight } = calculateRowDimensions2(heights.asset, players.length);
-  return /* @__PURE__ */ jsxs117("div", {
+  return /* @__PURE__ */ jsxs116("div", {
     className: "flex flex-col h-full ",
     children: [
       /* @__PURE__ */ jsx256(AnimatedContainer, {
@@ -24739,7 +25098,7 @@ var MetadataLarge = ({ value, animation, className, variant = DEFAULT_VARIANT })
 };
 
 // src/compositions/cricket/top5/layout/PlayerRowNameCNSW.tsx
-import { jsx as jsx259, jsxs as jsxs118 } from "react/jsx-runtime";
+import { jsx as jsx259, jsxs as jsxs117 } from "react/jsx-runtime";
 var PlayerRowNameCNSW = ({ player, rowHeight, delay, index }) => {
   const { animations } = useAnimationContext();
   const { selectedPalette, layout } = useThemeContext();
@@ -24751,7 +25110,7 @@ var PlayerRowNameCNSW = ({ player, rowHeight, delay, index }) => {
   const playerName = truncateText4(player.name, DEFAULT_NAME_LENGTH).toUpperCase();
   const teamName = truncateText4(player.playedFor, DEFAULT_TEAM_LENGTH).toUpperCase();
   const { mainValue, suffix } = getScoreValues(player);
-  return /* @__PURE__ */ jsxs118("div", {
+  return /* @__PURE__ */ jsxs117("div", {
     className: `grid grid-cols-12  items-center h-full overflow-hidden ${layout.borderRadius.container}`,
     style: {
       height: `${rowHeight}px`,
@@ -24769,7 +25128,7 @@ var PlayerRowNameCNSW = ({ player, rowHeight, delay, index }) => {
           className: "",
         }),
       }),
-      /* @__PURE__ */ jsxs118("div", {
+      /* @__PURE__ */ jsxs117("div", {
         className: "col-span-8 flex flex-col justify-center p-0 m-0 h-full",
         children: [
           /* @__PURE__ */ jsx259(Top5PlayerName, {
@@ -24790,7 +25149,7 @@ var PlayerRowNameCNSW = ({ player, rowHeight, delay, index }) => {
           }),
         ],
       }),
-      /* @__PURE__ */ jsxs118("div", {
+      /* @__PURE__ */ jsxs117("div", {
         className:
           "col-span-3 p-2 m-2 mr-6 flex items-center justify-center whitespace-nowrap leading-none px-0  h-auto",
         style: { background: ScorebgColor },
@@ -24851,7 +25210,7 @@ var PlayerRowCNSW = ({ player, index, rowHeight }) => {
 var row_CNSW_default = PlayerRowCNSW;
 
 // src/compositions/cricket/top5/controller/PlayersDisplay/display-CNSW.tsx
-import { jsx as jsx261, jsxs as jsxs119 } from "react/jsx-runtime";
+import { jsx as jsx261, jsxs as jsxs118 } from "react/jsx-runtime";
 var PlayersDisplayCNSW = ({ players, sponsors, title }) => {
   var _a, _b;
   const { layout } = useThemeContext();
@@ -24863,10 +25222,10 @@ var PlayersDisplayCNSW = ({ players, sponsors, title }) => {
     assignSponsors: (_b = players[0]) == null ? void 0 : _b.assignSponsors,
     fallbackPrimary: sponsors,
   });
-  return /* @__PURE__ */ jsxs119("div", {
+  return /* @__PURE__ */ jsxs118("div", {
     className: "flex flex-col h-full ",
     children: [
-      /* @__PURE__ */ jsxs119(AnimatedContainer, {
+      /* @__PURE__ */ jsxs118(AnimatedContainer, {
         type: "full",
         className: "flex-1 flex flex-col mx-4 overflow-hidden py-32 ",
         style: {
@@ -24934,7 +25293,7 @@ var CNSW3 = () => {
 };
 
 // src/compositions/cricket/top5/layout/PlayerRowNameCNSW-private.tsx
-import { jsx as jsx263, jsxs as jsxs120 } from "react/jsx-runtime";
+import { jsx as jsx263, jsxs as jsxs119 } from "react/jsx-runtime";
 var PlayerRowNameCNSWPrivate = ({ player, rowHeight, delay, index }) => {
   const { animations } = useAnimationContext();
   const { selectedPalette, layout } = useThemeContext();
@@ -24946,7 +25305,7 @@ var PlayerRowNameCNSWPrivate = ({ player, rowHeight, delay, index }) => {
   const playerName = truncateText4(player.name, DEFAULT_NAME_LENGTH).toUpperCase();
   const teamName = truncateText4(player.playedFor, DEFAULT_TEAM_LENGTH).toUpperCase();
   const { mainValue, suffix } = getScoreValues(player);
-  return /* @__PURE__ */ jsxs120("div", {
+  return /* @__PURE__ */ jsxs119("div", {
     className: `grid grid-cols-12  items-center h-full overflow-hidden ${layout.borderRadius.container}`,
     style: {
       height: `${rowHeight}px`,
@@ -24965,7 +25324,7 @@ var PlayerRowNameCNSWPrivate = ({ player, rowHeight, delay, index }) => {
           variant: "onContainerMain",
         }),
       }),
-      /* @__PURE__ */ jsxs120("div", {
+      /* @__PURE__ */ jsxs119("div", {
         className: "col-span-8 flex flex-col justify-center p-0 m-0 h-full",
         children: [
           /* @__PURE__ */ jsx263(Top5PlayerName, {
@@ -24988,7 +25347,7 @@ var PlayerRowNameCNSWPrivate = ({ player, rowHeight, delay, index }) => {
           }),
         ],
       }),
-      /* @__PURE__ */ jsxs120("div", {
+      /* @__PURE__ */ jsxs119("div", {
         className:
           "col-span-3 p-2 m-2 mr-6 flex items-center justify-center whitespace-nowrap leading-none px-0  h-auto",
         style: { background: ScorebgColor },
@@ -25051,7 +25410,7 @@ var PlayerRowCNSWPrivate = ({ player, index, rowHeight }) => {
 var row_CNSW_private_default = PlayerRowCNSWPrivate;
 
 // src/compositions/cricket/top5/controller/PlayersDisplay/display-CNSW-private.tsx
-import { jsx as jsx265, jsxs as jsxs121 } from "react/jsx-runtime";
+import { jsx as jsx265, jsxs as jsxs120 } from "react/jsx-runtime";
 var PlayersDisplayCNSWPrivate = ({ players, sponsors, title }) => {
   var _a, _b;
   const { layout } = useThemeContext();
@@ -25063,10 +25422,10 @@ var PlayersDisplayCNSWPrivate = ({ players, sponsors, title }) => {
     assignSponsors: (_b = players[0]) == null ? void 0 : _b.assignSponsors,
     fallbackPrimary: sponsors,
   });
-  return /* @__PURE__ */ jsxs121("div", {
+  return /* @__PURE__ */ jsxs120("div", {
     className: "flex flex-col h-full ",
     children: [
-      /* @__PURE__ */ jsxs121(AnimatedContainer, {
+      /* @__PURE__ */ jsxs120(AnimatedContainer, {
         type: "full",
         className: "flex-1 flex flex-col mx-4 overflow-hidden py-32 ",
         style: {
@@ -25134,7 +25493,7 @@ var CNSWPrivate3 = () => {
 };
 
 // src/compositions/cricket/top5/controller/PlayerRow/row-Mudgeeraba.tsx
-import { Fragment as Fragment11, jsx as jsx267, jsxs as jsxs122 } from "react/jsx-runtime";
+import { Fragment as Fragment10, jsx as jsx267, jsxs as jsxs121 } from "react/jsx-runtime";
 var PlayerRowMudgeeraba = ({ player, index, rowHeight }) => {
   const { animations } = useAnimationContext();
   const { data } = useVideoDataContext();
@@ -25151,7 +25510,7 @@ var PlayerRowMudgeeraba = ({ player, index, rowHeight }) => {
   const smallTextAnimation = animations.text.main.copyIn;
   const rowPanelClass = `flex items-stretch w-full overflow-hidden ${PADDING_SHALLOW_ROW_LOGO_FLUSH} relative`;
   const rowPanelStyle = { height: `${rowHeight}px` };
-  const rowContent = /* @__PURE__ */ jsxs122(Fragment11, {
+  const rowContent = /* @__PURE__ */ jsxs121(Fragment10, {
     children: [
       showAngularEdgeAccents() &&
         /* @__PURE__ */ jsx267("div", {
@@ -25173,7 +25532,7 @@ var PlayerRowMudgeeraba = ({ player, index, rowHeight }) => {
           size: 32,
         }),
       }),
-      /* @__PURE__ */ jsxs122("div", {
+      /* @__PURE__ */ jsxs121("div", {
         className: "flex flex-col justify-center flex-1 min-w-0 ml-4",
         children: [
           /* @__PURE__ */ jsx267(Top5PlayerName, {
@@ -25194,7 +25553,7 @@ var PlayerRowMudgeeraba = ({ player, index, rowHeight }) => {
           }),
         ],
       }),
-      /* @__PURE__ */ jsxs122("div", {
+      /* @__PURE__ */ jsxs121("div", {
         className:
           "flex items-center justify-center shrink-0 whitespace-nowrap leading-none ml-8 pr-2",
         children: [
@@ -25244,7 +25603,7 @@ var PlayerRowMudgeeraba = ({ player, index, rowHeight }) => {
 var row_Mudgeeraba_default2 = PlayerRowMudgeeraba;
 
 // src/compositions/cricket/top5/controller/PlayersDisplay/display-Mudgeeraba.tsx
-import { jsx as jsx268, jsxs as jsxs123 } from "react/jsx-runtime";
+import { jsx as jsx268, jsxs as jsxs122 } from "react/jsx-runtime";
 var PlayersDisplayMudgeeraba = ({ players, sponsors }) => {
   var _a, _b;
   const { layout } = useThemeContext();
@@ -25258,7 +25617,7 @@ var PlayersDisplayMudgeeraba = ({ players, sponsors }) => {
     assignSponsors: (_b = players[0]) == null ? void 0 : _b.assignSponsors,
     fallbackPrimary: sponsors,
   });
-  return /* @__PURE__ */ jsxs123("div", {
+  return /* @__PURE__ */ jsxs122("div", {
     className: "flex flex-col h-full mx-8",
     children: [
       /* @__PURE__ */ jsx268(AnimatedContainer, {
@@ -25315,7 +25674,7 @@ var mudgeeraba3 = () => {
 };
 
 // src/compositions/cricket/top5/controller/PlayersDisplay/display-BroadcastPro.tsx
-import { jsx as jsx270, jsxs as jsxs124 } from "react/jsx-runtime";
+import { jsx as jsx270, jsxs as jsxs123 } from "react/jsx-runtime";
 var GRID_CARD_HEIGHT_PX = 215;
 var FEATURED_TEAM_NAME_LENGTH_EXTRA = 10;
 var FeaturedCard = ({ player, delay, exitFrame }) => {
@@ -25340,7 +25699,7 @@ var FeaturedCard = ({ player, delay, exitFrame }) => {
       animationDelay: delay,
       exitAnimation: containerAnimation.containerOut,
       exitFrame,
-      children: /* @__PURE__ */ jsxs124(BroadcastProGlassPanel, {
+      children: /* @__PURE__ */ jsxs123(BroadcastProGlassPanel, {
         glass,
         className: cs("broadcastProPlayerRankingFeaturedInner"),
         children: [
@@ -25355,7 +25714,7 @@ var FeaturedCard = ({ player, delay, exitFrame }) => {
             selectedPalette,
             headingFont,
           }),
-          /* @__PURE__ */ jsxs124("div", {
+          /* @__PURE__ */ jsxs123("div", {
             className: cs("broadcastProPlayerRankingFeaturedBody"),
             children: [
               /* @__PURE__ */ jsx270(BroadcastProCrestWell, {
@@ -25366,7 +25725,7 @@ var FeaturedCard = ({ player, delay, exitFrame }) => {
                 glass,
                 showBorder: true,
               }),
-              /* @__PURE__ */ jsxs124("div", {
+              /* @__PURE__ */ jsxs123("div", {
                 className: "min-w-0 flex-1",
                 children: [
                   /* @__PURE__ */ jsx270("h2", {
@@ -25419,7 +25778,7 @@ var GridCard = ({ player, rank, index, exitFrame }) => {
       animationDelay: delay,
       exitAnimation: containerAnimation.containerOut,
       exitFrame,
-      children: /* @__PURE__ */ jsxs124(BroadcastProGlassPanel, {
+      children: /* @__PURE__ */ jsxs123(BroadcastProGlassPanel, {
         glass,
         className: cs("broadcastProPlayerRankingGridCard"),
         style: {
@@ -25447,7 +25806,7 @@ var GridCard = ({ player, rank, index, exitFrame }) => {
             glass,
             showBorder: true,
           }),
-          /* @__PURE__ */ jsxs124("div", {
+          /* @__PURE__ */ jsxs123("div", {
             className: "flex min-w-0 flex-1 flex-col justify-center overflow-visible",
             children: [
               /* @__PURE__ */ jsx270("h3", {
@@ -25497,7 +25856,7 @@ var PlayersDisplayBroadcastPro = ({ players, sponsors }) => {
     assignSponsors: (_b = players[0]) == null ? void 0 : _b.assignSponsors,
     fallbackPrimary: sponsors,
   });
-  return /* @__PURE__ */ jsxs124("div", {
+  return /* @__PURE__ */ jsxs123("div", {
     className: "flex w-full flex-col p-0",
     style: { height: `${compositionHeight}px` },
     children: [
@@ -25510,7 +25869,7 @@ var PlayersDisplayBroadcastPro = ({ players, sponsors }) => {
         style: { height: `${mainContentHeight}px` },
         children: /* @__PURE__ */ jsx270("div", {
           className: cs("broadcastProPlayerRankingScrollShell"),
-          children: /* @__PURE__ */ jsxs124("div", {
+          children: /* @__PURE__ */ jsxs123("div", {
             className: cs("broadcastProPlayerRankingContentStack"),
             children: [
               featured
@@ -25574,7 +25933,7 @@ var BroadcastPro3 = () => {
 };
 
 // src/compositions/cricket/top5/controller/PlayersDisplay/display-BroadcastProRounded.tsx
-import { jsx as jsx272, jsxs as jsxs125 } from "react/jsx-runtime";
+import { jsx as jsx272, jsxs as jsxs124 } from "react/jsx-runtime";
 var GRID_CARD_HEIGHT_PX2 = 215;
 var FEATURED_TEAM_NAME_LENGTH_EXTRA2 = 10;
 var FeaturedCard2 = ({ player, delay, exitFrame }) => {
@@ -25600,7 +25959,7 @@ var FeaturedCard2 = ({ player, delay, exitFrame }) => {
       animationDelay: delay,
       exitAnimation: containerAnimation.containerOut,
       exitFrame,
-      children: /* @__PURE__ */ jsxs125(BroadcastProRoundedGlassPanel, {
+      children: /* @__PURE__ */ jsxs124(BroadcastProRoundedGlassPanel, {
         glass,
         className: cs("broadcastProRoundedPlayerRankingFeaturedInner"),
         children: [
@@ -25615,7 +25974,7 @@ var FeaturedCard2 = ({ player, delay, exitFrame }) => {
             selectedPalette,
             headingFont,
           }),
-          /* @__PURE__ */ jsxs125("div", {
+          /* @__PURE__ */ jsxs124("div", {
             className: cs("broadcastProRoundedPlayerRankingFeaturedBody"),
             children: [
               /* @__PURE__ */ jsx272(BroadcastProRoundedCrestWell, {
@@ -25626,7 +25985,7 @@ var FeaturedCard2 = ({ player, delay, exitFrame }) => {
                 glass,
                 showBorder: true,
               }),
-              /* @__PURE__ */ jsxs125("div", {
+              /* @__PURE__ */ jsxs124("div", {
                 className: "min-w-0 flex-1",
                 children: [
                   /* @__PURE__ */ jsx272("h2", {
@@ -25680,7 +26039,7 @@ var GridCard2 = ({ player, rank, index, exitFrame }) => {
       animationDelay: delay,
       exitAnimation: containerAnimation.containerOut,
       exitFrame,
-      children: /* @__PURE__ */ jsxs125(BroadcastProRoundedGlassPanel, {
+      children: /* @__PURE__ */ jsxs124(BroadcastProRoundedGlassPanel, {
         glass,
         className: cs("broadcastProRoundedPlayerRankingGridCard"),
         style: {
@@ -25708,7 +26067,7 @@ var GridCard2 = ({ player, rank, index, exitFrame }) => {
             glass,
             showBorder: true,
           }),
-          /* @__PURE__ */ jsxs125("div", {
+          /* @__PURE__ */ jsxs124("div", {
             className: "flex min-w-0 flex-1 flex-col justify-center overflow-visible",
             children: [
               /* @__PURE__ */ jsx272("h3", {
@@ -25758,7 +26117,7 @@ var PlayersDisplayBroadcastProRounded = ({ players, sponsors }) => {
     assignSponsors: (_b = players[0]) == null ? void 0 : _b.assignSponsors,
     fallbackPrimary: sponsors,
   });
-  return /* @__PURE__ */ jsxs125("div", {
+  return /* @__PURE__ */ jsxs124("div", {
     className: "flex w-full flex-col p-0",
     style: { height: `${compositionHeight}px` },
     children: [
@@ -25771,7 +26130,7 @@ var PlayersDisplayBroadcastProRounded = ({ players, sponsors }) => {
         style: { height: `${mainContentHeight}px` },
         children: /* @__PURE__ */ jsx272("div", {
           className: cs("broadcastProRoundedPlayerRankingScrollShell"),
-          children: /* @__PURE__ */ jsxs125("div", {
+          children: /* @__PURE__ */ jsxs124("div", {
             className: cs("broadcastProRoundedPlayerRankingContentStack"),
             children: [
               featured
@@ -25836,11 +26195,11 @@ var BroadcastProRounded3 = () => {
 
 // src/compositions/cricket/results/modules/NoResultsData/no-data.tsx
 import { AbsoluteFill as AbsoluteFill33 } from "remotion";
-import { jsx as jsx274, jsxs as jsxs126 } from "react/jsx-runtime";
+import { jsx as jsx274, jsxs as jsxs125 } from "react/jsx-runtime";
 var NoResultsData = () => {
   return /* @__PURE__ */ jsx274(AbsoluteFill33, {
     className: "flex items-center justify-center bg-gray-900 text-white",
-    children: /* @__PURE__ */ jsxs126("div", {
+    children: /* @__PURE__ */ jsxs125("div", {
       className: "text-center",
       children: [
         /* @__PURE__ */ jsx274("h2", {
@@ -25873,7 +26232,7 @@ var formatMatchHeaderLeftText = (type, date, round = "") => {
 };
 
 // src/compositions/cricket/results/layout/Sections/MatchHeader/MatchHeader.tsx
-import { jsx as jsx275, jsxs as jsxs127 } from "react/jsx-runtime";
+import { jsx as jsx275, jsxs as jsxs126 } from "react/jsx-runtime";
 var MatchHeader = ({
   date,
   type,
@@ -25888,7 +26247,7 @@ var MatchHeader = ({
   const { animations } = useAnimationContext();
   const TextAnimations = animations.text.main;
   const leftText = formatMatchHeaderLeftText(type, date, round);
-  return /* @__PURE__ */ jsxs127(AnimatedContainer, {
+  return /* @__PURE__ */ jsxs126(AnimatedContainer, {
     type: "full",
     className: mergeWithPriority("w-full flex justify-between items-center p-4", className || ""),
     backgroundColor: "none",
@@ -25917,7 +26276,7 @@ var MatchHeader = ({
 var MatchHeader_default = MatchHeader;
 
 // src/compositions/cricket/results/layout/Sections/TeamsSection/ScoreOverNameWithLogo.tsx
-import { jsx as jsx276, jsxs as jsxs128 } from "react/jsx-runtime";
+import { jsx as jsx276, jsxs as jsxs127 } from "react/jsx-runtime";
 var ScoreOverNameWithLogo = ({
   type,
   homeTeam,
@@ -25941,13 +26300,13 @@ var ScoreOverNameWithLogo = ({
     style: outerContainer,
     animation: animations.container.main.itemContainer.containerIn,
     animationDelay: delay,
-    children: /* @__PURE__ */ jsxs128("div", {
+    children: /* @__PURE__ */ jsxs127("div", {
       className: "flex w-full justify-between items-center space-x-8",
       children: [
-        /* @__PURE__ */ jsxs128("div", {
+        /* @__PURE__ */ jsxs127("div", {
           className: "flex-1 flex flex-col items-start space-y-4",
           children: [
-            /* @__PURE__ */ jsxs128("div", {
+            /* @__PURE__ */ jsxs127("div", {
               className: "flex flex-col items-start",
               children: [
                 homeFirstInnings.show &&
@@ -25956,7 +26315,7 @@ var ScoreOverNameWithLogo = ({
                     animation: { ...TextAnimations.copyIn, delay: delay + 30 },
                     variant: "onContainerCopyNoBg",
                   }),
-                /* @__PURE__ */ jsxs128("div", {
+                /* @__PURE__ */ jsxs127("div", {
                   className: "flex flex-row items-center space-x-8 justify-start",
                   children: [
                     /* @__PURE__ */ jsx276("div", {
@@ -25984,7 +26343,7 @@ var ScoreOverNameWithLogo = ({
             }),
           ],
         }),
-        /* @__PURE__ */ jsxs128("div", {
+        /* @__PURE__ */ jsxs127("div", {
           className: "flex-1 flex flex-col items-end space-y-4",
           children: [
             awayFirstInnings.show &&
@@ -25993,7 +26352,7 @@ var ScoreOverNameWithLogo = ({
                 animation: { ...TextAnimations.copyIn, delay: delay + 30 },
                 variant: "onContainerCopyNoBg",
               }),
-            /* @__PURE__ */ jsxs128("div", {
+            /* @__PURE__ */ jsxs127("div", {
               className: "flex flex-row items-center space-x-8 justify-end",
               children: [
                 /* @__PURE__ */ jsx276(ResultScore, {
@@ -26025,7 +26384,7 @@ var ScoreOverNameWithLogo = ({
 };
 
 // src/compositions/cricket/results/layout/Sections/TeamsSection/TeamsSectionScoreOverTeamNameOnly.tsx
-import { jsx as jsx277, jsxs as jsxs129 } from "react/jsx-runtime";
+import { jsx as jsx277, jsxs as jsxs128 } from "react/jsx-runtime";
 var TeamsSectionScoreOverTeamNameOnly = ({
   homeTeam,
   awayTeam,
@@ -26075,13 +26434,13 @@ var TeamsSectionScoreOverTeamNameOnly = ({
     },
     animation: animations.container.main.itemContainer.containerIn,
     animationDelay: delay,
-    children: /* @__PURE__ */ jsxs129("div", {
+    children: /* @__PURE__ */ jsxs128("div", {
       className: "flex flex-col w-full",
       children: [
-        /* @__PURE__ */ jsxs129("div", {
+        /* @__PURE__ */ jsxs128("div", {
           className: "grid grid-cols-2 gap-6 justify-center items-start",
           children: [
-            /* @__PURE__ */ jsxs129("div", {
+            /* @__PURE__ */ jsxs128("div", {
               className: `flex flex-col ${getAlignmentClasses2("home")} justify-end`,
               children: [
                 homeFirstInnings.show &&
@@ -26098,7 +26457,7 @@ var TeamsSectionScoreOverTeamNameOnly = ({
                 }),
               ],
             }),
-            /* @__PURE__ */ jsxs129("div", {
+            /* @__PURE__ */ jsxs128("div", {
               className: `flex flex-col ${getAlignmentClasses2("away")} justify-end`,
               children: [
                 awayFirstInnings.show &&
@@ -26116,7 +26475,7 @@ var TeamsSectionScoreOverTeamNameOnly = ({
             }),
           ],
         }),
-        /* @__PURE__ */ jsxs129("div", {
+        /* @__PURE__ */ jsxs128("div", {
           className: "flex justify-center items-start space-x-6",
           children: [
             /* @__PURE__ */ jsx277("div", {
@@ -26143,7 +26502,7 @@ var TeamsSectionScoreOverTeamNameOnly = ({
 };
 
 // src/compositions/cricket/results/layout/Sections/TeamsSection/TeamsSectionLogoAndScore-BrickWork.tsx
-import { jsx as jsx278, jsxs as jsxs130 } from "react/jsx-runtime";
+import { jsx as jsx278, jsxs as jsxs129 } from "react/jsx-runtime";
 var TeamsSectionLogoAndScoreBrickWork = ({
   type,
   homeTeam,
@@ -26169,14 +26528,14 @@ var TeamsSectionLogoAndScoreBrickWork = ({
     style: outerContainer,
     animation: animations.container.main.itemContainer.containerIn,
     animationDelay: delay,
-    children: /* @__PURE__ */ jsxs130("div", {
+    children: /* @__PURE__ */ jsxs129("div", {
       className: "flex flex-row w-full h-full items-center justify-between gap-2",
       children: [
-        /* @__PURE__ */ jsxs130("div", {
+        /* @__PURE__ */ jsxs129("div", {
           className: "flex flex-row items-center justify-between flex-2 rounded h-full",
           style: backgroundColor ? { backgroundColor } : void 0,
           children: [
-            /* @__PURE__ */ jsxs130("div", {
+            /* @__PURE__ */ jsxs129("div", {
               className: "flex flex-1 flex-col items-center justify-center px-2 h-full",
               children: [
                 homeFirstInnings.show &&
@@ -26205,7 +26564,7 @@ var TeamsSectionLogoAndScoreBrickWork = ({
             }),
           ],
         }),
-        /* @__PURE__ */ jsxs130("div", {
+        /* @__PURE__ */ jsxs129("div", {
           className: "flex flex-row items-center justify-between flex-2 rounded h-full",
           style: backgroundColor ? { backgroundColor } : void 0,
           children: [
@@ -26216,7 +26575,7 @@ var TeamsSectionLogoAndScoreBrickWork = ({
               teamName: awayTeam.name,
               delay: delay + 20,
             }),
-            /* @__PURE__ */ jsxs130("div", {
+            /* @__PURE__ */ jsxs129("div", {
               className: "flex flex-1 flex-col items-center justify-center px-2 h-full",
               children: [
                 awayFirstInnings.show &&
@@ -26242,7 +26601,7 @@ var TeamsSectionLogoAndScoreBrickWork = ({
 };
 
 // src/compositions/cricket/results/layout/Sections/TeamsSection/Horizontal_SingleTeam_LogoWithName_Score.tsx
-import { jsx as jsx279, jsxs as jsxs131 } from "react/jsx-runtime";
+import { jsx as jsx279, jsxs as jsxs130 } from "react/jsx-runtime";
 var truncateText6 = (text, maxLength) => {
   if (!text || text.length <= maxLength) return text || "";
   return text.substring(0, maxLength - 3) + "...";
@@ -26291,13 +26650,13 @@ var Horizontal_SingleTeam_LogoWithName_Score = ({
     style: outerContainer,
     animation: animations.container.main.itemContainer.containerIn,
     animationDelay: delay,
-    children: /* @__PURE__ */ jsxs131("div", {
+    children: /* @__PURE__ */ jsxs130("div", {
       className: `flex w-full justify-between items-center  p-2 relative ${layout.borderRadius.container}`,
       style: {
         background: backgroundColor,
       },
       children: [
-        /* @__PURE__ */ jsxs131("div", {
+        /* @__PURE__ */ jsxs130("div", {
           className: "flex items-center flex-1 relative",
           children: [
             /* @__PURE__ */ jsx279("div", {
@@ -26318,7 +26677,7 @@ var Horizontal_SingleTeam_LogoWithName_Score = ({
             }),
           ],
         }),
-        /* @__PURE__ */ jsxs131(AnimatedContainer, {
+        /* @__PURE__ */ jsxs130(AnimatedContainer, {
           type: "full",
           backgroundColor: "none",
           className: `text-white px-4 py-2 font-bold text-lg flex items-center shadow-md ${layout.borderRadius.container}`,
@@ -26361,11 +26720,11 @@ var ResultPlayerScore = ({ value, animation, className, variant = DEFAULT_VARIAN
 };
 
 // src/compositions/cricket/results/layout/Sections/PlayerStats/PlayerStats-Basic.tsx
-import { jsx as jsx281, jsxs as jsxs132 } from "react/jsx-runtime";
+import { jsx as jsx281, jsxs as jsxs131 } from "react/jsx-runtime";
 var StatItem = ({ playerName, statValue, delay, index, textColor }) => {
   const { animations } = useAnimationContext();
   const TextAnimations = animations.text.main;
-  return /* @__PURE__ */ jsxs132("div", {
+  return /* @__PURE__ */ jsxs131("div", {
     className: "flex justify-between items-center py-1",
     children: [
       /* @__PURE__ */ jsx281(ResultPlayerName, {
@@ -26425,7 +26784,7 @@ var TeamStats = ({
   const bowlers = team.bowlingPerformances
     ? team.bowlingPerformances.slice(0, maxPlayersPerStat)
     : [];
-  return /* @__PURE__ */ jsxs132("div", {
+  return /* @__PURE__ */ jsxs131("div", {
     className: `flex-1 px-2 py-0 flex flex-col ${className}`,
     children: [
       showBatting &&
@@ -26475,7 +26834,7 @@ var PlayerStatsBasic = ({
     },
     animation: animations.container.main.itemContainer.containerIn,
     animationDelay: delay,
-    children: /* @__PURE__ */ jsxs132("div", {
+    children: /* @__PURE__ */ jsxs131("div", {
       className: "flex w-full h-full",
       children: [
         /* @__PURE__ */ jsx281(TeamStats, {
@@ -26506,13 +26865,13 @@ var truncateText7 = (text, maxLength) => {
 };
 
 // src/compositions/cricket/results/layout/Sections/MatchStatus/MatchStatus.tsx
-import { jsx as jsx282, jsxs as jsxs133 } from "react/jsx-runtime";
+import { jsx as jsx282, jsxs as jsxs132 } from "react/jsx-runtime";
 var MatchStatus = ({ status, result, delay, outerContainer }) => {
   const { animations } = useAnimationContext();
   const TextAnimations = animations.text.main;
   const { layout } = useThemeContext();
   const truncatedResult = truncateText7(result, 50);
-  return /* @__PURE__ */ jsxs133(AnimatedContainer, {
+  return /* @__PURE__ */ jsxs132(AnimatedContainer, {
     type: "full",
     className: `w-full flex justify-between items-center p-3 ${layout.borderRadius.container}`,
     backgroundColor: "none",
@@ -26576,12 +26935,12 @@ var getClubTeamPlayers = (match) => {
 };
 
 // src/compositions/cricket/results/layout/MatchCard/card-Basic.tsx
-import { jsx as jsx283, jsxs as jsxs134 } from "react/jsx-runtime";
+import { jsx as jsx283, jsxs as jsxs133 } from "react/jsx-runtime";
 var MatchCardBasic = ({ match, rowHeight, delay }) => {
   const { selectedPalette } = useThemeContext();
   const { teamsHeight, statsHeight, headerHeight } = calculateSectionHeights(rowHeight);
   const { baseDelay, statsDelay, headerDelay } = calculateDelays(delay);
-  return /* @__PURE__ */ jsxs134("div", {
+  return /* @__PURE__ */ jsxs133("div", {
     className: "rounded-lg w-auto mx-8 overflow-hidden h-full",
     children: [
       /* @__PURE__ */ jsx283(ScoreOverNameWithLogo, {
@@ -26657,11 +27016,11 @@ var ResultStatementShort = ({
 };
 
 // src/compositions/cricket/results/layout/Sections/PlayerStats/PlayerStats-clubOnly-Basic.tsx
-import { jsx as jsx285, jsxs as jsxs135 } from "react/jsx-runtime";
+import { jsx as jsx285, jsxs as jsxs134 } from "react/jsx-runtime";
 var StatItem2 = ({ playerName, statValue, delay, index, textColor }) => {
   const { animations } = useAnimationContext();
   const TextAnimations = animations.text.main;
-  return /* @__PURE__ */ jsxs135("div", {
+  return /* @__PURE__ */ jsxs134("div", {
     className: "flex justify-between items-center py-1",
     children: [
       /* @__PURE__ */ jsx285(ResultPlayerName, {
@@ -26721,7 +27080,7 @@ var TeamStats2 = ({
   const bowlers = team.bowlingPerformances
     ? team.bowlingPerformances.slice(0, maxPlayersPerStat)
     : [];
-  return /* @__PURE__ */ jsxs135("div", {
+  return /* @__PURE__ */ jsxs134("div", {
     className: `flex-1 px-2 py-0 flex flex-row gap-4 ${className}`,
     children: [
       showBatting &&
@@ -26799,12 +27158,12 @@ var PlayerStatsClubOnlyBasic = ({
 var PlayerStats_clubOnly_Basic_default = PlayerStatsClubOnlyBasic;
 
 // src/compositions/cricket/results/layout/MatchCard/card-Basic-clubOnly.tsx
-import { jsx as jsx286, jsxs as jsxs136 } from "react/jsx-runtime";
+import { jsx as jsx286, jsxs as jsxs135 } from "react/jsx-runtime";
 var MatchCardBasicClubOnly = ({ match, rowHeight, delay }) => {
   const { selectedPalette } = useThemeContext();
   const { teamsHeight, statsHeight, headerHeight } = calculateSectionHeights(rowHeight);
   const { baseDelay, statsDelay, headerDelay } = calculateDelays(delay);
-  return /* @__PURE__ */ jsxs136("div", {
+  return /* @__PURE__ */ jsxs135("div", {
     className: "rounded-lg w-auto mx-8 overflow-hidden h-full",
     children: [
       /* @__PURE__ */ jsx286(ScoreOverNameWithLogo, {
@@ -26919,12 +27278,23 @@ var calculateDisplayedResults = (results5, resultsPerScreen, screenIndex) => {
 var calculateRowHeight = (availableHeight) => {
   return Math.floor(availableHeight / 2);
 };
+var BROADCAST_PRO_RESULTS_GAP_PX = 30;
+var calculateBroadcastProResultsLayout = (availableHeight, resultCount) => {
+  if (resultCount <= 0) return { listHeight: 0, rowHeight: 0 };
+  const listHeight =
+    resultCount === 1 ? Math.min(availableHeight, 620) : Math.min(availableHeight, 800);
+  const totalGap = BROADCAST_PRO_RESULTS_GAP_PX * (resultCount - 1);
+  return {
+    listHeight,
+    rowHeight: Math.floor((listHeight - totalGap) / resultCount),
+  };
+};
 var buildResultsFooterSponsors = (displayedResults) => {
   return buildMultiRowFooterSponsors(displayedResults);
 };
 
 // src/compositions/cricket/results/controller/ResultsDisplay/display-Basic.tsx
-import { jsx as jsx288, jsxs as jsxs137 } from "react/jsx-runtime";
+import { jsx as jsx288, jsxs as jsxs136 } from "react/jsx-runtime";
 var ResultsDisplayBasic = ({ results: results5, resultsPerScreen, screenIndex }) => {
   const { layout } = useThemeContext();
   const { heights } = layout;
@@ -26932,7 +27302,7 @@ var ResultsDisplayBasic = ({ results: results5, resultsPerScreen, screenIndex })
   const availableHeight = heights.asset;
   const rowHeight = calculateRowHeight(availableHeight);
   const footerSponsors = buildResultsFooterSponsors(displayedResults);
-  return /* @__PURE__ */ jsxs137("div", {
+  return /* @__PURE__ */ jsxs136("div", {
     className: "flex flex-col h-full w-full",
     children: [
       /* @__PURE__ */ jsx288("div", {
@@ -27029,7 +27399,7 @@ var Basic4 = () => {
 };
 
 // src/compositions/cricket/results/layout/Sections/MatchHeader/MatchHeaderBrickWork.tsx
-import { jsx as jsx290, jsxs as jsxs138 } from "react/jsx-runtime";
+import { jsx as jsx290, jsxs as jsxs137 } from "react/jsx-runtime";
 var MatchHeaderBrickWork = ({ date, type, round, grade, height, delay, className }) => {
   var _a, _b, _c, _d, _e, _f;
   const { animations } = useAnimationContext();
@@ -27052,7 +27422,7 @@ var MatchHeaderBrickWork = ({ date, type, round, grade, height, delay, className
       ? _f
       : "Roboto";
   const leftText = formatMatchHeaderLeftText(type, date, round);
-  return /* @__PURE__ */ jsxs138(AnimatedContainer, {
+  return /* @__PURE__ */ jsxs137(AnimatedContainer, {
     type: "full",
     className: `w-full flex justify-between items-center px-2 ${className || ""}`,
     backgroundColor: "none",
@@ -27081,11 +27451,11 @@ var MatchHeaderBrickWork = ({ date, type, round, grade, height, delay, className
 var MatchHeaderBrickWork_default = MatchHeaderBrickWork;
 
 // src/compositions/cricket/results/layout/Sections/PlayerStats/PlayerStats-BrickWork.tsx
-import { jsx as jsx291, jsxs as jsxs139 } from "react/jsx-runtime";
+import { jsx as jsx291, jsxs as jsxs138 } from "react/jsx-runtime";
 var StatItem3 = ({ playerName, statValue, delay, index, outerContainer, innerContainer }) => {
   const { animations } = useAnimationContext();
   const TextAnimations = animations.text.main;
-  return /* @__PURE__ */ jsxs139("div", {
+  return /* @__PURE__ */ jsxs138("div", {
     className: "flex  flex-row  justify-between items-center py-1 px-2 ",
     style: outerContainer,
     children: [
@@ -27153,7 +27523,7 @@ var TeamStats3 = ({
   const bowlers = team.bowlingPerformances
     ? team.bowlingPerformances.slice(0, maxPlayersPerStat)
     : [];
-  return /* @__PURE__ */ jsxs139("div", {
+  return /* @__PURE__ */ jsxs138("div", {
     className: `flex-1 px-0 py-0 flex flex-col gap-1 ${className}`,
     children: [
       showBatting &&
@@ -27214,7 +27584,7 @@ var PlayerStatsBrickWork = ({
     },
     animation: animations.container.main.itemContainer.containerIn,
     animationDelay: delay,
-    children: /* @__PURE__ */ jsxs139("div", {
+    children: /* @__PURE__ */ jsxs138("div", {
       className: "flex w-full h-full gap-2 mt-2",
       children: [
         /* @__PURE__ */ jsx291(TeamStats3, {
@@ -27239,12 +27609,12 @@ var PlayerStatsBrickWork = ({
 var PlayerStats_BrickWork_default = PlayerStatsBrickWork;
 
 // src/compositions/cricket/results/layout/MatchCard/card-BrickWork.tsx
-import { jsx as jsx292, jsxs as jsxs140 } from "react/jsx-runtime";
+import { jsx as jsx292, jsxs as jsxs139 } from "react/jsx-runtime";
 var MatchCardBrickWork = ({ match, rowHeight, delay }) => {
   const { selectedPalette } = useThemeContext();
   const { teamsHeight, statsHeight, headerHeight } = calculateSectionHeights(rowHeight);
   const { baseDelay, statsDelay, headerDelay } = calculateDelays(delay);
-  return /* @__PURE__ */ jsxs140("div", {
+  return /* @__PURE__ */ jsxs139("div", {
     className: "rounded-none w-auto mx-8 overflow-hidden h-full",
     children: [
       /* @__PURE__ */ jsx292(TeamsSectionLogoAndScoreBrickWork, {
@@ -27294,11 +27664,11 @@ var MatchCardBrickWork = ({ match, rowHeight, delay }) => {
 var card_BrickWork_default = MatchCardBrickWork;
 
 // src/compositions/cricket/results/layout/Sections/PlayerStats/PlayerStats-clubOnly-BrickWork.tsx
-import { jsx as jsx293, jsxs as jsxs141 } from "react/jsx-runtime";
+import { jsx as jsx293, jsxs as jsxs140 } from "react/jsx-runtime";
 var StatItem4 = ({ playerName, statValue, delay, index, outerContainer, innerContainer }) => {
   const { animations } = useAnimationContext();
   const TextAnimations = animations.text.main;
-  return /* @__PURE__ */ jsxs141("div", {
+  return /* @__PURE__ */ jsxs140("div", {
     className: "flex  flex-row  justify-between items-center py-1 px-2 mb-1",
     style: outerContainer,
     children: [
@@ -27366,7 +27736,7 @@ var TeamStats4 = ({
   const bowlers = team.bowlingPerformances
     ? team.bowlingPerformances.slice(0, maxPlayersPerStat)
     : [];
-  return /* @__PURE__ */ jsxs141("div", {
+  return /* @__PURE__ */ jsxs140("div", {
     className: `w-full px-0 py-0 flex flex-row gap-4 ${className}`,
     children: [
       showBatting &&
@@ -27460,12 +27830,12 @@ var PlayerStatsClubOnlyBrickWork = ({
 var PlayerStats_clubOnly_BrickWork_default = PlayerStatsClubOnlyBrickWork;
 
 // src/compositions/cricket/results/layout/MatchCard/card-BrickWork-clubOnly.tsx
-import { jsx as jsx294, jsxs as jsxs142 } from "react/jsx-runtime";
+import { jsx as jsx294, jsxs as jsxs141 } from "react/jsx-runtime";
 var MatchCardBrickWorkClubOnly = ({ match, rowHeight, delay }) => {
   const { selectedPalette } = useThemeContext();
   const { teamsHeight, statsHeight, headerHeight } = calculateSectionHeights(rowHeight);
   const { baseDelay, statsDelay, headerDelay } = calculateDelays(delay);
-  return /* @__PURE__ */ jsxs142("div", {
+  return /* @__PURE__ */ jsxs141("div", {
     className: "rounded-none w-auto mx-8 overflow-hidden h-full",
     children: [
       /* @__PURE__ */ jsx294(TeamsSectionLogoAndScoreBrickWork, {
@@ -27562,7 +27932,7 @@ var MatchRowBrickWork = ({ match, index, rowHeight }) => {
 var row_Brickwork_default = MatchRowBrickWork;
 
 // src/compositions/cricket/results/controller/ResultsDisplay/display-BrickWork.tsx
-import { jsx as jsx296, jsxs as jsxs143 } from "react/jsx-runtime";
+import { jsx as jsx296, jsxs as jsxs142 } from "react/jsx-runtime";
 var ResultsDisplayBrickWork = ({ results: results5, resultsPerScreen, screenIndex }) => {
   const { layout } = useThemeContext();
   const { heights } = layout;
@@ -27570,7 +27940,7 @@ var ResultsDisplayBrickWork = ({ results: results5, resultsPerScreen, screenInde
   const availableHeight = heights.asset;
   const rowHeight = calculateBrickworkStackItemHeight(availableHeight, displayedResults.length);
   const footerSponsors = buildResultsFooterSponsors(displayedResults);
-  return /* @__PURE__ */ jsxs143("div", {
+  return /* @__PURE__ */ jsxs142("div", {
     className: "flex flex-col h-full w-full",
     children: [
       /* @__PURE__ */ jsx296("div", {
@@ -27675,12 +28045,12 @@ var SingleDataPointHeader2 = ({
 var SingleDataPointHeader_default = SingleDataPointHeader2;
 
 // src/compositions/cricket/results/layout/Sections/PlayerStats/PlayerStats-SingleTeamOnly.tsx
-import { jsx as jsx299, jsxs as jsxs144 } from "react/jsx-runtime";
+import { jsx as jsx299, jsxs as jsxs143 } from "react/jsx-runtime";
 var StatItem5 = ({ playerName, statValue, delay, index, textColor, backgroundColor }) => {
   const { animations } = useAnimationContext();
   const TextAnimations = animations.text.main;
   const { layout } = useThemeContext();
-  return /* @__PURE__ */ jsxs144("div", {
+  return /* @__PURE__ */ jsxs143("div", {
     className: `flex justify-between items-center py-2  px-4 mb-1 ${layout.borderRadius.container}`,
     style: { background: backgroundColor },
     children: [
@@ -27746,7 +28116,7 @@ var TeamStats5 = ({
     ? team.bowlingPerformances.slice(0, maxPlayersPerStat)
     : [];
   const gridCols = showBatting && showBowling ? "grid-cols-2" : "grid-cols-1";
-  return /* @__PURE__ */ jsxs144("div", {
+  return /* @__PURE__ */ jsxs143("div", {
     className: `w-full px-2 py-0 grid ${gridCols} gap-4 ${className}`,
     children: [
       showBatting &&
@@ -27802,11 +28172,11 @@ var PlayerStatsSingleTeamOnly = ({
 var PlayerStats_SingleTeamOnly_default = PlayerStatsSingleTeamOnly;
 
 // src/compositions/cricket/results/layout/MatchCard/card-Sixers-thunder.tsx
-import { Fragment as Fragment12, jsx as jsx300, jsxs as jsxs145 } from "react/jsx-runtime";
+import { Fragment as Fragment11, jsx as jsx300, jsxs as jsxs144 } from "react/jsx-runtime";
 var MatchCardSixersThunder = ({ match, rowHeight, delay }) => {
   const { teamsHeight, statsHeight, headerHeight } = calculateSectionHeights(rowHeight);
   const { baseDelay, statsDelay, headerDelay } = calculateDelays(delay);
-  return /* @__PURE__ */ jsxs145("div", {
+  return /* @__PURE__ */ jsxs144("div", {
     className: "w-auto mx-8 overflow-hidden h-full",
     children: [
       /* @__PURE__ */ jsx300(SingleDataPointHeader_default, {
@@ -27816,7 +28186,7 @@ var MatchCardSixersThunder = ({ match, rowHeight, delay }) => {
         backgroundColor: "transparent",
         align: "right",
       }),
-      /* @__PURE__ */ jsxs145(Fragment12, {
+      /* @__PURE__ */ jsxs144(Fragment11, {
         children: [
           /* @__PURE__ */ jsx300(Horizontal_SingleTeam_LogoWithName_Score, {
             type: match.type,
@@ -27859,7 +28229,7 @@ var MatchCardSixersThunder = ({ match, rowHeight, delay }) => {
 var card_Sixers_thunder_default = MatchCardSixersThunder;
 
 // src/compositions/cricket/results/layout/MatchCard/card-Sixers-thunder-clubOnly.tsx
-import { Fragment as Fragment13, jsx as jsx301, jsxs as jsxs146 } from "react/jsx-runtime";
+import { Fragment as Fragment12, jsx as jsx301, jsxs as jsxs145 } from "react/jsx-runtime";
 var MatchCardSixersThunderClubOnly = ({ match, rowHeight, delay }) => {
   const clubTeamPlayers = getClubTeamPlayers(match);
   const clubTeam = match.homeTeam.isClubTeam
@@ -27878,7 +28248,7 @@ var MatchCardSixersThunderClubOnly = ({ match, rowHeight, delay }) => {
   const { teamsHeight, statsHeight, headerHeight } = calculateSectionHeights(rowHeight);
   const { baseDelay, statsDelay, headerDelay } = calculateDelays(delay);
   const isHomeTeam = match.homeTeam.isClubTeam;
-  return /* @__PURE__ */ jsxs146("div", {
+  return /* @__PURE__ */ jsxs145("div", {
     className: "w-auto mx-8 overflow-hidden h-full",
     children: [
       match.resultShort &&
@@ -27889,7 +28259,7 @@ var MatchCardSixersThunderClubOnly = ({ match, rowHeight, delay }) => {
           backgroundColor: "transparent",
           align: "right",
         }),
-      /* @__PURE__ */ jsxs146(Fragment13, {
+      /* @__PURE__ */ jsxs145(Fragment12, {
         children: [
           /* @__PURE__ */ jsx301(Horizontal_SingleTeam_LogoWithName_Score, {
             type: match.type,
@@ -27986,7 +28356,7 @@ var MatchRowSixersThunder = ({ match, index, rowHeight }) => {
 var row_Sixers_thunder_default = MatchRowSixersThunder;
 
 // src/compositions/cricket/results/controller/ResultsDisplay/display-Sixers-thunder.tsx
-import { jsx as jsx303, jsxs as jsxs147 } from "react/jsx-runtime";
+import { jsx as jsx303, jsxs as jsxs146 } from "react/jsx-runtime";
 var ResultsDisplaySixersThunder = ({ results: results5, resultsPerScreen, screenIndex }) => {
   const { layout } = useThemeContext();
   const { heights } = layout;
@@ -27994,7 +28364,7 @@ var ResultsDisplaySixersThunder = ({ results: results5, resultsPerScreen, screen
   const availableHeight = heights.asset;
   const rowHeight = calculateRowHeight(availableHeight);
   const footerSponsors = buildResultsFooterSponsors(displayedResults);
-  return /* @__PURE__ */ jsxs147("div", {
+  return /* @__PURE__ */ jsxs146("div", {
     className: "flex flex-col h-full w-full",
     children: [
       /* @__PURE__ */ jsx303("div", {
@@ -28071,7 +28441,7 @@ var SixersThunder3 = () => {
 var sixersThunder_default2 = SixersThunder3;
 
 // src/compositions/cricket/results/layout/Sections/TeamsSection/Horizontal_SingleTeam_LogoWithName_Score-Classic.tsx
-import { jsx as jsx305, jsxs as jsxs148 } from "react/jsx-runtime";
+import { jsx as jsx305, jsxs as jsxs147 } from "react/jsx-runtime";
 var truncateText8 = (text, maxLength) => {
   if (!text || text.length <= maxLength) return text || "";
   return text.substring(0, maxLength - 3) + "...";
@@ -28119,13 +28489,13 @@ var Horizontal_SingleTeam_LogoWithName_ScoreClassic = ({
     style: outerContainer,
     animation: animations.container.main.itemContainer.containerIn,
     animationDelay: delay,
-    children: /* @__PURE__ */ jsxs148("div", {
+    children: /* @__PURE__ */ jsxs147("div", {
       className: `flex w-full justify-between items-center p-2 relative ${layout.borderRadius.container}`,
       style: {
         background: backgroundColor,
       },
       children: [
-        /* @__PURE__ */ jsxs148("div", {
+        /* @__PURE__ */ jsxs147("div", {
           className: "flex items-center flex-1 relative min-w-0",
           children: [
             /* @__PURE__ */ jsx305("div", {
@@ -28151,7 +28521,7 @@ var Horizontal_SingleTeam_LogoWithName_ScoreClassic = ({
           backgroundColor: "none",
           animation: animations.container.main.itemContainerInner.containerIn,
           animationDelay: delay + 15,
-          children: /* @__PURE__ */ jsxs148(ClassicStatWell, {
+          children: /* @__PURE__ */ jsxs147(ClassicStatWell, {
             variant: "recessed",
             width: "fit",
             className: "px-4 py-2 flex-shrink-0",
@@ -28177,12 +28547,12 @@ var Horizontal_SingleTeam_LogoWithName_ScoreClassic = ({
 };
 
 // src/compositions/cricket/results/layout/Sections/PlayerStats/PlayerStats-SingleTeamOnly-Classic.tsx
-import { jsx as jsx306, jsxs as jsxs149 } from "react/jsx-runtime";
+import { jsx as jsx306, jsxs as jsxs148 } from "react/jsx-runtime";
 var StatItemClassic = ({ playerName, statValue, delay, index, textColor, backgroundColor }) => {
   const { animations } = useAnimationContext();
   const TextAnimations = animations.text.main;
   const { layout } = useThemeContext();
-  return /* @__PURE__ */ jsxs149("div", {
+  return /* @__PURE__ */ jsxs148("div", {
     className: `flex justify-between items-center py-2 px-4 mb-1 gap-2 ${layout.borderRadius.container}`,
     style: { background: backgroundColor },
     children: [
@@ -28254,7 +28624,7 @@ var TeamStatsClassic = ({
     ? team.bowlingPerformances.slice(0, maxPlayersPerStat)
     : [];
   const gridCols = showBatting && showBowling ? "grid-cols-2" : "grid-cols-1";
-  return /* @__PURE__ */ jsxs149("div", {
+  return /* @__PURE__ */ jsxs148("div", {
     className: `w-full px-2 py-0 grid ${gridCols} gap-4 ${className}`,
     children: [
       showBatting &&
@@ -28308,11 +28678,11 @@ var PlayerStatsSingleTeamOnlyClassic = ({
 };
 
 // src/compositions/cricket/results/layout/MatchCard/card-classic.tsx
-import { jsx as jsx307, jsxs as jsxs150 } from "react/jsx-runtime";
+import { jsx as jsx307, jsxs as jsxs149 } from "react/jsx-runtime";
 var MatchCardClassic = ({ match, rowHeight, delay }) => {
   const { teamsHeight, statsHeight, headerHeight } = calculateSectionHeights(rowHeight);
   const { baseDelay, statsDelay, headerDelay } = calculateDelays(delay);
-  return /* @__PURE__ */ jsxs150("div", {
+  return /* @__PURE__ */ jsxs149("div", {
     className: "w-auto mx-8 overflow-hidden h-full",
     children: [
       /* @__PURE__ */ jsx307(SingleDataPointHeader_default, {
@@ -28361,7 +28731,7 @@ var MatchCardClassic = ({ match, rowHeight, delay }) => {
 var card_classic_default = MatchCardClassic;
 
 // src/compositions/cricket/results/layout/MatchCard/card-classic-clubOnly.tsx
-import { jsx as jsx308, jsxs as jsxs151 } from "react/jsx-runtime";
+import { jsx as jsx308, jsxs as jsxs150 } from "react/jsx-runtime";
 var MatchCardClassicClubOnly = ({ match, rowHeight, delay }) => {
   const clubTeamPlayers = getClubTeamPlayers(match);
   const clubTeam = match.homeTeam.isClubTeam
@@ -28380,7 +28750,7 @@ var MatchCardClassicClubOnly = ({ match, rowHeight, delay }) => {
   const { teamsHeight, statsHeight, headerHeight } = calculateSectionHeights(rowHeight);
   const { baseDelay, statsDelay, headerDelay } = calculateDelays(delay);
   const isHomeTeam = match.homeTeam.isClubTeam;
-  return /* @__PURE__ */ jsxs151("div", {
+  return /* @__PURE__ */ jsxs150("div", {
     className: "w-auto mx-8 overflow-hidden h-full",
     children: [
       match.resultShort &&
@@ -28484,7 +28854,7 @@ var MatchRowClassic = ({ match, index, rowHeight }) => {
 var row_Classic_default2 = MatchRowClassic;
 
 // src/compositions/cricket/results/controller/ResultsDisplay/display-Classic.tsx
-import { jsx as jsx310, jsxs as jsxs152 } from "react/jsx-runtime";
+import { jsx as jsx310, jsxs as jsxs151 } from "react/jsx-runtime";
 var ResultsDisplayClassic = ({ results: results5, resultsPerScreen, screenIndex }) => {
   const { layout } = useThemeContext();
   const { heights } = layout;
@@ -28492,7 +28862,7 @@ var ResultsDisplayClassic = ({ results: results5, resultsPerScreen, screenIndex 
   const availableHeight = heights.asset;
   const rowHeight = calculateRowHeight(availableHeight);
   const footerSponsors = buildResultsFooterSponsors(displayedResults);
-  return /* @__PURE__ */ jsxs152("div", {
+  return /* @__PURE__ */ jsxs151("div", {
     className: "flex flex-col h-full w-full",
     children: [
       /* @__PURE__ */ jsx310("div", {
@@ -28569,13 +28939,13 @@ var Classic4 = () => {
 var classic_default = Classic4;
 
 // src/compositions/cricket/results/layout/MatchCard/card-classic-twocolumn.tsx
-import { jsx as jsx312, jsxs as jsxs153 } from "react/jsx-runtime";
+import { jsx as jsx312, jsxs as jsxs152 } from "react/jsx-runtime";
 var MatchCardClassicTwoColumn = ({ match, rowHeight, delay }) => {
   const { teamsHeight, statsHeight, headerHeight } = calculateSectionHeights(rowHeight);
   const { baseDelay, statsDelay, headerDelay } = calculateDelays(delay);
   return /* @__PURE__ */ jsx312("div", {
     className: "w-full mx-0 overflow-hidden h-full flex flex-col justify-center ",
-    children: /* @__PURE__ */ jsxs153("div", {
+    children: /* @__PURE__ */ jsxs152("div", {
       children: [
         /* @__PURE__ */ jsx312(SingleDataPointHeader_default, {
           grade: `${match.result} | ${match.gradeName}`,
@@ -28584,7 +28954,7 @@ var MatchCardClassicTwoColumn = ({ match, rowHeight, delay }) => {
           backgroundColor: "transparent",
           align: "right",
         }),
-        /* @__PURE__ */ jsxs153("div", {
+        /* @__PURE__ */ jsxs152("div", {
           children: [
             /* @__PURE__ */ jsx312(Horizontal_SingleTeam_LogoWithName_Score, {
               type: match.type,
@@ -28628,7 +28998,7 @@ var MatchCardClassicTwoColumn = ({ match, rowHeight, delay }) => {
 var card_classic_twocolumn_default = MatchCardClassicTwoColumn;
 
 // src/compositions/cricket/results/layout/MatchCard/card-classic-twocolumn-clubOnly.tsx
-import { jsx as jsx313, jsxs as jsxs154 } from "react/jsx-runtime";
+import { jsx as jsx313, jsxs as jsxs153 } from "react/jsx-runtime";
 var MatchCardClassicTwoColumnClubOnly = ({ match, rowHeight, delay }) => {
   const clubTeamPlayers = getClubTeamPlayers(match);
   const clubTeam = match.homeTeam.isClubTeam
@@ -28649,7 +29019,7 @@ var MatchCardClassicTwoColumnClubOnly = ({ match, rowHeight, delay }) => {
   const isHomeTeam = match.homeTeam.isClubTeam;
   return /* @__PURE__ */ jsx313("div", {
     className: "w-full mx-0 overflow-hidden h-full flex flex-col justify-center ",
-    children: /* @__PURE__ */ jsxs154("div", {
+    children: /* @__PURE__ */ jsxs153("div", {
       children: [
         match.resultShort &&
           /* @__PURE__ */ jsx313(SingleDataPointHeader_default, {
@@ -28659,7 +29029,7 @@ var MatchCardClassicTwoColumnClubOnly = ({ match, rowHeight, delay }) => {
             backgroundColor: "transparent",
             align: "right",
           }),
-        /* @__PURE__ */ jsxs154("div", {
+        /* @__PURE__ */ jsxs153("div", {
           children: [
             /* @__PURE__ */ jsx313(Horizontal_SingleTeam_LogoWithName_Score, {
               type: match.type,
@@ -28752,7 +29122,7 @@ var MatchRowClassicTwoColumn = ({ match, index, rowHeight }) => {
 var row_Classic_Twocolumn_default = MatchRowClassicTwoColumn;
 
 // src/compositions/cricket/results/controller/ResultsDisplay/display-ClassicTwoColumn.tsx
-import { jsx as jsx315, jsxs as jsxs155 } from "react/jsx-runtime";
+import { jsx as jsx315, jsxs as jsxs154 } from "react/jsx-runtime";
 var ResultsDisplayClassicTwoColumn = ({ results: results5, resultsPerScreen, screenIndex }) => {
   const { layout } = useThemeContext();
   const { heights } = layout;
@@ -28760,7 +29130,7 @@ var ResultsDisplayClassicTwoColumn = ({ results: results5, resultsPerScreen, scr
   const availableHeight = heights.asset;
   const rowHeight = calculateRowHeight(availableHeight);
   const footerSponsors = buildResultsFooterSponsors(displayedResults);
-  return /* @__PURE__ */ jsxs155("div", {
+  return /* @__PURE__ */ jsxs154("div", {
     className: "flex flex-col h-full w-full",
     children: [
       /* @__PURE__ */ jsx315("div", {
@@ -28837,12 +29207,12 @@ var TwoColumn = () => {
 var classicTwoColumn_default2 = TwoColumn;
 
 // src/compositions/cricket/results/layout/Sections/PlayerStats/PlayerStats-CNSW.tsx
-import { jsx as jsx317, jsxs as jsxs156 } from "react/jsx-runtime";
+import { jsx as jsx317, jsxs as jsxs155 } from "react/jsx-runtime";
 var StatItem6 = ({ playerName, statValue, delay, index, textColor }) => {
   const { animations } = useAnimationContext();
   const TextAnimations = animations.text.main;
   const { selectedPalette } = useThemeContext();
-  return /* @__PURE__ */ jsxs156("div", {
+  return /* @__PURE__ */ jsxs155("div", {
     className: "flex justify-between items-center py-1 mb-1 pr-1 pl-4",
     style: {
       background: selectedPalette.container.backgroundTransparent.high,
@@ -28912,7 +29282,7 @@ var TeamStats6 = ({
   const bowlers = team.bowlingPerformances
     ? team.bowlingPerformances.slice(0, maxPlayersPerStat)
     : [];
-  return /* @__PURE__ */ jsxs156("div", {
+  return /* @__PURE__ */ jsxs155("div", {
     className: `flex-1 px-2 py-0 flex flex-col ${className}`,
     children: [
       showBatting &&
@@ -28962,7 +29332,7 @@ var PlayerStatsCNSW = ({
     },
     animation: animations.container.main.itemContainer.containerIn,
     animationDelay: delay,
-    children: /* @__PURE__ */ jsxs156("div", {
+    children: /* @__PURE__ */ jsxs155("div", {
       className: "flex w-full h-full",
       children: [
         /* @__PURE__ */ jsx317(TeamStats6, {
@@ -28987,12 +29357,12 @@ var PlayerStatsCNSW = ({
 var PlayerStats_CNSW_default = PlayerStatsCNSW;
 
 // src/compositions/cricket/results/layout/MatchCard/card-CNSW.tsx
-import { jsx as jsx318, jsxs as jsxs157 } from "react/jsx-runtime";
+import { jsx as jsx318, jsxs as jsxs156 } from "react/jsx-runtime";
 var MatchCardCNSW = ({ match, rowHeight, delay }) => {
   const { layout } = useThemeContext();
   const { teamsHeight, statsHeight, headerHeight } = calculateSectionHeights(rowHeight);
   const { baseDelay, statsDelay, headerDelay } = calculateDelays(delay);
-  return /* @__PURE__ */ jsxs157("div", {
+  return /* @__PURE__ */ jsxs156("div", {
     className: `${layout.borderRadius.container} w-auto mx-8 overflow-hidden h-full`,
     children: [
       /* @__PURE__ */ jsx318(TeamsSectionScoreOverTeamNameOnly, {
@@ -29034,12 +29404,12 @@ var MatchCardCNSW = ({ match, rowHeight, delay }) => {
 var card_CNSW_default = MatchCardCNSW;
 
 // src/compositions/cricket/results/layout/Sections/PlayerStats/PlayerStats-clubOnly-CNSW.tsx
-import { jsx as jsx319, jsxs as jsxs158 } from "react/jsx-runtime";
+import { jsx as jsx319, jsxs as jsxs157 } from "react/jsx-runtime";
 var StatItem7 = ({ playerName, statValue, delay, index, textColor }) => {
   const { animations } = useAnimationContext();
   const TextAnimations = animations.text.main;
   const { selectedPalette } = useThemeContext();
-  return /* @__PURE__ */ jsxs158("div", {
+  return /* @__PURE__ */ jsxs157("div", {
     className: "flex justify-between items-center py-1 mb-1 pr-1 pl-4",
     style: {
       background: selectedPalette.container.backgroundTransparent.high,
@@ -29108,7 +29478,7 @@ var TeamStats7 = ({
   const bowlers = team.bowlingPerformances
     ? team.bowlingPerformances.slice(0, maxPlayersPerStat)
     : [];
-  return /* @__PURE__ */ jsxs158("div", {
+  return /* @__PURE__ */ jsxs157("div", {
     className: `w-full px-2 py-0 flex flex-row gap-4 ${className}`,
     children: [
       showBatting &&
@@ -29190,12 +29560,12 @@ var PlayerStatsClubOnlyCNSW = ({
 var PlayerStats_clubOnly_CNSW_default = PlayerStatsClubOnlyCNSW;
 
 // src/compositions/cricket/results/layout/MatchCard/card-CNSW-clubOnly.tsx
-import { jsx as jsx320, jsxs as jsxs159 } from "react/jsx-runtime";
+import { jsx as jsx320, jsxs as jsxs158 } from "react/jsx-runtime";
 var MatchCardCNSWClubOnly = ({ match, rowHeight, delay }) => {
   const { layout } = useThemeContext();
   const { teamsHeight, statsHeight, headerHeight } = calculateSectionHeights(rowHeight);
   const { baseDelay, statsDelay, headerDelay } = calculateDelays(delay);
-  return /* @__PURE__ */ jsxs159("div", {
+  return /* @__PURE__ */ jsxs158("div", {
     className: `${layout.borderRadius.container} w-auto mx-8 overflow-hidden h-full`,
     children: [
       /* @__PURE__ */ jsx320(TeamsSectionScoreOverTeamNameOnly, {
@@ -29284,7 +29654,7 @@ var MatchRowCNSW = ({ match, index, rowHeight }) => {
 var row_CNSW_default2 = MatchRowCNSW;
 
 // src/compositions/cricket/results/controller/ResultsDisplay/display-CNSW.tsx
-import { jsx as jsx322, jsxs as jsxs160 } from "react/jsx-runtime";
+import { jsx as jsx322, jsxs as jsxs159 } from "react/jsx-runtime";
 var ResultsDisplayCNSW = ({ results: results5, resultsPerScreen, screenIndex }) => {
   const { layout } = useThemeContext();
   const { heights } = layout;
@@ -29292,7 +29662,7 @@ var ResultsDisplayCNSW = ({ results: results5, resultsPerScreen, screenIndex }) 
   const availableHeight = heights.asset;
   const rowHeight = calculateRowHeight(availableHeight);
   const footerSponsors = buildResultsFooterSponsors(displayedResults);
-  return /* @__PURE__ */ jsxs160("div", {
+  return /* @__PURE__ */ jsxs159("div", {
     className: "flex flex-col h-full w-full",
     children: [
       /* @__PURE__ */ jsx322("div", {
@@ -29364,12 +29734,12 @@ var CNSW4 = () => {
 var cnsw_default2 = CNSW4;
 
 // src/compositions/cricket/results/layout/Sections/PlayerStats/PlayerStats-CNSW-private.tsx
-import { jsx as jsx324, jsxs as jsxs161 } from "react/jsx-runtime";
+import { jsx as jsx324, jsxs as jsxs160 } from "react/jsx-runtime";
 var StatItem8 = ({ playerName, statValue, delay, index, textColor }) => {
   const { animations } = useAnimationContext();
   const TextAnimations = animations.text.main;
   const { selectedPalette } = useThemeContext();
-  return /* @__PURE__ */ jsxs161("div", {
+  return /* @__PURE__ */ jsxs160("div", {
     className: "flex justify-between items-center py-1 mb-1 pr-1 pl-4",
     style: {
       background: selectedPalette.background.userSecondary,
@@ -29439,7 +29809,7 @@ var TeamStats8 = ({
   const bowlers = team.bowlingPerformances
     ? team.bowlingPerformances.slice(0, maxPlayersPerStat)
     : [];
-  return /* @__PURE__ */ jsxs161("div", {
+  return /* @__PURE__ */ jsxs160("div", {
     className: `flex-1 px-2 py-0 flex flex-col ${className}`,
     children: [
       showBatting &&
@@ -29489,7 +29859,7 @@ var PlayerStatsCNSWPrivate = ({
     },
     animation: animations.container.main.itemContainer.containerIn,
     animationDelay: delay,
-    children: /* @__PURE__ */ jsxs161("div", {
+    children: /* @__PURE__ */ jsxs160("div", {
       className: "flex w-full h-full",
       children: [
         /* @__PURE__ */ jsx324(TeamStats8, {
@@ -29514,12 +29884,12 @@ var PlayerStatsCNSWPrivate = ({
 var PlayerStats_CNSW_private_default = PlayerStatsCNSWPrivate;
 
 // src/compositions/cricket/results/layout/MatchCard/card-CNSW-private.tsx
-import { jsx as jsx325, jsxs as jsxs162 } from "react/jsx-runtime";
+import { jsx as jsx325, jsxs as jsxs161 } from "react/jsx-runtime";
 var MatchCardCNSWPrivate = ({ match, rowHeight, delay }) => {
   const { layout } = useThemeContext();
   const { teamsHeight, statsHeight, headerHeight } = calculateSectionHeights(rowHeight);
   const { baseDelay, statsDelay, headerDelay } = calculateDelays(delay);
-  return /* @__PURE__ */ jsxs162("div", {
+  return /* @__PURE__ */ jsxs161("div", {
     className: `${layout.borderRadius.container} w-auto mx-8 overflow-hidden h-full`,
     children: [
       /* @__PURE__ */ jsx325(TeamsSectionScoreOverTeamNameOnly, {
@@ -29594,7 +29964,7 @@ var MatchRowCNSWPrivate = ({ match, index, rowHeight }) => {
 var row_CNSW_private_default2 = MatchRowCNSWPrivate;
 
 // src/compositions/cricket/results/controller/ResultsDisplay/display-CNSW-private.tsx
-import { jsx as jsx327, jsxs as jsxs163 } from "react/jsx-runtime";
+import { jsx as jsx327, jsxs as jsxs162 } from "react/jsx-runtime";
 var ResultsDisplayCNSWPrivate = ({ results: results5, resultsPerScreen, screenIndex }) => {
   const { layout } = useThemeContext();
   const { heights } = layout;
@@ -29602,7 +29972,7 @@ var ResultsDisplayCNSWPrivate = ({ results: results5, resultsPerScreen, screenIn
   const availableHeight = heights.asset;
   const rowHeight = calculateRowHeight(availableHeight);
   const footerSponsors = buildResultsFooterSponsors(displayedResults);
-  return /* @__PURE__ */ jsxs163("div", {
+  return /* @__PURE__ */ jsxs162("div", {
     className: "flex flex-col h-full w-full",
     children: [
       /* @__PURE__ */ jsx327("div", {
@@ -29691,7 +30061,7 @@ var formatScoreWithOvers = (score, overs) => {
 };
 
 // src/compositions/cricket/results/layout/Sections/MatchHeader/MudgeerabaSingleTeamHeader.tsx
-import { jsx as jsx329, jsxs as jsxs164 } from "react/jsx-runtime";
+import { jsx as jsx329, jsxs as jsxs163 } from "react/jsx-runtime";
 var MudgeerabaSingleTeamHeader = ({ team, teamLogo, delay, outerContainer }) => {
   var _a, _b;
   const { animations } = useAnimationContext();
@@ -29714,7 +30084,7 @@ var MudgeerabaSingleTeamHeader = ({ team, teamLogo, delay, outerContainer }) => 
     },
     animation: ContainerAnimations.containerIn,
     animationDelay: delay,
-    children: /* @__PURE__ */ jsxs164("div", {
+    children: /* @__PURE__ */ jsxs163("div", {
       className: "w-full flex items-center relative",
       style: {
         height: `${stripeHeight}px`,
@@ -29734,7 +30104,7 @@ var MudgeerabaSingleTeamHeader = ({ team, teamLogo, delay, outerContainer }) => 
             children: team.name,
           }),
         }),
-        /* @__PURE__ */ jsxs164("div", {
+        /* @__PURE__ */ jsxs163("div", {
           className: "flex items-center relative h-full",
           style: { paddingRight: "12px" },
           children: [
@@ -29780,7 +30150,7 @@ var MudgeerabaSingleTeamHeader = ({ team, teamLogo, delay, outerContainer }) => 
 var MudgeerabaSingleTeamHeader_default = MudgeerabaSingleTeamHeader;
 
 // src/compositions/cricket/results/layout/Sections/PlayerStats/PlayerStats-SingleTeamOnly-Mudgeeraba.tsx
-import { jsx as jsx330, jsxs as jsxs165 } from "react/jsx-runtime";
+import { jsx as jsx330, jsxs as jsxs164 } from "react/jsx-runtime";
 var MAX_NAME_LENGTH = 20;
 function formatBattingStat3(p) {
   var _a;
@@ -29795,7 +30165,7 @@ var PlayerStatRow = ({ playerName, statValue, delay, index, isLeftColumn }) => {
   const { selectedPalette, colors } = useThemeContext();
   const textAnimations = animations.text.main;
   const rowBg = selectedPalette.container.backgroundTransparent.high;
-  return /* @__PURE__ */ jsxs165(LayeredAngularPanel, {
+  return /* @__PURE__ */ jsxs164(LayeredAngularPanel, {
     clipPath: isLeftColumn ? SHALLOW_COLUMN_LEFT : SHALLOW_COLUMN_RIGHT,
     surfaceColor: rowBg,
     underlayColor: getLayeredUnderlayColor(colors.primary),
@@ -29823,7 +30193,7 @@ var StatsColumn = ({ players, isBatting, delay, isLeftColumn }) => {
     ...Array(Math.max(0, 2 - players.length)).fill(null),
   ].slice(0, 2);
   const formatStat = isBatting ? formatBattingStat3 : formatBowlingStat3;
-  return /* @__PURE__ */ jsxs165("div", {
+  return /* @__PURE__ */ jsxs164("div", {
     className: "flex flex-col flex-1 gap-4  ",
     children: [
       displayPlayers[0] &&
@@ -29864,7 +30234,7 @@ var PlayerStatsSingleTeamOnlyMudgeeraba = ({
     animationDelay: delay,
     children: /* @__PURE__ */ jsx330("div", {
       className: "flex w-full h-full relative flex-col",
-      children: /* @__PURE__ */ jsxs165("div", {
+      children: /* @__PURE__ */ jsxs164("div", {
         className: "flex w-full relative",
         children: [
           showBatting &&
@@ -29926,7 +30296,7 @@ var MudgeerabaStatusFooter = ({ result, delay, outerContainer }) => {
 var MudgeerabaStatusFooter_default = MudgeerabaStatusFooter;
 
 // src/compositions/cricket/results/layout/MatchCard/card-Mudgeeraba.tsx
-import { jsx as jsx332, jsxs as jsxs166 } from "react/jsx-runtime";
+import { jsx as jsx332, jsxs as jsxs165 } from "react/jsx-runtime";
 var MatchCardMudgeeraba = ({ match, rowHeight, delay }) => {
   const { colors } = useThemeContext();
   const teamHeaderHeight = 60;
@@ -29945,7 +30315,7 @@ var MatchCardMudgeeraba = ({ match, rowHeight, delay }) => {
     homeBatted,
     awayBatted,
   });
-  return /* @__PURE__ */ jsxs166(LayeredAngularPanel, {
+  return /* @__PURE__ */ jsxs165(LayeredAngularPanel, {
     clipPath: SHALLOW_ROW_LEFT,
     surfaceColor: "transparent",
     underlayColor: getLayeredUnderlayColor(colors.primary),
@@ -29996,7 +30366,7 @@ var MatchCardMudgeeraba = ({ match, rowHeight, delay }) => {
 var card_Mudgeeraba_default = MatchCardMudgeeraba;
 
 // src/compositions/cricket/results/layout/Sections/PlayerStats/PlayerStats-SingleTeamOnly-Mudgeeraba-clubOnly.tsx
-import { jsx as jsx333, jsxs as jsxs167 } from "react/jsx-runtime";
+import { jsx as jsx333, jsxs as jsxs166 } from "react/jsx-runtime";
 var MAX_NAME_LENGTH2 = 20;
 function formatBattingStat4(p) {
   var _a;
@@ -30011,7 +30381,7 @@ var StatCell = ({ playerName, statValue, delay, index, isRight }) => {
   const { selectedPalette, colors } = useThemeContext();
   const textAnimations = animations.text.main;
   const rowBg = selectedPalette.container.backgroundTransparent.high;
-  return /* @__PURE__ */ jsxs167(LayeredAngularPanel, {
+  return /* @__PURE__ */ jsxs166(LayeredAngularPanel, {
     clipPath: isRight ? SHALLOW_COLUMN_RIGHT : SHALLOW_COLUMN_LEFT,
     surfaceColor: rowBg,
     underlayColor: getLayeredUnderlayColor(colors.primary),
@@ -30039,7 +30409,7 @@ var StatsRow = ({ players, isBatting, delay }) => {
     ...Array(Math.max(0, 2 - players.length)).fill(null),
   ].slice(0, 2);
   const formatStat = isBatting ? formatBattingStat4 : formatBowlingStat4;
-  return /* @__PURE__ */ jsxs167("div", {
+  return /* @__PURE__ */ jsxs166("div", {
     className: "flex w-full relative",
     children: [
       displayPlayers[0] &&
@@ -30078,7 +30448,7 @@ var PlayerStatsSingleTeamOnlyMudgeerabaClubOnly = ({
     backgroundColor: "none",
     animation: animations.container.main.itemContainer.containerIn,
     animationDelay: delay,
-    children: /* @__PURE__ */ jsxs167("div", {
+    children: /* @__PURE__ */ jsxs166("div", {
       className: "flex w-full h-full relative flex-col gap-4",
       children: [
         showBatting &&
@@ -30097,7 +30467,7 @@ var PlayerStats_SingleTeamOnly_Mudgeeraba_clubOnly_default =
   PlayerStatsSingleTeamOnlyMudgeerabaClubOnly;
 
 // src/compositions/cricket/results/layout/MatchCard/card-Mudgeeraba-clubOnly.tsx
-import { jsx as jsx334, jsxs as jsxs168 } from "react/jsx-runtime";
+import { jsx as jsx334, jsxs as jsxs167 } from "react/jsx-runtime";
 var TEAM_HEADER_HEIGHT = 60;
 var RESULT_FOOTER_MIN_HEIGHT = 52;
 var MatchCardMudgeerabaClubOnly = ({ match, rowHeight, delay }) => {
@@ -30131,7 +30501,7 @@ var MatchCardMudgeerabaClubOnly = ({ match, rowHeight, delay }) => {
     homeBatted: clubBatted,
     awayBatted: false,
   });
-  return /* @__PURE__ */ jsxs168("div", {
+  return /* @__PURE__ */ jsxs167("div", {
     className: "w-auto mx-0 overflow-hidden h-full",
     children: [
       /* @__PURE__ */ jsx334(MudgeerabaSingleTeamHeader_default, {
@@ -30201,7 +30571,7 @@ var MatchRowMudgeeraba = ({ match, index, rowHeight }) => {
 var row_Mudgeeraba_default3 = MatchRowMudgeeraba;
 
 // src/compositions/cricket/results/controller/ResultsDisplay/display-Mudgeeraba.tsx
-import { jsx as jsx336, jsxs as jsxs169 } from "react/jsx-runtime";
+import { jsx as jsx336, jsxs as jsxs168 } from "react/jsx-runtime";
 var ResultsDisplayMudgeeraba = ({ results: results5, resultsPerScreen, screenIndex }) => {
   const { layout } = useThemeContext();
   const { heights } = layout;
@@ -30209,7 +30579,7 @@ var ResultsDisplayMudgeeraba = ({ results: results5, resultsPerScreen, screenInd
   const availableHeight = heights.asset;
   const rowHeight = calculateRowHeight(availableHeight);
   const footerSponsors = buildResultsFooterSponsors(displayedResults);
-  return /* @__PURE__ */ jsxs169("div", {
+  return /* @__PURE__ */ jsxs168("div", {
     className: "flex flex-col h-full w-full",
     children: [
       /* @__PURE__ */ jsx336("div", {
@@ -30310,6 +30680,7 @@ var MatchRowBroadcastPro = ({ match, index, rowHeight }) => {
     className: "h-full w-full",
     children: /* @__PURE__ */ jsx339(AnimatedContainer, {
       type: "full",
+      size: "full",
       className: "h-full w-full rounded-none",
       backgroundColor: "none",
       animation: containerAnimation.containerIn,
@@ -30328,7 +30699,7 @@ var MatchRowBroadcastPro = ({ match, index, rowHeight }) => {
 var row_BroadcastPro_default2 = MatchRowBroadcastPro;
 
 // src/compositions/cricket/results/controller/ResultsDisplay/display-BroadcastPro.tsx
-import { jsx as jsx340, jsxs as jsxs170 } from "react/jsx-runtime";
+import { jsx as jsx340, jsxs as jsxs169 } from "react/jsx-runtime";
 var ResultsDisplayBroadcastPro = ({ results: results5, resultsPerScreen, screenIndex }) => {
   const { layout } = useThemeContext();
   const { animations } = useAnimationContext();
@@ -30336,44 +30707,56 @@ var ResultsDisplayBroadcastPro = ({ results: results5, resultsPerScreen, screenI
   const panelAnimation = animations.container.main.itemContainerOuter;
   const { displayedResults } = calculateDisplayedResults(results5, resultsPerScreen, screenIndex);
   const mainContentHeight = getMainContentSectionHeight(heights);
-  const compositionHeight = getCompositionSectionHeight(heights);
-  const rowHeight = calculateRowHeight(mainContentHeight);
+  const { listHeight, rowHeight } = calculateBroadcastProResultsLayout(
+    mainContentHeight,
+    displayedResults.length,
+  );
   const footerSponsors = buildResultsFooterSponsors(displayedResults);
-  return /* @__PURE__ */ jsxs170("div", {
-    className: "flex w-full flex-col",
-    style: { height: `${compositionHeight}px` },
+  return /* @__PURE__ */ jsxs169("div", {
+    className: "flex h-full w-full flex-col",
     children: [
-      /* @__PURE__ */ jsx340(AnimatedContainer, {
-        type: "full",
-        className: "flex flex-col overflow-hidden rounded-none",
-        backgroundColor: "none",
-        animation: panelAnimation.containerIn,
-        exitAnimation: panelAnimation.containerOut,
-        style: { height: mainContentHeight },
-        children: /* @__PURE__ */ jsx340("div", {
-          className: "flex w-full flex-col gap-0",
-          style: { height: `${mainContentHeight}px` },
-          children: displayedResults.map((match, index) =>
-            /* @__PURE__ */ jsx340(
-              "div",
-              {
-                className: "w-full min-h-0 flex-1",
-                style: {
-                  height: `${rowHeight}px`,
-                  maxHeight: `${rowHeight}px`,
+      /* @__PURE__ */ jsx340("div", {
+        className: "flex min-h-0 flex-shrink-0 flex-col justify-center overflow-hidden",
+        style: {
+          height: `${mainContentHeight}px`,
+          maxHeight: `${mainContentHeight}px`,
+        },
+        children: /* @__PURE__ */ jsx340(AnimatedContainer, {
+          type: "full",
+          className: "flex w-full flex-shrink-0 flex-col overflow-hidden rounded-none",
+          backgroundColor: "none",
+          animation: panelAnimation.containerIn,
+          exitAnimation: panelAnimation.containerOut,
+          children: /* @__PURE__ */ jsx340("div", {
+            className: "flex w-full flex-col",
+            style: {
+              height: `${listHeight}px`,
+              gap: `${BROADCAST_PRO_RESULTS_GAP_PX}px`,
+            },
+            children: displayedResults.map((match, index) =>
+              /* @__PURE__ */ jsx340(
+                "div",
+                {
+                  className: "min-h-0 w-full flex-none",
+                  style: {
+                    height: `${rowHeight}px`,
+                    maxHeight: `${rowHeight}px`,
+                    flexBasis: `${rowHeight}px`,
+                  },
+                  children: /* @__PURE__ */ jsx340(row_BroadcastPro_default2, {
+                    match,
+                    index,
+                    rowHeight,
+                  }),
                 },
-                children: /* @__PURE__ */ jsx340(row_BroadcastPro_default2, {
-                  match,
-                  index,
-                  rowHeight,
-                }),
-              },
-              match.gameID,
+                match.gameID,
+              ),
             ),
-          ),
+          }),
         }),
       }),
       /* @__PURE__ */ jsx340("div", {
+        className: "flex-shrink-0",
         style: { height: `${heights.footer}px` },
         children: /* @__PURE__ */ jsx340(SponsorFooter, { sponsors: footerSponsors }),
       }),
@@ -30388,8 +30771,10 @@ var ResultsListBroadcastPro = () => {
   var _a, _b;
   const { data } = useVideoDataContext();
   const { data: resultsData, videoMeta, timings } = data;
+  const { layout } = useThemeContext();
   const { animations } = useAnimationContext();
   const transitionConfig = animations.transition.Main;
+  const compositionHeight = getCompositionSectionHeight(layout.heights);
   if (!hasValidResults(resultsData)) {
     return /* @__PURE__ */ jsx341(no_data_default4, {});
   }
@@ -30402,21 +30787,29 @@ var ResultsListBroadcastPro = () => {
   const totalScreens = calculateTotalScreens2(resultsData.length, resultsPerScreen);
   const matchResults = castToMatchResults(resultsData);
   const sequences = Array.from({ length: totalScreens }, (_, index) => ({
-    content: /* @__PURE__ */ jsx341(display_BroadcastPro_default3, {
-      results: matchResults,
-      resultsPerScreen,
-      screenIndex: index,
+    content: /* @__PURE__ */ jsx341("div", {
+      className: "h-full w-full",
+      style: { height: compositionHeight },
+      children: /* @__PURE__ */ jsx341(display_BroadcastPro_default3, {
+        results: matchResults,
+        resultsPerScreen,
+        screenIndex: index,
+      }),
     }),
     durationInFrames: displayDurationPerScreen,
   }));
-  return /* @__PURE__ */ jsx341(TransitionSeriesWrapper, {
-    sequences,
-    transitionType: transitionConfig.type,
-    direction: transitionConfig.direction,
-    timing: {
-      type: "linear",
-      durationInFrames: transitionConfig.durationInFrames,
-    },
+  return /* @__PURE__ */ jsx341("div", {
+    className: "w-full",
+    style: { height: compositionHeight },
+    children: /* @__PURE__ */ jsx341(TransitionSeriesWrapper, {
+      sequences,
+      transitionType: transitionConfig.type,
+      direction: transitionConfig.direction,
+      timing: {
+        type: "linear",
+        durationInFrames: transitionConfig.durationInFrames,
+      },
+    }),
   });
 };
 var broadcastpro = () => {
@@ -30470,9 +30863,9 @@ var MatchRowBroadcastProRounded = ({ match, index, rowHeight }) => {
 var row_BroadcastProRounded_default2 = MatchRowBroadcastProRounded;
 
 // src/compositions/cricket/results/controller/ResultsDisplay/display-BroadcastProRounded.tsx
-import { jsx as jsx344, jsxs as jsxs171 } from "react/jsx-runtime";
+import { jsx as jsx344, jsxs as jsxs170 } from "react/jsx-runtime";
 var ResultsDisplayBroadcastProRounded = ({ results: results5, resultsPerScreen, screenIndex }) => {
-  var _a, _b, _c;
+  var _a;
   const { layout } = useThemeContext();
   const { animations } = useAnimationContext();
   const { data } = useVideoDataContext();
@@ -30483,46 +30876,58 @@ var ResultsDisplayBroadcastProRounded = ({ results: results5, resultsPerScreen, 
   );
   const { displayedResults } = calculateDisplayedResults(results5, resultsPerScreen, screenIndex);
   const mainContentHeight = getMainContentSectionHeight(heights);
-  const compositionHeight = getCompositionSectionHeight(heights);
-  const rowHeight = calculateRowHeight(mainContentHeight);
+  const { listHeight, rowHeight } = calculateBroadcastProResultsLayout(
+    mainContentHeight,
+    displayedResults.length,
+  );
   const footerSponsors = buildResultsFooterSponsors(displayedResults);
-  return /* @__PURE__ */ jsxs171("div", {
-    className: "flex w-full flex-col",
-    style: { height: `${compositionHeight}px` },
+  return /* @__PURE__ */ jsxs170("div", {
+    className: "flex h-full w-full flex-col",
     children: [
-      /* @__PURE__ */ jsx344(AnimatedContainer, {
-        type: "full",
-        className: "flex flex-col overflow-hidden",
-        backgroundColor: "none",
-        animation: panelAnimation.containerIn,
-        animationDelay: RESULT_PANEL_CONTAINER_DELAY,
-        exitAnimation: panelAnimation.containerOut,
-        exitFrame: panelExitFrame,
-        style: { height: mainContentHeight },
-        children: /* @__PURE__ */ jsx344("div", {
-          className: `flex w-full flex-col ${(_c = (_b = layout.spacing) == null ? void 0 : _b.stack) != null ? _c : "gap-1"}`,
-          style: { height: `${mainContentHeight}px` },
-          children: displayedResults.map((match, index) =>
-            /* @__PURE__ */ jsx344(
-              "div",
-              {
-                className: "w-full min-h-0 flex-1",
-                style: {
-                  height: `${rowHeight}px`,
-                  maxHeight: `${rowHeight}px`,
+      /* @__PURE__ */ jsx344("div", {
+        className: "flex min-h-0 flex-shrink-0 flex-col justify-center overflow-hidden",
+        style: {
+          height: `${mainContentHeight}px`,
+          maxHeight: `${mainContentHeight}px`,
+        },
+        children: /* @__PURE__ */ jsx344(AnimatedContainer, {
+          type: "full",
+          className: "flex w-full flex-shrink-0 flex-col overflow-hidden",
+          backgroundColor: "none",
+          animation: panelAnimation.containerIn,
+          animationDelay: RESULT_PANEL_CONTAINER_DELAY,
+          exitAnimation: panelAnimation.containerOut,
+          exitFrame: panelExitFrame,
+          children: /* @__PURE__ */ jsx344("div", {
+            className: "flex w-full flex-col",
+            style: {
+              height: `${listHeight}px`,
+              gap: `${BROADCAST_PRO_RESULTS_GAP_PX}px`,
+            },
+            children: displayedResults.map((match, index) =>
+              /* @__PURE__ */ jsx344(
+                "div",
+                {
+                  className: "min-h-0 w-full flex-none",
+                  style: {
+                    height: `${rowHeight}px`,
+                    maxHeight: `${rowHeight}px`,
+                    flexBasis: `${rowHeight}px`,
+                  },
+                  children: /* @__PURE__ */ jsx344(row_BroadcastProRounded_default2, {
+                    match,
+                    index,
+                    rowHeight,
+                  }),
                 },
-                children: /* @__PURE__ */ jsx344(row_BroadcastProRounded_default2, {
-                  match,
-                  index,
-                  rowHeight,
-                }),
-              },
-              match.gameID,
+                match.gameID,
+              ),
             ),
-          ),
+          }),
         }),
       }),
       /* @__PURE__ */ jsx344("div", {
+        className: "flex-shrink-0",
         style: { height: `${heights.footer}px` },
         children: /* @__PURE__ */ jsx344(SponsorFooter, { sponsors: footerSponsors }),
       }),
@@ -30537,8 +30942,10 @@ var ResultsListBroadcastProRounded = () => {
   var _a, _b;
   const { data } = useVideoDataContext();
   const { data: resultsData, videoMeta, timings } = data;
+  const { layout } = useThemeContext();
   const { animations } = useAnimationContext();
   const transitionConfig = animations.transition.Main;
+  const compositionHeight = getCompositionSectionHeight(layout.heights);
   if (!hasValidResults(resultsData)) {
     return /* @__PURE__ */ jsx345(no_data_default4, {});
   }
@@ -30551,21 +30958,29 @@ var ResultsListBroadcastProRounded = () => {
   const totalScreens = calculateTotalScreens2(resultsData.length, resultsPerScreen);
   const matchResults = castToMatchResults(resultsData);
   const sequences = Array.from({ length: totalScreens }, (_, index) => ({
-    content: /* @__PURE__ */ jsx345(display_BroadcastProRounded_default3, {
-      results: matchResults,
-      resultsPerScreen,
-      screenIndex: index,
+    content: /* @__PURE__ */ jsx345("div", {
+      className: "h-full w-full",
+      style: { height: compositionHeight },
+      children: /* @__PURE__ */ jsx345(display_BroadcastProRounded_default3, {
+        results: matchResults,
+        resultsPerScreen,
+        screenIndex: index,
+      }),
     }),
     durationInFrames: displayDurationPerScreen,
   }));
-  return /* @__PURE__ */ jsx345(TransitionSeriesWrapper, {
-    sequences,
-    transitionType: transitionConfig.type,
-    direction: transitionConfig.direction,
-    timing: {
-      type: "linear",
-      durationInFrames: transitionConfig.durationInFrames,
-    },
+  return /* @__PURE__ */ jsx345("div", {
+    className: "w-full",
+    style: { height: compositionHeight },
+    children: /* @__PURE__ */ jsx345(TransitionSeriesWrapper, {
+      sequences,
+      transitionType: transitionConfig.type,
+      direction: transitionConfig.direction,
+      timing: {
+        type: "linear",
+        durationInFrames: transitionConfig.durationInFrames,
+      },
+    }),
   });
 };
 var broadcastprorounded = () => {
@@ -30648,11 +31063,11 @@ var getClubTeamPlayers2 = (match) => {
 };
 
 // src/compositions/cricket/resultSingle/layout/Sections/PlayerStats/PlayerStats-clubOnly-Basic.tsx
-import { jsx as jsx347, jsxs as jsxs172 } from "react/jsx-runtime";
+import { jsx as jsx347, jsxs as jsxs171 } from "react/jsx-runtime";
 var StatItem9 = ({ playerName, statValue, delay, index, textColor }) => {
   const { animations } = useAnimationContext();
   const TextAnimations = animations.text.main;
-  return /* @__PURE__ */ jsxs172("div", {
+  return /* @__PURE__ */ jsxs171("div", {
     className: "flex justify-between items-center py-1",
     children: [
       /* @__PURE__ */ jsx347(ResultPlayerName, {
@@ -30713,7 +31128,7 @@ var TeamStats9 = ({
   const bowlers = team.bowlingPerformances
     ? team.bowlingPerformances.slice(0, maxPlayersPerStat)
     : [];
-  return /* @__PURE__ */ jsxs172("div", {
+  return /* @__PURE__ */ jsxs171("div", {
     className: `flex-1 px-2 py-0 flex flex-row gap-4 ${className}`,
     children: [
       showBatting &&
@@ -30790,7 +31205,7 @@ var PlayerStatsClubOnlyBasic2 = ({
 };
 
 // src/compositions/cricket/resultSingle/layout/Sections/PlayerStats/PlayerStats-Mudgeeraba.tsx
-import { jsx as jsx348, jsxs as jsxs173 } from "react/jsx-runtime";
+import { jsx as jsx348, jsxs as jsxs172 } from "react/jsx-runtime";
 var MAX_NAME_LENGTH3 = 20;
 function formatBattingStat5(p) {
   var _a;
@@ -30806,7 +31221,7 @@ var PlayerStatRow2 = ({ playerName, statValue, delay, index, isLeftColumn }) => 
   const textAnimations = animations.text.main;
   const rowBg = selectedPalette.container.backgroundTransparent.high;
   const edgeStripClip = getShallowEdgeStrip(isLeftColumn);
-  return /* @__PURE__ */ jsxs173(LayeredAngularPanel, {
+  return /* @__PURE__ */ jsxs172(LayeredAngularPanel, {
     clipPath: isLeftColumn ? SHALLOW_COLUMN_LEFT : SHALLOW_COLUMN_RIGHT,
     surfaceColor: rowBg,
     underlayColor: getLayeredUnderlayColor(colors.primary),
@@ -30843,7 +31258,7 @@ var StatsColumn2 = ({ players, isBatting, delay, isLeftColumn }) => {
     ...Array(Math.max(0, 2 - players.length)).fill(null),
   ].slice(0, 2);
   const formatStat = isBatting ? formatBattingStat5 : formatBowlingStat5;
-  return /* @__PURE__ */ jsxs173("div", {
+  return /* @__PURE__ */ jsxs172("div", {
     className: "flex flex-col flex-1 gap-4",
     children: [
       displayPlayers[0] &&
@@ -30884,7 +31299,7 @@ var PlayerStatsMudgeeraba = ({
     animationDelay: delay,
     children: /* @__PURE__ */ jsx348("div", {
       className: "flex w-full h-full relative flex-col",
-      children: /* @__PURE__ */ jsxs173("div", {
+      children: /* @__PURE__ */ jsxs172("div", {
         className: "flex w-full relative",
         children: [
           showBatting &&
@@ -30909,11 +31324,11 @@ var PlayerStatsMudgeeraba = ({
 var PlayerStats_Mudgeeraba_default = PlayerStatsMudgeeraba;
 
 // src/compositions/cricket/resultSingle/layout/Sections/PlayerStats/index.tsx
-import { jsx as jsx349, jsxs as jsxs174 } from "react/jsx-runtime";
+import { jsx as jsx349, jsxs as jsxs173 } from "react/jsx-runtime";
 var StatItem10 = ({ playerName, statValue, delay, index }) => {
   const { animations } = useAnimationContext();
   const TextAnimations = animations.text.main;
-  return /* @__PURE__ */ jsxs174("div", {
+  return /* @__PURE__ */ jsxs173("div", {
     className: "flex justify-between items-center py-1",
     children: [
       /* @__PURE__ */ jsx349(ResultPlayerName, {
@@ -30969,7 +31384,7 @@ var TeamStats10 = ({
   const bowlers = team.bowlingPerformances
     ? team.bowlingPerformances.slice(0, maxPlayersPerStat)
     : [];
-  return /* @__PURE__ */ jsxs174("div", {
+  return /* @__PURE__ */ jsxs173("div", {
     className: `flex-1 px-8 py-4 flex flex-col ${className}`,
     children: [
       showBatting &&
@@ -31009,7 +31424,7 @@ var PlayerStats = ({
     },
     animation: animations.container.main.itemContainer.containerIn,
     animationDelay: delay,
-    children: /* @__PURE__ */ jsxs174("div", {
+    children: /* @__PURE__ */ jsxs173("div", {
       className: "flex w-full h-full",
       children: [
         /* @__PURE__ */ jsx349(TeamStats10, {
@@ -31049,7 +31464,7 @@ var formatLeftText = (type, date, round = "") => {
 };
 
 // src/compositions/cricket/resultSingle/layout/Sections/MatchHeader/Type_Round_Ground.tsx
-import { jsx as jsx350, jsxs as jsxs175 } from "react/jsx-runtime";
+import { jsx as jsx350, jsxs as jsxs174 } from "react/jsx-runtime";
 var MatchHeader2 = ({
   date,
   type,
@@ -31067,7 +31482,7 @@ var MatchHeader2 = ({
   const backgroundColor =
     userBackgroundColor || selectedPalette.container.backgroundTransparent.high;
   const leftText = formatLeftText(type, date, round);
-  return /* @__PURE__ */ jsxs175(AnimatedContainer, {
+  return /* @__PURE__ */ jsxs174(AnimatedContainer, {
     type: "full",
     className: `w-full flex justify-between items-center p-4 ${layout.borderRadius.container}   ${className}`,
     backgroundColor: "none",
@@ -31096,7 +31511,7 @@ var MatchHeader2 = ({
 var Type_Round_Ground_default = MatchHeader2;
 
 // src/compositions/cricket/resultSingle/layout/Sections/MatchHeader/Round_Ground.tsx
-import { jsx as jsx351, jsxs as jsxs176 } from "react/jsx-runtime";
+import { jsx as jsx351, jsxs as jsxs175 } from "react/jsx-runtime";
 var Round_Ground = ({
   date,
   type,
@@ -31114,7 +31529,7 @@ var Round_Ground = ({
   const backgroundColor =
     userBackgroundColor || selectedPalette.container.backgroundTransparent.high;
   const leftText = formatLeftText(type, date, round);
-  return /* @__PURE__ */ jsxs176(AnimatedContainer, {
+  return /* @__PURE__ */ jsxs175(AnimatedContainer, {
     type: "full",
     className: mergeWithPriority("w-full flex justify-between items-center p-4", className || ""),
     backgroundColor: "none",
@@ -31143,7 +31558,7 @@ var Round_Ground = ({
 var Round_Ground_default = Round_Ground;
 
 // src/compositions/cricket/resultSingle/layout/Sections/MatchHeader/Type_Round_Ground_stacked.tsx
-import { jsx as jsx352, jsxs as jsxs177 } from "react/jsx-runtime";
+import { jsx as jsx352, jsxs as jsxs176 } from "react/jsx-runtime";
 var Type_Round_Ground_stacked = ({
   type,
   round,
@@ -31159,7 +31574,7 @@ var Type_Round_Ground_stacked = ({
   const TextAnimations = animations.text.main;
   const backgroundColor =
     userBackgroundColor || selectedPalette.container.backgroundTransparent.high;
-  return /* @__PURE__ */ jsxs177(AnimatedContainer, {
+  return /* @__PURE__ */ jsxs176(AnimatedContainer, {
     type: "full",
     className: `w-full flex flex-col justify-start gap-2 p-4 ${layout.borderRadius.container}   ${className}`,
     backgroundColor: "none",
@@ -31283,7 +31698,7 @@ var normalizeOvers = (raw) => {
 };
 
 // src/compositions/cricket/resultSingle/layout/Sections/TeamsSection/components/LogoWithScoreOverName.tsx
-import { jsx as jsx356, jsxs as jsxs178 } from "react/jsx-runtime";
+import { jsx as jsx356, jsxs as jsxs177 } from "react/jsx-runtime";
 var LogoWithScoreOverName = ({
   type,
   homeTeam,
@@ -31310,10 +31725,10 @@ var LogoWithScoreOverName = ({
     },
     animation: animations.container.main.itemContainer.containerIn,
     animationDelay: delay,
-    children: /* @__PURE__ */ jsxs178("div", {
+    children: /* @__PURE__ */ jsxs177("div", {
       className: "grid grid-cols-5 gap-12 justify-center items-center w-full",
       children: [
-        /* @__PURE__ */ jsxs178("div", {
+        /* @__PURE__ */ jsxs177("div", {
           className: "flex flex-col items-center space-y-3 col-span-2",
           children: [
             /* @__PURE__ */ jsx356("div", {
@@ -31324,13 +31739,13 @@ var LogoWithScoreOverName = ({
                 delay: delay + 3,
               }),
             }),
-            /* @__PURE__ */ jsxs178("div", {
+            /* @__PURE__ */ jsxs177("div", {
               className: "flex flex-col items-center",
               children: [
-                /* @__PURE__ */ jsxs178("div", {
+                /* @__PURE__ */ jsxs177("div", {
                   className: "flex flex-row items-end",
                   children: [
-                    /* @__PURE__ */ jsxs178("div", {
+                    /* @__PURE__ */ jsxs177("div", {
                       className: "flex flex-col items-end",
                       children: [
                         getFirstInningsDisplay2(type, homeTeam.homeScoresFirstInnings).show &&
@@ -31369,7 +31784,7 @@ var LogoWithScoreOverName = ({
             className: "text-center",
           }),
         }),
-        /* @__PURE__ */ jsxs178("div", {
+        /* @__PURE__ */ jsxs177("div", {
           className: "flex flex-col items-center space-y-3 col-span-2",
           children: [
             /* @__PURE__ */ jsx356("div", {
@@ -31380,13 +31795,13 @@ var LogoWithScoreOverName = ({
                 delay: delay + 5,
               }),
             }),
-            /* @__PURE__ */ jsxs178("div", {
+            /* @__PURE__ */ jsxs177("div", {
               className: "flex flex-col items-center",
               children: [
-                /* @__PURE__ */ jsxs178("div", {
+                /* @__PURE__ */ jsxs177("div", {
                   className: "flex flex-row items-end",
                   children: [
-                    /* @__PURE__ */ jsxs178("div", {
+                    /* @__PURE__ */ jsxs177("div", {
                       className: "flex flex-col items-end",
                       children: [
                         getFirstInningsDisplay2(type, awayTeam.awayScoresFirstInnings).show &&
@@ -31423,7 +31838,7 @@ var LogoWithScoreOverName = ({
 };
 
 // src/compositions/cricket/resultSingle/layout/MatchCard/card.tsx
-import { jsx as jsx357, jsxs as jsxs179 } from "react/jsx-runtime";
+import { jsx as jsx357, jsxs as jsxs178 } from "react/jsx-runtime";
 var MatchCard = ({ match }) => {
   const { animations } = useAnimationContext();
   const containerAnimation = animations.container.main.itemContainer;
@@ -31435,7 +31850,7 @@ var MatchCard = ({ match }) => {
   const statusHeight = 80;
   const teamsHeight = 240;
   const statsHeight = 560;
-  return /* @__PURE__ */ jsxs179(AnimatedContainer, {
+  return /* @__PURE__ */ jsxs178(AnimatedContainer, {
     type: "full",
     className: "rounded-lg w-auto mx-8 overflow-hidden h-full",
     backgroundColor: "none",
@@ -31481,7 +31896,7 @@ var MatchCard = ({ match }) => {
 var card_default = MatchCard;
 
 // src/compositions/cricket/resultSingle/layout/Sections/TeamsSection/components/ScoreOverNameWithLogo.tsx
-import { jsx as jsx358, jsxs as jsxs180 } from "react/jsx-runtime";
+import { jsx as jsx358, jsxs as jsxs179 } from "react/jsx-runtime";
 var ScoreOverNameWithLogo2 = ({
   type,
   homeTeam,
@@ -31505,13 +31920,13 @@ var ScoreOverNameWithLogo2 = ({
     style: outerContainer,
     animation: animations.container.main.itemContainer.containerIn,
     animationDelay: delay,
-    children: /* @__PURE__ */ jsxs180("div", {
+    children: /* @__PURE__ */ jsxs179("div", {
       className: "flex w-full justify-between items-center space-x-8",
       children: [
-        /* @__PURE__ */ jsxs180("div", {
+        /* @__PURE__ */ jsxs179("div", {
           className: "flex-1 flex flex-col items-start space-y-4",
           children: [
-            /* @__PURE__ */ jsxs180("div", {
+            /* @__PURE__ */ jsxs179("div", {
               className: "flex flex-col items-start",
               children: [
                 homeFirstInnings.show &&
@@ -31520,7 +31935,7 @@ var ScoreOverNameWithLogo2 = ({
                     animation: { ...TextAnimations.copyIn, delay: delay + 30 },
                     variant: "onContainerCopyNoBg",
                   }),
-                /* @__PURE__ */ jsxs180("div", {
+                /* @__PURE__ */ jsxs179("div", {
                   className: "flex flex-row items-center space-x-8 justify-start",
                   children: [
                     /* @__PURE__ */ jsx358("div", {
@@ -31548,7 +31963,7 @@ var ScoreOverNameWithLogo2 = ({
             }),
           ],
         }),
-        /* @__PURE__ */ jsxs180("div", {
+        /* @__PURE__ */ jsxs179("div", {
           className: "flex-1 flex flex-col items-end space-y-4",
           children: [
             awayFirstInnings.show &&
@@ -31557,7 +31972,7 @@ var ScoreOverNameWithLogo2 = ({
                 animation: { ...TextAnimations.copyIn, delay: delay + 30 },
                 variant: "onContainerCopyNoBg",
               }),
-            /* @__PURE__ */ jsxs180("div", {
+            /* @__PURE__ */ jsxs179("div", {
               className: "flex flex-row items-center space-x-8 justify-end",
               children: [
                 /* @__PURE__ */ jsx358(ResultScore, {
@@ -31625,7 +32040,7 @@ var swapResultWord3 = (resultWord, lostReplacement = "Lost to", wonReplacement =
 };
 
 // src/compositions/cricket/resultSingle/layout/Sections/ResultStatement/ResultStatementText.tsx
-import { jsx as jsx360, jsxs as jsxs181 } from "react/jsx-runtime";
+import { jsx as jsx360, jsxs as jsxs180 } from "react/jsx-runtime";
 var ResultStatementText = ({
   resultSummary,
   delay,
@@ -31636,7 +32051,7 @@ var ResultStatementText = ({
   const TextAnimations = animations.text.main;
   const { selectedPalette } = useThemeContext();
   const defaultClasses = "w-full flex flex-col text-center items-center justify-center";
-  return /* @__PURE__ */ jsxs181(AnimatedContainer, {
+  return /* @__PURE__ */ jsxs180(AnimatedContainer, {
     type: "full",
     className: defaultClasses,
     backgroundColor: "none",
@@ -31674,12 +32089,12 @@ var ResultStatementText = ({
 };
 
 // src/compositions/cricket/resultSingle/layout/Sections/ResultStatement/ResultStatementClassic.tsx
-import { jsx as jsx361, jsxs as jsxs182 } from "react/jsx-runtime";
+import { jsx as jsx361, jsxs as jsxs181 } from "react/jsx-runtime";
 var ResultStatementClassic = ({ resultShort, resultSummary, height, delay }) => {
   const { animations } = useAnimationContext();
   const TextAnimations = animations.text.main;
   if (resultSummary) {
-    return /* @__PURE__ */ jsxs182("div", {
+    return /* @__PURE__ */ jsxs181("div", {
       className: "w-full flex flex-col items-center px-16 py-0 mb-16 justify-center gap-2",
       children: [
         /* @__PURE__ */ jsx361(ResultMetaData, {
@@ -31719,14 +32134,14 @@ var ResultStatementClassic = ({ resultShort, resultSummary, height, delay }) => 
 };
 
 // src/compositions/cricket/resultSingle/layout/Sections/ResultStatement/ResultStatementBrickWork.tsx
-import { jsx as jsx362, jsxs as jsxs183 } from "react/jsx-runtime";
+import { jsx as jsx362, jsxs as jsxs182 } from "react/jsx-runtime";
 var ResultStatementBrickWork = ({ resultShort, resultSummary, height, delay }) => {
   const { animations } = useAnimationContext();
   const { selectedPalette, layout } = useThemeContext();
   const TextAnimations = animations.text.main;
   const backgroundColor = selectedPalette.container.backgroundTransparent.medium;
   if (resultSummary) {
-    return /* @__PURE__ */ jsxs183("div", {
+    return /* @__PURE__ */ jsxs182("div", {
       className: `w-full flex flex-col items-center px-16 py-4 my-4 justify-center gap-2 rounded-none ${layout.borderRadius.container}`,
       style: {
         backgroundColor,
@@ -31773,7 +32188,7 @@ var ResultStatementBrickWork = ({ resultShort, resultSummary, height, delay }) =
 };
 
 // src/compositions/cricket/resultSingle/layout/MatchCard/card-Basic-ClubOnly.tsx
-import { jsx as jsx363, jsxs as jsxs184 } from "react/jsx-runtime";
+import { jsx as jsx363, jsxs as jsxs183 } from "react/jsx-runtime";
 var MatchCardClubOnlyBasic = ({ match }) => {
   const { selectedPalette, layout } = useThemeContext();
   const { heights } = layout;
@@ -31782,7 +32197,7 @@ var MatchCardClubOnlyBasic = ({ match }) => {
   const { teamsHeight, statsHeight, headerHeight } = calculateSectionHeights2(rowHeight);
   const { baseDelay: calculatedBaseDelay, statsDelay, headerDelay } = calculateDelays2(baseDelay);
   const { resultShort, resultSummary } = match;
-  return /* @__PURE__ */ jsxs184("div", {
+  return /* @__PURE__ */ jsxs183("div", {
     className: "rounded-lg w-auto mx-8 overflow-hidden h-full flex flex-col justify-center ",
     children: [
       resultSummary &&
@@ -31852,13 +32267,13 @@ var MatchCardClubOnlyBasic = ({ match }) => {
 var card_Basic_ClubOnly_default = MatchCardClubOnlyBasic;
 
 // src/compositions/cricket/resultSingle/controller/ResultSingleDisplay/display.tsx
-import { jsx as jsx364, jsxs as jsxs185 } from "react/jsx-runtime";
+import { jsx as jsx364, jsxs as jsxs184 } from "react/jsx-runtime";
 var ResultSingleDisplay = ({ match }) => {
   const { layout } = useThemeContext();
   const { heights } = layout;
   const { isAccountClub } = useVideoDataContext();
   const availableHeight = heights.asset;
-  return /* @__PURE__ */ jsxs185("div", {
+  return /* @__PURE__ */ jsxs184("div", {
     className: "flex flex-col h-full w-full",
     children: [
       /* @__PURE__ */ jsx364("div", {
@@ -31937,7 +32352,7 @@ var Basic5 = () => {
 };
 
 // src/compositions/cricket/resultSingle/layout/MatchCard/card-sixers.tsx
-import { jsx as jsx366, jsxs as jsxs186 } from "react/jsx-runtime";
+import { jsx as jsx366, jsxs as jsxs185 } from "react/jsx-runtime";
 var SixersMatchCard = ({ match }) => {
   const { animations } = useAnimationContext();
   const { layout } = useThemeContext();
@@ -31949,7 +32364,7 @@ var SixersMatchCard = ({ match }) => {
   const headerHeight = 80;
   const teamsHeight = 240;
   const statsHeight = 560;
-  return /* @__PURE__ */ jsxs186(AnimatedContainer, {
+  return /* @__PURE__ */ jsxs185(AnimatedContainer, {
     type: "full",
     className: `${layout.borderRadius.container} w-auto mx-8 overflow-hidden h-full`,
     backgroundColor: "none",
@@ -32016,7 +32431,7 @@ var SixersMatchCard = ({ match }) => {
 var card_sixers_default = SixersMatchCard;
 
 // src/compositions/cricket/resultSingle/layout/MatchCard/card-sixers-ClubOnly.tsx
-import { jsx as jsx367, jsxs as jsxs187 } from "react/jsx-runtime";
+import { jsx as jsx367, jsxs as jsxs186 } from "react/jsx-runtime";
 var SixersMatchCardClubOnly = ({ match }) => {
   const { layout } = useThemeContext();
   const { heights } = layout;
@@ -32040,7 +32455,7 @@ var SixersMatchCardClubOnly = ({ match }) => {
   const { baseDelay: calculatedBaseDelay, statsDelay, headerDelay } = calculateDelays2(baseDelay);
   const isHomeTeam = match.homeTeam.isClubTeam;
   const { resultShort, resultSummary } = match;
-  return /* @__PURE__ */ jsxs187("div", {
+  return /* @__PURE__ */ jsxs186("div", {
     className: `${layout.borderRadius.container} w-auto mx-8 overflow-hidden h-full flex flex-col justify-center`,
     children: [
       /* @__PURE__ */ jsx367(ResultStatementClassic, {
@@ -32116,7 +32531,7 @@ var SixersMatchCardClubOnly = ({ match }) => {
 var card_sixers_ClubOnly_default = SixersMatchCardClubOnly;
 
 // src/compositions/cricket/resultSingle/controller/ResultSingleDisplay/display-sixers.tsx
-import { jsx as jsx368, jsxs as jsxs188 } from "react/jsx-runtime";
+import { jsx as jsx368, jsxs as jsxs187 } from "react/jsx-runtime";
 var SixersSingleResult = ({ match }) => {
   var _a;
   const { layout } = useThemeContext();
@@ -32125,7 +32540,7 @@ var SixersSingleResult = ({ match }) => {
   const { animations } = useAnimationContext();
   const LogoAnimations = animations.image.main.title.logo;
   const availableHeight = heights.asset;
-  return /* @__PURE__ */ jsxs188("div", {
+  return /* @__PURE__ */ jsxs187("div", {
     className: "flex flex-col h-full w-full",
     children: [
       /* @__PURE__ */ jsx368("div", {
@@ -32201,13 +32616,13 @@ var Sixers = () => {
 };
 
 // src/compositions/cricket/resultSingle/controller/ResultSingleDisplay/display-classic.tsx
-import { jsx as jsx370, jsxs as jsxs189 } from "react/jsx-runtime";
+import { jsx as jsx370, jsxs as jsxs188 } from "react/jsx-runtime";
 var ClassicSingleResult = ({ match }) => {
   const { layout } = useThemeContext();
   const { heights } = layout;
   const { isAccountClub } = useVideoDataContext();
   const availableHeight = heights.asset;
-  return /* @__PURE__ */ jsxs189("div", {
+  return /* @__PURE__ */ jsxs188("div", {
     className: "flex flex-col h-full w-full",
     children: [
       /* @__PURE__ */ jsx370("div", {
@@ -32265,7 +32680,7 @@ var Classic5 = () => {
 };
 
 // src/compositions/cricket/resultSingle/layout/MatchCard/card-classic-two-columns.tsx
-import { jsx as jsx372, jsxs as jsxs190 } from "react/jsx-runtime";
+import { jsx as jsx372, jsxs as jsxs189 } from "react/jsx-runtime";
 var ClassicTwoColumnsMatchCard = ({ match }) => {
   const { animations } = useAnimationContext();
   const containerAnimation = animations.container.main.itemContainer;
@@ -32276,7 +32691,7 @@ var ClassicTwoColumnsMatchCard = ({ match }) => {
   const headerHeight = 80;
   const teamsHeight = 240;
   const statsHeight = 560;
-  return /* @__PURE__ */ jsxs190(AnimatedContainer, {
+  return /* @__PURE__ */ jsxs189(AnimatedContainer, {
     type: "full",
     className: "rounded-lg w-auto mx-8 overflow-hidden h-full flex flex-col justify-center ",
     backgroundColor: "none",
@@ -32344,7 +32759,7 @@ var ClassicTwoColumnsMatchCard = ({ match }) => {
 var card_classic_two_columns_default = ClassicTwoColumnsMatchCard;
 
 // src/compositions/cricket/resultSingle/layout/MatchCard/card-classic-two-columns-ClubOnly.tsx
-import { jsx as jsx373, jsxs as jsxs191 } from "react/jsx-runtime";
+import { jsx as jsx373, jsxs as jsxs190 } from "react/jsx-runtime";
 var ClassicTwoColumnsMatchCardClubOnly = ({ match }) => {
   const { animations } = useAnimationContext();
   const { layout } = useThemeContext();
@@ -32363,7 +32778,7 @@ var ClassicTwoColumnsMatchCardClubOnly = ({ match }) => {
   if (!clubTeamPlayers || !clubTeam) {
     return null;
   }
-  return /* @__PURE__ */ jsxs191(AnimatedContainer, {
+  return /* @__PURE__ */ jsxs190(AnimatedContainer, {
     type: "full",
     className: `${layout.borderRadius.container} w-auto mx-8 overflow-hidden h-full flex flex-col justify-center`,
     backgroundColor: "none",
@@ -32434,12 +32849,12 @@ var ClassicTwoColumnsMatchCardClubOnly = ({ match }) => {
 var card_classic_two_columns_ClubOnly_default = ClassicTwoColumnsMatchCardClubOnly;
 
 // src/compositions/cricket/resultSingle/controller/ResultSingleDisplay/display-classic-two-columns.tsx
-import { jsx as jsx374, jsxs as jsxs192 } from "react/jsx-runtime";
+import { jsx as jsx374, jsxs as jsxs191 } from "react/jsx-runtime";
 var ClassicSingleResultTwoColumns = ({ match }) => {
   const { layout } = useThemeContext();
   const { heights } = layout;
   const { isAccountClub } = useVideoDataContext();
-  return /* @__PURE__ */ jsxs192("div", {
+  return /* @__PURE__ */ jsxs191("div", {
     className: "flex flex-col h-full w-full",
     children: [
       /* @__PURE__ */ jsx374("div", {
@@ -32497,7 +32912,7 @@ var ClassicTwoColumns = () => {
 };
 
 // src/compositions/cricket/results/layout/Sections/TeamsSection/Horizontal_SingleTeam_CNSW.tsx
-import { jsx as jsx376, jsxs as jsxs193 } from "react/jsx-runtime";
+import { jsx as jsx376, jsxs as jsxs192 } from "react/jsx-runtime";
 var truncateText12 = (text, maxLength) => {
   if (!text || text.length <= maxLength) return text || "";
   return text.substring(0, maxLength - 3) + "...";
@@ -32537,7 +32952,7 @@ var Horizontal_SingleTeam_CNSW = ({ type, Team, delay, outerContainer, firstInni
     style: outerContainer,
     animation: animations.container.main.itemContainer.containerIn,
     animationDelay: delay,
-    children: /* @__PURE__ */ jsxs193("div", {
+    children: /* @__PURE__ */ jsxs192("div", {
       className: `flex w-full justify-between items-center py-2 px-4 relative ${layout.borderRadius.container}`,
       style: {
         background: backgroundColor,
@@ -32555,7 +32970,7 @@ var Horizontal_SingleTeam_CNSW = ({ type, Team, delay, outerContainer, firstInni
             }),
           }),
         }),
-        /* @__PURE__ */ jsxs193(AnimatedContainer, {
+        /* @__PURE__ */ jsxs192(AnimatedContainer, {
           type: "full",
           backgroundColor: "none",
           className: `text-white px-6 py-1 font-bold text-lg flex items-center shadow-md ${layout.borderRadius.container}`,
@@ -32584,7 +32999,7 @@ var Horizontal_SingleTeam_CNSW = ({ type, Team, delay, outerContainer, firstInni
 var Horizontal_SingleTeam_CNSW_default = Horizontal_SingleTeam_CNSW;
 
 // src/compositions/cricket/resultSingle/layout/MatchCard/card-cnsw.tsx
-import { jsx as jsx377, jsxs as jsxs194 } from "react/jsx-runtime";
+import { jsx as jsx377, jsxs as jsxs193 } from "react/jsx-runtime";
 var CNSWMatchCard = ({ match }) => {
   const { animations } = useAnimationContext();
   const containerAnimation = animations.container.main.itemContainer;
@@ -32595,7 +33010,7 @@ var CNSWMatchCard = ({ match }) => {
   const headerHeight = 80;
   const teamsHeight = 240;
   const statsHeight = 560;
-  return /* @__PURE__ */ jsxs194(AnimatedContainer, {
+  return /* @__PURE__ */ jsxs193(AnimatedContainer, {
     type: "full",
     className: "rounded-lg w-auto mx-8 overflow-hidden h-full",
     backgroundColor: "none",
@@ -32671,7 +33086,7 @@ var CNSWMatchCard = ({ match }) => {
 var card_cnsw_default = CNSWMatchCard;
 
 // src/compositions/cricket/resultSingle/layout/MatchCard/card-cnsw-ClubOnly.tsx
-import { jsx as jsx378, jsxs as jsxs195 } from "react/jsx-runtime";
+import { jsx as jsx378, jsxs as jsxs194 } from "react/jsx-runtime";
 var CNSWMatchCardClubOnly = ({ match }) => {
   const { animations } = useAnimationContext();
   const { layout } = useThemeContext();
@@ -32690,7 +33105,7 @@ var CNSWMatchCardClubOnly = ({ match }) => {
   if (!clubTeamPlayers || !clubTeam) {
     return null;
   }
-  return /* @__PURE__ */ jsxs195(AnimatedContainer, {
+  return /* @__PURE__ */ jsxs194(AnimatedContainer, {
     type: "full",
     className: `${layout.borderRadius.container} w-auto mx-8 overflow-hidden h-full flex flex-col justify-center`,
     backgroundColor: "none",
@@ -32770,13 +33185,13 @@ var CNSWMatchCardClubOnly = ({ match }) => {
 var card_cnsw_ClubOnly_default = CNSWMatchCardClubOnly;
 
 // src/compositions/cricket/resultSingle/controller/ResultSingleDisplay/display-cnsw.tsx
-import { jsx as jsx379, jsxs as jsxs196 } from "react/jsx-runtime";
+import { jsx as jsx379, jsxs as jsxs195 } from "react/jsx-runtime";
 var CNSWSingleResult = ({ match }) => {
   const { layout } = useThemeContext();
   const { heights } = layout;
   const { isAccountClub } = useVideoDataContext();
   const availableHeight = heights.asset;
-  return /* @__PURE__ */ jsxs196("div", {
+  return /* @__PURE__ */ jsxs195("div", {
     className: "flex flex-col h-full w-full",
     children: [
       /* @__PURE__ */ jsx379("div", {
@@ -32834,7 +33249,7 @@ var CNSW6 = () => {
 };
 
 // src/compositions/cricket/results/layout/Sections/TeamsSection/Horizontal_SingleTeam_CNSW-private.tsx
-import { jsx as jsx381, jsxs as jsxs197 } from "react/jsx-runtime";
+import { jsx as jsx381, jsxs as jsxs196 } from "react/jsx-runtime";
 var truncateText13 = (text, maxLength) => {
   if (!text || text.length <= maxLength) return text || "";
   return text.substring(0, maxLength - 3) + "...";
@@ -32880,7 +33295,7 @@ var Horizontal_SingleTeam_CNSWPrivate = ({
     style: outerContainer,
     animation: animations.container.main.itemContainer.containerIn,
     animationDelay: delay,
-    children: /* @__PURE__ */ jsxs197("div", {
+    children: /* @__PURE__ */ jsxs196("div", {
       className: `flex w-full justify-between items-center py-2 px-4 relative ${layout.borderRadius.container}`,
       style: {
         background: backgroundColor,
@@ -32898,7 +33313,7 @@ var Horizontal_SingleTeam_CNSWPrivate = ({
             }),
           }),
         }),
-        /* @__PURE__ */ jsxs197(AnimatedContainer, {
+        /* @__PURE__ */ jsxs196(AnimatedContainer, {
           type: "full",
           backgroundColor: "none",
           className: `text-white px-6 py-1 font-bold text-lg flex items-center shadow-md ${layout.borderRadius.container}`,
@@ -32927,7 +33342,7 @@ var Horizontal_SingleTeam_CNSWPrivate = ({
 var Horizontal_SingleTeam_CNSW_private_default = Horizontal_SingleTeam_CNSWPrivate;
 
 // src/compositions/cricket/resultSingle/layout/MatchCard/card-cnsw-private.tsx
-import { jsx as jsx382, jsxs as jsxs198 } from "react/jsx-runtime";
+import { jsx as jsx382, jsxs as jsxs197 } from "react/jsx-runtime";
 var CNSWMatchCardPrivate = ({ match }) => {
   const { animations } = useAnimationContext();
   const containerAnimation = animations.container.main.itemContainer;
@@ -32938,7 +33353,7 @@ var CNSWMatchCardPrivate = ({ match }) => {
   const headerHeight = 80;
   const teamsHeight = 240;
   const statsHeight = 560;
-  return /* @__PURE__ */ jsxs198(AnimatedContainer, {
+  return /* @__PURE__ */ jsxs197(AnimatedContainer, {
     type: "full",
     className: "rounded-lg w-auto mx-8 overflow-hidden h-full",
     backgroundColor: "none",
@@ -33014,12 +33429,12 @@ var CNSWMatchCardPrivate = ({ match }) => {
 var card_cnsw_private_default = CNSWMatchCardPrivate;
 
 // src/compositions/cricket/resultSingle/controller/ResultSingleDisplay/display-cnsw-private.tsx
-import { jsx as jsx383, jsxs as jsxs199 } from "react/jsx-runtime";
+import { jsx as jsx383, jsxs as jsxs198 } from "react/jsx-runtime";
 var CNSWSingleResultPrivate = ({ match }) => {
   const { layout } = useThemeContext();
   const { heights } = layout;
   const availableHeight = heights.asset;
-  return /* @__PURE__ */ jsxs199("div", {
+  return /* @__PURE__ */ jsxs198("div", {
     className: "flex flex-col h-full w-full",
     children: [
       /* @__PURE__ */ jsx383("div", {
@@ -33075,7 +33490,7 @@ var CNSWPrivate4 = () => {
 };
 
 // src/compositions/cricket/resultSingle/layout/MatchCard/card-brickWork.tsx
-import { jsx as jsx385, jsxs as jsxs200 } from "react/jsx-runtime";
+import { jsx as jsx385, jsxs as jsxs199 } from "react/jsx-runtime";
 var BrickWorkMatchCard = ({ match }) => {
   const { selectedPalette, layout } = useThemeContext();
   const { heights } = layout;
@@ -33084,7 +33499,7 @@ var BrickWorkMatchCard = ({ match }) => {
   const { teamsHeight, statsHeight, headerHeight } = calculateSectionHeights2(rowHeight);
   const { baseDelay: calculatedBaseDelay, statsDelay, headerDelay } = calculateDelays2(baseDelay);
   const { resultShort, resultSummary } = match;
-  return /* @__PURE__ */ jsxs200("div", {
+  return /* @__PURE__ */ jsxs199("div", {
     className: "rounded-none w-auto mx-8 overflow-hidden h-full",
     children: [
       /* @__PURE__ */ jsx385(ResultStatementBrickWork, {
@@ -33139,7 +33554,7 @@ var BrickWorkMatchCard = ({ match }) => {
 var card_brickWork_default = BrickWorkMatchCard;
 
 // src/compositions/cricket/resultSingle/layout/MatchCard/card-brickWork-ClubOnly.tsx
-import { jsx as jsx386, jsxs as jsxs201 } from "react/jsx-runtime";
+import { jsx as jsx386, jsxs as jsxs200 } from "react/jsx-runtime";
 var BrickWorkMatchCardClubOnly = ({ match }) => {
   const { selectedPalette, layout } = useThemeContext();
   const { heights } = layout;
@@ -33148,7 +33563,7 @@ var BrickWorkMatchCardClubOnly = ({ match }) => {
   const { teamsHeight, statsHeight, headerHeight } = calculateSectionHeights2(rowHeight);
   const { baseDelay: calculatedBaseDelay, statsDelay, headerDelay } = calculateDelays2(baseDelay);
   const { resultShort, resultSummary } = match;
-  return /* @__PURE__ */ jsxs201("div", {
+  return /* @__PURE__ */ jsxs200("div", {
     className: "rounded-none w-auto mx-8 overflow-hidden h-full flex flex-col justify-center",
     children: [
       /* @__PURE__ */ jsx386(TeamsSectionLogoAndScoreBrickWork, {
@@ -33202,13 +33617,13 @@ var BrickWorkMatchCardClubOnly = ({ match }) => {
 var card_brickWork_ClubOnly_default = BrickWorkMatchCardClubOnly;
 
 // src/compositions/cricket/resultSingle/controller/ResultSingleDisplay/display-brickWork.tsx
-import { jsx as jsx387, jsxs as jsxs202 } from "react/jsx-runtime";
+import { jsx as jsx387, jsxs as jsxs201 } from "react/jsx-runtime";
 var BrickWorkSingleResult = ({ match }) => {
   const { layout } = useThemeContext();
   const { heights } = layout;
   const { isAccountClub } = useVideoDataContext();
   const availableHeight = heights.asset;
-  return /* @__PURE__ */ jsxs202("div", {
+  return /* @__PURE__ */ jsxs201("div", {
     className: "flex flex-col h-full w-full",
     children: [
       /* @__PURE__ */ jsx387("div", {
@@ -33279,7 +33694,7 @@ var formatScoreWithOvers2 = (score, overs) => {
 };
 
 // src/compositions/cricket/resultSingle/layout/Sections/MatchHeader/MudgeerabaSingleTeamHeader.tsx
-import { jsx as jsx389, jsxs as jsxs203 } from "react/jsx-runtime";
+import { jsx as jsx389, jsxs as jsxs202 } from "react/jsx-runtime";
 var MudgeerabaSingleTeamHeader2 = ({ team, teamLogo, delay, outerContainer }) => {
   var _a, _b;
   const { animations } = useAnimationContext();
@@ -33302,7 +33717,7 @@ var MudgeerabaSingleTeamHeader2 = ({ team, teamLogo, delay, outerContainer }) =>
     },
     animation: ContainerAnimations.containerIn,
     animationDelay: delay,
-    children: /* @__PURE__ */ jsxs203("div", {
+    children: /* @__PURE__ */ jsxs202("div", {
       className: "w-full flex items-center relative",
       style: {
         height: `${stripeHeight}px`,
@@ -33322,7 +33737,7 @@ var MudgeerabaSingleTeamHeader2 = ({ team, teamLogo, delay, outerContainer }) =>
             children: team.name,
           }),
         }),
-        /* @__PURE__ */ jsxs203("div", {
+        /* @__PURE__ */ jsxs202("div", {
           className: "flex items-center relative h-full",
           style: { paddingRight: "12px" },
           children: [
@@ -33367,7 +33782,7 @@ var MudgeerabaSingleTeamHeader2 = ({ team, teamLogo, delay, outerContainer }) =>
 var MudgeerabaSingleTeamHeader_default2 = MudgeerabaSingleTeamHeader2;
 
 // src/compositions/cricket/resultSingle/layout/MatchCard/card-Mudgeeraba.tsx
-import { jsx as jsx390, jsxs as jsxs204 } from "react/jsx-runtime";
+import { jsx as jsx390, jsxs as jsxs203 } from "react/jsx-runtime";
 var MatchCardMudgeeraba2 = ({ match }) => {
   const { animations } = useAnimationContext();
   const { colors } = useThemeContext();
@@ -33398,7 +33813,7 @@ var MatchCardMudgeeraba2 = ({ match }) => {
     animationDelay: baseDelay,
     exitAnimation: containerAnimation.containerOut,
     exitFrame: 250,
-    children: /* @__PURE__ */ jsxs204(LayeredAngularPanel, {
+    children: /* @__PURE__ */ jsxs203(LayeredAngularPanel, {
       clipPath: SHALLOW_ROW_LEFT,
       surfaceColor: "transparent",
       underlayColor: getLayeredUnderlayColor(colors.primary),
@@ -33459,7 +33874,7 @@ var MatchCardMudgeeraba2 = ({ match }) => {
 var card_Mudgeeraba_default2 = MatchCardMudgeeraba2;
 
 // src/compositions/cricket/resultSingle/layout/MatchCard/card-Mudgeeraba-clubOnly.tsx
-import { jsx as jsx391, jsxs as jsxs205 } from "react/jsx-runtime";
+import { jsx as jsx391, jsxs as jsxs204 } from "react/jsx-runtime";
 var MatchCardMudgeerabaClubOnly2 = ({ match }) => {
   const { animations } = useAnimationContext();
   const { layout } = useThemeContext();
@@ -33483,7 +33898,7 @@ var MatchCardMudgeerabaClubOnly2 = ({ match }) => {
   const clubTeamLogo = isHomeClub ? match.teamHomeLogo : match.teamAwayLogo;
   const oppositionTeamLogo = isHomeClub ? match.teamAwayLogo : match.teamHomeLogo;
   const { resultShort, resultSummary } = match;
-  return /* @__PURE__ */ jsxs205(AnimatedContainer, {
+  return /* @__PURE__ */ jsxs204(AnimatedContainer, {
     type: "full",
     className: "rounded-none w-auto mx-6 overflow-hidden h-full flex flex-col",
     backgroundColor: "none",
@@ -33511,7 +33926,7 @@ var MatchCardMudgeerabaClubOnly2 = ({ match }) => {
             outerContainer: { height: headerHeight },
           }),
         }),
-      /* @__PURE__ */ jsxs205("div", {
+      /* @__PURE__ */ jsxs204("div", {
         className: "flex flex-col gap-1",
         children: [
           /* @__PURE__ */ jsx391(Type_Round_Ground_stacked_default, {
@@ -33524,7 +33939,7 @@ var MatchCardMudgeerabaClubOnly2 = ({ match }) => {
             backgroundColor: "transparent",
             CopyVariant: "onContainerCopyNoBg",
           }),
-          /* @__PURE__ */ jsxs205("div", {
+          /* @__PURE__ */ jsxs204("div", {
             className: "flex flex-col gap-0",
             children: [
               /* @__PURE__ */ jsx391(MudgeerabaSingleTeamHeader_default2, {
@@ -33546,7 +33961,7 @@ var MatchCardMudgeerabaClubOnly2 = ({ match }) => {
               }),
             ],
           }),
-          /* @__PURE__ */ jsxs205("div", {
+          /* @__PURE__ */ jsxs204("div", {
             className: "flex flex-col gap-0",
             children: [
               /* @__PURE__ */ jsx391(MudgeerabaSingleTeamHeader_default2, {
@@ -33576,13 +33991,13 @@ var MatchCardMudgeerabaClubOnly2 = ({ match }) => {
 var card_Mudgeeraba_clubOnly_default2 = MatchCardMudgeerabaClubOnly2;
 
 // src/compositions/cricket/resultSingle/controller/ResultSingleDisplay/display-Mudgeeraba.tsx
-import { jsx as jsx392, jsxs as jsxs206 } from "react/jsx-runtime";
+import { jsx as jsx392, jsxs as jsxs205 } from "react/jsx-runtime";
 var ResultSingleDisplayMudgeeraba = ({ match }) => {
   const { layout } = useThemeContext();
   const { heights } = layout;
   const { isAccountClub } = useVideoDataContext();
   const availableHeight = heights.asset;
-  return /* @__PURE__ */ jsxs206("div", {
+  return /* @__PURE__ */ jsxs205("div", {
     className: "flex flex-col h-full w-full",
     children: [
       /* @__PURE__ */ jsx392("div", {
@@ -33656,14 +34071,14 @@ var MatchCardBroadcastPro2 = ({ match, contentHeight }) => {
 var card_BroadcastPro_default2 = MatchCardBroadcastPro2;
 
 // src/compositions/cricket/resultSingle/controller/ResultSingleDisplay/display-BroadcastPro.tsx
-import { jsx as jsx395, jsxs as jsxs207 } from "react/jsx-runtime";
+import { jsx as jsx395, jsxs as jsxs206 } from "react/jsx-runtime";
 var ResultSingleDisplayBroadcastPro = ({ match }) => {
   const { layout } = useThemeContext();
   const { animations } = useAnimationContext();
   const { heights } = layout;
   const containerAnimation = animations.container.main.itemContainer;
   const mainContentHeight = getMainContentSectionHeight(heights);
-  return /* @__PURE__ */ jsxs207("div", {
+  return /* @__PURE__ */ jsxs206("div", {
     className: "flex h-full w-full flex-col",
     children: [
       /* @__PURE__ */ jsx395("div", {
@@ -33759,14 +34174,14 @@ var MatchCardBroadcastProRounded2 = ({ match, contentHeight }) => {
 var card_BroadcastProRounded_default2 = MatchCardBroadcastProRounded2;
 
 // src/compositions/cricket/resultSingle/controller/ResultSingleDisplay/display-BroadcastProRounded.tsx
-import { jsx as jsx398, jsxs as jsxs208 } from "react/jsx-runtime";
+import { jsx as jsx398, jsxs as jsxs207 } from "react/jsx-runtime";
 var ResultSingleDisplayBroadcastProRounded = ({ match }) => {
   const { layout } = useThemeContext();
   const { animations } = useAnimationContext();
   const { heights } = layout;
   const containerAnimation = animations.container.main.itemContainer;
   const mainContentHeight = getMainContentSectionHeight(heights);
-  return /* @__PURE__ */ jsxs208("div", {
+  return /* @__PURE__ */ jsxs207("div", {
     className: "flex h-full w-full flex-col",
     children: [
       /* @__PURE__ */ jsx398("div", {
@@ -33943,7 +34358,7 @@ var shouldApplyBackgroundColor = (backgroundColor) => {
 };
 
 // src/compositions/cricket/teamRoster/layout/RosterHeader/accountHolder/LargeTeamHeader.tsx
-import { jsx as jsx402, jsxs as jsxs209 } from "react/jsx-runtime";
+import { jsx as jsx402, jsxs as jsxs208 } from "react/jsx-runtime";
 var LargeTeamHeader = ({
   roster,
   variant = DEFAULT_TEAM_HEADER_VARIANT,
@@ -33965,7 +34380,7 @@ var LargeTeamHeader = ({
     },
     animation: void 0,
     animationDelay: DEFAULT_TEAM_HEADER_ANIMATION_DELAY,
-    children: /* @__PURE__ */ jsxs209("div", {
+    children: /* @__PURE__ */ jsxs208("div", {
       className: "flex flex-col items-center",
       children: [
         /* @__PURE__ */ jsx402("div", {
@@ -34012,7 +34427,7 @@ var shouldApplyBackgroundColor2 = (backgroundColor) => {
 };
 
 // src/compositions/cricket/teamRoster/layout/RosterHeader/Against/LargeTeamHeader.tsx
-import { jsx as jsx403, jsxs as jsxs210 } from "react/jsx-runtime";
+import { jsx as jsx403, jsxs as jsxs209 } from "react/jsx-runtime";
 var LargeTeamHeader2 = ({
   roster,
   variant = DEFAULT_TEAM_HEADER_VARIANT2,
@@ -34034,7 +34449,7 @@ var LargeTeamHeader2 = ({
     },
     animation: void 0,
     animationDelay: DEFAULT_TEAM_HEADER_ANIMATION_DELAY2,
-    children: /* @__PURE__ */ jsxs210("div", {
+    children: /* @__PURE__ */ jsxs209("div", {
       className: "flex flex-col items-center",
       children: [
         /* @__PURE__ */ jsx403("div", {
@@ -34073,7 +34488,7 @@ var getSubtleBackgroundColor = (selectedPalette) => {
 };
 
 // src/compositions/cricket/teamRoster/layout/Metadata/TwoMetaValues.tsx
-import { Fragment as Fragment14, jsx as jsx404, jsxs as jsxs211 } from "react/jsx-runtime";
+import { Fragment as Fragment13, jsx as jsx404, jsxs as jsxs210 } from "react/jsx-runtime";
 var TwoMetaValuesSubtleWrapper = ({ values }) => {
   const { selectedPalette } = useThemeContext();
   const { animations } = useAnimationContext();
@@ -34107,7 +34522,7 @@ var TwoMetaValuesNoWrapper = ({ values }) => {
 var TwoMetaValuesValues = ({ values, variant = DEFAULT_METADATA_VARIANT }) => {
   const { animations } = useAnimationContext();
   const TextAnimations = animations.text.main;
-  return /* @__PURE__ */ jsxs211(Fragment14, {
+  return /* @__PURE__ */ jsxs210(Fragment13, {
     children: [
       /* @__PURE__ */ jsx404(AnimatedText, {
         type: "metadataSmall",
@@ -34134,11 +34549,11 @@ var TwoMetaValuesValues = ({ values, variant = DEFAULT_METADATA_VARIANT }) => {
 };
 
 // src/compositions/cricket/teamRoster/layout/Metadata/VS.tsx
-import { Fragment as Fragment15, jsx as jsx405 } from "react/jsx-runtime";
+import { Fragment as Fragment14, jsx as jsx405 } from "react/jsx-runtime";
 var VS = ({ variant = DEFAULT_METADATA_VARIANT }) => {
   const { animations } = useAnimationContext();
   const TextAnimations = animations.text.main;
-  return /* @__PURE__ */ jsx405(Fragment15, {
+  return /* @__PURE__ */ jsx405(Fragment14, {
     children: /* @__PURE__ */ jsx405(AnimatedText, {
       type: "metadataLarge",
       animation: {
@@ -34184,7 +34599,7 @@ var ACCOUNT_TEAM_LOGO_SIZE = "300";
 var AGAINST_TEAM_LOGO_SIZE = "120";
 
 // src/compositions/cricket/teamRoster/controller/Display/display.tsx
-import { jsx as jsx406, jsxs as jsxs212 } from "react/jsx-runtime";
+import { jsx as jsx406, jsxs as jsxs211 } from "react/jsx-runtime";
 var RosterDisplay = ({ roster }) => {
   const { layout, selectedPalette } = useThemeContext();
   const availableHeight = getAvailableHeight(layout.heights);
@@ -34198,7 +34613,7 @@ var RosterDisplay = ({ roster }) => {
       animation: DEFAULT_CONTAINER_ANIMATION,
       animationDelay: 0,
       exitAnimation: DEFAULT_CONTAINER_EXIT_ANIMATION,
-      children: /* @__PURE__ */ jsxs212("div", {
+      children: /* @__PURE__ */ jsxs211("div", {
         className: "w-full flex flex-col justify-center rounded-xl",
         style: { height: `${availableHeight}px` },
         children: [
@@ -34208,12 +34623,12 @@ var RosterDisplay = ({ roster }) => {
               truncateText(formatGroundLocation(roster.ground), 50),
             ],
           }),
-          /* @__PURE__ */ jsxs212("div", {
+          /* @__PURE__ */ jsxs211("div", {
             className: "flex flex-row gap-2 justify-between items-center ",
             style: { backgroundColor },
             children: [
               /* @__PURE__ */ jsx406(playerList_default, { roster, gap: "gap-4" }),
-              /* @__PURE__ */ jsxs212("div", {
+              /* @__PURE__ */ jsxs211("div", {
                 className: "flex flex-col gap-4 p-4",
                 children: [
                   /* @__PURE__ */ jsx406(LargeTeamHeader, {
@@ -34307,7 +34722,7 @@ var calculateRosterDuration = (timings) => {
 };
 
 // src/compositions/cricket/teamRoster/basic.tsx
-import { jsx as jsx409, jsxs as jsxs213 } from "react/jsx-runtime";
+import { jsx as jsx409, jsxs as jsxs212 } from "react/jsx-runtime";
 var CricketRosterWithTransitions = () => {
   const { data } = useVideoDataContext();
   const { data: CompositionData, timings } = data;
@@ -34317,7 +34732,7 @@ var CricketRosterWithTransitions = () => {
   }
   return /* @__PURE__ */ jsx409(Series2, {
     children: rosterData.map((rosterItem, i) =>
-      /* @__PURE__ */ jsxs213(
+      /* @__PURE__ */ jsxs212(
         Series2.Sequence,
         {
           durationInFrames: calculateRosterDuration(timings),
@@ -34340,7 +34755,7 @@ var basic = () => {
 import { Series as Series3 } from "remotion";
 
 // src/compositions/cricket/teamRoster/controller/Display/display-sixers-thunder.tsx
-import { jsx as jsx410, jsxs as jsxs214 } from "react/jsx-runtime";
+import { jsx as jsx410, jsxs as jsxs213 } from "react/jsx-runtime";
 var RosterDisplaySixersThunder = ({ roster }) => {
   const { layout, selectedPalette } = useThemeContext();
   const availableHeight = getAvailableHeight(layout.heights);
@@ -34354,7 +34769,7 @@ var RosterDisplaySixersThunder = ({ roster }) => {
       animation: DEFAULT_CONTAINER_ANIMATION,
       animationDelay: 0,
       exitAnimation: DEFAULT_CONTAINER_EXIT_ANIMATION,
-      children: /* @__PURE__ */ jsxs214("div", {
+      children: /* @__PURE__ */ jsxs213("div", {
         className: "w-full flex flex-col justify-center",
         style: { height: `${availableHeight}px` },
         children: [
@@ -34364,7 +34779,7 @@ var RosterDisplaySixersThunder = ({ roster }) => {
               truncateText(formatGroundLocation(roster.ground), 50),
             ],
           }),
-          /* @__PURE__ */ jsxs214("div", {
+          /* @__PURE__ */ jsxs213("div", {
             className: `flex flex-row gap-2 justify-between items-center rounded-lg ${layout.borderRadius.container}  force-p-4`,
             style: { backgroundColor },
             children: [
@@ -34373,7 +34788,7 @@ var RosterDisplaySixersThunder = ({ roster }) => {
                 className: "text-left",
                 gap: "gap-4",
               }),
-              /* @__PURE__ */ jsxs214("div", {
+              /* @__PURE__ */ jsxs213("div", {
                 className: "flex flex-col gap-4 p-4",
                 children: [
                   /* @__PURE__ */ jsx410(LargeTeamHeader, {
@@ -34430,7 +34845,7 @@ var SixersThunder4 = () => {
 import { Series as Series4 } from "remotion";
 
 // src/compositions/cricket/teamRoster/controller/Display/display-classic.tsx
-import { jsx as jsx412, jsxs as jsxs215 } from "react/jsx-runtime";
+import { jsx as jsx412, jsxs as jsxs214 } from "react/jsx-runtime";
 var RosterDisplayClassic = ({ roster }) => {
   const { layout } = useThemeContext();
   const { heights } = layout;
@@ -34444,7 +34859,7 @@ var RosterDisplayClassic = ({ roster }) => {
       animation: DEFAULT_CONTAINER_ANIMATION,
       animationDelay: 0,
       exitAnimation: DEFAULT_CONTAINER_EXIT_ANIMATION,
-      children: /* @__PURE__ */ jsxs215("div", {
+      children: /* @__PURE__ */ jsxs214("div", {
         className: "w-full flex flex-col justify-center overflow-visible",
         style: { height: `${availableHeight}px` },
         children: [
@@ -34458,7 +34873,7 @@ var RosterDisplayClassic = ({ roster }) => {
             height: "auto",
             delay: 0,
             depth: "full",
-            children: /* @__PURE__ */ jsxs215("div", {
+            children: /* @__PURE__ */ jsxs214("div", {
               className: `flex flex-row gap-2 justify-between items-center ${layout.borderRadius.container} force-p-4 h-full`,
               children: [
                 /* @__PURE__ */ jsx412(playerList_default, {
@@ -34466,7 +34881,7 @@ var RosterDisplayClassic = ({ roster }) => {
                   className: "text-left",
                   gap: "gap-0",
                 }),
-                /* @__PURE__ */ jsxs215("div", {
+                /* @__PURE__ */ jsxs214("div", {
                   className: "flex flex-col gap-4 p-4",
                   children: [
                     /* @__PURE__ */ jsx412(LargeTeamHeader, {
@@ -34524,7 +34939,7 @@ var Classic6 = () => {
 import { Series as Series5 } from "remotion";
 
 // src/compositions/cricket/teamRoster/controller/Display/display-classic-two-column.tsx
-import { jsx as jsx414, jsxs as jsxs216 } from "react/jsx-runtime";
+import { jsx as jsx414, jsxs as jsxs215 } from "react/jsx-runtime";
 var RosterDisplayClassicTwoColumn = ({ roster }) => {
   const { layout } = useThemeContext();
   const { selectedPalette } = useThemeContext();
@@ -34541,7 +34956,7 @@ var RosterDisplayClassicTwoColumn = ({ roster }) => {
       style: {
         minHeight: `${CLASSIC_TWO_COLUMN_MIN_HEIGHT}px`,
       },
-      children: /* @__PURE__ */ jsxs216("div", {
+      children: /* @__PURE__ */ jsxs215("div", {
         className: "flex w-full flex-col justify-center",
         style: { minHeight: `${CLASSIC_TWO_COLUMN_MIN_HEIGHT}px` },
         children: [
@@ -34554,7 +34969,7 @@ var RosterDisplayClassicTwoColumn = ({ roster }) => {
           /* @__PURE__ */ jsx414(ClassicTexturedSurface, {
             className: `force-p-4 rounded-lg ${layout.borderRadius.container}`,
             backgroundColor,
-            children: /* @__PURE__ */ jsxs216("div", {
+            children: /* @__PURE__ */ jsxs215("div", {
               className: "flex flex-row items-center justify-between gap-2",
               children: [
                 /* @__PURE__ */ jsx414(playerList_default, {
@@ -34562,7 +34977,7 @@ var RosterDisplayClassicTwoColumn = ({ roster }) => {
                   className: "whitespace-nowrap text-left",
                   gap: "gap-4",
                 }),
-                /* @__PURE__ */ jsxs216("div", {
+                /* @__PURE__ */ jsxs215("div", {
                   className: "flex flex-col gap-4 p-4",
                   children: [
                     /* @__PURE__ */ jsx414(LargeTeamHeader, {
@@ -34622,7 +35037,7 @@ var ClassicTwoColumn4 = () => {
 import { Series as Series6 } from "remotion";
 
 // src/compositions/cricket/teamRoster/controller/Display/display-Mudgeeraba.tsx
-import { jsx as jsx416, jsxs as jsxs217 } from "react/jsx-runtime";
+import { jsx as jsx416, jsxs as jsxs216 } from "react/jsx-runtime";
 var ROSTER_ROW_HEIGHT = 58;
 var RosterDisplayMudgeeraba = ({ roster }) => {
   const { layout, selectedPalette, colors } = useThemeContext();
@@ -34640,17 +35055,17 @@ var RosterDisplayMudgeeraba = ({ roster }) => {
       animation: containerAnimation,
       animationDelay: 0,
       exitAnimation: containerExitAnimation,
-      children: /* @__PURE__ */ jsxs217("div", {
+      children: /* @__PURE__ */ jsxs216("div", {
         className: "flex-1 flex flex-col justify-center min-h-0",
         style: { height: `${availableHeight}px` },
         children: [
-          /* @__PURE__ */ jsxs217("div", {
+          /* @__PURE__ */ jsxs216("div", {
             className: "flex flex-row gap-4 justify-between items-stretch my-4 mx-4",
             children: [
               /* @__PURE__ */ jsx416("div", {
                 className: "flex-1 min-w-0 flex flex-col gap-2 p-4 overflow-visible",
                 children: roster.teamRoster.map((player, index) =>
-                  /* @__PURE__ */ jsxs217(
+                  /* @__PURE__ */ jsxs216(
                     LayeredAngularPanel,
                     {
                       clipPath: SHALLOW_ROW_LEFT,
@@ -34680,7 +35095,7 @@ var RosterDisplayMudgeeraba = ({ roster }) => {
                   ),
                 ),
               }),
-              /* @__PURE__ */ jsxs217("div", {
+              /* @__PURE__ */ jsxs216("div", {
                 className: "flex flex-col gap-4 p-4 justify-center flex-shrink-0 max-w-[380px]",
                 children: [
                   /* @__PURE__ */ jsx416(LargeTeamHeader, {
@@ -34698,7 +35113,7 @@ var RosterDisplayMudgeeraba = ({ roster }) => {
               }),
             ],
           }),
-          /* @__PURE__ */ jsxs217("div", {
+          /* @__PURE__ */ jsxs216("div", {
             className: "w-full flex flex-col gap-0 p-4 flex-shrink-0",
             children: [
               /* @__PURE__ */ jsx416(MetadataLarge, {
@@ -34729,7 +35144,7 @@ var RosterDisplayMudgeeraba = ({ roster }) => {
 var display_Mudgeeraba_default5 = RosterDisplayMudgeeraba;
 
 // src/compositions/cricket/teamRoster/mudgeeraba.tsx
-import { jsx as jsx417, jsxs as jsxs218 } from "react/jsx-runtime";
+import { jsx as jsx417, jsxs as jsxs217 } from "react/jsx-runtime";
 var CricketRosterWithTransitionsMudgeeraba = () => {
   const { data } = useVideoDataContext();
   const { data: CompositionData, timings } = data;
@@ -34739,7 +35154,7 @@ var CricketRosterWithTransitionsMudgeeraba = () => {
   }
   return /* @__PURE__ */ jsx417(Series6, {
     children: rosterData.map((rosterItem, i) =>
-      /* @__PURE__ */ jsxs218(
+      /* @__PURE__ */ jsxs217(
         Series6.Sequence,
         {
           durationInFrames: calculateRosterDuration(timings),
@@ -34791,7 +35206,7 @@ var RosterPlayerListBrickWork = ({ roster }) => {
 var playerList_brickWork_default = RosterPlayerListBrickWork;
 
 // src/compositions/cricket/teamRoster/layout/RosterHeader/brickWork/AccountTeamHeader.tsx
-import { jsx as jsx419, jsxs as jsxs219 } from "react/jsx-runtime";
+import { jsx as jsx419, jsxs as jsxs218 } from "react/jsx-runtime";
 var AccountTeamHeaderBrickWork = ({
   roster,
   variant = DEFAULT_TEAM_HEADER_VARIANT,
@@ -34811,7 +35226,7 @@ var AccountTeamHeaderBrickWork = ({
     },
     animation: void 0,
     animationDelay: DEFAULT_TEAM_HEADER_ANIMATION_DELAY,
-    children: /* @__PURE__ */ jsxs219("div", {
+    children: /* @__PURE__ */ jsxs218("div", {
       className: "flex flex-col items-center",
       children: [
         /* @__PURE__ */ jsx419("div", {
@@ -34843,7 +35258,7 @@ var AccountTeamHeaderBrickWork = ({
 };
 
 // src/compositions/cricket/teamRoster/layout/RosterHeader/brickWork/AgainstTeamHeader.tsx
-import { jsx as jsx420, jsxs as jsxs220 } from "react/jsx-runtime";
+import { jsx as jsx420, jsxs as jsxs219 } from "react/jsx-runtime";
 var AgainstTeamHeaderBrickWork = ({
   roster,
   variant = DEFAULT_TEAM_HEADER_VARIANT2,
@@ -34863,7 +35278,7 @@ var AgainstTeamHeaderBrickWork = ({
     },
     animation: void 0,
     animationDelay: DEFAULT_TEAM_HEADER_ANIMATION_DELAY2,
-    children: /* @__PURE__ */ jsxs220("div", {
+    children: /* @__PURE__ */ jsxs219("div", {
       className: "flex flex-col items-center",
       children: [
         /* @__PURE__ */ jsx420("div", {
@@ -34895,7 +35310,7 @@ var AgainstTeamHeaderBrickWork = ({
 };
 
 // src/compositions/cricket/teamRoster/controller/Display/display-BrickWork.tsx
-import { jsx as jsx421, jsxs as jsxs221 } from "react/jsx-runtime";
+import { jsx as jsx421, jsxs as jsxs220 } from "react/jsx-runtime";
 var BRICKWORK_ACCOUNT_LOGO = "200";
 var BRICKWORK_AGAINST_LOGO = "80";
 var RosterDisplayBrickWork = ({ roster }) => {
@@ -34913,11 +35328,11 @@ var RosterDisplayBrickWork = ({ roster }) => {
       animation: DEFAULT_CONTAINER_ANIMATION,
       animationDelay: 0,
       exitAnimation: DEFAULT_CONTAINER_EXIT_ANIMATION,
-      children: /* @__PURE__ */ jsxs221("div", {
+      children: /* @__PURE__ */ jsxs220("div", {
         className: "flex flex-col justify-center min-h-0 gap-1",
         style: { height: `${availableHeight}px` },
         children: [
-          /* @__PURE__ */ jsxs221("div", {
+          /* @__PURE__ */ jsxs220("div", {
             className: `flex flex-row gap-4 items-center flex-shrink-0 ${layout.borderRadius.container}`,
             style: { backgroundColor: bg },
             children: [
@@ -34926,7 +35341,7 @@ var RosterDisplayBrickWork = ({ roster }) => {
                 style: { flex: "6 0 0" },
                 children: /* @__PURE__ */ jsx421(playerList_brickWork_default, { roster }),
               }),
-              /* @__PURE__ */ jsxs221("div", {
+              /* @__PURE__ */ jsxs220("div", {
                 className: "flex flex-col gap-2 justify-center min-w-0",
                 style: { flex: "4 0 0" },
                 children: [
@@ -34947,7 +35362,7 @@ var RosterDisplayBrickWork = ({ roster }) => {
               }),
             ],
           }),
-          /* @__PURE__ */ jsxs221("div", {
+          /* @__PURE__ */ jsxs220("div", {
             className: "w-full flex flex-col items-start gap-0 p-3",
             style: { backgroundColor: bg },
             children: [
@@ -34979,7 +35394,7 @@ var RosterDisplayBrickWork = ({ roster }) => {
 var display_BrickWork_default4 = RosterDisplayBrickWork;
 
 // src/compositions/cricket/teamRoster/brickwork.tsx
-import { jsx as jsx422, jsxs as jsxs222 } from "react/jsx-runtime";
+import { jsx as jsx422, jsxs as jsxs221 } from "react/jsx-runtime";
 var CricketRosterBrickWork = () => {
   const { data } = useVideoDataContext();
   const { data: CompositionData, timings } = data;
@@ -34989,7 +35404,7 @@ var CricketRosterBrickWork = () => {
   }
   return /* @__PURE__ */ jsx422(Series7, {
     children: rosterData.map((rosterItem, i) =>
-      /* @__PURE__ */ jsxs222(
+      /* @__PURE__ */ jsxs221(
         Series7.Sequence,
         {
           durationInFrames: calculateRosterDuration(timings),
@@ -35011,8 +35426,11 @@ var brickwork = () => {
 // src/compositions/cricket/teamRoster/broadcastPro.tsx
 import { Series as Series8 } from "remotion";
 
+// src/compositions/cricket/teamRoster/controller/Display/display-BroadcastPro.tsx
+import { useVideoConfig as useVideoConfig15 } from "remotion";
+
 // src/templates/variants/broadcastPro/components/roster/BroadcastProRosterSheet.tsx
-import { useMemo as useMemo10 } from "react";
+import { useMemo as useMemo11 } from "react";
 
 // src/compositions/cricket/teamRoster/controller/Display/_utils/broadcastProRosterListMetrics.ts
 function computeBroadcastProRosterPlayerListMetrics(availableHeightPx, playerCount, sizing) {
@@ -35063,7 +35481,7 @@ function computeBroadcastProRosterPlayerListMetrics(availableHeightPx, playerCou
 }
 
 // src/templates/variants/broadcastPro/components/roster/BroadcastProRosterSheetRow.tsx
-import { jsx as jsx423, jsxs as jsxs223 } from "react/jsx-runtime";
+import { jsx as jsx423, jsxs as jsxs222 } from "react/jsx-runtime";
 var TEKO_ROSTER_TEXT_NUDGE_EM = 0.06;
 var rosterTekoOpticalNudge = {
   transform: `translateY(${TEKO_ROSTER_TEXT_NUDGE_EM}em)`,
@@ -35094,7 +35512,7 @@ var BroadcastProRosterSheetRow = ({ index, playerName, metrics, nameColor }) => 
       : "Teko";
   const indexColor = indexResult.variant === "leader" ? accent : text.muted;
   const rowHeightPx = Math.max(1, Math.round(metrics.rowPx));
-  return /* @__PURE__ */ jsxs223("div", {
+  return /* @__PURE__ */ jsxs222("div", {
     className: csClass(componentStyles, "broadcastProRosterRow"),
     style: { height: rowHeightPx, flexShrink: 0 },
     children: [
@@ -35159,11 +35577,11 @@ var BroadcastProRosterSheetRow = ({ index, playerName, metrics, nameColor }) => 
 };
 
 // src/templates/variants/broadcastPro/components/roster/BroadcastProRosterSheet.tsx
-import { jsx as jsx424, jsxs as jsxs224 } from "react/jsx-runtime";
+import { jsx as jsx424, jsxs as jsxs223 } from "react/jsx-runtime";
 var BroadcastProRosterSheet = ({ players, availableHeightPx, nameColor, className = "" }) => {
   const { componentStyles, broadcastProRosterListSizing } = useThemeContext();
   const { accent } = useBroadcastProTheme();
-  const metrics = useMemo10(
+  const metrics = useMemo11(
     () =>
       computeBroadcastProRosterPlayerListMetrics(
         availableHeightPx,
@@ -35172,7 +35590,7 @@ var BroadcastProRosterSheet = ({ players, availableHeightPx, nameColor, classNam
       ),
     [availableHeightPx, players.length, broadcastProRosterListSizing],
   );
-  return /* @__PURE__ */ jsxs224("div", {
+  return /* @__PURE__ */ jsxs223("div", {
     className: `flex min-h-0 min-w-0 flex-1 gap-2 ${className}`.trim(),
     children: [
       /* @__PURE__ */ jsx424("div", {
@@ -35200,7 +35618,7 @@ var BroadcastProRosterSheet = ({ players, availableHeightPx, nameColor, classNam
 };
 
 // src/compositions/cricket/teamRoster/controller/Display/display-BroadcastPro.tsx
-import { jsx as jsx425, jsxs as jsxs225 } from "react/jsx-runtime";
+import { jsx as jsx425, jsxs as jsxs224 } from "react/jsx-runtime";
 var rosterClass = (styles, key) => {
   var _a, _b;
   return (_b = (_a = styles[key]) == null ? void 0 : _a.className) != null ? _b : "";
@@ -35214,6 +35632,7 @@ var MetaRow = ({
   valueClassName,
   labelColor,
   valueColor,
+  valueStyle,
 }) =>
   /* @__PURE__ */ jsx425("div", {
     className: rowClassName,
@@ -35222,7 +35641,7 @@ var MetaRow = ({
       backgroundColor: glass.panel,
       border: glass.border,
     },
-    children: /* @__PURE__ */ jsxs225("div", {
+    children: /* @__PURE__ */ jsxs224("div", {
       className: "min-w-0",
       children: [
         /* @__PURE__ */ jsx425("span", {
@@ -35232,7 +35651,7 @@ var MetaRow = ({
         }),
         /* @__PURE__ */ jsx425("span", {
           className: valueClassName,
-          style: { color: valueColor },
+          style: { color: valueColor, ...valueStyle },
           children: value,
         }),
       ],
@@ -35241,6 +35660,7 @@ var MetaRow = ({
 var RosterDisplayBroadcastPro = ({ roster }) => {
   var _a, _b;
   const { layout, fontClasses, componentStyles } = useThemeContext();
+  const { width: compositionWidth } = useVideoConfig15();
   const { glass, textOnGlass: textOnContainer } = useBroadcastProTheme();
   const availableHeight = getMainContentHeightReservingFooter(layout.heights);
   const cs = (key) => rosterClass(componentStyles, key);
@@ -35249,6 +35669,15 @@ var RosterDisplayBroadcastPro = ({ roster }) => {
     null
       ? _b
       : "Teko";
+  const rosterSidebarWidth = getBroadcastProRosterSidebarWidth(compositionWidth);
+  const gradeFontSize = useFittedTextBoxFontSize({
+    text: roster.gradeName,
+    fontFamily: titleFontFamily,
+    withinWidth: Math.max(0, rosterSidebarWidth - 34),
+    maxLines: 2,
+    minFontSize: 22,
+    maxFontSize: 28,
+  });
   const { accountHolder, against } = getTeamPerspective(roster);
   const accountLabel = roster.isHomeTeam ? "HOME TEAM" : "AWAY TEAM";
   const opponentLabel = roster.isHomeTeam ? "AWAY TEAM" : "HOME TEAM";
@@ -35268,7 +35697,7 @@ var RosterDisplayBroadcastPro = ({ roster }) => {
           height: `${availableHeight}px`,
           maxHeight: `${availableHeight}px`,
         },
-        children: /* @__PURE__ */ jsxs225("div", {
+        children: /* @__PURE__ */ jsxs224("div", {
           className: cs("broadcastProRosterGrid"),
           children: [
             /* @__PURE__ */ jsx425("div", {
@@ -35279,7 +35708,7 @@ var RosterDisplayBroadcastPro = ({ roster }) => {
                 nameColor: textOnContainer.copy,
               }),
             }),
-            /* @__PURE__ */ jsxs225("div", {
+            /* @__PURE__ */ jsxs224("div", {
               className: cs("broadcastProRosterSidebar"),
               children: [
                 /* @__PURE__ */ jsx425(BroadcastProMatchup, {
@@ -35305,7 +35734,7 @@ var RosterDisplayBroadcastPro = ({ roster }) => {
                   glass,
                   fontFamily: titleFontFamily,
                 }),
-                /* @__PURE__ */ jsxs225("div", {
+                /* @__PURE__ */ jsxs224("div", {
                   className: cs("broadcastProRosterMetaStack"),
                   children: [
                     /* @__PURE__ */ jsx425(MetaRow, {
@@ -35327,6 +35756,7 @@ var RosterDisplayBroadcastPro = ({ roster }) => {
                       valueClassName: cs("broadcastProRosterMetaValue"),
                       labelColor: textOnContainer.muted,
                       valueColor: textOnContainer.copy,
+                      valueStyle: { fontSize: gradeFontSize },
                     }),
                     /* @__PURE__ */ jsx425(MetaRow, {
                       label: "DATE",
@@ -35351,7 +35781,7 @@ var RosterDisplayBroadcastPro = ({ roster }) => {
 var display_BroadcastPro_default5 = RosterDisplayBroadcastPro;
 
 // src/compositions/cricket/teamRoster/broadcastPro.tsx
-import { jsx as jsx426, jsxs as jsxs226 } from "react/jsx-runtime";
+import { jsx as jsx426, jsxs as jsxs225 } from "react/jsx-runtime";
 var CricketRosterBroadcastPro = () => {
   const { data } = useVideoDataContext();
   const { data: CompositionData, timings } = data;
@@ -35364,7 +35794,7 @@ var CricketRosterBroadcastPro = () => {
   }
   return /* @__PURE__ */ jsx426(Series8, {
     children: rosterData.map((rosterItem, i) =>
-      /* @__PURE__ */ jsxs226(
+      /* @__PURE__ */ jsxs225(
         Series8.Sequence,
         {
           durationInFrames: calculateRosterDuration(timings),
@@ -35391,23 +35821,11 @@ var broadcastpro3 = () => {
 // src/compositions/cricket/teamRoster/broadcastProRounded.tsx
 import { Series as Series9 } from "remotion";
 
-// src/templates/variants/broadcastProRounded/components/roster/BroadcastProRoundedRosterSheet.tsx
-import { useMemo as useMemo11 } from "react";
+// src/compositions/cricket/teamRoster/controller/Display/display-BroadcastProRounded.tsx
+import { useVideoConfig as useVideoConfig16 } from "remotion";
 
-// src/templates/types/broadcast-pro-rounded/roster-list-sizing.ts
-var DEFAULT_BROADCAST_PRO_ROSTER_LIST_SIZING2 = {
-  leftColumnHeaderReservePx: 36,
-  minRowPx: 26,
-  minNameFontPx: 12,
-  maxNameFontPx: 38,
-  minNumberFontPx: 11,
-  maxNumberFontPx: 36,
-  nameRowHeightMultiplier: 0.45,
-  numberRowHeightMultiplier: 0.41,
-  nameFontBonusPx: 2,
-  nameInnerClampMaxOffsetPx: 2,
-  listChromeReservePx: 24,
-};
+// src/templates/variants/broadcastProRounded/components/roster/BroadcastProRoundedRosterSheet.tsx
+import { useMemo as useMemo12 } from "react";
 
 // src/compositions/cricket/teamRoster/controller/Display/_utils/broadcastProRoundedRosterListMetrics.ts
 function computeBroadcastProRoundedRosterPlayerListMetrics(availableHeightPx, playerCount, sizing) {
@@ -35458,7 +35876,7 @@ function computeBroadcastProRoundedRosterPlayerListMetrics(availableHeightPx, pl
 }
 
 // src/templates/variants/broadcastProRounded/components/roster/BroadcastProRoundedRosterSheetRow.tsx
-import { jsx as jsx427, jsxs as jsxs227 } from "react/jsx-runtime";
+import { jsx as jsx427, jsxs as jsxs226 } from "react/jsx-runtime";
 var TEKO_ROSTER_TEXT_NUDGE_EM2 = 0.06;
 var rosterTekoOpticalNudge2 = {
   transform: `translateY(${TEKO_ROSTER_TEXT_NUDGE_EM2}em)`,
@@ -35490,7 +35908,7 @@ var BroadcastProRoundedRosterSheetRow = ({ index, playerName, metrics, nameColor
       : "Teko";
   const indexColor = indexResult.variant === "leader" ? accent : text.muted;
   const rowHeightPx = Math.max(1, Math.round(metrics.rowPx));
-  return /* @__PURE__ */ jsxs227("div", {
+  return /* @__PURE__ */ jsxs226("div", {
     className: csClass2(componentStyles, "broadcastProRoundedRosterRow"),
     style: { height: rowHeightPx, flexShrink: 0 },
     children: [
@@ -35555,7 +35973,7 @@ var BroadcastProRoundedRosterSheetRow = ({ index, playerName, metrics, nameColor
 };
 
 // src/templates/variants/broadcastProRounded/components/roster/BroadcastProRoundedRosterSheet.tsx
-import { jsx as jsx428, jsxs as jsxs228 } from "react/jsx-runtime";
+import { jsx as jsx428, jsxs as jsxs227 } from "react/jsx-runtime";
 var BroadcastProRoundedRosterSheet = ({
   players,
   availableHeightPx,
@@ -35564,7 +35982,7 @@ var BroadcastProRoundedRosterSheet = ({
 }) => {
   const { componentStyles, broadcastProRoundedRosterListSizing } = useThemeContext();
   const { accent } = useBroadcastProRoundedTheme();
-  const metrics = useMemo11(
+  const metrics = useMemo12(
     () =>
       computeBroadcastProRoundedRosterPlayerListMetrics(
         availableHeightPx,
@@ -35573,7 +35991,7 @@ var BroadcastProRoundedRosterSheet = ({
       ),
     [availableHeightPx, players.length, broadcastProRoundedRosterListSizing],
   );
-  return /* @__PURE__ */ jsxs228("div", {
+  return /* @__PURE__ */ jsxs227("div", {
     className: `flex h-full min-h-0 min-w-0 flex-1 gap-2 ${className}`.trim(),
     children: [
       /* @__PURE__ */ jsx428("div", {
@@ -35601,7 +36019,7 @@ var BroadcastProRoundedRosterSheet = ({
 };
 
 // src/compositions/cricket/teamRoster/controller/Display/display-BroadcastProRounded.tsx
-import { jsx as jsx429, jsxs as jsxs229 } from "react/jsx-runtime";
+import { jsx as jsx429, jsxs as jsxs228 } from "react/jsx-runtime";
 var rosterClass2 = (styles, key) => {
   var _a, _b;
   return (_b = (_a = styles[key]) == null ? void 0 : _a.className) != null ? _b : "";
@@ -35616,6 +36034,7 @@ var MetaRow2 = ({
   labelColor,
   valueColor,
   cellRadius,
+  valueStyle,
 }) =>
   /* @__PURE__ */ jsx429("div", {
     className: `overflow-hidden ${cellRadius} ${rowClassName}`.trim(),
@@ -35624,7 +36043,7 @@ var MetaRow2 = ({
       backgroundColor: glass.panel,
       border: glass.border,
     },
-    children: /* @__PURE__ */ jsxs229("div", {
+    children: /* @__PURE__ */ jsxs228("div", {
       className: "min-w-0",
       children: [
         /* @__PURE__ */ jsx429("span", {
@@ -35634,7 +36053,7 @@ var MetaRow2 = ({
         }),
         /* @__PURE__ */ jsx429("span", {
           className: valueClassName,
-          style: { color: valueColor },
+          style: { color: valueColor, ...valueStyle },
           children: value,
         }),
       ],
@@ -35644,6 +36063,7 @@ var ROSTER_ROOT_TOP_PADDING_PX = 24;
 var RosterDisplayBroadcastProRounded = ({ roster }) => {
   var _a, _b;
   const { layout, fontClasses, componentStyles } = useThemeContext();
+  const { width: compositionWidth } = useVideoConfig16();
   const { glass, textOnGlass: textOnContainer } = useBroadcastProRoundedTheme();
   const cellRadius = layout.borderRadius.container;
   const availableHeight = getMainContentHeightReservingFooter(layout.heights);
@@ -35654,6 +36074,15 @@ var RosterDisplayBroadcastProRounded = ({ roster }) => {
     null
       ? _b
       : "Teko";
+  const rosterSidebarWidth = getBroadcastProRoundedRosterSidebarWidth(compositionWidth);
+  const gradeFontSize = useFittedTextBoxFontSize({
+    text: roster.gradeName,
+    fontFamily: titleFontFamily,
+    withinWidth: Math.max(0, rosterSidebarWidth - 34),
+    maxLines: 2,
+    minFontSize: 22,
+    maxFontSize: 28,
+  });
   const { accountHolder, against } = getTeamPerspective(roster);
   const accountLabel = roster.isHomeTeam ? "HOME TEAM" : "AWAY TEAM";
   const opponentLabel = roster.isHomeTeam ? "AWAY TEAM" : "HOME TEAM";
@@ -35669,7 +36098,7 @@ var RosterDisplayBroadcastProRounded = ({ roster }) => {
       exitAnimation: DEFAULT_CONTAINER_EXIT_ANIMATION,
       children: /* @__PURE__ */ jsx429("div", {
         className: cs("broadcastProRoundedRosterContentShell"),
-        children: /* @__PURE__ */ jsxs229("div", {
+        children: /* @__PURE__ */ jsxs228("div", {
           className: cs("broadcastProRoundedRosterGrid"),
           children: [
             /* @__PURE__ */ jsx429("div", {
@@ -35680,7 +36109,7 @@ var RosterDisplayBroadcastProRounded = ({ roster }) => {
                 nameColor: textOnContainer.copy,
               }),
             }),
-            /* @__PURE__ */ jsxs229("div", {
+            /* @__PURE__ */ jsxs228("div", {
               className: cs("broadcastProRoundedRosterSidebar"),
               children: [
                 /* @__PURE__ */ jsx429(BroadcastProRoundedMatchup, {
@@ -35706,7 +36135,7 @@ var RosterDisplayBroadcastProRounded = ({ roster }) => {
                   glass,
                   fontFamily: titleFontFamily,
                 }),
-                /* @__PURE__ */ jsxs229("div", {
+                /* @__PURE__ */ jsxs228("div", {
                   className: cs("broadcastProRoundedRosterMetaStack"),
                   children: [
                     /* @__PURE__ */ jsx429(MetaRow2, {
@@ -35730,6 +36159,7 @@ var RosterDisplayBroadcastProRounded = ({ roster }) => {
                       labelColor: textOnContainer.muted,
                       valueColor: textOnContainer.copy,
                       cellRadius,
+                      valueStyle: { fontSize: gradeFontSize },
                     }),
                     /* @__PURE__ */ jsx429(MetaRow2, {
                       label: "DATE",
@@ -35755,7 +36185,7 @@ var RosterDisplayBroadcastProRounded = ({ roster }) => {
 var display_BroadcastProRounded_default5 = RosterDisplayBroadcastProRounded;
 
 // src/compositions/cricket/teamRoster/broadcastProRounded.tsx
-import { jsx as jsx430, jsxs as jsxs230 } from "react/jsx-runtime";
+import { jsx as jsx430, jsxs as jsxs229 } from "react/jsx-runtime";
 var CricketRosterBroadcastProRounded = () => {
   const { data } = useVideoDataContext();
   const { data: CompositionData, timings } = data;
@@ -35768,7 +36198,7 @@ var CricketRosterBroadcastProRounded = () => {
   }
   return /* @__PURE__ */ jsx430(Series9, {
     children: rosterData.map((rosterItem, i) =>
-      /* @__PURE__ */ jsxs230(
+      /* @__PURE__ */ jsxs229(
         Series9.Sequence,
         {
           durationInFrames: calculateRosterDuration(timings),
@@ -35828,7 +36258,7 @@ var getTitle2 = (compositionId) => {
 };
 
 // src/compositions/cricket/performances/modules/NoPlayersData/no-data.tsx
-import { jsx as jsx431, jsxs as jsxs231 } from "react/jsx-runtime";
+import { jsx as jsx431, jsxs as jsxs230 } from "react/jsx-runtime";
 var NoPlayersData2 = () => {
   var _a, _b;
   const { data } = useVideoDataContext();
@@ -35841,10 +36271,10 @@ var NoPlayersData2 = () => {
   const title = getTitle2(compositionId);
   return /* @__PURE__ */ jsx431(AbsoluteFill35, {
     className: "flex items-center justify-center bg-gray-900 text-white",
-    children: /* @__PURE__ */ jsxs231("div", {
+    children: /* @__PURE__ */ jsxs230("div", {
       className: "text-center",
       children: [
-        /* @__PURE__ */ jsxs231("h2", {
+        /* @__PURE__ */ jsxs230("h2", {
           className: "text-2xl font-bold mb-4",
           children: ["No ", title, " Data Available"],
         }),
@@ -35904,7 +36334,7 @@ var getScoreValues2 = (performance) => {
 };
 
 // src/compositions/cricket/performances/layout/StandardPerformanceRow.tsx
-import { jsx as jsx432, jsxs as jsxs232 } from "react/jsx-runtime";
+import { jsx as jsx432, jsxs as jsxs231 } from "react/jsx-runtime";
 var StandardPerformanceRow = ({ performance, index, rowHeight, delay, restrictions }) => {
   const { animations } = useAnimationContext();
   const { selectedPalette } = useThemeContext();
@@ -35918,7 +36348,7 @@ var StandardPerformanceRow = ({ performance, index, rowHeight, delay, restrictio
   const playerName = formatPlayerName(performance.name);
   const teamName = truncateText15(performance.playedFor, restrictions.teamLength).toUpperCase();
   const { mainValue, suffix } = getScoreValues2(performance);
-  return /* @__PURE__ */ jsxs232("div", {
+  return /* @__PURE__ */ jsxs231("div", {
     className: "flex items-stretch h-full w-full overflow-hidden rounded-lg",
     style: { height: `${rowHeight}px`, width: "100%" },
     children: [
@@ -35931,13 +36361,13 @@ var StandardPerformanceRow = ({ performance, index, rowHeight, delay, restrictio
           size: logoSize,
         }),
       }),
-      /* @__PURE__ */ jsxs232("div", {
+      /* @__PURE__ */ jsxs231("div", {
         className: `flex-grow flex items-center justify-between gap-8 px-2 `,
         style: {
           background: bgColor,
         },
         children: [
-          /* @__PURE__ */ jsxs232("div", {
+          /* @__PURE__ */ jsxs231("div", {
             className: "flex flex-col justify-start",
             children: [
               /* @__PURE__ */ jsx432(Top5PlayerName, {
@@ -35952,7 +36382,7 @@ var StandardPerformanceRow = ({ performance, index, rowHeight, delay, restrictio
               }),
             ],
           }),
-          /* @__PURE__ */ jsxs232("div", {
+          /* @__PURE__ */ jsxs231("div", {
             className: "flex items-center justify-end whitespace-nowrap leading-none ml-auto",
             children: [
               /* @__PURE__ */ jsx432(Top5PlayerScore, {
@@ -36180,7 +36610,7 @@ var buildPerformancesFooterSponsors = (items, fallbackPrimary = []) => {
 };
 
 // src/compositions/cricket/performances/basic.tsx
-import { jsx as jsx435, jsxs as jsxs233 } from "react/jsx-runtime";
+import { jsx as jsx435, jsxs as jsxs232 } from "react/jsx-runtime";
 var PerformancesList = () => {
   var _a, _b, _c, _d, _e, _f, _g;
   const { data, contentLayout, metadata } = useVideoDataContext();
@@ -36250,7 +36680,7 @@ var PerformancesList = () => {
     footer: heights.footer,
     contentHeight,
   });
-  return /* @__PURE__ */ jsxs233("div", {
+  return /* @__PURE__ */ jsxs232("div", {
     className: "flex flex-col w-full",
     style: { height: `${heights.asset + heights.footer}px` },
     children: [
@@ -36289,7 +36719,7 @@ var STAT_DELAY_OFFSET2 = 20;
 var STAT_SUFFIX_DELAY_OFFSET3 = 30;
 
 // src/compositions/cricket/performances/layout/StandardPerformanceRowBrickWork.tsx
-import { jsx as jsx436, jsxs as jsxs234 } from "react/jsx-runtime";
+import { jsx as jsx436, jsxs as jsxs233 } from "react/jsx-runtime";
 var StandardPerformanceRowBrickWork = ({ performance, index, rowHeight, delay, restrictions }) => {
   const { animations } = useAnimationContext();
   const { selectedPalette } = useThemeContext();
@@ -36302,14 +36732,14 @@ var StandardPerformanceRowBrickWork = ({ performance, index, rowHeight, delay, r
   const playerName = truncateText15(performance.name, restrictions.nameLength).toUpperCase();
   const teamName = truncateText15(performance.playedFor, restrictions.teamLength).toUpperCase();
   const { mainValue, suffix } = getScoreValues2(performance);
-  return /* @__PURE__ */ jsxs234("div", {
+  return /* @__PURE__ */ jsxs233("div", {
     className: "grid grid-cols-12 items-center h-full overflow-hidden rounded-none",
     style: {
       background: surfaces.rowSurface,
       height: `${rowHeight}px`,
     },
     children: [
-      /* @__PURE__ */ jsxs234("div", {
+      /* @__PURE__ */ jsxs233("div", {
         className: "col-span-7 flex flex-col justify-center px-4 h-full",
         children: [
           /* @__PURE__ */ jsx436(Top5PlayerName, {
@@ -36348,7 +36778,7 @@ var StandardPerformanceRowBrickWork = ({ performance, index, rowHeight, delay, r
           }),
         }),
       }),
-      /* @__PURE__ */ jsxs234("div", {
+      /* @__PURE__ */ jsxs233("div", {
         className:
           "col-span-3 flex items-center justify-center whitespace-nowrap leading-none px-4 h-full",
         style: { background: surfaces.statSurface },
@@ -36381,7 +36811,7 @@ var StandardPerformanceRowBrickWork = ({ performance, index, rowHeight, delay, r
 var StandardPerformanceRowBrickWork_default = StandardPerformanceRowBrickWork;
 
 // src/compositions/cricket/performances/controller/PlayerRow/row-BrickWork.tsx
-import { jsx as jsx437, jsxs as jsxs235 } from "react/jsx-runtime";
+import { jsx as jsx437, jsxs as jsxs234 } from "react/jsx-runtime";
 var PerformanceRowBrickWork = ({ performance, index, rowHeight }) => {
   const { animations } = useAnimationContext();
   const { data } = useVideoDataContext();
@@ -36392,7 +36822,7 @@ var PerformanceRowBrickWork = ({ performance, index, rowHeight }) => {
   return /* @__PURE__ */ jsx437(MasonryRow, {
     index,
     className: "overflow-hidden flex-shrink-0",
-    children: /* @__PURE__ */ jsxs235(AnimatedContainer, {
+    children: /* @__PURE__ */ jsxs234(AnimatedContainer, {
       type: "full",
       className: "relative rounded-lg flex-shrink-0",
       style: { width: "100%" },
@@ -36470,7 +36900,7 @@ var PerformancesDisplayBrickWork = ({ performances, itemsPerScreen, screenIndex 
 var display_BrickWork_default5 = PerformancesDisplayBrickWork;
 
 // src/compositions/cricket/performances/brickWork.tsx
-import { jsx as jsx439, jsxs as jsxs236 } from "react/jsx-runtime";
+import { jsx as jsx439, jsxs as jsxs235 } from "react/jsx-runtime";
 var PerformancesListBrickWork = () => {
   var _a, _b, _c, _d, _e, _f, _g;
   const { data, contentLayout, metadata } = useVideoDataContext();
@@ -36534,7 +36964,7 @@ var PerformancesListBrickWork = () => {
       : [],
   );
   const contentHeight = heights.asset;
-  return /* @__PURE__ */ jsxs236("div", {
+  return /* @__PURE__ */ jsxs235("div", {
     className: "flex flex-col w-full",
     style: { height: `${heights.asset + heights.footer}px` },
     children: [
@@ -36566,7 +36996,7 @@ var BrickWork5 = () => {
 };
 
 // src/compositions/cricket/performances/layout/StandardPerformanceRowClassic.tsx
-import { jsx as jsx440, jsxs as jsxs237 } from "react/jsx-runtime";
+import { jsx as jsx440, jsxs as jsxs236 } from "react/jsx-runtime";
 var StandardPerformanceRowClassic = ({ performance, rowHeight, delay }) => {
   const { animations } = useAnimationContext();
   const { layout } = useThemeContext();
@@ -36579,10 +37009,10 @@ var StandardPerformanceRowClassic = ({ performance, rowHeight, delay }) => {
     height: rowHeight,
     delay,
     depth: "compact",
-    children: /* @__PURE__ */ jsxs237("div", {
+    children: /* @__PURE__ */ jsxs236("div", {
       className: `grid grid-cols-12 items-center overflow-hidden h-full ${layout.borderRadius.container}`,
       children: [
-        /* @__PURE__ */ jsxs237("div", {
+        /* @__PURE__ */ jsxs236("div", {
           className: "relative z-10 col-span-7 flex flex-col justify-center px-2",
           children: [
             /* @__PURE__ */ jsx440(Top5PlayerName, {
@@ -36607,7 +37037,7 @@ var StandardPerformanceRowClassic = ({ performance, rowHeight, delay }) => {
             size: 20,
           }),
         }),
-        /* @__PURE__ */ jsxs237(ClassicStatWell, {
+        /* @__PURE__ */ jsxs236(ClassicStatWell, {
           variant: "recessed",
           width: "compact",
           className: "col-span-3",
@@ -36715,7 +37145,7 @@ var PerformancesDisplayClassic = ({ performances, itemsPerScreen, screenIndex })
 var display_Classic_default3 = PerformancesDisplayClassic;
 
 // src/compositions/cricket/performances/classic.tsx
-import { jsx as jsx443, jsxs as jsxs238 } from "react/jsx-runtime";
+import { jsx as jsx443, jsxs as jsxs237 } from "react/jsx-runtime";
 var PerformancesListClassic = () => {
   var _a, _b, _c, _d, _e, _f, _g;
   const { data, contentLayout, metadata } = useVideoDataContext();
@@ -36779,7 +37209,7 @@ var PerformancesListClassic = () => {
       : [],
   );
   const contentHeight = heights.asset;
-  return /* @__PURE__ */ jsxs238("div", {
+  return /* @__PURE__ */ jsxs237("div", {
     className: "flex flex-col w-full",
     style: { height: `${heights.asset + heights.footer}px` },
     children: [
@@ -36811,7 +37241,7 @@ var Classic7 = () => {
 };
 
 // src/compositions/cricket/performances/layout/StandardPerformanceRowClassicTwoColumn.tsx
-import { jsx as jsx444, jsxs as jsxs239 } from "react/jsx-runtime";
+import { jsx as jsx444, jsxs as jsxs238 } from "react/jsx-runtime";
 var StandardPerformanceRowClassicTwoColumn = ({ performance, delay, rowHeight }) => {
   const { animations } = useAnimationContext();
   const { selectedPalette, layout, colors } = useThemeContext();
@@ -36828,10 +37258,10 @@ var StandardPerformanceRowClassicTwoColumn = ({ performance, delay, rowHeight })
     className: `${layout.borderRadius.container}`,
     backgroundColor: surfaceRoles.content.surface,
     style: { height: `${rowHeight}px` },
-    children: /* @__PURE__ */ jsxs239("div", {
+    children: /* @__PURE__ */ jsxs238("div", {
       className: "grid h-full grid-cols-12 items-center",
       children: [
-        /* @__PURE__ */ jsxs239("div", {
+        /* @__PURE__ */ jsxs238("div", {
           className: "col-span-7 flex h-full flex-col justify-center px-2",
           children: [
             /* @__PURE__ */ jsx444(Top5PlayerName, {
@@ -36856,7 +37286,7 @@ var StandardPerformanceRowClassicTwoColumn = ({ performance, delay, rowHeight })
             size: 20,
           }),
         }),
-        /* @__PURE__ */ jsxs239(ClassicStatWell, {
+        /* @__PURE__ */ jsxs238(ClassicStatWell, {
           variant: "recessed",
           width: "compact",
           className: "col-span-3",
@@ -36913,7 +37343,7 @@ var PerformanceRowClassicTwoColumn = ({ performance, index, rowHeight }) => {
 var row_ClassicTwoColumn_default = PerformanceRowClassicTwoColumn;
 
 // src/compositions/cricket/performances/controller/PerformancesDisplay/display-ClassicTwoColumn.tsx
-import { jsx as jsx446, jsxs as jsxs240 } from "react/jsx-runtime";
+import { jsx as jsx446, jsxs as jsxs239 } from "react/jsx-runtime";
 var PerformancesDisplayClassicTwoColumn = ({
   performances,
   itemsPerScreen,
@@ -36926,7 +37356,7 @@ var PerformancesDisplayClassicTwoColumn = ({
   const ContainerAnimations = animations.container;
   const displayedPerformances = getItemsForScreen(performances, screenIndex, itemsPerScreen);
   const rowHeight = 140;
-  return /* @__PURE__ */ jsxs240("div", {
+  return /* @__PURE__ */ jsxs239("div", {
     className: "flex flex-col h-full w-full",
     children: [
       /* @__PURE__ */ jsx446(AnimatedContainer, {
@@ -37049,7 +37479,7 @@ var ClassicTwoColumn5 = () => {
 };
 
 // src/compositions/cricket/performances/layout/StandardPerformanceRowCNSW.tsx
-import { jsx as jsx448, jsxs as jsxs241 } from "react/jsx-runtime";
+import { jsx as jsx448, jsxs as jsxs240 } from "react/jsx-runtime";
 var StandardPerformanceRowCNSW = ({ performance, rowHeight, delay, index }) => {
   const { animations } = useAnimationContext();
   const { selectedPalette, layout } = useThemeContext();
@@ -37061,7 +37491,7 @@ var StandardPerformanceRowCNSW = ({ performance, rowHeight, delay, index }) => {
   const playerName = truncateText15(performance.name, 20).toUpperCase();
   const teamName = truncateText15(performance.playedFor, 35).toUpperCase();
   const { mainValue, suffix } = getScoreValues2(performance);
-  return /* @__PURE__ */ jsxs241("div", {
+  return /* @__PURE__ */ jsxs240("div", {
     className: `grid grid-cols-12 items-center h-full overflow-hidden ${layout.borderRadius.container}`,
     style: {
       height: `${rowHeight}px`,
@@ -37076,7 +37506,7 @@ var StandardPerformanceRowCNSW = ({ performance, rowHeight, delay, index }) => {
           className: "",
         }),
       }),
-      /* @__PURE__ */ jsxs241("div", {
+      /* @__PURE__ */ jsxs240("div", {
         className: "col-span-8 flex flex-col justify-center p-0 m-0 h-full",
         children: [
           /* @__PURE__ */ jsx448(Top5PlayerName, {
@@ -37091,7 +37521,7 @@ var StandardPerformanceRowCNSW = ({ performance, rowHeight, delay, index }) => {
           }),
         ],
       }),
-      /* @__PURE__ */ jsxs241("div", {
+      /* @__PURE__ */ jsxs240("div", {
         className:
           "col-span-3 p-2 m-2 mr-6 flex items-center justify-center whitespace-nowrap leading-none px-0 h-auto",
         style: { background: ScorebgColor },
@@ -37145,7 +37575,7 @@ var PerformanceRowCNSW = ({ performance, index, rowHeight }) => {
 var row_CNSW_default3 = PerformanceRowCNSW;
 
 // src/compositions/cricket/performances/controller/PerformancesDisplay/display-CNSW.tsx
-import { jsx as jsx450, jsxs as jsxs242 } from "react/jsx-runtime";
+import { jsx as jsx450, jsxs as jsxs241 } from "react/jsx-runtime";
 var PerformancesDisplayCNSW = ({ performances, itemsPerScreen, screenIndex }) => {
   var _a, _b;
   const { layout } = useThemeContext();
@@ -37162,7 +37592,7 @@ var PerformancesDisplayCNSW = ({ performances, itemsPerScreen, screenIndex }) =>
   const rowHeight = 100;
   return /* @__PURE__ */ jsx450("div", {
     className: "flex flex-col h-full ",
-    children: /* @__PURE__ */ jsxs242(AnimatedContainer, {
+    children: /* @__PURE__ */ jsxs241(AnimatedContainer, {
       type: "full",
       className: "flex-1 flex flex-col mx-4 overflow-hidden py-16 ",
       style: {
@@ -37207,7 +37637,7 @@ var PerformancesDisplayCNSW = ({ performances, itemsPerScreen, screenIndex }) =>
 var display_CNSW_default3 = PerformancesDisplayCNSW;
 
 // src/compositions/cricket/performances/cnsw.tsx
-import { jsx as jsx451, jsxs as jsxs243 } from "react/jsx-runtime";
+import { jsx as jsx451, jsxs as jsxs242 } from "react/jsx-runtime";
 var PerformancesListCNSW = () => {
   var _a, _b, _c, _d, _e, _f, _g;
   const { data, contentLayout, metadata } = useVideoDataContext();
@@ -37270,7 +37700,7 @@ var PerformancesListCNSW = () => {
       ? _g
       : [],
   );
-  return /* @__PURE__ */ jsxs243("div", {
+  return /* @__PURE__ */ jsxs242("div", {
     className: "flex flex-col h-full w-full",
     children: [
       /* @__PURE__ */ jsx451("div", {
@@ -37297,7 +37727,7 @@ var CNSW7 = () => {
 };
 
 // src/compositions/cricket/performances/layout/StandardPerformanceRowCNSW-private.tsx
-import { jsx as jsx452, jsxs as jsxs244 } from "react/jsx-runtime";
+import { jsx as jsx452, jsxs as jsxs243 } from "react/jsx-runtime";
 var StandardPerformanceRowCNSWPrivate = ({ performance, rowHeight, delay, index }) => {
   const { animations } = useAnimationContext();
   const { selectedPalette, layout } = useThemeContext();
@@ -37308,7 +37738,7 @@ var StandardPerformanceRowCNSWPrivate = ({ performance, rowHeight, delay, index 
   const playerName = truncateText15(performance.name, 20).toUpperCase();
   const teamName = truncateText15(performance.playedFor, 35).toUpperCase();
   const { mainValue, suffix } = getScoreValues2(performance);
-  return /* @__PURE__ */ jsxs244("div", {
+  return /* @__PURE__ */ jsxs243("div", {
     className: `grid grid-cols-12 items-center h-full overflow-hidden ${layout.borderRadius.container}`,
     style: {
       height: `${rowHeight}px`,
@@ -37324,7 +37754,7 @@ var StandardPerformanceRowCNSWPrivate = ({ performance, rowHeight, delay, index 
           variant: "onContainerMain",
         }),
       }),
-      /* @__PURE__ */ jsxs244("div", {
+      /* @__PURE__ */ jsxs243("div", {
         className: "col-span-8 flex flex-col justify-center p-0 m-0 h-full",
         children: [
           /* @__PURE__ */ jsx452(Top5PlayerName, {
@@ -37341,7 +37771,7 @@ var StandardPerformanceRowCNSWPrivate = ({ performance, rowHeight, delay, index 
           }),
         ],
       }),
-      /* @__PURE__ */ jsxs244("div", {
+      /* @__PURE__ */ jsxs243("div", {
         className:
           "col-span-3 p-2 m-2 mr-6 flex items-center justify-center whitespace-nowrap leading-none px-0 h-auto",
         style: { background: ScorebgColor },
@@ -37397,7 +37827,7 @@ var PerformanceRowCNSWPrivate = ({ performance, index, rowHeight }) => {
 var row_CNSW_private_default3 = PerformanceRowCNSWPrivate;
 
 // src/compositions/cricket/performances/controller/PerformancesDisplay/display-CNSW-private.tsx
-import { jsx as jsx454, jsxs as jsxs245 } from "react/jsx-runtime";
+import { jsx as jsx454, jsxs as jsxs244 } from "react/jsx-runtime";
 var PerformancesDisplayCNSWPrivate = ({ performances, itemsPerScreen, screenIndex }) => {
   const { layout } = useThemeContext();
   const { heights } = layout;
@@ -37408,7 +37838,7 @@ var PerformancesDisplayCNSWPrivate = ({ performances, itemsPerScreen, screenInde
   const rowHeight = 100;
   return /* @__PURE__ */ jsx454("div", {
     className: "flex flex-col h-full ",
-    children: /* @__PURE__ */ jsxs245(AnimatedContainer, {
+    children: /* @__PURE__ */ jsxs244(AnimatedContainer, {
       type: "full",
       className: "flex-1 flex flex-col mx-4 overflow-hidden py-16 ",
       style: {
@@ -37453,7 +37883,7 @@ var PerformancesDisplayCNSWPrivate = ({ performances, itemsPerScreen, screenInde
 var display_CNSW_private_default3 = PerformancesDisplayCNSWPrivate;
 
 // src/compositions/cricket/performances/cnsw-private.tsx
-import { jsx as jsx455, jsxs as jsxs246 } from "react/jsx-runtime";
+import { jsx as jsx455, jsxs as jsxs245 } from "react/jsx-runtime";
 var PerformancesListCNSWPrivate = () => {
   var _a, _b, _c, _d, _e, _f, _g;
   const { data, contentLayout, metadata } = useVideoDataContext();
@@ -37516,7 +37946,7 @@ var PerformancesListCNSWPrivate = () => {
       ? _g
       : [],
   );
-  return /* @__PURE__ */ jsxs246("div", {
+  return /* @__PURE__ */ jsxs245("div", {
     className: "flex flex-col h-full w-full",
     children: [
       /* @__PURE__ */ jsx455("div", {
@@ -37543,7 +37973,7 @@ var CNSWPrivate5 = () => {
 };
 
 // src/compositions/cricket/performances/layout/StandardPerformanceRowSixersThunder.tsx
-import { jsx as jsx456, jsxs as jsxs247 } from "react/jsx-runtime";
+import { jsx as jsx456, jsxs as jsxs246 } from "react/jsx-runtime";
 var StandardPerformanceRowSixersThunder = ({ performance, rowHeight, delay }) => {
   const { animations } = useAnimationContext();
   const { selectedPalette, layout } = useThemeContext();
@@ -37555,14 +37985,14 @@ var StandardPerformanceRowSixersThunder = ({ performance, rowHeight, delay }) =>
   const playerName = formatPlayerName(performance.name);
   const teamName = truncateText15(performance.playedFor, 35).toUpperCase();
   const { mainValue, suffix } = getScoreValues2(performance);
-  return /* @__PURE__ */ jsxs247("div", {
+  return /* @__PURE__ */ jsxs246("div", {
     className: `grid grid-cols-12 p-0 pl-2 items-center h-full overflow-hidden ${layout.borderRadius.container}`,
     style: {
       height: `${rowHeight}px`,
       background: bgColor,
     },
     children: [
-      /* @__PURE__ */ jsxs247("div", {
+      /* @__PURE__ */ jsxs246("div", {
         className: "col-span-7 flex flex-col justify-center px-2 h-full",
         children: [
           /* @__PURE__ */ jsx456(Top5PlayerName, {
@@ -37590,7 +38020,7 @@ var StandardPerformanceRowSixersThunder = ({ performance, rowHeight, delay }) =>
           }),
         }),
       }),
-      /* @__PURE__ */ jsxs247("div", {
+      /* @__PURE__ */ jsxs246("div", {
         className:
           "col-span-3 flex items-center justify-center whitespace-nowrap leading-none px-0 h-full",
         style: { background: LogoBG },
@@ -37697,7 +38127,7 @@ var PerformancesDisplaySixersThunder = ({ performances, itemsPerScreen, screenIn
 var display_SixersThunder_default2 = PerformancesDisplaySixersThunder;
 
 // src/compositions/cricket/performances/sixersThunder.tsx
-import { jsx as jsx459, jsxs as jsxs248 } from "react/jsx-runtime";
+import { jsx as jsx459, jsxs as jsxs247 } from "react/jsx-runtime";
 var PerformancesListSixersThunder = () => {
   var _a, _b, _c, _d, _e, _f, _g;
   const { data, contentLayout, metadata } = useVideoDataContext();
@@ -37761,7 +38191,7 @@ var PerformancesListSixersThunder = () => {
       : [],
   );
   const contentHeight = heights.asset;
-  return /* @__PURE__ */ jsxs248("div", {
+  return /* @__PURE__ */ jsxs247("div", {
     className: "flex flex-col w-full",
     style: { height: `${heights.asset + heights.footer}px` },
     children: [
@@ -37793,7 +38223,7 @@ var SixersThunder5 = () => {
 };
 
 // src/compositions/cricket/performances/controller/PlayerRow/row-Mudgeeraba.tsx
-import { Fragment as Fragment16, jsx as jsx460, jsxs as jsxs249 } from "react/jsx-runtime";
+import { Fragment as Fragment15, jsx as jsx460, jsxs as jsxs248 } from "react/jsx-runtime";
 var TEAM_LENGTH = 35;
 var PerformanceRowMudgeeraba = ({ performance, index, rowHeight }) => {
   const { animations } = useAnimationContext();
@@ -37810,7 +38240,7 @@ var PerformanceRowMudgeeraba = ({ performance, index, rowHeight }) => {
   const smallTextAnimation = animations.text.main.copyIn;
   const rowPanelClass = `flex items-stretch w-full overflow-hidden ${PADDING_SHALLOW_ROW_LOGO_FLUSH_COMPACT} relative`;
   const rowPanelStyle = { height: `${rowHeight}px` };
-  const rowContent = /* @__PURE__ */ jsxs249(Fragment16, {
+  const rowContent = /* @__PURE__ */ jsxs248(Fragment15, {
     children: [
       showAngularEdgeAccents() &&
         /* @__PURE__ */ jsx460("div", {
@@ -37832,7 +38262,7 @@ var PerformanceRowMudgeeraba = ({ performance, index, rowHeight }) => {
           size: 32,
         }),
       }),
-      /* @__PURE__ */ jsxs249("div", {
+      /* @__PURE__ */ jsxs248("div", {
         className: "flex flex-col justify-center flex-1 min-w-0 ml-2",
         children: [
           /* @__PURE__ */ jsx460(Top5PlayerName, {
@@ -37847,7 +38277,7 @@ var PerformanceRowMudgeeraba = ({ performance, index, rowHeight }) => {
           }),
         ],
       }),
-      /* @__PURE__ */ jsxs249("div", {
+      /* @__PURE__ */ jsxs248("div", {
         className: "flex items-center justify-center shrink-0 whitespace-nowrap leading-none mr-8 ",
         children: [
           /* @__PURE__ */ jsx460(Top5PlayerScore, {
@@ -37933,7 +38363,7 @@ var PerformancesDisplayMudgeeraba = ({ performances, itemsPerScreen, screenIndex
 var display_Mudgeeraba_default6 = PerformancesDisplayMudgeeraba;
 
 // src/compositions/cricket/performances/mudgeeraba.tsx
-import { jsx as jsx462, jsxs as jsxs250 } from "react/jsx-runtime";
+import { jsx as jsx462, jsxs as jsxs249 } from "react/jsx-runtime";
 var PerformancesListMudgeeraba = () => {
   var _a, _b, _c, _d, _e, _f, _g;
   const { data, contentLayout, metadata } = useVideoDataContext();
@@ -38003,7 +38433,7 @@ var PerformancesListMudgeeraba = () => {
     footer: heights.footer,
     contentHeight,
   });
-  return /* @__PURE__ */ jsxs250("div", {
+  return /* @__PURE__ */ jsxs249("div", {
     className: "flex flex-col w-full",
     style: { height: `${heights.asset + heights.footer}px` },
     children: [
@@ -38055,7 +38485,7 @@ var calculateBroadcastProPerformanceGridLayout = (mainHeight, itemsPerScreen) =>
 };
 
 // src/compositions/cricket/performances/controller/PerformancesDisplay/display-BroadcastPro.tsx
-import { jsx as jsx463, jsxs as jsxs251 } from "react/jsx-runtime";
+import { jsx as jsx463, jsxs as jsxs250 } from "react/jsx-runtime";
 var PerformanceGridCard = ({ performance, globalRank, indexOnScreen, exitFrame, cardHeight }) => {
   const { animations } = useAnimationContext();
   const containerAnimation = animations.container.main.itemContainer;
@@ -38081,7 +38511,7 @@ var PerformanceGridCard = ({ performance, globalRank, indexOnScreen, exitFrame, 
       animationDelay: delay,
       exitAnimation: containerAnimation.containerOut,
       exitFrame,
-      children: /* @__PURE__ */ jsxs251(BroadcastProGlassPanel, {
+      children: /* @__PURE__ */ jsxs250(BroadcastProGlassPanel, {
         glass,
         className: `${cs("broadcastProPlayerRankingGridCard")} h-full`,
         style: {
@@ -38109,7 +38539,7 @@ var PerformanceGridCard = ({ performance, globalRank, indexOnScreen, exitFrame, 
             glass,
             showBorder: true,
           }),
-          /* @__PURE__ */ jsxs251("div", {
+          /* @__PURE__ */ jsxs250("div", {
             className: "flex min-h-0 min-w-0 flex-1 flex-col justify-center overflow-hidden",
             children: [
               /* @__PURE__ */ jsx463("h3", {
@@ -38194,7 +38624,7 @@ var PerformancesDisplayBroadcastPro = ({ performances, itemsPerScreen, screenInd
 var display_BroadcastPro_default6 = PerformancesDisplayBroadcastPro;
 
 // src/compositions/cricket/performances/broadcastPro.tsx
-import { jsx as jsx464, jsxs as jsxs252 } from "react/jsx-runtime";
+import { jsx as jsx464, jsxs as jsxs251 } from "react/jsx-runtime";
 var BROADCAST_PRO_ITEMS_PER_SCREEN = 6;
 var PerformancesListBroadcastPro = () => {
   var _a, _b, _c, _d, _e, _f, _g;
@@ -38243,7 +38673,7 @@ var PerformancesListBroadcastPro = () => {
   );
   const mainContentHeight = getMainContentSectionHeight(heights);
   const compositionHeight = getCompositionSectionHeight(heights);
-  return /* @__PURE__ */ jsxs252("div", {
+  return /* @__PURE__ */ jsxs251("div", {
     className: "flex w-full flex-col",
     style: { height: `${compositionHeight}px` },
     children: [
@@ -38293,7 +38723,7 @@ var calculateBroadcastProRoundedPerformanceGridLayout = (mainHeight, itemsPerScr
 };
 
 // src/compositions/cricket/performances/controller/PerformancesDisplay/display-BroadcastProRounded.tsx
-import { jsx as jsx465, jsxs as jsxs253 } from "react/jsx-runtime";
+import { jsx as jsx465, jsxs as jsxs252 } from "react/jsx-runtime";
 var PerformanceGridCard2 = ({ performance, globalRank, indexOnScreen, exitFrame, cardHeight }) => {
   const { animations } = useAnimationContext();
   const containerAnimation = animations.container.main.itemContainer;
@@ -38320,7 +38750,7 @@ var PerformanceGridCard2 = ({ performance, globalRank, indexOnScreen, exitFrame,
       animationDelay: delay,
       exitAnimation: containerAnimation.containerOut,
       exitFrame,
-      children: /* @__PURE__ */ jsxs253(BroadcastProRoundedGlassPanel, {
+      children: /* @__PURE__ */ jsxs252(BroadcastProRoundedGlassPanel, {
         glass,
         className: `${cs("broadcastProRoundedPlayerRankingGridCard")} h-full`,
         style: {
@@ -38348,7 +38778,7 @@ var PerformanceGridCard2 = ({ performance, globalRank, indexOnScreen, exitFrame,
             glass,
             showBorder: true,
           }),
-          /* @__PURE__ */ jsxs253("div", {
+          /* @__PURE__ */ jsxs252("div", {
             className: "flex min-h-0 min-w-0 flex-1 flex-col justify-center overflow-hidden",
             children: [
               /* @__PURE__ */ jsx465("h3", {
@@ -38433,7 +38863,7 @@ var PerformancesDisplayBroadcastProRounded = ({ performances, itemsPerScreen, sc
 var display_BroadcastProRounded_default6 = PerformancesDisplayBroadcastProRounded;
 
 // src/compositions/cricket/performances/broadcastProRounded.tsx
-import { jsx as jsx466, jsxs as jsxs254 } from "react/jsx-runtime";
+import { jsx as jsx466, jsxs as jsxs253 } from "react/jsx-runtime";
 var BROADCAST_PRO_ITEMS_PER_SCREEN2 = 6;
 var PerformancesListBroadcastProRounded = () => {
   var _a, _b, _c, _d, _e, _f, _g;
@@ -38482,7 +38912,7 @@ var PerformancesListBroadcastProRounded = () => {
   );
   const mainContentHeight = getMainContentSectionHeight(heights);
   const compositionHeight = getCompositionSectionHeight(heights);
-  return /* @__PURE__ */ jsxs254("div", {
+  return /* @__PURE__ */ jsxs253("div", {
     className: "flex w-full flex-col",
     style: { height: `${compositionHeight}px` },
     children: [
@@ -38639,9 +39069,9 @@ var AllRounder = (props) => {
 };
 
 // src/compositions/cricket/TeamOfTheWeek/svg/icon1/12thMan.tsx
-import { jsx as jsx473, jsxs as jsxs255 } from "react/jsx-runtime";
+import { jsx as jsx473, jsxs as jsxs254 } from "react/jsx-runtime";
 var Man12th = (props) => {
-  return /* @__PURE__ */ jsxs255("svg", {
+  return /* @__PURE__ */ jsxs254("svg", {
     width: "329",
     height: "656",
     viewBox: "0 0 329 656",
@@ -38850,9 +39280,9 @@ var Man12th = (props) => {
 };
 
 // src/compositions/cricket/TeamOfTheWeek/svg/icon1/WicketKeeper.tsx
-import { jsx as jsx474, jsxs as jsxs256 } from "react/jsx-runtime";
+import { jsx as jsx474, jsxs as jsxs255 } from "react/jsx-runtime";
 var WicketKeeper = (props) => {
-  return /* @__PURE__ */ jsxs256("svg", {
+  return /* @__PURE__ */ jsxs255("svg", {
     width: "320",
     height: "656",
     viewBox: "0 0 320 656",
@@ -38990,14 +39420,14 @@ var TeamOfTheWeekStat = ({ value, animation, className, variant = DEFAULT_VARIAN
 };
 
 // src/compositions/cricket/TeamOfTheWeek/controller/PlayerRow/_utils/components.tsx
-import { jsx as jsx476, jsxs as jsxs257 } from "react/jsx-runtime";
+import { jsx as jsx476, jsxs as jsxs256 } from "react/jsx-runtime";
 var BattingStatDisplay = ({ batting, delay }) => {
   const { animations } = useAnimationContext();
   const largeTextAnimation = animations.text.main.copyIn;
   const smallTextAnimation = animations.text.main.copyIn;
   const scoreDisplay = `${batting.runs}${batting.notOut ? "*" : ""}`;
   const ballsDisplay = `(${batting.balls})`;
-  return /* @__PURE__ */ jsxs257("div", {
+  return /* @__PURE__ */ jsxs256("div", {
     className: "flex items-baseline gap-1",
     children: [
       /* @__PURE__ */ jsx476(TeamOfTheWeekStat, {
@@ -39024,7 +39454,7 @@ var BowlingStatDisplay = ({ bowling, delay }) => {
   const smallTextAnimation = animations.text.main.copyIn;
   const wicketsRunsDisplay = `${bowling.wickets}/${bowling.runs}`;
   const oversDisplay = `(${bowling.overs})`;
-  return /* @__PURE__ */ jsxs257("div", {
+  return /* @__PURE__ */ jsxs256("div", {
     className: "flex items-baseline gap-1",
     children: [
       /* @__PURE__ */ jsx476(TeamOfTheWeekStat, {
@@ -39062,7 +39492,7 @@ var StatItem11 = ({ label, value, delay }) => {
   const { animations } = useAnimationContext();
   const smallTextAnimation = animations.text.main.copyIn;
   const largeTextAnimation = animations.text.main.copyIn;
-  return /* @__PURE__ */ jsxs257("div", {
+  return /* @__PURE__ */ jsxs256("div", {
     children: [
       /* @__PURE__ */ jsx476(TeamOfTheWeekStat, {
         value: label,
@@ -39085,7 +39515,7 @@ var StatItem11 = ({ label, value, delay }) => {
 };
 
 // src/compositions/cricket/TeamOfTheWeek/controller/PlayerRow/row-Basic.tsx
-import { Fragment as Fragment17, jsx as jsx477, jsxs as jsxs258 } from "react/jsx-runtime";
+import { Fragment as Fragment16, jsx as jsx477, jsxs as jsxs257 } from "react/jsx-runtime";
 var PlayerRowBasic2 = ({ player, index, rowHeight }) => {
   const { animations } = useAnimationContext();
   const { selectedPalette } = useThemeContext();
@@ -39114,7 +39544,7 @@ var PlayerRowBasic2 = ({ player, index, rowHeight }) => {
     animation: containerAnimation.containerIn,
     animationDelay: delay,
     exitAnimation: containerAnimation.containerOut,
-    children: /* @__PURE__ */ jsxs258("div", {
+    children: /* @__PURE__ */ jsxs257("div", {
       className: "flex items-center h-full overflow-hidden rounded-lg",
       style: { height: `${rowHeight}px`, background: bgColor },
       children: [
@@ -39128,14 +39558,14 @@ var PlayerRowBasic2 = ({ player, index, rowHeight }) => {
               style: { color: iconColor },
             }),
         }),
-        /* @__PURE__ */ jsxs258("div", {
+        /* @__PURE__ */ jsxs257("div", {
           className: "flex-1 flex flex-col justify-center px-3",
           children: [
             /* @__PURE__ */ jsx477("div", {
               className: "mt-1",
               children:
                 isAllRounder && hasBoth && player.batting && player.bowling
-                  ? /* @__PURE__ */ jsxs258("div", {
+                  ? /* @__PURE__ */ jsxs257("div", {
                       className: "flex flex-row gap-4 items-baseline",
                       children: [
                         /* @__PURE__ */ jsx477(BattingStatDisplay, {
@@ -39149,7 +39579,7 @@ var PlayerRowBasic2 = ({ player, index, rowHeight }) => {
                         }),
                       ],
                     })
-                  : /* @__PURE__ */ jsxs258(Fragment17, {
+                  : /* @__PURE__ */ jsxs257(Fragment16, {
                       children: [
                         (player.categoryDetail.position === "topscorer" ||
                           player.categoryDetail.position === "higheststrikerate") &&
@@ -39174,7 +39604,7 @@ var PlayerRowBasic2 = ({ player, index, rowHeight }) => {
                           }),
                         player.categoryDetail.position === "bestoftherest" &&
                           (!player.batting || !player.bowling) &&
-                          /* @__PURE__ */ jsxs258(Fragment17, {
+                          /* @__PURE__ */ jsxs257(Fragment16, {
                             children: [
                               player.batting &&
                                 /* @__PURE__ */ jsx477(BattingStatDisplay, {
@@ -39240,7 +39670,7 @@ var DEFAULT_ROW_HEIGHT_CNSW2 = 70;
 var DEFAULT_ROW_HEIGHT_CNSW_PRIVATE = 70;
 
 // src/compositions/cricket/TeamOfTheWeek/controller/TeamOfTheWeekDisplay/display-Basic.tsx
-import { jsx as jsx478, jsxs as jsxs259 } from "react/jsx-runtime";
+import { jsx as jsx478, jsxs as jsxs258 } from "react/jsx-runtime";
 var TeamOfTheWeekDisplayBasic = ({ players, sponsors }) => {
   const { layout } = useThemeContext();
   const { heights } = layout;
@@ -39249,7 +39679,7 @@ var TeamOfTheWeekDisplayBasic = ({ players, sponsors }) => {
   const footerSponsors = buildSingleItemFooterSponsors({
     fallbackPrimary: sponsors,
   });
-  return /* @__PURE__ */ jsxs259("div", {
+  return /* @__PURE__ */ jsxs258("div", {
     className: "flex flex-col h-full",
     children: [
       /* @__PURE__ */ jsx478(AnimatedContainer, {
@@ -39312,11 +39742,11 @@ var extractSponsors = (videoMeta) => {
 };
 
 // src/compositions/cricket/TeamOfTheWeek/_utils/components.tsx
-import { jsx as jsx479, jsxs as jsxs260 } from "react/jsx-runtime";
+import { jsx as jsx479, jsxs as jsxs259 } from "react/jsx-runtime";
 var NoDataPlaceholder = () => {
   return /* @__PURE__ */ jsx479("div", {
     className: "flex items-center justify-center h-full",
-    children: /* @__PURE__ */ jsxs260("div", {
+    children: /* @__PURE__ */ jsxs259("div", {
       className: "text-center",
       children: [
         /* @__PURE__ */ jsx479("h2", {
@@ -39351,7 +39781,7 @@ var basic_default = Basic7;
 
 // src/compositions/cricket/TeamOfTheWeek/controller/PlayerRow/row-Classic.tsx
 import { Img as Img9 } from "remotion";
-import { Fragment as Fragment18, jsx as jsx481, jsxs as jsxs261 } from "react/jsx-runtime";
+import { Fragment as Fragment17, jsx as jsx481, jsxs as jsxs260 } from "react/jsx-runtime";
 var PlayerRowClassic2 = ({ player, index, rowHeight }) => {
   const { animations } = useAnimationContext();
   const { selectedPalette, layout, colors } = useThemeContext();
@@ -39383,7 +39813,7 @@ var PlayerRowClassic2 = ({ player, index, rowHeight }) => {
         height: rowHeight,
         delay,
         depth: "compact",
-        children: /* @__PURE__ */ jsxs261("div", {
+        children: /* @__PURE__ */ jsxs260("div", {
           className: `grid grid-cols-12 items-center h-full overflow-hidden ${layout.borderRadius.container}`,
           children: [
             /* @__PURE__ */ jsx481(ClassicStatWell, {
@@ -39398,14 +39828,14 @@ var PlayerRowClassic2 = ({ player, index, rowHeight }) => {
                   style: { color: iconColor },
                 }),
             }),
-            /* @__PURE__ */ jsxs261("div", {
+            /* @__PURE__ */ jsxs260("div", {
               className: `relative z-10 flex flex-col justify-center px-4 h-full ${isAccountClub ? "col-span-10" : "col-span-8"}`,
               children: [
                 /* @__PURE__ */ jsx481("div", {
                   className: "mt-1",
                   children:
                     isAllRounder && hasBoth && player.batting && player.bowling
-                      ? /* @__PURE__ */ jsxs261("div", {
+                      ? /* @__PURE__ */ jsxs260("div", {
                           className: "flex flex-row gap-4 items-baseline",
                           children: [
                             /* @__PURE__ */ jsx481(BattingStatDisplay, {
@@ -39419,7 +39849,7 @@ var PlayerRowClassic2 = ({ player, index, rowHeight }) => {
                             }),
                           ],
                         })
-                      : /* @__PURE__ */ jsxs261(Fragment18, {
+                      : /* @__PURE__ */ jsxs260(Fragment17, {
                           children: [
                             (player.categoryDetail.position === "topscorer" ||
                               player.categoryDetail.position === "higheststrikerate") &&
@@ -39444,7 +39874,7 @@ var PlayerRowClassic2 = ({ player, index, rowHeight }) => {
                               }),
                             player.categoryDetail.position === "bestoftherest" &&
                               (!player.batting || !player.bowling) &&
-                              /* @__PURE__ */ jsxs261(Fragment18, {
+                              /* @__PURE__ */ jsxs260(Fragment17, {
                                 children: [
                                   player.batting &&
                                     /* @__PURE__ */ jsx481(BattingStatDisplay, {
@@ -39501,7 +39931,7 @@ var PlayerRowClassic2 = ({ player, index, rowHeight }) => {
 var row_Classic_default4 = PlayerRowClassic2;
 
 // src/compositions/cricket/TeamOfTheWeek/controller/TeamOfTheWeekDisplay/display-Classic.tsx
-import { jsx as jsx482, jsxs as jsxs262 } from "react/jsx-runtime";
+import { jsx as jsx482, jsxs as jsxs261 } from "react/jsx-runtime";
 var TeamOfTheWeekDisplayClassic = ({ players, sponsors }) => {
   const { layout } = useThemeContext();
   const { heights } = layout;
@@ -39510,7 +39940,7 @@ var TeamOfTheWeekDisplayClassic = ({ players, sponsors }) => {
   const footerSponsors = buildSingleItemFooterSponsors({
     fallbackPrimary: sponsors,
   });
-  return /* @__PURE__ */ jsxs262("div", {
+  return /* @__PURE__ */ jsxs261("div", {
     className: "flex flex-col h-full",
     children: [
       /* @__PURE__ */ jsx482(AnimatedContainer, {
@@ -39568,7 +39998,7 @@ var Classic8 = () => {
 var classic_default2 = Classic8;
 
 // src/compositions/cricket/TeamOfTheWeek/controller/PlayerRow/row-BrickWork.tsx
-import { Fragment as Fragment19, jsx as jsx484, jsxs as jsxs263 } from "react/jsx-runtime";
+import { Fragment as Fragment18, jsx as jsx484, jsxs as jsxs262 } from "react/jsx-runtime";
 var PlayerRowBrickWork2 = ({ player, index, rowHeight }) => {
   const { animations } = useAnimationContext();
   const { selectedPalette } = useThemeContext();
@@ -39596,7 +40026,7 @@ var PlayerRowBrickWork2 = ({ player, index, rowHeight }) => {
       animation: containerAnimation.containerIn,
       animationDelay: delay,
       exitAnimation: containerAnimation.containerOut,
-      children: /* @__PURE__ */ jsxs263("div", {
+      children: /* @__PURE__ */ jsxs262("div", {
         className: "grid grid-cols-12 p-0 items-center h-full overflow-hidden rounded-none",
         style: {
           height: `${rowHeight}px`,
@@ -39615,14 +40045,14 @@ var PlayerRowBrickWork2 = ({ player, index, rowHeight }) => {
                 style: { color: iconColor },
               }),
           }),
-          /* @__PURE__ */ jsxs263("div", {
+          /* @__PURE__ */ jsxs262("div", {
             className: `flex ml-4 flex-col justify-center px-1 h-full ${isAccountClub ? "col-span-10" : "col-span-9"}`,
             children: [
               /* @__PURE__ */ jsx484("div", {
                 className: "mt-1",
                 children:
                   isAllRounder && hasBoth && player.batting && player.bowling
-                    ? /* @__PURE__ */ jsxs263("div", {
+                    ? /* @__PURE__ */ jsxs262("div", {
                         className: "flex flex-row gap-4 items-baseline",
                         children: [
                           /* @__PURE__ */ jsx484(BattingStatDisplay, {
@@ -39636,7 +40066,7 @@ var PlayerRowBrickWork2 = ({ player, index, rowHeight }) => {
                           }),
                         ],
                       })
-                    : /* @__PURE__ */ jsxs263(Fragment19, {
+                    : /* @__PURE__ */ jsxs262(Fragment18, {
                         children: [
                           (player.categoryDetail.position === "topscorer" ||
                             player.categoryDetail.position === "higheststrikerate") &&
@@ -39661,7 +40091,7 @@ var PlayerRowBrickWork2 = ({ player, index, rowHeight }) => {
                             }),
                           player.categoryDetail.position === "bestoftherest" &&
                             (!player.batting || !player.bowling) &&
-                            /* @__PURE__ */ jsxs263(Fragment19, {
+                            /* @__PURE__ */ jsxs262(Fragment18, {
                               children: [
                                 player.batting &&
                                   /* @__PURE__ */ jsx484(BattingStatDisplay, {
@@ -39722,7 +40152,7 @@ var PlayerRowBrickWork2 = ({ player, index, rowHeight }) => {
 var row_BrickWork_default4 = PlayerRowBrickWork2;
 
 // src/compositions/cricket/TeamOfTheWeek/controller/TeamOfTheWeekDisplay/display-BrickWork.tsx
-import { jsx as jsx485, jsxs as jsxs264 } from "react/jsx-runtime";
+import { jsx as jsx485, jsxs as jsxs263 } from "react/jsx-runtime";
 var TeamOfTheWeekDisplayBrickWork = ({ players, sponsors }) => {
   const { layout } = useThemeContext();
   const { heights } = layout;
@@ -39731,7 +40161,7 @@ var TeamOfTheWeekDisplayBrickWork = ({ players, sponsors }) => {
   const footerSponsors = buildSingleItemFooterSponsors({
     fallbackPrimary: sponsors,
   });
-  return /* @__PURE__ */ jsxs264("div", {
+  return /* @__PURE__ */ jsxs263("div", {
     className: "flex flex-col h-full",
     children: [
       /* @__PURE__ */ jsx485(AnimatedContainer, {
@@ -39804,7 +40234,7 @@ var TeamOfTheWeekType = ({ value, animation, className, variant = DEFAULT_VARIAN
 };
 
 // src/compositions/cricket/TeamOfTheWeek/controller/PlayerRow/row-CNSW.tsx
-import { jsx as jsx488, jsxs as jsxs265 } from "react/jsx-runtime";
+import { jsx as jsx488, jsxs as jsxs264 } from "react/jsx-runtime";
 var PlayerRowCNSW2 = ({ player, index, rowHeight, delay }) => {
   const { animations } = useAnimationContext();
   const { selectedPalette, layout } = useThemeContext();
@@ -39825,14 +40255,14 @@ var PlayerRowCNSW2 = ({ player, index, rowHeight, delay }) => {
       animation: animations.container.main.itemContainer.containerIn,
       animationDelay: delay,
       exitAnimation: animations.container.main.itemContainer.containerOut,
-      children: /* @__PURE__ */ jsxs265("div", {
+      children: /* @__PURE__ */ jsxs264("div", {
         className: `grid grid-cols-12 items-center h-full overflow-hidden ${layout.borderRadius.container}`,
         style: {
           height: `${rowHeight}px`,
           background: bgColor,
         },
         children: [
-          /* @__PURE__ */ jsxs265("div", {
+          /* @__PURE__ */ jsxs264("div", {
             className: "col-span-9 flex flex-col justify-center ml-6 p-0 m-0 h-full",
             children: [
               /* @__PURE__ */ jsx488(TeamOfTheWeekPlayerName, {
@@ -39846,7 +40276,7 @@ var PlayerRowCNSW2 = ({ player, index, rowHeight, delay }) => {
               }),
             ],
           }),
-          /* @__PURE__ */ jsxs265("div", {
+          /* @__PURE__ */ jsxs264("div", {
             className:
               "col-span-3 p-1 m-1 mr-2 flex items-center justify-center whitespace-nowrap leading-none px-0 h-auto",
             style: { background: scoreBgColor },
@@ -39877,7 +40307,7 @@ var calculatePlayerDelay2 = (index) => {
 };
 
 // src/compositions/cricket/TeamOfTheWeek/controller/TeamOfTheWeekDisplay/display-CNSW.tsx
-import { jsx as jsx489, jsxs as jsxs266 } from "react/jsx-runtime";
+import { jsx as jsx489, jsxs as jsxs265 } from "react/jsx-runtime";
 var TeamOfTheWeekDisplayCNSW = ({ players, sponsors }) => {
   const { layout } = useThemeContext();
   const { heights } = layout;
@@ -39886,7 +40316,7 @@ var TeamOfTheWeekDisplayCNSW = ({ players, sponsors }) => {
   const footerSponsors = buildSingleItemFooterSponsors({
     fallbackPrimary: sponsors,
   });
-  return /* @__PURE__ */ jsxs266("div", {
+  return /* @__PURE__ */ jsxs265("div", {
     className: "flex flex-col h-full",
     children: [
       /* @__PURE__ */ jsx489(AnimatedContainer, {
@@ -39942,7 +40372,7 @@ var CNSW8 = () => {
 var cnsw_default3 = CNSW8;
 
 // src/compositions/cricket/TeamOfTheWeek/controller/PlayerRow/row-CNSW-private.tsx
-import { jsx as jsx491, jsxs as jsxs267 } from "react/jsx-runtime";
+import { jsx as jsx491, jsxs as jsxs266 } from "react/jsx-runtime";
 var PlayerRowCNSWPrivate2 = ({ player, index, rowHeight, delay }) => {
   const { animations } = useAnimationContext();
   const { selectedPalette, layout } = useThemeContext();
@@ -39962,14 +40392,14 @@ var PlayerRowCNSWPrivate2 = ({ player, index, rowHeight, delay }) => {
       animation: animations.container.main.itemContainer.containerIn,
       animationDelay: delay,
       exitAnimation: animations.container.main.itemContainer.containerOut,
-      children: /* @__PURE__ */ jsxs267("div", {
+      children: /* @__PURE__ */ jsxs266("div", {
         className: `grid grid-cols-12 items-center h-full overflow-hidden ${layout.borderRadius.container}`,
         style: {
           height: `${rowHeight}px`,
           background: bgColor,
         },
         children: [
-          /* @__PURE__ */ jsxs267("div", {
+          /* @__PURE__ */ jsxs266("div", {
             className: "col-span-9 flex flex-col justify-center ml-6 p-0 m-0 h-full",
             children: [
               /* @__PURE__ */ jsx491(TeamOfTheWeekPlayerName, {
@@ -39985,7 +40415,7 @@ var PlayerRowCNSWPrivate2 = ({ player, index, rowHeight, delay }) => {
               }),
             ],
           }),
-          /* @__PURE__ */ jsxs267("div", {
+          /* @__PURE__ */ jsxs266("div", {
             className:
               "col-span-3 p-1 m-1 mr-2 flex items-center justify-center whitespace-nowrap leading-none px-0 h-auto",
             style: { background: scoreBgColor },
@@ -40013,7 +40443,7 @@ var PlayerRowCNSWPrivate2 = ({ player, index, rowHeight, delay }) => {
 var row_CNSW_private_default4 = PlayerRowCNSWPrivate2;
 
 // src/compositions/cricket/TeamOfTheWeek/controller/TeamOfTheWeekDisplay/display-CNSW-private.tsx
-import { jsx as jsx492, jsxs as jsxs268 } from "react/jsx-runtime";
+import { jsx as jsx492, jsxs as jsxs267 } from "react/jsx-runtime";
 var TeamOfTheWeekDisplayCNSWPrivate = ({ players, sponsors }) => {
   const { layout } = useThemeContext();
   const { heights } = layout;
@@ -40022,7 +40452,7 @@ var TeamOfTheWeekDisplayCNSWPrivate = ({ players, sponsors }) => {
   const footerSponsors = buildSingleItemFooterSponsors({
     fallbackPrimary: sponsors,
   });
-  return /* @__PURE__ */ jsxs268("div", {
+  return /* @__PURE__ */ jsxs267("div", {
     className: "flex flex-col h-full",
     children: [
       /* @__PURE__ */ jsx492(AnimatedContainer, {
@@ -40081,14 +40511,14 @@ var CNSWPrivate6 = () => {
 var cnswPrivate_default = CNSWPrivate6;
 
 // src/compositions/cricket/TeamOfTheWeek/controller/PlayerRow/row-SixersThunder.tsx
-import { Fragment as Fragment20, jsx as jsx494, jsxs as jsxs269 } from "react/jsx-runtime";
+import { Fragment as Fragment19, jsx as jsx494, jsxs as jsxs268 } from "react/jsx-runtime";
 var BattingStatDisplay2 = ({ batting, delay }) => {
   const { animations } = useAnimationContext();
   const largeTextAnimation = animations.text.main.copyIn;
   const smallTextAnimation = animations.text.main.copyIn;
   const scoreDisplay = `${batting.runs}${batting.notOut ? "*" : ""}`;
   const ballsDisplay = `(${batting.balls})`;
-  return /* @__PURE__ */ jsxs269("div", {
+  return /* @__PURE__ */ jsxs268("div", {
     className: "flex items-baseline gap-1",
     children: [
       /* @__PURE__ */ jsx494(TeamOfTheWeekStat, {
@@ -40138,7 +40568,7 @@ var PlayerRowSixersThunder2 = ({ player, index, rowHeight }) => {
       animation: containerAnimation.containerIn,
       animationDelay: delay,
       exitAnimation: containerAnimation.containerOut,
-      children: /* @__PURE__ */ jsxs269("div", {
+      children: /* @__PURE__ */ jsxs268("div", {
         className: `grid grid-cols-12 p-0 items-center h-full overflow-hidden ${layout.borderRadius.container}`,
         style: {
           height: `${rowHeight}px`,
@@ -40156,7 +40586,7 @@ var PlayerRowSixersThunder2 = ({ player, index, rowHeight }) => {
                 style: { color: iconColor },
               }),
           }),
-          /* @__PURE__ */ jsxs269("div", {
+          /* @__PURE__ */ jsxs268("div", {
             className: `flex flex-row justify-start items-center px-2 h-full overflow-hidden gap-0 ${isAccountClub ? "col-span-11" : "col-span-10"}`,
             children: [
               /* @__PURE__ */ jsx494(TeamOfTheWeekPlayerName, {
@@ -40168,7 +40598,7 @@ var PlayerRowSixersThunder2 = ({ player, index, rowHeight }) => {
                 className: "flex items-center gap-1 ml-4",
                 children:
                   isAllRounder && hasBoth && player.batting && player.bowling
-                    ? /* @__PURE__ */ jsxs269("div", {
+                    ? /* @__PURE__ */ jsxs268("div", {
                         className: "flex flex-row gap-4 items-baseline",
                         children: [
                           /* @__PURE__ */ jsx494(BattingStatDisplay2, {
@@ -40182,7 +40612,7 @@ var PlayerRowSixersThunder2 = ({ player, index, rowHeight }) => {
                           }),
                         ],
                       })
-                    : /* @__PURE__ */ jsxs269(Fragment20, {
+                    : /* @__PURE__ */ jsxs268(Fragment19, {
                         children: [
                           /* @__PURE__ */ jsx494(TeamOfTheWeekStat, {
                             value: mainValue,
@@ -40230,7 +40660,7 @@ var PlayerRowSixersThunder2 = ({ player, index, rowHeight }) => {
 var row_SixersThunder_default3 = PlayerRowSixersThunder2;
 
 // src/compositions/cricket/TeamOfTheWeek/controller/TeamOfTheWeekDisplay/display-SixersThunder.tsx
-import { jsx as jsx495, jsxs as jsxs270 } from "react/jsx-runtime";
+import { jsx as jsx495, jsxs as jsxs269 } from "react/jsx-runtime";
 var TeamOfTheWeekDisplaySixersThunder = ({ players, sponsors }) => {
   const { layout } = useThemeContext();
   const { heights } = layout;
@@ -40239,7 +40669,7 @@ var TeamOfTheWeekDisplaySixersThunder = ({ players, sponsors }) => {
   const footerSponsors = buildSingleItemFooterSponsors({
     fallbackPrimary: sponsors,
   });
-  return /* @__PURE__ */ jsxs270("div", {
+  return /* @__PURE__ */ jsxs269("div", {
     className: "flex flex-col h-full",
     children: [
       /* @__PURE__ */ jsx495(AnimatedContainer, {
@@ -40298,7 +40728,7 @@ var sixersThunder_default3 = SixersThunder6;
 
 // src/compositions/cricket/TeamOfTheWeek/controller/PlayerRow/row-ClassicTwoColumn.tsx
 import { Img as Img10 } from "remotion";
-import { Fragment as Fragment21, jsx as jsx497, jsxs as jsxs271 } from "react/jsx-runtime";
+import { Fragment as Fragment20, jsx as jsx497, jsxs as jsxs270 } from "react/jsx-runtime";
 var PlayerRowClassicTwoColumn2 = ({ player, index, rowHeight }) => {
   const { animations } = useAnimationContext();
   const { selectedPalette, layout, colors } = useThemeContext();
@@ -40326,7 +40756,7 @@ var PlayerRowClassicTwoColumn2 = ({ player, index, rowHeight }) => {
       className: `${layout.borderRadius.container}`,
       backgroundColor: surfaceRoles.content.surface,
       style: { height: `${rowHeight}px` },
-      children: /* @__PURE__ */ jsxs271("div", {
+      children: /* @__PURE__ */ jsxs270("div", {
         className: "grid h-full grid-cols-12 items-center",
         children: [
           !isAccountClub &&
@@ -40354,7 +40784,7 @@ var PlayerRowClassicTwoColumn2 = ({ player, index, rowHeight }) => {
                 style: { color: iconColor },
               }),
           }),
-          /* @__PURE__ */ jsxs271("div", {
+          /* @__PURE__ */ jsxs270("div", {
             className: `ml-4 flex h-full flex-col justify-center px-2 ${isAccountClub ? "col-span-10" : "col-span-9"}`,
             children: [
               /* @__PURE__ */ jsx497(TeamOfTheWeekPlayerName, {
@@ -40366,7 +40796,7 @@ var PlayerRowClassicTwoColumn2 = ({ player, index, rowHeight }) => {
                 className: "",
               }),
               isAllRounder && hasBoth && player.batting && player.bowling
-                ? /* @__PURE__ */ jsxs271("div", {
+                ? /* @__PURE__ */ jsxs270("div", {
                     className: "mt-1 flex flex-row gap-4",
                     children: [
                       /* @__PURE__ */ jsx497(BattingStatDisplay, {
@@ -40380,7 +40810,7 @@ var PlayerRowClassicTwoColumn2 = ({ player, index, rowHeight }) => {
                       }),
                     ],
                   })
-                : /* @__PURE__ */ jsxs271(Fragment21, {
+                : /* @__PURE__ */ jsxs270(Fragment20, {
                     children: [
                       (player.categoryDetail.position === "topscorer" ||
                         player.categoryDetail.position === "higheststrikerate") &&
@@ -40405,7 +40835,7 @@ var PlayerRowClassicTwoColumn2 = ({ player, index, rowHeight }) => {
                         }),
                       player.categoryDetail.position === "bestoftherest" &&
                         (!player.batting || !player.bowling) &&
-                        /* @__PURE__ */ jsxs271(Fragment21, {
+                        /* @__PURE__ */ jsxs270(Fragment20, {
                           children: [
                             player.batting &&
                               /* @__PURE__ */ jsx497(BattingStatDisplay, {
@@ -40438,7 +40868,7 @@ var PlayerRowClassicTwoColumn2 = ({ player, index, rowHeight }) => {
 var row_ClassicTwoColumn_default2 = PlayerRowClassicTwoColumn2;
 
 // src/compositions/cricket/TeamOfTheWeek/controller/TeamOfTheWeekDisplay/display-ClassicTwoColumn.tsx
-import { jsx as jsx498, jsxs as jsxs272 } from "react/jsx-runtime";
+import { jsx as jsx498, jsxs as jsxs271 } from "react/jsx-runtime";
 var TeamOfTheWeekDisplayClassicTwoColumn = ({ players, sponsors }) => {
   const { layout } = useThemeContext();
   const { heights } = layout;
@@ -40447,7 +40877,7 @@ var TeamOfTheWeekDisplayClassicTwoColumn = ({ players, sponsors }) => {
   const footerSponsors = buildSingleItemFooterSponsors({
     fallbackPrimary: sponsors,
   });
-  return /* @__PURE__ */ jsxs272("div", {
+  return /* @__PURE__ */ jsxs271("div", {
     className: "flex flex-col h-full w-full",
     children: [
       /* @__PURE__ */ jsx498(AnimatedContainer, {
@@ -40505,7 +40935,7 @@ var ClassicTwoColumn6 = () => {
 var classicTwoColumn_default3 = ClassicTwoColumn6;
 
 // src/compositions/cricket/TeamOfTheWeek/controller/PlayerRow/row-Mudgeeraba.tsx
-import { Fragment as Fragment22, jsx as jsx500, jsxs as jsxs273 } from "react/jsx-runtime";
+import { Fragment as Fragment21, jsx as jsx500, jsxs as jsxs272 } from "react/jsx-runtime";
 var ICON_LOGO_WIDTH_RATIO = 0.72;
 var PADDING_SHALLOW_ROW_LOGO_FLUSH_RIGHT2 = "pl-4 pr-0";
 var PlayerRowMudgeeraba2 = ({ player, index, rowHeight }) => {
@@ -40525,7 +40955,7 @@ var PlayerRowMudgeeraba2 = ({ player, index, rowHeight }) => {
   const isAllRounder = isAllRounderPosition(player.categoryDetail.position);
   const hasBoth = hasBothStats(player);
   const PositionIcon = getPositionIcon(player.categoryDetail.position, DEFAULT_ICON_PACK);
-  const rowInner = /* @__PURE__ */ jsxs273(Fragment22, {
+  const rowInner = /* @__PURE__ */ jsxs272(Fragment21, {
     children: [
       /* @__PURE__ */ jsx500("div", {
         className: "flex shrink-0 mr-2 overflow-hidden items-center justify-center",
@@ -40544,14 +40974,14 @@ var PlayerRowMudgeeraba2 = ({ player, index, rowHeight }) => {
             style: { color: iconColor },
           }),
       }),
-      /* @__PURE__ */ jsxs273("div", {
+      /* @__PURE__ */ jsxs272("div", {
         className: "flex-1 flex flex-col justify-center min-w-0 ml-2",
         children: [
           /* @__PURE__ */ jsx500("div", {
             className: "mt-1",
             children:
               isAllRounder && hasBoth && player.batting && player.bowling
-                ? /* @__PURE__ */ jsxs273("div", {
+                ? /* @__PURE__ */ jsxs272("div", {
                     className: "flex flex-row gap-4 items-baseline",
                     children: [
                       /* @__PURE__ */ jsx500(BattingStatDisplay, {
@@ -40565,7 +40995,7 @@ var PlayerRowMudgeeraba2 = ({ player, index, rowHeight }) => {
                       }),
                     ],
                   })
-                : /* @__PURE__ */ jsxs273(Fragment22, {
+                : /* @__PURE__ */ jsxs272(Fragment21, {
                     children: [
                       (player.categoryDetail.position === "topscorer" ||
                         player.categoryDetail.position === "higheststrikerate") &&
@@ -40590,7 +41020,7 @@ var PlayerRowMudgeeraba2 = ({ player, index, rowHeight }) => {
                         }),
                       player.categoryDetail.position === "bestoftherest" &&
                         (!player.batting || !player.bowling) &&
-                        /* @__PURE__ */ jsxs273(Fragment22, {
+                        /* @__PURE__ */ jsxs272(Fragment21, {
                           children: [
                             player.batting &&
                               /* @__PURE__ */ jsx500(BattingStatDisplay, {
@@ -40670,7 +41100,7 @@ var PlayerRowMudgeeraba2 = ({ player, index, rowHeight }) => {
 var row_Mudgeeraba_default5 = PlayerRowMudgeeraba2;
 
 // src/compositions/cricket/TeamOfTheWeek/controller/TeamOfTheWeekDisplay/display-Mudgeeraba.tsx
-import { jsx as jsx501, jsxs as jsxs274 } from "react/jsx-runtime";
+import { jsx as jsx501, jsxs as jsxs273 } from "react/jsx-runtime";
 var TeamOfTheWeekDisplayMudgeeraba = ({ players, sponsors }) => {
   const { layout } = useThemeContext();
   const { heights } = layout;
@@ -40680,7 +41110,7 @@ var TeamOfTheWeekDisplayMudgeeraba = ({ players, sponsors }) => {
   const footerSponsors = buildSingleItemFooterSponsors({
     fallbackPrimary: sponsors,
   });
-  return /* @__PURE__ */ jsxs274("div", {
+  return /* @__PURE__ */ jsxs273("div", {
     className: "flex flex-col h-full mx-6",
     children: [
       /* @__PURE__ */ jsx501(AnimatedContainer, {
@@ -40758,7 +41188,7 @@ var TeamOfTheWeekTeam = ({ value, animation, className, variant = DEFAULT_VARIAN
 };
 
 // src/compositions/cricket/TeamOfTheWeek/controller/PlayerRow/card-BroadcastPro.tsx
-import { jsx as jsx504, jsxs as jsxs275 } from "react/jsx-runtime";
+import { jsx as jsx504, jsxs as jsxs274 } from "react/jsx-runtime";
 var MAX_NAME_LENGTH4 = 19;
 var MAX_TEAM_LENGTH = 36;
 var formatTotwPlayerName = (rawName, maxLength) =>
@@ -40805,77 +41235,75 @@ var CardBroadcastPro = ({ player, staggerIndex, isAccountClub, glass, text, comp
         border: glass.border,
         ...cellBlur,
       },
-      children: /* @__PURE__ */ jsxs275("div", {
+      children: /* @__PURE__ */ jsx504("div", {
         className: bodyClass,
-        children: [
-          /* @__PURE__ */ jsxs275("div", {
-            className: `${topRowClass}${isAccountClub ? " grid-cols-1" : ""}`.trim(),
-            children: [
-              /* @__PURE__ */ jsxs275("div", {
-                className: copyClass,
-                children: [
-                  /* @__PURE__ */ jsx504("div", {
-                    className: statsClass,
-                    children: /* @__PURE__ */ jsx504(BroadcastProStatMatrixCompactGroup, {
-                      player,
-                      delay: statDelay,
-                      statClassName: statClass,
-                      statSuffixClassName: statSuffixClass,
-                      text,
-                    }),
+        children: /* @__PURE__ */ jsxs274("div", {
+          className: `${topRowClass}${isAccountClub ? " grid-cols-1" : ""}`.trim(),
+          children: [
+            /* @__PURE__ */ jsxs274("div", {
+              className: copyClass,
+              children: [
+                /* @__PURE__ */ jsx504("div", {
+                  className: statsClass,
+                  children: /* @__PURE__ */ jsx504(BroadcastProStatMatrixCompactGroup, {
+                    player,
+                    delay: statDelay,
+                    statClassName: statClass,
+                    statSuffixClassName: statSuffixClass,
+                    text,
                   }),
-                  /* @__PURE__ */ jsx504(TeamOfTheWeekTeam, {
-                    value: teamName,
-                    animation: { ...copyAnimation, delay: nameDelay + 2 },
-                    variant: "onContainerCopy",
-                    className: teamClass,
-                    style: { color: text.secondary },
+                }),
+                /* @__PURE__ */ jsx504("div", {
+                  className: nameRowClass,
+                  children: /* @__PURE__ */ jsx504(TeamOfTheWeekPlayerName, {
+                    value: playerName,
+                    animation: { ...copyAnimation, delay: nameDelay },
+                    variant: "onContainerTitle",
+                    className: nameCellClass,
+                    style: { color: text.copy },
                   }),
-                ],
-              }),
-              !isAccountClub
-                ? /* @__PURE__ */ jsx504("div", {
-                    className: logoColClass,
-                    children: /* @__PURE__ */ jsx504("div", {
-                      className: logoWellClass,
-                      children: /* @__PURE__ */ jsx504(BroadcastProCrestWell, {
-                        tier: "compact",
-                        logo: player.club.logo,
-                        teamName: player.club.name,
-                        delay: delay + 2,
-                        glass,
-                        className: "h-full w-full",
-                        style: {
-                          width: "100%",
-                          height: "100%",
-                          minWidth: "100%",
-                          minHeight: "100%",
-                        },
-                        showBorder: true,
-                      }),
-                    }),
-                  })
-                : null,
-            ],
-          }),
-          /* @__PURE__ */ jsx504("div", {
-            className: nameRowClass,
-            children: /* @__PURE__ */ jsx504(TeamOfTheWeekPlayerName, {
-              value: playerName,
-              animation: { ...copyAnimation, delay: nameDelay },
-              variant: "onContainerTitle",
-              className: nameCellClass,
-              style: { color: text.copy },
+                }),
+                /* @__PURE__ */ jsx504(TeamOfTheWeekTeam, {
+                  value: teamName,
+                  animation: { ...copyAnimation, delay: nameDelay + 2 },
+                  variant: "onContainerCopy",
+                  className: teamClass,
+                  style: { color: text.secondary },
+                }),
+              ],
             }),
-          }),
-        ],
+            !isAccountClub
+              ? /* @__PURE__ */ jsx504("div", {
+                  className: logoColClass,
+                  children: /* @__PURE__ */ jsx504("div", {
+                    className: logoWellClass,
+                    children: /* @__PURE__ */ jsx504(BroadcastProCrestWell, {
+                      tier: "compact",
+                      logo: player.club.logo,
+                      teamName: player.club.name,
+                      delay: delay + 2,
+                      glass,
+                      className: "h-full w-full",
+                      style: {
+                        width: "100%",
+                        height: "100%",
+                        minWidth: "100%",
+                        minHeight: "100%",
+                      },
+                      showBorder: true,
+                    }),
+                  }),
+                })
+              : null,
+          ],
+        }),
       }),
     }),
   });
 };
 
 // src/compositions/cricket/TeamOfTheWeek/controller/TeamOfTheWeekDisplay/display-BroadcastPro.tsx
-import { jsx as jsx505, jsxs as jsxs276 } from "react/jsx-runtime";
+import { jsx as jsx505, jsxs as jsxs275 } from "react/jsx-runtime";
 var TeamOfTheWeekDisplayBroadcastPro = ({ players, sponsors }) => {
   const { layout, componentStyles } = useThemeContext();
   const { glass, text } = useBroadcastProTheme();
@@ -40893,7 +41321,7 @@ var TeamOfTheWeekDisplayBroadcastPro = ({ players, sponsors }) => {
   const footerSponsors = buildSingleItemFooterSponsors({
     fallbackPrimary: sponsors,
   });
-  return /* @__PURE__ */ jsxs276("div", {
+  return /* @__PURE__ */ jsxs275("div", {
     className: "flex flex-col",
     style: { height: `${compositionHeight}px` },
     children: [
@@ -40957,7 +41385,7 @@ var broadcastPro_default2 = broadcastpro4;
 
 // src/compositions/cricket/TeamOfTheWeek/controller/PlayerRow/card-BroadcastProRounded.tsx
 import tinycolor26 from "tinycolor2";
-import { jsx as jsx507, jsxs as jsxs277 } from "react/jsx-runtime";
+import { jsx as jsx507, jsxs as jsxs276 } from "react/jsx-runtime";
 var MAX_NAME_LENGTH5 = 19;
 var MAX_TEAM_LENGTH2 = 36;
 var formatTotwPlayerName2 = (rawName, maxLength) =>
@@ -41011,77 +41439,75 @@ var CardBroadcastProRounded = ({
         border: glass.border,
         ...cellBlur2,
       },
-      children: /* @__PURE__ */ jsxs277("div", {
+      children: /* @__PURE__ */ jsx507("div", {
         className: bodyClass,
-        children: [
-          /* @__PURE__ */ jsxs277("div", {
-            className: `${topRowClass}${isAccountClub ? " grid-cols-1" : ""}`.trim(),
-            children: [
-              /* @__PURE__ */ jsxs277("div", {
-                className: copyClass,
-                children: [
-                  /* @__PURE__ */ jsx507("div", {
-                    className: statsClass,
-                    children: /* @__PURE__ */ jsx507(BroadcastProRoundedStatMatrixCompactGroup, {
-                      player,
-                      delay: statDelay,
-                      statClassName: statClass,
-                      statSuffixClassName: statSuffixClass,
-                      text,
-                    }),
+        children: /* @__PURE__ */ jsxs276("div", {
+          className: `${topRowClass}${isAccountClub ? " grid-cols-1" : ""}`.trim(),
+          children: [
+            /* @__PURE__ */ jsxs276("div", {
+              className: copyClass,
+              children: [
+                /* @__PURE__ */ jsx507("div", {
+                  className: statsClass,
+                  children: /* @__PURE__ */ jsx507(BroadcastProRoundedStatMatrixCompactGroup, {
+                    player,
+                    delay: statDelay,
+                    statClassName: statClass,
+                    statSuffixClassName: statSuffixClass,
+                    text,
                   }),
-                  /* @__PURE__ */ jsx507(TeamOfTheWeekTeam, {
-                    value: teamName,
-                    animation: { ...copyAnimation, delay: nameDelay + 2 },
-                    variant: "onContainerCopy",
-                    className: teamClass,
-                    style: { color: text.secondary },
+                }),
+                /* @__PURE__ */ jsx507("div", {
+                  className: nameRowClass,
+                  children: /* @__PURE__ */ jsx507(TeamOfTheWeekPlayerName, {
+                    value: playerName,
+                    animation: { ...copyAnimation, delay: nameDelay },
+                    variant: "onContainerTitle",
+                    className: nameCellClass,
+                    style: { color: text.copy },
                   }),
-                ],
-              }),
-              !isAccountClub
-                ? /* @__PURE__ */ jsx507("div", {
-                    className: logoColClass,
-                    children: /* @__PURE__ */ jsx507("div", {
-                      className: logoWellClass,
-                      children: /* @__PURE__ */ jsx507(BroadcastProRoundedCrestWell, {
-                        tier: "compact",
-                        logo: player.club.logo,
-                        teamName: player.club.name,
-                        delay: delay + 2,
-                        glass,
-                        className: "h-full w-full",
-                        style: {
-                          width: "100%",
-                          height: "100%",
-                          minWidth: "100%",
-                          minHeight: "100%",
-                        },
-                        showBorder: true,
-                      }),
-                    }),
-                  })
-                : null,
-            ],
-          }),
-          /* @__PURE__ */ jsx507("div", {
-            className: nameRowClass,
-            children: /* @__PURE__ */ jsx507(TeamOfTheWeekPlayerName, {
-              value: playerName,
-              animation: { ...copyAnimation, delay: nameDelay },
-              variant: "onContainerTitle",
-              className: nameCellClass,
-              style: { color: text.copy },
+                }),
+                /* @__PURE__ */ jsx507(TeamOfTheWeekTeam, {
+                  value: teamName,
+                  animation: { ...copyAnimation, delay: nameDelay + 2 },
+                  variant: "onContainerCopy",
+                  className: teamClass,
+                  style: { color: text.secondary },
+                }),
+              ],
             }),
-          }),
-        ],
+            !isAccountClub
+              ? /* @__PURE__ */ jsx507("div", {
+                  className: logoColClass,
+                  children: /* @__PURE__ */ jsx507("div", {
+                    className: logoWellClass,
+                    children: /* @__PURE__ */ jsx507(BroadcastProRoundedCrestWell, {
+                      tier: "compact",
+                      logo: player.club.logo,
+                      teamName: player.club.name,
+                      delay: delay + 2,
+                      glass,
+                      className: "h-full w-full",
+                      style: {
+                        width: "100%",
+                        height: "100%",
+                        minWidth: "100%",
+                        minHeight: "100%",
+                      },
+                      showBorder: true,
+                    }),
+                  }),
+                })
+              : null,
+          ],
+        }),
       }),
     }),
   });
 };
 
 // src/compositions/cricket/TeamOfTheWeek/controller/TeamOfTheWeekDisplay/display-BroadcastProRounded.tsx
-import { jsx as jsx508, jsxs as jsxs278 } from "react/jsx-runtime";
+import { jsx as jsx508, jsxs as jsxs277 } from "react/jsx-runtime";
 var TeamOfTheWeekDisplayBroadcastProRounded = ({ players, sponsors }) => {
   const { layout, componentStyles } = useThemeContext();
   const { glass, text } = useBroadcastProRoundedTheme();
@@ -41102,7 +41528,7 @@ var TeamOfTheWeekDisplayBroadcastProRounded = ({ players, sponsors }) => {
   const footerSponsors = buildSingleItemFooterSponsors({
     fallbackPrimary: sponsors,
   });
-  return /* @__PURE__ */ jsxs278("div", {
+  return /* @__PURE__ */ jsxs277("div", {
     className: "flex flex-col",
     style: { height: `${compositionHeight}px` },
     children: [
@@ -41178,22 +41604,22 @@ var broadcastprorounded5 = broadcastProRounded_default2;
 
 // src/compositions/cricket/placeholders.tsx
 import { AbsoluteFill as AbsoluteFill36 } from "remotion";
-import { jsx as jsx510, jsxs as jsxs279 } from "react/jsx-runtime";
+import { jsx as jsx510, jsxs as jsxs278 } from "react/jsx-runtime";
 var PlaceholderComposition = ({ data }) => {
   const compositionId = data.videoMeta.video.metadata.compositionId;
   const template = data.videoMeta.video.appearance.template || "Basic";
-  return /* @__PURE__ */ jsxs279(AbsoluteFill36, {
+  return /* @__PURE__ */ jsxs278(AbsoluteFill36, {
     className: "bg-black bg-opacity-50 flex flex-col items-center justify-center p-8 text-white",
     children: [
       /* @__PURE__ */ jsx510("h1", {
         className: "text-3xl mb-0.5",
         children: data.videoMeta.video.metadata.title || "Composition",
       }),
-      /* @__PURE__ */ jsxs279("h2", {
+      /* @__PURE__ */ jsxs278("h2", {
         className: "text-2xl mb-4",
         children: [template, " Template"],
       }),
-      /* @__PURE__ */ jsxs279("p", {
+      /* @__PURE__ */ jsxs278("p", {
         className: "text-xl text-center",
         children: ["Placeholder for composition: ", compositionId],
       }),
@@ -41332,11 +41758,11 @@ __export(afl_exports, {
   upcoming: () => upcoming,
 });
 import { AbsoluteFill as AbsoluteFill37 } from "remotion";
-import { jsx as jsx511, jsxs as jsxs280 } from "react/jsx-runtime";
+import { jsx as jsx511, jsxs as jsxs279 } from "react/jsx-runtime";
 var PlaceholderComposition2 = ({ data }) => {
   const compositionId = data.videoMeta.video.metadata.compositionId;
   const template = data.videoMeta.video.appearance.template || "Basic";
-  return /* @__PURE__ */ jsxs280(AbsoluteFill37, {
+  return /* @__PURE__ */ jsxs279(AbsoluteFill37, {
     style: {
       backgroundColor: "#222",
       color: "white",
@@ -41356,11 +41782,11 @@ var PlaceholderComposition2 = ({ data }) => {
         },
         children: data.videoMeta.video.metadata.title || "AFL Composition",
       }),
-      /* @__PURE__ */ jsxs280("h2", {
+      /* @__PURE__ */ jsxs279("h2", {
         style: { fontSize: "2em", marginBottom: 24 },
         children: [template, " Template"],
       }),
-      /* @__PURE__ */ jsxs280("p", {
+      /* @__PURE__ */ jsxs279("p", {
         style: { fontSize: "1.5em" },
         children: ["Placeholder for AFL composition: ", compositionId],
       }),
@@ -41394,11 +41820,11 @@ __export(netball_exports, {
   upcoming: () => upcoming2,
 });
 import { AbsoluteFill as AbsoluteFill38 } from "remotion";
-import { jsx as jsx512, jsxs as jsxs281 } from "react/jsx-runtime";
+import { jsx as jsx512, jsxs as jsxs280 } from "react/jsx-runtime";
 var PlaceholderComposition3 = ({ data }) => {
   const compositionId = data.videoMeta.video.metadata.compositionId;
   const template = data.videoMeta.video.appearance.template || "Basic";
-  return /* @__PURE__ */ jsxs281(AbsoluteFill38, {
+  return /* @__PURE__ */ jsxs280(AbsoluteFill38, {
     style: {
       backgroundColor: "#103",
       color: "white",
@@ -41414,11 +41840,11 @@ var PlaceholderComposition3 = ({ data }) => {
         style: { fontSize: "3em", marginBottom: 16 },
         children: data.videoMeta.video.metadata.title || "Netball Composition",
       }),
-      /* @__PURE__ */ jsxs281("h2", {
+      /* @__PURE__ */ jsxs280("h2", {
         style: { fontSize: "2em", marginBottom: 24 },
         children: [template, " Template"],
       }),
-      /* @__PURE__ */ jsxs281("p", {
+      /* @__PURE__ */ jsxs280("p", {
         style: { fontSize: "1.5em" },
         children: ["Placeholder for Netball composition: ", compositionId],
       }),
@@ -41607,7 +42033,7 @@ var VerticalProgressTimer = ({ FRAMES }) => {
 };
 
 // src/components/layout/screen/OneColumn.tsx
-import { jsx as jsx515, jsxs as jsxs282 } from "react/jsx-runtime";
+import { jsx as jsx515, jsxs as jsxs281 } from "react/jsx-runtime";
 var OneColumn = ({ Header }) => {
   const { layout } = useThemeContext();
   const { heights } = layout;
@@ -41617,7 +42043,7 @@ var OneColumn = ({ Header }) => {
   const { timings } = data;
   const { FPS_MAIN } = timings;
   return /* @__PURE__ */ jsx515(AbsoluteFill39, {
-    children: /* @__PURE__ */ jsxs282("div", {
+    children: /* @__PURE__ */ jsxs281("div", {
       className: "flex flex-col h-full w-full ",
       children: [
         /* @__PURE__ */ jsx515("div", {
@@ -42836,7 +43262,7 @@ var ClassicBackground = () => {
 };
 
 // src/templates/variants/classic/components/ClassicMainHeader.tsx
-import { jsx as jsx528, jsxs as jsxs283 } from "react/jsx-runtime";
+import { jsx as jsx528, jsxs as jsxs282 } from "react/jsx-runtime";
 var ClassicMainHeader = () => {
   var _a, _b, _c, _d, _e, _f, _g;
   const { layout, fonts, fontClasses } = useThemeContext();
@@ -42861,7 +43287,7 @@ var ClassicMainHeader = () => {
           : _d.family) != null
       ? _f
       : "Impact";
-  return /* @__PURE__ */ jsxs283("div", {
+  return /* @__PURE__ */ jsxs282("div", {
     className: "relative h-full w-full",
     children: [
       /* @__PURE__ */ jsx528(SplitColourEdge, {
@@ -44255,7 +44681,7 @@ var getLeagueTitleConfig = (leagueTitle, containerWidth, fontSize, avgCharWidth)
 };
 
 // src/templates/variants/cnsw/components/CNSWIntro.tsx
-import { Fragment as Fragment23, jsx as jsx537, jsxs as jsxs284 } from "react/jsx-runtime";
+import { Fragment as Fragment22, jsx as jsx537, jsxs as jsxs283 } from "react/jsx-runtime";
 var CNSWIntro = () => {
   var _a, _b, _c, _d;
   const { metadata, sponsors, club } = useVideoDataContext();
@@ -44269,7 +44695,7 @@ var CNSWIntro = () => {
   const bottomLine = currentConfig.bottomLine.value;
   const snugLetterSpacingTopLine = getHardcodedSpacing(topLine, "intro");
   const snugLetterSpacingBottomLine = getHardcodedSpacing(bottomLine, "intro");
-  return /* @__PURE__ */ jsxs284(Fragment23, {
+  return /* @__PURE__ */ jsxs283(Fragment22, {
     children: [
       /* @__PURE__ */ jsx537(AbsoluteFill43, {
         children: /* @__PURE__ */ jsx537(Img11, {
@@ -44287,10 +44713,10 @@ var CNSWIntro = () => {
           },
         }),
       }),
-      /* @__PURE__ */ jsxs284("div", {
+      /* @__PURE__ */ jsxs283("div", {
         className: "flex flex-col items-center justify-center h-full w-full px-8 py-8",
         children: [
-          /* @__PURE__ */ jsxs284("div", {
+          /* @__PURE__ */ jsxs283("div", {
             className: " flex flex-col items-center justify-center",
             style: {
               height: "1200px",
@@ -44316,7 +44742,7 @@ var CNSWIntro = () => {
                   children: byLineValue.toUpperCase(),
                 }),
               }),
-              /* @__PURE__ */ jsxs284("div", {
+              /* @__PURE__ */ jsxs283("div", {
                 className:
                   "overflow-hidden mt-[-1.5em] flex flex-col items-center justify-center w-full",
                 children: [
@@ -44481,7 +44907,7 @@ var CNSWBackground = () => {
 
 // src/templates/variants/cnsw/components/CNSWMainHeader.tsx
 import { AbsoluteFill as AbsoluteFill45, Img as Img12 } from "remotion";
-import { jsx as jsx540, jsxs as jsxs285 } from "react/jsx-runtime";
+import { jsx as jsx540, jsxs as jsxs284 } from "react/jsx-runtime";
 var CNSWMainHeader = () => {
   var _a, _b, _c;
   const { layout, fontClasses, selectedPalette } = useThemeContext();
@@ -44525,7 +44951,7 @@ var CNSWMainHeader = () => {
     spacing: bottomLineSpacing,
   };
   const exitFrame = timings.FPS_MAIN ? timings.FPS_MAIN - 30 : 0;
-  return /* @__PURE__ */ jsxs285("div", {
+  return /* @__PURE__ */ jsxs284("div", {
     className: "w-full flex flex-col items-center justify-center relative",
     style: { height: `${heights.header}px` },
     children: [
@@ -44545,7 +44971,7 @@ var CNSWMainHeader = () => {
           },
         }),
       }),
-      /* @__PURE__ */ jsxs285("div", {
+      /* @__PURE__ */ jsxs284("div", {
         className: "flex flex-col items-center justify-end w-full h-full relative z-10",
         children: [
           /* @__PURE__ */ jsx540("div", {
@@ -44570,7 +44996,7 @@ var CNSWMainHeader = () => {
               children: leagueTitle.value,
             }),
           }),
-          /* @__PURE__ */ jsxs285("div", {
+          /* @__PURE__ */ jsxs284("div", {
             children: [
               /* @__PURE__ */ jsx540("div", {
                 className: "mb-2",
@@ -45849,7 +46275,7 @@ var ClassicBackground2 = () => {
 
 // src/components/layout/screen/TwoColumn.tsx
 import { AbsoluteFill as AbsoluteFill48 } from "remotion";
-import { Fragment as Fragment24, jsx as jsx552, jsxs as jsxs286 } from "react/jsx-runtime";
+import { Fragment as Fragment23, jsx as jsx552, jsxs as jsxs285 } from "react/jsx-runtime";
 var TwoColumn2 = ({
   Header,
   headerPosition,
@@ -45918,7 +46344,7 @@ var TwoColumn2 = ({
       children: /* @__PURE__ */ jsx552(Header, {}),
     }),
   });
-  const MainPane = /* @__PURE__ */ jsxs286("div", {
+  const MainPane = /* @__PURE__ */ jsxs285("div", {
     style: {
       width: `${mainWidth}%`,
       height: "100%",
@@ -45956,15 +46382,15 @@ var TwoColumn2 = ({
         },
         children:
           effectiveHeaderPosition === "left"
-            ? /* @__PURE__ */ jsxs286(Fragment24, { children: [SidePane, MainPane] })
-            : /* @__PURE__ */ jsxs286(Fragment24, { children: [MainPane, SidePane] }),
+            ? /* @__PURE__ */ jsxs285(Fragment23, { children: [SidePane, MainPane] })
+            : /* @__PURE__ */ jsxs285(Fragment23, { children: [MainPane, SidePane] }),
       }),
     }),
   });
 };
 
 // src/templates/variants/twoColumnClassic/components/ClassicMainHeaderRotated.tsx
-import React29 from "react";
+import React28 from "react";
 
 // src/templates/variants/twoColumnClassic/utils/titleLookup.ts
 var titleLookup2 = [
@@ -45988,7 +46414,7 @@ var getSimplifiedTitle2 = (title) => {
 };
 
 // src/templates/variants/twoColumnClassic/components/ClassicMainHeaderRotated.tsx
-import { jsx as jsx553, jsxs as jsxs287 } from "react/jsx-runtime";
+import { jsx as jsx553, jsxs as jsxs286 } from "react/jsx-runtime";
 var ClassicMainHeaderRotated = () => {
   var _a, _b, _c, _d;
   const { fontClasses } = useThemeContext();
@@ -45999,14 +46425,14 @@ var ClassicMainHeaderRotated = () => {
   const { timings } = data;
   const exitFrame = timings.FPS_MAIN ? timings.FPS_MAIN - 30 : 0;
   const displayTitle = getSimplifiedTitle2(metadata.title || "");
-  const [rotatedMinHeight, setRotatedMinHeight] = React29.useState(0);
-  const measureRef = React29.useRef(null);
-  React29.useLayoutEffect(() => {
+  const [rotatedMinHeight, setRotatedMinHeight] = React28.useState(0);
+  const measureRef = React28.useRef(null);
+  React28.useLayoutEffect(() => {
     if (measureRef.current) {
       setRotatedMinHeight(measureRef.current.offsetWidth);
     }
   }, [displayTitle, (_a = fontClasses.title) == null ? void 0 : _a.family]);
-  const TitleNode = /* @__PURE__ */ jsxs287("div", {
+  const TitleNode = /* @__PURE__ */ jsxs286("div", {
     className: "relative w-full flex justify-center items-center overflow-visible",
     style: { minHeight: rotatedMinHeight ? rotatedMinHeight + 8 : void 0 },
     children: [
@@ -46842,7 +47268,7 @@ var getLeagueTitleConfig2 = (leagueTitle, containerWidth, fontSize, avgCharWidth
 };
 
 // src/templates/variants/cnsw-private/components/CNSWIntro.tsx
-import { Fragment as Fragment25, jsx as jsx556, jsxs as jsxs288 } from "react/jsx-runtime";
+import { Fragment as Fragment24, jsx as jsx556, jsxs as jsxs287 } from "react/jsx-runtime";
 var CNSWIntro2 = () => {
   var _a, _b, _c, _d;
   const { metadata, sponsors, club } = useVideoDataContext();
@@ -46856,7 +47282,7 @@ var CNSWIntro2 = () => {
   const bottomLine = currentConfig.bottomLine.value;
   const snugLetterSpacingTopLine = getHardcodedSpacing2(topLine, "intro");
   const snugLetterSpacingBottomLine = getHardcodedSpacing2(bottomLine, "intro");
-  return /* @__PURE__ */ jsxs288(Fragment25, {
+  return /* @__PURE__ */ jsxs287(Fragment24, {
     children: [
       /* @__PURE__ */ jsx556(AbsoluteFill49, {
         children: /* @__PURE__ */ jsx556(Img13, {
@@ -46874,10 +47300,10 @@ var CNSWIntro2 = () => {
           },
         }),
       }),
-      /* @__PURE__ */ jsxs288("div", {
+      /* @__PURE__ */ jsxs287("div", {
         className: "flex flex-col items-center justify-center h-full w-full px-8 py-8",
         children: [
-          /* @__PURE__ */ jsxs288("div", {
+          /* @__PURE__ */ jsxs287("div", {
             className: " flex flex-col items-center justify-center",
             style: {
               height: "1200px",
@@ -46904,7 +47330,7 @@ var CNSWIntro2 = () => {
                   children: byLineValue.toUpperCase(),
                 }),
               }),
-              /* @__PURE__ */ jsxs288("div", {
+              /* @__PURE__ */ jsxs287("div", {
                 className:
                   "overflow-hidden mt-[-1.5em] flex flex-col items-center justify-center w-full",
                 children: [
@@ -47040,7 +47466,7 @@ var CNSWBackground2 = () => {
 
 // src/templates/variants/cnsw-private/components/CNSWMainHeader.tsx
 import { AbsoluteFill as AbsoluteFill51, Img as Img14 } from "remotion";
-import { jsx as jsx559, jsxs as jsxs289 } from "react/jsx-runtime";
+import { jsx as jsx559, jsxs as jsxs288 } from "react/jsx-runtime";
 var CNSWMainHeader2 = () => {
   var _a, _b, _c;
   const { layout, fontClasses, selectedPalette } = useThemeContext();
@@ -47084,7 +47510,7 @@ var CNSWMainHeader2 = () => {
     spacing: bottomLineSpacing,
   };
   const exitFrame = timings.FPS_MAIN ? timings.FPS_MAIN - 30 : 0;
-  return /* @__PURE__ */ jsxs289("div", {
+  return /* @__PURE__ */ jsxs288("div", {
     className: "w-full flex flex-col items-center justify-center relative",
     style: { height: `${heights.header}px` },
     children: [
@@ -47104,7 +47530,7 @@ var CNSWMainHeader2 = () => {
           },
         }),
       }),
-      /* @__PURE__ */ jsxs289("div", {
+      /* @__PURE__ */ jsxs288("div", {
         className: "flex flex-col items-center justify-end w-full h-full relative z-10",
         children: [
           /* @__PURE__ */ jsx559("div", {
@@ -47130,7 +47556,7 @@ var CNSWMainHeader2 = () => {
               children: leagueTitle.value,
             }),
           }),
-          /* @__PURE__ */ jsxs289("div", {
+          /* @__PURE__ */ jsxs288("div", {
             children: [
               /* @__PURE__ */ jsx559("div", {
                 className: "mb-2",
@@ -47619,11 +48045,11 @@ var mudgeerabaTheme = {
 };
 
 // src/templates/variants/mudgeeraba/components/MudgeerabaIntro.tsx
-import { useVideoConfig as useVideoConfig14 } from "remotion";
+import { useVideoConfig as useVideoConfig18 } from "remotion";
 
 // src/components/typography/utils/useFittedFontSize.ts
-import { useMemo as useMemo12 } from "react";
-import { useVideoConfig as useVideoConfig13 } from "remotion";
+import { useMemo as useMemo13 } from "react";
+import { useVideoConfig as useVideoConfig17 } from "remotion";
 import { fitText, measureText } from "@remotion/layout-utils";
 var DEFAULT_LINE_HEIGHT_RATIO = 1.05;
 var DEFAULT_MAX_LINES = 2;
@@ -47701,9 +48127,9 @@ var useFittedFontSize = ({
   lineHeightRatio = DEFAULT_LINE_HEIGHT_RATIO,
   maxLines = DEFAULT_MAX_LINES,
 }) => {
-  const { width } = useVideoConfig13();
+  const { width } = useVideoConfig17();
   const { fontsLoaded } = useFontContext();
-  return useMemo12(() => {
+  return useMemo13(() => {
     if (!fontsLoaded || !text.trim() || !fontFamily) {
       return void 0;
     }
@@ -47758,7 +48184,7 @@ var MudgeerabaIntro = () => {
   const TextAnimations = animations.text.intro;
   const LogoAnimations = animations.image.intro.logo;
   const { fontClasses } = useThemeContext();
-  const { width } = useVideoConfig14();
+  const { width } = useVideoConfig18();
   const title = (_a = metadata.title) != null ? _a : "";
   const titleFontFamily =
     (_c = (_b = fontClasses.title) == null ? void 0 : _b.family) != null ? _c : "Unbounded";
@@ -47942,7 +48368,7 @@ var MudgeerabaBackground = () => {
 };
 
 // src/templates/variants/mudgeeraba/components/MudgeerabaMainHeader.tsx
-import { useVideoConfig as useVideoConfig15 } from "remotion";
+import { useVideoConfig as useVideoConfig19 } from "remotion";
 import { jsx as jsx565 } from "react/jsx-runtime";
 var MUDGEERABA_HEADER_TITLE_MAX_FONT_PX = 4 * TITLE_SCREEN_BASE_FONT_PX;
 var HEADER_TITLE_VERTICAL_PADDING_PX = 20;
@@ -47953,7 +48379,7 @@ var MudgeerabaMainHeader = () => {
   const { club, metadata, data } = useVideoDataContext();
   const { animations } = useAnimationContext();
   const TextAnimations = animations.text.main;
-  const { width } = useVideoConfig15();
+  const { width } = useVideoConfig19();
   const { heights } = layout;
   const timings = data == null ? void 0 : data.timings;
   const exitFrame = (timings == null ? void 0 : timings.FPS_MAIN) ? timings.FPS_MAIN - 30 : 0;
@@ -48346,7 +48772,7 @@ var broadcastProScoreRosterIndex = {
   className: "font-teko font-normal uppercase leading-none tabular-nums tracking-tight",
 };
 var broadcastProVerdictBandHero = {
-  className: "flex flex-col items-center justify-center gap-1 px-8 py-4",
+  className: "flex flex-col items-center justify-center gap-1 px-8 py-3",
 };
 var broadcastProVerdictBandCompact = {
   className: "flex items-center justify-center px-6 py-3",
@@ -48393,7 +48819,7 @@ var broadcastProCrestWellRosterAway = {
   className: "mb-3 flex h-24 w-24 items-center justify-center",
 };
 var broadcastProMatchupFixture = {
-  className: "flex w-full min-w-0 flex-shrink-0 items-center justify-between gap-8 md:gap-10",
+  className: "flex w-full min-w-0 flex-shrink-0 items-start justify-between gap-8 md:gap-10",
 };
 var broadcastProMatchupResultStack = {
   className: "flex w-full flex-col gap-[3px]",
@@ -48402,16 +48828,16 @@ var broadcastProMatchupRosterSidebar = {
   className: "flex flex-col gap-4",
 };
 var broadcastProMatchupSideFixtureHome = {
-  className: "flex min-w-0 flex-1 items-center gap-8",
+  className: "flex min-w-0 flex-1 items-start gap-8",
 };
 var broadcastProMatchupSideFixtureAway = {
-  className: "flex min-w-0 flex-1 items-center justify-end gap-8 text-right",
+  className: "flex min-w-0 flex-1 items-start justify-end gap-8 text-right",
 };
 var broadcastProMatchupRoleLabel = {
   className: "text-sm font-bold uppercase tracking-widest opacity-80",
 };
 var broadcastProMatchupDividerSlot = {
-  className: "flex flex-shrink-0 items-center justify-center px-8 md:px-10",
+  className: "flex flex-shrink-0 self-center items-center justify-center px-8 md:px-10",
 };
 var broadcastProMatchupDividerVersus = {
   className: "font-teko mb-1.5 text-2xl italic sm:text-3xl",
@@ -48561,7 +48987,7 @@ var broadcastProCompositionComponentStylesResults = {
   },
   broadcastProResultsTeamLogoWell: broadcastProComponentStylesShared.broadcastProCrestWellCompact,
   broadcastProResultsTeamName: {
-    className: "min-w-0 truncate",
+    className: "min-w-0 !leading-[0.95]",
   },
   broadcastProResultsScoreBadge: {
     className: "flex flex-shrink-0 flex-col items-end px-4 py-1.5",
@@ -48605,8 +49031,7 @@ var broadcastProCompositionComponentStylesRoster = {
     className: "col-span-12 flex min-h-0 flex-col overflow-hidden lg:col-span-7",
   },
   broadcastProRosterSidebar: {
-    className:
-      "col-span-12 flex min-h-0 flex-col gap-4 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden lg:col-span-5",
+    className: "col-span-12 flex min-h-0 flex-col gap-3 overflow-hidden lg:col-span-5",
   },
   broadcastProRosterContentShell: {
     className: "flex min-h-0 flex-col gap-4 px-2",
@@ -48624,23 +49049,31 @@ var broadcastProCompositionComponentStylesRoster = {
     className: "flex h-full min-h-0 min-w-0 flex-1 items-stretch justify-start self-stretch",
   },
   broadcastProRosterMetaStack: {
-    className: "flex min-h-0 flex-1 flex-col gap-3",
+    className: "flex min-h-0 flex-1 flex-col gap-2",
   },
   broadcastProRosterTeamCardHome: {
-    className: "flex flex-shrink-0 flex-col items-center p-5 text-center",
+    className: "flex flex-shrink-0 flex-col items-center p-3 text-center",
   },
   broadcastProRosterTeamCardAway: {
-    className: "flex flex-col items-center p-4 text-center",
+    className: "flex flex-col items-center p-3 text-center",
   },
-  broadcastProRosterTeamLogoWellHome:
-    broadcastProComponentStylesShared.broadcastProCrestWellRosterHome,
-  broadcastProRosterTeamLogoWellAway:
-    broadcastProComponentStylesShared.broadcastProCrestWellRosterAway,
+  broadcastProRosterTeamLogoWellHome: {
+    className: "mb-2 flex h-16 w-16 items-center justify-center",
+  },
+  broadcastProRosterTeamLogoWellAway: {
+    className: "mb-2 flex h-14 w-14 items-center justify-center",
+  },
+  broadcastProCrestWellRosterHome: {
+    className: "mb-2 flex h-16 w-16 items-center justify-center",
+  },
+  broadcastProCrestWellRosterAway: {
+    className: "mb-2 flex h-14 w-14 items-center justify-center",
+  },
   broadcastProRosterTeamTitleHome: {
-    className: "font-teko text-4xl uppercase sm:text-5xl",
+    className: "font-teko line-clamp-2 w-full text-4xl uppercase leading-tight sm:text-5xl",
   },
   broadcastProRosterTeamTitleAway: {
-    className: "font-teko text-3xl uppercase sm:text-4xl",
+    className: "font-teko line-clamp-2 w-full text-3xl uppercase leading-tight sm:text-4xl",
   },
   broadcastProRosterTeamLabelHome: {
     className: "font-rajdhani mt-1 text-sm font-bold uppercase tracking-widest",
@@ -48648,15 +49081,23 @@ var broadcastProCompositionComponentStylesRoster = {
   broadcastProRosterTeamLabelAway: {
     className: "font-rajdhani mt-0.5 text-xs font-bold uppercase tracking-widest",
   },
-  broadcastProRosterVersus: broadcastProComponentStylesShared.broadcastProMatchupDividerVersus,
+  broadcastProRosterVersus: {
+    className: "font-teko mb-1 text-2xl italic leading-none",
+  },
+  broadcastProMatchupDividerVersus: {
+    className: "font-teko mb-1 text-2xl italic leading-none",
+  },
+  broadcastProMatchupRosterSidebar: {
+    className: "flex flex-col gap-3",
+  },
   broadcastProRosterMetaRow: {
-    className: "p-4",
+    className: "p-3",
   },
   broadcastProRosterMetaLabel: {
     className: "font-rajdhani block text-xs font-bold uppercase tracking-widest",
   },
   broadcastProRosterMetaValue: {
-    className: "font-teko line-clamp-2 text-2xl uppercase leading-tight sm:text-3xl",
+    className: "font-teko line-clamp-2 text-2xl uppercase leading-tight sm:text-[28px]",
   },
   broadcastProRosterAccentStrip: {
     className: "w-1.5 shrink-0 self-stretch rounded-sm",
@@ -48714,22 +49155,22 @@ var broadcastProCompositionComponentStylesTeamOfTheWeek = {
     className: "grid grid-cols-3 gap-2",
   },
   broadcastProTeamOfTheWeekCard: {
-    className: "flex h-full flex-col rounded-none p-3 sm:p-4",
+    className: "flex h-full flex-col rounded-none p-4",
   },
   broadcastProTeamOfTheWeekCardBody: {
     className: "flex min-h-0 flex-1 flex-col gap-2",
   },
   broadcastProTeamOfTheWeekCardUpper: {
-    className: "grid grid-cols-[minmax(0,1fr)_auto] items-center gap-1",
+    className: "grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3",
   },
   broadcastProTeamOfTheWeekCardCopy: {
-    className: "flex min-w-0 flex-1 flex-col justify-center gap-1 text-left",
+    className: "flex min-w-0 flex-1 flex-col items-start gap-1 text-left",
   },
   broadcastProTeamOfTheWeekCardLogoCol: {
-    className: "flex shrink-0 items-center justify-end",
+    className: "flex shrink-0 items-start justify-end",
   },
   broadcastProTeamOfTheWeekCardLogoWell: {
-    className: "flex h-14 w-14 shrink-0 items-center justify-center shadow-inner sm:h-16 sm:w-16",
+    className: "flex h-16 w-16 shrink-0 items-center justify-center shadow-inner",
   },
   broadcastProTeamOfTheWeekCardStats: {
     className: "flex min-h-[1.5rem] min-w-0 flex-1 items-center justify-start whitespace-nowrap",
@@ -48738,7 +49179,7 @@ var broadcastProCompositionComponentStylesTeamOfTheWeek = {
     className: "h-px w-full opacity-30",
   },
   broadcastProTeamOfTheWeekCardNameRow: {
-    className: "mt-auto w-full pt-1",
+    className: "w-full",
   },
   broadcastProTeamOfTheWeekCardNameCell: {
     className: "w-full text-left uppercase leading-none",
@@ -49017,6 +49458,8 @@ var broadcastProTokens = {
   },
   broadcastProCrestSizing: {
     ...DEFAULT_BROADCAST_PRO_CREST_SIZING,
+    rosterHomePx: 64,
+    rosterAwayPx: 56,
   },
   broadcastProLadderZoneSizing: {
     ...DEFAULT_BROADCAST_PRO_LADDER_ZONE_SIZING,
@@ -49072,7 +49515,13 @@ var broadcastProTheme = {
 // src/templates/variants/broadcastPro/components/headline/getBroadcastProHeaderSecondaryLine.ts
 var getBroadcastProHeaderSecondaryLine = (metadata, clubName) => {
   var _a, _b, _c;
-  const videoTitle = (_a = metadata.videoTitle) == null ? void 0 : _a.trim();
+  const videoTitle =
+    (_a = metadata.videoTitle) == null
+      ? void 0
+      : _a
+          .replace(/\bCricketRoster\b/gi, "")
+          .replace(/\s+/g, " ")
+          .trim();
   if (videoTitle) return videoTitle;
   const parts =
     (_c = (_b = metadata.titleSplit) == null ? void 0 : _b.filter(Boolean)) != null ? _c : [];
@@ -49081,12 +49530,12 @@ var getBroadcastProHeaderSecondaryLine = (metadata, clubName) => {
 };
 
 // src/templates/variants/broadcastPro/components/headline/useBroadcastProHeadlineFit.ts
-import { useMemo as useMemo13 } from "react";
-import { useVideoConfig as useVideoConfig16 } from "remotion";
+import { useMemo as useMemo14 } from "react";
+import { useVideoConfig as useVideoConfig20 } from "remotion";
 var MAIN_HEADER_TITLE_PADDING_PX = 32;
 var useBroadcastProHeadlineFit = (text, variant) => {
   var _a, _b, _c, _d;
-  const { width } = useVideoConfig16();
+  const { width } = useVideoConfig20();
   const { fontClasses, fonts, broadcastProHeadlineSizing } = useThemeContext();
   const sizing =
     broadcastProHeadlineSizing != null
@@ -49104,7 +49553,7 @@ var useBroadcastProHeadlineFit = (text, variant) => {
       ? _d
       : "Teko";
   const maxFontSize = variant === "intro" ? sizing.introMaxPx : sizing.mainHeaderMaxPx;
-  const withinWidth = useMemo13(() => {
+  const withinWidth = useMemo14(() => {
     const base = getTitleScreenContentWidth(width, MAIN_HEADER_TITLE_PADDING_PX);
     return variant === "mainHeader" ? Math.floor(base * 0.95) : base;
   }, [width, variant]);
@@ -49750,10 +50199,10 @@ var broadcastProRoundedScoreRosterIndex = {
   className: "font-teko font-normal uppercase leading-none tabular-nums tracking-tight",
 };
 var broadcastProRoundedVerdictBandHero = {
-  className: "flex flex-col items-center justify-center gap-1 px-8 py-4",
+  className: "flex flex-col items-center justify-center gap-1 px-8 py-3",
 };
 var broadcastProRoundedVerdictBandCompact = {
-  className: "flex items-center justify-center px-6 py-3",
+  className: "flex items-center justify-center px-6 py-2",
 };
 var broadcastProRoundedVerdictBandAbandoned = {
   className: "flex flex-col items-center justify-center gap-1 px-6 py-3",
@@ -49798,7 +50247,7 @@ var broadcastProRoundedCrestWellRosterAway = {
   className: "mb-3 flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl",
 };
 var broadcastProRoundedMatchupFixture = {
-  className: "flex w-full min-w-0 flex-shrink-0 items-center justify-between gap-8 md:gap-10",
+  className: "flex w-full min-w-0 flex-shrink-0 items-start justify-between gap-8 md:gap-10",
 };
 var broadcastProRoundedMatchupResultStack = {
   className: "flex w-full flex-col gap-1",
@@ -49807,16 +50256,16 @@ var broadcastProRoundedMatchupRosterSidebar = {
   className: "flex shrink-0 flex-col gap-4",
 };
 var broadcastProRoundedMatchupSideFixtureHome = {
-  className: "flex min-w-0 flex-1 items-center gap-8",
+  className: "flex min-w-0 flex-1 items-start gap-8",
 };
 var broadcastProRoundedMatchupSideFixtureAway = {
-  className: "flex min-w-0 flex-1 items-center justify-end gap-8 text-right",
+  className: "flex min-w-0 flex-1 items-start justify-end gap-8 text-right",
 };
 var broadcastProRoundedMatchupRoleLabel = {
   className: "text-sm font-bold uppercase tracking-widest opacity-80",
 };
 var broadcastProRoundedMatchupDividerSlot = {
-  className: "flex flex-shrink-0 items-center justify-center px-8 md:px-10",
+  className: "flex flex-shrink-0 self-center items-center justify-center px-8 md:px-10",
 };
 var broadcastProRoundedMatchupDividerVersus = {
   className: "font-teko mb-1.5 text-2xl italic sm:text-3xl",
@@ -49965,7 +50414,7 @@ var broadcastProRoundedCompositionComponentStylesResults = {
     className: "flex w-full flex-shrink-0 items-center justify-between px-4 py-1.5",
   },
   broadcastProRoundedResultsTeamRow: {
-    className: "flex w-full items-center justify-between gap-3 p-3",
+    className: "flex w-full items-center justify-between gap-3 px-3 py-2",
   },
   broadcastProRoundedResultsTeamLogoWell:
     broadcastProRoundedComponentStylesShared.broadcastProRoundedCrestWellCompact,
@@ -49979,7 +50428,7 @@ var broadcastProRoundedCompositionComponentStylesResults = {
     className: "grid grid-cols-3 gap-[2px]",
   },
   broadcastProRoundedResultsPlayerStatCell: {
-    className: "flex items-center justify-between px-3 py-2",
+    className: "flex items-center justify-between px-3 py-1.5",
   },
   broadcastProRoundedResultsPlayerStatName: {
     className: "min-w-0 truncate",
@@ -50018,7 +50467,7 @@ var broadcastProRoundedCompositionComponentStylesRoster = {
   },
   broadcastProRoundedRosterSidebar: {
     className:
-      "col-span-12 flex min-h-0 flex-col justify-start gap-4 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden lg:col-span-5",
+      "col-span-12 flex min-h-0 flex-col justify-start gap-3 overflow-hidden lg:col-span-5",
   },
   broadcastProRoundedRosterContentShell: {
     className: "flex min-h-0 flex-1 flex-col gap-4 px-2",
@@ -50036,23 +50485,31 @@ var broadcastProRoundedCompositionComponentStylesRoster = {
     className: "flex h-full min-h-0 min-w-0 flex-1 items-stretch justify-start self-stretch",
   },
   broadcastProRoundedRosterMetaStack: {
-    className: "flex flex-col gap-1",
+    className: "flex min-h-0 flex-1 flex-col gap-2",
   },
   broadcastProRoundedRosterTeamCardHome: {
-    className: "flex flex-shrink-0 flex-col items-center p-5 text-center",
+    className: "flex flex-shrink-0 flex-col items-center p-3 text-center",
   },
   broadcastProRoundedRosterTeamCardAway: {
-    className: "flex flex-shrink-0 flex-col items-center p-4 text-center",
+    className: "flex flex-shrink-0 flex-col items-center p-3 text-center",
   },
-  broadcastProRoundedRosterTeamLogoWellHome:
-    broadcastProRoundedComponentStylesShared.broadcastProRoundedCrestWellRosterHome,
-  broadcastProRoundedRosterTeamLogoWellAway:
-    broadcastProRoundedComponentStylesShared.broadcastProRoundedCrestWellRosterAway,
+  broadcastProRoundedRosterTeamLogoWellHome: {
+    className: "mb-2 flex h-16 w-16 items-center justify-center",
+  },
+  broadcastProRoundedRosterTeamLogoWellAway: {
+    className: "mb-2 flex h-14 w-14 items-center justify-center",
+  },
+  broadcastProRoundedCrestWellRosterHome: {
+    className: "mb-2 flex h-16 w-16 items-center justify-center",
+  },
+  broadcastProRoundedCrestWellRosterAway: {
+    className: "mb-2 flex h-14 w-14 items-center justify-center",
+  },
   broadcastProRoundedRosterTeamTitleHome: {
-    className: "font-teko text-4xl uppercase sm:text-5xl",
+    className: "font-teko line-clamp-2 w-full text-4xl uppercase leading-tight sm:text-5xl",
   },
   broadcastProRoundedRosterTeamTitleAway: {
-    className: "font-teko text-3xl uppercase sm:text-4xl",
+    className: "font-teko line-clamp-2 w-full text-3xl uppercase leading-tight sm:text-4xl",
   },
   broadcastProRoundedRosterTeamLabelHome: {
     className: "font-rajdhani mt-1 text-sm font-bold uppercase tracking-widest",
@@ -50060,16 +50517,23 @@ var broadcastProRoundedCompositionComponentStylesRoster = {
   broadcastProRoundedRosterTeamLabelAway: {
     className: "font-rajdhani mt-0.5 text-xs font-bold uppercase tracking-widest",
   },
-  broadcastProRoundedRosterVersus:
-    broadcastProRoundedComponentStylesShared.broadcastProRoundedMatchupDividerVersus,
+  broadcastProRoundedRosterVersus: {
+    className: "font-teko mb-1 text-2xl italic leading-none",
+  },
+  broadcastProRoundedMatchupDividerVersus: {
+    className: "font-teko mb-1 text-2xl italic leading-none",
+  },
+  broadcastProRoundedMatchupRosterSidebar: {
+    className: "flex flex-col gap-3",
+  },
   broadcastProRoundedRosterMetaRow: {
-    className: "p-4",
+    className: "p-3",
   },
   broadcastProRoundedRosterMetaLabel: {
     className: "font-rajdhani block text-xs font-bold uppercase tracking-widest",
   },
   broadcastProRoundedRosterMetaValue: {
-    className: "font-teko line-clamp-2 text-2xl uppercase leading-tight sm:text-3xl",
+    className: "font-teko line-clamp-2 text-2xl uppercase leading-tight sm:text-[28px]",
   },
   broadcastProRoundedRosterAccentStrip: {
     className: "w-1.5 shrink-0 self-stretch rounded-full",
@@ -50127,22 +50591,22 @@ var broadcastProRoundedCompositionComponentStylesTeamOfTheWeek = {
     className: "grid grid-cols-3 gap-2",
   },
   broadcastProRoundedTeamOfTheWeekCard: {
-    className: "flex h-full flex-col rounded-2xl p-3 sm:p-4",
+    className: "flex h-full flex-col rounded-2xl p-4",
   },
   broadcastProRoundedTeamOfTheWeekCardBody: {
     className: "flex min-h-0 flex-1 flex-col gap-2",
   },
   broadcastProRoundedTeamOfTheWeekCardUpper: {
-    className: "grid grid-cols-[minmax(0,1fr)_auto] items-center gap-1",
+    className: "grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3",
   },
   broadcastProRoundedTeamOfTheWeekCardCopy: {
-    className: "flex min-w-0 flex-1 flex-col justify-center gap-1 text-left",
+    className: "flex min-w-0 flex-1 flex-col items-start gap-1 text-left",
   },
   broadcastProRoundedTeamOfTheWeekCardLogoCol: {
-    className: "flex shrink-0 items-center justify-end",
+    className: "flex shrink-0 items-start justify-end",
   },
   broadcastProRoundedTeamOfTheWeekCardLogoWell: {
-    className: "flex h-14 w-14 shrink-0 items-center justify-center shadow-inner sm:h-16 sm:w-16",
+    className: "flex h-16 w-16 shrink-0 items-center justify-center shadow-inner",
   },
   broadcastProRoundedTeamOfTheWeekCardStats: {
     className: "flex min-h-[1.5rem] min-w-0 flex-1 items-center justify-start whitespace-nowrap",
@@ -50151,7 +50615,7 @@ var broadcastProRoundedCompositionComponentStylesTeamOfTheWeek = {
     className: "h-px w-full opacity-30",
   },
   broadcastProRoundedTeamOfTheWeekCardNameRow: {
-    className: "mt-auto w-full pt-1",
+    className: "w-full",
   },
   broadcastProRoundedTeamOfTheWeekCardNameCell: {
     className: "w-full text-left uppercase leading-none",
@@ -50450,6 +50914,8 @@ var broadcastProRoundedTokens = {
   },
   broadcastProRoundedCrestSizing: {
     ...DEFAULT_BROADCAST_PRO_CREST_SIZING2,
+    rosterHomePx: 64,
+    rosterAwayPx: 56,
   },
   broadcastProRoundedLadderZoneSizing: {
     ...DEFAULT_BROADCAST_PRO_LADDER_ZONE_SIZING2,
@@ -50505,7 +50971,13 @@ var broadcastProRoundedTheme = {
 // src/templates/variants/broadcastProRounded/components/headline/getBroadcastProRoundedHeaderSecondaryLine.ts
 var getBroadcastProRoundedHeaderSecondaryLine = (metadata, clubName) => {
   var _a, _b, _c;
-  const videoTitle = (_a = metadata.videoTitle) == null ? void 0 : _a.trim();
+  const videoTitle =
+    (_a = metadata.videoTitle) == null
+      ? void 0
+      : _a
+          .replace(/\bCricketRoster\b/gi, "")
+          .replace(/\s+/g, " ")
+          .trim();
   if (videoTitle) return videoTitle;
   const parts =
     (_c = (_b = metadata.titleSplit) == null ? void 0 : _b.filter(Boolean)) != null ? _c : [];
@@ -50514,12 +50986,12 @@ var getBroadcastProRoundedHeaderSecondaryLine = (metadata, clubName) => {
 };
 
 // src/templates/variants/broadcastProRounded/components/headline/useBroadcastProRoundedHeadlineFit.ts
-import { useMemo as useMemo14 } from "react";
-import { useVideoConfig as useVideoConfig17 } from "remotion";
+import { useMemo as useMemo15 } from "react";
+import { useVideoConfig as useVideoConfig21 } from "remotion";
 var MAIN_HEADER_TITLE_PADDING_PX2 = 32;
 var useBroadcastProRoundedHeadlineFit = (text, variant) => {
   var _a, _b, _c, _d;
-  const { width } = useVideoConfig17();
+  const { width } = useVideoConfig21();
   const { fontClasses, fonts, broadcastProRoundedHeadlineSizing } = useThemeContext();
   const sizing =
     broadcastProRoundedHeadlineSizing != null
@@ -50537,7 +51009,7 @@ var useBroadcastProRoundedHeadlineFit = (text, variant) => {
       ? _d
       : "Teko";
   const maxFontSize = variant === "intro" ? sizing.introMaxPx : sizing.mainHeaderMaxPx;
-  const withinWidth = useMemo14(() => {
+  const withinWidth = useMemo15(() => {
     const base = getTitleScreenContentWidth(width, MAIN_HEADER_TITLE_PADDING_PX2);
     return variant === "mainHeader" ? Math.floor(base * 0.95) : base;
   }, [width, variant]);
