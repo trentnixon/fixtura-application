@@ -14,7 +14,9 @@ export type {
   RemotionAssetPreviewInput,
   RemotionAssetPreviewState,
   RemotionAssetPreviewStatus,
+  RemotionPreviewDraft,
   ThumbnailFrameTarget,
+  AssembleAccountRemotionPreviewSource,
 } from "./types";
 
 export { buildThumbnailFrameTargets } from "./utils/build-thumbnail-frame-targets";
@@ -22,8 +24,13 @@ export {
   CRICKET_DEFAULT_EXAMPLE_DATASET_PATH,
   getExampleDatasetPathForSport,
 } from "./utils/example-dataset-loader";
-export { mergeAccountBrandingIntoDataset } from "./utils/merge-account-branding-into-dataset";
-export type { MergeAccountBrandingInput } from "./utils/merge-account-branding-into-dataset";
+export { assembleAccountRemotionPreview } from "./utils/assemble-account-remotion-preview";
+export type {
+  AssembleAccountRemotionPreviewDraftSource,
+  AssembleAccountRemotionPreviewInput,
+  AssembleAccountRemotionPreviewResult,
+  AssembleAccountRemotionPreviewSavedSource,
+} from "./utils/assemble-account-remotion-preview";
 export { buildClubSponsorsPayloadFromAccountSponsors } from "./utils/build-club-sponsors-payload-from-account-sponsors";
 export type {
   ClubSponsorsPayload,

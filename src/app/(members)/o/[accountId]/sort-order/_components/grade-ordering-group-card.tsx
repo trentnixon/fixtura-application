@@ -2,6 +2,7 @@
 
 import { MetricComparisonCard } from "@/components/cards";
 import { TypographyFinePrint } from "@/components/typography";
+import { BRANDING_CONTAINER_HEADER_CLASS_NAME } from "@/features/branding/components/branding-container-header-title";
 
 import { GradeOrderingSaveFooter } from "./grade-ordering-save-footer";
 import { SortableGradeList } from "./sortable-grade-list";
@@ -33,11 +34,12 @@ export function GradeOrderingGroupCard({
       layout="card"
       data-card="card.metric.comparison-card.body-prose"
       className={GROUP_CARD_CLASS_NAME}
-      title={<span className="text-sm font-semibold">{group.label}</span>}
+      headerClassName={BRANDING_CONTAINER_HEADER_CLASS_NAME}
+      title={<span className="text-sm font-semibold text-white">{group.label}</span>}
       body={
         <div className="space-y-4">
           <TypographyFinePrint className="text-muted-foreground">
-            Drag grades to reorder within this group only.
+            Drag to change the order in this group.
           </TypographyFinePrint>
           <SortableGradeList
             group={group}

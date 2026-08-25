@@ -1,6 +1,6 @@
 export const MANAGE_SPONSORS_EDITOR_SHEET_COPY = {
   title: "Edit sponsor",
-  description: "Changes are saved to your account immediately when you confirm.",
+  description: "Confirm to save changes to your account.",
 } as const;
 
 export const MANAGE_SPONSORS_EDITOR_SHEET_CONTENT_CLASS_NAME =

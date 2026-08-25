@@ -14,7 +14,7 @@ export function ClubLogoEditorHeader({ accountId, clubName }: ClubLogoEditorHead
   return (
     <PageHeader
       title={clubName}
-      description="Upload, crop, and save this club’s logo. Changes apply to the club record, not your association branding."
+      description="Upload and crop this club's logo. Changes go to the club, not your association branding."
     >
       <div className="flex w-full flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
         <div />

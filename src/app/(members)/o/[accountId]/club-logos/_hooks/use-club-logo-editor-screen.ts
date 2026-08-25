@@ -104,7 +104,7 @@ export function useClubLogoEditorScreen(
     const message =
       (directory.error instanceof Error && directory.error.message) ||
       (branding.error instanceof Error && branding.error.message) ||
-      "Something went wrong while loading this club.";
+      "Could not load this club.";
     return {
       kind: "error",
       message,

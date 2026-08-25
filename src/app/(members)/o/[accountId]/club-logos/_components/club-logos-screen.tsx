@@ -7,6 +7,7 @@ import { SupportReadOnlyUnavailable } from "@/lib/support/support-read-only-unav
 import { useAccountReadOnly } from "@/lib/support/use-account-read-only";
 
 import { ClubLogoDirectoryPanel } from "./club-logo-directory-panel";
+import { ClubLogosAssociationNotice } from "./club-logos-association-notice";
 import { CLUB_LOGOS_SCREEN_COPY } from "../_consts";
 import { useClubLogosScreen } from "../_hooks/use-club-logos-screen";
 
@@ -61,6 +62,7 @@ export function ClubLogosScreen({ accountId }: ClubLogosScreenProps) {
         description={CLUB_LOGOS_SCREEN_COPY.pageDescription}
         className="mb-2"
       />
+      <ClubLogosAssociationNotice />
       <ClubLogoDirectoryPanel accountId={accountId} />
     </div>
   );

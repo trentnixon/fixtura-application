@@ -1,3 +1,5 @@
+import { parseGeneralAccountGroup } from "@/lib/sponsors/parse-general-account-group";
+
 import { countEntityAllocationsForSponsor } from "./sponsorship-allocation-entity";
 import {
   ALL_POSITION_SLOT_IDS,
@@ -7,32 +9,13 @@ import {
 
 import type { ManageSponsorsWorkspaceSponsor } from "../_types/manage-sponsors";
 
-/** Parsed `accountGroup` from a general allocation JSON blob. */
-export type GeneralAccountGroup = {
-  category: string;
-  id: string;
-};
+export type { GeneralAccountGroup } from "@/lib/sponsors/parse-general-account-group";
+export { parseGeneralAccountGroup } from "@/lib/sponsors/parse-general-account-group";
 
 /**
  * Extract `accountGroup` from allocation JSON if this row is a general allocation
  * (has `accountGroup`, no root `entity`).
  */
-export function parseGeneralAccountGroup(allocation: unknown): GeneralAccountGroup | null {
-  if (!allocation || typeof allocation !== "object") return null;
-  const o = allocation as Record<string, unknown>;
-  if (o["entity"] != null && typeof o["entity"] === "object") return null;
-  const ag = o["accountGroup"];
-  if (ag == null || typeof ag !== "object") return null;
-  const g = ag as Record<string, unknown>;
-  const category = g["category"];
-  const id = g["id"];
-  if (typeof category !== "string" || typeof id !== "string") return null;
-  const c = category.trim();
-  const i = id.trim();
-  if (!c.length || !i.length) return null;
-  return { category: c, id: i };
-}
-
 export function isGeneralAllocationRow(allocation: unknown): boolean {
   return parseGeneralAccountGroup(allocation) != null;
 }

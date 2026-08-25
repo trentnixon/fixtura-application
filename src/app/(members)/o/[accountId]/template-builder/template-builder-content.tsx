@@ -56,7 +56,10 @@ import {
   getTemplateBuilderMediaItems,
   resolveTemplateBuilderPreviewMediaItem,
 } from "./_utils/template-builder-media-preview";
-import { buildTemplateBuilderPreviewBranding } from "./_utils/template-builder-preview-branding";
+import {
+  buildTemplateBuilderPreviewBranding,
+  toRemotionPreviewDraft,
+} from "./_utils/template-builder-preview-branding";
 import { mapTemplateBuilderEditorStateToPutBody } from "./_utils/template-builder-save-payload";
 import {
   mapCatalogTexturesToPickerItems,
@@ -399,15 +402,35 @@ function TemplateBuilderContentEditable({ accountId }: { accountId: string }) {
   const previewConfig = useMemo(
     () => ({
       sport: dashboardPreviewModel.sport,
-      branding: dashboardPreviewModel.branding,
       logoUrl: dashboardPreviewModel.logoUrl,
       templateModeSlug,
+      templateCategoryCatalog: templateCategoriesListQ.data?.data ?? null,
+      source:
+        catalogPayload != null && previewDraftState != null
+          ? {
+              kind: "draft" as const,
+              branding: brandingData,
+              draft: toRemotionPreviewDraft(previewDraftState),
+              templateOptionsCatalog: catalogPayload,
+              templateCategoryCatalog: templateCategoriesListQ.data?.data ?? null,
+              textureCatalog,
+              previewImage: selectedPreviewMediaItem?.image ?? null,
+            }
+          : {
+              kind: "saved" as const,
+              branding: brandingData,
+            },
     }),
     [
-      dashboardPreviewModel.branding,
+      brandingData,
+      catalogPayload,
       dashboardPreviewModel.logoUrl,
       dashboardPreviewModel.sport,
+      previewDraftState,
+      selectedPreviewMediaItem?.image,
+      templateCategoriesListQ.data,
       templateModeSlug,
+      textureCatalog,
     ],
   );
 

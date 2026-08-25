@@ -7,9 +7,9 @@ import {
   type FixturaDataset,
 } from "@/vendor/fixtura-remotion-assets/preview";
 
+import { assembleAccountRemotionPreview } from "../utils/assemble-account-remotion-preview";
 import { buildThumbnailFrameTargets } from "../utils/build-thumbnail-frame-targets";
 import { getExampleDatasetPathForSport } from "../utils/example-dataset-loader";
-import { mergeAccountBrandingIntoDataset } from "../utils/merge-account-branding-into-dataset";
 
 import type {
   RemotionAssetPreviewInput,
@@ -34,7 +34,7 @@ function emptyState(partial: Partial<RemotionAssetPreviewState>): RemotionAssetP
 
 export function useRemotionAssetPreview({
   sport,
-  branding,
+  source,
   logoUrl,
   templateModeSlug,
   templateCategoryCatalog = null,
@@ -99,26 +99,28 @@ export function useRemotionAssetPreview({
     };
   }, [datasetPath, enabled]);
 
-  const mergeInput = useMemo(
-    () => ({ branding, logoUrl, templateModeSlug, templateCategoryCatalog, accountSponsors }),
-    [accountSponsors, branding, logoUrl, templateCategoryCatalog, templateModeSlug],
-  );
-
-  const merged = useMemo(() => {
+  const assembled = useMemo(() => {
     if (baseData === null) return null;
-    return mergeAccountBrandingIntoDataset(baseData, mergeInput);
-  }, [baseData, mergeInput]);
+    return assembleAccountRemotionPreview({
+      base: baseData,
+      source,
+      logoUrl,
+      templateModeSlug,
+      templateCategoryCatalog,
+      accountSponsors,
+    });
+  }, [accountSponsors, baseData, logoUrl, source, templateCategoryCatalog, templateModeSlug]);
 
   const durationInFrames =
-    merged !== null ? getProductionCompositionFromData(merged.data).durationInFrames : 0;
+    assembled !== null ? getProductionCompositionFromData(assembled.data).durationInFrames : 0;
 
   const frameBundle = useMemo(() => {
-    if (merged === null) {
+    if (assembled === null) {
       return { targets: [] as ThumbnailFrameTarget[], fromDataset: false };
     }
-    const built = buildThumbnailFrameTargets(merged.data, durationInFrames, maxFrameTargets);
+    const built = buildThumbnailFrameTargets(assembled.data, durationInFrames, maxFrameTargets);
     return { targets: built.targets, fromDataset: built.fromDataset };
-  }, [merged, durationInFrames, maxFrameTargets]);
+  }, [assembled, durationInFrames, maxFrameTargets]);
 
   return useMemo((): RemotionAssetPreviewState => {
     if (!enabled) {
@@ -144,29 +146,29 @@ export function useRemotionAssetPreview({
       });
     }
 
-    if (fetchStatus !== "success" || merged === null) {
+    if (fetchStatus !== "success" || assembled === null) {
       return emptyState({ status: "idle", datasetPath });
     }
 
     const status: RemotionAssetPreviewStatus = "ready";
     return {
       status,
-      data: merged.data,
+      data: assembled.data,
       durationInFrames,
       frameTargets: frameBundle.targets,
       fromDatasetFrames: frameBundle.fromDataset,
       loadError: null,
-      usedTemplateFallback: merged.usedTemplateFallback,
+      usedTemplateFallback: assembled.usedTemplateFallback,
       datasetPath,
     };
   }, [
+    assembled,
     datasetPath,
+    durationInFrames,
     enabled,
     fetchStatus,
     frameBundle.fromDataset,
     frameBundle.targets,
     loadError,
-    merged,
-    durationInFrames,
   ]);
 }

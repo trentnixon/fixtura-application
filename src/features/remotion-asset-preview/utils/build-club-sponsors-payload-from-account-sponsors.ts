@@ -1,10 +1,10 @@
+import { parseGeneralAccountGroup } from "@/lib/sponsors/parse-general-account-group";
 import {
   ALL_GENERAL_POSITION_SLOTS,
   ALL_POSITION_SLOT_IDS,
   POSITION_ALLOCATION_CATEGORY,
   PRIMARY_POSITION_SLOTS,
-} from "@/app/(members)/o/[accountId]/manage-sponsors/_constants/sponsor-position-slots";
-import { parseGeneralAccountGroup } from "@/app/(members)/o/[accountId]/manage-sponsors/_utils/sponsorship-allocation-general";
+} from "@/lib/sponsors/position-slots";
 
 import type { ClubSponsorsPayload, RemotionClubSponsorRow } from "./sponsors-payload-v2";
 import type { AccountSponsorDto } from "@/types/api/account";

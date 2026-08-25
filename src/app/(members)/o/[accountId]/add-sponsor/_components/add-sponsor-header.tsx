@@ -9,7 +9,7 @@ export function AddSponsorHeader({ accountId }: { accountId: string }) {
   return (
     <PageHeader
       title="Add sponsor"
-      description="Create one sponsor at a time, confirm the save, then return to the sponsor overview when you are ready."
+      description="Add one name and logo, save it, then go back to the pool to place it."
     >
       <div className="flex w-full flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
         <div />

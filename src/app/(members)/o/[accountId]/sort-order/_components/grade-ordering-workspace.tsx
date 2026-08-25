@@ -69,10 +69,7 @@ export function GradeOrderingWorkspace({
         </div>
       ) : null}
 
-      <GradeOrderingHeader
-        organisationName={canonicalData.organisation.name}
-        revision={draft.revision}
-      />
+      <GradeOrderingHeader organisationName={canonicalData.organisation.name} />
 
       {mutation.isError && mutation.error instanceof Error ? (
         <div
@@ -99,15 +96,15 @@ export function GradeOrderingWorkspace({
       <Dialog open={conflictOpen} onOpenChange={setConflictOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Grade order changed elsewhere</DialogTitle>
+            <DialogTitle>Order changed elsewhere</DialogTitle>
             <DialogDescription>
-              Another save updated this order while you were editing. Load the latest version or
-              keep reviewing your changes.
+              Someone else saved while you were editing. Load their order, or keep yours and review
+              it.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="gap-2 sm:gap-0">
             <Button type="button" variant="outline" onClick={handleReviewAfterConflict}>
-              Review my changes
+              Keep my changes
             </Button>
             <Button type="button" onClick={() => void handleLoadLatestAfterConflict()}>
               Load latest order
@@ -121,7 +118,8 @@ export function GradeOrderingWorkspace({
           <DialogHeader>
             <DialogTitle>Clear custom grade order?</DialogTitle>
             <DialogDescription>
-              This removes saved positions for all groups and restores provider default order.
+              This clears your saved order for every group and puts grades back in the default
+              order.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="gap-2 sm:gap-0">

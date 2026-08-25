@@ -1,15 +1,19 @@
+import type { RemotionPreviewDraft } from "./types/remotion-preview-draft";
+import type { AssembleAccountRemotionPreviewSource } from "./utils/assemble-account-remotion-preview";
 import type { ThumbnailFrameTarget } from "./utils/build-thumbnail-frame-targets";
-import type { AccountBrandingData, AccountSponsorDto } from "@/types/api/account";
+import type { AccountSponsorDto } from "@/types/api/account";
 import type { TemplateCategoryCatalogItem } from "@/types/api/all-template-options";
 import type { FixturaDataset } from "@/vendor/fixtura-remotion-assets/preview";
 
 export type { ThumbnailFrameTarget };
+export type { RemotionPreviewDraft };
+export type { AssembleAccountRemotionPreviewSource };
 
 export type AssetPreviewDisplayMode = "thumbnails" | "video";
 
 export type RemotionAssetPreviewInput = {
   sport: string | null;
-  branding: AccountBrandingData | null;
+  source: AssembleAccountRemotionPreviewSource;
   logoUrl: string | null;
   templateModeSlug: string | null;
   /** Resolves `template_option.categoryId` when GET branding omits nested category slug. */

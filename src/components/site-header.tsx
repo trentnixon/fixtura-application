@@ -3,6 +3,13 @@
 import { usePathname } from "next/navigation";
 
 import { ScopedOnboardingSyncBanner } from "@/components/scoped-onboarding-sync-banner";
+import { SiteHeaderBrandLogoHelp } from "@/components/site-header-brand-logo-help";
+import { SiteHeaderBrandingHelp } from "@/components/site-header-branding-help";
+import { SiteHeaderClubLogosHelp } from "@/components/site-header-club-logos-help";
+import { SiteHeaderMediaGalleryHelp } from "@/components/site-header-media-gallery-help";
+import { SiteHeaderSortOrderHelp } from "@/components/site-header-sort-order-help";
+import { SiteHeaderSponsorsHelp } from "@/components/site-header-sponsors-help";
+import { SiteHeaderTemplateBuilderHelp } from "@/components/site-header-template-builder-help";
 import { SupportViewBanner } from "@/components/support-view-banner";
 import { TypographyNavLabel } from "@/components/typography";
 import { Separator } from "@/components/ui/separator";
@@ -25,9 +32,12 @@ function getPageTitle(pathname: string): string {
     if (seg === "settings") return "Settings";
     if (seg === "bundles") return "Bundles";
     if (seg === "branding") return "Branding";
+    if (seg === "brand-logo") return "Brand logo";
     if (seg === "template-builder") return "Templates";
     if (seg === "media-gallery") return "Background images";
-    if (seg === "manage-sponsors") return "Sponsorships";
+    if (seg === "manage-sponsors" || seg === "add-sponsor") return "Sponsorships";
+    if (seg === "club-logos") return "Club logos";
+    if (seg === "sort-order") return "Sort Order";
     if (seg === "billing") return "Billing";
     if (seg === "season") return "Season Control";
     if (seg === "account") return "Account";
@@ -67,6 +77,15 @@ export function SiteHeader() {
           <TypographyNavLabel as="h1" className="text-base font-medium">
             {title}
           </TypographyNavLabel>
+          <div className="ml-auto">
+            <SiteHeaderSponsorsHelp pathname={pathname} />
+            <SiteHeaderClubLogosHelp pathname={pathname} />
+            <SiteHeaderBrandLogoHelp pathname={pathname} />
+            <SiteHeaderBrandingHelp pathname={pathname} />
+            <SiteHeaderMediaGalleryHelp pathname={pathname} />
+            <SiteHeaderSortOrderHelp pathname={pathname} />
+            <SiteHeaderTemplateBuilderHelp pathname={pathname} />
+          </div>
         </div>
       </div>
       <ScopedOnboardingSyncBanner />
