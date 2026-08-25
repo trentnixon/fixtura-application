@@ -32,25 +32,23 @@ function buildTemplateBuilderHelp({
     items: [
       {
         label: "1. Template",
-        howTo: "Pick a template style. New graphics start from that layout.",
+        howTo: "New graphics start from that layout.",
       },
       {
         label: "2. Color pairing",
-        howTo: "Pick a Color Layout. It maps your brand colours onto the template.",
+        howTo: "Maps your brand colours onto the template.",
       },
       {
         label: "3. Contrast",
-        howTo: "Choose a contrast mode. It sets title colour on your assets.",
+        howTo: "Sets title colour on your assets.",
       },
       {
         label: "4. Background",
-        howTo:
-          "Set Background type, then pick the option below. Image pulls from Background images.",
+        howTo: "Type first, then the option below. Image pulls from Background images.",
       },
       {
         label: "Save changes",
-        howTo:
-          "Save so new graphics use this template. Reset to saved drops edits you have not saved.",
+        howTo: "New graphics use this template. Reset to saved drops edits you have not saved.",
       },
     ],
     related: [
