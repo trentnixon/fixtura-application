@@ -4,10 +4,13 @@ export const CLUB_LOGOS_SCREEN_COPY = {
   errorTitle: "Could not load account settings",
   pageTitle: "Club logos",
   pageDescription:
-    "Manage logos for clubs in your association. Select a club to upload or replace its logo.",
-  directoryLoadingLabel: "Loading clubs from your season scope",
+    "Open a club to add or replace its logo. These logos show on that club's graphics.",
+  associationOnlyNoticeTitle: "Association accounts only",
+  associationOnlyNoticeDescription:
+    "You can edit club logos here because this is an association account. If a club has its own Fixtura account, that club can upload its logo there.",
+  directoryLoadingLabel: "Loading clubs",
   directoryErrorTitle: "Could not load club list",
-  directoryErrorFallback: "Something went wrong while loading the club directory.",
+  directoryErrorFallback: "Could not load the club list.",
   directoryNoLogoLabel: "No logo",
   directoryHasLogoLabel: "Logo ready",
   directoryRedirecting: "Redirecting…",
@@ -19,17 +22,17 @@ export const CLUB_LOGOS_SCREEN_COPY = {
   directoryListViewLabel: "List view",
   directoryNoFilteredResults: "No clubs match that search. Try another term.",
   directoryEmpty:
-    "No clubs were returned for this account yet. When competitions and grades include teams linked to clubs, they will appear here.",
+    "No clubs here yet. They appear when competitions and grades have teams linked to clubs.",
   editorLoadingLabel: "Loading club",
   editorErrorTitle: "Could not load club logo",
-  invalidClubId: "The club id in the URL is not valid.",
-  clubNotFound: "This club is not in your association directory or may have been removed.",
+  invalidClubId: "That club link is not valid.",
+  clubNotFound: "This club is not in your association list, or it was removed.",
   strapiIdLabel: "Strapi ID",
   removeUploadedLogoAction: "Remove uploaded logo",
   removeUploadedLogoDialogTitle: "Remove uploaded logo?",
   removeUploadedLogoDialogDescription:
-    "This clears the Fixtura logo you uploaded for this club. A PlayHQ or parent organisation logo may still appear in the list and previews.",
+    "Clears the Fixtura logo you uploaded for this club. A PlayHQ or parent logo may still show in the list and previews.",
   removeUploadedLogoSuccessTitle: "Uploaded logo removed",
   removeUploadedLogoSuccessDescription:
-    "Your uploaded Fixtura logo was cleared. A PlayHQ or parent logo may still be shown.",
+    "Your Fixtura upload is gone. A PlayHQ or parent logo may still show.",
 } as const;

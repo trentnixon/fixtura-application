@@ -19,6 +19,14 @@ Across those routes, users should be able to:
 - archive sponsors out of the pool
 - permanently delete sponsors from archive
 
+## In-product help (How this works)
+
+Route-scoped page help is live for the sponsors cluster (pool, add-sponsor, assign position/entity, archive).
+
+- Entry: site header **How this works** (area title **Sponsorships**)
+- Pattern for agents / extrapolation: `docs/agents/route-page-help.md`
+- Content builder: `manage-sponsors/_utils/build-manage-sponsors-page-help-content.ts`
+
 ## Core Model
 
 This feature should be built around a sponsor pool.

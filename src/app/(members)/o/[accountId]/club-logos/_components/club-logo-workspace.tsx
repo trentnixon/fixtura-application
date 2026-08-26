@@ -162,7 +162,7 @@ export function ClubLogoWorkspace({ accountId, club, branding }: ClubLogoWorkspa
   async function handleConfirmSave() {
     if (!logoFile) {
       toast.error("No logo file to save", {
-        description: "Complete the crop step before saving.",
+        description: "Finish the crop before saving.",
       });
       return;
     }
@@ -186,7 +186,7 @@ export function ClubLogoWorkspace({ accountId, club, branding }: ClubLogoWorkspa
         change_kind: "upload",
       });
       toast.success("Club logo saved", {
-        description: `${club.name} logo was updated.`,
+        description: `${club.name} logo updated.`,
       });
     } catch (e) {
       toast.error("Could not save club logo", {
@@ -234,16 +234,15 @@ export function ClubLogoWorkspace({ accountId, club, branding }: ClubLogoWorkspa
               <BrandingContainerHeaderTitle
                 icon={<ImageUp className="size-5" aria-hidden />}
                 title="Upload logo"
-                description="Upload, crop, and save this club logo without changing your association branding."
+                description="Crop and save a logo for this club. Association branding stays put."
               />
             }
             body={
               <div className="space-y-5">
                 <div className="space-y-3">
                   <p className="text-sm leading-relaxed">
-                    PNG, JPEG, or WebP up to 8MB. Choose a file to crop; you can change the aspect
-                    ratio in the dialog. The logo is saved to this club, not your association
-                    account.
+                    PNG, JPEG, or WebP up to 8MB. Pick a file to crop. You can change the aspect
+                    ratio in the dialog. This saves to the club, not your association branding.
                   </p>
                 </div>
                 <ImageUploaderCrop
@@ -308,8 +307,8 @@ export function ClubLogoWorkspace({ accountId, club, branding }: ClubLogoWorkspa
             previewNote={
               noSavedLogo && !logoPreviewUrl ? (
                 <p className="text-sm leading-relaxed">
-                  Colours and template mode come from your association branding. Add a club logo to
-                  see it in the asset preview.
+                  Colours and template mode come from association branding. Add a club logo to see
+                  it in the preview.
                 </p>
               ) : undefined
             }
@@ -322,7 +321,7 @@ export function ClubLogoWorkspace({ accountId, club, branding }: ClubLogoWorkspa
           <DialogHeader>
             <DialogTitle>Save club logo?</DialogTitle>
             <DialogDescription>
-              This uploads your cropped image and sets it as the logo for {club.name}.
+              Uploads the cropped image as the logo for {club.name}.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">

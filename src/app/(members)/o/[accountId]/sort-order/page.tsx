@@ -4,7 +4,7 @@ import { SortOrderContent } from "./sort-order-content";
 
 export const metadata = buildPageMetadata({
   title: "Sort Order",
-  description: "Set the display order of grades for your Fixtura Members organisation.",
+  description: "Set the grade order for your organisation.",
 });
 
 export default async function SortOrderPage({

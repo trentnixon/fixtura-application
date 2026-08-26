@@ -15,7 +15,7 @@ export const FALLBACK_SPONSOR_ASSIGNMENT_TARGET_COPY: SponsorAssignmentTargetCop
   plural: "targets",
   buttonLabel: "Assign sponsors",
   title: "Assign sponsors",
-  description: "Choose sponsors for specific clubs, teams, or grades.",
+  description: "Pick sponsors for clubs, teams, or grades.",
 };
 
 export function getSponsorAssignmentTargetCopy(
@@ -29,7 +29,7 @@ export function getSponsorAssignmentTargetCopy(
       plural: "teams",
       buttonLabel: "Assign to teams",
       title: "Assign sponsors to teams",
-      description: "Choose which sponsor appears for each team.",
+      description: "Pick which sponsor shows for each team.",
     };
   }
 
@@ -39,7 +39,7 @@ export function getSponsorAssignmentTargetCopy(
       plural: "competitions",
       buttonLabel: "Assign to competitions",
       title: "Assign sponsors to competitions",
-      description: "Choose which sponsor appears for each competition.",
+      description: "Pick which sponsor shows for each competition.",
     };
   }
 
@@ -48,6 +48,6 @@ export function getSponsorAssignmentTargetCopy(
     plural: "grades",
     buttonLabel: "Assign to grades",
     title: "Assign sponsors to grades",
-    description: "Choose which sponsor appears for each grade.",
+    description: "Pick which sponsor shows for each grade.",
   };
 }

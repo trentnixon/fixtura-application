@@ -151,7 +151,7 @@ export function SortOrderContent({ accountId }: { accountId: string }) {
     return (
       <EmptyState
         title="Organisation not linked"
-        description="Link a club or association to this account before setting grade order."
+        description="Link a club or association to this account before you set grade order."
       />
     );
   }
@@ -183,7 +183,7 @@ export function SortOrderContent({ accountId }: { accountId: string }) {
     return (
       <EmptyState
         title="No grades to order"
-        description="Published grades will appear here when they are reachable for this organisation."
+        description="Grades show up here once they are published for this organisation."
       />
     );
   }

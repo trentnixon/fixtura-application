@@ -1,10 +1,10 @@
 export const SPONSOR_TARGETING_PANEL_COPY = {
   title: "Where this sponsor appears",
   description:
-    "See whether this sponsor is assigned to account-wide positions or specific clubs, teams, and grades.",
+    "Check account-wide positions and any club, team, or grade assignments for this sponsor.",
   optionsTitle: "Placement options",
   optionsDescription:
-    "Use Assign sponsors to choose account-wide positions, or assign sponsors directly to clubs, teams, and grades.",
+    "Use Assign sponsors for account-wide positions, or assign sponsors to clubs, teams, and grades.",
   positionBadge: "Position placements",
   entityBadge: "Club, team, and grade placements",
   noSponsor: "Choose a sponsor from the pool to review placements.",

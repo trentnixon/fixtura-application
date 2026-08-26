@@ -7,6 +7,7 @@ import { useAccountReadOnly } from "@/lib/support/use-account-read-only";
 
 import { ClubLogoEditorHeader } from "./club-logo-editor-header";
 import { ClubLogoWorkspace } from "./club-logo-workspace";
+import { ClubLogosAssociationNotice } from "./club-logos-association-notice";
 import { CLUB_LOGOS_SCREEN_COPY } from "../_consts";
 import { useClubLogoEditorScreen } from "../_hooks/use-club-logo-editor-screen";
 
@@ -78,6 +79,7 @@ export function ClubLogoEditorScreen({ accountId, clubId }: ClubLogoEditorScreen
   return (
     <div className="mx-auto grid max-w-[88rem] gap-6 px-4 pb-12 sm:px-6 lg:px-8">
       <ClubLogoEditorHeader accountId={accountId} clubName={view.club.name} />
+      <ClubLogosAssociationNotice />
       <ClubLogoWorkspace accountId={accountId} club={view.club} branding={view.branding} />
     </div>
   );

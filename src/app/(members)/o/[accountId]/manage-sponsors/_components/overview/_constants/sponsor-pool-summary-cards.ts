@@ -2,7 +2,7 @@ import type { SponsorPoolSummaryMetricDefinition } from "../_types/sponsor-pool-
 
 export const SPONSOR_POOL_SUMMARY_COPY = {
   title: "Sponsor pool summary",
-  description: "Counts across your organisation's sponsor library.",
+  description: "Totals for your sponsor pool.",
 } as const;
 
 export const SPONSOR_POOL_SUMMARY_METRICS = [

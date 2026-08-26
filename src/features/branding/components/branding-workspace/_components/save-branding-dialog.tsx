@@ -44,8 +44,8 @@ export function SaveBrandingDialog({
         <DialogHeader>
           <DialogTitle>Save branding?</DialogTitle>
           <DialogDescription>
-            This updates primary and secondary colours and your template mode on your organisation
-            profile so templates and renders use the new palette and contrast preset.
+            This saves primary, secondary, and contrast to your organisation profile. Templates and
+            renders use the new values.
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-3">

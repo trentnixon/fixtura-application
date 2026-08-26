@@ -8,7 +8,7 @@ export function SponsorArchiveHeader({ accountId }: { accountId: string }) {
   return (
     <PageHeader
       title="Archived sponsors"
-      description="Archived sponsors are kept out of the sponsor pool until restored."
+      description="These sponsors are out of the pool until you restore them."
     >
       <div className="flex w-full flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
         <div />

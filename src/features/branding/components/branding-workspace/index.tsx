@@ -76,7 +76,7 @@ export function BrandingWorkspace(props: BrandingWorkspaceProps) {
         <SectionBlock variant="surface">
           <SectionLabel>Overview</SectionLabel>
           <TypographyMuted>
-            No template or theme on this account yet — colours below use normalization defaults.
+            No template or theme on this account yet. Colours below use normalisation defaults.
           </TypographyMuted>
         </SectionBlock>
       ) : null}

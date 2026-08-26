@@ -271,12 +271,9 @@ export function BrandColoursCard({
           title="1. Brand colours"
           description={
             interactive && colourSourceMode === "custom" ? (
-              <>
-                Choose the colours that represent your organisation. Fine-tune primary and secondary
-                using the fields below.
-              </>
+              <>Set primary and secondary in the fields below.</>
             ) : (
-              "Choose from presets or create your own organisation palette."
+              "Use a preset theme, or set your own primary and secondary colours."
             )
           }
         />

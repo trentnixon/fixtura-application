@@ -69,6 +69,7 @@ import type {
   TemplateBuilderEditorField,
   TemplateBuilderEditorState,
 } from "./_utils/template-builder-editor-state";
+import type { AssembleAccountRemotionPreviewSource } from "@/features/remotion-asset-preview/utils/assemble-account-remotion-preview";
 import type { AccountBrandingData } from "@/types/api/account";
 import type {
   AllTemplateOptionsPayload,
@@ -236,9 +237,10 @@ export interface TemplateBuilderEditorActionsSnapshot {
 
 export type TemplateBuilderPreviewConfig = {
   sport: string | null;
-  branding: AccountBrandingData | null;
   logoUrl: string | null;
   templateModeSlug: string | null;
+  source: AssembleAccountRemotionPreviewSource;
+  templateCategoryCatalog?: TemplateCategoryCatalogItem[] | null;
 };
 
 export type TemplateBuilderTextureCatalogLoadState = "loading" | "ready" | "error";
@@ -803,9 +805,10 @@ export function TemplateBuilderEditor({
             <TemplateBuilderPreviewPanel
               accountId={accountId}
               sport={previewConfig.sport}
-              branding={previewConfig.branding}
+              source={previewConfig.source}
               logoUrl={previewConfig.logoUrl}
               templateModeSlug={previewConfig.templateModeSlug}
+              templateCategoryCatalog={previewConfig.templateCategoryCatalog ?? null}
             />
           ) : null}
         </section>

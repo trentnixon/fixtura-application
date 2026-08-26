@@ -31,22 +31,25 @@ import {
 import { TEMPLATE_BUILDER_PREVIEW_TOOLBAR_SURFACE_CLASS } from "../_constants/template-builder-tabber";
 
 import type { AssetPreviewDisplayMode } from "@/features/remotion-asset-preview";
-import type { AccountBrandingData } from "@/types/api/account";
+import type { AssembleAccountRemotionPreviewSource } from "@/features/remotion-asset-preview/utils/assemble-account-remotion-preview";
+import type { TemplateCategoryCatalogItem } from "@/types/api/all-template-options";
 import type { ReactNode } from "react";
 
 export function TemplateBuilderPreviewPanel({
   accountId,
   sport,
-  branding,
+  source,
   logoUrl,
   templateModeSlug,
+  templateCategoryCatalog = null,
   toolbarStart,
 }: {
   accountId: string;
   sport: string | null;
-  branding: AccountBrandingData | null;
+  source: AssembleAccountRemotionPreviewSource;
   logoUrl: string | null;
   templateModeSlug: string | null;
+  templateCategoryCatalog?: TemplateCategoryCatalogItem[] | null;
   toolbarStart?: ReactNode;
 }) {
   const imageOptions = useImageOptionsAssetsPicker({
@@ -72,9 +75,10 @@ export function TemplateBuilderPreviewPanel({
 
   const remotionPreview = useRemotionAssetPreview({
     sport,
-    branding,
+    source,
     logoUrl,
     templateModeSlug,
+    templateCategoryCatalog,
     exampleCompositionId,
     accountSponsors,
   });

@@ -1,10 +1,34 @@
 import { describe, expect, it } from "vitest";
 
-import { mergeAccountBrandingIntoDataset } from "./merge-account-branding-into-dataset";
+import { assembleAccountRemotionPreview } from "./assemble-account-remotion-preview";
 import { EMPTY_CLUB_SPONSORS } from "./sponsors-payload-v2";
 
 import type { AccountBrandingData, AccountSponsorDto } from "@/types/api/account";
+import type { TemplateCategoryCatalogItem } from "@/types/api/all-template-options";
 import type { FixturaDataset } from "@/vendor/fixtura-remotion-assets/preview";
+
+/** Saved-source adapter so legacy merge cases exercise the public assembly seam. */
+function assembleSaved(
+  base: FixturaDataset,
+  input: {
+    branding: AccountBrandingData | null;
+    logoUrl: string | null;
+    templateModeSlug: string | null;
+    templateCategoryCatalog?: TemplateCategoryCatalogItem[] | null;
+    accountSponsors?: AccountSponsorDto[] | null;
+  },
+) {
+  return assembleAccountRemotionPreview({
+    base,
+    source: { kind: "saved", branding: input.branding },
+    logoUrl: input.logoUrl,
+    templateModeSlug: input.templateModeSlug,
+    ...(input.templateCategoryCatalog !== undefined
+      ? { templateCategoryCatalog: input.templateCategoryCatalog }
+      : {}),
+    ...(input.accountSponsors !== undefined ? { accountSponsors: input.accountSponsors } : {}),
+  });
+}
 
 function minimalDataset(template = "TwoColumnClassic"): FixturaDataset {
   return {
@@ -78,7 +102,7 @@ function brandingFixture(overrides: Partial<AccountBrandingData> = {}): AccountB
   };
 }
 
-describe("mergeAccountBrandingIntoDataset", () => {
+describe("assembleAccountRemotionPreview (saved)", () => {
   it("removes the bundled example hero image from preview data", () => {
     const base = minimalDataset();
     const baseRecord = base as unknown as Record<string, unknown>;
@@ -90,7 +114,7 @@ describe("mergeAccountBrandingIntoDataset", () => {
       audio: { url: "https://cdn.example.com/example.mp3" },
     };
 
-    const { data } = mergeAccountBrandingIntoDataset(base, {
+    const { data } = assembleSaved(base, {
       branding: brandingFixture(),
       logoUrl: null,
       templateModeSlug: null,
@@ -114,7 +138,7 @@ describe("mergeAccountBrandingIntoDataset", () => {
       HeroImage: { url: "https://cdn.example.com/default.jpg" },
     };
 
-    const { data } = mergeAccountBrandingIntoDataset(base, {
+    const { data } = assembleSaved(base, {
       branding: brandingFixture({
         template_option: {
           useBackground: "Image",
@@ -148,7 +172,7 @@ describe("mergeAccountBrandingIntoDataset", () => {
 
   it("sets appearance.template from branding template category", () => {
     const base = minimalDataset();
-    const { data, usedTemplateFallback } = mergeAccountBrandingIntoDataset(base, {
+    const { data, usedTemplateFallback } = assembleSaved(base, {
       branding: brandingFixture(),
       logoUrl: null,
       templateModeSlug: null,
@@ -164,7 +188,7 @@ describe("mergeAccountBrandingIntoDataset", () => {
 
   it("sets appearance.template to BroadcastProRounded from category slug", () => {
     const base = minimalDataset();
-    const { data, usedTemplateFallback } = mergeAccountBrandingIntoDataset(base, {
+    const { data, usedTemplateFallback } = assembleSaved(base, {
       branding: brandingFixture({
         template: { ...brandingFixture().template!, category: "BroadcastProRounded" },
       }),
@@ -185,7 +209,7 @@ describe("mergeAccountBrandingIntoDataset", () => {
 
   it("resolves BroadcastProRounded case-insensitively", () => {
     const base = minimalDataset();
-    const { data, usedTemplateFallback } = mergeAccountBrandingIntoDataset(base, {
+    const { data, usedTemplateFallback } = assembleSaved(base, {
       branding: brandingFixture({
         template: { ...brandingFixture().template!, category: "broadcastprorounded" },
       }),
@@ -203,7 +227,7 @@ describe("mergeAccountBrandingIntoDataset", () => {
 
   it("applies theme colours from branding.theme", () => {
     const base = minimalDataset();
-    const { data } = mergeAccountBrandingIntoDataset(base, {
+    const { data } = assembleSaved(base, {
       branding: brandingFixture(),
       logoUrl: null,
       templateModeSlug: null,
@@ -222,7 +246,7 @@ describe("mergeAccountBrandingIntoDataset", () => {
 
   it("sets club logo when logoUrl provided", () => {
     const base = minimalDataset();
-    const { data } = mergeAccountBrandingIntoDataset(base, {
+    const { data } = assembleSaved(base, {
       branding: brandingFixture(),
       logoUrl: "https://example.com/logo.png",
       templateModeSlug: null,
@@ -252,7 +276,7 @@ describe("mergeAccountBrandingIntoDataset", () => {
         },
       },
     });
-    const { data } = mergeAccountBrandingIntoDataset(base, {
+    const { data } = assembleSaved(base, {
       branding: b,
       logoUrl: null,
       templateModeSlug: "dark",
@@ -280,7 +304,7 @@ describe("mergeAccountBrandingIntoDataset", () => {
         },
       },
     });
-    const { data } = mergeAccountBrandingIntoDataset(base, {
+    const { data } = assembleSaved(base, {
       branding: b,
       logoUrl: null,
       templateModeSlug: null,
@@ -295,7 +319,7 @@ describe("mergeAccountBrandingIntoDataset", () => {
 
   it("maps light-alt template mode slug to lightAlt", () => {
     const base = minimalDataset();
-    const { data } = mergeAccountBrandingIntoDataset(base, {
+    const { data } = assembleSaved(base, {
       branding: brandingFixture(),
       logoUrl: null,
       templateModeSlug: "light-alt",
@@ -310,7 +334,7 @@ describe("mergeAccountBrandingIntoDataset", () => {
 
   it("creates videoMeta structure when missing", () => {
     const base = { frames: [10] } as unknown as FixturaDataset;
-    const { data } = mergeAccountBrandingIntoDataset(base, {
+    const { data } = assembleSaved(base, {
       branding: brandingFixture(),
       logoUrl: null,
       templateModeSlug: "dark",
@@ -339,7 +363,7 @@ describe("mergeAccountBrandingIntoDataset", () => {
         palette: { id: 2, name: "Analogous", value: "analogous" },
       },
     });
-    const { data } = mergeAccountBrandingIntoDataset(base, {
+    const { data } = assembleSaved(base, {
       branding: b,
       logoUrl: null,
       templateModeSlug: null,
@@ -365,7 +389,7 @@ describe("mergeAccountBrandingIntoDataset", () => {
         gradient: { id: 5, name: "Secondary vertical", type: "secondary", direction: "VERTICAL" },
       },
     });
-    const { data } = mergeAccountBrandingIntoDataset(base, {
+    const { data } = assembleSaved(base, {
       branding: b,
       logoUrl: null,
       templateModeSlug: null,
@@ -386,7 +410,7 @@ describe("mergeAccountBrandingIntoDataset", () => {
         useBackground: "Graphics",
       },
     });
-    const { data } = mergeAccountBrandingIntoDataset(base, {
+    const { data } = assembleSaved(base, {
       branding: b,
       logoUrl: null,
       templateModeSlug: null,
@@ -430,7 +454,7 @@ describe("mergeAccountBrandingIntoDataset", () => {
       },
     });
 
-    const { data } = mergeAccountBrandingIntoDataset(base, {
+    const { data } = assembleSaved(base, {
       branding: b,
       logoUrl: null,
       templateModeSlug: null,
@@ -455,7 +479,7 @@ describe("mergeAccountBrandingIntoDataset", () => {
         noise: { id: 6, name: "Grain", noiseType: "grain" },
       },
     });
-    const { data } = mergeAccountBrandingIntoDataset(base, {
+    const { data } = assembleSaved(base, {
       branding: b,
       logoUrl: null,
       templateModeSlug: null,
@@ -477,7 +501,7 @@ describe("mergeAccountBrandingIntoDataset", () => {
         noise: { id: 10, name: "Floating Particles", noiseType: "Floating Particles" },
       },
     });
-    const { data } = mergeAccountBrandingIntoDataset(base, {
+    const { data } = assembleSaved(base, {
       branding: b,
       logoUrl: null,
       templateModeSlug: null,
@@ -505,7 +529,7 @@ describe("mergeAccountBrandingIntoDataset", () => {
       },
     });
 
-    const { data } = mergeAccountBrandingIntoDataset(base, {
+    const { data } = assembleSaved(base, {
       branding: b,
       logoUrl: null,
       templateModeSlug: null,
@@ -529,7 +553,7 @@ describe("mergeAccountBrandingIntoDataset", () => {
         modeId: 1,
       },
     });
-    const { data, usedTemplateFallback } = mergeAccountBrandingIntoDataset(base, {
+    const { data, usedTemplateFallback } = assembleSaved(base, {
       branding: b,
       logoUrl: null,
       templateModeSlug: null,
@@ -553,7 +577,7 @@ describe("mergeAccountBrandingIntoDataset", () => {
         category: { slug: "Mudgeeraba", name: "Mudgeeraba" },
       },
     });
-    const { data, usedTemplateFallback } = mergeAccountBrandingIntoDataset(base, {
+    const { data, usedTemplateFallback } = assembleSaved(base, {
       branding: b,
       logoUrl: null,
       templateModeSlug: null,
@@ -583,7 +607,7 @@ describe("mergeAccountBrandingIntoDataset", () => {
         bundleAudio: null,
       },
     ];
-    const { data, usedTemplateFallback } = mergeAccountBrandingIntoDataset(base, {
+    const { data, usedTemplateFallback } = assembleSaved(base, {
       branding: b,
       logoUrl: null,
       templateModeSlug: null,
@@ -600,7 +624,7 @@ describe("mergeAccountBrandingIntoDataset", () => {
 
   it("handles null branding with default template resolution", () => {
     const base = minimalDataset();
-    const { data, usedTemplateFallback } = mergeAccountBrandingIntoDataset(base, {
+    const { data, usedTemplateFallback } = assembleSaved(base, {
       branding: null,
       logoUrl: null,
       templateModeSlug: null,
@@ -640,7 +664,7 @@ describe("mergeAccountBrandingIntoDataset", () => {
       sponsorshipAllocations: [],
     };
 
-    const { data } = mergeAccountBrandingIntoDataset(base, {
+    const { data } = assembleSaved(base, {
       branding: brandingFixture(),
       logoUrl: null,
       templateModeSlug: null,
@@ -684,7 +708,7 @@ describe("mergeAccountBrandingIntoDataset", () => {
 
   it("clears example sponsors when accountSponsors is null", () => {
     const base = minimalDataset();
-    const { data } = mergeAccountBrandingIntoDataset(base, {
+    const { data } = assembleSaved(base, {
       branding: brandingFixture(),
       logoUrl: null,
       templateModeSlug: null,
@@ -706,7 +730,7 @@ describe("mergeAccountBrandingIntoDataset", () => {
 
   it("sets includeSponsors when only general sponsors exist", () => {
     const base = minimalDataset();
-    const { data } = mergeAccountBrandingIntoDataset(base, {
+    const { data } = assembleSaved(base, {
       branding: brandingFixture(),
       logoUrl: null,
       templateModeSlug: null,
@@ -758,7 +782,7 @@ describe("mergeAccountBrandingIntoDataset", () => {
     const rows = baseRec["data"] as Array<Record<string, unknown>>;
     rows[0]!["nestedMeta"] = { label: "untouched", count: 2 };
 
-    const { data } = mergeAccountBrandingIntoDataset(base, {
+    const { data } = assembleSaved(base, {
       branding: brandingFixture(),
       logoUrl: null,
       templateModeSlug: null,
@@ -787,5 +811,154 @@ describe("mergeAccountBrandingIntoDataset", () => {
     expect(outRows[0]?.["nestedMeta"]).toEqual({ label: "untouched", count: 2 });
     expect(outRows[0]?.["nestedMeta"]).not.toHaveProperty("primaryForScreen");
     expect(outRows[0]?.["nestedMeta"]).not.toHaveProperty("assignSponsors");
+  });
+});
+
+describe("assembleAccountRemotionPreview (draft)", () => {
+  const draft = {
+    templateCategoryId: 8,
+    templateModeId: 2,
+    templatePaletteId: 3,
+    templateGradientId: null,
+    templateImageId: null,
+    templateNoiseId: null,
+    templateParticleId: null,
+    templatePatternId: null,
+    templateTextureId: null,
+    templateVideoId: null,
+    useBackground: "Graphics" as const,
+  };
+
+  const catalog = {
+    categories: [
+      {
+        id: 8,
+        name: "Broadcast Pro",
+        slug: "BroadcastPro",
+        divideFixturesBy: "round",
+        isPrivate: false,
+        bundleAudio: null,
+      },
+    ],
+    modes: [{ id: 2, name: "Dark", slug: "dark" }],
+    palettes: [{ id: 3, name: "Analogous", value: "analogous" }],
+    gradients: [],
+    images: [],
+    noises: [],
+    particles: [],
+    patterns: [],
+    textures: [],
+    videos: [],
+    currentSelection: null,
+  };
+
+  it("overlays draft category and mode onto the Remotion dataset", () => {
+    const base = minimalDataset();
+    const saved = brandingFixture({
+      template: { ...brandingFixture().template!, category: "Saved" },
+      theme: {
+        id: 10,
+        name: "Saved theme",
+        theme: {
+          primary: "#111111",
+          mode: "saved-mode",
+          useBackground: "Solid",
+        },
+      },
+      template_option: {
+        id: 269,
+        modeId: 1,
+        mode: "saved-mode",
+        useBackground: "Solid",
+      },
+    });
+
+    const { data, usedTemplateFallback } = assembleAccountRemotionPreview({
+      base,
+      source: {
+        kind: "draft",
+        branding: saved,
+        draft,
+        templateOptionsCatalog: catalog,
+      },
+      logoUrl: null,
+      templateModeSlug: null,
+    });
+
+    const dataRec = data as unknown as Record<string, unknown>;
+    const vm = dataRec["videoMeta"] as Record<string, unknown>;
+    const video = vm["video"] as Record<string, unknown>;
+    const appearance = video["appearance"] as Record<string, unknown>;
+    const tv = video["templateVariation"] as Record<string, unknown>;
+
+    expect(appearance["template"]).toBe("BroadcastPro");
+    expect(usedTemplateFallback).toBe(false);
+    expect(tv["mode"]).toBe("dark");
+    expect(tv["useBackground"]).toBe("Graphics");
+    expect(tv["palette"]).toBe("analogous");
+    expect(saved.template?.category).toBe("Saved");
+  });
+
+  it("does not expose inactive background assets from draft in the dataset", () => {
+    const base = minimalDataset();
+    const saved = brandingFixture({
+      template_option: {
+        useBackground: "Solid",
+        video: {
+          id: 10,
+          name: "Clip",
+          position: null,
+          size: null,
+          loop: null,
+          muted: null,
+          offthread: null,
+          volume: null,
+          rate: null,
+          overlay: null,
+        },
+      },
+    });
+
+    const { data } = assembleAccountRemotionPreview({
+      base,
+      source: {
+        kind: "draft",
+        branding: saved,
+        draft: {
+          ...draft,
+          useBackground: "Gradient",
+          templateGradientId: 4,
+          templateVideoId: 10,
+        },
+        templateOptionsCatalog: {
+          ...catalog,
+          gradients: [{ id: 4, name: "Sunset", type: "primary", direction: "VERTICAL" }],
+          videos: [
+            {
+              id: 10,
+              name: "Clip",
+              position: null,
+              size: null,
+              loop: null,
+              muted: null,
+              offthread: null,
+              volume: null,
+              rate: null,
+              overlay: null,
+            },
+          ],
+        },
+      },
+      logoUrl: null,
+      templateModeSlug: null,
+    });
+
+    const dataRec = data as unknown as Record<string, unknown>;
+    const vm = dataRec["videoMeta"] as Record<string, unknown>;
+    const video = vm["video"] as Record<string, unknown>;
+    const tv = video["templateVariation"] as Record<string, unknown>;
+    expect(tv["useBackground"]).toBe("Gradient");
+    expect(tv["gradient"]).toBeTruthy();
+    expect(tv["video"]).toBeUndefined();
   });
 });

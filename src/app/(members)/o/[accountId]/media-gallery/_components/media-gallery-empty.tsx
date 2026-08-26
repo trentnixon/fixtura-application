@@ -4,12 +4,19 @@ import { TypographyH3, TypographyMuted } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 
+import { MediaGalleryPageHelpTrigger } from "./media-gallery-page-help-trigger";
+
 type MediaGalleryEmptyProps = {
+  accountId: string;
   onUploadClick: () => void;
   readOnly?: boolean;
 };
 
-export function MediaGalleryEmpty({ onUploadClick, readOnly = false }: MediaGalleryEmptyProps) {
+export function MediaGalleryEmpty({
+  accountId,
+  onUploadClick,
+  readOnly = false,
+}: MediaGalleryEmptyProps) {
   return (
     <Card className="border-primary/15 bg-primary/5 shadow-sm ring-0" role="status">
       <CardContent className="flex flex-col items-center px-6 pt-8 text-center">
@@ -27,13 +34,18 @@ export function MediaGalleryEmpty({ onUploadClick, readOnly = false }: MediaGall
           asset type so each image appears in the right places.
         </TypographyMuted>
       </CardContent>
-      {!readOnly ? (
-        <CardFooter className="flex justify-center px-6 pb-6">
+      <CardFooter className="flex justify-center gap-2 px-6 pb-6">
+        {!readOnly ? (
           <Button type="button" variant="accent" onClick={onUploadClick}>
             Upload your first background
           </Button>
-        </CardFooter>
-      ) : null}
+        ) : null}
+        <MediaGalleryPageHelpTrigger
+          accountId={accountId}
+          route="media-gallery"
+          variant="empty-state"
+        />
+      </CardFooter>
     </Card>
   );
 }

@@ -323,7 +323,11 @@ export function MediaGalleryContent({ accountId }: { accountId: string }) {
       ) : null}
 
       {items.length === 0 ? (
-        <MediaGalleryEmpty onUploadClick={() => setUploadOpen(true)} readOnly={readOnly} />
+        <MediaGalleryEmpty
+          accountId={accountId}
+          onUploadClick={() => setUploadOpen(true)}
+          readOnly={readOnly}
+        />
       ) : filteredItems.length === 0 ? (
         <MediaGalleryNoResults onClearFilters={handleClearFilters} />
       ) : (

@@ -23,7 +23,7 @@ export function GradeOrderingSaveFooter({
   return (
     <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <TypographyMuted className="text-sm">
-        {hasChanges ? "You have unsaved changes." : "Order matches the last saved version."}
+        {hasChanges ? "You have unsaved changes." : "Nothing to save. This matches the last save."}
       </TypographyMuted>
       <div className="flex flex-wrap gap-2">
         <Button

@@ -73,9 +73,11 @@ export function DashboardAssetPreviewPanel({
     return d.data.items;
   }, [sponsorsQuery.data]);
 
+  const remotionSource = useMemo(() => ({ kind: "saved" as const, branding }), [branding]);
+
   const remotionAssetPreview = useRemotionAssetPreview({
     sport,
-    branding,
+    source: remotionSource,
     logoUrl,
     templateModeSlug,
     templateCategoryCatalog,

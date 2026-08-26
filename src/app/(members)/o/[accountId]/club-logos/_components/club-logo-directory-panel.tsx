@@ -242,7 +242,7 @@ export function ClubLogoDirectoryPanel({ accountId }: ClubLogoDirectoryPanelProp
           <BrandingContainerHeaderTitle
             icon={<Building2 className="size-5" aria-hidden />}
             title="Club directory"
-            description="Review the clubs in your association and manage each club logo."
+            description="Open a club to add or replace its logo."
           />
         }
         body={
@@ -266,7 +266,7 @@ export function ClubLogoDirectoryPanel({ accountId }: ClubLogoDirectoryPanelProp
         <BrandingContainerHeaderTitle
           icon={<Building2 className="size-5" aria-hidden />}
           title="Club directory"
-          description="Review the clubs in your association and manage each club logo."
+          description="Open a club to add or replace its logo."
         />
       }
       body={

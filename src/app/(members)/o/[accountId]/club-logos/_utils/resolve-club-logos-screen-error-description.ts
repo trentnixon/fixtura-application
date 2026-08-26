@@ -1,4 +1,4 @@
 export function resolveClubLogosScreenErrorDescription(error: unknown): string {
   if (error instanceof Error && error.message) return error.message;
-  return "Something went wrong while loading club logos.";
+  return "Could not load club logos.";
 }

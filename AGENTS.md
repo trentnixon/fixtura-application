@@ -11,3 +11,7 @@ Default vocabulary: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-
 ### Domain docs
 
 Single-context layout — root `CONTEXT.md` + `docs/adr/`. See `docs/agents/domain.md`.
+
+### Route page help
+
+In-product **How this works** Sheets are route-scoped. Pattern and extrapolation steps: `docs/agents/route-page-help.md`. Reference: manage-sponsors.
