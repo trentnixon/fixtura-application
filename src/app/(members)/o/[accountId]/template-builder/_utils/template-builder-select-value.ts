@@ -1,6 +1,6 @@
 import {
-  isTemplateUseBackground,
-  TEMPLATE_USE_BACKGROUND_VALUES,
+  isTemplateUseBackgroundWrite,
+  TEMPLATE_USE_BACKGROUND_WRITE_VALUES,
   type TemplateUseBackground,
 } from "@/types/api/template-options";
 
@@ -39,10 +39,10 @@ export function useBackgroundToSelectValue(value: TemplateUseBackground | null):
 
 export function selectValueToUseBackground(value: string): TemplateUseBackground | null {
   if (value === TEMPLATE_BUILDER_UNSET_VALUE) return null;
-  if (isTemplateUseBackground(value)) return value;
+  if (isTemplateUseBackgroundWrite(value)) return value;
   return null;
 }
 
 export function buildUseBackgroundSelectOptions(): { value: string; label: string }[] {
-  return TEMPLATE_USE_BACKGROUND_VALUES.map((v) => ({ value: v, label: v }));
+  return TEMPLATE_USE_BACKGROUND_WRITE_VALUES.map((v) => ({ value: v, label: v }));
 }

@@ -1,4 +1,4 @@
-import type { TemplateUseBackground } from "@/types/api/template-options";
+import type { TemplateAnimationConfig, TemplateUseBackground } from "@/types/api/template-options";
 
 /** Unsaved template-builder choices for Account Remotion Preview (not full editor state). */
 export type RemotionPreviewDraft = {
@@ -13,6 +13,7 @@ export type RemotionPreviewDraft = {
   templateTextureId: number | null;
   templateVideoId: number | null;
   useBackground: TemplateUseBackground | null;
+  animation: TemplateAnimationConfig | null;
 };
 
 type BackgroundRelationFieldKey =
@@ -27,11 +28,9 @@ const BACKGROUND_CHILD_FIELD_BY_USE_BACKGROUND: Partial<
   Record<TemplateUseBackground, BackgroundRelationFieldKey>
 > = {
   Gradient: "templateGradientId",
-  Graphics: "templateNoiseId",
   Image: "templateImageId",
   Video: "templateVideoId",
   Texture: "templateTextureId",
-  Particle: "templateParticleId",
 };
 
 const BACKGROUND_RELATION_FIELDS = [
@@ -54,7 +53,10 @@ function getActiveBackgroundRelationField(
 export function applyBackgroundVisibilityToRemotionPreviewDraft(
   draft: RemotionPreviewDraft,
 ): RemotionPreviewDraft {
-  const next = { ...draft };
+  const next = {
+    ...draft,
+    animation: draft.useBackground === "Animated" ? draft.animation : null,
+  };
   const active = getActiveBackgroundRelationField(draft.useBackground);
   for (const field of BACKGROUND_RELATION_FIELDS) {
     if (field !== active) {

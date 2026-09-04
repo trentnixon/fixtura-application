@@ -1,14 +1,15 @@
 import type { TemplateBuilderEditorState } from "./template-builder-editor-state";
 import type { TemplateUseBackground } from "@/types/api/template-options";
 
-/** Relation fields gated by `useBackground` (not category/mode/palette/pattern). */
+/** Relation fields gated by `useBackground` (not category/mode/palette/pattern/animation). */
 export type BackgroundRelationFieldKey =
   | "templateGradientId"
   | "templateImageId"
   | "templateNoiseId"
   | "templateParticleId"
   | "templateTextureId"
-  | "templateVideoId";
+  | "templateVideoId"
+  | "templateAnimationId";
 
 export type PrimaryRelationFieldKey = "templateModeId" | "templatePaletteId";
 
@@ -18,11 +19,10 @@ export const BACKGROUND_CHILD_FIELD_BY_USE_BACKGROUND: Partial<
   Record<TemplateUseBackground, BackgroundRelationFieldKey>
 > = {
   Gradient: "templateGradientId",
-  Graphics: "templateNoiseId",
   Image: "templateImageId",
   Video: "templateVideoId",
   Texture: "templateTextureId",
-  Particle: "templateParticleId",
+  Animated: "templateAnimationId",
 };
 
 export const PRIMARY_RELATION_FIELDS = [
@@ -37,6 +37,7 @@ export const BACKGROUND_RELATION_FIELDS = [
   "templateParticleId",
   "templateTextureId",
   "templateVideoId",
+  "templateAnimationId",
 ] as const satisfies readonly BackgroundRelationFieldKey[];
 
 export function getActiveBackgroundRelationField(
@@ -65,7 +66,11 @@ export function clearInactiveBackgroundRelations(
   state: TemplateBuilderEditorState,
   nextUseBackground: TemplateUseBackground | null,
 ): TemplateBuilderEditorState {
-  const next = { ...state };
+  const next = {
+    ...state,
+    animation: nextUseBackground === "Animated" ? state.animation : null,
+    templateAnimationId: nextUseBackground === "Animated" ? state.templateAnimationId : null,
+  };
   for (const field of BACKGROUND_RELATION_FIELDS) {
     if (!isBackgroundRelationFieldVisible(field, nextUseBackground)) {
       next[field] = null;

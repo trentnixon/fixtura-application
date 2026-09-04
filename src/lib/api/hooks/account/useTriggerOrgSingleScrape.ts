@@ -4,7 +4,8 @@ import { useMemo } from "react";
 import { accountApi } from "@/lib/api/services/account.api";
 import { CLUB_ACCOUNT_TYPE_ID } from "@/lib/config/onboarding";
 
-import { useAccountMe } from "./useAccountMe";
+import { isOrganisationGatewayRedirect, useAccountOrganisation } from "./useAccountOrganisation";
+import { withScopedAccountIdBody } from "./with-scoped-account-id-body";
 
 type SupportedOrgType = "Association" | "Club";
 
@@ -23,26 +24,28 @@ type TriggerOrgSingleScrapeResult = {
 };
 
 export function useTriggerOrgSingleScrape(accountId: string): TriggerOrgSingleScrapeResult {
-  const me = useAccountMe();
+  const orgQuery = useAccountOrganisation(accountId);
   const mutation = useMutation({
     mutationFn: async (vars: { orgType: SupportedOrgType; orgId: number }) => {
       if (vars.orgType === "Association") {
-        return accountApi.triggerAssociationSingleScrape({ associationId: vars.orgId });
+        return accountApi.triggerAssociationSingleScrape(
+          withScopedAccountIdBody(accountId, { associationId: vars.orgId }),
+        );
       }
-      return accountApi.triggerClubSingleScrape({ clubId: vars.orgId });
+      return accountApi.triggerClubSingleScrape(
+        withScopedAccountIdBody(accountId, { clubId: vars.orgId }),
+      );
     },
   });
 
   const resolved = useMemo<ResolvedOrg>(() => {
-    const numericAccountId = Number(accountId);
-    if (!Number.isFinite(numericAccountId)) {
+    if (isOrganisationGatewayRedirect(orgQuery.data) || !orgQuery.data?.data) {
       return { orgId: null, orgType: null, orgName: null };
     }
 
-    const account = me.data?.data.accounts?.find((row) => row.id === numericAccountId);
-    const orgDetails =
-      account?.accountOrganisationDetails ?? account?.contentHub?.accountOrganisationDetails;
-    const rawOrgType = account?.account_type;
+    const data = orgQuery.data.data;
+    const orgDetails = data.accountOrganisationDetails;
+    const rawOrgType = data.account_type;
     const inferredOrgType =
       rawOrgType === CLUB_ACCOUNT_TYPE_ID
         ? "Club"
@@ -55,13 +58,15 @@ export function useTriggerOrgSingleScrape(accountId: string): TriggerOrgSingleSc
       orgType: inferredOrgType,
       orgName: typeof orgDetails?.Name === "string" ? orgDetails.Name : null,
     };
-  }, [accountId, me.data?.data.accounts]);
+  }, [orgQuery.data]);
 
   const errorReason = useMemo(() => {
+    if (orgQuery.isPending) return "Loading organisation details…";
+    if (orgQuery.isError) return "Could not load organisation details for sync.";
     if (!resolved.orgId) return "Organisation ID is missing for this account.";
     if (!resolved.orgType) return "Organisation type is unsupported for sync.";
     return null;
-  }, [resolved.orgId, resolved.orgType]);
+  }, [orgQuery.isError, orgQuery.isPending, resolved.orgId, resolved.orgType]);
 
   const canTrigger = errorReason == null;
 

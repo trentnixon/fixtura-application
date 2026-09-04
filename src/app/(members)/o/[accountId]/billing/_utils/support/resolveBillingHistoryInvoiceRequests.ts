@@ -1,18 +1,10 @@
-import type { AccountBillingSummaryV1, InvoiceRequestSummary } from "@/types/api/account";
+import type { InvoiceRequestSummary } from "@/types/api/account";
 
+/** Invoice history uses the invoice-requests list GET for all viewers (including support). */
 export function resolveBillingHistoryInvoiceRequests({
-  isSupportView,
-  summary,
   listFromQuery,
 }: {
-  isSupportView: boolean;
-  summary: AccountBillingSummaryV1 | null;
   listFromQuery: InvoiceRequestSummary[];
 }): InvoiceRequestSummary[] {
-  if (!isSupportView) {
-    return listFromQuery;
-  }
-
-  const latest = summary?.latestInvoiceRequest;
-  return latest ? [latest] : [];
+  return listFromQuery;
 }

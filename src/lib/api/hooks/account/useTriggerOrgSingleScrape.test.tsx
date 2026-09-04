@@ -2,12 +2,15 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const { triggerAssociationSingleScrapeMock, triggerClubSingleScrapeMock, useAccountMeMock } =
-  vi.hoisted(() => ({
-    triggerAssociationSingleScrapeMock: vi.fn(),
-    triggerClubSingleScrapeMock: vi.fn(),
-    useAccountMeMock: vi.fn(),
-  }));
+const {
+  triggerAssociationSingleScrapeMock,
+  triggerClubSingleScrapeMock,
+  useAccountOrganisationMock,
+} = vi.hoisted(() => ({
+  triggerAssociationSingleScrapeMock: vi.fn(),
+  triggerClubSingleScrapeMock: vi.fn(),
+  useAccountOrganisationMock: vi.fn(),
+}));
 
 vi.mock("@/lib/api/services/account.api", () => ({
   accountApi: {
@@ -16,8 +19,13 @@ vi.mock("@/lib/api/services/account.api", () => ({
   },
 }));
 
-vi.mock("./useAccountMe", () => ({
-  useAccountMe: useAccountMeMock,
+vi.mock("./useAccountOrganisation", () => ({
+  useAccountOrganisation: useAccountOrganisationMock,
+  isOrganisationGatewayRedirect: (value: unknown) =>
+    typeof value === "object" &&
+    value !== null &&
+    "_tag" in value &&
+    (value as { _tag?: string })._tag === "organisationGatewayRedirect",
 }));
 
 import { useTriggerOrgSingleScrape } from "./useTriggerOrgSingleScrape";
@@ -47,20 +55,17 @@ describe("useTriggerOrgSingleScrape", () => {
     triggerClubSingleScrapeMock.mockResolvedValue({ success: true });
   });
 
-  it("routes Association org type to association trigger endpoint", async () => {
-    useAccountMeMock.mockReturnValue({
+  it("routes Association org type to association trigger endpoint with accountId", async () => {
+    useAccountOrganisationMock.mockReturnValue({
+      isPending: false,
+      isError: false,
       data: {
         data: {
-          accounts: [
-            {
-              id: 573,
-              account_type: 2,
-              accountOrganisationDetails: {
-                id: 2964,
-                Name: "Darwin And Districts Cricket Competition",
-              },
-            },
-          ],
+          account_type: 2,
+          accountOrganisationDetails: {
+            id: 2964,
+            Name: "Darwin And Districts Cricket Competition",
+          },
         },
       },
     });
@@ -70,22 +75,22 @@ describe("useTriggerOrgSingleScrape", () => {
     await result.current.triggerSync();
 
     await waitFor(() =>
-      expect(triggerAssociationSingleScrapeMock).toHaveBeenCalledWith({ associationId: 2964 }),
+      expect(triggerAssociationSingleScrapeMock).toHaveBeenCalledWith({
+        associationId: 2964,
+        accountId: 573,
+      }),
     );
     expect(triggerClubSingleScrapeMock).not.toHaveBeenCalled();
   });
 
-  it("routes Club org type to club trigger endpoint", async () => {
-    useAccountMeMock.mockReturnValue({
+  it("routes Club org type to club trigger endpoint with accountId", async () => {
+    useAccountOrganisationMock.mockReturnValue({
+      isPending: false,
+      isError: false,
       data: {
         data: {
-          accounts: [
-            {
-              id: 574,
-              account_type: 1,
-              accountOrganisationDetails: { id: 32961, Name: "Pint Cricket Club" },
-            },
-          ],
+          account_type: 1,
+          accountOrganisationDetails: { id: 32961, Name: "Pint Cricket Club" },
         },
       },
     });
@@ -95,22 +100,22 @@ describe("useTriggerOrgSingleScrape", () => {
     await result.current.triggerSync();
 
     await waitFor(() =>
-      expect(triggerClubSingleScrapeMock).toHaveBeenCalledWith({ clubId: 32961 }),
+      expect(triggerClubSingleScrapeMock).toHaveBeenCalledWith({
+        clubId: 32961,
+        accountId: 574,
+      }),
     );
     expect(triggerAssociationSingleScrapeMock).not.toHaveBeenCalled();
   });
 
   it("blocks trigger when org type is unsupported", async () => {
-    useAccountMeMock.mockReturnValue({
+    useAccountOrganisationMock.mockReturnValue({
+      isPending: false,
+      isError: false,
       data: {
         data: {
-          accounts: [
-            {
-              id: 575,
-              account_type: null,
-              accountOrganisationDetails: { id: 111, Name: "Unknown Org" },
-            },
-          ],
+          account_type: null,
+          accountOrganisationDetails: { id: 111, Name: "Unknown Org" },
         },
       },
     });
@@ -124,16 +129,13 @@ describe("useTriggerOrgSingleScrape", () => {
   });
 
   it("blocks trigger when org id is missing", async () => {
-    useAccountMeMock.mockReturnValue({
+    useAccountOrganisationMock.mockReturnValue({
+      isPending: false,
+      isError: false,
       data: {
         data: {
-          accounts: [
-            {
-              id: 576,
-              account_type: 2,
-              accountOrganisationDetails: { id: null, Name: "Association" },
-            },
-          ],
+          account_type: 2,
+          accountOrganisationDetails: { id: null, Name: "Association" },
         },
       },
     });

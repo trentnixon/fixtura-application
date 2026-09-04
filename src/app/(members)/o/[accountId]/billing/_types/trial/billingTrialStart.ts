@@ -5,6 +5,7 @@ export type BillingTrialStartCardProps = {
   enabled: boolean;
   availableActions?: Partial<Record<string, boolean>>;
   organisationTrialPresentation?: OrganisationTrialPresentation;
+  readOnly?: boolean;
 };
 
 export type BillingTrialStartConfirmDialogProps = {

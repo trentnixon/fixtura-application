@@ -31,16 +31,22 @@ Select-String -Path "src/vendor/fixtura-remotion-assets/preview.mjs" -Pattern 'f
 Compare the imported packages with `package.json`. The currently required Remotion packages are:
 
 - `remotion`
+- `@remotion/effects`
 - `@remotion/fonts`
 - `@remotion/layout-utils`
+- `@remotion/light-leaks`
+- `@remotion/lottie`
 - `@remotion/noise`
 - `@remotion/player`
+- `@remotion/three`
 - `@remotion/transitions`
+- `@react-three/fiber`
+- `three`
 
 If the build introduces another package, install it using the exact version shared by the existing Remotion suite:
 
 ```powershell
-npm install @remotion/example-package@4.0.314 --save-exact
+npm install @remotion/example-package@4.0.499 --save-exact
 ```
 
 Do not mix Remotion versions. Update all Remotion packages together when intentionally upgrading the suite.

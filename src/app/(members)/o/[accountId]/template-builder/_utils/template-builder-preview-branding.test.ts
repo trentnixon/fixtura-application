@@ -17,7 +17,9 @@ const draft: TemplateBuilderEditorState = {
   templatePatternId: null,
   templateTextureId: null,
   templateVideoId: null,
-  useBackground: "Graphics",
+  templateAnimationId: null,
+  useBackground: "Gradient",
+  animation: null,
 };
 
 const branding: AccountBrandingData = {
@@ -74,6 +76,8 @@ const catalog: AllTemplateOptionsPayload = {
   patterns: [],
   textures: [],
   videos: [],
+  animations: [],
+  defaultAnimationPresetId: null,
   currentSelection: null,
 };
 
@@ -90,7 +94,7 @@ describe("buildTemplateBuilderPreviewBranding", () => {
       primary: "#111111",
       mode: "dark",
       modeId: 2,
-      useBackground: "Graphics",
+      useBackground: "Gradient",
     });
     expect(preview?.template_option).toMatchObject({
       id: 269,
@@ -107,7 +111,7 @@ describe("buildTemplateBuilderPreviewBranding", () => {
         id: 3,
         name: "Ocean",
       },
-      useBackground: "Graphics",
+      useBackground: "Gradient",
     });
     expect(branding.template?.category).toBe("Saved");
     expect(branding.theme?.theme["mode"]).toBe("saved-mode");
@@ -189,38 +193,36 @@ describe("buildTemplateBuilderPreviewBranding", () => {
     expect(preview?.template_option?.["textureId"]).toBe(7);
   });
 
-  it("enriches selected noise with normalized Remotion type for preview", () => {
+  it("overlays Animated draft animation onto branding for preview", () => {
     const preview = buildTemplateBuilderPreviewBranding({
       branding,
       catalog: {
         ...catalog,
-        noises: [{ id: 12, name: "Triangle Swarm", noiseType: null }],
-        currentSelection: {
-          id: 269,
-          useBackground: "Graphics",
-          templateCategory: null,
-          templatePalette: null,
-          templateGradient: null,
-          templateImage: null,
-          templateNoise: { id: 12, name: "Triangle Swarm", noiseType: "triangleSwarm" },
-          templateParticle: null,
-          templatePattern: null,
-          templateTexture: null,
-          templateVideo: null,
-          templateMode: null,
-        },
+        animations: [
+          {
+            id: 42,
+            presetId: "snow-field",
+            name: "Snow",
+            description: null,
+            defaultConfiguration: { particleCount: 300, speed: 1, direction: "random" },
+            configurationSchema: {},
+            isDefault: true,
+            sortOrder: 1,
+            catalogueVersion: null,
+          },
+        ],
+        defaultAnimationPresetId: "snow-field",
       },
       draft: {
         ...draft,
-        templateNoiseId: 12,
+        useBackground: "Animated",
+        animation: { type: "snow-field", speed: 2 },
       },
     });
 
-    expect(preview?.template_option?.["noise"]).toEqual({
-      id: 12,
-      name: "Triangle Swarm",
-      noiseType: "triangleSwarm",
-    });
+    expect(preview?.template_option?.["useBackground"]).toBe("Animated");
+    expect(preview?.template_option?.["animation"]).toEqual({ type: "snow-field", speed: 2 });
+    expect(preview?.template_option?.["noise"]).toBeNull();
   });
 
   it("merges the selected upload into the image treatment for preview", () => {

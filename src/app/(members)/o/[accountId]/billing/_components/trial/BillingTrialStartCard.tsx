@@ -29,6 +29,7 @@ export function BillingTrialStartCard({
   enabled,
   availableActions,
   organisationTrialPresentation = "start_available",
+  readOnly = false,
 }: BillingTrialStartCardProps) {
   const {
     visible,
@@ -87,7 +88,7 @@ export function BillingTrialStartCard({
           </div>
           <div className="bg-muted/30 flex w-full flex-col justify-center gap-3 border-t p-6 md:w-64 md:border-t-0 md:border-l">
             <TypographyCaption>{BILLING_TRIAL_START_COPY.noPaymentRequired}</TypographyCaption>
-            <Button type="button" variant="accent" onClick={openConfirmDialog}>
+            <Button type="button" variant="accent" disabled={readOnly} onClick={openConfirmDialog}>
               {BILLING_TRIAL_START_COPY.startButtonLabel}
             </Button>
           </div>

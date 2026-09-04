@@ -33,7 +33,10 @@ import type { BillingCreateSeasonPassCardProps } from "../../_types/season-pass/
 /**
  * CTA for users in post-trial or empty billing states: direct link to the create/checkout flow.
  */
-export function BillingCreateSeasonPassCard({ accountId }: BillingCreateSeasonPassCardProps) {
+export function BillingCreateSeasonPassCard({
+  accountId,
+  readOnly = false,
+}: BillingCreateSeasonPassCardProps) {
   const createHref = billingCreateSeasonPassCardHref(accountId);
   const orgQ = useAccountOrganisationContext(accountId);
 
@@ -63,9 +66,15 @@ export function BillingCreateSeasonPassCard({ accountId }: BillingCreateSeasonPa
           </CardContent>
         </div>
         <div className="bg-muted/30 flex w-full flex-col justify-center gap-3 border-t p-6 md:w-64 md:border-t-0 md:border-l">
-          <Button type="button" variant="accent" asChild>
-            <Link href={createHref}>{BILLING_CREATE_SEASON_PASS_BUTTON_LABEL}</Link>
-          </Button>
+          {readOnly ? (
+            <Button type="button" variant="accent" disabled>
+              {BILLING_CREATE_SEASON_PASS_BUTTON_LABEL}
+            </Button>
+          ) : (
+            <Button type="button" variant="accent" asChild>
+              <Link href={createHref}>{BILLING_CREATE_SEASON_PASS_BUTTON_LABEL}</Link>
+            </Button>
+          )}
         </div>
       </div>
     </Card>

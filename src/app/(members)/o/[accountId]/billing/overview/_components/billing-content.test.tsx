@@ -8,9 +8,18 @@ import type { BillingOverviewState } from "../_hooks/useBillingOverviewContentSt
 import type { AccountBillingSummaryV1 } from "@/types/api/account";
 
 const useBillingOverviewContentState = vi.hoisted(() => vi.fn());
+const useBillingSupportReadOnly = vi.hoisted(() => vi.fn(() => false));
 
 vi.mock("../_hooks/useBillingOverviewContentState", () => ({
   useBillingOverviewContentState,
+}));
+
+vi.mock("../../_hooks/useBillingSupportReadOnly", () => ({
+  useBillingSupportReadOnly,
+}));
+
+vi.mock("../../_components/support/BillingSupportDiagnosticsPanel", () => ({
+  BillingSupportDiagnosticsPanel: () => <div data-testid="billing-support-diagnostics" />,
 }));
 
 vi.mock("../../trial/billing-trial-start-card", () => ({
@@ -90,6 +99,7 @@ function readyState(
 describe("BillingContent", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    useBillingSupportReadOnly.mockReturnValue(false);
   });
 
   it("shows redirecting state when account segment is invalid", () => {
@@ -309,6 +319,23 @@ describe("BillingContent", () => {
 
     expect(screen.queryByTestId("billing-org-trial-notice-used")).not.toBeInTheDocument();
     expect(screen.getByTestId("billing-trial-used-card")).toBeInTheDocument();
+  });
+
+  it("shows customer billing cards and diagnostics in support view", () => {
+    useBillingSupportReadOnly.mockReturnValue(true);
+    mockHook(
+      readyState({
+        billingUiMode: "trial_expired",
+        organisationTrialPresentation: "used",
+        trialDetailsTrigger: { emphasize: false },
+      }),
+    );
+
+    render(<BillingContent accountId="42" />);
+
+    expect(screen.getByTestId("billing-create-season-pass-card")).toBeInTheDocument();
+    expect(screen.getByTestId("billing-trial-used-card")).toBeInTheDocument();
+    expect(screen.getByTestId("billing-support-diagnostics")).toBeInTheDocument();
   });
 
   it("hides access uncertain card and shows season pass when org trial is active elsewhere", () => {

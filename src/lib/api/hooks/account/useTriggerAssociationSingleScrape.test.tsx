@@ -57,7 +57,10 @@ describe("useTriggerAssociationSingleScrape", () => {
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
-    expect(triggerAssociationSingleScrapeMock).toHaveBeenCalledWith({ associationId: 2935 });
+    expect(triggerAssociationSingleScrapeMock).toHaveBeenCalledWith({
+      associationId: 2935,
+      accountId: 123,
+    });
     expect(invalidateSpy).toHaveBeenNthCalledWith(
       1,
       expect.objectContaining({ queryKey: queryKeys.seasonHub.recon("123") }),

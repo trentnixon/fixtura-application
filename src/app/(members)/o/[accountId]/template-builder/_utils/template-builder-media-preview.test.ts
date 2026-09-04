@@ -73,7 +73,9 @@ describe("clearUnavailableImageBackground", () => {
     templatePatternId: null,
     templateTextureId: null,
     templateVideoId: null,
+    templateAnimationId: null,
     useBackground: "Image",
+    animation: null,
   };
 
   it("clears the image background and treatment after confirmed empty data", () => {

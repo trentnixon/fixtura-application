@@ -24,6 +24,7 @@ export function SeasonFixtureViewHeader({
   model,
   isFetching,
   canQueueResultSync,
+  showSyncActions = true,
   onReload,
   onOpenSync,
 }: SeasonFixtureViewHeaderProps) {
@@ -100,15 +101,17 @@ export function SeasonFixtureViewHeader({
               </Button>
             ) : null}
             */}
-            <Button
-              type="button"
-              variant="accent"
-              disabled={!canQueueResultSync}
-              onClick={onOpenSync}
-            >
-              <CloudDownload className="size-4" aria-hidden />
-              Sync
-            </Button>
+            {showSyncActions ? (
+              <Button
+                type="button"
+                variant="accent"
+                disabled={!canQueueResultSync}
+                onClick={onOpenSync}
+              >
+                <CloudDownload className="size-4" aria-hidden />
+                Sync
+              </Button>
+            ) : null}
           </div>
         </div>
       </div>

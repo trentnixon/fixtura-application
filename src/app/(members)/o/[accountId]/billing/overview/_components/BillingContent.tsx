@@ -13,6 +13,7 @@ import { CheckoutReturnBanner } from "../../_components/banners/CheckoutReturnBa
 import { BillingProductStateBadge } from "../../_components/billing-product-state-badge";
 import { BillingPaidAwaitingStartCard } from "../../_components/overview/BillingPaidAwaitingStartCard";
 import { BillingSections } from "../../_components/overview/BillingSections";
+import { BillingSupportDiagnosticsPanel } from "../../_components/support/BillingSupportDiagnosticsPanel";
 import { BillingOrganisationTrialNotice } from "../../_components/trial/BillingOrganisationTrialNotice";
 import { useBillingSupportReadOnly } from "../../_hooks/useBillingSupportReadOnly";
 import {
@@ -165,10 +166,11 @@ export function BillingContent({ accountId }: { accountId: string }) {
         </Card>
       ) : null}
 
-      {showStartTrial && !isBillingReadOnly ? (
+      {showStartTrial ? (
         <BillingTrialStartCard
           accountId={accountId}
           enabled={state.segmentOk}
+          readOnly={isBillingReadOnly}
           organisationTrialPresentation={state.organisationTrialPresentation}
           {...(state.availableActions !== undefined
             ? { availableActions: state.availableActions }
@@ -183,9 +185,9 @@ export function BillingContent({ accountId }: { accountId: string }) {
         />
       ) : null}
 
-      {showCreateSeasonPassSection && !isBillingReadOnly ? (
+      {showCreateSeasonPassSection ? (
         <div className="grid gap-3">
-          <BillingCreateSeasonPassCard accountId={accountId} />
+          <BillingCreateSeasonPassCard accountId={accountId} readOnly={isBillingReadOnly} />
           {showTrialUsedCardForUiMode && state.billingUiMode === "trial_expired" ? (
             <BillingTrialUsedCard
               accountId={accountId}
@@ -220,6 +222,14 @@ export function BillingContent({ accountId }: { accountId: string }) {
         billingUiMode={state.billingUiMode}
         orders={state.ordersPayload}
       />
+
+      {isBillingReadOnly ? (
+        <BillingSupportDiagnosticsPanel
+          accountId={accountId}
+          billingUiMode={state.billingUiMode}
+          billingSummary={state.billingSummary}
+        />
+      ) : null}
 
       {showTrialUsedCardForUiMode && state.billingUiMode === "payment_pending" ? (
         <BillingTrialUsedCard

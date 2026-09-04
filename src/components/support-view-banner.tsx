@@ -10,10 +10,11 @@ import {
 } from "@/lib/api/hooks/account/useAccountOrganisationContext";
 import { ROUTES } from "@/lib/config/routes";
 import { getSupportCustomerLabel } from "@/lib/support/support-customer-label";
+import { buildSupportViewBannerMessage } from "@/lib/support/support-view-banner-copy";
 import { useSupportView } from "@/lib/support/support-view-context";
 
 /**
- * Persistent read-only strip when a support user is viewing a non-owned customer account.
+ * Persistent context strip when a support user is viewing a non-owned customer account.
  */
 export function SupportViewBanner() {
   const { isSupportView, customerAccountId } = useSupportView();
@@ -32,12 +33,13 @@ export function SupportViewBanner() {
       ? orgQuery.data.data.accountOrganisationDetails.Name
       : storedLabel;
 
-  const label = orgName
-    ? `Support view — Account ${customerAccountId} (${orgName}) — Read only`
-    : `Support view — Account ${customerAccountId} — Read only`;
+  const label = buildSupportViewBannerMessage({
+    accountId: customerAccountId,
+    orgName,
+  });
 
   return (
-    <div className="border-border w-full border-t px-4 pb-3 lg:px-6">
+    <div className="border-border mt-8 w-full border-t px-4 pt-4 pb-3 lg:px-6">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <InlineAlert variant="info" message={label} />
         <Button variant="outline" size="sm" asChild className="shrink-0 self-start sm:self-center">

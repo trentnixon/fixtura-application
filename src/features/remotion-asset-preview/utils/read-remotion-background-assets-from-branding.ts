@@ -2,7 +2,6 @@ import { resolveRemotionNoiseFromCatalogNoise } from "./read-remotion-noise-from
 import { readUseBackgroundFromAccountBranding } from "./read-use-background-from-account-branding";
 
 import type { AccountBrandingData } from "@/types/api/account";
-import type { TemplateUseBackground } from "@/types/api/template-options";
 
 export const REMOTION_BACKGROUND_TV_KEYS = [
   "texture",
@@ -10,6 +9,7 @@ export const REMOTION_BACKGROUND_TV_KEYS = [
   "image",
   "video",
   "particle",
+  "animation",
 ] as const;
 
 export type RemotionBackgroundTvKey = (typeof REMOTION_BACKGROUND_TV_KEYS)[number];
@@ -49,6 +49,10 @@ export type RemotionTemplateVariationImage = {
   ratio?: string | null;
   width?: number | null;
   height?: number | null;
+};
+
+export type RemotionTemplateVariationAnimation = Record<string, unknown> & {
+  type: string;
 };
 
 export type RemotionTemplateVariationVideo = {
@@ -302,17 +306,31 @@ export function readRemotionVideoFromBranding(
   };
 }
 
-const USE_BACKGROUND_TO_TV_KEY: Partial<Record<TemplateUseBackground, RemotionBackgroundTvKey>> = {
+export function readRemotionAnimationFromBranding(
+  branding: AccountBrandingData | null | undefined,
+): RemotionTemplateVariationAnimation | null {
+  const row =
+    readTemplateOptionField(branding, "animation") ?? readThemeField(branding, "animation");
+  if (row === null) return null;
+
+  const type = pickString(row["type"]);
+  if (type === null) return null;
+
+  return { ...row, type } as RemotionTemplateVariationAnimation;
+}
+
+const USE_BACKGROUND_TO_TV_KEY: Partial<Record<string, RemotionBackgroundTvKey>> = {
   Texture: "texture",
   Graphics: "noise",
   Image: "image",
   Video: "video",
   Particle: "particle",
+  Animated: "animation",
 };
 
 function readAssetForUseBackground(
   branding: AccountBrandingData | null | undefined,
-  useBackground: TemplateUseBackground,
+  useBackground: string,
 ): unknown | null {
   switch (useBackground) {
     case "Texture":
@@ -325,6 +343,8 @@ function readAssetForUseBackground(
       return readRemotionVideoFromBranding(branding);
     case "Particle":
       return readRemotionParticleFromBranding(branding);
+    case "Animated":
+      return readRemotionAnimationFromBranding(branding);
     default:
       return null;
   }
@@ -339,10 +359,10 @@ export function readRemotionBackgroundAssetsPatch(
   const useBackground = readUseBackgroundFromAccountBranding(branding);
   if (useBackground === null) return {};
 
-  const tvKey = USE_BACKGROUND_TO_TV_KEY[useBackground as TemplateUseBackground];
+  const tvKey = USE_BACKGROUND_TO_TV_KEY[useBackground];
   if (tvKey === undefined) return {};
 
-  const value = readAssetForUseBackground(branding, useBackground as TemplateUseBackground);
+  const value = readAssetForUseBackground(branding, useBackground);
   if (value === null) return {};
 
   return { [tvKey]: value };

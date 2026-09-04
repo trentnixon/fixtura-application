@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 import { ErrorState } from "@/components/ui/error-state";
 import { useTriggerGradesCompsSingleScrape } from "@/lib/api/hooks/account/useTriggerGradesCompsSingleScrape";
 import { useSeasonHubCompetition, useSeasonHubCompetitionGrades } from "@/lib/api/hooks/season-hub";
+import { useVisionSyncActionsEnabled } from "@/lib/support/use-vision-sync-actions-enabled";
 
 import { SEASON_LOADING_COPY } from "./_constants";
 import { useSeasonCompetitionDetailState } from "./_hooks";
@@ -28,6 +29,7 @@ export function SeasonCompetitionDetail({
   accountId,
   competitionId,
 }: SeasonCompetitionDetailProps) {
+  const showSyncActions = useVisionSyncActionsEnabled();
   const competition = useSeasonHubCompetition(accountId, competitionId);
   const grades = useSeasonHubCompetitionGrades(accountId, competitionId, { enabled: true });
   const gradesSync = useTriggerGradesCompsSingleScrape(accountId, competitionId);
@@ -198,20 +200,23 @@ export function SeasonCompetitionDetail({
         seasonOverviewHref={seasonOverviewHref}
         isFetching={isFetching}
         canQueueGradesRefresh={canQueueGradesRefresh}
+        showSyncActions={showSyncActions}
         onReload={() => {
           void competition.refetch();
           void grades.refetch();
         }}
         onOpenSyncGrades={() => setGradesRefreshDialogOpen(true)}
       />
-      <SeasonCompetitionSyncGradesDialog
-        accountId={accountId}
-        open={gradesRefreshDialogOpen}
-        onOpenChange={setGradesRefreshDialogOpen}
-        cmsCompetitionNumericId={cmsCompetitionNumericId}
-        isPending={gradesSync.isPending}
-        mutateAsync={gradesSync.mutateAsync}
-      />
+      {showSyncActions ? (
+        <SeasonCompetitionSyncGradesDialog
+          accountId={accountId}
+          open={gradesRefreshDialogOpen}
+          onOpenChange={setGradesRefreshDialogOpen}
+          cmsCompetitionNumericId={cmsCompetitionNumericId}
+          isPending={gradesSync.isPending}
+          mutateAsync={gradesSync.mutateAsync}
+        />
+      ) : null}
       <SeasonCompetitionCoverageSummarySection
         statGradeCount={statGradeCount}
         statTeamCount={statTeamCount}

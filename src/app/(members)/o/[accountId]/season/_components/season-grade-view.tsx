@@ -7,6 +7,7 @@ import { ErrorState } from "@/components/ui/error-state";
 import { useTriggerFixtureDiscoveryGrade } from "@/lib/api/hooks/account/useTriggerFixtureDiscoveryGrade";
 import { useTriggerGradesLookupTeamsSingleScrape } from "@/lib/api/hooks/account/useTriggerGradesLookupTeamsSingleScrape";
 import { useSeasonHubGrade, useSeasonHubGradeFixtures } from "@/lib/api/hooks/season-hub";
+import { useVisionSyncActionsEnabled } from "@/lib/support/use-vision-sync-actions-enabled";
 
 import { SEASON_LOADING_COPY } from "./_constants";
 import { useSeasonGradeFixtureFilters, useSeasonGradeViewState } from "./_hooks";
@@ -19,6 +20,7 @@ import { buildSeasonCompetitionHref, buildSeasonGradeFixtureBuckets } from "./_u
 import type { SeasonGradeViewProps } from "./_types";
 
 export function SeasonGradeView({ accountId, competitionId, gradeId }: SeasonGradeViewProps) {
+  const showSyncActions = useVisionSyncActionsEnabled();
   const teamsLookup = useTriggerGradesLookupTeamsSingleScrape(accountId, competitionId, gradeId);
   const fixtureDiscovery = useTriggerFixtureDiscoveryGrade(accountId, competitionId, gradeId);
   const cmsCompetitionNumericId = Number.parseInt(competitionId, 10);
@@ -115,6 +117,7 @@ export function SeasonGradeView({ accountId, competitionId, gradeId }: SeasonGra
         displayModel={displayModel}
         isFetching={isFetching}
         canQueueCombinedSync={canQueueCombinedSync}
+        showSyncActions={showSyncActions}
         onReload={() => {
           void grade.refetch();
           void fixtures.refetch();
@@ -122,21 +125,23 @@ export function SeasonGradeView({ accountId, competitionId, gradeId }: SeasonGra
         onOpenSync={() => setSyncDialogOpen(true)}
       />
 
-      <SeasonGradeSyncDialog
-        accountId={accountId}
-        open={syncDialogOpen}
-        onOpenChange={setSyncDialogOpen}
-        isSyncMutating={isSyncMutating}
-        cmsCompetitionNumericId={cmsCompetitionNumericId}
-        cmsGradeNumericId={cmsGradeNumericId}
-        teamsMutateAsync={teamsLookup.mutateAsync}
-        fixturesMutateAsync={fixtureDiscovery.mutateAsync}
-        onSynced={() => {
-          void grade.refetch();
-          void fixtures.refetch();
-          setSyncDialogOpen(false);
-        }}
-      />
+      {showSyncActions ? (
+        <SeasonGradeSyncDialog
+          accountId={accountId}
+          open={syncDialogOpen}
+          onOpenChange={setSyncDialogOpen}
+          isSyncMutating={isSyncMutating}
+          cmsCompetitionNumericId={cmsCompetitionNumericId}
+          cmsGradeNumericId={cmsGradeNumericId}
+          teamsMutateAsync={teamsLookup.mutateAsync}
+          fixturesMutateAsync={fixtureDiscovery.mutateAsync}
+          onSynced={() => {
+            void grade.refetch();
+            void fixtures.refetch();
+            setSyncDialogOpen(false);
+          }}
+        />
+      ) : null}
 
       <SeasonGradeFixturesSection
         accountId={accountId}

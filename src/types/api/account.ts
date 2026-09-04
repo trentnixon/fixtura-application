@@ -1539,6 +1539,8 @@ export interface AccountBillingResponse {
 /** POST /api/association-overview-queues/trigger-association-single-scrape */
 export interface TriggerAssociationSingleScrapeRequest {
   associationId: number;
+  /** Support View / member path — scopes entity to customer account on CMS. */
+  accountId?: number;
 }
 
 export interface TriggerAssociationSingleScrapeSuccessResponse {
@@ -1552,6 +1554,7 @@ export interface TriggerAssociationSingleScrapeSuccessResponse {
 /** POST /api/club/trigger-club-single-scrape */
 export interface TriggerClubSingleScrapeRequest {
   clubId: number;
+  accountId?: number;
 }
 
 export interface TriggerClubSingleScrapeSuccessResponse {
@@ -1565,6 +1568,7 @@ export interface TriggerClubSingleScrapeSuccessResponse {
 /** POST /api/competition/trigger-grades-comps-single-scrape */
 export interface TriggerGradesCompsSingleScrapeRequest {
   competitionId: number;
+  accountId?: number;
 }
 
 export interface TriggerGradesCompsSingleScrapeSuccessResponse {
@@ -1578,6 +1582,7 @@ export interface TriggerGradesCompsSingleScrapeSuccessResponse {
 /** POST /api/competition/trigger-grades-lookup-teams-single-scrape */
 export interface TriggerGradesLookupTeamsSingleScrapeRequest {
   competitionId: number;
+  accountId?: number;
 }
 
 export interface TriggerGradesLookupTeamsSingleScrapeSuccessResponse {
@@ -1591,6 +1596,7 @@ export interface TriggerGradesLookupTeamsSingleScrapeSuccessResponse {
 /** POST /api/grade/trigger-fixture-discovery */
 export interface TriggerFixtureDiscoveryGradeRequest {
   id: number;
+  accountId?: number;
 }
 
 export interface TriggerFixtureDiscoveryGradeSuccessResponse {

@@ -58,7 +58,10 @@ describe("useTriggerGradesLookupTeamsSingleScrape", () => {
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
-    expect(triggerGradesLookupTeamsSingleScrapeMock).toHaveBeenCalledWith({ competitionId: 13093 });
+    expect(triggerGradesLookupTeamsSingleScrapeMock).toHaveBeenCalledWith({
+      competitionId: 13093,
+      accountId: 123,
+    });
     expect(invalidateSpy).toHaveBeenNthCalledWith(
       1,
       expect.objectContaining({

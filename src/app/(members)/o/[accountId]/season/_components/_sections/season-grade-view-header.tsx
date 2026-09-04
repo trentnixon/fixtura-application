@@ -22,6 +22,7 @@ export function SeasonGradeViewHeader({
   displayModel,
   isFetching,
   canQueueCombinedSync,
+  showSyncActions = true,
   onReload,
   onOpenSync,
 }: SeasonGradeViewHeaderProps) {
@@ -87,15 +88,17 @@ export function SeasonGradeViewHeader({
               )}
               Refresh
             </Button>
-            <Button
-              type="button"
-              variant="accent"
-              disabled={!canQueueCombinedSync}
-              onClick={onOpenSync}
-            >
-              <CloudDownload className="size-4" aria-hidden />
-              Sync
-            </Button>
+            {showSyncActions ? (
+              <Button
+                type="button"
+                variant="accent"
+                disabled={!canQueueCombinedSync}
+                onClick={onOpenSync}
+              >
+                <CloudDownload className="size-4" aria-hidden />
+                Sync
+              </Button>
+            ) : null}
           </div>
         </div>
       </div>

@@ -1,20 +1,19 @@
-import * as Sentry from "@sentry/nextjs";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
+import {
+  forwardVisionScrapePost,
+  parseOptionalAccountId,
+  parsePositiveIntField,
+  visionScrapeBadRequest,
+} from "@/app/api/_utils/forward-vision-scrape-post";
 import { AUTH_COOKIE_NAME } from "@/lib/auth/auth-constants";
 import { getStrapiUrl } from "@/lib/config/env";
 
 type TriggerPayload = {
   id?: unknown;
+  accountId?: unknown;
 };
-
-function parseGradeDocumentId(value: unknown): number | null {
-  if (typeof value !== "number" || !Number.isInteger(value) || value <= 0) {
-    return null;
-  }
-  return value;
-}
 
 /**
  * BFF: POST /api/grade/trigger-fixture-discovery
@@ -33,60 +32,28 @@ export async function POST(request: Request) {
   try {
     payload = (await request.json()) as TriggerPayload;
   } catch {
-    return NextResponse.json(
-      {
-        error: {
-          status: 400,
-          name: "BadRequestError",
-          message: "Request body must be valid JSON",
-        },
-      },
-      { status: 400 },
-    );
+    return visionScrapeBadRequest("Request body must be valid JSON");
   }
 
-  const id = parseGradeDocumentId(payload?.id);
+  const id = parsePositiveIntField(payload?.id);
   if (!id) {
-    return NextResponse.json(
-      {
-        error: {
-          status: 400,
-          name: "BadRequestError",
-          message: "id must be a positive integer",
-        },
-      },
-      { status: 400 },
-    );
+    return visionScrapeBadRequest("id must be a positive integer");
   }
 
-  const upstream = `${strapiUrl}/api/grade/trigger-fixture-discovery`;
-
-  try {
-    const strapiRes = await fetch(upstream, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      },
-      body: JSON.stringify({ id }),
-      cache: "no-store",
-    });
-
-    const contentType = strapiRes.headers.get("content-type");
-    const isJson = contentType?.includes("application/json");
-    const body = isJson ? await strapiRes.json() : await strapiRes.text();
-
-    if (typeof body === "object" && body !== null) {
-      return NextResponse.json(body, { status: strapiRes.status });
-    }
-
-    return NextResponse.json(
-      { error: typeof body === "string" ? body : "Unexpected upstream response" },
-      { status: strapiRes.status },
-    );
-  } catch (error) {
-    Sentry.captureException(error);
-    return NextResponse.json({ error: "Unexpected server error" }, { status: 500 });
+  const accountIdResult = parseOptionalAccountId(payload?.accountId);
+  if (!accountIdResult.ok) {
+    return visionScrapeBadRequest("accountId must be a positive integer when provided");
   }
+
+  const upstreamBody: Record<string, unknown> = { id };
+  if (accountIdResult.value != null) {
+    upstreamBody["accountId"] = accountIdResult.value;
+  }
+
+  return forwardVisionScrapePost({
+    strapiUrl,
+    upstreamPath: "/api/grade/trigger-fixture-discovery",
+    token,
+    upstreamBody,
+  });
 }

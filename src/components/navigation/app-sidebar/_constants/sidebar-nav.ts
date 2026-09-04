@@ -2,6 +2,7 @@ import {
   IconBuilding,
   IconBuildingPlus,
   IconCamera,
+  IconCreditCard,
   IconDashboard,
   IconEye,
   IconFileDescription,
@@ -51,7 +52,7 @@ export function getScopedNavSections(
     options?.accountType !== undefined &&
     options.accountType !== CLUB_ACCOUNT_TYPE_ID;
 
-  const supportHiddenNavTitles = new Set(["Vision", "Templates", "Club Logos"]);
+  const supportHiddenNavTitles = new Set(["Templates", "Club Logos"]);
 
   const filterSupportHidden = (items: NavMainItem[]): NavMainItem[] =>
     isSupportView ? items.filter((item) => !supportHiddenNavTitles.has(item.title)) : items;
@@ -67,6 +68,20 @@ export function getScopedNavSections(
         },
       ],
     },
+    ...(isSupportView
+      ? [
+          {
+            label: "Account",
+            items: [
+              {
+                title: "Billing",
+                url: accountScopedRoutes.billing(accountId),
+                icon: IconCreditCard,
+              },
+            ],
+          } satisfies NavMainSection,
+        ]
+      : []),
     /* {
       label: "Account",
       items: [

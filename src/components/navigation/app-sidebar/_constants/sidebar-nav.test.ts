@@ -20,9 +20,9 @@ describe("getScopedNavSections", () => {
     expect(titles).toContain("Club Logos");
   });
 
-  it("hides Vision, Templates, and Club Logos in support view", () => {
+  it("hides Templates and Club Logos in support view but keeps Vision", () => {
     const titles = allNavTitles(accountId, { accountType: 2, isSupportView: true });
-    expect(titles).not.toContain("Vision");
+    expect(titles).toContain("Vision");
     expect(titles).not.toContain("Templates");
     expect(titles).not.toContain("Club Logos");
   });
@@ -32,7 +32,9 @@ describe("getScopedNavSections", () => {
     expect(titles).toEqual(
       expect.arrayContaining([
         "Dashboard",
+        "Billing",
         "Bundles",
+        "Vision",
         "Settings",
         "Background images",
         "Sort Order",

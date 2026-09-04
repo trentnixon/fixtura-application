@@ -153,6 +153,7 @@ function mergeTemplateOptionDraft(
     video,
     videoId: draft.templateVideoId,
     useBackground: draft.useBackground,
+    animation: draft.useBackground === "Animated" ? draft.animation : null,
   };
 }
 

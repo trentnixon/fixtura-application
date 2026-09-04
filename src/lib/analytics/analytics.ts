@@ -6,6 +6,18 @@ import { withAppSurface } from "./properties";
 
 let initialized = false;
 let client: PostHogLike | null = null;
+const readyListeners = new Set<() => void>();
+
+function notifyReadyListeners(): void {
+  readyListeners.forEach((listener) => listener());
+}
+
+export function subscribeAnalyticsReady(listener: () => void): () => void {
+  readyListeners.add(listener);
+  return () => {
+    readyListeners.delete(listener);
+  };
+}
 
 function readRuntimeEnv(): { featureAnalytics?: string; posthogKey?: string } {
   const featureAnalytics = process.env["NEXT_PUBLIC_FEATURE_ANALYTICS"];
@@ -30,6 +42,11 @@ function isReadyToCapture(): boolean {
   });
 }
 
+export function isAnalyticsReady(): boolean {
+  if (typeof window === "undefined") return false;
+  return isReadyToCapture();
+}
+
 export function initAnalytics(): boolean {
   if (typeof window === "undefined") return false;
   if (initialized) return true;
@@ -43,6 +60,7 @@ export function initAnalytics(): boolean {
 
   getClient().init(key, buildPostHogInitOptions());
   initialized = true;
+  notifyReadyListeners();
   return true;
 }
 
@@ -87,6 +105,7 @@ export function resetAnalytics(): void {
   if (!initialized) return;
   getClient().reset();
   initialized = false;
+  notifyReadyListeners();
 }
 
 /** Test-only reset for analytics singleton state. */

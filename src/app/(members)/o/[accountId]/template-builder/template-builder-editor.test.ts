@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { buildCategoryItemsForEditor } from "./template-builder-editor";
+import { buildCategoryItemsForEditor } from "./_utils/template-builder-category-items";
 
 import type { TemplateCategoryCatalogItem } from "@/types/api/all-template-options";
 

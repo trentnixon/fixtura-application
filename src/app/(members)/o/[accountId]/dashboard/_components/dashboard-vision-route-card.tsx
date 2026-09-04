@@ -8,14 +8,12 @@ import { Button } from "@/components/ui/button";
 import { captureUserAction } from "@/lib/analytics";
 import { useSeasonHubRecon, useSeasonHubStats } from "@/lib/api/hooks/season-hub";
 import { accountScopedRoutes } from "@/lib/config/account-routes";
-import { useSupportView } from "@/lib/support/support-view-context";
 import { useSeasonHubQueriesEnabled } from "@/lib/support/use-season-hub-queries-enabled";
 
 import { TrackingSummary } from "../../season/_components/shared/tracking-summary";
 
 /** `container.header.stacked-actions.default` — header, content, wrapping action row. */
 export function DashboardVisionRouteCard({ accountId }: { accountId: string }) {
-  const { isSupportView } = useSupportView();
   const seasonHubEnabled = useSeasonHubQueriesEnabled(accountId);
   const seasonStatsQuery = useSeasonHubStats(accountId, { enabled: seasonHubEnabled });
   const seasonReconQuery = useSeasonHubRecon(accountId, { enabled: seasonHubEnabled });
@@ -37,42 +35,34 @@ export function DashboardVisionRouteCard({ accountId }: { accountId: string }) {
       </div>
 
       <div className="mt-4">
-        {isSupportView ? (
-          <TypographyMuted className="text-sm">
-            Vision season data is not available in support view.
-          </TypographyMuted>
-        ) : (
-          <TrackingSummary
-            shell="none"
-            showTitle={false}
-            counts={{
-              competitions: reconData?.counts.competitions ?? statsData?.summary.competitions ?? 0,
-              grades: reconData?.counts.grades ?? statsData?.summary.grades ?? 0,
-              teams: statsData?.summary.teams ?? reconData?.counts.teams ?? 0,
-              fixtures: statsData?.summary.fixtures ?? reconData?.counts.fixtures ?? 0,
-            }}
-            lastUpdatedAt={statsData?.freshness?.lastUpdatedAt}
-            isPending={isPending}
-          />
-        )}
+        <TrackingSummary
+          shell="none"
+          showTitle={false}
+          counts={{
+            competitions: reconData?.counts.competitions ?? statsData?.summary.competitions ?? 0,
+            grades: reconData?.counts.grades ?? statsData?.summary.grades ?? 0,
+            teams: statsData?.summary.teams ?? reconData?.counts.teams ?? 0,
+            fixtures: statsData?.summary.fixtures ?? reconData?.counts.fixtures ?? 0,
+          }}
+          lastUpdatedAt={statsData?.freshness?.lastUpdatedAt}
+          isPending={isPending}
+        />
       </div>
 
       <div className="mt-4 flex flex-wrap justify-end gap-2">
-        {!isSupportView ? (
-          <Button variant="outline" size="sm" asChild disabled={isPending}>
-            <Link
-              href={accountScopedRoutes.season(accountId)}
-              onClick={() =>
-                captureUserAction("dashboard_route_clicked", {
-                  destination: "vision",
-                  accountId,
-                })
-              }
-            >
-              Open Vision
-            </Link>
-          </Button>
-        ) : null}
+        <Button variant="outline" size="sm" asChild disabled={isPending}>
+          <Link
+            href={accountScopedRoutes.season(accountId)}
+            onClick={() =>
+              captureUserAction("dashboard_route_clicked", {
+                destination: "vision",
+                accountId,
+              })
+            }
+          >
+            Open Vision
+          </Link>
+        </Button>
       </div>
     </div>
   );

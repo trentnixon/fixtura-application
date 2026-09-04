@@ -20,6 +20,7 @@ export function SeasonOverviewHeader({
   accountId,
   loading,
   orgSyncPending,
+  showSyncActions = true,
   onRefresh,
   onOpenSync,
 }: SeasonOverviewHeaderProps) {
@@ -55,19 +56,21 @@ export function SeasonOverviewHeader({
               <RefreshCw className="size-4" aria-hidden />
               Refresh
             </Button>
-            <Button
-              type="button"
-              variant="accent"
-              disabled={loading || orgSyncPending}
-              onClick={onOpenSync}
-            >
-              {loading || orgSyncPending ? (
-                <Loader2 className="size-4 animate-spin" aria-hidden />
-              ) : (
-                <CloudDownload className="size-4" aria-hidden />
-              )}
-              Sync
-            </Button>
+            {showSyncActions ? (
+              <Button
+                type="button"
+                variant="accent"
+                disabled={loading || orgSyncPending}
+                onClick={onOpenSync}
+              >
+                {loading || orgSyncPending ? (
+                  <Loader2 className="size-4 animate-spin" aria-hidden />
+                ) : (
+                  <CloudDownload className="size-4" aria-hidden />
+                )}
+                Sync
+              </Button>
+            ) : null}
           </div>
         </div>
       </div>

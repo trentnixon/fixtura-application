@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { accountApi } from "@/lib/api/services/account.api";
 
+import { withScopedAccountIdBody } from "./with-scoped-account-id-body";
 import { queryKeys } from "../../query/query-keys";
 
 import type { TriggerFixtureDiscoveryGradeRequest } from "@/types/api/account";
@@ -18,7 +19,7 @@ export function useTriggerFixtureDiscoveryGrade(
 
   return useMutation({
     mutationFn: (body: TriggerFixtureDiscoveryGradeRequest) =>
-      accountApi.triggerFixtureDiscoveryGrade(body),
+      accountApi.triggerFixtureDiscoveryGrade(withScopedAccountIdBody(accountId, body)),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: queryKeys.seasonHub.grade(accountId, gradeId, competitionId),
