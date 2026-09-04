@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
+import { TemplateBuilderAnimationCardPicker } from "./_components/template-builder-animation-card-picker";
 import { TemplateBuilderChangedBadge } from "./_components/template-builder-changed-badge";
 import { TemplateBuilderColorLayoutBrandingBar } from "./_components/template-builder-color-layout-branding-bar";
 import { TemplateBuilderContrastModePicker } from "./_components/template-builder-contrast-mode-picker";
@@ -31,6 +32,14 @@ import {
   TEMPLATE_BUILDER_WORKSPACE_HEADER_CLASS,
 } from "./_constants/template-builder-tabber";
 import {
+  buildDefaultAnimationForPreset,
+  getAnimationPresetType,
+  isAnimationPresetAvailable,
+  resolveAnimatedEditorFields,
+  resolveDefaultAnimationPreset,
+} from "./_utils/template-builder-animation-catalog";
+import { buildCategoryItemsForEditor } from "./_utils/template-builder-category-items";
+import {
   cloneTemplateBuilderEditorState,
   compareTemplateBuilderEditorStates,
   mapCurrentSelectionToTemplateBuilderEditorState,
@@ -40,6 +49,10 @@ import {
   clearInactiveBackgroundRelations,
   isBackgroundRelationFieldVisible,
 } from "./_utils/template-builder-field-visibility";
+import {
+  getLegacyBackgroundMigrationMessage,
+  getSavedUseBackgroundRequiresMigration,
+} from "./_utils/template-builder-legacy-background-migration";
 import {
   clearUnavailableImageBackground,
   type TemplateBuilderMediaPreviewState,
@@ -71,6 +84,7 @@ import type {
 } from "./_utils/template-builder-editor-state";
 import type { AssembleAccountRemotionPreviewSource } from "@/features/remotion-asset-preview/utils/assemble-account-remotion-preview";
 import type { AccountBrandingData } from "@/types/api/account";
+import type { AnimationPresetCatalogItem } from "@/types/api/all-template-options";
 import type {
   AllTemplateOptionsPayload,
   TemplateCategoryCatalogItem,
@@ -84,7 +98,7 @@ import type {
   TemplateVideoItem,
 } from "@/types/api/all-template-options";
 
-type RelationFieldKey = Exclude<TemplateBuilderEditorField, "useBackground">;
+type RelationFieldKey = Exclude<TemplateBuilderEditorField, "useBackground" | "animation">;
 type RelationCatalogItem =
   | TemplateCategoryCatalogItem
   | TemplateModeItem
@@ -166,17 +180,6 @@ const WORKSPACE_GROUPS = [
   { id: "contrast", label: "3. Contrast" },
   { id: "background", label: "4. Background" },
 ] as const;
-
-export function buildCategoryItemsForEditor({
-  catalogCategories,
-  categoryOptions,
-}: {
-  catalogCategories: TemplateCategoryCatalogItem[];
-  categoryOptions?: TemplateCategoryCatalogItem[] | null | undefined;
-}): TemplateCategoryCatalogItem[] {
-  const base = categoryOptions && categoryOptions.length > 0 ? categoryOptions : catalogCategories;
-  return base.filter((category) => !category.isPrivate);
-}
 
 function TemplateBuilderCategoryCardPicker({
   items,
@@ -278,10 +281,18 @@ export function TemplateBuilderEditor({
   onDebugStateChange?: (snapshot: TemplateBuilderEditorDebugSnapshot) => void;
   onActionsChange?: (snapshot: TemplateBuilderEditorActionsSnapshot) => void;
 }) {
-  const savedState = useMemo(
-    () => mapCurrentSelectionToTemplateBuilderEditorState(payload.currentSelection),
-    [payload.currentSelection],
-  );
+  const savedState = useMemo(() => {
+    const base = mapCurrentSelectionToTemplateBuilderEditorState(payload.currentSelection);
+    if (base.useBackground !== "Animated") return base;
+
+    return {
+      ...base,
+      ...resolveAnimatedEditorFields(payload.animations ?? [], {
+        templateAnimationId: base.templateAnimationId,
+        templateAnimationPresetId: payload.currentSelection?.templateAnimation?.presetId ?? null,
+      }),
+    };
+  }, [payload.animations, payload.currentSelection]);
 
   const [draftState, setDraftState] = useState<TemplateBuilderEditorState>(() =>
     cloneTemplateBuilderEditorState(savedState),
@@ -314,6 +325,23 @@ export function TemplateBuilderEditor({
       draftState,
     });
   }, [comparison, draftState, onDebugStateChange, savedState]);
+
+  const savedLegacyMode = useMemo(
+    () => getSavedUseBackgroundRequiresMigration(payload.currentSelection?.useBackground),
+    [payload.currentSelection?.useBackground],
+  );
+
+  const unavailableAnimationPresetId = useMemo(() => {
+    const type = getAnimationPresetType(draftState.animation);
+    if (type === null) return null;
+    if (payload.animations == null || payload.animations.length === 0) return type;
+    return isAnimationPresetAvailable(payload.animations, type) ? null : type;
+  }, [draftState.animation, payload.animations]);
+
+  const defaultAnimationPreset = useMemo(
+    () => resolveDefaultAnimationPreset(payload.animations ?? [], payload.defaultAnimationPresetId),
+    [payload.animations, payload.defaultAnimationPresetId],
+  );
 
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState("setup");
@@ -354,7 +382,9 @@ export function TemplateBuilderEditor({
 
   const handleSave = useCallback(async () => {
     save.onClearSaveFeedback();
-    const errors = getTemplateBuilderSaveValidationErrors(draftState);
+    const errors = getTemplateBuilderSaveValidationErrors(draftState, {
+      savedUseBackground: payload.currentSelection?.useBackground,
+    });
     if (
       draftState.templateCategoryId !== null &&
       !categoryItems.some((category) => category.id === draftState.templateCategoryId)
@@ -371,7 +401,7 @@ export function TemplateBuilderEditor({
     } catch {
       // Mutation state owns the visible error; keep draft selections intact.
     }
-  }, [categoryItems, draftState, save]);
+  }, [categoryItems, draftState, payload.currentSelection?.useBackground, save]);
 
   const resetActionRef = useRef<() => void>(() => undefined);
   const saveActionRef = useRef<() => void>(() => undefined);
@@ -428,9 +458,28 @@ export function TemplateBuilderEditor({
       setValidationErrors([]);
       setShowImageUnavailableWarning(false);
       save.onClearSaveFeedback();
-      setDraftState((prev) =>
-        clearInactiveBackgroundRelations({ ...prev, useBackground: value }, value),
-      );
+      setDraftState((prev) => {
+        const next = clearInactiveBackgroundRelations({ ...prev, useBackground: value }, value);
+        if (value === "Animated" && next.animation === null && defaultAnimationPreset) {
+          next.animation = buildDefaultAnimationForPreset(defaultAnimationPreset);
+          next.templateAnimationId = defaultAnimationPreset.id;
+        }
+        return next;
+      });
+    },
+    [defaultAnimationPreset, save],
+  );
+
+  const handleAnimationPresetSelect = useCallback(
+    (preset: AnimationPresetCatalogItem) => {
+      setValidationErrors([]);
+      save.onClearSaveFeedback();
+      setDraftState((prev) => ({
+        ...prev,
+        useBackground: "Animated",
+        templateAnimationId: preset.id,
+        animation: buildDefaultAnimationForPreset(preset),
+      }));
     },
     [save],
   );
@@ -641,6 +690,14 @@ export function TemplateBuilderEditor({
                 another background type before saving.
               </div>
             ) : null}
+            {savedLegacyMode ? (
+              <div
+                className="border-destructive/40 bg-destructive/10 text-destructive mt-3 rounded-md border px-3 py-2 text-xs"
+                role="alert"
+              >
+                {getLegacyBackgroundMigrationMessage(savedLegacyMode)}
+              </div>
+            ) : null}
           </div>
         );
       default:
@@ -690,6 +747,20 @@ export function TemplateBuilderEditor({
 
         if (draftState.useBackground === "Solid") {
           return <p className="text-xs text-white/65">Solid uses no background asset variant.</p>;
+        }
+
+        if (draftState.useBackground === "Animated") {
+          return (
+            <div className={cn(TEMPLATE_BUILDER_SUB_PICKER_SURFACE_CLASS, "self-stretch")}>
+              <TemplateBuilderAnimationCardPicker
+                presets={payload.animations ?? []}
+                selectedAnimation={draftState.animation}
+                isChanged={changedFieldSet.has("animation")}
+                unavailablePresetId={unavailableAnimationPresetId}
+                onSelectPreset={handleAnimationPresetSelect}
+              />
+            </div>
+          );
         }
 
         return (

@@ -16,6 +16,7 @@ import {
   groupAssetsBySport,
   isImageOptionsAsset,
   resolveSelectedAssetIdString,
+  sortImageOptionsAssets,
 } from "../_utils";
 import { useAssetPickerSelection } from "./use-asset-picker-selection";
 
@@ -41,7 +42,10 @@ export function useImageOptionsAssetsPicker(options: UseImageOptionsAssetsPicker
   const { selectedId, setSelectedId } = useAssetPickerSelection(accountId);
   const selectionKey = useMemo(() => assetPickerSelectedIdKey(accountId), [accountId]);
 
-  const assets = useMemo(() => (q.data?.data ?? []).filter(isImageOptionsAsset), [q.data]);
+  const assets = useMemo(
+    () => sortImageOptionsAssets((q.data?.data ?? []).filter(isImageOptionsAsset)),
+    [q.data],
+  );
 
   const sportFilterOptions = useMemo(() => {
     const groups = groupAssetsBySport(assets);

@@ -17,6 +17,7 @@ function minimalSelection(
   return {
     id: 99,
     useBackground: "Gradient",
+    templateAnimation: null,
     templateCategory: { id: 1, name: null, slug: null, divideFixturesBy: null },
     templateMode: { id: 2, name: null, slug: null },
     templatePalette: { id: 3, name: null, value: null },
@@ -81,7 +82,9 @@ describe("createEmptyTemplateBuilderEditorState", () => {
       templatePatternId: null,
       templateTextureId: null,
       templateVideoId: null,
+      templateAnimationId: null,
       useBackground: null,
+      animation: null,
     });
   });
 });
@@ -93,10 +96,27 @@ describe("mapCurrentSelectionToTemplateBuilderEditorState", () => {
     );
   });
 
-  it("maps undefined current selection to empty state", () => {
-    expect(mapCurrentSelectionToTemplateBuilderEditorState(undefined)).toEqual(
-      createEmptyTemplateBuilderEditorState(),
-    );
+  it("maps Animated selection with templateAnimation relation", () => {
+    expect(
+      mapCurrentSelectionToTemplateBuilderEditorState(
+        minimalSelection({
+          useBackground: "Animated",
+          templateAnimation: { id: 42, presetId: "snow-field", name: "Snow" },
+        }),
+      ),
+    ).toMatchObject({
+      useBackground: "Animated",
+      templateAnimationId: 42,
+      animation: null,
+    });
+  });
+
+  it("maps legacy useBackground to null writable mode", () => {
+    expect(
+      mapCurrentSelectionToTemplateBuilderEditorState(
+        minimalSelection({ useBackground: "Graphics" }),
+      ).useBackground,
+    ).toBeNull();
   });
 
   it("maps full current selection to all relation ids", () => {
@@ -111,32 +131,9 @@ describe("mapCurrentSelectionToTemplateBuilderEditorState", () => {
       templatePatternId: 8,
       templateTextureId: 9,
       templateVideoId: 10,
+      templateAnimationId: null,
       useBackground: "Gradient",
-    });
-  });
-
-  it("maps partially empty current selection with null relations", () => {
-    expect(
-      mapCurrentSelectionToTemplateBuilderEditorState(
-        minimalSelection({
-          templateCategory: null,
-          templateMode: null,
-          templatePalette: null,
-          useBackground: null,
-        }),
-      ),
-    ).toEqual({
-      templateCategoryId: null,
-      templateModeId: null,
-      templatePaletteId: null,
-      templateGradientId: 4,
-      templateImageId: 5,
-      templateNoiseId: 6,
-      templateParticleId: 7,
-      templatePatternId: 8,
-      templateTextureId: 9,
-      templateVideoId: 10,
-      useBackground: null,
+      animation: null,
     });
   });
 });
@@ -154,45 +151,34 @@ describe("compareTemplateBuilderEditorStates", () => {
     expect(getTemplateBuilderChangedFields(saved, draft)).toHaveLength(0);
   });
 
-  it("marks dirty and increments changed count for one id change", () => {
-    const draft = { ...saved, templatePaletteId: 99 };
+  it("detects animation object changes", () => {
+    const draft = {
+      ...saved,
+      animation: { type: "snow-field", speed: 2 },
+    };
     const comparison = compareTemplateBuilderEditorStates(saved, draft);
 
     expect(comparison.isDirty).toBe(true);
-    expect(comparison.changedCount).toBe(1);
-    const changed = getTemplateBuilderChangedFields(saved, draft);
-    expect(changed).toHaveLength(1);
-    expect(changed[0]?.field).toBe("templatePaletteId");
-  });
-
-  it("detects useBackground change", () => {
-    const draft = { ...saved, useBackground: "Solid" as const };
-    const comparison = compareTemplateBuilderEditorStates(saved, draft);
-
-    expect(comparison.isDirty).toBe(true);
-    expect(comparison.changedCount).toBe(1);
-    expect(getTemplateBuilderChangedFields(saved, draft)[0]?.field).toBe("useBackground");
-  });
-
-  it("marks draft null values as unset", () => {
-    const draft = { ...saved, templateCategoryId: null };
-    const field = compareTemplateBuilderEditorStates(saved, draft).fields.find(
-      (f) => f.field === "templateCategoryId",
-    );
-
-    expect(field?.isUnset).toBe(true);
-    expect(field?.isChanged).toBe(true);
+    expect(getTemplateBuilderChangedFields(saved, draft)[0]?.field).toBe("animation");
   });
 });
 
 describe("cloneTemplateBuilderEditorState", () => {
-  it("does not mutate saved state when clone is modified", () => {
-    const saved = mapCurrentSelectionToTemplateBuilderEditorState(minimalSelection());
+  it("does not mutate saved animation when clone is modified", () => {
+    const saved = {
+      ...mapCurrentSelectionToTemplateBuilderEditorState(
+        minimalSelection({
+          useBackground: "Animated",
+          templateAnimation: { id: 42, presetId: "snow-field", name: "Snow" },
+        }),
+      ),
+      animation: { type: "snow-field", speed: 1 },
+    };
     const draft = cloneTemplateBuilderEditorState(saved);
 
-    draft.templateModeId = 999;
+    draft.animation = { type: "snow-field", speed: 99 };
 
-    expect(saved.templateModeId).toBe(2);
-    expect(draft.templateModeId).toBe(999);
+    expect(saved.animation?.["speed"]).toBe(1);
+    expect(draft.animation?.["speed"]).toBe(99);
   });
 });

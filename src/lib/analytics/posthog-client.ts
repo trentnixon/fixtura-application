@@ -19,6 +19,7 @@ export function buildPostHogInitOptions(): Record<string, unknown> {
   return {
     api_host: POSTHOG_API_HOST,
     ui_host: POSTHOG_UI_HOST,
+    defaults: "2026-05-30",
     autocapture: false,
     capture_pageview: false,
     capture_pageleave: false,

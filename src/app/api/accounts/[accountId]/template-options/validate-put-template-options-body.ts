@@ -1,7 +1,9 @@
 import {
-  TEMPLATE_USE_BACKGROUND_VALUES,
-  isTemplateUseBackground,
+  isForbiddenLegacyUseBackground,
+  isTemplateUseBackgroundWrite,
+  TEMPLATE_USE_BACKGROUND_WRITE_VALUES,
   type PutTemplateOptionsBody,
+  type TemplateAnimationConfig,
 } from "@/types/api/template-options";
 
 const RELATION_KEYS = [
@@ -15,6 +17,7 @@ const RELATION_KEYS = [
   "templatePatternId",
   "templateTextureId",
   "templateVideoId",
+  "templateAnimationId",
 ] as const;
 
 const REQUIRED_KEYS = ["templateCategoryId", "templateModeId", "useBackground"] as const;
@@ -26,6 +29,12 @@ function isValidRequiredRelationId(value: unknown): value is number {
 function isValidOptionalRelationId(value: unknown): value is number | null {
   if (value === null) return true;
   return isValidRequiredRelationId(value);
+}
+
+function isValidAnimationObject(value: unknown): value is TemplateAnimationConfig {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) return false;
+  const type = (value as Record<string, unknown>)["type"];
+  return typeof type === "string" && type.trim() !== "";
 }
 
 /** Unwrap optional Strapi `{ data: { … } }` wrapper before validation. */
@@ -56,7 +65,7 @@ export function validatePutTemplateOptionsBody(body: unknown):
   }
 
   const raw = unwrapped as Record<string, unknown>;
-  const allowed = new Set([...RELATION_KEYS, "useBackground"]);
+  const allowed = new Set([...RELATION_KEYS, "useBackground", "animation"]);
   for (const key of Object.keys(raw)) {
     if (!allowed.has(key)) {
       return { ok: false, error: `Unknown field: ${key}` };
@@ -77,11 +86,40 @@ export function validatePutTemplateOptionsBody(body: unknown):
   }
 
   const useBackground = raw["useBackground"];
-  if (typeof useBackground !== "string" || !isTemplateUseBackground(useBackground)) {
+  if (typeof useBackground !== "string") {
     return {
       ok: false,
-      error: `useBackground must be one of: ${TEMPLATE_USE_BACKGROUND_VALUES.join(", ")}`,
+      error: `useBackground must be one of: ${TEMPLATE_USE_BACKGROUND_WRITE_VALUES.join(", ")}`,
     };
+  }
+
+  if (isForbiddenLegacyUseBackground(useBackground)) {
+    return {
+      ok: false,
+      error: `useBackground "${useBackground}" is no longer allowed on save`,
+    };
+  }
+
+  if (!isTemplateUseBackgroundWrite(useBackground)) {
+    return {
+      ok: false,
+      error: `useBackground must be one of: ${TEMPLATE_USE_BACKGROUND_WRITE_VALUES.join(", ")}`,
+    };
+  }
+
+  const hasAnimation = "animation" in raw;
+
+  const hasTemplateAnimationId = "templateAnimationId" in raw;
+
+  if (useBackground === "Animated") {
+    if (hasTemplateAnimationId && !isValidOptionalRelationId(raw["templateAnimationId"])) {
+      return { ok: false, error: "Invalid templateAnimationId" };
+    }
+    if (hasAnimation && !isValidAnimationObject(raw["animation"])) {
+      return { ok: false, error: "Invalid animation object" };
+    }
+  } else if (hasAnimation) {
+    return { ok: false, error: "animation is only allowed when useBackground is Animated" };
   }
 
   for (const key of RELATION_KEYS) {
@@ -92,8 +130,27 @@ export function validatePutTemplateOptionsBody(body: unknown):
     }
   }
 
-  return {
-    ok: true,
-    data: raw as PutTemplateOptionsBody,
+  const data: PutTemplateOptionsBody = {
+    templateCategoryId: raw["templateCategoryId"] as number,
+    templateModeId: raw["templateModeId"] as number,
+    useBackground,
   };
+
+  for (const key of RELATION_KEYS) {
+    if (key === "templateCategoryId" || key === "templateModeId") continue;
+    if (key in raw) {
+      data[key] = raw[key] as number | null;
+    }
+  }
+
+  if (useBackground === "Animated") {
+    if (hasTemplateAnimationId) {
+      data.templateAnimationId = raw["templateAnimationId"] as number;
+    }
+    if (hasAnimation && isValidAnimationObject(raw["animation"])) {
+      data.animation = raw["animation"];
+    }
+  }
+
+  return { ok: true, data };
 }

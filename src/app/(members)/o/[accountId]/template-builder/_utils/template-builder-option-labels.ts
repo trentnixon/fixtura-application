@@ -12,7 +12,7 @@ import type {
   TemplateTextureCatalogItem,
   TemplateVideoItem,
 } from "@/types/api/all-template-options";
-import type { TemplateUseBackground } from "@/types/api/template-options";
+import type { TemplateUseBackgroundRead } from "@/types/api/template-options";
 
 type CatalogLabelItem = {
   id: number;
@@ -95,6 +95,6 @@ export function formatOriginalSettingLabel(
   return resolvedLabel ?? `ID ${id}`;
 }
 
-export function formatUseBackgroundLabel(value: TemplateUseBackground | null): string {
+export function formatUseBackgroundLabel(value: TemplateUseBackgroundRead | null): string {
   return formatTemplateUseBackgroundLabel(value);
 }

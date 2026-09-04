@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 
 import {
-  TEMPLATE_USE_BACKGROUND_VALUES,
+  TEMPLATE_USE_BACKGROUND_WRITE_VALUES,
   type TemplateUseBackground,
 } from "@/types/api/template-options";
 
@@ -14,7 +14,7 @@ import { useBackgroundToSelectValue } from "../_utils/template-builder-select-va
 const HIDDEN_USE_BACKGROUND_VALUES = new Set<TemplateUseBackground>(["Video"]);
 
 export function buildTemplateBuilderUseBackgroundOptions(hideImageOption: boolean) {
-  return TEMPLATE_USE_BACKGROUND_VALUES.filter(
+  return TEMPLATE_USE_BACKGROUND_WRITE_VALUES.filter(
     (value) => !HIDDEN_USE_BACKGROUND_VALUES.has(value) && !(hideImageOption && value === "Image"),
   ).map((value) => ({
     value,

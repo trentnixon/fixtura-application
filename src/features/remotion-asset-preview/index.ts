@@ -98,6 +98,7 @@ export {
 } from "./utils/resolve-remotion-texture-preview-background";
 export type { RemotionTexturePreviewLayers } from "./utils/resolve-remotion-texture-preview-background";
 export {
+  readRemotionAnimationFromBranding,
   readRemotionBackgroundAssetsPatch,
   readRemotionImageFromBranding,
   readRemotionNoiseFromBranding,
@@ -109,6 +110,7 @@ export {
 export type {
   RemotionBackgroundAssetsPatch,
   RemotionBackgroundTvKey,
+  RemotionTemplateVariationAnimation,
   RemotionTemplateVariationImage,
   RemotionTemplateVariationNoise,
   RemotionTemplateVariationParticle,

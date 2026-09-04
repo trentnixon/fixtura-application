@@ -23,6 +23,7 @@ export function toRemotionPreviewDraft(state: TemplateBuilderEditorState): Remot
     templateTextureId: state.templateTextureId,
     templateVideoId: state.templateVideoId,
     useBackground: state.useBackground,
+    animation: state.animation,
   };
 }
 

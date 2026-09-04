@@ -1,4 +1,5 @@
 import { NO_SPORT_KEY } from "../_consts";
+import { sortImageOptionsAssets } from "./sort-image-options-assets";
 
 import type { SportGroup } from "../_types";
 import type { AssetListForSelectionItem } from "@/types/api/assets";
@@ -11,10 +12,8 @@ export function groupAssetsBySport(items: AssetListForSelectionItem[]): SportGro
     list.push(a);
     map.set(key, list);
   }
-  for (const list of map.values()) {
-    list.sort((x, y) =>
-      (x.Name ?? "").localeCompare(y.Name ?? "", undefined, { sensitivity: "base" }),
-    );
+  for (const [key, list] of map.entries()) {
+    map.set(key, sortImageOptionsAssets(list));
   }
   const pairs = [...map.entries()].sort(([ka], [kb]) => {
     if (ka === NO_SPORT_KEY) return 1;

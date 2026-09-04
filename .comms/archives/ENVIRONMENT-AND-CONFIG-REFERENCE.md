@@ -14,7 +14,8 @@ Values are **not** secrets in this document unless noted; copy real secrets only
 | ---------------------------------- | -------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
 | `STRAPI_URL`                       | **Yes** for members login  | Server (`src/lib/config/env.ts`)                      | Strapi base URL (no trailing slash). Used by `POST /api/auth/login` and `fetchStrapiWithAuthCookie`.          |
 | `NEXT_PUBLIC_AUTH_LOGOUT_REDIRECT` | No                         | Client + server (`src/lib/config/logout-redirect.ts`) | Path after logout and after session invalidation (401). Default behaviour when unset implies `/login`.        |
-| `NEXT_PUBLIC_POSTHOG_KEY`          | **Yes** for analytics      | Client (`src/instrumentation-client.ts`)              | PostHog project API key.                                                                                      |
+| `NEXT_PUBLIC_POSTHOG_KEY`          | **Yes** for analytics      | Client (`src/lib/analytics/analytics.ts`)             | PostHog project API key.                                                                                      |
+| `NEXT_PUBLIC_FEATURE_ANALYTICS`    | **Yes** to enable capture  | Client (`src/lib/analytics/enabled.ts`)               | Must be exactly `true` (with key + consent) for events to fire.                                               |
 | `NODE_ENV`                         | Automatic                  | Next.js / app                                         | `development` \| `production` \| `test`. Affects cookie `secure`, PostHog debug, React Query devtools.        |
 | `CI`                               | Usually set by CI          | `next.config.ts` (Sentry plugin)                      | When set, Sentry build plugin is less silent during source-map upload.                                        |
 | `SENTRY_AUTH_TOKEN`                | For production source maps | Sentry webpack plugin (build)                         | Auth token to upload source maps to Sentry. Not used at runtime.                                              |
@@ -52,9 +53,19 @@ Values are **not** secrets in this document unless noted; copy real secrets only
 
 ### `NEXT_PUBLIC_POSTHOG_KEY`
 
-- **Required** for PostHog to initialise (`instrumentation-client.ts` uses a non-null assertion — ensure the key exists in every deployed environment that should report analytics).
+- **Required** for PostHog to initialise in `src/lib/analytics/analytics.ts` via `AnalyticsProvider` in `src/app/layout.tsx`.
 - **Client-exposed** by design (`NEXT_PUBLIC_*`).
-- **Related (not env):** `next.config.ts` rewrites `/ingest` → PostHog US hosts; `api_host` in code is `/ingest` (first-party proxy). `ui_host` is fixed to `https://us.posthog.com` in code.
+
+### `NEXT_PUBLIC_FEATURE_ANALYTICS`
+
+- **Required** for events to fire: must be the literal string `true`.
+- Analytics also requires browser consent (`localStorage.fixtura_analytics_consent === "granted"`, shared with marketing on `*.fixtura.com.au`).
+
+### PostHog wiring (not env)
+
+- `next.config.ts` rewrites `/ingest` → `https://us.i.posthog.com` (first-party proxy; `api_host` in code is `/ingest`).
+- `ui_host` is fixed to `https://us.posthog.com` in `src/lib/analytics/constants.ts`.
+- Init options live in `src/lib/analytics/posthog-client.ts` (explicit events only; autocapture off).
 
 ---
 
@@ -103,6 +114,7 @@ Values are **not** secrets in this document unless noted; copy real secrets only
 
 - [ ] `STRAPI_URL` → local Strapi if testing login.
 - [ ] `NEXT_PUBLIC_POSTHOG_KEY` → dev/test project key or disable analytics if your workflow allows (otherwise ensure key exists).
+- [ ] `NEXT_PUBLIC_FEATURE_ANALYTICS=true` when testing analytics locally (plus consent in localStorage).
 - [ ] Optional: `NEXT_PUBLIC_AUTH_LOGOUT_REDIRECT`.
 - [ ] Optional: `NEXT_PUBLIC_ENABLE_DEV_SANDBOX=true` if using `/sandbox` (portal, kitchen sink, route lab).
 
@@ -110,6 +122,7 @@ Values are **not** secrets in this document unless noted; copy real secrets only
 
 - [ ] `STRAPI_URL` for that environment’s Strapi URL.
 - [ ] `NEXT_PUBLIC_POSTHOG_KEY` (staging vs production PostHog project as per product).
+- [ ] `NEXT_PUBLIC_FEATURE_ANALYTICS=true` when analytics should be live in that environment.
 - [ ] `SENTRY_AUTH_TOKEN` in CI for source maps (and verify Sentry DSN/project in config files).
 - [ ] Optional: `NEXT_PUBLIC_AUTH_LOGOUT_REDIRECT`, `CI=true` in pipelines as needed.
 

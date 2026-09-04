@@ -39,7 +39,7 @@ export function SupportViewBanner() {
   });
 
   return (
-    <div className="border-border w-full border-t px-4 pb-3 lg:px-6">
+    <div className="border-border mt-8 w-full border-t px-4 pt-4 pb-3 lg:px-6">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <InlineAlert variant="info" message={label} />
         <Button variant="outline" size="sm" asChild className="shrink-0 self-start sm:self-center">

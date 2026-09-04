@@ -826,7 +826,8 @@ describe("assembleAccountRemotionPreview (draft)", () => {
     templatePatternId: null,
     templateTextureId: null,
     templateVideoId: null,
-    useBackground: "Graphics" as const,
+    useBackground: "Gradient" as const,
+    animation: null,
   };
 
   const catalog = {
@@ -849,6 +850,8 @@ describe("assembleAccountRemotionPreview (draft)", () => {
     patterns: [],
     textures: [],
     videos: [],
+    animations: [],
+    defaultAnimationPresetId: null,
     currentSelection: null,
   };
 
@@ -894,7 +897,7 @@ describe("assembleAccountRemotionPreview (draft)", () => {
     expect(appearance["template"]).toBe("BroadcastPro");
     expect(usedTemplateFallback).toBe(false);
     expect(tv["mode"]).toBe("dark");
-    expect(tv["useBackground"]).toBe("Graphics");
+    expect(tv["useBackground"]).toBe("Gradient");
     expect(tv["palette"]).toBe("analogous");
     expect(saved.template?.category).toBe("Saved");
   });
@@ -960,5 +963,45 @@ describe("assembleAccountRemotionPreview (draft)", () => {
     expect(tv["useBackground"]).toBe("Gradient");
     expect(tv["gradient"]).toBeTruthy();
     expect(tv["video"]).toBeUndefined();
+  });
+
+  it("maps Animated draft to templateVariation.animation", () => {
+    const base = minimalDataset();
+    const saved = brandingFixture({
+      template_option: {
+        useBackground: "Solid",
+      },
+    });
+
+    const { data } = assembleAccountRemotionPreview({
+      base,
+      source: {
+        kind: "draft",
+        branding: saved,
+        draft: {
+          ...draft,
+          useBackground: "Animated",
+          animation: { type: "snow-field", particleCount: 300, speed: 1, direction: "random" },
+        },
+        templateOptionsCatalog: catalog,
+      },
+      logoUrl: null,
+      templateModeSlug: null,
+    });
+
+    const dataRec = data as unknown as Record<string, unknown>;
+    const vm = dataRec["videoMeta"] as Record<string, unknown>;
+    const video = vm["video"] as Record<string, unknown>;
+    const tv = video["templateVariation"] as Record<string, unknown>;
+
+    expect(tv["useBackground"]).toBe("Animated");
+    expect(tv["animation"]).toEqual({
+      type: "snow-field",
+      particleCount: 300,
+      speed: 1,
+      direction: "random",
+    });
+    expect(tv).not.toHaveProperty("particle");
+    expect(tv).not.toHaveProperty("noise");
   });
 });

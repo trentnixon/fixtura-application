@@ -3,7 +3,7 @@
  * @see .comms/API/handoff-all-template-options.md
  */
 
-import type { TemplateUseBackground } from "./template-options";
+import type { TemplateUseBackgroundRead } from "./template-options";
 
 /** Success body from ctx.send */
 export interface AllTemplateOptionsResponse {
@@ -21,7 +21,37 @@ export interface AllTemplateOptionsPayload {
   patterns: TemplatePatternItem[];
   textures: TemplateTextureCatalogItem[];
   videos: TemplateVideoItem[];
+  animations: AnimationPresetCatalogItem[];
+  defaultAnimationPresetId: string | null;
   currentSelection: CurrentTemplateSelection | null;
+}
+
+export type AnimationSchemaControlType = "number" | "enum" | "unknown";
+
+export interface AnimationSchemaControl {
+  type: AnimationSchemaControlType;
+  label: string;
+  enumValues?: string[];
+  affectsRendering?: boolean;
+}
+
+export interface TemplateAnimationItem {
+  id: number;
+  presetId: string;
+  name: string | null;
+}
+
+export interface AnimationPresetCatalogItem {
+  id: number;
+  presetId: string;
+  name: string | null;
+  description: string | null;
+  defaultConfiguration: Record<string, unknown>;
+  /** Not on aggregate GET — catalogue/operator tooling only. */
+  configurationSchema?: Record<string, AnimationSchemaControl | unknown>;
+  isDefault: boolean;
+  sortOrder: number;
+  catalogueVersion: string | null;
 }
 
 /** Same as {@link AllTemplateOptionsPayload}; kept for existing imports. */
@@ -153,8 +183,9 @@ export interface TemplateCategoryRef {
 /** Current template-option row for forms (mapCurrentSelection) */
 export interface CurrentTemplateSelection {
   id: number;
-  /** CMS enum string; legacy boolean may appear until GET is aligned. */
-  useBackground: TemplateUseBackground | boolean | null;
+  /** CMS enum string (includes legacy read values). */
+  useBackground: TemplateUseBackgroundRead | null;
+  templateAnimation: TemplateAnimationItem | null;
   templateCategory: TemplateCategoryRef | null;
   templatePalette: TemplatePaletteItem | null;
   templateGradient: TemplateGradientItem | null;

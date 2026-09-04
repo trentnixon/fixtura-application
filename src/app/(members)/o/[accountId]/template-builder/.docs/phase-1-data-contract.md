@@ -176,24 +176,41 @@ Catalog arrays are **published-only**, sorted by `id` ascending. Arrays may be e
 | `rate`      | number  | yes      |
 | `overlay`   | string  | yes      |
 
+### `animations` — `AnimationPresetCatalogItem[]`
+
+Operator-visible animated background presets (sorted by `sortOrder`). See `.comms/handoff/2026-08-28-app-handoff-animated-backgrounds.md`.
+
+| Field                  | Type   | Nullable                 | Notes                                           |
+| ---------------------- | ------ | ------------------------ | ----------------------------------------------- |
+| `id`                   | number | no                       | Use as `templateAnimationId` on PUT             |
+| `presetId`             | string | no                       | Creator preset key; preview `animation.type`    |
+| `name`                 | string | yes                      | Label; fallback `presetId`                      |
+| `defaultConfiguration` | object | no                       | Client preview — build local `animation` object |
+| `configurationSchema`  | object | omitted on aggregate GET | Catalogue/operator only — not required in app   |
+| `isDefault`            | bool   | no                       | Catalogue default marker                        |
+| `sortOrder`            | number | no                       | Pre-sorted in API response                      |
+
+Also on payload: `defaultAnimationPresetId: string | null`.
+
 ### `currentSelection` — `CurrentTemplateSelection | null`
 
 Present when `templateOptionId` is supplied to CMS and the row exists and belongs to the account. Otherwise `null`.
 
-| Field              | Type                       | Nullable | Notes                                                               |
-| ------------------ | -------------------------- | -------- | ------------------------------------------------------------------- |
-| `id`               | number                     | no       | Template-option row id                                              |
-| `useBackground`    | boolean                    | yes      | Scalar on row                                                       |
-| `templateCategory` | TemplateCategoryRef        | yes      | Subset: `id`, `name`, `slug`, `divideFixturesBy` (no `bundleAudio`) |
-| `templateMode`     | TemplateModeItem           | yes      | Full mode shape                                                     |
-| `templatePalette`  | TemplatePaletteItem        | yes      |                                                                     |
-| `templateGradient` | TemplateGradientItem       | yes      |                                                                     |
-| `templateImage`    | TemplateImageItem          | yes      |                                                                     |
-| `templateNoise`    | TemplateNoiseItem          | yes      |                                                                     |
-| `templateParticle` | TemplateParticleItem       | yes      |                                                                     |
-| `templatePattern`  | TemplatePatternItem        | yes      |                                                                     |
-| `templateTexture`  | TemplateTextureCatalogItem | yes      |                                                                     |
-| `templateVideo`    | TemplateVideoItem          | yes      |                                                                     |
+| Field               | Type                       | Nullable | Notes                                                               |
+| ------------------- | -------------------------- | -------- | ------------------------------------------------------------------- |
+| `id`                | number                     | no       | Template-option row id                                              |
+| `useBackground`     | string enum                | yes      | Includes legacy read values; write rejects legacy modes             |
+| `templateAnimation` | `{ id, presetId, name }`   | yes      | Linked preset relation — hydration source for Animated              |
+| `templateCategory`  | TemplateCategoryRef        | yes      | Subset: `id`, `name`, `slug`, `divideFixturesBy` (no `bundleAudio`) |
+| `templateMode`      | TemplateModeItem           | yes      | Full mode shape                                                     |
+| `templatePalette`   | TemplatePaletteItem        | yes      |                                                                     |
+| `templateGradient`  | TemplateGradientItem       | yes      |                                                                     |
+| `templateImage`     | TemplateImageItem          | yes      |                                                                     |
+| `templateNoise`     | TemplateNoiseItem          | yes      |                                                                     |
+| `templateParticle`  | TemplateParticleItem       | yes      |                                                                     |
+| `templatePattern`   | TemplatePatternItem        | yes      |                                                                     |
+| `templateTexture`   | TemplateTextureCatalogItem | yes      |                                                                     |
+| `templateVideo`     | TemplateVideoItem          | yes      |                                                                     |
 
 Unset relations are `null` (not omitted).
 
@@ -241,19 +258,27 @@ Hook only forwards **positive integers** (`Number.isInteger(n) && n > 0`).
 
 Phase 2 editor shape (draft/saved). Unset relations → `null` id.
 
-| Editor field         | Catalog source                                                                    | `currentSelection` path               | CMS save field  |
-| -------------------- | --------------------------------------------------------------------------------- | ------------------------------------- | --------------- |
-| `templateCategoryId` | `data.categories` (public only) or `list-for-selection` if product allows private | `templateCategory?.id ?? null`        | **TBD**         |
-| `templateModeId`     | `data.modes`                                                                      | `templateMode?.id ?? null`            | **TBD**         |
-| `templatePaletteId`  | `data.palettes`                                                                   | `templatePalette?.id ?? null`         | **TBD**         |
-| `templateGradientId` | `data.gradients`                                                                  | `templateGradient?.id ?? null`        | **TBD**         |
-| `templateImageId`    | `data.images`                                                                     | `templateImage?.id ?? null`           | **TBD**         |
-| `templateNoiseId`    | `data.noises`                                                                     | `templateNoise?.id ?? null`           | **TBD**         |
-| `templateParticleId` | `data.particles`                                                                  | `templateParticle?.id ?? null`        | **TBD**         |
-| `templatePatternId`  | `data.patterns`                                                                   | `templatePattern?.id ?? null`         | **TBD**         |
-| `templateTextureId`  | `data.textures`                                                                   | `templateTexture?.id ?? null`         | **TBD**         |
-| `templateVideoId`    | `data.videos`                                                                     | `templateVideo?.id ?? null`           | **TBD**         |
-| `useBackground`      | —                                                                                 | `useBackground` (enum string \| null) | `useBackground` |
+| Editor field          | Catalog source                                                                    | `currentSelection` path               | CMS save field                                     |
+| --------------------- | --------------------------------------------------------------------------------- | ------------------------------------- | -------------------------------------------------- |
+| `templateCategoryId`  | `data.categories` (public only) or `list-for-selection` if product allows private | `templateCategory?.id ?? null`        | **TBD**                                            |
+| `templateModeId`      | `data.modes`                                                                      | `templateMode?.id ?? null`            | **TBD**                                            |
+| `templatePaletteId`   | `data.palettes`                                                                   | `templatePalette?.id ?? null`         | **TBD**                                            |
+| `templateGradientId`  | `data.gradients`                                                                  | `templateGradient?.id ?? null`        | **TBD**                                            |
+| `templateImageId`     | `data.images`                                                                     | `templateImage?.id ?? null`           | **TBD**                                            |
+| `templateNoiseId`     | `data.noises`                                                                     | `templateNoise?.id ?? null`           | **TBD**                                            |
+| `templateParticleId`  | `data.particles`                                                                  | `templateParticle?.id ?? null`        | **TBD**                                            |
+| `templatePatternId`   | `data.patterns`                                                                   | `templatePattern?.id ?? null`         | **TBD**                                            |
+| `templateTextureId`   | `data.textures`                                                                   | `templateTexture?.id ?? null`         | **TBD**                                            |
+| `templateVideoId`     | `data.videos`                                                                     | `templateVideo?.id ?? null`           | **TBD**                                            |
+| `useBackground`       | —                                                                                 | `useBackground` (enum string \| null) | `useBackground`                                    |
+| `templateAnimationId` | `data.animations` (`id`)                                                          | `templateAnimation?.id ?? null`       | `templateAnimationId` (Animated; omit to preserve) |
+| `animation` (preview) | catalogue `defaultConfiguration` + `currentSelection.templateAnimation`           | built client-side                     | **not sent on PUT** (CMS ignores legacy JSON)      |
+
+**Animated save:** `useBackground: "Animated"` requires `templateAnimationId` when selecting or switching preset (`data.animations[].id`). Omit `templateAnimationId` on later saves to preserve the link. Do not send PUT `animation` JSON — CMS does not persist it. Build preview `animation` from GET + catalogue defaults.
+
+**Legacy migration:** PUT rejects `Graphics`, `Particle`, `Pattern`, `Noise`, `Generated`. App blocks save until user selects an allowed mode.
+
+**Preview:** App assembly writes `templateVariation.animation` for Animated accounts. Creator/Remotion package preset rendering remains a separate dependency (see handoff §8).
 
 Row id for refetch after save: `currentSelection.id` when present; also track `templateOptionId` from `/account/me` and branding after CMS creates a row.
 

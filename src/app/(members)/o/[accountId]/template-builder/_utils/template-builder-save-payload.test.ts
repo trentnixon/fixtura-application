@@ -24,6 +24,17 @@ describe("getTemplateBuilderSaveValidationErrors", () => {
     };
     expect(getTemplateBuilderSaveValidationErrors(state)).toEqual([]);
   });
+
+  it("requires animation preset when useBackground is Animated", () => {
+    const state = {
+      ...createEmptyTemplateBuilderEditorState(),
+      templateCategoryId: 1,
+      templateModeId: 2,
+      useBackground: "Animated" as const,
+      animation: null,
+    };
+    expect(getTemplateBuilderSaveValidationErrors(state).join(" ")).toMatch(/animation preset/i);
+  });
 });
 
 describe("mapTemplateBuilderEditorStateToPutBody", () => {
@@ -54,8 +65,36 @@ describe("mapTemplateBuilderEditorStateToPutBody", () => {
       templatePatternId: 8,
       templateTextureId: null,
       templateVideoId: 10,
+      templateAnimationId: null,
       useBackground: "Video",
     });
+  });
+
+  it("includes templateAnimationId for Animated saves (no animation JSON)", () => {
+    const body = mapTemplateBuilderEditorStateToPutBody({
+      ...createEmptyTemplateBuilderEditorState(),
+      templateCategoryId: 1,
+      templateModeId: 2,
+      useBackground: "Animated",
+      templateAnimationId: 42,
+      animation: { type: "snow-field", speed: 2 },
+    });
+
+    expect(body.useBackground).toBe("Animated");
+    expect(body.templateAnimationId).toBe(42);
+    expect(body.animation).toBeUndefined();
+  });
+
+  it("omits animation for non-Animated saves", () => {
+    const body = mapTemplateBuilderEditorStateToPutBody({
+      ...createEmptyTemplateBuilderEditorState(),
+      templateCategoryId: 1,
+      templateModeId: 2,
+      useBackground: "Solid",
+      animation: { type: "snow-field" },
+    });
+
+    expect(body.animation).toBeUndefined();
   });
 
   it("maps null relation ids for clears", () => {
@@ -103,6 +142,7 @@ describe("mapTemplateBuilderEditorStateToPutBody", () => {
         "templatePatternId",
         "templateTextureId",
         "templateVideoId",
+        "templateAnimationId",
         "useBackground",
       ].sort(),
     );

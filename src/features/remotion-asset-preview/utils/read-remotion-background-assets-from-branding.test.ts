@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  readRemotionAnimationFromBranding,
   readRemotionBackgroundAssetsPatch,
   readRemotionImageFromBranding,
   readRemotionNoiseFromBranding,
@@ -269,5 +270,37 @@ describe("readRemotionBackgroundAssetsPatch", () => {
 
   it("returns empty patch for null branding", () => {
     expect(readRemotionBackgroundAssetsPatch(null)).toEqual({});
+  });
+
+  it("maps Animated to templateVariation.animation", () => {
+    const patch = readRemotionBackgroundAssetsPatch(
+      brandingFixture(
+        {
+          useBackground: "Animated",
+          animation: { type: "snow-field", particleCount: 300, speed: 1, direction: "random" },
+        },
+        "Animated",
+      ),
+    );
+
+    expect(Object.keys(patch)).toEqual(["animation"]);
+    expect(patch.animation).toEqual({
+      type: "snow-field",
+      particleCount: 300,
+      speed: 1,
+      direction: "random",
+    });
+  });
+});
+
+describe("readRemotionAnimationFromBranding", () => {
+  it("reads animation config from template_option", () => {
+    expect(
+      readRemotionAnimationFromBranding(
+        brandingFixture({
+          animation: { type: "snow-field", speed: 1 },
+        }),
+      ),
+    ).toEqual({ type: "snow-field", speed: 1 });
   });
 });

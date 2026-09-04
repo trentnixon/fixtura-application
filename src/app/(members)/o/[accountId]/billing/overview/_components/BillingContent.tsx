@@ -134,14 +134,6 @@ export function BillingContent({ accountId }: { accountId: string }) {
         <BillingOrganisationTrialNotice presentation={orgTrialNoticePresentation} />
       ) : null}
 
-      {isBillingReadOnly ? (
-        <BillingSupportDiagnosticsPanel
-          accountId={accountId}
-          billingUiMode={state.billingUiMode}
-          billingSummary={state.billingSummary}
-        />
-      ) : null}
-
       {state.billingUiMode !== "payment_pending" && paidAwaitingStartOrder == null ? (
         <div
           className="border-border bg-muted/30 flex flex-wrap items-center justify-between gap-3 rounded-lg border px-4 py-3"
@@ -174,10 +166,11 @@ export function BillingContent({ accountId }: { accountId: string }) {
         </Card>
       ) : null}
 
-      {showStartTrial && !isBillingReadOnly ? (
+      {showStartTrial ? (
         <BillingTrialStartCard
           accountId={accountId}
           enabled={state.segmentOk}
+          readOnly={isBillingReadOnly}
           organisationTrialPresentation={state.organisationTrialPresentation}
           {...(state.availableActions !== undefined
             ? { availableActions: state.availableActions }
@@ -192,9 +185,9 @@ export function BillingContent({ accountId }: { accountId: string }) {
         />
       ) : null}
 
-      {showCreateSeasonPassSection && !isBillingReadOnly ? (
+      {showCreateSeasonPassSection ? (
         <div className="grid gap-3">
-          <BillingCreateSeasonPassCard accountId={accountId} />
+          <BillingCreateSeasonPassCard accountId={accountId} readOnly={isBillingReadOnly} />
           {showTrialUsedCardForUiMode && state.billingUiMode === "trial_expired" ? (
             <BillingTrialUsedCard
               accountId={accountId}
@@ -229,6 +222,14 @@ export function BillingContent({ accountId }: { accountId: string }) {
         billingUiMode={state.billingUiMode}
         orders={state.ordersPayload}
       />
+
+      {isBillingReadOnly ? (
+        <BillingSupportDiagnosticsPanel
+          accountId={accountId}
+          billingUiMode={state.billingUiMode}
+          billingSummary={state.billingSummary}
+        />
+      ) : null}
 
       {showTrialUsedCardForUiMode && state.billingUiMode === "payment_pending" ? (
         <BillingTrialUsedCard

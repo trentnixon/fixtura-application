@@ -54,6 +54,7 @@ export default [
         globalThis: "readonly",
         Event: "readonly",
         KeyboardEvent: "readonly",
+        StorageEvent: "readonly",
         BeforeUnloadEvent: "readonly",
         HTMLDivElement: "readonly",
         HTMLButtonElement: "readonly",
