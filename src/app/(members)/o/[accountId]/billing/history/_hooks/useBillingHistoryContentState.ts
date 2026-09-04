@@ -24,7 +24,7 @@ import type { BillingHistoryState } from "../_types/billingHistory";
 export function useBillingHistoryContentState(accountId: string): BillingHistoryState {
   const segmentOk = isValidAccountIdSegment(accountId);
   const { isSupportView } = useSupportView();
-  const invoiceRequestsQueryEnabled = segmentOk && !isSupportView;
+  const invoiceRequestsQueryEnabled = segmentOk;
 
   const billingQuery = useAccountBilling(accountId, { enabled: segmentOk });
   const invoiceRequestsQuery = useAccountBillingInvoiceRequests(accountId, {
@@ -120,8 +120,6 @@ export function useBillingHistoryContentState(accountId: string): BillingHistory
       : [];
 
   const invoiceRequests = resolveBillingHistoryInvoiceRequests({
-    isSupportView,
-    summary,
     listFromQuery,
   });
 

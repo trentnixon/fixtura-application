@@ -32,6 +32,7 @@ describe("getScopedNavSections", () => {
     expect(titles).toEqual(
       expect.arrayContaining([
         "Dashboard",
+        "Billing",
         "Bundles",
         "Settings",
         "Background images",

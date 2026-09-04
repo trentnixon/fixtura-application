@@ -13,6 +13,7 @@ import { CheckoutReturnBanner } from "../../_components/banners/CheckoutReturnBa
 import { BillingProductStateBadge } from "../../_components/billing-product-state-badge";
 import { BillingPaidAwaitingStartCard } from "../../_components/overview/BillingPaidAwaitingStartCard";
 import { BillingSections } from "../../_components/overview/BillingSections";
+import { BillingSupportDiagnosticsPanel } from "../../_components/support/BillingSupportDiagnosticsPanel";
 import { BillingOrganisationTrialNotice } from "../../_components/trial/BillingOrganisationTrialNotice";
 import { useBillingSupportReadOnly } from "../../_hooks/useBillingSupportReadOnly";
 import {
@@ -131,6 +132,14 @@ export function BillingContent({ accountId }: { accountId: string }) {
 
       {orgTrialNoticePresentation ? (
         <BillingOrganisationTrialNotice presentation={orgTrialNoticePresentation} />
+      ) : null}
+
+      {isBillingReadOnly ? (
+        <BillingSupportDiagnosticsPanel
+          accountId={accountId}
+          billingUiMode={state.billingUiMode}
+          billingSummary={state.billingSummary}
+        />
       ) : null}
 
       {state.billingUiMode !== "payment_pending" && paidAwaitingStartOrder == null ? (

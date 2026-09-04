@@ -2,6 +2,7 @@ import {
   IconBuilding,
   IconBuildingPlus,
   IconCamera,
+  IconCreditCard,
   IconDashboard,
   IconEye,
   IconFileDescription,
@@ -67,6 +68,20 @@ export function getScopedNavSections(
         },
       ],
     },
+    ...(isSupportView
+      ? [
+          {
+            label: "Account",
+            items: [
+              {
+                title: "Billing",
+                url: accountScopedRoutes.billing(accountId),
+                icon: IconCreditCard,
+              },
+            ],
+          } satisfies NavMainSection,
+        ]
+      : []),
     /* {
       label: "Account",
       items: [

@@ -4,6 +4,9 @@
 **Audience:** Fixtura member app (frontend) team  
 **Backend reference:** [cms-handoff-support-super-user-phase5-app-integration.md](./cms-handoff-support-super-user-phase5-app-integration.md)  
 **CMS billing answers (P0):** [cms-reply-support-super-user-p0-billing-2026-08-07.md](./cms-reply-support-super-user-p0-billing-2026-08-07.md)  
+**CMS Vision + billing (2026-09-04):** [cms-request-support-vision-billing-access.md](./cms-request-support-vision-billing-access.md)  
+**CMS questions (Vision + billing):** [cms-questions-support-vision-billing-access.md](./cms-questions-support-vision-billing-access.md)  
+**CMS → FE start (TKT-2026-017):** [cms-handoff-support-vision-billing-fe-start.md](../../FrontEnd/handoff/cms-handoff-support-vision-billing-fe-start.md)  
 **Phases tracker:** [docs/support-super-user-access-implementation-phases.md](../../../docs/support-super-user-access-implementation-phases.md)
 
 This file lists **frontend-only** work still open after Phase 5 core integration (directory + `/o/[accountId]/…` support view). Backend Phases 0–4 and **5.1 billing reads** are done on **local CMS** (not prod yet).
@@ -27,7 +30,36 @@ Use this section to avoid re-doing work.
 
 ---
 
-## P0 — Do next
+## P0 — Support Vision + billing (TKT-2026-017)
+
+**CMS shipped (staging deploy pending):** [cms-handoff-support-vision-billing-fe-start.md](../../FrontEnd/handoff/cms-handoff-support-vision-billing-fe-start.md)
+
+**Ship order:** Billing (Track 3) → Vision reads (Track 1) → Vision sync (Track 2, requires BFF `accountId` on scrape POSTs).
+
+### Phase A — Billing
+
+- [x] Enable invoice-requests list query when `isSupportView` (remove latest-only fallback)
+- [x] Billing sidebar for support; diagnostics panel
+- [x] Verify billing POST UI still hidden
+
+### Phase B — Vision reads
+
+- [ ] Remove `useSeasonHubQueriesEnabled` skip; remove Vision placeholders
+- [ ] Vision in support sidebar
+- [ ] Scrape buttons hidden until Phase C
+
+### Phase C — Vision sync (BFF)
+
+- [ ] Inject `accountId` + Bearer JWT on scrape proxy bodies to CMS
+- [ ] Enable scrape/sync in Support View
+
+### Phase D — UX
+
+- [ ] Support banner copy (billing read-only; Vision sync when Phase C live)
+
+---
+
+## P0 — Do next (legacy billing 5.1)
 
 ### 1. Enable billing in support view (Phase 5.1)
 
@@ -47,7 +79,7 @@ CMS allows support reads on **local CMS** (see [CMS reply](./cms-reply-support-s
 - [x] Hide/disable all billing **POST** actions when `isSupportView` (`useBillingSupportReadOnly`, overview actions, payment-pending banner, create wizard redirect)
 - [ ] QA: support user → customer account → trial status, `organisationTrial`, order history visible; mutations return 404 if triggered
 
-**Invoice-request list (5.1b):** Optional for support v1. Summary + orders are enough for trial/checkout troubleshooting. Do not wait for 5.1b to ship P0 if history is decoupled.
+**Invoice-request list (5.1b):** Required for invoice stuck-state triage (older requests not in `latestInvoiceRequest`). See [cms-request-support-vision-billing-access.md](./cms-request-support-vision-billing-access.md) Track 3.
 
 **Prod:** Do **not** enable billing in prod support view until CMS confirms prod deploy includes 5.1.
 
@@ -113,13 +145,18 @@ CMS confirms **200** for support on local CMS (see [CMS reply](./cms-reply-suppo
 
 ## P2 — Blocked on backend (do not build until CMS ships)
 
-| Feature                          | CMS status               | FE action when ready                                     |
-| -------------------------------- | ------------------------ | -------------------------------------------------------- |
-| Invoice requests list            | 404 (5.1b, not ticketed) | Enable read-only invoice-requests UI on history page     |
-| Available tiers                  | 404 (5.1b)               | Optional; low priority for support                       |
-| Season hub (`/api/season-hub/*`) | 404                      | Remove skip/placeholder; wire existing season-hub client |
-| Template `all-template-options`  | 404                      | Enable template builder read path                        |
-| Club logos directory             | 404                      | Enable logos troubleshooting UI                          |
+**Superseded for Vision + billing 5.1b by TKT-2026-017** — see [cms-handoff-support-vision-billing-fe-start.md](../../FrontEnd/handoff/cms-handoff-support-vision-billing-fe-start.md). Remaining P2 rows below are **other** support gaps.
+
+**Original CMS request:** [cms-request-support-vision-billing-access.md](./cms-request-support-vision-billing-access.md)
+
+| Feature                         | CMS status (2026-09-04) | FE action                           |
+| ------------------------------- | ----------------------- | ----------------------------------- |
+| Invoice requests list           | **Shipped (5.1b)**      | Phase A in FE start handoff         |
+| Season hub GETs                 | **Shipped (Track 1)**   | Phase B in FE start handoff         |
+| Season hub scrape POSTs         | **Shipped (Track 2)**   | Phase C — BFF `accountId` injection |
+| Available tiers                 | 404 (5.1c)              | Optional; low priority              |
+| Template `all-template-options` | 404                     | Enable template builder read path   |
+| Club logos directory            | 404                     | Enable logos troubleshooting UI     |
 
 **Do not build:** render-token, billing POSTs, support mutations (Phase 7+).
 
