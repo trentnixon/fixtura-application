@@ -55,7 +55,7 @@ Use this section to avoid re-doing work.
 
 ### Phase D — UX
 
-- [ ] Support banner copy (billing read-only; Vision sync when Phase C live)
+- [x] Support banner copy (billing read-only; Vision sync when Phase C live)
 
 ---
 
