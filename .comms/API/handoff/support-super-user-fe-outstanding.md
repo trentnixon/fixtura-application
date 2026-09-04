@@ -24,7 +24,7 @@ Use this section to avoid re-doing work.
 - [x] Directory row → `/o/{accountId}/dashboard` (reuse normal app routes, not parallel `/support/accounts/:id/*` tree)
 - [x] Read-only banner for non-owned accounts + link back to directory
 - [x] Phase 3 reads exercised on customer accounts (settings, branding, organisation, notifications, onboarding, renders, analytics, org dashboard)
-- [x] Season-hub queries skipped in support view (Vision placeholder; no global error toasts)
+- [x] Season-hub queries enabled in support view (Vision reads; sync gated to Phase C)
 - [x] Zero references to legacy `GET /api/account/admin/lookup`
 - [x] BFF order history confirmed → Strapi `GET /api/orders/account/:accountId` (see CMS reply)
 
@@ -44,9 +44,9 @@ Use this section to avoid re-doing work.
 
 ### Phase B — Vision reads
 
-- [ ] Remove `useSeasonHubQueriesEnabled` skip; remove Vision placeholders
-- [ ] Vision in support sidebar
-- [ ] Scrape buttons hidden until Phase C
+- [x] Remove `useSeasonHubQueriesEnabled` skip; remove Vision placeholders
+- [x] Vision in support sidebar
+- [x] Scrape buttons hidden until Phase C
 
 ### Phase C — Vision sync (BFF)
 
@@ -108,7 +108,7 @@ Backend enforces owner-only mutations; UI should still prevent confusion.
 
 Routes that **404** for support today should be hidden or show intentional empty states:
 
-- [x] **Vision / Season hub** — hidden in support view nav (page placeholder unchanged)
+- [x] **Vision / Season hub** — reads enabled in support view; scrape actions hidden until Phase C
 - [x] **Billing** — user menu links to `/billing`; overview/history work after P0 decouple
 - [x] **Template builder** — hidden from nav; direct URL shows unavailable card in support view
 - [x] **Club logos** — hidden from nav; direct URL shows unavailable card in support view

@@ -16,6 +16,7 @@ export type SeasonOverviewHeaderProps = {
   accountId: string;
   loading: boolean;
   orgSyncPending: boolean;
+  showSyncActions?: boolean;
   onRefresh: () => void;
   onOpenSync: () => void;
 };
@@ -89,6 +90,7 @@ export type SeasonCompetitionDetailHeaderProps = {
   seasonOverviewHref: string;
   isFetching: boolean;
   canQueueGradesRefresh: boolean;
+  showSyncActions?: boolean;
   onReload: () => void;
   onOpenSyncGrades: () => void;
 };
@@ -127,6 +129,7 @@ export type SeasonGradeViewHeaderProps = {
   displayModel: SeasonGradeDisplayModel;
   isFetching: boolean;
   canQueueCombinedSync: boolean;
+  showSyncActions?: boolean;
   onReload: () => void;
   onOpenSync: () => void;
 };
@@ -210,6 +213,7 @@ export type SeasonFixtureViewHeaderProps = {
   model: SeasonFixtureViewModel;
   isFetching: boolean;
   canQueueResultSync: boolean;
+  showSyncActions?: boolean;
   onReload: () => void;
   onOpenSync: () => void;
 };

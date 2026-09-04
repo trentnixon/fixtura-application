@@ -11,8 +11,8 @@ import {
   useSeasonHubRecon,
   useSeasonHubStats,
 } from "@/lib/api/hooks/season-hub";
-import { useSupportView } from "@/lib/support/support-view-context";
 import { useSeasonHubQueriesEnabled } from "@/lib/support/use-season-hub-queries-enabled";
+import { useVisionSyncActionsEnabled } from "@/lib/support/use-vision-sync-actions-enabled";
 
 import { SEASON_LOADING_COPY } from "./_constants";
 import { useSeasonOverviewFilters, useSeasonOverviewState } from "./_hooks";
@@ -23,8 +23,8 @@ import { SeasonOverviewSyncDialog } from "./_sections/season-overview-sync-dialo
 import { SeasonOverviewTrackedCompetitionsSection } from "./_sections/season-overview-tracked-competitions-section";
 
 export function SeasonOverview({ accountId }: { accountId: string }) {
-  const { isSupportView } = useSupportView();
   const seasonHubEnabled = useSeasonHubQueriesEnabled(accountId);
+  const showSyncActions = useVisionSyncActionsEnabled();
   const recon = useSeasonHubRecon(accountId, { enabled: seasonHubEnabled });
   const stats = useSeasonHubStats(accountId, { enabled: seasonHubEnabled });
   const competitions = useSeasonHubCompetitions(
@@ -45,10 +45,10 @@ export function SeasonOverview({ accountId }: { accountId: string }) {
   const loading = recon.isPending || stats.isPending || competitions.isPending;
 
   useEffect(() => {
-    if (viewedRef.current || loading || anyError || isSupportView) return;
+    if (viewedRef.current || loading || anyError) return;
     viewedRef.current = true;
     captureUserAction("vision_viewed", { accountId });
-  }, [accountId, anyError, isSupportView, loading]);
+  }, [accountId, anyError, loading]);
 
   const reconData = recon.data?.data;
   const statsData = stats.data?.data;
@@ -70,15 +70,6 @@ export function SeasonOverview({ accountId }: { accountId: string }) {
     void stats.refetch();
     void competitions.refetch();
   };
-
-  if (isSupportView) {
-    return (
-      <ErrorState
-        title="Vision unavailable in support view"
-        description="Season hub data is not available when browsing a customer account as support staff."
-      />
-    );
-  }
 
   if (anyError && firstError) {
     return (
@@ -109,15 +100,18 @@ export function SeasonOverview({ accountId }: { accountId: string }) {
         accountId={accountId}
         loading={loading}
         orgSyncPending={orgSync.isPending}
+        showSyncActions={showSyncActions}
         onRefresh={runRefresh}
         onOpenSync={() => setSyncDialogOpen(true)}
       />
-      <SeasonOverviewSyncDialog
-        accountId={accountId}
-        open={syncDialogOpen}
-        onOpenChange={setSyncDialogOpen}
-        orgSync={orgSync}
-      />
+      {showSyncActions ? (
+        <SeasonOverviewSyncDialog
+          accountId={accountId}
+          open={syncDialogOpen}
+          onOpenChange={setSyncDialogOpen}
+          orgSync={orgSync}
+        />
+      ) : null}
       {reconData ? (
         <SeasonOverviewSummarySection reconData={reconData} statsData={statsData} />
       ) : null}

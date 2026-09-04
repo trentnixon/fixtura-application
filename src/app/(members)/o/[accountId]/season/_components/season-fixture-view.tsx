@@ -8,6 +8,7 @@ import { captureUserAction } from "@/lib/analytics";
 import { useTriggerResultSingleScrape } from "@/lib/api/hooks/account/useTriggerResultSingleScrape";
 import { useSeasonHubFixture, useSeasonHubGradeFixtures } from "@/lib/api/hooks/season-hub";
 import { toastError, toastSuccess } from "@/lib/notify";
+import { useVisionSyncActionsEnabled } from "@/lib/support/use-vision-sync-actions-enabled";
 
 import { SEASON_LOADING_COPY } from "./_constants";
 import { useSeasonFixtureViewModel } from "./_hooks";
@@ -29,6 +30,7 @@ export function SeasonFixtureView({
   gradeId,
   fixtureId,
 }: SeasonFixtureViewProps) {
+  const showSyncActions = useVisionSyncActionsEnabled();
   const fixture = useSeasonHubFixture(
     {
       accountId,
@@ -109,16 +111,19 @@ export function SeasonFixtureView({
         model={fixtureModel}
         isFetching={isFetching}
         canQueueResultSync={canQueueResultSync}
+        showSyncActions={showSyncActions}
         onReload={handleRefetch}
         onOpenSync={() => setResultSyncDialogOpen(true)}
       />
 
-      <SeasonFixtureResultSyncDialog
-        open={resultSyncDialogOpen}
-        onOpenChange={setResultSyncDialogOpen}
-        isSyncMutating={resultSingle.isPending}
-        onConfirm={handleConfirmResultSync}
-      />
+      {showSyncActions ? (
+        <SeasonFixtureResultSyncDialog
+          open={resultSyncDialogOpen}
+          onOpenChange={setResultSyncDialogOpen}
+          isSyncMutating={resultSingle.isPending}
+          onConfirm={handleConfirmResultSync}
+        />
+      ) : null}
 
       <SeasonFixtureDetailTabsSection model={fixtureModel} />
 

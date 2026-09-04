@@ -24,6 +24,7 @@ export function SeasonCompetitionDetailHeader({
   seasonOverviewHref,
   isFetching,
   canQueueGradesRefresh,
+  showSyncActions = true,
   onReload,
   onOpenSyncGrades,
 }: SeasonCompetitionDetailHeaderProps) {
@@ -80,15 +81,17 @@ export function SeasonCompetitionDetailHeader({
               )}
               Refresh
             </Button>
-            <Button
-              type="button"
-              variant="accent"
-              disabled={!canQueueGradesRefresh}
-              onClick={onOpenSyncGrades}
-            >
-              <CloudDownload className="size-4" aria-hidden />
-              Sync
-            </Button>
+            {showSyncActions ? (
+              <Button
+                type="button"
+                variant="accent"
+                disabled={!canQueueGradesRefresh}
+                onClick={onOpenSyncGrades}
+              >
+                <CloudDownload className="size-4" aria-hidden />
+                Sync
+              </Button>
+            ) : null}
           </div>
         </div>
       </div>
