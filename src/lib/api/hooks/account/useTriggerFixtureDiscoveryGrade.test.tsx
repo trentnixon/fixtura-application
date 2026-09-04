@@ -50,7 +50,7 @@ describe("useTriggerFixtureDiscoveryGrade", () => {
   it("triggers API and invalidates grade + grade fixtures queries on success", async () => {
     const { Wrapper, queryClient } = createWrapper();
     const invalidateSpy = vi.spyOn(queryClient, "invalidateQueries");
-    const { result } = renderHook(() => useTriggerFixtureDiscoveryGrade("acc-1", "99", "1234"), {
+    const { result } = renderHook(() => useTriggerFixtureDiscoveryGrade("123", "99", "1234"), {
       wrapper: Wrapper,
     });
 
@@ -58,17 +58,17 @@ describe("useTriggerFixtureDiscoveryGrade", () => {
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
-    expect(triggerFixtureDiscoveryGradeMock).toHaveBeenCalledWith({ id: 1234 });
+    expect(triggerFixtureDiscoveryGradeMock).toHaveBeenCalledWith({ id: 1234, accountId: 123 });
     expect(invalidateSpy).toHaveBeenNthCalledWith(
       1,
       expect.objectContaining({
-        queryKey: queryKeys.seasonHub.grade("acc-1", "1234", "99"),
+        queryKey: queryKeys.seasonHub.grade("123", "1234", "99"),
       }),
     );
     expect(invalidateSpy).toHaveBeenNthCalledWith(
       2,
       expect.objectContaining({
-        queryKey: queryKeys.seasonHub.gradeFixtures("acc-1", "1234", "99"),
+        queryKey: queryKeys.seasonHub.gradeFixtures("123", "1234", "99"),
       }),
     );
   });

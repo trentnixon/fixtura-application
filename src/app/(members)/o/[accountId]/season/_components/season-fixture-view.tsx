@@ -8,7 +8,7 @@ import { captureUserAction } from "@/lib/analytics";
 import { useTriggerResultSingleScrape } from "@/lib/api/hooks/account/useTriggerResultSingleScrape";
 import { useSeasonHubFixture, useSeasonHubGradeFixtures } from "@/lib/api/hooks/season-hub";
 import { toastError, toastSuccess } from "@/lib/notify";
-import { useVisionSyncActionsEnabled } from "@/lib/support/use-vision-sync-actions-enabled";
+import { useVisionResultSyncActionsEnabled } from "@/lib/support/use-vision-result-sync-actions-enabled";
 
 import { SEASON_LOADING_COPY } from "./_constants";
 import { useSeasonFixtureViewModel } from "./_hooks";
@@ -30,7 +30,7 @@ export function SeasonFixtureView({
   gradeId,
   fixtureId,
 }: SeasonFixtureViewProps) {
-  const showSyncActions = useVisionSyncActionsEnabled();
+  const showSyncActions = useVisionResultSyncActionsEnabled();
   const fixture = useSeasonHubFixture(
     {
       accountId,

@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { accountApi } from "@/lib/api/services/account.api";
 
+import { withScopedAccountIdBody } from "./with-scoped-account-id-body";
 import { queryKeys } from "../../query/query-keys";
 
 import type { TriggerAssociationSingleScrapeRequest } from "@/types/api/account";
@@ -14,7 +15,7 @@ export function useTriggerAssociationSingleScrape(accountId: string) {
 
   return useMutation({
     mutationFn: (body: TriggerAssociationSingleScrapeRequest) =>
-      accountApi.triggerAssociationSingleScrape(body),
+      accountApi.triggerAssociationSingleScrape(withScopedAccountIdBody(accountId, body)),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: queryKeys.seasonHub.recon(accountId) });
       await queryClient.invalidateQueries({ queryKey: queryKeys.seasonHub.stats(accountId) });

@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { accountApi } from "@/lib/api/services/account.api";
 
+import { withScopedAccountIdBody } from "./with-scoped-account-id-body";
 import { queryKeys } from "../../query/query-keys";
 
 import type { TriggerGradesLookupTeamsSingleScrapeRequest } from "@/types/api/account";
@@ -18,7 +19,7 @@ export function useTriggerGradesLookupTeamsSingleScrape(
 
   return useMutation({
     mutationFn: (body: TriggerGradesLookupTeamsSingleScrapeRequest) =>
-      accountApi.triggerGradesLookupTeamsSingleScrape(body),
+      accountApi.triggerGradesLookupTeamsSingleScrape(withScopedAccountIdBody(accountId, body)),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: queryKeys.seasonHub.competition(accountId, competitionId),

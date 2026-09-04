@@ -50,8 +50,8 @@ Use this section to avoid re-doing work.
 
 ### Phase C — Vision sync (BFF)
 
-- [ ] Inject `accountId` + Bearer JWT on scrape proxy bodies to CMS
-- [ ] Enable scrape/sync in Support View
+- [x] Inject `accountId` + Bearer JWT on scrape proxy bodies to CMS
+- [x] Enable scrape/sync in Support View
 
 ### Phase D — UX
 
