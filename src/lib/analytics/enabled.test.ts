@@ -11,12 +11,8 @@ describe("analytics enabled", () => {
     expect(isAnalyticsConfigured({ featureAnalytics: "true", posthogKey: "" })).toBe(false);
   });
 
-  it("requires configured, consent, and initialized state to capture", () => {
-    expect(canCaptureAnalytics({ configured: true, hasConsent: true, initialized: true })).toBe(
-      true,
-    );
-    expect(canCaptureAnalytics({ configured: false, hasConsent: true, initialized: true })).toBe(
-      false,
-    );
+  it("requires configured and initialized state to capture", () => {
+    expect(canCaptureAnalytics({ configured: true, initialized: true })).toBe(true);
+    expect(canCaptureAnalytics({ configured: false, initialized: true })).toBe(false);
   });
 });

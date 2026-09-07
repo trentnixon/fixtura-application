@@ -20,7 +20,6 @@ import {
   identifyUser,
   resetAnalytics,
 } from "./analytics";
-import * as consent from "./consent";
 
 const FEATURE_KEY = "NEXT_PUBLIC_FEATURE_ANALYTICS";
 const POSTHOG_KEY = "NEXT_PUBLIC_POSTHOG_KEY";
@@ -44,7 +43,6 @@ describe("analytics capture", () => {
   it("captures events with surface app when ready", () => {
     process.env[FEATURE_KEY] = "true";
     process.env[POSTHOG_KEY] = "phc_test";
-    vi.spyOn(consent, "readBrowserAnalyticsConsent").mockReturnValue(true);
 
     const capture = vi.fn();
     const identify = vi.fn();
@@ -76,7 +74,6 @@ describe("analytics capture", () => {
   it("skips capture on excluded paths", () => {
     process.env[FEATURE_KEY] = "true";
     process.env[POSTHOG_KEY] = "phc_test";
-    vi.spyOn(consent, "readBrowserAnalyticsConsent").mockReturnValue(true);
 
     const capture = vi.fn();
     __setAnalyticsClientForTests({ capture } as never);

@@ -1,4 +1,3 @@
-import { readBrowserAnalyticsConsent } from "./consent";
 import { canCaptureAnalytics, isAnalyticsConfigured } from "./enabled";
 import { isAnalyticsExcludedPath, pathnameFromAnalyticsUrl } from "./excluded-path";
 import { buildPostHogInitOptions, createPostHogClient, type PostHogLike } from "./posthog-client";
@@ -37,7 +36,6 @@ function isReadyToCapture(): boolean {
   const env = readRuntimeEnv();
   return canCaptureAnalytics({
     configured: isAnalyticsConfigured(env),
-    hasConsent: readBrowserAnalyticsConsent(),
     initialized,
   });
 }
@@ -53,7 +51,6 @@ export function initAnalytics(): boolean {
 
   const env = readRuntimeEnv();
   if (!isAnalyticsConfigured(env)) return false;
-  if (!readBrowserAnalyticsConsent()) return false;
 
   const key = env.posthogKey?.trim();
   if (!key) return false;
