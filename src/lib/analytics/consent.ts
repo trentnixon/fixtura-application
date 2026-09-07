@@ -16,8 +16,8 @@ export function resolveAnalyticsConsentCookieDomain(hostname: string): string | 
   return undefined;
 }
 
-export function readCookieAnalyticsConsent(cookieHeader: string): boolean {
-  if (!cookieHeader) return false;
+export function readAnalyticsConsentCookieValue(cookieHeader: string): string | null {
+  if (!cookieHeader) return null;
 
   const cookies = cookieHeader.split(";").map((part) => part.trim());
   for (const cookie of cookies) {
@@ -25,13 +25,16 @@ export function readCookieAnalyticsConsent(cookieHeader: string): boolean {
     if (separatorIndex === -1) continue;
 
     const name = cookie.slice(0, separatorIndex);
-    const value = decodeURIComponent(cookie.slice(separatorIndex + 1));
     if (name === ANALYTICS_CONSENT_STORAGE_KEY) {
-      return value === ANALYTICS_CONSENT_GRANTED;
+      return decodeURIComponent(cookie.slice(separatorIndex + 1));
     }
   }
 
-  return false;
+  return null;
+}
+
+export function readCookieAnalyticsConsent(cookieHeader: string): boolean {
+  return readAnalyticsConsentCookieValue(cookieHeader) === ANALYTICS_CONSENT_GRANTED;
 }
 
 export function readAnalyticsConsent(storage: { getItem(key: string): string | null }): boolean {
@@ -45,8 +48,9 @@ export function readAnalyticsConsent(storage: { getItem(key: string): string | n
 export function readBrowserAnalyticsConsent(): boolean {
   if (typeof window === "undefined") return false;
 
-  if (readCookieAnalyticsConsent(document.cookie)) {
-    return true;
+  const cookieValue = readAnalyticsConsentCookieValue(document.cookie);
+  if (cookieValue !== null) {
+    return cookieValue === ANALYTICS_CONSENT_GRANTED;
   }
 
   return readAnalyticsConsent(window.localStorage);

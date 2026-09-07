@@ -41,6 +41,13 @@ describe("readBrowserAnalyticsConsent", () => {
 
     expect(readBrowserAnalyticsConsent()).toBe(true);
   });
+
+  it("does not fall back to localStorage when the cookie explicitly denies consent", () => {
+    window.localStorage.setItem(ANALYTICS_CONSENT_STORAGE_KEY, ANALYTICS_CONSENT_GRANTED);
+    document.cookie = `${ANALYTICS_CONSENT_STORAGE_KEY}=denied; path=/`;
+
+    expect(readBrowserAnalyticsConsent()).toBe(false);
+  });
 });
 
 describe("writeBrowserAnalyticsConsent", () => {
@@ -100,5 +107,10 @@ describe("readAnalyticsConsent", () => {
     };
 
     expect(readAnalyticsConsent(storage)).toBe(true);
+  });
+
+  it("returns false when localStorage consent is missing or denied", () => {
+    expect(readAnalyticsConsent({ getItem: () => null })).toBe(false);
+    expect(readAnalyticsConsent({ getItem: () => "denied" })).toBe(false);
   });
 });
