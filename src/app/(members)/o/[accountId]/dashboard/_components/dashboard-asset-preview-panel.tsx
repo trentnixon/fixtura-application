@@ -98,9 +98,6 @@ export function DashboardAssetPreviewPanel({
     return d.data.items;
   }, [sponsorsQuery.data]);
 
-  const remotionPreviewReady =
-    savedSourceStatus === "ready" && !(usesImage && mediaQuery.isPending);
-
   const remotionAssetPreview = useRemotionAssetPreview({
     sport,
     source: remotionSource,
@@ -109,7 +106,6 @@ export function DashboardAssetPreviewPanel({
     templateCategoryCatalog,
     exampleCompositionId,
     accountSponsors,
-    enabled: remotionPreviewReady,
   });
 
   const brandingSettingsDebug = useMemo(

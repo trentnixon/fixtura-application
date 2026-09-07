@@ -1,5 +1,5 @@
 import { applyRemotionPreviewDraftToBranding } from "./apply-remotion-preview-draft-to-branding";
-import { auditSavedBrandingCompleteness } from "./audit-saved-branding-completeness";
+import { auditSavedBrandingNeedsCatalogResolver } from "./audit-saved-branding-completeness";
 import { buildRemotionPreviewDraftForSavedBranding } from "./build-remotion-preview-draft-for-saved-branding";
 
 import type { AccountBrandingData, AccountMediaLibraryImage } from "@/types/api/account";
@@ -22,7 +22,7 @@ export function needsCatalogToResolveSavedBranding(
   branding: AccountBrandingData | null | undefined,
 ): boolean {
   if (branding == null) return false;
-  return auditSavedBrandingCompleteness(branding).length > 0;
+  return auditSavedBrandingNeedsCatalogResolver(branding).length > 0;
 }
 
 export function readTemplateOptionIdFromBranding(

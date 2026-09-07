@@ -156,6 +156,72 @@ export function auditSavedBrandingCompleteness(
   return gaps;
 }
 
+/** Gaps the lazy catalog resolver can fix (Animated, Texture, Image presets only). */
+export function auditSavedBrandingNeedsCatalogResolver(
+  branding: AccountBrandingData | null | undefined,
+): SavedBrandingFieldGap[] {
+  const gaps: SavedBrandingFieldGap[] = [];
+  const useBackground = readUseBackgroundFromAccountBranding(branding);
+
+  switch (useBackground) {
+    case "Texture": {
+      const texture = readRemotionTextureFromBranding(branding);
+      if (texture === null) {
+        gaps.push({
+          field: "texture",
+          status: "missing",
+          detail: "Texture url/name not readable from saved branding.",
+        });
+      } else if (texture.url == null || texture.url.trim() === "") {
+        gaps.push({
+          field: "texture.url",
+          status: "partial",
+          detail: "Texture row exists but media url is missing or unresolved.",
+        });
+      }
+      break;
+    }
+    case "Image": {
+      const image = readRemotionImageFromBranding(branding);
+      if (image === null) {
+        gaps.push({
+          field: "image",
+          status: "missing",
+          detail: "Image treatment preset not readable from saved branding.",
+        });
+      } else if (image.type == null) {
+        gaps.push({
+          field: "image.type",
+          status: "partial",
+          detail: "Image animationType/type missing on saved branding.",
+        });
+      }
+      break;
+    }
+    case "Animated": {
+      const animation = readRemotionAnimationFromBranding(branding);
+      if (animation === null) {
+        gaps.push({
+          field: "animation",
+          status: "missing",
+          detail: "animation.type not present — builder expands this from catalog preset.",
+        });
+      } else if (typeof animation.type !== "string" || animation.type.trim() === "") {
+        gaps.push({
+          field: "animation.type",
+          status: "partial",
+          detail: "animation row exists but type/presetId is missing.",
+        });
+      }
+      break;
+    }
+    default:
+      break;
+  }
+
+  return gaps;
+}
+
 export function isSavedBrandingCompleteForRemotionPreview(
   branding: AccountBrandingData | null | undefined,
 ): boolean {

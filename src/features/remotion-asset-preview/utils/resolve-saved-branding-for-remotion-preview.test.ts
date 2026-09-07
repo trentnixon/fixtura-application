@@ -141,6 +141,26 @@ describe("needsCatalogToResolveSavedBranding", () => {
       ),
     ).toBe(true);
   });
+
+  it("returns false for Solid branding when only palette audit would fail", () => {
+    expect(
+      needsCatalogToResolveSavedBranding(
+        brandingFixture({
+          template_option: { categoryId: 8, useBackground: "Solid" },
+          theme: {
+            id: 2,
+            name: "Theme",
+            theme: {
+              primary: "#111111",
+              secondary: "#222222",
+              mode: "dark",
+              useBackground: "Solid",
+            },
+          },
+        }),
+      ),
+    ).toBe(false);
+  });
 });
 
 describe("resolveSavedBrandingForRemotionPreview", () => {
