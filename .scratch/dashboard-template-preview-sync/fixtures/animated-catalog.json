@@ -1,0 +1,54 @@
+{
+  "categories": [
+    {
+      "id": 8,
+      "name": "Broadcast Pro",
+      "slug": "BroadcastPro",
+      "divideFixturesBy": "round",
+      "isPrivate": false,
+      "bundleAudio": null
+    }
+  ],
+  "modes": [{ "id": 2, "name": "Dark", "slug": "dark" }],
+  "palettes": [{ "id": 3, "name": "Analogous", "value": "analogous" }],
+  "gradients": [],
+  "images": [],
+  "noises": [],
+  "particles": [],
+  "patterns": [],
+  "textures": [],
+  "videos": [],
+  "animations": [
+    {
+      "id": 9,
+      "presetId": "snow-field",
+      "name": "Snow",
+      "description": null,
+      "defaultConfiguration": { "particleCount": 300, "speed": 2 },
+      "isDefault": true,
+      "sortOrder": 0,
+      "catalogueVersion": null
+    }
+  ],
+  "defaultAnimationPresetId": "snow-field",
+  "currentSelection": {
+    "id": 269,
+    "useBackground": "Animated",
+    "templateAnimation": { "id": 9, "presetId": "snow-field", "name": "Snow" },
+    "templateCategory": {
+      "id": 8,
+      "name": "Broadcast Pro",
+      "slug": "BroadcastPro",
+      "divideFixturesBy": "round"
+    },
+    "templatePalette": { "id": 3, "name": "Analogous", "value": "analogous" },
+    "templateGradient": null,
+    "templateImage": null,
+    "templateNoise": null,
+    "templateParticle": null,
+    "templatePattern": null,
+    "templateTexture": null,
+    "templateVideo": null,
+    "templateMode": { "id": 2, "name": "Dark", "slug": "dark" }
+  }
+}

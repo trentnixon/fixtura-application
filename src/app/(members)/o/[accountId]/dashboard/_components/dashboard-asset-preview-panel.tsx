@@ -12,12 +12,23 @@ import { DEFAULT_REMOTION_SANDBOX_COMPOSITION_ID } from "@/components/remotion/_
 import { isRemotionSandboxCricketCompositionId } from "@/components/remotion/_constants/remotion-datasets";
 import { TypographyH4, TypographyMuted } from "@/components/typography";
 import { Button } from "@/components/ui/button";
-import { isCricketSport, useRemotionAssetPreview } from "@/features/remotion-asset-preview";
+import {
+  isCricketSport,
+  resolveTemplateModeSlugFromBranding,
+  useRemotionAssetPreview,
+} from "@/features/remotion-asset-preview";
+import { useAccountPreviewMediaSelection } from "@/features/remotion-asset-preview/hooks/use-account-preview-media-selection";
+import { useResolvedSavedRemotionPreviewSource } from "@/features/remotion-asset-preview/hooks/use-resolved-saved-remotion-preview-source";
 import { captureUserAction } from "@/lib/analytics";
+import {
+  isAccountMediaLibraryGatewayRedirect,
+  useAccountMediaLibrary,
+} from "@/lib/api/hooks/account/useAccountMediaLibrary";
 import {
   isAccountSponsorsGatewayRedirect,
   useAccountSponsors,
 } from "@/lib/api/hooks/account/useAccountSponsors";
+import { useTemplateModesUi } from "@/lib/api/hooks/template-modes/useTemplateModesUi";
 import { accountScopedRoutes } from "@/lib/config/account-routes";
 
 import { DashboardAssetPreviewBrandingDebug } from "./dashboard-asset-preview-branding-debug";
@@ -32,7 +43,6 @@ type DashboardAssetPreviewPanelProps = {
   sport: string | null;
   branding: AccountBrandingData | null;
   logoUrl: string | null;
-  templateModeSlug: string | null;
   templateCategoryCatalog?: TemplateCategoryCatalogItem[];
   debugPlacement?: "carousel" | "below" | "none";
   showAssetPicker?: boolean;
@@ -45,7 +55,6 @@ export function DashboardAssetPreviewPanel({
   sport,
   branding,
   logoUrl,
-  templateModeSlug,
   templateCategoryCatalog = [],
   debugPlacement = "carousel",
   showAssetPicker = true,
@@ -66,14 +75,43 @@ export function DashboardAssetPreviewPanel({
   }, [imageOptions.selected]);
 
   const sponsorsQuery = useAccountSponsors(accountId);
+  const templateModesQuery = useTemplateModesUi();
+  const mediaQuery = useAccountMediaLibrary(accountId);
+  const mediaItems =
+    mediaQuery.data && !isAccountMediaLibraryGatewayRedirect(mediaQuery.data)
+      ? mediaQuery.data.data.items
+      : [];
+  const { selectedItem } = useAccountPreviewMediaSelection(accountId, mediaItems);
+
+  const {
+    source: remotionSource,
+    status: savedSourceStatus,
+    catalogError,
+    previewBranding,
+    useBackground,
+  } = useResolvedSavedRemotionPreviewSource({
+    accountId,
+    branding,
+    previewImage: selectedItem?.image ?? null,
+    templateCategoryCatalog,
+  });
+
+  const usesImage = useBackground === "Image";
+
+  const templateModeSlug = useMemo(
+    () =>
+      resolveTemplateModeSlugFromBranding(
+        previewBranding ?? branding,
+        templateModesQuery.data?.data ?? [],
+      ),
+    [branding, previewBranding, templateModesQuery.data],
+  );
 
   const accountSponsors = useMemo(() => {
     const d = sponsorsQuery.data;
     if (!d || isAccountSponsorsGatewayRedirect(d)) return null;
     return d.data.items;
   }, [sponsorsQuery.data]);
-
-  const remotionSource = useMemo(() => ({ kind: "saved" as const, branding }), [branding]);
 
   const remotionAssetPreview = useRemotionAssetPreview({
     sport,
@@ -88,16 +126,36 @@ export function DashboardAssetPreviewPanel({
   const brandingSettingsDebug = useMemo(
     () => (
       <DashboardAssetPreviewBrandingDebug
-        branding={branding}
+        branding={previewBranding ?? branding}
         templateModeSlug={templateModeSlug}
         templateCategoryCatalog={templateCategoryCatalog}
         accountSponsors={accountSponsors}
       />
     ),
-    [accountSponsors, branding, templateCategoryCatalog, templateModeSlug],
+    [accountSponsors, branding, previewBranding, templateCategoryCatalog, templateModeSlug],
   );
 
   const shouldShowAssetPicker = showAssetPicker && isCricketSport(sport);
+  const previewState =
+    savedSourceStatus === "catalog-error"
+      ? {
+          ...remotionAssetPreview,
+          status: "error" as const,
+          data: null,
+          loadError: catalogError ?? "Could not load template preview settings.",
+        }
+      : savedSourceStatus === "loading-catalog"
+        ? { ...remotionAssetPreview, status: "loading" as const, data: null }
+        : usesImage && (mediaQuery.isError || isAccountMediaLibraryGatewayRedirect(mediaQuery.data))
+          ? {
+              ...remotionAssetPreview,
+              status: "error" as const,
+              data: null,
+              loadError: "Could not load preview images.",
+            }
+          : usesImage && mediaQuery.isPending
+            ? { ...remotionAssetPreview, status: "loading" as const, data: null }
+            : remotionAssetPreview;
 
   return (
     <div className="flex min-w-0 flex-col px-6 py-6">
@@ -114,7 +172,7 @@ export function DashboardAssetPreviewPanel({
       <div className="mt-6 flex flex-col">
         <div className="w-full min-w-0 py-2">
           <DashboardOverviewCarousel
-            remotionPreviewState={remotionAssetPreview}
+            remotionPreviewState={previewState}
             displayMode="thumbnails"
             brandingSettingsDebug={debugPlacement === "carousel" ? brandingSettingsDebug : null}
             title={previewTitle}

@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useRef } from "react";
 
-import { resolveTemplateModeSlugFromBranding } from "@/features/remotion-asset-preview";
 import { captureUserAction } from "@/lib/analytics";
 import {
   isAccountAnalyticsOverviewGatewayRedirect,
@@ -22,7 +21,6 @@ import {
   useAccountSettings,
 } from "@/lib/api/hooks/account/useAccountSettings";
 import { useTemplateCategoriesListForSelection } from "@/lib/api/hooks/account/useTemplateCategoriesListForSelection";
-import { useTemplateModesUi } from "@/lib/api/hooks/template-modes/useTemplateModesUi";
 
 import { DashboardAssetPreviewPanel } from "./_components/dashboard-asset-preview-panel";
 import { DashboardBillingRouteCard } from "./_components/dashboard-billing-route-card";
@@ -67,16 +65,10 @@ export function DashboardContent({ accountId }: { accountId: string }) {
     analytics: analyticsResponse,
   });
 
-  const templateModesQuery = useTemplateModesUi();
   const templateCategoriesQuery = useTemplateCategoriesListForSelection();
   const templateCategoryCatalog = useMemo(
     () => templateCategoriesQuery.data?.data ?? [],
     [templateCategoriesQuery.data],
-  );
-
-  const templateModeSlug = useMemo(
-    () => resolveTemplateModeSlugFromBranding(model.branding, templateModesQuery.data?.data ?? []),
-    [model.branding, templateModesQuery.data],
   );
 
   useEffect(() => {
@@ -97,7 +89,6 @@ export function DashboardContent({ accountId }: { accountId: string }) {
               sport={model.sport}
               branding={model.branding}
               logoUrl={model.logoUrl}
-              templateModeSlug={templateModeSlug}
               templateCategoryCatalog={templateCategoryCatalog}
               debugPlacement="none"
             />

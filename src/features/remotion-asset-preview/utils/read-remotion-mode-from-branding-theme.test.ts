@@ -5,6 +5,15 @@ import { readRemotionModeFromBrandingThemeJson } from "./read-remotion-mode-from
 import type { AccountBrandingData } from "@/types/api/account";
 
 describe("readRemotionModeFromBrandingThemeJson", () => {
+  it("uses the saved option when legacy theme mode disagrees", () => {
+    const branding: AccountBrandingData = {
+      id: 1,
+      template: null,
+      theme: { id: 1, name: "Legacy", theme: { mode: "light" } },
+      template_option: { mode: "dark-alt" },
+    };
+    expect(readRemotionModeFromBrandingThemeJson(branding)).toBe("darkAlt");
+  });
   it("reads mode from theme.theme when present", () => {
     const branding = {
       id: 1,
