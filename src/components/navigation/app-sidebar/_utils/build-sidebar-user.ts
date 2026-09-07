@@ -31,14 +31,16 @@ export function buildAppSidebarUser(params: {
     ...fallbackUser,
     name: bootstrapRow?.FirstName ?? fallbackUser.name,
     email: bootstrapOrg?.Name ?? sessionEmail ?? fallbackUser.email,
-    avatar: bootstrapOrg?.ParentLogo,
+    ...(bootstrapOrg?.ParentLogo != null ? { avatar: bootstrapOrg.ParentLogo } : {}),
   };
 
   if (orgContextData) {
+    const avatar = orgContextData.accountOrganisationDetails?.ParentLogo ?? meUser.avatar;
+
     return {
       ...meUser,
       email: orgContextData.accountOrganisationDetails?.Name ?? meUser.email,
-      avatar: orgContextData.accountOrganisationDetails?.ParentLogo ?? meUser.avatar,
+      ...(avatar != null ? { avatar } : {}),
     };
   }
 
