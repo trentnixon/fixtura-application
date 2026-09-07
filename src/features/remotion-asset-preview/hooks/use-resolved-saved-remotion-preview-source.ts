@@ -6,7 +6,9 @@ import {
   isAllTemplateOptionsGatewayRedirect,
   useAllTemplateOptions,
 } from "@/lib/api/hooks/account/useAllTemplateOptions";
+import { useTemplateTexturesUi } from "@/lib/api/hooks/template-textures/useTemplateTexturesUi";
 
+import { resolveRemotionPreviewTextureCatalog } from "../utils/resolve-remotion-preview-texture-catalog";
 import {
   needsCatalogToResolveSavedBranding,
   readTemplateOptionIdFromBranding,
@@ -33,7 +35,8 @@ export type UseResolvedSavedRemotionPreviewSourceResult = {
 };
 
 /**
- * Lazy-fetch aggregate template options when saved branding is thin, then pass catalog into saved assembly.
+ * Saved Remotion preview source — same shape as template builder after save:
+ * always loads aggregate catalog + texture catalog, expands thin branding when needed.
  */
 export function useResolvedSavedRemotionPreviewSource({
   accountId,
@@ -43,32 +46,49 @@ export function useResolvedSavedRemotionPreviewSource({
 }: UseResolvedSavedRemotionPreviewSourceInput): UseResolvedSavedRemotionPreviewSourceResult {
   const needsCatalog = useMemo(() => needsCatalogToResolveSavedBranding(branding), [branding]);
   const templateOptionId = useMemo(() => readTemplateOptionIdFromBranding(branding), [branding]);
+  const queryEnabled = Boolean(accountId);
 
   const catalogQuery = useAllTemplateOptions(accountId, {
-    enabled: needsCatalog && Boolean(accountId),
+    enabled: queryEnabled,
     templateOptionId,
   });
 
+  const templateTexturesQuery = useTemplateTexturesUi({ enabled: queryEnabled });
+
   const catalogPayload = useMemo(() => {
-    if (!needsCatalog) return null;
     const data = catalogQuery.data;
     if (!data || isAllTemplateOptionsGatewayRedirect(data)) return null;
     return data.data;
-  }, [catalogQuery.data, needsCatalog]);
+  }, [catalogQuery.data]);
+
+  const textureCatalog = useMemo(
+    () =>
+      resolveRemotionPreviewTextureCatalog({
+        templateTexturesSuccess: templateTexturesQuery.isSuccess,
+        templateTexturesPending: templateTexturesQuery.isPending,
+        templateTexturesData: templateTexturesQuery.data?.data,
+        templateTexturesError: templateTexturesQuery.error,
+        catalogTextures: catalogPayload?.textures,
+      }),
+    [
+      catalogPayload?.textures,
+      templateTexturesQuery.data?.data,
+      templateTexturesQuery.error,
+      templateTexturesQuery.isPending,
+      templateTexturesQuery.isSuccess,
+    ],
+  );
 
   const source = useMemo(
     (): AssembleAccountRemotionPreviewSavedSource => ({
       kind: "saved",
       branding,
       previewImage,
-      ...(needsCatalog && catalogPayload != null
-        ? {
-            templateOptionsCatalog: catalogPayload,
-            templateCategoryCatalog,
-          }
-        : {}),
+      templateOptionsCatalog: catalogPayload,
+      templateCategoryCatalog,
+      textureCatalog,
     }),
-    [branding, catalogPayload, needsCatalog, previewImage, templateCategoryCatalog],
+    [branding, catalogPayload, previewImage, templateCategoryCatalog, textureCatalog],
   );
 
   const catalogError = useMemo(() => {
