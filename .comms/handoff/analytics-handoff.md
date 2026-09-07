@@ -26,7 +26,7 @@ Clone or browse: `fixtura/marketing` on branch `staging`.
 3. **`identify(backendUserId)`** on login/register — never email.
 4. **`group("organization", orgId)`** when org context exists.
 5. **Explicit events** — no autocapture for product funnels.
-6. **Shared consent key** — `localStorage.fixtura_analytics_consent` on `*.fixtura.com.au`.
+6. **Shared consent key** — `fixtura_analytics_consent` on `.fixtura.com.au` via a domain-scoped cookie (value `granted`). Application reads cookie first, then falls back to per-origin `localStorage` during migration. Marketing must write the cookie when users opt in on www.
 7. **Sentry stays** for errors — not PostHog exception capture.
 8. **Server events** for `account_created`, `email_verified`, `first_pack_delivered` (API team).
 

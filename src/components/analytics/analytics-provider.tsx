@@ -36,10 +36,18 @@ function AnalyticsInit({ onReadyChange }: { onReadyChange: (ready: boolean) => v
     const onStorage = (event: StorageEvent) => {
       if (event.key === ANALYTICS_CONSENT_STORAGE_KEY) syncReady();
     };
+    const onConsentContextChange = () => {
+      syncReady();
+    };
+
     window.addEventListener("storage", onStorage);
+    window.addEventListener("focus", onConsentContextChange);
+    document.addEventListener("visibilitychange", onConsentContextChange);
     return () => {
       unsubscribeReady();
       window.removeEventListener("storage", onStorage);
+      window.removeEventListener("focus", onConsentContextChange);
+      document.removeEventListener("visibilitychange", onConsentContextChange);
     };
   }, [syncReady, onReadyChange]);
 

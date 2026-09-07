@@ -59,13 +59,14 @@ Values are **not** secrets in this document unless noted; copy real secrets only
 ### `NEXT_PUBLIC_FEATURE_ANALYTICS`
 
 - **Required** for events to fire: must be the literal string `true`.
-- Analytics also requires browser consent (`localStorage.fixtura_analytics_consent === "granted"`, shared with marketing on `*.fixtura.com.au`).
+- Analytics also requires browser consent. Preferred storage is a domain-scoped cookie (`fixtura_analytics_consent=granted` on `.fixtura.com.au`, shared with marketing). Application falls back to per-origin `localStorage` with the same key during migration.
 
 ### PostHog wiring (not env)
 
 - `next.config.ts` rewrites `/ingest` → `https://us.i.posthog.com` (first-party proxy; `api_host` in code is `/ingest`).
 - `ui_host` is fixed to `https://us.posthog.com` in `src/lib/analytics/constants.ts`.
 - Init options live in `src/lib/analytics/posthog-client.ts` (explicit events only; autocapture off).
+- **Vercel env vars for analytics:** only `NEXT_PUBLIC_POSTHOG_KEY` and `NEXT_PUBLIC_FEATURE_ANALYTICS`. `NEXT_PUBLIC_POSTHOG_HOST` is not read by this app.
 
 ---
 

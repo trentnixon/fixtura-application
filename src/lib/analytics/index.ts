@@ -19,11 +19,19 @@ export {
 export { brandingFieldsChanged, settingsFieldsChanged } from "./settings-fields-changed";
 export { captureFormSubmitted, captureUserAction } from "./user-action";
 export {
+  ANALYTICS_CONSENT_COOKIE_DOMAIN,
   ANALYTICS_CONSENT_GRANTED,
   ANALYTICS_CONSENT_STORAGE_KEY,
   ANALYTICS_SURFACE_APP,
 } from "./constants";
-export { readAnalyticsConsent, readBrowserAnalyticsConsent } from "./consent";
+export {
+  buildAnalyticsConsentCookie,
+  readAnalyticsConsent,
+  readBrowserAnalyticsConsent,
+  readCookieAnalyticsConsent,
+  resolveAnalyticsConsentCookieDomain,
+  writeBrowserAnalyticsConsent,
+} from "./consent";
 export {
   canCaptureAnalytics,
   isAnalyticsConfigured,
