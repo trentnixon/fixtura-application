@@ -1,4 +1,41 @@
-import { ANALYTICS_CONSENT_GRANTED, ANALYTICS_CONSENT_STORAGE_KEY } from "./constants";
+import {
+  ANALYTICS_CONSENT_COOKIE_DOMAIN,
+  ANALYTICS_CONSENT_GRANTED,
+  ANALYTICS_CONSENT_STORAGE_KEY,
+} from "./constants";
+
+export function resolveAnalyticsConsentCookieDomain(hostname: string): string | undefined {
+  if (hostname === "localhost" || hostname.endsWith(".local")) {
+    return undefined;
+  }
+
+  if (hostname === "fixtura.com.au" || hostname.endsWith(".fixtura.com.au")) {
+    return ANALYTICS_CONSENT_COOKIE_DOMAIN;
+  }
+
+  return undefined;
+}
+
+export function readAnalyticsConsentCookieValue(cookieHeader: string): string | null {
+  if (!cookieHeader) return null;
+
+  const cookies = cookieHeader.split(";").map((part) => part.trim());
+  for (const cookie of cookies) {
+    const separatorIndex = cookie.indexOf("=");
+    if (separatorIndex === -1) continue;
+
+    const name = cookie.slice(0, separatorIndex);
+    if (name === ANALYTICS_CONSENT_STORAGE_KEY) {
+      return decodeURIComponent(cookie.slice(separatorIndex + 1));
+    }
+  }
+
+  return null;
+}
+
+export function readCookieAnalyticsConsent(cookieHeader: string): boolean {
+  return readAnalyticsConsentCookieValue(cookieHeader) === ANALYTICS_CONSENT_GRANTED;
+}
 
 export function readAnalyticsConsent(storage: { getItem(key: string): string | null }): boolean {
   try {
@@ -10,5 +47,48 @@ export function readAnalyticsConsent(storage: { getItem(key: string): string | n
 
 export function readBrowserAnalyticsConsent(): boolean {
   if (typeof window === "undefined") return false;
+
+  const cookieValue = readAnalyticsConsentCookieValue(document.cookie);
+  if (cookieValue !== null) {
+    return cookieValue === ANALYTICS_CONSENT_GRANTED;
+  }
+
   return readAnalyticsConsent(window.localStorage);
+}
+
+interface WriteBrowserAnalyticsConsentContext {
+  hostname: string;
+  protocol: string;
+}
+
+export function buildAnalyticsConsentCookie(
+  value: typeof ANALYTICS_CONSENT_GRANTED,
+  context: WriteBrowserAnalyticsConsentContext,
+): string | null {
+  const cookieDomain = resolveAnalyticsConsentCookieDomain(context.hostname);
+  if (!cookieDomain) return null;
+
+  const secure = context.protocol === "https:" ? "; Secure" : "";
+  return `${ANALYTICS_CONSENT_STORAGE_KEY}=${encodeURIComponent(value)}; domain=${cookieDomain}; path=/; SameSite=Lax${secure}; Max-Age=31536000`;
+}
+
+export function writeBrowserAnalyticsConsent(
+  value: typeof ANALYTICS_CONSENT_GRANTED,
+  context: WriteBrowserAnalyticsConsentContext = {
+    hostname: typeof window !== "undefined" ? window.location.hostname : "localhost",
+    protocol: typeof window !== "undefined" ? window.location.protocol : "http:",
+  },
+): void {
+  if (typeof window === "undefined") return;
+
+  try {
+    window.localStorage.setItem(ANALYTICS_CONSENT_STORAGE_KEY, value);
+  } catch {
+    // Ignore quota or privacy-mode failures; cookie may still be written.
+  }
+
+  const cookie = buildAnalyticsConsentCookie(value, context);
+  if (cookie) {
+    document.cookie = cookie;
+  }
 }

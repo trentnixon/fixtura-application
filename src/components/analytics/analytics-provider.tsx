@@ -11,7 +11,6 @@ import {
 } from "react";
 
 import { initAnalytics, isAnalyticsReady, subscribeAnalyticsReady } from "@/lib/analytics";
-import { ANALYTICS_CONSENT_STORAGE_KEY } from "@/lib/analytics/constants";
 
 import { AnalyticsPageView } from "./analytics-page-view";
 
@@ -33,14 +32,7 @@ function AnalyticsInit({ onReadyChange }: { onReadyChange: (ready: boolean) => v
       onReadyChange(isAnalyticsReady());
     });
 
-    const onStorage = (event: StorageEvent) => {
-      if (event.key === ANALYTICS_CONSENT_STORAGE_KEY) syncReady();
-    };
-    window.addEventListener("storage", onStorage);
-    return () => {
-      unsubscribeReady();
-      window.removeEventListener("storage", onStorage);
-    };
+    return unsubscribeReady;
   }, [syncReady, onReadyChange]);
 
   return null;

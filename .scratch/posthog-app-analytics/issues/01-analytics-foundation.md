@@ -7,7 +7,7 @@
 **Status:** ready-for-agent
 
 - [ ] Analytics module exists as the single capture entry point (consent read, enabled check, init, capture helper with mandatory `surface: app`).
-- [ ] Consent uses shared key `localStorage.fixtura_analytics_consent` (ported from marketing pattern).
+- [ ] Consent uses shared key `fixtura_analytics_consent`: read domain cookie first (`.fixtura.com.au`), fall back to per-origin `localStorage` only when cookie absent; explicit denial cookie blocks capture.
 - [ ] Analytics runs only when `NEXT_PUBLIC_FEATURE_ANALYTICS` is `'true'` and `NEXT_PUBLIC_POSTHOG_KEY` is set.
 - [ ] PostHog init uses `api_host: '/ingest'`, autocapture disabled.
 - [ ] Root layout mounts client provider and pageview tracker for App routes.

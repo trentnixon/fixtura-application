@@ -21,7 +21,7 @@ Implement client-side PostHog analytics in the members App using the same shared
 5. As a product analyst, I want `group("organization", accountId)` when the user is scoped to an account, so that org-level reporting works.
 6. As a product analyst, I want a `login_success` conversion event on sign-in, so that I can measure App authentication separately from marketing registration.
 7. As a product analyst, I want PostHog reset on logout, so that shared-browser sessions do not leak identity.
-8. As a privacy-conscious user, I want analytics to respect the same consent stored in `localStorage.fixtura_analytics_consent`, so that my choice on marketing applies on the App host.
+8. As a privacy-conscious user, I want analytics to respect the same consent decision on marketing and the App, so that my choice on www applies on the application host without re-prompting.
 9. As a platform engineer, I want analytics disabled unless `NEXT_PUBLIC_FEATURE_ANALYTICS` is explicitly true and a key is present, so that we can ship code without firing events prematurely.
 10. As a platform engineer, I want PostHog traffic proxied through `/ingest` on the App host, so that ad blockers are less likely to block analytics.
 11. As a platform engineer, I want autocapture disabled, so that only catalogued explicit events enter PostHog.
@@ -64,7 +64,7 @@ Implement client-side PostHog analytics in the members App using the same shared
    - A session-watching bridge may re-identify on refresh when a cookie session already exists.
 
 5. **Consent and feature flag**
-   - Shared key: `localStorage.fixtura_analytics_consent` (read marketing module behaviour; port, do not reinvent).
+   - Shared key: `fixtura_analytics_consent` (value `granted`). Preferred storage: domain-scoped cookie on `.fixtura.com.au` (marketing writes; application reads cookie first). Application falls back to per-origin `localStorage` only when the cookie is absent; an explicit non-granted cookie must not be overridden by localStorage.
    - Analytics runs only when consent allows AND `NEXT_PUBLIC_FEATURE_ANALYTICS === 'true'` AND `NEXT_PUBLIC_POSTHOG_KEY` is set.
    - Autocapture off; session recording off unless marketing spec explicitly requires otherwise.
 

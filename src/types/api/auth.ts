@@ -16,5 +16,5 @@ export interface CurrentUserResponse {
 export interface NavUserProps {
   name: string;
   email: string;
-  avatar: string;
+  avatar?: string;
 }

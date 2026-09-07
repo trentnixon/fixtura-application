@@ -11,8 +11,7 @@ export function isAnalyticsConfigured(env: {
 
 export function canCaptureAnalytics(options: {
   configured: boolean;
-  hasConsent: boolean;
   initialized: boolean;
 }): boolean {
-  return options.configured && options.hasConsent && options.initialized;
+  return options.configured && options.initialized;
 }

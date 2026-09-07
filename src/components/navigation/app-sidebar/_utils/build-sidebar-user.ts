@@ -8,7 +8,6 @@ import type { NavUserProps } from "@/types/api/auth";
 const fallbackUser: NavUserProps = {
   name: "Member",
   email: "member@fixtura.com.au",
-  avatar: "/avatars/shadcn.jpg",
 };
 
 export function buildAppSidebarUser(params: {
@@ -32,14 +31,16 @@ export function buildAppSidebarUser(params: {
     ...fallbackUser,
     name: bootstrapRow?.FirstName ?? fallbackUser.name,
     email: bootstrapOrg?.Name ?? sessionEmail ?? fallbackUser.email,
-    avatar: bootstrapOrg?.ParentLogo ?? fallbackUser.avatar,
+    ...(bootstrapOrg?.ParentLogo != null ? { avatar: bootstrapOrg.ParentLogo } : {}),
   };
 
   if (orgContextData) {
+    const avatar = orgContextData.accountOrganisationDetails?.ParentLogo ?? meUser.avatar;
+
     return {
       ...meUser,
       email: orgContextData.accountOrganisationDetails?.Name ?? meUser.email,
-      avatar: orgContextData.accountOrganisationDetails?.ParentLogo ?? meUser.avatar,
+      ...(avatar != null ? { avatar } : {}),
     };
   }
 
