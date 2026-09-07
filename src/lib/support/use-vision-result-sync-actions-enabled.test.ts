@@ -1,13 +1,13 @@
 import { renderHook } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { useVisionResultSyncActionsEnabled } from "./use-vision-result-sync-actions-enabled";
-
 vi.mock("@/lib/support/support-view-context", () => ({
   useSupportView: vi.fn(),
 }));
 
 import { useSupportView } from "@/lib/support/support-view-context";
+
+import { useVisionResultSyncActionsEnabled } from "./use-vision-result-sync-actions-enabled";
 
 const useSupportViewMock = vi.mocked(useSupportView);
 
