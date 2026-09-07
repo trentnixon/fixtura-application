@@ -8,7 +8,6 @@ import type { NavUserProps } from "@/types/api/auth";
 const fallbackUser: NavUserProps = {
   name: "Member",
   email: "member@fixtura.com.au",
-  avatar: "/avatars/shadcn.jpg",
 };
 
 export function buildAppSidebarUser(params: {
@@ -32,7 +31,7 @@ export function buildAppSidebarUser(params: {
     ...fallbackUser,
     name: bootstrapRow?.FirstName ?? fallbackUser.name,
     email: bootstrapOrg?.Name ?? sessionEmail ?? fallbackUser.email,
-    avatar: bootstrapOrg?.ParentLogo ?? fallbackUser.avatar,
+    avatar: bootstrapOrg?.ParentLogo,
   };
 
   if (orgContextData) {

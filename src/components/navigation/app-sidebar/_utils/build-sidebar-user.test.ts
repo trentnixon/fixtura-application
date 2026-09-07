@@ -66,7 +66,7 @@ describe("buildAppSidebarUser", () => {
 
     expect(user.name).toBe("Member");
     expect(user.email).toBe("member@example.com");
-    expect(user.avatar).toBe("/avatars/shadcn.jpg");
+    expect(user.avatar).toBeUndefined();
     expect(user.email).not.toBe("Alpha Org");
     expect(user.email).not.toBe("Beta Org");
   });
