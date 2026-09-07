@@ -26393,16 +26393,191 @@ var CNSWPrivate2 = () => {
 };
 
 // src/compositions/cricket/upcoming/layout/Card/game-card-Mudgeeraba.tsx
+import { useVideoConfig as useVideoConfig30 } from "remotion";
+
+// src/components/typography/utils/useFittedFontSize.ts
+import { useMemo as useMemo15 } from "react";
+import { useVideoConfig as useVideoConfig29 } from "remotion";
+import { fitText, measureText } from "@remotion/layout-utils";
+var DEFAULT_LINE_HEIGHT_RATIO = 1.05;
+var DEFAULT_MAX_LINES = 2;
+var TITLE_SCREEN_BASE_FONT_PX = 16;
+var TITLE_SCREEN_HORIZONTAL_PADDING_PX = 128;
+var getFitMeasureOptions = (options) => {
+  var _a, _b, _c;
+  return {
+    fontFamily: options.fontFamily,
+    fontWeight: (_a = options.fontWeight) != null ? _a : 900,
+    textTransform: (_b = options.textTransform) != null ? _b : "uppercase",
+    letterSpacing: (_c = options.letterSpacing) != null ? _c : "-0.025em",
+    validateFontIsLoaded: true,
+  };
+};
+var computeFittedFontSize = ({
+  text,
+  fontFamily,
+  fontWeight = 900,
+  textTransform = "uppercase",
+  letterSpacing = "-0.025em",
+  maxFontSize = 10 * TITLE_SCREEN_BASE_FONT_PX,
+  minFontSize = 0,
+  fitWidth,
+  withinHeight,
+  lineHeightRatio = DEFAULT_LINE_HEIGHT_RATIO,
+  maxLines = DEFAULT_MAX_LINES,
+}) => {
+  const trimmed = text.trim();
+  if (!trimmed || fitWidth <= 0) {
+    return maxFontSize;
+  }
+  const measureOpts = getFitMeasureOptions({
+    fontFamily,
+    fontWeight,
+    textTransform,
+    letterSpacing,
+  });
+  const words = trimmed.split(/\s+/).filter(Boolean);
+  const fitSizeFor = (value) =>
+    fitText({
+      text: value,
+      withinWidth: fitWidth,
+      ...measureOpts,
+    }).fontSize;
+  const widthCandidates = [fitSizeFor(trimmed), ...words.map((word) => fitSizeFor(word))];
+  let fontSize = Math.min(maxFontSize, ...widthCandidates);
+  if (withinHeight && withinHeight > 0) {
+    const { width: singleLineWidth } = measureText({
+      text: trimmed,
+      fontSize,
+      ...measureOpts,
+    });
+    const estimatedLines = Math.min(maxLines, Math.max(1, Math.ceil(singleLineWidth / fitWidth)));
+    const heightCap = withinHeight / (estimatedLines * lineHeightRatio);
+    fontSize = Math.min(fontSize, heightCap);
+  }
+  return minFontSize > 0 ? Math.max(minFontSize, fontSize) : fontSize;
+};
+var getTitleScreenContentWidth = (
+  compositionWidth,
+  horizontalPadding = TITLE_SCREEN_HORIZONTAL_PADDING_PX,
+) => Math.max(0, compositionWidth - horizontalPadding);
+var useFittedFontSize = ({
+  text,
+  fontFamily,
+  fontWeight = 900,
+  textTransform = "uppercase",
+  letterSpacing = "-0.025em",
+  maxFontSize = 10 * TITLE_SCREEN_BASE_FONT_PX,
+  minFontSize = 0,
+  horizontalPadding = TITLE_SCREEN_HORIZONTAL_PADDING_PX,
+  withinWidth,
+  withinHeight,
+  lineHeightRatio = DEFAULT_LINE_HEIGHT_RATIO,
+  maxLines = DEFAULT_MAX_LINES,
+}) => {
+  const { width } = useVideoConfig29();
+  const { fontsLoaded } = useFontContext();
+  return useMemo15(() => {
+    if (!fontsLoaded || !text.trim() || !fontFamily) {
+      return void 0;
+    }
+    const fitWidth =
+      withinWidth != null ? withinWidth : getTitleScreenContentWidth(width, horizontalPadding);
+    try {
+      return computeFittedFontSize({
+        text,
+        fontFamily,
+        fontWeight,
+        textTransform,
+        letterSpacing,
+        maxFontSize,
+        minFontSize,
+        fitWidth,
+        withinHeight,
+        lineHeightRatio,
+        maxLines,
+      });
+    } catch (error) {
+      console.warn("useFittedFontSize: measurement failed, using max cap", error);
+      return maxFontSize;
+    }
+  }, [
+    fontsLoaded,
+    text,
+    fontFamily,
+    fontWeight,
+    textTransform,
+    letterSpacing,
+    maxFontSize,
+    minFontSize,
+    horizontalPadding,
+    withinWidth,
+    withinHeight,
+    lineHeightRatio,
+    maxLines,
+    width,
+  ]);
+};
+
+// src/compositions/cricket/upcoming/layout/Card/game-card-Mudgeeraba.tsx
 import { jsx as jsx220, jsxs as jsxs102 } from "react/jsx-runtime";
 var EDGE_COLOR_HOME = "rgb(34, 197, 94)";
 var EDGE_COLOR_AWAY = "rgb(239, 68, 68)";
 var TEAM_PANEL_HEIGHT_PX = 150;
+var TEAM_NAME_MAX_FONT_PX = 36;
+var TEAM_NAME_MIN_FONT_PX = 20;
+var TEAM_NAME_LINE_HEIGHT = 1.375;
+var TEAM_NAME_MAX_LINES = 2;
+var FIXTURE_HORIZONTAL_MARGIN_PX = 64;
+var TEAM_PANEL_GAP_PX = 8;
+var LOGO_TEXT_GAP_PX = 12;
+var TEAM_TEXT_HORIZONTAL_PADDING_PX = 16;
+var PANEL_EDGE_PADDING_PX = 40;
+var MUDGEERABA_COPY_FONT = "Heebo";
 var PADDING_SHALLOW_ROW_LOGO_FLUSH_RIGHT = "pl-10 pr-0";
+var getMudgeerabaFixtureTeamNameFitWidth = (compositionWidth) => {
+  const panelWidth = (compositionWidth - FIXTURE_HORIZONTAL_MARGIN_PX - TEAM_PANEL_GAP_PX) / 2;
+  return Math.max(
+    0,
+    panelWidth -
+      TEAM_PANEL_HEIGHT_PX -
+      LOGO_TEXT_GAP_PX -
+      TEAM_TEXT_HORIZONTAL_PADDING_PX -
+      PANEL_EDGE_PADDING_PX,
+  );
+};
+var MudgeerabaFixtureTeamName = ({ name, animation, fitWidth, textAlign }) => {
+  var _a;
+  const fontFamily = (_a = useFontFamily()) != null ? _a : MUDGEERABA_COPY_FONT;
+  const alignClass = textAlign === "right" ? "text-right" : "text-left";
+  const fittedFontSize = useFittedFontSize({
+    text: name,
+    fontFamily,
+    fontWeight: 400,
+    textTransform: "none",
+    letterSpacing: "0.05em",
+    maxFontSize: TEAM_NAME_MAX_FONT_PX,
+    minFontSize: TEAM_NAME_MIN_FONT_PX,
+    withinWidth: fitWidth,
+    withinHeight: TEAM_PANEL_HEIGHT_PX - 20,
+    lineHeightRatio: TEAM_NAME_LINE_HEIGHT,
+    maxLines: TEAM_NAME_MAX_LINES,
+  });
+  return /* @__PURE__ */ jsx220(MetadataMedium, {
+    value: name,
+    animation,
+    className: `block w-full text-balance ${alignClass}`,
+    variant: "onContainerCopy",
+    style: { fontSize: fittedFontSize != null ? fittedFontSize : TEAM_NAME_MAX_FONT_PX },
+  });
+};
 var GameCardMudgeeraba = ({ game, index }) => {
   const { data } = useVideoDataContext();
   const { timings } = data;
   const { animations } = useAnimationContext();
   const { selectedPalette, colors } = useThemeContext();
+  const { width: compositionWidth } = useVideoConfig30();
+  const teamNameFitWidth = getMudgeerabaFixtureTeamNameFitWidth(compositionWidth);
   const ContainerAnimations = animations.container;
   const delay = calculateAnimationDelay2(index, FAST_DELAY_MULTIPLIER);
   const animationOutFrame = calculateAnimationOutFrame2(timings);
@@ -26494,15 +26669,15 @@ var GameCardMudgeeraba = ({ game, index }) => {
                   }),
                 renderTeamLogo(game.teamHomeLogo, game.teamHome, delay + 10, "steepLeft", "mr-3"),
                 /* @__PURE__ */ jsx220("div", {
-                  className: "relative z-10 flex flex-1 items-center justify-center min-w-0 px-2",
-                  children: /* @__PURE__ */ jsx220(MetadataMedium, {
-                    value: game.teamHome,
+                  className: "relative z-10 flex flex-1 items-center justify-start min-w-0 px-2",
+                  children: /* @__PURE__ */ jsx220(MudgeerabaFixtureTeamName, {
+                    name: game.teamHome,
+                    fitWidth: teamNameFitWidth,
+                    textAlign: "left",
                     animation: {
                       ...animations.text.main.copyIn,
                       delay: delay + 15,
                     },
-                    className: "block text-center w-full",
-                    variant: "onContainerCopy",
                   }),
                 }),
               ],
@@ -26525,15 +26700,15 @@ var GameCardMudgeeraba = ({ game, index }) => {
                     "aria-hidden": true,
                   }),
                 /* @__PURE__ */ jsx220("div", {
-                  className: "relative z-10 flex flex-1 items-center justify-center min-w-0 px-2",
-                  children: /* @__PURE__ */ jsx220(MetadataMedium, {
-                    value: game.teamAway,
+                  className: "relative z-10 flex flex-1 items-center justify-end min-w-0 px-2",
+                  children: /* @__PURE__ */ jsx220(MudgeerabaFixtureTeamName, {
+                    name: game.teamAway,
+                    fitWidth: teamNameFitWidth,
+                    textAlign: "right",
                     animation: {
                       ...animations.text.main.copyIn,
                       delay: delay + 30,
                     },
-                    className: "block text-center w-full",
-                    variant: "onContainerCopy",
                   }),
                 }),
                 renderTeamLogo(game.teamAwayLogo, game.teamAway, delay + 25, "steepRight", "ml-3"),
@@ -38998,10 +39173,10 @@ var brickwork = () => {
 import { Series as Series8 } from "remotion";
 
 // src/compositions/cricket/teamRoster/controller/Display/display-BroadcastPro.tsx
-import { useVideoConfig as useVideoConfig29 } from "remotion";
+import { useVideoConfig as useVideoConfig31 } from "remotion";
 
 // src/templates/variants/broadcastPro/components/roster/BroadcastProRosterSheet.tsx
-import { useMemo as useMemo15 } from "react";
+import { useMemo as useMemo16 } from "react";
 
 // src/compositions/cricket/teamRoster/controller/Display/_utils/broadcastProRosterListMetrics.ts
 function computeBroadcastProRosterPlayerListMetrics(availableHeightPx, playerCount, sizing) {
@@ -39152,7 +39327,7 @@ import { jsx as jsx425, jsxs as jsxs228 } from "react/jsx-runtime";
 var BroadcastProRosterSheet = ({ players, availableHeightPx, nameColor, className = "" }) => {
   const { componentStyles, broadcastProRosterListSizing } = useThemeContext();
   const { accent } = useBroadcastProTheme();
-  const metrics = useMemo15(
+  const metrics = useMemo16(
     () =>
       computeBroadcastProRosterPlayerListMetrics(
         availableHeightPx,
@@ -39231,7 +39406,7 @@ var MetaRow = ({
 var RosterDisplayBroadcastPro = ({ roster }) => {
   var _a, _b;
   const { layout, fontClasses, componentStyles } = useThemeContext();
-  const { width: compositionWidth } = useVideoConfig29();
+  const { width: compositionWidth } = useVideoConfig31();
   const { glass, textOnGlass: textOnContainer } = useBroadcastProTheme();
   const availableHeight = getMainContentHeightReservingFooter(layout.heights);
   const cs = (key) => rosterClass(componentStyles, key);
@@ -39393,10 +39568,10 @@ var broadcastpro3 = () => {
 import { Series as Series9 } from "remotion";
 
 // src/compositions/cricket/teamRoster/controller/Display/display-BroadcastProRounded.tsx
-import { useVideoConfig as useVideoConfig30 } from "remotion";
+import { useVideoConfig as useVideoConfig32 } from "remotion";
 
 // src/templates/variants/broadcastProRounded/components/roster/BroadcastProRoundedRosterSheet.tsx
-import { useMemo as useMemo16 } from "react";
+import { useMemo as useMemo17 } from "react";
 
 // src/compositions/cricket/teamRoster/controller/Display/_utils/broadcastProRoundedRosterListMetrics.ts
 function computeBroadcastProRoundedRosterPlayerListMetrics(availableHeightPx, playerCount, sizing) {
@@ -39553,7 +39728,7 @@ var BroadcastProRoundedRosterSheet = ({
 }) => {
   const { componentStyles, broadcastProRoundedRosterListSizing } = useThemeContext();
   const { accent } = useBroadcastProRoundedTheme();
-  const metrics = useMemo16(
+  const metrics = useMemo17(
     () =>
       computeBroadcastProRoundedRosterPlayerListMetrics(
         availableHeightPx,
@@ -39634,7 +39809,7 @@ var ROSTER_ROOT_TOP_PADDING_PX = 24;
 var RosterDisplayBroadcastProRounded = ({ roster }) => {
   var _a, _b;
   const { layout, fontClasses, componentStyles } = useThemeContext();
-  const { width: compositionWidth } = useVideoConfig30();
+  const { width: compositionWidth } = useVideoConfig32();
   const { glass, textOnGlass: textOnContainer } = useBroadcastProRoundedTheme();
   const cellRadius = layout.borderRadius.container;
   const availableHeight = getMainContentHeightReservingFooter(layout.heights);
@@ -51621,133 +51796,7 @@ var mudgeerabaTheme = {
 };
 
 // src/templates/variants/mudgeeraba/components/MudgeerabaIntro.tsx
-import { useVideoConfig as useVideoConfig32 } from "remotion";
-
-// src/components/typography/utils/useFittedFontSize.ts
-import { useMemo as useMemo17 } from "react";
-import { useVideoConfig as useVideoConfig31 } from "remotion";
-import { fitText, measureText } from "@remotion/layout-utils";
-var DEFAULT_LINE_HEIGHT_RATIO = 1.05;
-var DEFAULT_MAX_LINES = 2;
-var TITLE_SCREEN_BASE_FONT_PX = 16;
-var TITLE_SCREEN_HORIZONTAL_PADDING_PX = 128;
-var getFitMeasureOptions = (options) => {
-  var _a, _b, _c;
-  return {
-    fontFamily: options.fontFamily,
-    fontWeight: (_a = options.fontWeight) != null ? _a : 900,
-    textTransform: (_b = options.textTransform) != null ? _b : "uppercase",
-    letterSpacing: (_c = options.letterSpacing) != null ? _c : "-0.025em",
-    validateFontIsLoaded: true,
-  };
-};
-var computeFittedFontSize = ({
-  text,
-  fontFamily,
-  fontWeight = 900,
-  textTransform = "uppercase",
-  letterSpacing = "-0.025em",
-  maxFontSize = 10 * TITLE_SCREEN_BASE_FONT_PX,
-  minFontSize = 0,
-  fitWidth,
-  withinHeight,
-  lineHeightRatio = DEFAULT_LINE_HEIGHT_RATIO,
-  maxLines = DEFAULT_MAX_LINES,
-}) => {
-  const trimmed = text.trim();
-  if (!trimmed || fitWidth <= 0) {
-    return maxFontSize;
-  }
-  const measureOpts = getFitMeasureOptions({
-    fontFamily,
-    fontWeight,
-    textTransform,
-    letterSpacing,
-  });
-  const words = trimmed.split(/\s+/).filter(Boolean);
-  const fitSizeFor = (value) =>
-    fitText({
-      text: value,
-      withinWidth: fitWidth,
-      ...measureOpts,
-    }).fontSize;
-  const widthCandidates = [fitSizeFor(trimmed), ...words.map((word) => fitSizeFor(word))];
-  let fontSize = Math.min(maxFontSize, ...widthCandidates);
-  if (withinHeight && withinHeight > 0) {
-    const { width: singleLineWidth } = measureText({
-      text: trimmed,
-      fontSize,
-      ...measureOpts,
-    });
-    const estimatedLines = Math.min(maxLines, Math.max(1, Math.ceil(singleLineWidth / fitWidth)));
-    const heightCap = withinHeight / (estimatedLines * lineHeightRatio);
-    fontSize = Math.min(fontSize, heightCap);
-  }
-  return minFontSize > 0 ? Math.max(minFontSize, fontSize) : fontSize;
-};
-var getTitleScreenContentWidth = (
-  compositionWidth,
-  horizontalPadding = TITLE_SCREEN_HORIZONTAL_PADDING_PX,
-) => Math.max(0, compositionWidth - horizontalPadding);
-var useFittedFontSize = ({
-  text,
-  fontFamily,
-  fontWeight = 900,
-  textTransform = "uppercase",
-  letterSpacing = "-0.025em",
-  maxFontSize = 10 * TITLE_SCREEN_BASE_FONT_PX,
-  minFontSize = 0,
-  horizontalPadding = TITLE_SCREEN_HORIZONTAL_PADDING_PX,
-  withinWidth,
-  withinHeight,
-  lineHeightRatio = DEFAULT_LINE_HEIGHT_RATIO,
-  maxLines = DEFAULT_MAX_LINES,
-}) => {
-  const { width } = useVideoConfig31();
-  const { fontsLoaded } = useFontContext();
-  return useMemo17(() => {
-    if (!fontsLoaded || !text.trim() || !fontFamily) {
-      return void 0;
-    }
-    const fitWidth =
-      withinWidth != null ? withinWidth : getTitleScreenContentWidth(width, horizontalPadding);
-    try {
-      return computeFittedFontSize({
-        text,
-        fontFamily,
-        fontWeight,
-        textTransform,
-        letterSpacing,
-        maxFontSize,
-        minFontSize,
-        fitWidth,
-        withinHeight,
-        lineHeightRatio,
-        maxLines,
-      });
-    } catch (error) {
-      console.warn("useFittedFontSize: measurement failed, using max cap", error);
-      return maxFontSize;
-    }
-  }, [
-    fontsLoaded,
-    text,
-    fontFamily,
-    fontWeight,
-    textTransform,
-    letterSpacing,
-    maxFontSize,
-    minFontSize,
-    horizontalPadding,
-    withinWidth,
-    withinHeight,
-    lineHeightRatio,
-    maxLines,
-    width,
-  ]);
-};
-
-// src/templates/variants/mudgeeraba/components/MudgeerabaIntro.tsx
+import { useVideoConfig as useVideoConfig33 } from "remotion";
 import { jsx as jsx563 } from "react/jsx-runtime";
 var MUDGEERABA_TITLE_MAX_FONT_PX = 10 * TITLE_SCREEN_BASE_FONT_PX;
 var INTRO_TITLE_MAX_LINES = 2;
@@ -51760,7 +51809,7 @@ var MudgeerabaIntro = () => {
   const TextAnimations = animations.text.intro;
   const LogoAnimations = animations.image.intro.logo;
   const { fontClasses } = useThemeContext();
-  const { width } = useVideoConfig32();
+  const { width } = useVideoConfig33();
   const title = (_a = metadata.title) != null ? _a : "";
   const titleFontFamily =
     (_c = (_b = fontClasses.title) == null ? void 0 : _b.family) != null ? _c : "Unbounded";
@@ -51944,7 +51993,7 @@ var MudgeerabaBackground = () => {
 };
 
 // src/templates/variants/mudgeeraba/components/MudgeerabaMainHeader.tsx
-import { useVideoConfig as useVideoConfig33 } from "remotion";
+import { useVideoConfig as useVideoConfig34 } from "remotion";
 import { jsx as jsx566 } from "react/jsx-runtime";
 var MUDGEERABA_HEADER_TITLE_MAX_FONT_PX = 4 * TITLE_SCREEN_BASE_FONT_PX;
 var HEADER_TITLE_VERTICAL_PADDING_PX = 20;
@@ -51955,7 +52004,7 @@ var MudgeerabaMainHeader = () => {
   const { club, metadata, data } = useVideoDataContext();
   const { animations } = useAnimationContext();
   const TextAnimations = animations.text.main;
-  const { width } = useVideoConfig33();
+  const { width } = useVideoConfig34();
   const { heights } = layout;
   const timings = data == null ? void 0 : data.timings;
   const exitFrame = (timings == null ? void 0 : timings.FPS_MAIN) ? timings.FPS_MAIN - 30 : 0;
@@ -53107,11 +53156,11 @@ var getBroadcastProHeaderSecondaryLine = (metadata, clubName) => {
 
 // src/templates/variants/broadcastPro/components/headline/useBroadcastProHeadlineFit.ts
 import { useMemo as useMemo18 } from "react";
-import { useVideoConfig as useVideoConfig34 } from "remotion";
+import { useVideoConfig as useVideoConfig35 } from "remotion";
 var MAIN_HEADER_TITLE_PADDING_PX = 32;
 var useBroadcastProHeadlineFit = (text, variant) => {
   var _a, _b, _c, _d;
-  const { width } = useVideoConfig34();
+  const { width } = useVideoConfig35();
   const { fontClasses, fonts, broadcastProHeadlineSizing } = useThemeContext();
   const sizing =
     broadcastProHeadlineSizing != null
@@ -54563,11 +54612,11 @@ var getBroadcastProRoundedHeaderSecondaryLine = (metadata, clubName) => {
 
 // src/templates/variants/broadcastProRounded/components/headline/useBroadcastProRoundedHeadlineFit.ts
 import { useMemo as useMemo19 } from "react";
-import { useVideoConfig as useVideoConfig35 } from "remotion";
+import { useVideoConfig as useVideoConfig36 } from "remotion";
 var MAIN_HEADER_TITLE_PADDING_PX2 = 32;
 var useBroadcastProRoundedHeadlineFit = (text, variant) => {
   var _a, _b, _c, _d;
-  const { width } = useVideoConfig35();
+  const { width } = useVideoConfig36();
   const { fontClasses, fonts, broadcastProRoundedHeadlineSizing } = useThemeContext();
   const sizing =
     broadcastProRoundedHeadlineSizing != null
