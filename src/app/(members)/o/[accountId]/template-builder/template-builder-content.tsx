@@ -7,6 +7,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BrandedLoader } from "@/components/ui/branded-loader";
 import { ErrorState } from "@/components/ui/error-state";
 import { resolveTemplateModeSlugFromBranding } from "@/features/remotion-asset-preview";
+import { useAccountPreviewMediaSelection } from "@/features/remotion-asset-preview/hooks/use-account-preview-media-selection";
 import { captureUserAction } from "@/lib/analytics";
 import { ApiError } from "@/lib/api/client/api-error";
 import {
@@ -52,10 +53,7 @@ import { SupportReadOnlyUnavailable } from "@/lib/support/support-read-only-unav
 import { useAccountReadOnly } from "@/lib/support/use-account-read-only";
 
 import { TemplateBuilderPreviewPanel } from "./_components/template-builder-preview-panel";
-import {
-  getTemplateBuilderMediaItems,
-  resolveTemplateBuilderPreviewMediaItem,
-} from "./_utils/template-builder-media-preview";
+import { getTemplateBuilderMediaItems } from "./_utils/template-builder-media-preview";
 import {
   buildTemplateBuilderPreviewBranding,
   toRemotionPreviewDraft,
@@ -179,9 +177,6 @@ function TemplateBuilderContentEditable({ accountId }: { accountId: string }) {
   const [debugSnapshot, setDebugSnapshot] = useState<TemplateBuilderEditorDebugSnapshot | null>(
     null,
   );
-  const [selectedMediaIdsByAccount, setSelectedMediaIdsByAccount] = useState<
-    Record<string, number | undefined>
-  >({});
   const settingsData =
     settingsQ.data && !isAccountSettingsGatewayRedirect(settingsQ.data)
       ? settingsQ.data.data
@@ -218,37 +213,8 @@ function TemplateBuilderContentEditable({ accountId }: { accountId: string }) {
     [mediaLibraryItems],
   );
 
-  const selectedPreviewMediaItem = useMemo(
-    () =>
-      resolveTemplateBuilderPreviewMediaItem(
-        templateBuilderMediaItems,
-        selectedMediaIdsByAccount,
-        accountId,
-      ),
-    [accountId, selectedMediaIdsByAccount, templateBuilderMediaItems],
-  );
-
-  useEffect(() => {
-    const resolvedId = selectedPreviewMediaItem?.id;
-    setSelectedMediaIdsByAccount((current) => {
-      if (resolvedId === undefined) {
-        if (!(accountId in current)) return current;
-        const next = { ...current };
-        delete next[accountId];
-        return next;
-      }
-      if (current[accountId] === resolvedId) return current;
-      return { ...current, [accountId]: resolvedId };
-    });
-  }, [accountId, selectedPreviewMediaItem?.id]);
-
-  const handlePreviewMediaSelectionChange = useCallback(
-    (mediaId: number) => {
-      if (!templateBuilderMediaItems.some((item) => item.id === mediaId)) return;
-      setSelectedMediaIdsByAccount((current) => ({ ...current, [accountId]: mediaId }));
-    },
-    [accountId, templateBuilderMediaItems],
-  );
+  const { selectedItem: selectedPreviewMediaItem, selectMedia: handlePreviewMediaSelectionChange } =
+    useAccountPreviewMediaSelection(accountId, templateBuilderMediaItems);
 
   const mediaPreviewState = useMemo(() => {
     const status = mediaLibraryQ.isError
@@ -419,6 +385,10 @@ function TemplateBuilderContentEditable({ accountId }: { accountId: string }) {
           : {
               kind: "saved" as const,
               branding: brandingData,
+              previewImage: selectedPreviewMediaItem?.image ?? null,
+              templateOptionsCatalog: catalogPayload,
+              templateCategoryCatalog: templateCategoriesListQ.data?.data ?? null,
+              textureCatalog,
             },
     }),
     [

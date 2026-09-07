@@ -1,5 +1,6 @@
 import { applyRemotionPreviewDraftToBranding } from "./apply-remotion-preview-draft-to-branding";
 import { mergeAccountBrandingIntoDataset } from "./merge-account-branding-into-dataset";
+import { resolveSavedBrandingForRemotionPreview } from "./resolve-saved-branding-for-remotion-preview";
 
 import type { RemotionPreviewDraft } from "../types/remotion-preview-draft";
 import type {
@@ -17,6 +18,11 @@ import type { FixturaDataset } from "@/vendor/fixtura-remotion-assets/preview";
 export type AssembleAccountRemotionPreviewSavedSource = {
   kind: "saved";
   branding: AccountBrandingData | null;
+  previewImage?: AccountMediaLibraryImage | null;
+  /** When saved branding is thin, pass aggregate catalog for client-side expansion. */
+  templateOptionsCatalog?: AllTemplateOptionsPayload | null;
+  templateCategoryCatalog?: TemplateCategoryCatalogItem[] | null;
+  textureCatalog?: TemplateTextureCatalogItem[] | null;
 };
 
 export type AssembleAccountRemotionPreviewDraftSource = {
@@ -52,7 +58,31 @@ function resolveBrandingForSource(
   templateCategoryCatalog: TemplateCategoryCatalogItem[] | null | undefined,
 ): AccountBrandingData | null {
   if (source.kind === "saved") {
-    return source.branding;
+    const categoryOptions = source.templateCategoryCatalog ?? templateCategoryCatalog ?? null;
+
+    let branding = resolveSavedBrandingForRemotionPreview({
+      branding: source.branding,
+      catalog: source.templateOptionsCatalog ?? null,
+      categoryOptions,
+      previewImage: source.previewImage ?? null,
+      textureCatalog: source.textureCatalog ?? null,
+    });
+
+    if (branding === null || source.previewImage == null) return branding;
+
+    const imagePreset = branding.template_option?.["image"] ?? branding.theme?.theme?.["image"];
+    return {
+      ...branding,
+      template_option: {
+        ...branding.template_option,
+        image: {
+          ...(typeof imagePreset === "object" && imagePreset !== null && !Array.isArray(imagePreset)
+            ? imagePreset
+            : {}),
+          image: source.previewImage,
+        },
+      },
+    };
   }
 
   const categoryOptions = source.templateCategoryCatalog ?? templateCategoryCatalog ?? null;

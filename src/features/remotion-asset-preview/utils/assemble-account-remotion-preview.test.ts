@@ -260,7 +260,7 @@ describe("assembleAccountRemotionPreview (saved)", () => {
     expect(logo["hasLogo"]).toBe(true);
   });
 
-  it("prefers branding.theme.theme.mode for templateVariation.mode over CMS slug", () => {
+  it("prefers the selected template mode over stale theme JSON", () => {
     const base = minimalDataset();
     const b = brandingFixture({
       theme: {
@@ -286,7 +286,7 @@ describe("assembleAccountRemotionPreview (saved)", () => {
     const vm = dataRec["videoMeta"] as Record<string, unknown>;
     const video = vm["video"] as Record<string, unknown>;
     const tv = video["templateVariation"] as Record<string, unknown>;
-    expect(tv["mode"]).toBe("light");
+    expect(tv["mode"]).toBe("dark");
   });
 
   it("uses theme JSON mode when template mode slug is unavailable", () => {
@@ -854,6 +854,111 @@ describe("assembleAccountRemotionPreview (draft)", () => {
     defaultAnimationPresetId: null,
     currentSelection: null,
   };
+
+  it.each(["Solid", "Gradient", "Image", "Texture", "Video", "Animated"] as const)(
+    "matches saved %s branding to the builder draft despite stale theme settings",
+    (useBackground) => {
+      const image = {
+        id: 4,
+        name: "Pan",
+        animationType: "pan",
+        animationDirection: "left",
+        overlayStyle: "gradient",
+        gradientType: "primary",
+        overlayOpacity: 0.4,
+      };
+      const gradient = { id: 5, name: "Vertical", type: "secondary", direction: "VERTICAL" };
+      const texture = {
+        id: 6,
+        name: "Paper",
+        opacity: 0.5,
+        blendMode: "multiply",
+        texture: {
+          id: 16,
+          url: "https://cdn.example/paper.png",
+          width: 100,
+          height: 100,
+          mime: "image/png",
+          alternativeText: null,
+        },
+      };
+      const video = {
+        id: 7,
+        name: "Video",
+        position: "center",
+        size: "cover",
+        loop: true,
+        muted: true,
+        offthread: false,
+        volume: 0,
+        rate: 1,
+        overlay: "#000000",
+      };
+      const animation = { type: "snow-field", particleCount: 300, speed: 2 };
+      const previewImage = {
+        id: 99,
+        url: "https://cdn.example/club.jpg",
+        width: 1920,
+        height: 1080,
+        mime: "image/jpeg",
+      };
+      const branding = brandingFixture({
+        theme: {
+          id: 2,
+          name: "Old theme",
+          theme: { primary: "#ABCDEF", mode: "light", useBackground: "Solid" },
+        },
+        template_option: {
+          categoryId: 8,
+          modeId: 2,
+          mode: "dark",
+          useBackground,
+          palette: { id: 3, name: "Analogous", value: "analogous" },
+          gradient: useBackground === "Gradient" ? gradient : null,
+          image: useBackground === "Image" ? image : null,
+          texture: useBackground === "Texture" ? texture : null,
+          video: useBackground === "Video" ? video : null,
+          animation: useBackground === "Animated" ? animation : null,
+        },
+      });
+      const common = {
+        base: minimalDataset(),
+        logoUrl: "https://cdn.example/logo.png",
+        templateModeSlug: "dark",
+        templateCategoryCatalog: catalog.categories,
+      };
+      const saved = assembleAccountRemotionPreview({
+        ...common,
+        source: { kind: "saved", branding, previewImage },
+      });
+      const builder = assembleAccountRemotionPreview({
+        ...common,
+        source: {
+          kind: "draft",
+          branding,
+          previewImage,
+          draft: {
+            ...draft,
+            useBackground,
+            templateImageId: useBackground === "Image" ? 4 : null,
+            templateGradientId: useBackground === "Gradient" ? 5 : null,
+            templateTextureId: useBackground === "Texture" ? 6 : null,
+            templateVideoId: useBackground === "Video" ? 7 : null,
+            animation: useBackground === "Animated" ? animation : null,
+          },
+          templateOptionsCatalog: {
+            ...catalog,
+            images: [image],
+            gradients: [gradient],
+            textures: [texture],
+            videos: [video],
+          },
+        },
+      });
+      expect(saved).toEqual(builder);
+      expect(branding.theme?.theme?.["useBackground"]).toBe("Solid");
+    },
+  );
 
   it("overlays draft category and mode onto the Remotion dataset", () => {
     const base = minimalDataset();

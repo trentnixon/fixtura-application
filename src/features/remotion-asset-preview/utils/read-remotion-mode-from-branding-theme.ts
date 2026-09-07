@@ -10,12 +10,14 @@ function modeStringFromRecord(record: Record<string, unknown> | null): string | 
 }
 
 /**
- * Reads saved appearance `mode` from `theme.theme` or, when absent (common Phase-3 shape),
- * from `template_option`, and maps it to Remotion `templateVariation.mode`.
+ * Prefer the saved template option over legacy theme JSON.
  */
 export function readRemotionModeFromBrandingThemeJson(
   branding: AccountBrandingData | null | undefined,
 ): string | null {
+  const optionMode = modeStringFromRecord(branding?.template_option ?? null);
+  const resolvedOptionMode = templateModeSlugToRemotionMode(optionMode);
+  if (resolvedOptionMode !== null) return resolvedOptionMode;
   const themeRow = branding?.theme?.theme;
   const themeRec =
     themeRow != null && typeof themeRow === "object" && !Array.isArray(themeRow)
@@ -24,8 +26,5 @@ export function readRemotionModeFromBrandingThemeJson(
   const fromTheme = modeStringFromRecord(themeRec);
   if (fromTheme != null) return templateModeSlugToRemotionMode(fromTheme);
 
-  const opt = branding?.template_option;
-  if (opt == null || typeof opt !== "object" || Array.isArray(opt)) return null;
-  const fromOption = modeStringFromRecord(opt as Record<string, unknown>);
-  return fromOption != null ? templateModeSlugToRemotionMode(fromOption) : null;
+  return null;
 }

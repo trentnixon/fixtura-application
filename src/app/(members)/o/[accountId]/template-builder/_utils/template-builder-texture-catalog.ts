@@ -1,3 +1,4 @@
+import { resolvePreviewMediaUrl } from "@/features/remotion-asset-preview/utils/resolve-preview-media-url";
 import { toNumberOrNull } from "@/types/api/template-textures";
 
 import type { TemplateTextureCatalogItem } from "@/types/api/all-template-options";
@@ -25,22 +26,11 @@ const TEMPLATE_TEXTURE_CATEGORY_ORDER: TemplateTextureCategory[] = [
 const UNCategorized_TEXTURE_GROUP_KEY = "uncategorized";
 const UNCategorized_TEXTURE_GROUP_LABEL = "Other";
 
-function resolvePublicMediaUrl(url: string | null | undefined): string | null {
-  const trimmed = url?.trim();
-  if (!trimmed) return null;
-  if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) return trimmed;
-
-  const base = process.env["NEXT_PUBLIC_STRAPI_URL"]?.replace(/\/+$/, "");
-  if (base && trimmed.startsWith("/")) return `${base}${trimmed}`;
-
-  return trimmed;
-}
-
 export function mapTemplateTextureUiItemToPickerItem(
   item: TemplateTextureUiItem,
 ): TemplateBuilderTexturePickerItem {
   const media = item.texture;
-  const resolvedUrl = resolvePublicMediaUrl(media?.url ?? null);
+  const resolvedUrl = resolvePreviewMediaUrl(media?.url ?? null);
 
   return {
     id: item.id,
@@ -68,7 +58,7 @@ export function mapCatalogTextureToPickerItem(
   item: TemplateTextureCatalogItem,
 ): TemplateBuilderTexturePickerItem {
   const media = item.texture;
-  const resolvedUrl = resolvePublicMediaUrl(media?.url ?? null);
+  const resolvedUrl = resolvePreviewMediaUrl(media?.url ?? null);
 
   return {
     id: item.id,

@@ -1,0 +1,41 @@
+{
+  "id": 1,
+  "template": {
+    "id": 1,
+    "name": "Template",
+    "frontEndName": null,
+    "requiresMedia": false,
+    "variation": null,
+    "category": "BroadcastPro",
+    "templateVariation": null,
+    "divideFixturesBy": "round",
+    "bundleAudio": null,
+    "poster": null,
+    "video": null,
+    "gallery": []
+  },
+  "theme": {
+    "id": 2,
+    "name": "Theme",
+    "theme": {
+      "primary": "#111111",
+      "secondary": "#222222",
+      "mode": "dark",
+      "useBackground": "Solid"
+    }
+  },
+  "template_option": {
+    "id": 269,
+    "categoryId": 8,
+    "modeId": 2,
+    "mode": "dark",
+    "useBackground": "Animated",
+    "palette": { "id": 3, "name": "Analogous", "value": "analogous" },
+    "animation": {
+      "type": "snow-field",
+      "particleCount": 300,
+      "speed": 2
+    }
+  },
+  "templateOptionId": 269
+}

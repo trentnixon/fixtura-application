@@ -1,5 +1,6 @@
 import { resolveRemotionNoiseFromCatalogNoise } from "./read-remotion-noise-from-catalog";
 import { readUseBackgroundFromAccountBranding } from "./read-use-background-from-account-branding";
+import { resolvePreviewMediaUrl } from "./resolve-preview-media-url";
 
 import type { AccountBrandingData } from "@/types/api/account";
 
@@ -131,7 +132,7 @@ export function readRemotionTextureFromBranding(
   if (row === null) return null;
 
   const media = asRecord(row["texture"]);
-  const url = pickString(media?.["url"], row["url"]);
+  const url = resolvePreviewMediaUrl(pickString(media?.["url"], row["url"]));
   const name = pickString(row["name"]);
   if (url === null && name === null) return null;
 

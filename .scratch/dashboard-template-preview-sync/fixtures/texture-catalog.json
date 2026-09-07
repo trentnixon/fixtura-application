@@ -1,0 +1,71 @@
+{
+  "categories": [
+    {
+      "id": 8,
+      "name": "Broadcast Pro",
+      "slug": "BroadcastPro",
+      "divideFixturesBy": "round",
+      "isPrivate": false,
+      "bundleAudio": null
+    }
+  ],
+  "modes": [{ "id": 2, "name": "Dark", "slug": "dark" }],
+  "palettes": [{ "id": 3, "name": "Analogous", "value": "analogous" }],
+  "gradients": [],
+  "images": [],
+  "noises": [],
+  "particles": [],
+  "patterns": [],
+  "textures": [
+    {
+      "id": 6,
+      "name": "Paper",
+      "opacity": 0.5,
+      "blendMode": "multiply",
+      "texture": {
+        "id": 16,
+        "url": "/uploads/paper_texture.png",
+        "width": 512,
+        "height": 512,
+        "mime": "image/png",
+        "alternativeText": null
+      }
+    }
+  ],
+  "videos": [],
+  "animations": [],
+  "defaultAnimationPresetId": null,
+  "currentSelection": {
+    "id": 270,
+    "useBackground": "Texture",
+    "templateAnimation": null,
+    "templateCategory": {
+      "id": 8,
+      "name": "Broadcast Pro",
+      "slug": "BroadcastPro",
+      "divideFixturesBy": "round"
+    },
+    "templatePalette": { "id": 3, "name": "Analogous", "value": "analogous" },
+    "templateGradient": null,
+    "templateImage": null,
+    "templateNoise": null,
+    "templateParticle": null,
+    "templatePattern": null,
+    "templateTexture": {
+      "id": 6,
+      "name": "Paper",
+      "opacity": 0.5,
+      "blendMode": "multiply",
+      "texture": {
+        "id": 16,
+        "url": "/uploads/paper_texture.png",
+        "width": 512,
+        "height": 512,
+        "mime": "image/png",
+        "alternativeText": null
+      }
+    },
+    "templateVideo": null,
+    "templateMode": { "id": 2, "name": "Dark", "slug": "dark" }
+  }
+}

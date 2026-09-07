@@ -127,8 +127,8 @@ export function mergeAccountBrandingIntoDataset(
 
   const templateVariation = ensureRecord(video, "templateVariation");
   const remotionMode =
-    readRemotionModeFromBrandingThemeJson(input.branding) ??
-    templateModeSlugToRemotionMode(input.templateModeSlug);
+    templateModeSlugToRemotionMode(input.templateModeSlug) ??
+    readRemotionModeFromBrandingThemeJson(input.branding);
   if (remotionMode !== null) {
     templateVariation["mode"] = remotionMode;
   }
