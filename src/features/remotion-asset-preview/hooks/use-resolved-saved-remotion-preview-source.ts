@@ -8,13 +8,13 @@ import {
 } from "@/lib/api/hooks/account/useAllTemplateOptions";
 import { useTemplateTexturesUi } from "@/lib/api/hooks/template-textures/useTemplateTexturesUi";
 
+import { applyRemotionPreviewDraftToBranding } from "../utils/apply-remotion-preview-draft-to-branding";
+import { buildRemotionPreviewDraftFromCurrentSelection } from "../utils/build-remotion-preview-draft-for-saved-branding";
+import { readUseBackgroundFromAccountBranding } from "../utils/read-use-background-from-account-branding";
 import { resolveRemotionPreviewTextureCatalog } from "../utils/resolve-remotion-preview-texture-catalog";
-import {
-  needsCatalogToResolveSavedBranding,
-  readTemplateOptionIdFromBranding,
-} from "../utils/resolve-saved-branding-for-remotion-preview";
+import { readTemplateOptionIdFromBranding } from "../utils/resolve-saved-branding-for-remotion-preview";
 
-import type { AssembleAccountRemotionPreviewSavedSource } from "../utils/assemble-account-remotion-preview";
+import type { AssembleAccountRemotionPreviewSource } from "../utils/assemble-account-remotion-preview";
 import type { AccountBrandingData, AccountMediaLibraryImage } from "@/types/api/account";
 import type { TemplateCategoryCatalogItem } from "@/types/api/all-template-options";
 
@@ -29,14 +29,17 @@ export type UseResolvedSavedRemotionPreviewSourceInput = {
 };
 
 export type UseResolvedSavedRemotionPreviewSourceResult = {
-  source: AssembleAccountRemotionPreviewSavedSource;
+  source: AssembleAccountRemotionPreviewSource;
   status: ResolvedSavedRemotionPreviewSourceStatus;
   catalogError: string | null;
+  /** Draft-applied branding — same basis as template builder preview mode slug. */
+  previewBranding: AccountBrandingData | null;
+  useBackground: string | null;
 };
 
 /**
- * Saved Remotion preview source — same shape as template builder after save:
- * always loads aggregate catalog + texture catalog, expands thin branding when needed.
+ * Dashboard preview source — mirrors template builder after save:
+ * catalog `currentSelection` → draft assembly (not raw `/branding` saved path).
  */
 export function useResolvedSavedRemotionPreviewSource({
   accountId,
@@ -44,7 +47,6 @@ export function useResolvedSavedRemotionPreviewSource({
   previewImage = null,
   templateCategoryCatalog = null,
 }: UseResolvedSavedRemotionPreviewSourceInput): UseResolvedSavedRemotionPreviewSourceResult {
-  const needsCatalog = useMemo(() => needsCatalogToResolveSavedBranding(branding), [branding]);
   const templateOptionId = useMemo(() => readTemplateOptionIdFromBranding(branding), [branding]);
   const queryEnabled = Boolean(accountId);
 
@@ -79,20 +81,57 @@ export function useResolvedSavedRemotionPreviewSource({
     ],
   );
 
-  const source = useMemo(
-    (): AssembleAccountRemotionPreviewSavedSource => ({
-      kind: "saved",
+  const draft = useMemo(
+    () =>
+      catalogPayload != null ? buildRemotionPreviewDraftFromCurrentSelection(catalogPayload) : null,
+    [catalogPayload],
+  );
+
+  const previewBranding = useMemo(() => {
+    if (branding === null) return null;
+    if (catalogPayload == null || draft == null) return branding;
+    return (
+      applyRemotionPreviewDraftToBranding({
+        branding,
+        catalog: catalogPayload,
+        categoryOptions: templateCategoryCatalog,
+        draft,
+        previewImage,
+        textureCatalog,
+      }) ?? branding
+    );
+  }, [branding, catalogPayload, draft, previewImage, templateCategoryCatalog, textureCatalog]);
+
+  const useBackground = useMemo(
+    () => readUseBackgroundFromAccountBranding(previewBranding ?? branding),
+    [branding, previewBranding],
+  );
+
+  const source = useMemo((): AssembleAccountRemotionPreviewSource => {
+    const common = {
       branding,
       previewImage,
       templateOptionsCatalog: catalogPayload,
       templateCategoryCatalog,
       textureCatalog,
-    }),
-    [branding, catalogPayload, previewImage, templateCategoryCatalog, textureCatalog],
-  );
+    };
+
+    if (catalogPayload != null && draft != null) {
+      return {
+        kind: "draft",
+        ...common,
+        draft,
+        templateOptionsCatalog: catalogPayload,
+      };
+    }
+
+    return {
+      kind: "saved",
+      ...common,
+    };
+  }, [branding, catalogPayload, draft, previewImage, templateCategoryCatalog, textureCatalog]);
 
   const catalogError = useMemo(() => {
-    if (!needsCatalog) return null;
     if (catalogQuery.isError) {
       return catalogQuery.error instanceof Error
         ? catalogQuery.error.message
@@ -106,20 +145,13 @@ export function useResolvedSavedRemotionPreviewSource({
       return "Template catalog is unavailable for this account.";
     }
     return null;
-  }, [
-    catalogQuery.data,
-    catalogQuery.error,
-    catalogQuery.isError,
-    catalogQuery.isSuccess,
-    needsCatalog,
-  ]);
+  }, [catalogQuery.data, catalogQuery.error, catalogQuery.isError, catalogQuery.isSuccess]);
 
   const status = useMemo((): ResolvedSavedRemotionPreviewSourceStatus => {
-    if (!needsCatalog) return "ready";
     if (catalogError) return "catalog-error";
     if (catalogQuery.isPending || catalogPayload == null) return "loading-catalog";
     return "ready";
-  }, [catalogError, catalogPayload, catalogQuery.isPending, needsCatalog]);
+  }, [catalogError, catalogPayload, catalogQuery.isPending]);
 
-  return { source, status, catalogError };
+  return { source, status, catalogError, previewBranding, useBackground };
 }

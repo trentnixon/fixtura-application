@@ -12,10 +12,13 @@ import { DEFAULT_REMOTION_SANDBOX_COMPOSITION_ID } from "@/components/remotion/_
 import { isRemotionSandboxCricketCompositionId } from "@/components/remotion/_constants/remotion-datasets";
 import { TypographyH4, TypographyMuted } from "@/components/typography";
 import { Button } from "@/components/ui/button";
-import { isCricketSport, useRemotionAssetPreview } from "@/features/remotion-asset-preview";
+import {
+  isCricketSport,
+  resolveTemplateModeSlugFromBranding,
+  useRemotionAssetPreview,
+} from "@/features/remotion-asset-preview";
 import { useAccountPreviewMediaSelection } from "@/features/remotion-asset-preview/hooks/use-account-preview-media-selection";
 import { useResolvedSavedRemotionPreviewSource } from "@/features/remotion-asset-preview/hooks/use-resolved-saved-remotion-preview-source";
-import { readUseBackgroundFromAccountBranding } from "@/features/remotion-asset-preview/utils/read-use-background-from-account-branding";
 import { captureUserAction } from "@/lib/analytics";
 import {
   isAccountMediaLibraryGatewayRedirect,
@@ -25,6 +28,7 @@ import {
   isAccountSponsorsGatewayRedirect,
   useAccountSponsors,
 } from "@/lib/api/hooks/account/useAccountSponsors";
+import { useTemplateModesUi } from "@/lib/api/hooks/template-modes/useTemplateModesUi";
 import { accountScopedRoutes } from "@/lib/config/account-routes";
 
 import { DashboardAssetPreviewBrandingDebug } from "./dashboard-asset-preview-branding-debug";
@@ -39,7 +43,6 @@ type DashboardAssetPreviewPanelProps = {
   sport: string | null;
   branding: AccountBrandingData | null;
   logoUrl: string | null;
-  templateModeSlug: string | null;
   templateCategoryCatalog?: TemplateCategoryCatalogItem[];
   debugPlacement?: "carousel" | "below" | "none";
   showAssetPicker?: boolean;
@@ -52,7 +55,6 @@ export function DashboardAssetPreviewPanel({
   sport,
   branding,
   logoUrl,
-  templateModeSlug,
   templateCategoryCatalog = [],
   debugPlacement = "carousel",
   showAssetPicker = true,
@@ -73,8 +75,8 @@ export function DashboardAssetPreviewPanel({
   }, [imageOptions.selected]);
 
   const sponsorsQuery = useAccountSponsors(accountId);
-  const usesImage = readUseBackgroundFromAccountBranding(branding) === "Image";
-  const mediaQuery = useAccountMediaLibrary(accountId, { enabled: usesImage });
+  const templateModesQuery = useTemplateModesUi();
+  const mediaQuery = useAccountMediaLibrary(accountId);
   const mediaItems =
     mediaQuery.data && !isAccountMediaLibraryGatewayRedirect(mediaQuery.data)
       ? mediaQuery.data.data.items
@@ -85,12 +87,25 @@ export function DashboardAssetPreviewPanel({
     source: remotionSource,
     status: savedSourceStatus,
     catalogError,
+    previewBranding,
+    useBackground,
   } = useResolvedSavedRemotionPreviewSource({
     accountId,
     branding,
     previewImage: selectedItem?.image ?? null,
     templateCategoryCatalog,
   });
+
+  const usesImage = useBackground === "Image";
+
+  const templateModeSlug = useMemo(
+    () =>
+      resolveTemplateModeSlugFromBranding(
+        previewBranding ?? branding,
+        templateModesQuery.data?.data ?? [],
+      ),
+    [branding, previewBranding, templateModesQuery.data],
+  );
 
   const accountSponsors = useMemo(() => {
     const d = sponsorsQuery.data;
@@ -111,13 +126,13 @@ export function DashboardAssetPreviewPanel({
   const brandingSettingsDebug = useMemo(
     () => (
       <DashboardAssetPreviewBrandingDebug
-        branding={branding}
+        branding={previewBranding ?? branding}
         templateModeSlug={templateModeSlug}
         templateCategoryCatalog={templateCategoryCatalog}
         accountSponsors={accountSponsors}
       />
     ),
-    [accountSponsors, branding, templateCategoryCatalog, templateModeSlug],
+    [accountSponsors, branding, previewBranding, templateCategoryCatalog, templateModeSlug],
   );
 
   const shouldShowAssetPicker = showAssetPicker && isCricketSport(sport);
