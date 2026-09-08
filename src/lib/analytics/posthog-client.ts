@@ -24,6 +24,7 @@ export function buildPostHogInitOptions(): Record<string, unknown> {
     capture_pageview: false,
     capture_pageleave: false,
     persistence: "localStorage+cookie",
+    cross_subdomain_cookie: true,
     disable_session_recording: true,
   };
 }

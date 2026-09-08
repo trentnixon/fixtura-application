@@ -11,7 +11,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { captureEvent } from "@/lib/analytics";
+import { appendPostHogHubDistinctId, captureEvent } from "@/lib/analytics";
+import { useCurrentUser } from "@/lib/api/hooks/auth/useCurrentUser";
 import { buildBundlesHubRenderGroupUrl } from "@/lib/config/bundles-hub";
 
 import { BUNDLES_RENDER_DETAIL_COPY } from "../_consts/render-detail";
@@ -33,6 +34,8 @@ export function BundlesRenderDownloadsPanel({
   sport: string | null;
   render: AccountRenderDetail;
 }) {
+  const { data: currentUserData } = useCurrentUser();
+  const distinctId = currentUserData?.user?.id ? String(currentUserData.user.id) : "";
   const downloads = useMemo(() => render.downloads ?? [], [render.downloads]);
   const groups = useMemo(() => groupRenderDownloadsByCategory(downloads), [downloads]);
 
@@ -77,12 +80,16 @@ export function BundlesRenderDownloadsPanel({
           </TableHeader>
           <TableBody>
             {groups.map((group) => {
-              const hubHref = buildBundlesHubRenderGroupUrl(
+              const hubBaseUrl = buildBundlesHubRenderGroupUrl(
                 accountId,
                 sport,
                 render.id,
                 group.groupingCategory,
               );
+              const hubHref =
+                hubBaseUrl && distinctId
+                  ? appendPostHogHubDistinctId(hubBaseUrl, distinctId)
+                  : hubBaseUrl;
 
               return (
                 <TableRow

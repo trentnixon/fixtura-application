@@ -5,15 +5,29 @@
 **Consent:** `localStorage.fixtura_analytics_consent === "granted"`  
 **Excluded paths:** `/sandbox/**`, `/admin/system/**` (no capture)
 
+## Taxonomy (hybrid model)
+
+PostHog surfaces use different conversion property keys:
+
+| Surface         | Pattern               | Property key | Example                                     |
+| --------------- | --------------------- | ------------ | ------------------------------------------- |
+| Marketing (www) | `conversion`          | `step`       | `sign_in`, `register_*`, `password_reset_*` |
+| Members app     | `conversion`          | `name`       | `login_success`, `trial_started`            |
+| API (server)    | dedicated event names | —            | `account_created`, `first_pack_delivered`   |
+
+**Milestones** (`trial_started`, `onboarding_completed`, `pack_viewed`, `first_pack_delivered`, etc.) should become **dedicated event names** or PostHog **Actions** over time. Until migration, Actions can bridge `conversion.name` (app) and `conversion.step` (marketing) in dashboards.
+
+**Organization attributes** (`name`, `plan`, `sport`) live on **`organization` group only** — never on person. Client sets via `group('organization', accountId, { name, plan, sport })`.
+
 ## Lifecycle
 
-| Event        | Properties                             | When                                     | Status |
-| ------------ | -------------------------------------- | ---------------------------------------- | ------ |
-| `$pageview`  | `$current_url`                         | Route change (explicit, autocapture off) | Live   |
-| `conversion` | `name: "login_success"`                | App sign-in succeeds                     | Live   |
-| `conversion` | `name: "login_failed"`, `reason_code`  | App sign-in fails                        | Live   |
-| `identify`   | distinct id = backend user id (string) | Login + returning session                | Live   |
-| `group`      | `organization` = route `accountId`     | Account-scoped routes `/o/[accountId]/*` | Live   |
+| Event        | Properties                                                                            | When                                     | Status |
+| ------------ | ------------------------------------------------------------------------------------- | ---------------------------------------- | ------ |
+| `$pageview`  | `$current_url`                                                                        | Route change (explicit, autocapture off) | Live   |
+| `conversion` | `name: "login_success"`                                                               | App sign-in succeeds                     | Live   |
+| `conversion` | `name: "login_failed"`, `reason_code`                                                 | App sign-in fails                        | Live   |
+| `identify`   | distinct id = backend user id (string)                                                | Login + returning session                | Live   |
+| `group`      | `organization` = route `accountId`, properties: `name`, `plan`, `sport` (allowlisted) | Account-scoped routes `/o/[accountId]/*` | Live   |
 
 `reason_code`: `invalid_credentials` | `network` | `unavailable` | `unknown` — never email/password.
 
@@ -142,6 +156,8 @@
 | `pack_viewed` | `accountId`, `renderId`                                                                            | Render detail screen ready                            | Live   |
 | `hub_opened`  | `accountId`, `renderId`, `groupingCategory`, `source: "app_bundles_downloads"`                     | User opens external Delivery Hub from downloads table | Live   |
 
+Hub URL includes `?phDistinctId=<strapiUserId>` when user is signed in. contentv2 handoff: `.comms/handoff/posthog-hub-identify-handoff.md`.
+
 ## Out of scope (Hub repo, `surface: hub`)
 
 - `asset_downloaded`
@@ -149,9 +165,32 @@
 
 ## Server (API / Strapi)
 
+Handoff: `.comms/API/handoff/posthog-server-events.md`
+
 - `account_created`
 - `email_verified`
 - `first_pack_delivered`
+- Person property `$internal_or_test_user` (server identify only)
+
+### Milestone certification list (~15 for PostHog data management)
+
+Use as Actions or dedicated events in dashboards:
+
+1. `form_submitted` (marketing register)
+2. `conversion` step `sign_in` (marketing)
+3. `conversion` name `login_success` (app)
+4. `account_created` (api)
+5. `email_verified` (api)
+6. `onboarding_started`
+7. `onboarding_completed`
+8. `onboarding_setup_ready`
+9. `conversion` name `trial_started`
+10. `settings_saved` / activation config milestone
+11. `pack_viewed`
+12. `first_pack_delivered` (api)
+13. `hub_opened`
+14. `conversion` name `subscription_checkout_started`
+15. `conversion` name `billing_checkout_return` result `success`
 
 ## Privacy
 
