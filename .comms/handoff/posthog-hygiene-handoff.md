@@ -77,7 +77,7 @@ Provide a hardcoded list of Strapi user ids for Fixtura team / test accounts. AP
 | ----------------------- | ---------------- |
 | _(TBD — Trent to fill)_ |                  |
 
-PostHog dashboard build (Activation & Product) is blocked on this list + `$opt_in` fix.
+PostHog dashboard: see `.comms/handoff/posthog-activation-dashboard-status.md` (live; internal id list still TBD for filterTestAccounts).
 
 ---
 

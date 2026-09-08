@@ -165,12 +165,15 @@ Hub URL includes `?phDistinctId=<strapiUserId>` when user is signed in. contentv
 
 ## Server (API / Strapi)
 
-Handoff: `.comms/API/handoff/posthog-server-events.md`
+Handoff: `.comms/API/handoff/posthog-server-events.md`  
+**Shipped (CMS `e99743b`):** `.comms/handoff/cms-handoff-posthog-server-events-shipped.md` — Live pending `POSTHOG_API_KEY` on CMS + QA.
 
-- `account_created`
-- `email_verified`
-- `first_pack_delivered`
-- Person property `$internal_or_test_user` (server identify only)
+| Event                    | Properties                                          | Status                    |
+| ------------------------ | --------------------------------------------------- | ------------------------- |
+| `account_created`        | `surface: api`, `accountId`, `$groups.organization` | Shipped — pending keys/QA |
+| `email_verified`         | `surface: api` (no group)                           | Shipped — pending keys/QA |
+| `first_pack_delivered`   | `surface: api`, `accountId`, `$groups.organization` | Shipped — pending keys/QA |
+| `$internal_or_test_user` | server identify only                                | Wired — id list empty     |
 
 ### Milestone certification list (~15 for PostHog data management)
 

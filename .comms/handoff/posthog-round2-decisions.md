@@ -124,26 +124,25 @@ Logged-in members analytics without separate banner is defensible if disclosed i
 
 **Still to implement / other repos:**
 
-- `$internal_or_test_user` via Strapi server identify (not client) — `.comms/API/handoff/posthog-server-events.md`
+- `$internal_or_test_user` via Strapi server identify (wired; **id list empty**) — `.comms/handoff/cms-handoff-posthog-server-events-shipped.md`
 - Session replay config when approved
 - Staging key split (env/deployment) — see `env.example` + ticket 06
 - Marketing/contentv2 `$opt_in` fix — `.comms/handoff/posthog-hygiene-handoff.md`
 
 ---
 
-## PostHog working session — Activation & Product dashboard
+## PostHog Activation & Product dashboard
 
-PostHog offered to build:
+**Status:** Live and updated 2026-09-08. See **`.comms/handoff/posthog-activation-dashboard-status.md`** for insight URLs, funnel schema, and activation checklist.
 
-1. Funnel: `form_submitted` → `$identify` → `conversion` step `sign_in` → `user_action` → `hub_opened`
-2. Retention: hub_opened return 7/14/30d
-3. Trend: `user_action` by `action`, breakdown by `surface`
+Dashboard: [2074642](https://us.posthog.com/dashboard/2074642)
 
-**Before session, provide:**
+### Before trusting funnel counts
 
 - [ ] List of internal Strapi user IDs for `$internal_or_test_user: true`
-- [ ] Fix `$opt_in` bug on www/contentv2 so funnel counts are clean
-- [ ] Confirm whether to proceed with dashboard build (“go”)
+- [ ] Fix `$opt_in` bug on www/contentv2
+- [ ] Deploy app `cross_subdomain_cookie` + confirm marketing parity
+- [ ] Ship Strapi `account_created` (insert as funnel step 2 when live)
 
 ---
 

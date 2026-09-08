@@ -3,17 +3,14 @@
 import { useEffect, useRef } from "react";
 
 import { clearOrganizationGroup, groupOrganization } from "@/lib/analytics";
-import {
-  buildOrganizationGroupProperties
-} from "@/lib/analytics/organization-group-properties";
+import { buildOrganizationGroupProperties } from "@/lib/analytics/organization-group-properties";
 import {
   useAccountBilling,
   isAccountBillingGatewayRedirect,
 } from "@/lib/api/hooks/account/useAccountBilling";
 import { useAccountMe } from "@/lib/api/hooks/account/useAccountMe";
 
-import type {
-  pickOrganizationGroupProperties} from "@/lib/analytics/organization-group-properties";
+import type { pickOrganizationGroupProperties } from "@/lib/analytics/organization-group-properties";
 
 function serializeGroupProperties(
   properties: ReturnType<typeof pickOrganizationGroupProperties>,
