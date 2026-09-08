@@ -38,3 +38,11 @@ export {
   isAnalyticsFeatureFlagEnabled,
 } from "./enabled";
 export { withAppSurface } from "./properties";
+export { appendPostHogHubDistinctId, POSTHOG_HUB_DISTINCT_ID_PARAM } from "./hub-handoff";
+export {
+  buildOrganizationGroupProperties,
+  deriveAnalyticsPlanFromBilling,
+  pickOrganizationGroupProperties,
+  type OrganizationGroupAnalyticsProperties,
+  type OrganizationGroupAnalyticsPropertyKey,
+} from "./organization-group-properties";

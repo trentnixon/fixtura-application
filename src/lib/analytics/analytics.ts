@@ -1,5 +1,9 @@
 import { canCaptureAnalytics, isAnalyticsConfigured } from "./enabled";
 import { isAnalyticsExcludedPath, pathnameFromAnalyticsUrl } from "./excluded-path";
+import {
+  pickOrganizationGroupProperties,
+  type OrganizationGroupAnalyticsProperties,
+} from "./organization-group-properties";
 import { buildPostHogInitOptions, createPostHogClient, type PostHogLike } from "./posthog-client";
 import { withAppSurface } from "./properties";
 
@@ -87,9 +91,22 @@ export function identifyUser(userId: string): void {
   getClient().identify(userId.trim());
 }
 
-export function groupOrganization(accountId: string): void {
+export function groupOrganization(
+  accountId: string,
+  properties?: OrganizationGroupAnalyticsProperties | Record<string, unknown>,
+): void {
   if (!accountId.trim()) return;
   if (!isReadyToCapture()) return;
+
+  const safeProperties = properties
+    ? pickOrganizationGroupProperties(properties as Record<string, unknown>)
+    : undefined;
+
+  if (safeProperties && Object.keys(safeProperties).length > 0) {
+    getClient().group("organization", accountId.trim(), safeProperties);
+    return;
+  }
+
   getClient().group("organization", accountId.trim());
 }
 
