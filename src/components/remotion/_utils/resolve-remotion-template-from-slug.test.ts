@@ -20,4 +20,10 @@ describe("resolveRemotionTemplateFromSlug", () => {
     expect(template).toBe("Mudgeeraba");
     expect(usedFallback).toBe(false);
   });
+
+  it("maps scoreline case-insensitively", () => {
+    const { template, usedFallback } = resolveRemotionTemplateFromSlug("scoreline");
+    expect(template).toBe("Scoreline");
+    expect(usedFallback).toBe(false);
+  });
 });

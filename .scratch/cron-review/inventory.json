@@ -1,0 +1,238 @@
+{
+  "source": "D:\\htdoc\\Fixtura\\Fixtura.com.au\\Backend",
+  "registered": 32,
+  "counts": {
+    "interval": 9,
+    "daily": 12,
+    "weekly": 7,
+    "monthly": 4
+  },
+  "dailyIntervalInvocations": 2616,
+  "ordinaryDayInvocations": 2628,
+  "rows": [
+    {
+      "key": "preRenderAccountFreshness",
+      "category": "Account maintenance",
+      "schedule": "0 14 * * *",
+      "timezone": "Australia/Sydney",
+      "notes": "2 PM Sydney — advisory day-before-render freshness evaluation; stale accounts reuse the durable Account Health workflow."
+    },
+    {
+      "key": "accountHealthSequence",
+      "category": "Account maintenance",
+      "schedule": "0 15 * * 2",
+      "timezone": "Australia/Sydney",
+      "notes": "Tuesday 3 PM Sydney — runs Account Health for eligible accounts weekly. Set ACCOUNT_HEALTH_WEEKLY_IGNORE_FRESH_SINCE_MONDAY=true for multi-account test."
+    },
+    {
+      "key": "accountAssetRunSequence",
+      "category": "Account maintenance",
+      "schedule": "*/2 * * * *",
+      "timezone": "Australia/Sydney",
+      "notes": "Every 2 min Sydney — paid-account results scrape, fixture validation, and asset creation orchestration."
+    },
+    {
+      "key": "reconcileResultScrapeV2",
+      "category": "Account maintenance",
+      "schedule": "*/2 * * * *",
+      "timezone": "Australia/Sydney",
+      "notes": "Every 2 min Sydney — reconciles active v2 result-scrape runs and advances when fixture aggregate canAdvance."
+    },
+    {
+      "key": "cleanupGradeOrderingAuditEvents",
+      "category": "Account maintenance",
+      "schedule": "0 2 * * 1",
+      "timezone": "Australia/Sydney",
+      "notes": "Monday 2 AM Sydney — deletes grade-ordering audit events older than 12 months."
+    },
+    {
+      "key": "cleanupSportingCatalogue",
+      "category": "Account maintenance",
+      "schedule": "0 3 * * *",
+      "timezone": "Australia/Sydney",
+      "notes": "3 AM Sydney — nightly catalogue cascade (fixtures → grades → teams → competitions). Gated by DATA_CLEANUP_CATALOGUE_CRON_ENABLED."
+    },
+    {
+      "key": "cleanupStaleRenders",
+      "category": "Account maintenance",
+      "schedule": "30 3 * * *",
+      "timezone": "Australia/Sydney",
+      "notes": "3:30 AM Sydney — delete completed renders older than 12 months and related rows. Gated by DATA_CLEANUP_RENDER_CRON_ENABLED."
+    },
+    {
+      "key": "tokenChecker",
+      "category": "Billing and order lifecycle",
+      "schedule": "0 5 * * *",
+      "timezone": "Australia/Sydney",
+      "notes": "5 AM Sydney — daily token renewal check."
+    },
+    {
+      "key": "activatePendingOrders",
+      "category": "Billing and order lifecycle",
+      "schedule": "2,17,32,47 * * * *",
+      "timezone": "Australia/Sydney",
+      "notes": "Activates and recovers paid orders whose Sydney start date has arrived. Runs every 15 minutes at :02/:17/:32/:47 Sydney to avoid boundary congestion."
+    },
+    {
+      "key": "expireAbandonedStripeCheckouts",
+      "category": "Billing and order lifecycle",
+      "schedule": "0 6 * * *",
+      "timezone": "Australia/Sydney",
+      "notes": "6 AM Sydney — expires stale incomplete Stripe checkout orders."
+    },
+    {
+      "key": "checkTrialExpirations",
+      "category": "Billing and order lifecycle",
+      "schedule": "0 4 * * *",
+      "timezone": "Australia/Sydney",
+      "notes": "4 AM Sydney — processes expired trial instances in bounded daily batches."
+    },
+    {
+      "key": "checkSeasonPassExpirations",
+      "category": "Billing and order lifecycle",
+      "schedule": "10 9 * * *",
+      "timezone": "Australia/Sydney",
+      "notes": "9:10 AM Sydney — flags active paid orders approaching expiry (within 7 days) and initiates warning delivery."
+    },
+    {
+      "key": "checkExpiredOrders",
+      "category": "Billing and order lifecycle",
+      "schedule": "7 * * * *",
+      "timezone": "Australia/Sydney",
+      "notes": "Hourly at :07 Sydney — marks eligible paid orders as expired, independently of warning-email state."
+    },
+    {
+      "key": "updateDailyRollups",
+      "category": "Cost rollups",
+      "schedule": "0 23 * * *",
+      "timezone": "Australia/Sydney",
+      "notes": "11 PM Sydney — end-of-day cost rollup aggregation."
+    },
+    {
+      "key": "updateWeeklyRollups",
+      "category": "Cost rollups",
+      "schedule": "30 1 * * 1",
+      "timezone": "Australia/Sydney",
+      "notes": "Monday 1:30 AM Sydney — weekly cost rollup aggregation for the previous week (after Bull cleanup at 1 AM)."
+    },
+    {
+      "key": "updateMonthlyRollups",
+      "category": "Cost rollups",
+      "schedule": "0 2 1 * *",
+      "timezone": "Australia/Sydney",
+      "notes": "1st of month 2 AM Sydney — monthly cost rollup aggregation (after weekly rollup window)."
+    },
+    {
+      "key": "syncClubToAssociationLinks",
+      "category": "Organisation relationship maintenance",
+      "schedule": "0 13 * * 1",
+      "timezone": "Australia/Sydney",
+      "notes": "Weekly club→association link integrity (add-only). Runs via global-data workflow."
+    },
+    {
+      "key": "syncAssociationToClubLinks",
+      "category": "Organisation relationship maintenance",
+      "schedule": "15 13 * * 1",
+      "timezone": "Australia/Sydney",
+      "notes": "Weekly association→club link integrity (add-only). Runs via global-data workflow."
+    },
+    {
+      "key": "cleanBullQueues",
+      "category": "Onboarding and account-health recovery sweeps",
+      "schedule": "0 1 * * *",
+      "timezone": "Australia/Sydney",
+      "notes": "1 AM Sydney — removes old completed and failed Bull jobs to keep Redis memory bounded."
+    },
+    {
+      "key": "timeoutOnboardingFixtureDiscoveryBatch",
+      "category": "Onboarding and account-health recovery sweeps",
+      "schedule": "10,25,40,55 * * * *",
+      "timezone": "Australia/Sydney",
+      "notes": "Every 15 min at :10/:25/:40/:55 Sydney — fails stuck onboarding fixture-discovery batch items."
+    },
+    {
+      "key": "sweepAccountHealthFixtureDiscovery",
+      "category": "Onboarding and account-health recovery sweeps",
+      "schedule": "7,22,37,52 * * * *",
+      "timezone": "Australia/Sydney",
+      "notes": "Every 15 min at :07/:22/:37/:52 Sydney — sweeps stale account-health fixture-discovery work."
+    },
+    {
+      "key": "recoverStrandedFixtureDiscoveryIngest",
+      "category": "Onboarding and account-health recovery sweeps",
+      "schedule": "3,8,13,18,23,28,33,38,43,48,53,58 * * * *",
+      "timezone": "Australia/Sydney",
+      "notes": "Every 5 min at :03/:08/:13… Sydney — requeues stranded fixture-discovery ingest rows (+3 min offset from probes)."
+    },
+    {
+      "key": "cleanupAccountHealthRuns",
+      "category": "Onboarding and account-health recovery sweeps",
+      "schedule": "0 4 * * *",
+      "timezone": "Australia/Sydney",
+      "notes": "4 AM Sydney — terminal account-health runs older than 60 days plus correlated scraper evidence. Gated by DATA_CLEANUP_HEALTH_CRON_ENABLED."
+    },
+    {
+      "key": "cleanupOperationalLedgers",
+      "category": "Onboarding and account-health recovery sweeps",
+      "schedule": "30 4 * * *",
+      "timezone": "Australia/Sydney",
+      "notes": "4:30 AM Sydney — ops ledger retention (missing candidates, ingest, outcomes, scraper logs). Gated by DATA_CLEANUP_LEDGER_CRON_ENABLED."
+    },
+    {
+      "key": "triggerClientsListScrape",
+      "category": "Scraper refresh jobs",
+      "schedule": "30 11 1 * *",
+      "timezone": "Australia/Sydney",
+      "notes": "Authoritative bounded Global organisation discovery workflow."
+    },
+    {
+      "key": "triggerAssociationToCompetitionScrape",
+      "category": "Scraper refresh jobs",
+      "schedule": "30 11 2 * *",
+      "timezone": "Australia/Sydney",
+      "notes": "Global association-to-competition scrape trigger."
+    },
+    {
+      "key": "triggerClubToCompetitionScrape",
+      "category": "Scraper refresh jobs",
+      "schedule": "30 11 3 * *",
+      "timezone": "Australia/Sydney",
+      "notes": "Global club-competition-refresh workflow (all active clubs, batched explicit targets)."
+    },
+    {
+      "key": "triggerGradesCompsScrape",
+      "category": "Scraper refresh jobs",
+      "schedule": "0 13 * * 6",
+      "timezone": "Australia/Sydney",
+      "notes": "Durable weekly active-competition grades workflow."
+    },
+    {
+      "key": "triggerWeeklyGradeTeamsScrape",
+      "category": "Scraper refresh jobs",
+      "schedule": "0 13 * * 0",
+      "timezone": "Australia/Sydney",
+      "notes": "Durable weekly active-grade teams workflow."
+    },
+    {
+      "key": "hydratePlayhqLogosBatch",
+      "category": "Scraper refresh jobs",
+      "schedule": "30 3 * * *",
+      "timezone": "Australia/Sydney",
+      "notes": "3:30 AM Sydney — bounded daily backfill: download ParentLogo into PlayHQLogo media for clubs and associations."
+    },
+    {
+      "key": "cronHeartbeatProbe",
+      "category": "Cron diagnostics",
+      "schedule": "*/5 * * * *",
+      "timezone": "Australia/Sydney",
+      "notes": "Every 5 min Sydney — logs to verify Strapi cron is registered."
+    },
+    {
+      "key": "queuePingProbe",
+      "category": "Cron diagnostics",
+      "schedule": "*/5 * * * *",
+      "timezone": "Australia/Sydney",
+      "notes": "Every 5 min Sydney — enqueues queue:ping when QUEUE_PING_PROBE_ENABLED=true; worker must complete with pong."
+    }
+  ]
+}
