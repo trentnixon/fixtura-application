@@ -12,6 +12,7 @@ export const REMOTION_SANDBOX_TEMPLATE_IDS = [
   "Mudgeeraba",
   "BroadcastPro",
   "BroadcastProRounded",
+  "Scoreline",
 ] as const satisfies readonly RemotionSandboxTemplateId[];
 
 export const DEFAULT_REMOTION_SANDBOX_TEMPLATE: RemotionSandboxTemplateId = "TwoColumnClassic";

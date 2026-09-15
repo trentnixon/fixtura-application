@@ -9,7 +9,8 @@ export type RemotionSandboxTemplateId =
   | "TwoColumnClassic"
   | "Mudgeeraba"
   | "BroadcastPro"
-  | "BroadcastProRounded";
+  | "BroadcastProRounded"
+  | "Scoreline";
 
 export type RemotionSandboxCricketCompositionId =
   | "CricketLadder"
