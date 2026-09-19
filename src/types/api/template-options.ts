@@ -6,6 +6,7 @@ export const TEMPLATE_USE_BACKGROUND_WRITE_VALUES = [
   "Image",
   "Texture",
   "Animated",
+  "Luminance",
 ] as const;
 
 /** Legacy modes returned on GET for existing accounts; rejected on write. */
@@ -66,6 +67,7 @@ export type PutTemplateOptionsBody = {
   templatePaletteId?: number | null;
   templateGradientId?: number | null;
   templateImageId?: number | null;
+  templateLuminanceId?: number | null;
   templateNoiseId?: number | null;
   templateParticleId?: number | null;
   templatePatternId?: number | null;

@@ -46,6 +46,7 @@ describe("mapTemplateBuilderEditorStateToPutBody", () => {
       templatePaletteId: 3,
       templateGradientId: 4,
       templateImageId: 5,
+      templateLuminanceId: null,
       templateNoiseId: 6,
       templateParticleId: 7,
       templatePatternId: 8,
@@ -60,6 +61,7 @@ describe("mapTemplateBuilderEditorStateToPutBody", () => {
       templatePaletteId: 3,
       templateGradientId: null,
       templateImageId: null,
+      templateLuminanceId: null,
       templateNoiseId: null,
       templateParticleId: null,
       templatePatternId: 8,
@@ -135,6 +137,7 @@ describe("mapTemplateBuilderEditorStateToPutBody", () => {
         "templateCategoryId",
         "templateGradientId",
         "templateImageId",
+        "templateLuminanceId",
         "templateModeId",
         "templateNoiseId",
         "templatePaletteId",
@@ -147,4 +150,28 @@ describe("mapTemplateBuilderEditorStateToPutBody", () => {
       ].sort(),
     );
   });
+});
+
+it("saves a Luminance selection and clears it after switching backgrounds", () => {
+  const state = {
+    ...createEmptyTemplateBuilderEditorState(),
+    templateCategoryId: 1,
+    templateModeId: 2,
+    templatePaletteId: 3,
+    useBackground: "Luminance" as const,
+    templateLuminanceId: 7,
+  };
+  expect(getTemplateBuilderSaveValidationErrors(state)).toEqual([]);
+  expect(mapTemplateBuilderEditorStateToPutBody(state)).toMatchObject({
+    useBackground: "Luminance",
+    templateLuminanceId: 7,
+    templatePaletteId: 3,
+  });
+  expect(
+    mapTemplateBuilderEditorStateToPutBody({ ...state, useBackground: "Solid" })
+      .templateLuminanceId,
+  ).toBeNull();
+  expect(getTemplateBuilderSaveValidationErrors({ ...state, templateLuminanceId: null })).toContain(
+    "Choose a Luminance plate before saving.",
+  );
 });

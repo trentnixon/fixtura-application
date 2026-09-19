@@ -133,3 +133,14 @@ describe("validatePutTemplateOptionsBody", () => {
     expect(result.ok).toBe(false);
   });
 });
+
+it("accepts Luminance artwork IDs and rejects clearing an active plate", () => {
+  const body = {
+    templateCategoryId: 1,
+    templateModeId: 2,
+    useBackground: "Luminance",
+    templateLuminanceId: 7,
+  };
+  expect(validatePutTemplateOptionsBody(body)).toEqual({ ok: true, data: body });
+  expect(validatePutTemplateOptionsBody({ ...body, templateLuminanceId: null }).ok).toBe(false);
+});

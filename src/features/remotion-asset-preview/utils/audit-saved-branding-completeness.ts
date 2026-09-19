@@ -1,6 +1,7 @@
 import {
   readRemotionAnimationFromBranding,
   readRemotionImageFromBranding,
+  readRemotionLuminanceFromBranding,
   readRemotionTextureFromBranding,
   readRemotionVideoFromBranding,
 } from "./read-remotion-background-assets-from-branding";
@@ -62,6 +63,15 @@ export function auditSavedBrandingCompleteness(
   }
 
   switch (useBackground) {
+    case "Luminance":
+      if (readRemotionLuminanceFromBranding(branding) === null) {
+        gaps.push({
+          field: "luminance.url",
+          status: "missing",
+          detail: "Choose a Luminance plate to preview this background.",
+        });
+      }
+      break;
     case "Gradient":
       if (readRemotionGradientFromBranding(branding) === null) {
         gaps.push({
@@ -164,6 +174,15 @@ export function auditSavedBrandingNeedsCatalogResolver(
   const useBackground = readUseBackgroundFromAccountBranding(branding);
 
   switch (useBackground) {
+    case "Luminance":
+      if (readRemotionLuminanceFromBranding(branding) === null) {
+        gaps.push({
+          field: "luminance.url",
+          status: "missing",
+          detail: "Choose a Luminance plate to preview this background.",
+        });
+      }
+      break;
     case "Texture": {
       const texture = readRemotionTextureFromBranding(branding);
       if (texture === null) {

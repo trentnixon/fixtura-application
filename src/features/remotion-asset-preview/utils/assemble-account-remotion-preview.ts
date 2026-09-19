@@ -1,5 +1,7 @@
 import { applyRemotionPreviewDraftToBranding } from "./apply-remotion-preview-draft-to-branding";
 import { mergeAccountBrandingIntoDataset } from "./merge-account-branding-into-dataset";
+import { readRemotionLuminanceFromBranding } from "./read-remotion-background-assets-from-branding";
+import { readUseBackgroundFromAccountBranding } from "./read-use-background-from-account-branding";
 import { resolveSavedBrandingForRemotionPreview } from "./resolve-saved-branding-for-remotion-preview";
 
 import type { RemotionPreviewDraft } from "../types/remotion-preview-draft";
@@ -51,6 +53,7 @@ export type AssembleAccountRemotionPreviewInput = {
 export type AssembleAccountRemotionPreviewResult = {
   data: FixturaDataset;
   usedTemplateFallback: boolean;
+  previewError: string | null;
 };
 
 function resolveBrandingForSource(
@@ -110,11 +113,19 @@ export function assembleAccountRemotionPreview(
     (input.source.kind === "draft" ? input.source.templateCategoryCatalog : null) ??
     null;
 
-  return mergeAccountBrandingIntoDataset(input.base, {
+  const merged = mergeAccountBrandingIntoDataset(input.base, {
     branding,
     logoUrl: input.logoUrl,
     templateModeSlug: input.templateModeSlug,
     templateCategoryCatalog: catalogForHydration,
     accountSponsors: input.accountSponsors ?? null,
   });
+  return {
+    ...merged,
+    previewError:
+      readUseBackgroundFromAccountBranding(branding) === "Luminance" &&
+      readRemotionLuminanceFromBranding(branding) === null
+        ? "Choose a Luminance plate to preview this background."
+        : null,
+  };
 }

@@ -14,6 +14,7 @@ export interface TemplateBuilderEditorState {
   templatePaletteId: TemplateBuilderOptionId;
   templateGradientId: TemplateBuilderOptionId;
   templateImageId: TemplateBuilderOptionId;
+  templateLuminanceId: TemplateBuilderOptionId;
   templateNoiseId: TemplateBuilderOptionId;
   templateParticleId: TemplateBuilderOptionId;
   templatePatternId: TemplateBuilderOptionId;
@@ -49,6 +50,7 @@ export const TEMPLATE_BUILDER_EDITOR_FIELDS = [
   "templatePaletteId",
   "templateGradientId",
   "templateImageId",
+  "templateLuminanceId",
   "templateNoiseId",
   "templateParticleId",
   "templatePatternId",
@@ -63,6 +65,7 @@ export function createEmptyTemplateBuilderEditorState(): TemplateBuilderEditorSt
     templatePaletteId: null,
     templateGradientId: null,
     templateImageId: null,
+    templateLuminanceId: null,
     templateNoiseId: null,
     templateParticleId: null,
     templatePatternId: null,
@@ -93,6 +96,7 @@ export function mapCurrentSelectionToTemplateBuilderEditorState(
     templatePaletteId: currentSelection.templatePalette?.id ?? null,
     templateGradientId: currentSelection.templateGradient?.id ?? null,
     templateImageId: currentSelection.templateImage?.id ?? null,
+    templateLuminanceId: currentSelection.templateLuminance?.id ?? null,
     templateNoiseId: currentSelection.templateNoise?.id ?? null,
     templateParticleId: currentSelection.templateParticle?.id ?? null,
     templatePatternId: currentSelection.templatePattern?.id ?? null,

@@ -77,6 +77,7 @@ describe("createEmptyTemplateBuilderEditorState", () => {
       templatePaletteId: null,
       templateGradientId: null,
       templateImageId: null,
+      templateLuminanceId: null,
       templateNoiseId: null,
       templateParticleId: null,
       templatePatternId: null,
@@ -126,6 +127,7 @@ describe("mapCurrentSelectionToTemplateBuilderEditorState", () => {
       templatePaletteId: 3,
       templateGradientId: 4,
       templateImageId: 5,
+      templateLuminanceId: null,
       templateNoiseId: 6,
       templateParticleId: 7,
       templatePatternId: 8,
@@ -181,4 +183,17 @@ describe("cloneTemplateBuilderEditorState", () => {
     expect(saved.animation?.["speed"]).toBe(1);
     expect(draft.animation?.["speed"]).toBe(99);
   });
+});
+
+it("restores the saved Luminance plate after reloading the catalogue selection", () => {
+  const restored = mapCurrentSelectionToTemplateBuilderEditorState({
+    ...minimalSelection(),
+    useBackground: "Luminance",
+    templateLuminance: { id: 7, name: "Plate", image: null },
+  });
+  expect(restored.useBackground).toBe("Luminance");
+  expect(restored.templateLuminanceId).toBe(7);
+  expect(hasTemplateBuilderEditorChanges(restored, cloneTemplateBuilderEditorState(restored))).toBe(
+    false,
+  );
 });

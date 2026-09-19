@@ -36,7 +36,9 @@ describe("getActiveBackgroundRelationField", () => {
 
   it("covers writable non-Solid enum in the map", () => {
     const mapped = new Set(Object.keys(BACKGROUND_CHILD_FIELD_BY_USE_BACKGROUND));
-    expect(mapped).toEqual(new Set(["Gradient", "Image", "Video", "Texture", "Animated"]));
+    expect(mapped).toEqual(
+      new Set(["Gradient", "Image", "Video", "Texture", "Animated", "Luminance"]),
+    );
   });
 });
 

@@ -15,6 +15,7 @@ const RELATION_ID_KEYS = [
   "templatePaletteId",
   "templateGradientId",
   "templateImageId",
+  "templateLuminanceId",
   "templateNoiseId",
   "templateParticleId",
   "templatePatternId",
@@ -41,6 +42,9 @@ export function getTemplateBuilderSaveValidationErrors(
     errors.push("Choose an animation preset before saving.");
   }
 
+  if (state.useBackground === "Luminance" && state.templateLuminanceId === null) {
+    errors.push("Choose a Luminance plate before saving.");
+  }
   return errors;
 }
 
@@ -62,12 +66,17 @@ export function mapTemplateBuilderEditorStateToPutBody(
     throw new Error("Use background is required to save.");
   }
 
+  if (normalized.useBackground === "Luminance" && normalized.templateLuminanceId === null) {
+    throw new Error("Choose a Luminance plate before saving.");
+  }
+
   const body: PutTemplateOptionsBody = {
     templateCategoryId: normalized.templateCategoryId,
     templateModeId: normalized.templateModeId,
     templatePaletteId: normalized.templatePaletteId,
     templateGradientId: normalized.templateGradientId,
     templateImageId: normalized.templateImageId,
+    templateLuminanceId: normalized.templateLuminanceId,
     templateNoiseId: normalized.templateNoiseId,
     templateParticleId: normalized.templateParticleId,
     templatePatternId: normalized.templatePatternId,

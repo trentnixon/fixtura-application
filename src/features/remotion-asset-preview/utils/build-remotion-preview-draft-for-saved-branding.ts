@@ -20,7 +20,8 @@ function isWriteBackground(value: string | null): value is TemplateUseBackground
     value === "Video" ||
     value === "Image" ||
     value === "Texture" ||
-    value === "Animated"
+    value === "Animated" ||
+    value === "Luminance"
   );
 }
 
@@ -132,6 +133,7 @@ function draftFromCurrentSelection(
     templatePaletteId: selection.templatePalette?.id ?? null,
     templateGradientId: selection.templateGradient?.id ?? null,
     templateImageId: selection.templateImage?.id ?? null,
+    templateLuminanceId: selection.templateLuminance?.id ?? null,
     templateNoiseId: selection.templateNoise?.id ?? null,
     templateParticleId: selection.templateParticle?.id ?? null,
     templatePatternId: selection.templatePattern?.id ?? null,
@@ -169,6 +171,7 @@ function draftFromSavedTemplateOption(
     templatePaletteId: readRelationId(opt, "paletteId", "palette"),
     templateGradientId: readRelationId(opt, "gradientId", "gradient"),
     templateImageId: readRelationId(opt, "imageId", "image"),
+    templateLuminanceId: readRelationId(opt, "luminanceId", "luminance"),
     templateNoiseId: readRelationId(opt, "noiseId", "noise"),
     templateParticleId: readRelationId(opt, "particleId", "particle"),
     templatePatternId: readRelationId(opt, "patternId", "pattern"),
@@ -200,7 +203,7 @@ export function buildRemotionPreviewDraftForSavedBranding(
   catalog: AllTemplateOptionsPayload,
 ): RemotionPreviewDraft | null {
   return (
-    buildRemotionPreviewDraftFromSavedTemplateOption(branding, catalog) ??
-    buildRemotionPreviewDraftFromCurrentSelection(catalog)
+    buildRemotionPreviewDraftFromCurrentSelection(catalog) ??
+    buildRemotionPreviewDraftFromSavedTemplateOption(branding, catalog)
   );
 }

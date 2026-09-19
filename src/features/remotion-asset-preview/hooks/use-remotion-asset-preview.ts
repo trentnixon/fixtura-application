@@ -150,6 +150,10 @@ export function useRemotionAssetPreview({
       return emptyState({ status: "idle", datasetPath });
     }
 
+    if (assembled.previewError !== null) {
+      return emptyState({ status: "error", loadError: assembled.previewError, datasetPath });
+    }
+
     const status: RemotionAssetPreviewStatus = "ready";
     return {
       status,

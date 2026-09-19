@@ -17,6 +17,7 @@ export function toRemotionPreviewDraft(state: TemplateBuilderEditorState): Remot
     templatePaletteId: state.templatePaletteId,
     templateGradientId: state.templateGradientId,
     templateImageId: state.templateImageId,
+    templateLuminanceId: state.templateLuminanceId,
     templateNoiseId: state.templateNoiseId,
     templateParticleId: state.templateParticleId,
     templatePatternId: state.templatePatternId,

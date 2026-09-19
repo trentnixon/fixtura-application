@@ -68,6 +68,7 @@ describe("clearUnavailableImageBackground", () => {
     templatePaletteId: 3,
     templateGradientId: null,
     templateImageId: 14,
+    templateLuminanceId: null,
     templateNoiseId: null,
     templateParticleId: null,
     templatePatternId: null,
@@ -82,6 +83,7 @@ describe("clearUnavailableImageBackground", () => {
     expect(clearUnavailableImageBackground(imageDraft, true)).toMatchObject({
       useBackground: null,
       templateImageId: null,
+      templateLuminanceId: null,
     });
   });
 

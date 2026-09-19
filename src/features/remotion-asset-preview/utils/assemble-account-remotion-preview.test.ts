@@ -4,7 +4,10 @@ import { assembleAccountRemotionPreview } from "./assemble-account-remotion-prev
 import { EMPTY_CLUB_SPONSORS } from "./sponsors-payload-v2";
 
 import type { AccountBrandingData, AccountSponsorDto } from "@/types/api/account";
-import type { TemplateCategoryCatalogItem } from "@/types/api/all-template-options";
+import type {
+  AllTemplateOptionsPayload,
+  TemplateCategoryCatalogItem,
+} from "@/types/api/all-template-options";
 import type { FixturaDataset } from "@/vendor/fixtura-remotion-assets/preview";
 
 /** Saved-source adapter so legacy merge cases exercise the public assembly seam. */
@@ -821,6 +824,7 @@ describe("assembleAccountRemotionPreview (draft)", () => {
     templatePaletteId: 3,
     templateGradientId: null,
     templateImageId: null,
+    templateLuminanceId: null,
     templateNoiseId: null,
     templateParticleId: null,
     templatePatternId: null,
@@ -941,6 +945,7 @@ describe("assembleAccountRemotionPreview (draft)", () => {
             ...draft,
             useBackground,
             templateImageId: useBackground === "Image" ? 4 : null,
+            templateLuminanceId: null,
             templateGradientId: useBackground === "Gradient" ? 5 : null,
             templateTextureId: useBackground === "Texture" ? 6 : null,
             templateVideoId: useBackground === "Video" ? 7 : null,
@@ -1109,4 +1114,150 @@ describe("assembleAccountRemotionPreview (draft)", () => {
     expect(tv).not.toHaveProperty("particle");
     expect(tv).not.toHaveProperty("noise");
   });
+});
+
+it("projects saved Luminance with the account palette and fixed trial defaults", () => {
+  const result = assembleSaved(minimalDataset(), {
+    branding: brandingFixture({
+      template_option: {
+        useBackground: "Luminance",
+        palette: "primary",
+        luminanceId: 7,
+        luminance: { url: "https://assets.example/plate.png" },
+      },
+    }),
+    logoUrl: null,
+    templateModeSlug: "light",
+  });
+  expect(result.data).toMatchObject({
+    videoMeta: {
+      video: {
+        appearance: { theme: { primary: "#ABCDEF", secondary: "#FEDCBA" } },
+        templateVariation: {
+          useBackground: "Luminance",
+          palette: "primary",
+          luminance: {
+            url: "https://assets.example/plate.png",
+            map: { kind: "theme", preset: "brand" },
+            protection: "none",
+            supersampleScale: 1,
+          },
+        },
+      },
+    },
+  });
+});
+
+it("keeps draft and reloaded Luminance previews equal and clears stale plates on switching", () => {
+  const plate = {
+    id: 7,
+    name: "Shared plate",
+    image: {
+      id: 90,
+      url: "https://assets.example/plate.png",
+      width: 1920,
+      height: 1080,
+      mime: "image/png",
+      alternativeText: null,
+    },
+  };
+  const catalog: AllTemplateOptionsPayload = {
+    categories: [],
+    modes: [{ id: 2, name: "Light", slug: "light" }],
+    palettes: [{ id: 3, name: "Primary", value: "primary" }],
+    gradients: [],
+    images: [],
+    luminances: [plate],
+    noises: [],
+    particles: [],
+    patterns: [],
+    textures: [],
+    videos: [],
+    animations: [],
+    defaultAnimationPresetId: null,
+    currentSelection: {
+      id: 42,
+      useBackground: "Luminance",
+      templateLuminance: plate,
+      templateCategory: null,
+      templateMode: { id: 2, name: "Light", slug: "light" },
+      templatePalette: { id: 3, name: "Primary", value: "primary" },
+      templateGradient: null,
+      templateImage: null,
+      templateNoise: null,
+      templateParticle: null,
+      templatePattern: null,
+      templateTexture: null,
+      templateVideo: null,
+      templateAnimation: null,
+    },
+  };
+  const draft = {
+    templateCategoryId: null,
+    templateModeId: 2,
+    templatePaletteId: 3,
+    templateLuminanceId: 7,
+    templateGradientId: null,
+    templateImageId: null,
+    templateNoiseId: null,
+    templateParticleId: null,
+    templatePatternId: null,
+    templateTextureId: null,
+    templateVideoId: null,
+    useBackground: "Luminance" as const,
+    animation: null,
+  };
+  const common = { base: minimalDataset(), logoUrl: null, templateModeSlug: "light" };
+  const unsaved = assembleAccountRemotionPreview({
+    ...common,
+    source: { kind: "draft", branding: brandingFixture(), templateOptionsCatalog: catalog, draft },
+  });
+  const reloaded = assembleAccountRemotionPreview({
+    ...common,
+    source: {
+      kind: "saved",
+      branding: brandingFixture({
+        template_option: { useBackground: "Luminance", luminanceId: 7 },
+      }),
+      templateOptionsCatalog: catalog,
+    },
+  });
+  const expected = {
+    videoMeta: {
+      video: {
+        templateVariation: {
+          useBackground: "Luminance",
+          palette: "primary",
+          luminance: {
+            url: plate.image.url,
+            map: { kind: "theme", preset: "brand" },
+            protection: "none",
+            supersampleScale: 1,
+          },
+        },
+      },
+    },
+  };
+  expect(unsaved.data).toMatchObject(expected);
+  expect(reloaded.data).toMatchObject(expected);
+  const switched = assembleAccountRemotionPreview({
+    ...common,
+    base: unsaved.data,
+    source: {
+      kind: "draft",
+      branding: brandingFixture(),
+      templateOptionsCatalog: catalog,
+      draft: { ...draft, useBackground: "Solid" },
+    },
+  });
+  expect(switched.data).not.toHaveProperty("videoMeta.video.templateVariation.luminance");
+});
+
+it("requires a selected plate before displaying a Luminance preview", () => {
+  const result = assembleSaved(minimalDataset(), {
+    branding: brandingFixture({ template_option: { useBackground: "Luminance" } }),
+    logoUrl: null,
+    templateModeSlug: "light",
+  });
+  expect(result.previewError).toBe("Choose a Luminance plate to preview this background.");
 });

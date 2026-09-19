@@ -14,6 +14,7 @@ import {
   TemplateBuilderRelationFieldRow,
 } from "./_components/template-builder-field-row";
 import { TemplateBuilderGradientCardPicker } from "./_components/template-builder-gradient-card-picker";
+import { TemplateBuilderLuminanceCardPicker } from "./_components/template-builder-luminance-card-picker";
 import { TemplateBuilderMediaImagePicker } from "./_components/template-builder-media-image-picker";
 import { TemplateBuilderNoiseCardPicker } from "./_components/template-builder-noise-card-picker";
 import { TemplateBuilderPaletteCardPicker } from "./_components/template-builder-palette-card-picker";
@@ -90,6 +91,7 @@ import type {
   TemplateCategoryCatalogItem,
   TemplateGradientItem,
   TemplateImageItem,
+  TemplateLuminanceItem,
   TemplateModeItem,
   TemplateNoiseItem,
   TemplatePaletteItem,
@@ -105,6 +107,7 @@ type RelationCatalogItem =
   | TemplatePaletteItem
   | TemplateGradientItem
   | TemplateImageItem
+  | TemplateLuminanceItem
   | TemplateNoiseItem
   | TemplateParticleItem
   | TemplateTextureCatalogItem
@@ -118,6 +121,12 @@ interface RelationFieldConfig {
 }
 
 const RELATION_FIELD_CONFIGS: RelationFieldConfig[] = [
+  {
+    field: "templateLuminanceId",
+    label: "Luminance plate",
+    getItems: (p) => p.luminances ?? [],
+    formatItemLabel: (item) => item.name ?? "Luminance plate",
+  },
   {
     field: "templateCategoryId",
     label: "Select Template style",
@@ -512,6 +521,16 @@ export function TemplateBuilderEditor({
       const isBackgroundField = (BACKGROUND_RELATION_FIELDS as readonly string[]).includes(field);
 
       if (isBackgroundField) {
+        if (field === "templateLuminanceId") {
+          return (
+            <TemplateBuilderLuminanceCardPicker
+              key={field}
+              items={payload.luminances ?? []}
+              selectedId={draftState.templateLuminanceId}
+              onSelect={(id) => updateField("templateLuminanceId", id)}
+            />
+          );
+        }
         if (field === "templateGradientId") {
           return (
             <TemplateBuilderGradientCardPicker

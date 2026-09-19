@@ -274,6 +274,7 @@ describe("assembleAccountRemotionPreview saved + catalog", () => {
           templatePaletteId: 3,
           templateGradientId: null,
           templateImageId: null,
+          templateLuminanceId: null,
           templateNoiseId: null,
           templateParticleId: null,
           templatePatternId: null,
