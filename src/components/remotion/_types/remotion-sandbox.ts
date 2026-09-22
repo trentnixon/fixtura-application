@@ -10,7 +10,8 @@ export type RemotionSandboxTemplateId =
   | "Mudgeeraba"
   | "BroadcastPro"
   | "BroadcastProRounded"
-  | "Scoreline";
+  | "Scoreline"
+  | "NightSession";
 
 export type RemotionSandboxCricketCompositionId =
   | "CricketLadder"
