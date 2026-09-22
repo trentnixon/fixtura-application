@@ -7,6 +7,7 @@ export type RemotionPreviewDraft = {
   templatePaletteId: number | null;
   templateGradientId: number | null;
   templateImageId: number | null;
+  templateLuminanceId: number | null;
   templateNoiseId: number | null;
   templateParticleId: number | null;
   templatePatternId: number | null;
@@ -19,6 +20,7 @@ export type RemotionPreviewDraft = {
 type BackgroundRelationFieldKey =
   | "templateGradientId"
   | "templateImageId"
+  | "templateLuminanceId"
   | "templateNoiseId"
   | "templateParticleId"
   | "templateTextureId"
@@ -29,6 +31,7 @@ const BACKGROUND_CHILD_FIELD_BY_USE_BACKGROUND: Partial<
 > = {
   Gradient: "templateGradientId",
   Image: "templateImageId",
+  Luminance: "templateLuminanceId",
   Video: "templateVideoId",
   Texture: "templateTextureId",
 };
@@ -36,6 +39,7 @@ const BACKGROUND_CHILD_FIELD_BY_USE_BACKGROUND: Partial<
 const BACKGROUND_RELATION_FIELDS = [
   "templateGradientId",
   "templateImageId",
+  "templateLuminanceId",
   "templateNoiseId",
   "templateParticleId",
   "templateTextureId",

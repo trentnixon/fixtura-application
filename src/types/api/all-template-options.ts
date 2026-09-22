@@ -16,6 +16,8 @@ export interface AllTemplateOptionsPayload {
   palettes: TemplatePaletteItem[];
   gradients: TemplateGradientItem[];
   images: TemplateImageItem[];
+  /** Optional during rollout against older CMS deployments. */
+  luminances?: TemplateLuminanceItem[];
   noises: TemplateNoiseItem[];
   particles: TemplateParticleItem[];
   patterns: TemplatePatternItem[];
@@ -113,6 +115,12 @@ export interface TemplateGradientItem {
   direction: string | null;
 }
 
+export interface TemplateLuminanceItem {
+  id: number;
+  name: string | null;
+  image: MediaSummary | null;
+}
+
 export interface TemplateImageItem {
   id: number;
   name: string | null;
@@ -190,6 +198,7 @@ export interface CurrentTemplateSelection {
   templatePalette: TemplatePaletteItem | null;
   templateGradient: TemplateGradientItem | null;
   templateImage: TemplateImageItem | null;
+  templateLuminance?: TemplateLuminanceItem | null;
   templateNoise: TemplateNoiseItem | null;
   templateParticle: TemplateParticleItem | null;
   templatePattern: TemplatePatternItem | null;

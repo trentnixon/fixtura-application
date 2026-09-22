@@ -1,3 +1,4 @@
+import { buildLuminancePreviewConfig } from "./luminance-preview-config";
 import { resolveRemotionNoiseFromCatalogNoise } from "./read-remotion-noise-from-catalog";
 import { applyBackgroundVisibilityToRemotionPreviewDraft } from "../types/remotion-preview-draft";
 
@@ -112,6 +113,11 @@ function mergeTemplateOptionDraft(
   const palette = findById(catalog.palettes, draft.templatePaletteId);
   const gradient = findById(catalog.gradients, draft.templateGradientId);
   const image = findById(catalog.images, draft.templateImageId);
+  const luminance =
+    findById(catalog.luminances ?? [], draft.templateLuminanceId) ??
+    (catalog.currentSelection?.templateLuminance?.id === draft.templateLuminanceId
+      ? catalog.currentSelection.templateLuminance
+      : null);
   const noise = enrichNoiseForPreview(resolveNoiseCatalogItem(catalog, draft.templateNoiseId));
   const particle = findById(catalog.particles, draft.templateParticleId);
   const pattern = findById(catalog.patterns, draft.templatePatternId);
@@ -142,6 +148,11 @@ function mergeTemplateOptionDraft(
     gradientId: draft.templateGradientId,
     image: imageForPreview,
     imageId: draft.templateImageId,
+    luminanceId: draft.templateLuminanceId,
+    luminance:
+      draft.useBackground === "Luminance"
+        ? buildLuminancePreviewConfig(luminance?.image?.url)
+        : null,
     noise,
     noiseId: draft.templateNoiseId,
     particle,

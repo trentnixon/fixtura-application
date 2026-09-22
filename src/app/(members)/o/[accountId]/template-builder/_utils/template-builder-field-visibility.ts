@@ -5,6 +5,7 @@ import type { TemplateUseBackground } from "@/types/api/template-options";
 export type BackgroundRelationFieldKey =
   | "templateGradientId"
   | "templateImageId"
+  | "templateLuminanceId"
   | "templateNoiseId"
   | "templateParticleId"
   | "templateTextureId"
@@ -20,6 +21,7 @@ export const BACKGROUND_CHILD_FIELD_BY_USE_BACKGROUND: Partial<
 > = {
   Gradient: "templateGradientId",
   Image: "templateImageId",
+  Luminance: "templateLuminanceId",
   Video: "templateVideoId",
   Texture: "templateTextureId",
   Animated: "templateAnimationId",
@@ -33,6 +35,7 @@ export const PRIMARY_RELATION_FIELDS = [
 export const BACKGROUND_RELATION_FIELDS = [
   "templateGradientId",
   "templateImageId",
+  "templateLuminanceId",
   "templateNoiseId",
   "templateParticleId",
   "templateTextureId",

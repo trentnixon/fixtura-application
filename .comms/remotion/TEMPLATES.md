@@ -35,6 +35,7 @@ Current template options in the registry are:
 - `TwoColumnClassic`
 - `Mudgeeraba`
 - `BroadcastPro`
+- `NightSession`
 
 ## How template selection works
 

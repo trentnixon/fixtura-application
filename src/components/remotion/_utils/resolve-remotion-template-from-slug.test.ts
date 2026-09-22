@@ -26,4 +26,16 @@ describe("resolveRemotionTemplateFromSlug", () => {
     expect(template).toBe("Scoreline");
     expect(usedFallback).toBe(false);
   });
+
+  it("maps Night Session CMS slug NightSession", () => {
+    const { template, usedFallback } = resolveRemotionTemplateFromSlug("NightSession");
+    expect(template).toBe("NightSession");
+    expect(usedFallback).toBe(false);
+  });
+
+  it("maps hyphenated CMS slugs to NightSession", () => {
+    const { template, usedFallback } = resolveRemotionTemplateFromSlug("night-session");
+    expect(template).toBe("NightSession");
+    expect(usedFallback).toBe(false);
+  });
 });

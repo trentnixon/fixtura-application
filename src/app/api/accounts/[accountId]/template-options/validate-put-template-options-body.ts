@@ -12,6 +12,7 @@ const RELATION_KEYS = [
   "templatePaletteId",
   "templateGradientId",
   "templateImageId",
+  "templateLuminanceId",
   "templateNoiseId",
   "templateParticleId",
   "templatePatternId",
@@ -105,6 +106,14 @@ export function validatePutTemplateOptionsBody(body: unknown):
       ok: false,
       error: `useBackground must be one of: ${TEMPLATE_USE_BACKGROUND_WRITE_VALUES.join(", ")}`,
     };
+  }
+
+  if (
+    useBackground === "Luminance" &&
+    "templateLuminanceId" in raw &&
+    !isValidRequiredRelationId(raw["templateLuminanceId"])
+  ) {
+    return { ok: false, error: "Choose a Luminance plate before saving" };
   }
 
   const hasAnimation = "animation" in raw;

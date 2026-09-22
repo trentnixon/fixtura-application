@@ -1,3 +1,4 @@
+import { buildLuminancePreviewConfig } from "./luminance-preview-config";
 import { resolveRemotionNoiseFromCatalogNoise } from "./read-remotion-noise-from-catalog";
 import { readUseBackgroundFromAccountBranding } from "./read-use-background-from-account-branding";
 import { resolvePreviewMediaUrl } from "./resolve-preview-media-url";
@@ -11,6 +12,7 @@ export const REMOTION_BACKGROUND_TV_KEYS = [
   "video",
   "particle",
   "animation",
+  "luminance",
 ] as const;
 
 export type RemotionBackgroundTvKey = (typeof REMOTION_BACKGROUND_TV_KEYS)[number];
@@ -320,6 +322,13 @@ export function readRemotionAnimationFromBranding(
   return { ...row, type } as RemotionTemplateVariationAnimation;
 }
 
+export function readRemotionLuminanceFromBranding(
+  branding: AccountBrandingData | null | undefined,
+) {
+  const row = readTemplateOptionField(branding, "luminance");
+  return buildLuminancePreviewConfig(pickString(row?.["url"]));
+}
+
 const USE_BACKGROUND_TO_TV_KEY: Partial<Record<string, RemotionBackgroundTvKey>> = {
   Texture: "texture",
   Graphics: "noise",
@@ -327,6 +336,7 @@ const USE_BACKGROUND_TO_TV_KEY: Partial<Record<string, RemotionBackgroundTvKey>>
   Video: "video",
   Particle: "particle",
   Animated: "animation",
+  Luminance: "luminance",
 };
 
 function readAssetForUseBackground(
@@ -344,6 +354,8 @@ function readAssetForUseBackground(
       return readRemotionVideoFromBranding(branding);
     case "Particle":
       return readRemotionParticleFromBranding(branding);
+    case "Luminance":
+      return readRemotionLuminanceFromBranding(branding);
     case "Animated":
       return readRemotionAnimationFromBranding(branding);
     default:
