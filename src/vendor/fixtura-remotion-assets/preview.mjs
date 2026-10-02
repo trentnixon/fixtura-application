@@ -3,6 +3,943 @@ var __export = (target, all) => {
   for (var name in all) __defProp(target, name, { get: all[name], enumerable: true });
 };
 
+// src/components/backgrounds/variants/Generated/catalogue/catalogue.ts
+var unresolvedCmsVisibility = {
+  status: "unresolved",
+  note: "CMS visibility inventory pending",
+};
+var noReadabilityPolicy = {
+  status: "resolved",
+  policy: "none",
+};
+var animatedOperatorControls = [
+  {
+    key: "animation.type",
+    label: "Animated preset",
+    type: "preset",
+  },
+];
+var patternPalette = {
+  status: "resolved",
+  mode: "active-palette",
+  roles: ["background.contrast", "background.gradient.primary"],
+};
+var particleLinePalette = {
+  status: "resolved",
+  mode: "active-palette",
+  roles: ["background.gradient.primaryRadial", "text.onContainer.light"],
+};
+var gridNoisePalette = {
+  status: "resolved",
+  mode: "active-palette",
+  roles: ["background.main", "background.accent"],
+};
+var particleNoisePalette = {
+  status: "resolved",
+  mode: "active-palette",
+  roles: ["container.gradientPrimaryToSecondaryVertical", "container.main"],
+};
+var spokesPalette = {
+  status: "resolved",
+  mode: "active-palette",
+  roles: ["background.gradient", "templateVariation.gradient"],
+};
+var lightLeakPalette = gridNoisePalette;
+var lightLeakReadability = {
+  status: "resolved",
+  policy: "vignette",
+};
+var effectsSolidAuthorControls = [
+  {
+    key: "animation.type",
+    label: "Animated preset",
+    type: "enum",
+    enumValues: [
+      "light-leak",
+      "broadcast-halftone",
+      "topographic-flow",
+      "signal-grid",
+      "reactive-path",
+    ],
+    source: "templateVariation",
+    affectsRendering: true,
+  },
+];
+var motionAssetAuthorControls = [
+  {
+    key: "animation.type",
+    label: "Animated preset",
+    type: "enum",
+    enumValues: ["motion-motif"],
+    source: "templateVariation",
+    affectsRendering: true,
+  },
+];
+var htmlInCanvasAuthorControls = [
+  {
+    key: "animation.type",
+    label: "Animated preset",
+    type: "enum",
+    enumValues: ["html-orbit-rings", "html-scoreboard-grid", "html-neon-beams"],
+    source: "templateVariation",
+    affectsRendering: true,
+  },
+];
+var threeSceneAuthorControls = [
+  {
+    key: "animation.type",
+    label: "Animated preset",
+    type: "enum",
+    enumValues: ["webgpu-metal-wave"],
+    source: "templateVariation",
+    affectsRendering: true,
+  },
+];
+var patternAuthorControls = [
+  {
+    key: "animation.type",
+    label: "Animated preset",
+    type: "enum",
+    enumValues: ["dot-field"],
+    source: "templateVariation",
+    affectsRendering: true,
+  },
+  {
+    key: "animation.scale",
+    label: "Scale",
+    type: "number",
+    source: "templateVariation",
+    affectsRendering: true,
+  },
+  {
+    key: "animation.rotation",
+    label: "Rotation",
+    type: "number",
+    source: "templateVariation",
+    affectsRendering: true,
+  },
+  {
+    key: "animation.motion",
+    label: "Animation",
+    type: "enum",
+    enumValues: ["none", "panUp", "panDown", "panLeft", "panRight", "rotate", "pulse"],
+    source: "templateVariation",
+    affectsRendering: true,
+  },
+  {
+    key: "animation.duration",
+    label: "Animation duration",
+    type: "number",
+    source: "templateVariation",
+    affectsRendering: true,
+  },
+  {
+    key: "animation.speed",
+    label: "Animation speed",
+    type: "number",
+    source: "templateVariation",
+    affectsRendering: true,
+  },
+  {
+    key: "animation.opacity",
+    label: "Opacity",
+    type: "number",
+    source: "templateVariation",
+    affectsRendering: false,
+  },
+];
+var particleAuthorControls = [
+  {
+    key: "animation.type",
+    label: "Animated preset",
+    type: "enum",
+    enumValues: ["streak-lines"],
+    source: "templateVariation",
+    affectsRendering: true,
+  },
+  {
+    key: "animation.particleCount",
+    label: "Particle count",
+    type: "number",
+    source: "templateVariation",
+    affectsRendering: true,
+  },
+  {
+    key: "animation.speed",
+    label: "Speed",
+    type: "number",
+    source: "templateVariation",
+    affectsRendering: true,
+  },
+  {
+    key: "animation.direction",
+    label: "Direction",
+    type: "enum",
+    enumValues: ["up", "down", "left", "right", "random"],
+    source: "templateVariation",
+    affectsRendering: true,
+  },
+  {
+    key: "animation.animation",
+    label: "Animation",
+    type: "enum",
+    enumValues: ["fade", "scale", "slide", "none"],
+    source: "templateVariation",
+    affectsRendering: false,
+  },
+];
+var noiseAuthorControls = [
+  {
+    key: "animation.type",
+    label: "Animated preset",
+    type: "enum",
+    enumValues: ["floating-particles", "pulsing-circles", "digital-rain", "spokes-field"],
+    source: "templateVariation",
+    affectsRendering: true,
+  },
+];
+var makePatternPreset = (identity, patternType, legacyIngressIds, animationDefaults = {}) => ({
+  ...identity,
+  rendererAdapter: "pattern-tiled",
+  defaultConfiguration: {
+    useBackground: "Animated",
+    animation: {
+      type: identity.id,
+      scale: 1,
+      rotation: 0,
+      ...animationDefaults,
+    },
+  },
+  operatorVisibility: unresolvedCmsVisibility,
+  readabilityPolicy: noReadabilityPolicy,
+  paletteBehavior: patternPalette,
+  operatorControls: animatedOperatorControls,
+  authorControls: patternAuthorControls,
+  legacyIngressIds,
+});
+var makeParticlePreset = (identity, particleType, paletteBehavior, legacyIngressIds) => ({
+  ...identity,
+  rendererAdapter: "particle-field",
+  defaultConfiguration: {
+    useBackground: "Animated",
+    animation: {
+      type: identity.id,
+      particleCount: 300,
+      speed: 1,
+      direction: "random",
+    },
+  },
+  operatorVisibility: unresolvedCmsVisibility,
+  readabilityPolicy: noReadabilityPolicy,
+  paletteBehavior,
+  operatorControls: animatedOperatorControls,
+  authorControls: particleAuthorControls,
+  legacyIngressIds,
+});
+var makeNoisePreset = (options) => {
+  const {
+    noiseType,
+    useBackground,
+    rendererAdapter,
+    paletteBehavior,
+    legacyIngressIds,
+    ...identity
+  } = options;
+  void noiseType;
+  void useBackground;
+  return {
+    ...identity,
+    rendererAdapter,
+    defaultConfiguration: {
+      useBackground: "Animated",
+      animation: { type: identity.id },
+    },
+    operatorVisibility: unresolvedCmsVisibility,
+    readabilityPolicy: noReadabilityPolicy,
+    paletteBehavior,
+    operatorControls: animatedOperatorControls,
+    authorControls: noiseAuthorControls,
+    legacyIngressIds,
+  };
+};
+var makeEffectsSolidPreset = (identity, paletteBehavior, readabilityPolicy, legacyIngressIds) => ({
+  ...identity,
+  rendererAdapter: "effects-solid",
+  defaultConfiguration: {
+    useBackground: "Animated",
+    animation: { type: identity.id },
+  },
+  operatorVisibility: unresolvedCmsVisibility,
+  readabilityPolicy,
+  paletteBehavior,
+  operatorControls: animatedOperatorControls,
+  authorControls: effectsSolidAuthorControls,
+  legacyIngressIds,
+});
+var makeMotionAssetPreset = (identity, paletteBehavior, readabilityPolicy, legacyIngressIds) => ({
+  ...identity,
+  rendererAdapter: "motion-asset",
+  defaultConfiguration: {
+    useBackground: "Animated",
+    animation: { type: identity.id },
+  },
+  operatorVisibility: unresolvedCmsVisibility,
+  readabilityPolicy,
+  paletteBehavior,
+  operatorControls: animatedOperatorControls,
+  authorControls: motionAssetAuthorControls,
+  legacyIngressIds,
+});
+var makeHtmlInCanvasPreset = (identity, paletteBehavior, readabilityPolicy, legacyIngressIds) => ({
+  ...identity,
+  rendererAdapter: "html-in-canvas",
+  defaultConfiguration: {
+    useBackground: "Animated",
+    animation: { type: identity.id },
+  },
+  operatorVisibility: unresolvedCmsVisibility,
+  readabilityPolicy,
+  paletteBehavior,
+  operatorControls: animatedOperatorControls,
+  authorControls: htmlInCanvasAuthorControls,
+  legacyIngressIds,
+});
+var makeThreeScenePreset = (identity, paletteBehavior, readabilityPolicy, legacyIngressIds) => ({
+  ...identity,
+  rendererAdapter: "three-scene",
+  defaultConfiguration: {
+    useBackground: "Animated",
+    animation: { type: identity.id },
+  },
+  operatorVisibility: unresolvedCmsVisibility,
+  readabilityPolicy,
+  paletteBehavior,
+  operatorControls: animatedOperatorControls,
+  authorControls: threeSceneAuthorControls,
+  legacyIngressIds,
+});
+var defineGeneratedCatalogue = (catalogue) => catalogue;
+var generatedCatalogue = defineGeneratedCatalogue([
+  makePatternPreset(
+    {
+      id: "dot-field",
+      displayName: "Soft Dots",
+      description: "A gentle dotted pattern in your club colours.",
+      inventoryKey: "INV-PAT-dots",
+      discovery: {
+        motionClass: "ambient",
+        tags: ["dots", "tile", "pattern"],
+        relatedPresetIds: ["pulsing-circles"],
+      },
+    },
+    "dots",
+    ["ingress-pattern-dots", "ingress-pattern-missing-type"],
+    { motion: "panLeft", duration: 600, speed: 1 },
+  ),
+  makeParticlePreset(
+    {
+      id: "streak-lines",
+      displayName: "Speed Lines",
+      description: "Dynamic streaks that suggest motion and energy.",
+      inventoryKey: "INV-PAR-lines",
+      discovery: {
+        motionClass: "energetic",
+        tags: ["lines", "particles", "streaks"],
+        relatedPresetIds: ["digital-rain"],
+      },
+    },
+    "lines",
+    particleLinePalette,
+    ["ingress-particle-lines", "ingress-particle-missing-type"],
+  ),
+  makeNoisePreset({
+    id: "floating-particles",
+    displayName: "Drifting Lights",
+    description: "Soft lights floating slowly across the background.",
+    inventoryKey: "INV-NOI-floatingParticles",
+    noiseType: "floatingParticles",
+    useBackground: "Graphics",
+    rendererAdapter: "particle-noise",
+    paletteBehavior: particleNoisePalette,
+    legacyIngressIds: [
+      "ingress-graphics-floatingParticles",
+      "ingress-noise-floatingParticles",
+      "ingress-graphics-default",
+      "ingress-noise-default",
+      "ingress-graphics-missing-type",
+      "ingress-noise-missing-type",
+    ],
+    discovery: {
+      motionClass: "ambient",
+      tags: ["particles", "floating", "circles"],
+      relatedPresetIds: ["dot-field", "pulsing-circles"],
+    },
+  }),
+  makeNoisePreset({
+    id: "pulsing-circles",
+    displayName: "Breathing Circles",
+    description: "Soft circles that gently expand and fade.",
+    inventoryKey: "INV-NOI-pulsingCircles",
+    noiseType: "pulsingCircles",
+    useBackground: "Noise",
+    rendererAdapter: "grid-noise",
+    paletteBehavior: gridNoisePalette,
+    legacyIngressIds: ["ingress-graphics-pulsingCircles", "ingress-noise-pulsingCircles"],
+    discovery: {
+      motionClass: "ambient",
+      tags: ["circles", "pulse", "grid"],
+      relatedPresetIds: ["dot-field"],
+    },
+  }),
+  makeNoisePreset({
+    id: "digital-rain",
+    displayName: "Falling Lines",
+    description: "Vertical lines cascading down the screen.",
+    inventoryKey: "INV-NOI-digitalRain",
+    noiseType: "digitalRain",
+    useBackground: "Noise",
+    rendererAdapter: "particle-noise",
+    paletteBehavior: particleNoisePalette,
+    legacyIngressIds: ["ingress-graphics-digitalRain", "ingress-noise-digitalRain"],
+    discovery: { motionClass: "energetic", tags: ["digital", "rain", "lines"] },
+  }),
+  makeNoisePreset({
+    id: "spokes-field",
+    displayName: "Sunburst",
+    description: "Radiating spokes over a smooth colour gradient.",
+    inventoryKey: "INV-NOI-spokes",
+    noiseType: "spokes",
+    useBackground: "Graphics",
+    rendererAdapter: "svg-spokes",
+    paletteBehavior: spokesPalette,
+    legacyIngressIds: ["ingress-graphics-spokes", "ingress-noise-spokes"],
+    discovery: {
+      motionClass: "intro-sequence",
+      tags: ["spokes", "radial", "svg"],
+    },
+  }),
+  makeEffectsSolidPreset(
+    {
+      id: "light-leak",
+      displayName: "Cinematic Glow",
+      description: "Warm colour washes moving across the frame.",
+      inventoryKey: "INV-EFF-lightLeak",
+      discovery: {
+        motionClass: "ambient",
+        tags: ["light-leak", "gradient", "cinematic"],
+      },
+    },
+    lightLeakPalette,
+    lightLeakReadability,
+    ["ingress-animated-light-leak"],
+  ),
+  makeEffectsSolidPreset(
+    {
+      id: "broadcast-halftone",
+      displayName: "Halftone Blend",
+      description: "Classic print-style dots blended with your club colours.",
+      inventoryKey: "INV-EFF-broadcastHalftone",
+      discovery: {
+        motionClass: "ambient",
+        tags: ["halftone", "gradient", "broadcast"],
+      },
+    },
+    lightLeakPalette,
+    lightLeakReadability,
+    ["ingress-animated-broadcast-halftone"],
+  ),
+  makeEffectsSolidPreset(
+    {
+      id: "topographic-flow",
+      displayName: "Flowing Contours",
+      description: "Slow-moving colour bands like rolling terrain.",
+      inventoryKey: "INV-EFF-topographicFlow",
+      discovery: {
+        motionClass: "ambient",
+        tags: ["topographic", "contours", "liquid"],
+      },
+    },
+    lightLeakPalette,
+    lightLeakReadability,
+    ["ingress-animated-topographic-flow"],
+  ),
+  makeEffectsSolidPreset(
+    {
+      id: "signal-grid",
+      displayName: "Live Grid",
+      description: "A perspective grid with a broadcast studio feel.",
+      inventoryKey: "INV-EFF-signalGrid",
+      discovery: {
+        motionClass: "ambient",
+        tags: ["grid", "scanlines", "perspective"],
+      },
+    },
+    lightLeakPalette,
+    lightLeakReadability,
+    ["ingress-animated-signal-grid"],
+  ),
+  makeEffectsSolidPreset(
+    {
+      id: "reactive-path",
+      displayName: "Route Pulse",
+      description: "Travelling energy marks along curved paths.",
+      inventoryKey: "INV-EFF-reactivePath",
+      discovery: {
+        motionClass: "energetic",
+        tags: ["paths", "orbits", "routes"],
+      },
+    },
+    lightLeakPalette,
+    lightLeakReadability,
+    ["ingress-animated-reactive-path"],
+  ),
+  makeMotionAssetPreset(
+    {
+      id: "motion-motif",
+      displayName: "Club Motif",
+      description: "A looping animated emblem in your club colours.",
+      inventoryKey: "INV-MOT-motionMotif",
+      discovery: {
+        motionClass: "ambient",
+        tags: ["lottie", "motif", "motion-asset"],
+      },
+    },
+    lightLeakPalette,
+    lightLeakReadability,
+    ["ingress-animated-motion-motif"],
+  ),
+  makeHtmlInCanvasPreset(
+    {
+      id: "html-orbit-rings",
+      displayName: "Orbit Rings",
+      description: "Concentric rings with a soft glowing finish.",
+      inventoryKey: "INV-HIC-htmlOrbitRings",
+      discovery: {
+        motionClass: "ambient",
+        tags: ["html-in-canvas", "orbits", "rings"],
+      },
+    },
+    lightLeakPalette,
+    lightLeakReadability,
+    ["ingress-animated-html-orbit-rings"],
+  ),
+  makeHtmlInCanvasPreset(
+    {
+      id: "html-scoreboard-grid",
+      displayName: "Stadium Grid",
+      description: "A scoreboard-style grid with broadcast glow.",
+      inventoryKey: "INV-HIC-htmlScoreboardGrid",
+      discovery: {
+        motionClass: "ambient",
+        tags: ["html-in-canvas", "grid", "scoreboard"],
+      },
+    },
+    lightLeakPalette,
+    lightLeakReadability,
+    ["ingress-animated-html-scoreboard-grid"],
+  ),
+  makeHtmlInCanvasPreset(
+    {
+      id: "html-neon-beams",
+      displayName: "Neon Sweep",
+      description: "Diagonal neon light sweeps across the background.",
+      inventoryKey: "INV-HIC-htmlNeonBeams",
+      discovery: {
+        motionClass: "energetic",
+        tags: ["html-in-canvas", "neon", "beams"],
+      },
+    },
+    lightLeakPalette,
+    lightLeakReadability,
+    ["ingress-animated-html-neon-beams"],
+  ),
+  makeThreeScenePreset(
+    {
+      id: "webgpu-metal-wave",
+      displayName: "Liquid Metal",
+      description: "Shimmering metallic waves in your club colours.",
+      inventoryKey: "INV-3SC-webgpuMetalWave",
+      discovery: {
+        motionClass: "ambient",
+        tags: ["three-scene", "webgpu", "metal", "tsl"],
+      },
+    },
+    lightLeakPalette,
+    lightLeakReadability,
+    ["ingress-animated-webgpu-metal-wave"],
+  ),
+]);
+var isGeneratedPresetId = (value) => generatedCatalogue.some((entry) => entry.id === value);
+var toRendererAdapterPair = (entry) => [entry.id, entry.rendererAdapter];
+var rendererAdapterRegistry = new Map(generatedCatalogue.map(toRendererAdapterPair));
+var isOperatorSelectable = (entry) =>
+  entry.operatorVisibility.status === "resolved-visible" &&
+  entry.readabilityPolicy.status === "resolved" &&
+  entry.paletteBehavior.status === "resolved";
+var operatorPresets = generatedCatalogue.filter(isOperatorSelectable);
+var findGeneratedPresetByLegacyIngressId = (legacyIngressId) =>
+  generatedCatalogue.find((entry) => entry.legacyIngressIds.includes(legacyIngressId));
+
+// src/components/backgrounds/variants/Generated/catalogue/ingress.ts
+var patternIngress = [["dots", "dot-field"]];
+var particleIngress = [["lines", "streak-lines"]];
+var noiseIngress = [
+  ["default", "floating-particles"],
+  ["floatingParticles", "floating-particles"],
+  ["pulsingCircles", "pulsing-circles"],
+  ["digitalRain", "digital-rain"],
+  ["spokes", "spokes-field"],
+];
+var getPresetIdForIngress = (ingressId) => {
+  const preset = findGeneratedPresetByLegacyIngressId(ingressId);
+  if (!preset) {
+    throw new Error(`Catalogue ingress invariant failed: ${ingressId}`);
+  }
+  return preset.id;
+};
+var patternRows = [
+  ...patternIngress.map(([type]) => {
+    const id = `ingress-pattern-${type}`;
+    return {
+      id,
+      match: { useBackground: "Pattern", pattern: { type } },
+      matchKind: "exact",
+      outcome: "generated",
+      presetId: getPresetIdForIngress(id),
+    };
+  }),
+  {
+    id: "ingress-pattern-missing-type",
+    match: { useBackground: "Pattern", pattern: {} },
+    matchKind: "missing-type",
+    outcome: "generated",
+    presetId: getPresetIdForIngress("ingress-pattern-missing-type"),
+    note: "Pattern object present with an omitted, undefined, or null type",
+  },
+];
+var particleRows = [
+  ...particleIngress.map(([type]) => {
+    const id = `ingress-particle-${type}`;
+    return {
+      id,
+      match: { useBackground: "Particle", particle: { type } },
+      matchKind: "exact",
+      outcome: "generated",
+      presetId: getPresetIdForIngress(id),
+    };
+  }),
+  {
+    id: "ingress-particle-missing-type",
+    match: { useBackground: "Particle", particle: {} },
+    matchKind: "missing-type",
+    outcome: "generated",
+    presetId: getPresetIdForIngress("ingress-particle-missing-type"),
+    note: "Particle object present with an omitted, undefined, or null type",
+  },
+];
+var noiseRows = [
+  ...noiseIngress.flatMap(([type]) =>
+    ["Graphics", "Noise"].map((useBackground) => {
+      const family = useBackground.toLowerCase();
+      const id = `ingress-${family}-${type}`;
+      return {
+        id,
+        match: { useBackground, noise: { type } },
+        matchKind: "exact",
+        outcome: "generated",
+        presetId: getPresetIdForIngress(id),
+      };
+    }),
+  ),
+  ...["Graphics", "Noise"].map((useBackground) => {
+    const family = useBackground.toLowerCase();
+    const id = `ingress-${family}-missing-type`;
+    return {
+      id,
+      match: { useBackground, noise: {} },
+      matchKind: "missing-type",
+      outcome: "generated",
+      presetId: getPresetIdForIngress(id),
+      note: "Noise object present with an omitted, undefined, or null type",
+    };
+  }),
+];
+var animatedCatalogueRows = generatedCatalogue.flatMap((entry) =>
+  entry.legacyIngressIds
+    .filter((ingressId) => ingressId.startsWith("ingress-animated-"))
+    .map((ingressId) => {
+      const match = {
+        useBackground: "Animated",
+        animation: { type: entry.id },
+      };
+      return {
+        id: ingressId,
+        match,
+        matchKind: "exact",
+        outcome: "generated",
+        presetId: entry.id,
+      };
+    }),
+);
+var generatedLegacyIngress = [
+  ...patternRows,
+  ...particleRows,
+  ...noiseRows,
+  ...animatedCatalogueRows,
+];
+var passthroughBackgrounds = ["Solid", "Gradient", "Image", "Video", "Texture", "Luminance"];
+var passthroughLegacyIngress = passthroughBackgrounds.map((useBackground) => ({
+  id: `ingress-passthrough-${useBackground.toLowerCase()}`,
+  match: { useBackground },
+  matchKind: "exact",
+  outcome: "passthrough",
+}));
+var unsupportedLegacyIngress = [
+  {
+    id: "ingress-unsupported-pattern-missing-family",
+    match: { useBackground: "Pattern" },
+    matchKind: "missing-family",
+    outcome: "unsupported",
+    note: "pattern object is absent",
+  },
+  {
+    id: "ingress-unsupported-pattern-unknown-type",
+    match: { useBackground: "Pattern", pattern: { type: "*" } },
+    matchKind: "unknown-type",
+    outcome: "unsupported",
+    note: "pattern.type is nonempty and not recognized",
+  },
+  {
+    id: "ingress-unsupported-particle-missing-family",
+    match: { useBackground: "Particle" },
+    matchKind: "missing-family",
+    outcome: "unsupported",
+    note: "particle object is absent",
+  },
+  {
+    id: "ingress-unsupported-particle-unknown-type",
+    match: { useBackground: "Particle", particle: { type: "*" } },
+    matchKind: "unknown-type",
+    outcome: "unsupported",
+    note: "particle.type is nonempty and not recognized",
+  },
+  {
+    id: "ingress-unsupported-graphics-missing-noise",
+    match: { useBackground: "Graphics" },
+    matchKind: "missing-family",
+    outcome: "unsupported",
+    note: "noise object is absent",
+  },
+  {
+    id: "ingress-unsupported-noise-missing-noise",
+    match: { useBackground: "Noise" },
+    matchKind: "missing-family",
+    outcome: "unsupported",
+    note: "noise object is absent",
+  },
+  {
+    id: "ingress-unsupported-graphics-unknown-noise-type",
+    match: { useBackground: "Graphics", noise: { type: "*" } },
+    matchKind: "unknown-type",
+    outcome: "unsupported",
+    note: "noise.type is nonempty and not recognized",
+  },
+  {
+    id: "ingress-unsupported-noise-unknown-noise-type",
+    match: { useBackground: "Noise", noise: { type: "*" } },
+    matchKind: "unknown-type",
+    outcome: "unsupported",
+    note: "noise.type is nonempty and not recognized",
+  },
+  {
+    id: "ingress-unsupported-unknown-wire",
+    match: { useBackground: "*" },
+    matchKind: "unknown-wire",
+    outcome: "unsupported",
+    note: "useBackground is absent or not recognized",
+  },
+];
+var legacyIngress = [
+  ...generatedLegacyIngress,
+  ...passthroughLegacyIngress,
+  ...unsupportedLegacyIngress,
+];
+var isRecord = (value) => typeof value === "object" && value !== null && !Array.isArray(value);
+var extractTemplateVariation = (wire) => {
+  if (!isRecord(wire)) {
+    return null;
+  }
+  if (typeof wire.useBackground === "string") {
+    return wire;
+  }
+  if (isRecord(wire.templateVariation)) {
+    return wire.templateVariation;
+  }
+  if (isRecord(wire.videoMeta) && isRecord(wire.videoMeta.video)) {
+    const templateVariation = wire.videoMeta.video.templateVariation;
+    if (isRecord(templateVariation)) {
+      return templateVariation;
+    }
+  }
+  return null;
+};
+var findGeneratedRow = ({ useBackground, type }) =>
+  generatedLegacyIngress.find((row) => {
+    var _a, _b, _c, _d, _e, _f, _g;
+    if (row.match.useBackground !== useBackground) return false;
+    if (type === null) return row.matchKind === "missing-type";
+    const rowType =
+      (_g =
+        (_e =
+          (_c = (_a = row.match.pattern) == null ? void 0 : _a.type) != null
+            ? _c
+            : (_b = row.match.particle) == null
+              ? void 0
+              : _b.type) != null
+          ? _e
+          : (_d = row.match.noise) == null
+            ? void 0
+            : _d.type) != null
+        ? _g
+        : (_f = row.match.animation) == null
+          ? void 0
+          : _f.type;
+    return row.matchKind === "exact" && rowType === type;
+  });
+var unsupported = (ingressId, reason) => ({
+  outcome: "unsupported",
+  ingressId,
+  reason,
+});
+var matchGeneratedFamily = ({
+  wire,
+  useBackground,
+  familyKey,
+  missingFamilyIngressId,
+  unknownTypeIngressId,
+}) => {
+  const family = wire[familyKey];
+  if (!isRecord(family)) {
+    return unsupported(missingFamilyIngressId, "missing-family");
+  }
+  const discriminator = family.type;
+  const type =
+    discriminator === null || discriminator === void 0
+      ? null
+      : typeof discriminator === "string" && discriminator.length > 0
+        ? discriminator
+        : void 0;
+  if (type === void 0) {
+    return unsupported(unknownTypeIngressId, "unknown-discriminator");
+  }
+  const row = findGeneratedRow({ useBackground, type });
+  if (!row) {
+    return unsupported(unknownTypeIngressId, "unknown-discriminator");
+  }
+  return {
+    outcome: "generated",
+    ingressId: row.id,
+    presetId: row.presetId,
+    originalWire: wire,
+  };
+};
+var matchLegacyIngress = (wire) => {
+  const extracted = extractTemplateVariation(wire);
+  if (!extracted) {
+    return unsupported("ingress-unsupported-unknown-wire", "invalid-payload");
+  }
+  const useBackground = extracted.useBackground;
+  if (typeof useBackground !== "string") {
+    return unsupported("ingress-unsupported-unknown-wire", "unknown-wire");
+  }
+  if (useBackground === "Generated") {
+    return unsupported("ingress-unsupported-unknown-wire", "unknown-wire");
+  }
+  if (useBackground === "Animated") {
+    const animation = extracted.animation;
+    const type = isRecord(animation) ? animation.type : void 0;
+    const preset =
+      typeof type === "string" ? generatedCatalogue.find((entry) => entry.id === type) : void 0;
+    if (preset) {
+      return {
+        outcome: "generated",
+        ingressId: `ingress-animated-${preset.id}`,
+        presetId: preset.id,
+        originalWire: extracted,
+      };
+    }
+    if (
+      type === "pulsingGradient" ||
+      type === "movingGradient" ||
+      type === "breathingColor" ||
+      type === "waveEffect"
+    ) {
+      return {
+        outcome: "passthrough",
+        ingressId: `ingress-animated-${type}`,
+        useBackground,
+        originalWire: extracted,
+      };
+    }
+    return unsupported("ingress-unsupported-unknown-wire", "unknown-discriminator");
+  }
+  const passthrough = passthroughLegacyIngress.find(
+    (row) => row.match.useBackground === useBackground,
+  );
+  if (passthrough) {
+    return {
+      outcome: "passthrough",
+      ingressId: passthrough.id,
+      useBackground,
+      originalWire: extracted,
+    };
+  }
+  switch (useBackground) {
+    case "Pattern":
+      return matchGeneratedFamily({
+        wire: extracted,
+        useBackground,
+        familyKey: "pattern",
+        missingFamilyIngressId: "ingress-unsupported-pattern-missing-family",
+        unknownTypeIngressId: "ingress-unsupported-pattern-unknown-type",
+      });
+    case "Particle":
+      return matchGeneratedFamily({
+        wire: extracted,
+        useBackground,
+        familyKey: "particle",
+        missingFamilyIngressId: "ingress-unsupported-particle-missing-family",
+        unknownTypeIngressId: "ingress-unsupported-particle-unknown-type",
+      });
+    case "Graphics":
+      return matchGeneratedFamily({
+        wire: extracted,
+        useBackground,
+        familyKey: "noise",
+        missingFamilyIngressId: "ingress-unsupported-graphics-missing-noise",
+        unknownTypeIngressId: "ingress-unsupported-graphics-unknown-noise-type",
+      });
+    case "Noise":
+      return matchGeneratedFamily({
+        wire: extracted,
+        useBackground,
+        familyKey: "noise",
+        missingFamilyIngressId: "ingress-unsupported-noise-missing-noise",
+        unknownTypeIngressId: "ingress-unsupported-noise-unknown-noise-type",
+      });
+    default:
+      return unsupported("ingress-unsupported-unknown-wire", "unknown-wire");
+  }
+};
+var catalogueIngressIds = new Set(generatedCatalogue.flatMap((entry) => entry.legacyIngressIds));
+var publishedGeneratedIngressIds = new Set(generatedLegacyIngress.map((row) => row.id));
+if (
+  catalogueIngressIds.size !== publishedGeneratedIngressIds.size ||
+  [...catalogueIngressIds].some((id) => !publishedGeneratedIngressIds.has(id))
+) {
+  throw new Error("Generated catalogue and ingress rows are out of sync");
+}
+
 // src/core/context/GlobalContext.tsx
 import { createContext, useContext } from "react";
 import { jsx } from "react/jsx-runtime";
@@ -1315,6 +2252,10 @@ var fontPathMap = {
     "fonts/BarlowCondensed/static/BarlowCondensed-ExtraBoldItalic.ttf",
   // Source Sans 3 (Scoreline body)
   "Source Sans 3": "fonts/SourceSans3/static/SourceSans3-Variable.ttf",
+  // Geist (Scoreline names) and Geist Mono (Scoreline figures)
+  Geist: "fonts/Geist/Geist-Variable.ttf",
+  "Geist-Italic": "fonts/Geist/Geist-Italic-Variable.ttf",
+  "Geist Mono": "fonts/GeistMono/GeistMono-Variable.ttf",
 };
 var systemFonts = [
   "Arial",
@@ -1370,6 +2311,10 @@ var fontNameVariants = {
   TEKO: "Teko",
   "barlow condensed": "Barlow Condensed",
   "Barlow Condensed": "Barlow Condensed",
+  geist: "Geist",
+  Geist: "Geist",
+  "geist mono": "Geist Mono",
+  "Geist Mono": "Geist Mono",
   "source sans 3": "Source Sans 3",
   "Source Sans 3": "Source Sans 3",
 };
@@ -1483,20 +2428,6 @@ var loadFontByName = async (fontName, weight, style) => {
   }
   await loadFontFile(fontConfig);
 };
-var SCORELINE_BARLOW_CONDENSED_FACES = [
-  { mapKey: "Barlow Condensed", weight: "400" },
-  { mapKey: "Barlow Condensed-Medium", weight: "500" },
-  { mapKey: "Barlow Condensed-SemiBold", weight: "600" },
-  { mapKey: "Barlow Condensed-Bold", weight: "700" },
-  { mapKey: "Barlow Condensed-ExtraBold", weight: "800" },
-  { mapKey: "Barlow Condensed-Black", weight: "900" },
-  { mapKey: "Barlow Condensed-BoldItalic", weight: "700", style: "italic" },
-  {
-    mapKey: "Barlow Condensed-ExtraBoldItalic",
-    weight: "800",
-    style: "italic",
-  },
-];
 var usesScorelineTypography = (theme) => {
   var _a, _b, _c, _d;
   const titleFamily =
@@ -1504,8 +2435,8 @@ var usesScorelineTypography = (theme) => {
   const copyFamily =
     (_d = (_c = theme.fonts) == null ? void 0 : _c.copy) == null ? void 0 : _d.family;
   return (
-    normalizeFontName(titleFamily != null ? titleFamily : "") === "Barlow Condensed" &&
-    normalizeFontName(copyFamily != null ? copyFamily : "") === "Source Sans 3"
+    normalizeFontName(titleFamily != null ? titleFamily : "") === "Geist" &&
+    normalizeFontName(copyFamily != null ? copyFamily : "") === "Geist"
   );
 };
 var usesNightSessionTypography = (theme) => {
@@ -1555,22 +2486,33 @@ var loadNightSessionTypographyFonts = async () => {
   await loadSourceSans3VariableFont();
 };
 var loadScorelineTypographyFonts = async () => {
-  await Promise.allSettled(
-    SCORELINE_BARLOW_CONDENSED_FACES.map(async (face) => {
-      var _a;
-      const path = fontPathMap[face.mapKey];
-      if (!path) {
-        return;
-      }
-      await loadFontFile({
-        family: "Barlow Condensed",
-        url: staticFile(path),
-        weight: face.weight,
-        style: (_a = face.style) != null ? _a : "normal",
-      });
-    }),
-  );
-  await loadSourceSans3VariableFont();
+  const geistPath = fontPathMap.Geist;
+  const geistItalicPath = fontPathMap["Geist-Italic"];
+  const geistMonoPath = fontPathMap["Geist Mono"];
+  if (geistPath) {
+    await loadFontFile({
+      family: "Geist",
+      url: staticFile(geistPath),
+      weight: "100 900",
+      style: "normal",
+    });
+  }
+  if (geistItalicPath) {
+    await loadFontFile({
+      family: "Geist",
+      url: staticFile(geistItalicPath),
+      weight: "100 900",
+      style: "italic",
+    });
+  }
+  if (geistMonoPath) {
+    await loadFontFile({
+      family: "Geist Mono",
+      url: staticFile(geistMonoPath),
+      weight: "100 900",
+      style: "normal",
+    });
+  }
 };
 var loadFontsFromTheme = async (theme) => {
   console.log("Loading fonts from theme...", theme);
@@ -1607,7 +2549,7 @@ var loadFontsFromTheme = async (theme) => {
     }
     const normalized = normalizeFontName(font);
     if (scorelineTypography) {
-      return normalized !== "Barlow Condensed" && normalized !== "Source Sans 3";
+      return normalized !== "Geist" && normalized !== "Geist Mono";
     }
     if (nightSessionTypography) {
       return normalized !== "Teko" && normalized !== "Source Sans 3";
@@ -1755,10 +2697,23 @@ var asSponsorArray = (value) => (Array.isArray(value) ? value : []);
 
 // src/core/utils/sponsors/selectFooterSponsors.ts
 var FOOTER_SPONSOR_MAX = 5;
+var uniqueById = (sponsors) => {
+  const seen = /* @__PURE__ */ new Set();
+  const out = [];
+  for (const sponsor of sponsors) {
+    if (seen.has(sponsor.id)) continue;
+    seen.add(sponsor.id);
+    out.push(sponsor);
+  }
+  return out;
+};
 var selectFooterSponsors = ({ primaryForScreen, entities, max = FOOTER_SPONSOR_MAX }) => {
-  const selectedEntities = entities.slice(0, max);
+  const selectedEntities = uniqueById(entities).slice(0, max);
+  const entityIds = new Set(selectedEntities.map((s) => s.id));
   const remainingSlots = max - selectedEntities.length;
-  const selectedPrimaries = primaryForScreen.slice(0, remainingSlots);
+  const selectedPrimaries = uniqueById(primaryForScreen)
+    .filter((s) => !entityIds.has(s.id))
+    .slice(0, remainingSlots);
   return [...selectedPrimaries, ...selectedEntities];
 };
 
@@ -4816,10 +5771,12 @@ var getImageOrientation = (aspectRatio) => {
   if (aspectRatio < 0.95) return "portrait";
   return "square";
 };
+var DEFAULT_FALLBACK_SRC = staticFile2("placeholder-image.png");
+var isUsableImageSrc = (value) => typeof value === "string" && value.trim().length > 0;
 var AnimatedImageBase = ({
   // Source props
   src,
-  fallbackSrc = staticFile2("placeholder-image.jpg"),
+  fallbackSrc = DEFAULT_FALLBACK_SRC,
   alt = "",
   // Size props
   width,
@@ -4875,7 +5832,8 @@ var AnimatedImageBase = ({
       });
     }
   }, [originalWidth, originalHeight]);
-  const imageSrc = hasError && fallbackSrc ? fallbackSrc : src;
+  const resolvedFallback = isUsableImageSrc(fallbackSrc) ? fallbackSrc : DEFAULT_FALLBACK_SRC;
+  const imageSrc = !isUsableImageSrc(src) || hasError ? resolvedFallback : src;
   const animationConfig = useMemo3(
     () =>
       normalizeImageAnimation(
@@ -5020,8 +5978,11 @@ var AnimatedImageBase = ({
         : alt,
     [alt, imageDimensions],
   );
+  if (!isUsableImageSrc(imageSrc)) {
+    return null;
+  }
   return /* @__PURE__ */ jsx13(Img, {
-    src: imageSrc || "./assets/images/logos/DefaultLogo.png",
+    src: imageSrc,
     alt: debugAlt,
     className,
     style: combinedStyle,
@@ -5362,942 +6323,6 @@ var BasicOutro = ({ doesAccountHaveSponsors }) => {
     timing: { type: "linear", durationInFrames: 1 },
   });
 };
-
-// src/components/backgrounds/variants/Generated/catalogue/catalogue.ts
-var unresolvedCmsVisibility = {
-  status: "unresolved",
-  note: "CMS visibility inventory pending",
-};
-var noReadabilityPolicy = {
-  status: "resolved",
-  policy: "none",
-};
-var animatedOperatorControls = [
-  {
-    key: "animation.type",
-    label: "Animated preset",
-    type: "preset",
-  },
-];
-var patternPalette = {
-  status: "resolved",
-  mode: "active-palette",
-  roles: ["background.contrast", "background.gradient.primary"],
-};
-var particleLinePalette = {
-  status: "resolved",
-  mode: "active-palette",
-  roles: ["background.gradient.primaryRadial", "text.onContainer.light"],
-};
-var gridNoisePalette = {
-  status: "resolved",
-  mode: "active-palette",
-  roles: ["background.main", "background.accent"],
-};
-var particleNoisePalette = {
-  status: "resolved",
-  mode: "active-palette",
-  roles: ["container.gradientPrimaryToSecondaryVertical", "container.main"],
-};
-var spokesPalette = {
-  status: "resolved",
-  mode: "active-palette",
-  roles: ["background.gradient", "templateVariation.gradient"],
-};
-var lightLeakPalette = gridNoisePalette;
-var lightLeakReadability = {
-  status: "resolved",
-  policy: "vignette",
-};
-var effectsSolidAuthorControls = [
-  {
-    key: "animation.type",
-    label: "Animated preset",
-    type: "enum",
-    enumValues: [
-      "light-leak",
-      "broadcast-halftone",
-      "topographic-flow",
-      "signal-grid",
-      "reactive-path",
-    ],
-    source: "templateVariation",
-    affectsRendering: true,
-  },
-];
-var motionAssetAuthorControls = [
-  {
-    key: "animation.type",
-    label: "Animated preset",
-    type: "enum",
-    enumValues: ["motion-motif"],
-    source: "templateVariation",
-    affectsRendering: true,
-  },
-];
-var htmlInCanvasAuthorControls = [
-  {
-    key: "animation.type",
-    label: "Animated preset",
-    type: "enum",
-    enumValues: ["html-orbit-rings", "html-scoreboard-grid", "html-neon-beams"],
-    source: "templateVariation",
-    affectsRendering: true,
-  },
-];
-var threeSceneAuthorControls = [
-  {
-    key: "animation.type",
-    label: "Animated preset",
-    type: "enum",
-    enumValues: ["webgpu-metal-wave"],
-    source: "templateVariation",
-    affectsRendering: true,
-  },
-];
-var patternAuthorControls = [
-  {
-    key: "animation.type",
-    label: "Animated preset",
-    type: "enum",
-    enumValues: ["dot-field"],
-    source: "templateVariation",
-    affectsRendering: true,
-  },
-  {
-    key: "animation.scale",
-    label: "Scale",
-    type: "number",
-    source: "templateVariation",
-    affectsRendering: true,
-  },
-  {
-    key: "animation.rotation",
-    label: "Rotation",
-    type: "number",
-    source: "templateVariation",
-    affectsRendering: true,
-  },
-  {
-    key: "animation.motion",
-    label: "Animation",
-    type: "enum",
-    enumValues: ["none", "panUp", "panDown", "panLeft", "panRight", "rotate", "pulse"],
-    source: "templateVariation",
-    affectsRendering: true,
-  },
-  {
-    key: "animation.duration",
-    label: "Animation duration",
-    type: "number",
-    source: "templateVariation",
-    affectsRendering: true,
-  },
-  {
-    key: "animation.speed",
-    label: "Animation speed",
-    type: "number",
-    source: "templateVariation",
-    affectsRendering: true,
-  },
-  {
-    key: "animation.opacity",
-    label: "Opacity",
-    type: "number",
-    source: "templateVariation",
-    affectsRendering: false,
-  },
-];
-var particleAuthorControls = [
-  {
-    key: "animation.type",
-    label: "Animated preset",
-    type: "enum",
-    enumValues: ["streak-lines"],
-    source: "templateVariation",
-    affectsRendering: true,
-  },
-  {
-    key: "animation.particleCount",
-    label: "Particle count",
-    type: "number",
-    source: "templateVariation",
-    affectsRendering: true,
-  },
-  {
-    key: "animation.speed",
-    label: "Speed",
-    type: "number",
-    source: "templateVariation",
-    affectsRendering: true,
-  },
-  {
-    key: "animation.direction",
-    label: "Direction",
-    type: "enum",
-    enumValues: ["up", "down", "left", "right", "random"],
-    source: "templateVariation",
-    affectsRendering: true,
-  },
-  {
-    key: "animation.animation",
-    label: "Animation",
-    type: "enum",
-    enumValues: ["fade", "scale", "slide", "none"],
-    source: "templateVariation",
-    affectsRendering: false,
-  },
-];
-var noiseAuthorControls = [
-  {
-    key: "animation.type",
-    label: "Animated preset",
-    type: "enum",
-    enumValues: ["floating-particles", "pulsing-circles", "digital-rain", "spokes-field"],
-    source: "templateVariation",
-    affectsRendering: true,
-  },
-];
-var makePatternPreset = (identity, patternType, legacyIngressIds, animationDefaults = {}) => ({
-  ...identity,
-  rendererAdapter: "pattern-tiled",
-  defaultConfiguration: {
-    useBackground: "Animated",
-    animation: {
-      type: identity.id,
-      scale: 1,
-      rotation: 0,
-      ...animationDefaults,
-    },
-  },
-  operatorVisibility: unresolvedCmsVisibility,
-  readabilityPolicy: noReadabilityPolicy,
-  paletteBehavior: patternPalette,
-  operatorControls: animatedOperatorControls,
-  authorControls: patternAuthorControls,
-  legacyIngressIds,
-});
-var makeParticlePreset = (identity, particleType, paletteBehavior, legacyIngressIds) => ({
-  ...identity,
-  rendererAdapter: "particle-field",
-  defaultConfiguration: {
-    useBackground: "Animated",
-    animation: {
-      type: identity.id,
-      particleCount: 300,
-      speed: 1,
-      direction: "random",
-    },
-  },
-  operatorVisibility: unresolvedCmsVisibility,
-  readabilityPolicy: noReadabilityPolicy,
-  paletteBehavior,
-  operatorControls: animatedOperatorControls,
-  authorControls: particleAuthorControls,
-  legacyIngressIds,
-});
-var makeNoisePreset = (options) => {
-  const {
-    noiseType,
-    useBackground,
-    rendererAdapter,
-    paletteBehavior,
-    legacyIngressIds,
-    ...identity
-  } = options;
-  void noiseType;
-  void useBackground;
-  return {
-    ...identity,
-    rendererAdapter,
-    defaultConfiguration: {
-      useBackground: "Animated",
-      animation: { type: identity.id },
-    },
-    operatorVisibility: unresolvedCmsVisibility,
-    readabilityPolicy: noReadabilityPolicy,
-    paletteBehavior,
-    operatorControls: animatedOperatorControls,
-    authorControls: noiseAuthorControls,
-    legacyIngressIds,
-  };
-};
-var makeEffectsSolidPreset = (identity, paletteBehavior, readabilityPolicy, legacyIngressIds) => ({
-  ...identity,
-  rendererAdapter: "effects-solid",
-  defaultConfiguration: {
-    useBackground: "Animated",
-    animation: { type: identity.id },
-  },
-  operatorVisibility: unresolvedCmsVisibility,
-  readabilityPolicy,
-  paletteBehavior,
-  operatorControls: animatedOperatorControls,
-  authorControls: effectsSolidAuthorControls,
-  legacyIngressIds,
-});
-var makeMotionAssetPreset = (identity, paletteBehavior, readabilityPolicy, legacyIngressIds) => ({
-  ...identity,
-  rendererAdapter: "motion-asset",
-  defaultConfiguration: {
-    useBackground: "Animated",
-    animation: { type: identity.id },
-  },
-  operatorVisibility: unresolvedCmsVisibility,
-  readabilityPolicy,
-  paletteBehavior,
-  operatorControls: animatedOperatorControls,
-  authorControls: motionAssetAuthorControls,
-  legacyIngressIds,
-});
-var makeHtmlInCanvasPreset = (identity, paletteBehavior, readabilityPolicy, legacyIngressIds) => ({
-  ...identity,
-  rendererAdapter: "html-in-canvas",
-  defaultConfiguration: {
-    useBackground: "Animated",
-    animation: { type: identity.id },
-  },
-  operatorVisibility: unresolvedCmsVisibility,
-  readabilityPolicy,
-  paletteBehavior,
-  operatorControls: animatedOperatorControls,
-  authorControls: htmlInCanvasAuthorControls,
-  legacyIngressIds,
-});
-var makeThreeScenePreset = (identity, paletteBehavior, readabilityPolicy, legacyIngressIds) => ({
-  ...identity,
-  rendererAdapter: "three-scene",
-  defaultConfiguration: {
-    useBackground: "Animated",
-    animation: { type: identity.id },
-  },
-  operatorVisibility: unresolvedCmsVisibility,
-  readabilityPolicy,
-  paletteBehavior,
-  operatorControls: animatedOperatorControls,
-  authorControls: threeSceneAuthorControls,
-  legacyIngressIds,
-});
-var defineGeneratedCatalogue = (catalogue) => catalogue;
-var generatedCatalogue = defineGeneratedCatalogue([
-  makePatternPreset(
-    {
-      id: "dot-field",
-      displayName: "Soft Dots",
-      description: "A gentle dotted pattern in your club colours.",
-      inventoryKey: "INV-PAT-dots",
-      discovery: {
-        motionClass: "ambient",
-        tags: ["dots", "tile", "pattern"],
-        relatedPresetIds: ["pulsing-circles"],
-      },
-    },
-    "dots",
-    ["ingress-pattern-dots", "ingress-pattern-missing-type"],
-    { motion: "panLeft", duration: 600, speed: 1 },
-  ),
-  makeParticlePreset(
-    {
-      id: "streak-lines",
-      displayName: "Speed Lines",
-      description: "Dynamic streaks that suggest motion and energy.",
-      inventoryKey: "INV-PAR-lines",
-      discovery: {
-        motionClass: "energetic",
-        tags: ["lines", "particles", "streaks"],
-        relatedPresetIds: ["digital-rain"],
-      },
-    },
-    "lines",
-    particleLinePalette,
-    ["ingress-particle-lines", "ingress-particle-missing-type"],
-  ),
-  makeNoisePreset({
-    id: "floating-particles",
-    displayName: "Drifting Lights",
-    description: "Soft lights floating slowly across the background.",
-    inventoryKey: "INV-NOI-floatingParticles",
-    noiseType: "floatingParticles",
-    useBackground: "Graphics",
-    rendererAdapter: "particle-noise",
-    paletteBehavior: particleNoisePalette,
-    legacyIngressIds: [
-      "ingress-graphics-floatingParticles",
-      "ingress-noise-floatingParticles",
-      "ingress-graphics-default",
-      "ingress-noise-default",
-      "ingress-graphics-missing-type",
-      "ingress-noise-missing-type",
-    ],
-    discovery: {
-      motionClass: "ambient",
-      tags: ["particles", "floating", "circles"],
-      relatedPresetIds: ["dot-field", "pulsing-circles"],
-    },
-  }),
-  makeNoisePreset({
-    id: "pulsing-circles",
-    displayName: "Breathing Circles",
-    description: "Soft circles that gently expand and fade.",
-    inventoryKey: "INV-NOI-pulsingCircles",
-    noiseType: "pulsingCircles",
-    useBackground: "Noise",
-    rendererAdapter: "grid-noise",
-    paletteBehavior: gridNoisePalette,
-    legacyIngressIds: ["ingress-graphics-pulsingCircles", "ingress-noise-pulsingCircles"],
-    discovery: {
-      motionClass: "ambient",
-      tags: ["circles", "pulse", "grid"],
-      relatedPresetIds: ["dot-field"],
-    },
-  }),
-  makeNoisePreset({
-    id: "digital-rain",
-    displayName: "Falling Lines",
-    description: "Vertical lines cascading down the screen.",
-    inventoryKey: "INV-NOI-digitalRain",
-    noiseType: "digitalRain",
-    useBackground: "Noise",
-    rendererAdapter: "particle-noise",
-    paletteBehavior: particleNoisePalette,
-    legacyIngressIds: ["ingress-graphics-digitalRain", "ingress-noise-digitalRain"],
-    discovery: { motionClass: "energetic", tags: ["digital", "rain", "lines"] },
-  }),
-  makeNoisePreset({
-    id: "spokes-field",
-    displayName: "Sunburst",
-    description: "Radiating spokes over a smooth colour gradient.",
-    inventoryKey: "INV-NOI-spokes",
-    noiseType: "spokes",
-    useBackground: "Graphics",
-    rendererAdapter: "svg-spokes",
-    paletteBehavior: spokesPalette,
-    legacyIngressIds: ["ingress-graphics-spokes", "ingress-noise-spokes"],
-    discovery: {
-      motionClass: "intro-sequence",
-      tags: ["spokes", "radial", "svg"],
-    },
-  }),
-  makeEffectsSolidPreset(
-    {
-      id: "light-leak",
-      displayName: "Cinematic Glow",
-      description: "Warm colour washes moving across the frame.",
-      inventoryKey: "INV-EFF-lightLeak",
-      discovery: {
-        motionClass: "ambient",
-        tags: ["light-leak", "gradient", "cinematic"],
-      },
-    },
-    lightLeakPalette,
-    lightLeakReadability,
-    ["ingress-animated-light-leak"],
-  ),
-  makeEffectsSolidPreset(
-    {
-      id: "broadcast-halftone",
-      displayName: "Halftone Blend",
-      description: "Classic print-style dots blended with your club colours.",
-      inventoryKey: "INV-EFF-broadcastHalftone",
-      discovery: {
-        motionClass: "ambient",
-        tags: ["halftone", "gradient", "broadcast"],
-      },
-    },
-    lightLeakPalette,
-    lightLeakReadability,
-    ["ingress-animated-broadcast-halftone"],
-  ),
-  makeEffectsSolidPreset(
-    {
-      id: "topographic-flow",
-      displayName: "Flowing Contours",
-      description: "Slow-moving colour bands like rolling terrain.",
-      inventoryKey: "INV-EFF-topographicFlow",
-      discovery: {
-        motionClass: "ambient",
-        tags: ["topographic", "contours", "liquid"],
-      },
-    },
-    lightLeakPalette,
-    lightLeakReadability,
-    ["ingress-animated-topographic-flow"],
-  ),
-  makeEffectsSolidPreset(
-    {
-      id: "signal-grid",
-      displayName: "Live Grid",
-      description: "A perspective grid with a broadcast studio feel.",
-      inventoryKey: "INV-EFF-signalGrid",
-      discovery: {
-        motionClass: "ambient",
-        tags: ["grid", "scanlines", "perspective"],
-      },
-    },
-    lightLeakPalette,
-    lightLeakReadability,
-    ["ingress-animated-signal-grid"],
-  ),
-  makeEffectsSolidPreset(
-    {
-      id: "reactive-path",
-      displayName: "Route Pulse",
-      description: "Travelling energy marks along curved paths.",
-      inventoryKey: "INV-EFF-reactivePath",
-      discovery: {
-        motionClass: "energetic",
-        tags: ["paths", "orbits", "routes"],
-      },
-    },
-    lightLeakPalette,
-    lightLeakReadability,
-    ["ingress-animated-reactive-path"],
-  ),
-  makeMotionAssetPreset(
-    {
-      id: "motion-motif",
-      displayName: "Club Motif",
-      description: "A looping animated emblem in your club colours.",
-      inventoryKey: "INV-MOT-motionMotif",
-      discovery: {
-        motionClass: "ambient",
-        tags: ["lottie", "motif", "motion-asset"],
-      },
-    },
-    lightLeakPalette,
-    lightLeakReadability,
-    ["ingress-animated-motion-motif"],
-  ),
-  makeHtmlInCanvasPreset(
-    {
-      id: "html-orbit-rings",
-      displayName: "Orbit Rings",
-      description: "Concentric rings with a soft glowing finish.",
-      inventoryKey: "INV-HIC-htmlOrbitRings",
-      discovery: {
-        motionClass: "ambient",
-        tags: ["html-in-canvas", "orbits", "rings"],
-      },
-    },
-    lightLeakPalette,
-    lightLeakReadability,
-    ["ingress-animated-html-orbit-rings"],
-  ),
-  makeHtmlInCanvasPreset(
-    {
-      id: "html-scoreboard-grid",
-      displayName: "Stadium Grid",
-      description: "A scoreboard-style grid with broadcast glow.",
-      inventoryKey: "INV-HIC-htmlScoreboardGrid",
-      discovery: {
-        motionClass: "ambient",
-        tags: ["html-in-canvas", "grid", "scoreboard"],
-      },
-    },
-    lightLeakPalette,
-    lightLeakReadability,
-    ["ingress-animated-html-scoreboard-grid"],
-  ),
-  makeHtmlInCanvasPreset(
-    {
-      id: "html-neon-beams",
-      displayName: "Neon Sweep",
-      description: "Diagonal neon light sweeps across the background.",
-      inventoryKey: "INV-HIC-htmlNeonBeams",
-      discovery: {
-        motionClass: "energetic",
-        tags: ["html-in-canvas", "neon", "beams"],
-      },
-    },
-    lightLeakPalette,
-    lightLeakReadability,
-    ["ingress-animated-html-neon-beams"],
-  ),
-  makeThreeScenePreset(
-    {
-      id: "webgpu-metal-wave",
-      displayName: "Liquid Metal",
-      description: "Shimmering metallic waves in your club colours.",
-      inventoryKey: "INV-3SC-webgpuMetalWave",
-      discovery: {
-        motionClass: "ambient",
-        tags: ["three-scene", "webgpu", "metal", "tsl"],
-      },
-    },
-    lightLeakPalette,
-    lightLeakReadability,
-    ["ingress-animated-webgpu-metal-wave"],
-  ),
-]);
-var toRendererAdapterPair = (entry) => [entry.id, entry.rendererAdapter];
-var rendererAdapterRegistry = new Map(generatedCatalogue.map(toRendererAdapterPair));
-var isOperatorSelectable = (entry) =>
-  entry.operatorVisibility.status === "resolved-visible" &&
-  entry.readabilityPolicy.status === "resolved" &&
-  entry.paletteBehavior.status === "resolved";
-var operatorPresets = generatedCatalogue.filter(isOperatorSelectable);
-var findGeneratedPresetByLegacyIngressId = (legacyIngressId) =>
-  generatedCatalogue.find((entry) => entry.legacyIngressIds.includes(legacyIngressId));
-
-// src/components/backgrounds/variants/Generated/catalogue/ingress.ts
-var patternIngress = [["dots", "dot-field"]];
-var particleIngress = [["lines", "streak-lines"]];
-var noiseIngress = [
-  ["default", "floating-particles"],
-  ["floatingParticles", "floating-particles"],
-  ["pulsingCircles", "pulsing-circles"],
-  ["digitalRain", "digital-rain"],
-  ["spokes", "spokes-field"],
-];
-var getPresetIdForIngress = (ingressId) => {
-  const preset = findGeneratedPresetByLegacyIngressId(ingressId);
-  if (!preset) {
-    throw new Error(`Catalogue ingress invariant failed: ${ingressId}`);
-  }
-  return preset.id;
-};
-var patternRows = [
-  ...patternIngress.map(([type]) => {
-    const id = `ingress-pattern-${type}`;
-    return {
-      id,
-      match: { useBackground: "Pattern", pattern: { type } },
-      matchKind: "exact",
-      outcome: "generated",
-      presetId: getPresetIdForIngress(id),
-    };
-  }),
-  {
-    id: "ingress-pattern-missing-type",
-    match: { useBackground: "Pattern", pattern: {} },
-    matchKind: "missing-type",
-    outcome: "generated",
-    presetId: getPresetIdForIngress("ingress-pattern-missing-type"),
-    note: "Pattern object present with an omitted, undefined, or null type",
-  },
-];
-var particleRows = [
-  ...particleIngress.map(([type]) => {
-    const id = `ingress-particle-${type}`;
-    return {
-      id,
-      match: { useBackground: "Particle", particle: { type } },
-      matchKind: "exact",
-      outcome: "generated",
-      presetId: getPresetIdForIngress(id),
-    };
-  }),
-  {
-    id: "ingress-particle-missing-type",
-    match: { useBackground: "Particle", particle: {} },
-    matchKind: "missing-type",
-    outcome: "generated",
-    presetId: getPresetIdForIngress("ingress-particle-missing-type"),
-    note: "Particle object present with an omitted, undefined, or null type",
-  },
-];
-var noiseRows = [
-  ...noiseIngress.flatMap(([type]) =>
-    ["Graphics", "Noise"].map((useBackground) => {
-      const family = useBackground.toLowerCase();
-      const id = `ingress-${family}-${type}`;
-      return {
-        id,
-        match: { useBackground, noise: { type } },
-        matchKind: "exact",
-        outcome: "generated",
-        presetId: getPresetIdForIngress(id),
-      };
-    }),
-  ),
-  ...["Graphics", "Noise"].map((useBackground) => {
-    const family = useBackground.toLowerCase();
-    const id = `ingress-${family}-missing-type`;
-    return {
-      id,
-      match: { useBackground, noise: {} },
-      matchKind: "missing-type",
-      outcome: "generated",
-      presetId: getPresetIdForIngress(id),
-      note: "Noise object present with an omitted, undefined, or null type",
-    };
-  }),
-];
-var animatedCatalogueRows = generatedCatalogue.flatMap((entry) =>
-  entry.legacyIngressIds
-    .filter((ingressId) => ingressId.startsWith("ingress-animated-"))
-    .map((ingressId) => {
-      const match = {
-        useBackground: "Animated",
-        animation: { type: entry.id },
-      };
-      return {
-        id: ingressId,
-        match,
-        matchKind: "exact",
-        outcome: "generated",
-        presetId: entry.id,
-      };
-    }),
-);
-var generatedLegacyIngress = [
-  ...patternRows,
-  ...particleRows,
-  ...noiseRows,
-  ...animatedCatalogueRows,
-];
-var passthroughBackgrounds = ["Solid", "Gradient", "Image", "Video", "Texture", "Luminance"];
-var passthroughLegacyIngress = passthroughBackgrounds.map((useBackground) => ({
-  id: `ingress-passthrough-${useBackground.toLowerCase()}`,
-  match: { useBackground },
-  matchKind: "exact",
-  outcome: "passthrough",
-}));
-var unsupportedLegacyIngress = [
-  {
-    id: "ingress-unsupported-pattern-missing-family",
-    match: { useBackground: "Pattern" },
-    matchKind: "missing-family",
-    outcome: "unsupported",
-    note: "pattern object is absent",
-  },
-  {
-    id: "ingress-unsupported-pattern-unknown-type",
-    match: { useBackground: "Pattern", pattern: { type: "*" } },
-    matchKind: "unknown-type",
-    outcome: "unsupported",
-    note: "pattern.type is nonempty and not recognized",
-  },
-  {
-    id: "ingress-unsupported-particle-missing-family",
-    match: { useBackground: "Particle" },
-    matchKind: "missing-family",
-    outcome: "unsupported",
-    note: "particle object is absent",
-  },
-  {
-    id: "ingress-unsupported-particle-unknown-type",
-    match: { useBackground: "Particle", particle: { type: "*" } },
-    matchKind: "unknown-type",
-    outcome: "unsupported",
-    note: "particle.type is nonempty and not recognized",
-  },
-  {
-    id: "ingress-unsupported-graphics-missing-noise",
-    match: { useBackground: "Graphics" },
-    matchKind: "missing-family",
-    outcome: "unsupported",
-    note: "noise object is absent",
-  },
-  {
-    id: "ingress-unsupported-noise-missing-noise",
-    match: { useBackground: "Noise" },
-    matchKind: "missing-family",
-    outcome: "unsupported",
-    note: "noise object is absent",
-  },
-  {
-    id: "ingress-unsupported-graphics-unknown-noise-type",
-    match: { useBackground: "Graphics", noise: { type: "*" } },
-    matchKind: "unknown-type",
-    outcome: "unsupported",
-    note: "noise.type is nonempty and not recognized",
-  },
-  {
-    id: "ingress-unsupported-noise-unknown-noise-type",
-    match: { useBackground: "Noise", noise: { type: "*" } },
-    matchKind: "unknown-type",
-    outcome: "unsupported",
-    note: "noise.type is nonempty and not recognized",
-  },
-  {
-    id: "ingress-unsupported-unknown-wire",
-    match: { useBackground: "*" },
-    matchKind: "unknown-wire",
-    outcome: "unsupported",
-    note: "useBackground is absent or not recognized",
-  },
-];
-var legacyIngress = [
-  ...generatedLegacyIngress,
-  ...passthroughLegacyIngress,
-  ...unsupportedLegacyIngress,
-];
-var isRecord = (value) => typeof value === "object" && value !== null && !Array.isArray(value);
-var extractTemplateVariation = (wire) => {
-  if (!isRecord(wire)) {
-    return null;
-  }
-  if (typeof wire.useBackground === "string") {
-    return wire;
-  }
-  if (isRecord(wire.templateVariation)) {
-    return wire.templateVariation;
-  }
-  if (isRecord(wire.videoMeta) && isRecord(wire.videoMeta.video)) {
-    const templateVariation = wire.videoMeta.video.templateVariation;
-    if (isRecord(templateVariation)) {
-      return templateVariation;
-    }
-  }
-  return null;
-};
-var findGeneratedRow = ({ useBackground, type }) =>
-  generatedLegacyIngress.find((row) => {
-    var _a, _b, _c, _d, _e, _f, _g;
-    if (row.match.useBackground !== useBackground) return false;
-    if (type === null) return row.matchKind === "missing-type";
-    const rowType =
-      (_g =
-        (_e =
-          (_c = (_a = row.match.pattern) == null ? void 0 : _a.type) != null
-            ? _c
-            : (_b = row.match.particle) == null
-              ? void 0
-              : _b.type) != null
-          ? _e
-          : (_d = row.match.noise) == null
-            ? void 0
-            : _d.type) != null
-        ? _g
-        : (_f = row.match.animation) == null
-          ? void 0
-          : _f.type;
-    return row.matchKind === "exact" && rowType === type;
-  });
-var unsupported = (ingressId, reason) => ({
-  outcome: "unsupported",
-  ingressId,
-  reason,
-});
-var matchGeneratedFamily = ({
-  wire,
-  useBackground,
-  familyKey,
-  missingFamilyIngressId,
-  unknownTypeIngressId,
-}) => {
-  const family = wire[familyKey];
-  if (!isRecord(family)) {
-    return unsupported(missingFamilyIngressId, "missing-family");
-  }
-  const discriminator = family.type;
-  const type =
-    discriminator === null || discriminator === void 0
-      ? null
-      : typeof discriminator === "string" && discriminator.length > 0
-        ? discriminator
-        : void 0;
-  if (type === void 0) {
-    return unsupported(unknownTypeIngressId, "unknown-discriminator");
-  }
-  const row = findGeneratedRow({ useBackground, type });
-  if (!row) {
-    return unsupported(unknownTypeIngressId, "unknown-discriminator");
-  }
-  return {
-    outcome: "generated",
-    ingressId: row.id,
-    presetId: row.presetId,
-    originalWire: wire,
-  };
-};
-var matchLegacyIngress = (wire) => {
-  const extracted = extractTemplateVariation(wire);
-  if (!extracted) {
-    return unsupported("ingress-unsupported-unknown-wire", "invalid-payload");
-  }
-  const useBackground = extracted.useBackground;
-  if (typeof useBackground !== "string") {
-    return unsupported("ingress-unsupported-unknown-wire", "unknown-wire");
-  }
-  if (useBackground === "Generated") {
-    return unsupported("ingress-unsupported-unknown-wire", "unknown-wire");
-  }
-  if (useBackground === "Animated") {
-    const animation = extracted.animation;
-    const type = isRecord(animation) ? animation.type : void 0;
-    const preset =
-      typeof type === "string" ? generatedCatalogue.find((entry) => entry.id === type) : void 0;
-    if (preset) {
-      return {
-        outcome: "generated",
-        ingressId: `ingress-animated-${preset.id}`,
-        presetId: preset.id,
-        originalWire: extracted,
-      };
-    }
-    if (
-      type === "pulsingGradient" ||
-      type === "movingGradient" ||
-      type === "breathingColor" ||
-      type === "waveEffect"
-    ) {
-      return {
-        outcome: "passthrough",
-        ingressId: `ingress-animated-${type}`,
-        useBackground,
-        originalWire: extracted,
-      };
-    }
-    return unsupported("ingress-unsupported-unknown-wire", "unknown-discriminator");
-  }
-  const passthrough = passthroughLegacyIngress.find(
-    (row) => row.match.useBackground === useBackground,
-  );
-  if (passthrough) {
-    return {
-      outcome: "passthrough",
-      ingressId: passthrough.id,
-      useBackground,
-      originalWire: extracted,
-    };
-  }
-  switch (useBackground) {
-    case "Pattern":
-      return matchGeneratedFamily({
-        wire: extracted,
-        useBackground,
-        familyKey: "pattern",
-        missingFamilyIngressId: "ingress-unsupported-pattern-missing-family",
-        unknownTypeIngressId: "ingress-unsupported-pattern-unknown-type",
-      });
-    case "Particle":
-      return matchGeneratedFamily({
-        wire: extracted,
-        useBackground,
-        familyKey: "particle",
-        missingFamilyIngressId: "ingress-unsupported-particle-missing-family",
-        unknownTypeIngressId: "ingress-unsupported-particle-unknown-type",
-      });
-    case "Graphics":
-      return matchGeneratedFamily({
-        wire: extracted,
-        useBackground,
-        familyKey: "noise",
-        missingFamilyIngressId: "ingress-unsupported-graphics-missing-noise",
-        unknownTypeIngressId: "ingress-unsupported-graphics-unknown-noise-type",
-      });
-    case "Noise":
-      return matchGeneratedFamily({
-        wire: extracted,
-        useBackground,
-        familyKey: "noise",
-        missingFamilyIngressId: "ingress-unsupported-noise-missing-noise",
-        unknownTypeIngressId: "ingress-unsupported-noise-unknown-noise-type",
-      });
-    default:
-      return unsupported("ingress-unsupported-unknown-wire", "unknown-wire");
-  }
-};
-var catalogueIngressIds = new Set(generatedCatalogue.flatMap((entry) => entry.legacyIngressIds));
-var publishedGeneratedIngressIds = new Set(generatedLegacyIngress.map((row) => row.id));
-if (
-  catalogueIngressIds.size !== publishedGeneratedIngressIds.size ||
-  [...catalogueIngressIds].some((id) => !publishedGeneratedIngressIds.has(id))
-) {
-  throw new Error("Generated catalogue and ingress rows are out of sync");
-}
 
 // src/components/backgrounds/variants/NoiseBackground/config.ts
 var NOISE_VARIANTS = {
@@ -11787,6 +11812,21 @@ var KNOWN_LUMINANCE_ASSETS = /* @__PURE__ */ new Set([
   "_verify/test005.png",
   "_verify/test006.png",
   "_verify/test007.png",
+  // Site production plates (public/luminance/plates)
+  "plates/brush-halftone-corners.png",
+  "plates/brush-slash-halftone.png",
+  "plates/brush-sweep-gray.png",
+  "plates/dark-circle-mesh.png",
+  "plates/diagonal-halftone.png",
+  "plates/diagonal-paint-strokes.png",
+  "plates/fingerprint-grunge.png",
+  "plates/geometric-halftone.png",
+  "plates/grunge-diagonal-panels.png",
+  "plates/halftone-fade.png",
+  "plates/jagged-radial-burst.png",
+  "plates/light-motion-streaks.png",
+  "plates/light-well-geometry.png",
+  "plates/radial-speed-lines.png",
 ]);
 var isKnownLuminanceAsset = (asset) => Boolean(asset && KNOWN_LUMINANCE_ASSETS.has(asset));
 
@@ -14892,12 +14932,49 @@ import React21, { useMemo as useMemo9 } from "react";
 // src/compositions/cricket/sponsorFooter/_utils/calculations.ts
 var FOOTER_EXIT_OFFSET_FRAMES = 15;
 var FOOTER_EXIT_ANIMATION_DURATION_FRAMES = 15;
+var FOOTER_LOGO_GAP_PX = 16;
+var FOOTER_FULL_HEIGHT_BELOW_COUNT = 4;
+var FOOTER_LOGO_MAX_WIDTH_RATIO = 2.25;
+var FOOTER_FRAME_WIDTH_PX = 1080;
+var FOOTER_ROW_PADDING_X_PX = 64;
+var footerLogoContentWidth = (frameWidth = FOOTER_FRAME_WIDTH_PX) =>
+  Math.max(0, frameWidth - FOOTER_ROW_PADDING_X_PX * 2);
 var calculateFooterExitFrame = (timings) => {
   const mainDuration = timings == null ? void 0 : timings.FPS_MAIN;
   if (typeof mainDuration !== "number" || mainDuration <= 0) {
     return 0;
   }
   return Math.max(0, mainDuration - FOOTER_EXIT_OFFSET_FRAMES);
+};
+var emptyFooterLogoBox = () => ({
+  width: 0,
+  height: 0,
+  fit: "height",
+});
+var calculateFooterLogoBox = ({ footerHeight, count, contentWidth = footerLogoContentWidth() }) => {
+  if (
+    !Number.isFinite(footerHeight) ||
+    footerHeight <= 0 ||
+    !Number.isFinite(count) ||
+    count <= 0
+  ) {
+    return emptyFooterLogoBox();
+  }
+  if (count < FOOTER_FULL_HEIGHT_BELOW_COUNT) {
+    return {
+      height: footerHeight,
+      width: footerHeight * FOOTER_LOGO_MAX_WIDTH_RATIO,
+      fit: "height",
+    };
+  }
+  const safeContent =
+    Number.isFinite(contentWidth) && contentWidth > 0 ? contentWidth : footerLogoContentWidth();
+  const totalGap = FOOTER_LOGO_GAP_PX * Math.max(0, count - 1);
+  return {
+    width: Math.max(0, (safeContent - totalGap) / count),
+    height: footerHeight,
+    fit: "width",
+  };
 };
 
 // src/compositions/cricket/sponsorFooter/hooks/useSponsorValidation.ts
@@ -14944,16 +15021,6 @@ import { jsx as jsx79 } from "react/jsx-runtime";
 var SPONSOR_CONFIG = {
   ANIMATION_DELAY_MULTIPLIER: 5,
 };
-var calculateMaxWidth = (logo, footerHeight) => {
-  if (logo.width && logo.height) {
-    const aspectRatio = logo.width / logo.height;
-    return footerHeight * aspectRatio;
-  }
-  return footerHeight * 3;
-};
-var calculateImageHeight = (footerHeight) => {
-  return footerHeight - 20;
-};
 var SponsorFooter = React21.memo(({ sponsors, assignSponsors, primaryForScreen }) => {
   const validation = useSponsorValidation();
   const allSponsors = useMemo9(() => {
@@ -14971,6 +15038,14 @@ var SponsorFooter = React21.memo(({ sponsors, assignSponsors, primaryForScreen }
         : [],
     });
   }, [sponsors, assignSponsors, primaryForScreen, validation.sponsors]);
+  const visibleSponsors = useMemo9(
+    () =>
+      allSponsors.filter((sponsor) => {
+        var _a;
+        return Boolean((_a = sponsor == null ? void 0 : sponsor.logo) == null ? void 0 : _a.url);
+      }),
+    [allSponsors],
+  );
   if (!sponsors && !assignSponsors) {
     console.warn("[SponsorFooter] Missing sponsors or assignSponsors");
     return null;
@@ -14983,38 +15058,41 @@ var SponsorFooter = React21.memo(({ sponsors, assignSponsors, primaryForScreen }
   ) {
     return null;
   }
-  if (allSponsors.length === 0) {
+  if (visibleSponsors.length === 0) {
     return null;
   }
-  const { logoAnimations, heights } = validation;
-  const imageHeight = calculateImageHeight(heights.footer);
+  const { logoAnimations } = validation;
   const exitFrame = calculateFooterExitFrame(validation.timings);
+  const logoBox = calculateFooterLogoBox({
+    footerHeight: validation.heights.footer,
+    count: visibleSponsors.length,
+  });
+  if (logoBox.width <= 0 || logoBox.height <= 0) {
+    return null;
+  }
   return /* @__PURE__ */ jsx79("div", {
-    className: "flex flex-row justify-start gap-4 items-center my-0 px-16 overflow-hidden",
-    style: {
-      height: imageHeight,
-      paddingBottom: "10px",
-      paddingTop: "10px",
-    },
-    children: allSponsors.map((sponsor, idx) => {
-      var _a;
-      if (!((_a = sponsor == null ? void 0 : sponsor.logo) == null ? void 0 : _a.url)) {
-        return null;
-      }
-      return /* @__PURE__ */ jsx79(
+    className: "flex h-full w-full flex-row items-center justify-center overflow-hidden px-16",
+    style: { gap: FOOTER_LOGO_GAP_PX },
+    children: visibleSponsors.map((sponsor, idx) =>
+      /* @__PURE__ */ jsx79(
         "div",
         {
-          className: "flex items-center justify-center flex-shrink-0",
-          style: { height: imageHeight },
+          className: "flex shrink-0 items-center justify-center overflow-hidden",
+          style: {
+            height: logoBox.height,
+            maxHeight: logoBox.height,
+            maxWidth: logoBox.width,
+            width: logoBox.fit === "width" ? logoBox.width : "auto",
+          },
           children: /* @__PURE__ */ jsx79(AnimatedImage, {
             src: sponsor.logo.url,
             alt: sponsor.name || `Sponsor logo ${idx + 1}`,
-            width: "auto",
-            height: "auto",
-            maxHeight: imageHeight,
-            maxWidth: calculateMaxWidth(sponsor.logo, imageHeight),
+            width: logoBox.fit === "width" ? "100%" : "auto",
+            height: logoBox.fit === "width" ? "100%" : logoBox.height,
+            maxWidth: "100%",
+            maxHeight: "100%",
             fit: "contain",
-            preserveRatio: true,
+            preserveRatio: false,
             animation: logoAnimations.introIn,
             exitAnimation: logoAnimations.introOut,
             animationDelay: idx * SPONSOR_CONFIG.ANIMATION_DELAY_MULTIPLIER,
@@ -15023,8 +15101,8 @@ var SponsorFooter = React21.memo(({ sponsors, assignSponsors, primaryForScreen }
           }),
         },
         `${sponsor.id}_${idx}`,
-      );
-    }),
+      ),
+    ),
   });
 });
 
@@ -24019,7 +24097,7 @@ var BroadcastProRoundedResultMetaStrip = ({
   const standalone = connection === "standalone";
   return /* @__PURE__ */ jsxs78("div", {
     className:
-      `${standalone ? `overflow-hidden ${cellRadius}` : ""} ${stripClass} ${gradeOnly ? "!justify-center" : ""} ${className}`.trim(),
+      `overflow-hidden ${cellRadius} ${stripClass} ${gradeOnly ? "!justify-center" : ""} ${className}`.trim(),
     style: {
       background: glass.headerGradient,
       ...(standalone
@@ -24795,7 +24873,7 @@ var BroadcastProRoundedResultMatchContent = ({
     children: /* @__PURE__ */ jsxs83(BroadcastProRoundedFixtureFrame, {
       accentColor: primaryAccent,
       glass,
-      className: "flex h-full min-h-0 flex-1 flex-col justify-center gap-2",
+      className: "flex h-full min-h-0 flex-1 flex-col justify-center gap-2 p-2",
       children: [
         /* @__PURE__ */ jsxs83("div", {
           className: "flex w-full shrink-0 flex-col gap-2",
@@ -24813,17 +24891,14 @@ var BroadcastProRoundedResultMatchContent = ({
                 exitFrame,
                 connection: "attached",
               }),
-            /* @__PURE__ */ jsx182("div", {
-              style: { borderBottom: glass.border },
-              children: /* @__PURE__ */ jsx182(BroadcastProRoundedResultMetaStrip, {
-                gradeLabel: buildGradeLabel2(match),
-                ground: match.ground,
-                delay: metaDelay,
-                showGround,
-                connection: "attached",
-                exitAnimation: copyOut,
-                exitFrame,
-              }),
+            /* @__PURE__ */ jsx182(BroadcastProRoundedResultMetaStrip, {
+              gradeLabel: buildGradeLabel2(match),
+              ground: match.ground,
+              delay: metaDelay,
+              showGround,
+              connection: "attached",
+              exitAnimation: copyOut,
+              exitFrame,
             }),
           ],
         }),
@@ -25545,7 +25620,14 @@ var resolveScorelineLadderBiasTeam = (teamName, bias, clubName) => {
 };
 
 // src/compositions/cricket/utils/scoreline/ladder/resolveScorelineLadderLayout.ts
+var SCORELINE_LADDER_DESIGN_ROWS = 11;
 var SCORELINE_LADDER_CREASE_MAX_ROWS = 12;
+var SCORELINE_LADDER_TEAM_FONT_STEPS = [
+  { rows: 4, team: 36, hero: 40 },
+  { rows: 6, team: 32, hero: 36 },
+  { rows: 8, team: 28, hero: 32 },
+  { rows: SCORELINE_LADDER_DESIGN_ROWS, team: 22, hero: 24 },
+];
 var resolveScorelineLadderDensity = (rowCount) => {
   if (rowCount <= 11) {
     return "normal";
@@ -25554,6 +25636,37 @@ var resolveScorelineLadderDensity = (rowCount) => {
     return "compact";
   }
   return "tight";
+};
+var interpolateStep = (rowCount, key) => {
+  const steps = SCORELINE_LADDER_TEAM_FONT_STEPS;
+  const first = steps[0];
+  const last = steps[steps.length - 1];
+  if (rowCount <= first.rows) {
+    return first[key];
+  }
+  if (rowCount >= last.rows) {
+    return last[key];
+  }
+  for (let index = 0; index < steps.length - 1; index += 1) {
+    const start = steps[index];
+    const end = steps[index + 1];
+    if (rowCount < start.rows || rowCount > end.rows) {
+      continue;
+    }
+    const span = end.rows - start.rows;
+    const progress = (rowCount - start.rows) / span;
+    return Math.round(start[key] + (end[key] - start[key]) * progress);
+  }
+  return last[key];
+};
+var resolveScorelineLadderTeamFont = (rowCount) => {
+  if (rowCount <= 0 || rowCount >= SCORELINE_LADDER_DESIGN_ROWS) {
+    return void 0;
+  }
+  return {
+    teamSize: interpolateStep(rowCount, "team"),
+    heroSize: interpolateStep(rowCount, "hero"),
+  };
 };
 var resolveScorelineLadderShowCreases = (rowCount) => rowCount <= SCORELINE_LADDER_CREASE_MAX_ROWS;
 var resolveScorelineLadderShowRowCrease = (rowCount, rowIndex) => {
@@ -25750,6 +25863,7 @@ var LadderDisplayScoreline = ({ ladder: ladder3 }) => {
   const teamCount = League.length;
   const density = resolveScorelineLadderDensity(teamCount);
   const showCreases = resolveScorelineLadderShowCreases(teamCount);
+  const teamFont = resolveScorelineLadderTeamFont(teamCount);
   const animationOutFrame = calculateAnimationOutFrame(timings);
   return /* @__PURE__ */ jsxs91("div", {
     className: csClass3(componentStyles, "scorelineDisplayColumn"),
@@ -25819,6 +25933,12 @@ var LadderDisplayScoreline = ({ ladder: ladder3 }) => {
                     className: "ladder-rows",
                     "data-density": density,
                     "data-creases": showCreases ? "true" : "false",
+                    style: teamFont
+                      ? {
+                          "--ladder-team-size": `${teamFont.teamSize}px`,
+                          "--ladder-team-hero-size": `${teamFont.heroSize}px`,
+                        }
+                      : void 0,
                     children: League.map((team, index) =>
                       /* @__PURE__ */ jsx195(
                         row_Scoreline_default,
@@ -26740,24 +26860,26 @@ var buildUpcomingFooterSponsors = (games) => {
 
 // src/compositions/cricket/upcoming/controller/GamesDisplay/FixtureDisplayBasic.tsx
 import { jsx as jsx209, jsxs as jsxs96 } from "react/jsx-runtime";
-var GamesDisplayBasic = ({ games, gamesPerScreen, screenIndex, heights = { asset: 1080 } }) => {
+var GamesDisplayBasic = ({ games, gamesPerScreen, screenIndex }) => {
   const { animations } = useAnimationContext();
+  const { layout } = useThemeContext();
+  const { heights } = layout;
   const ContainerAnimations = animations.container;
   const displayedGames = calculateDisplayedGames(games, gamesPerScreen, screenIndex);
   const gameCardHeight = calculateGameCardHeight(heights.asset, gamesPerScreen);
   const footerSponsors = buildUpcomingFooterSponsors(displayedGames);
   return /* @__PURE__ */ jsxs96("div", {
-    className: "p-0 flex flex-col w-full h-full justify-center",
+    className: "flex h-full w-full flex-col p-0",
     children: [
       /* @__PURE__ */ jsx209(AnimatedContainer, {
         type: "full",
-        className: " flex flex-col mx-8 overflow-hidden ",
+        className: "mx-8 flex min-h-0 flex-1 flex-col overflow-hidden",
         backgroundColor: "none",
         animation: ContainerAnimations.main.parent.containerIn,
         animationDelay: 0,
         exitAnimation: ContainerAnimations.main.parent.containerOut,
         children: /* @__PURE__ */ jsx209("div", {
-          className: "flex-1 overflow-hidden",
+          className: "min-h-0 flex-1 overflow-hidden",
           children: /* @__PURE__ */ jsx209(games_list_basic_default, {
             games: displayedGames,
             gameRowHeight: gameCardHeight,
@@ -26765,7 +26887,11 @@ var GamesDisplayBasic = ({ games, gamesPerScreen, screenIndex, heights = { asset
         }),
       }),
       /* @__PURE__ */ jsx209("div", {
-        style: { height: `${heights.footer}px` },
+        className: "w-full shrink-0 overflow-hidden",
+        style: {
+          height: `${heights.footer}px`,
+          maxHeight: `${heights.footer}px`,
+        },
         children: /* @__PURE__ */ jsx209(SponsorFooter, { sponsors: footerSponsors }),
       }),
     ],
@@ -61877,19 +62003,19 @@ var scorelineMode = {
 var scorelineTokens = {
   fonts: {
     title: {
-      family: "Barlow Condensed",
+      family: "Geist",
     },
     subtitle: {
-      family: "Source Sans 3",
+      family: "Geist",
     },
     copy: {
-      family: "Source Sans 3",
+      family: "Geist",
     },
   },
   fontClasses: {
-    heading: { family: "Barlow Condensed" },
-    subheading: { family: "Source Sans 3" },
-    body: { family: "Source Sans 3" },
+    heading: { family: "Geist" },
+    subheading: { family: "Geist" },
+    body: { family: "Geist" },
   },
 };
 
@@ -63211,6 +63337,11 @@ function getProductionCompositionFromData(data) {
   }
   const TemplateComponent = templateRegistry[templateId].component;
   const remoteCompositionId = `${templateId}-${useBackground}-${compositionId}`;
+  const appearanceType = appearance.type;
+  const studioGeneratedCompositionId =
+    typeof appearanceType === "string" && isGeneratedPresetId(appearanceType)
+      ? `${templateId}-generated-${appearanceType}-${compositionId}`
+      : void 0;
   const sponsors = (_a = data.videoMeta.club) == null ? void 0 : _a.sponsors;
   const doesAccountHaveSponsors = Boolean(metadata.includeSponsors) || hasSponsors(sponsors);
   const durationInFrames =
@@ -63220,6 +63351,7 @@ function getProductionCompositionFromData(data) {
   return {
     TemplateComponent,
     remoteCompositionId,
+    studioGeneratedCompositionId,
     durationInFrames,
   };
 }
@@ -70858,8 +70990,6 @@ var SCORELINE_BUNDLED_CSS = `/* src/templates/variants/scoreline/styles/scorelin
 .scoreline-canvas
   :is(
     [data-leaderboard] .leader-entry:not(:first-of-type) .leader-rank,
-    [data-ladder] .ladder-rank,
-    [data-ladder] .ladder-stat--pts,
     [data-roster] .roster-index
   ) {
   color: var(--container-text-accent, var(--accent-on-light-primary));
@@ -71206,19 +71336,16 @@ var SCORELINE_BUNDLED_CSS = `/* src/templates/variants/scoreline/styles/scorelin
 }
 
 .scoreline-canvas[data-ladder] .ladder-rank {
-  color: var(--container-text-accent, var(--accent-on-light-primary));
+  color: var(--container-text, var(--contrast-performance-lead));
 }
 
 .scoreline-canvas[data-ladder] .ladder-team {
   color: var(--container-text, var(--contrast-performance-lead));
 }
 
-.scoreline-canvas[data-ladder] .ladder-stat {
-  color: var(--container-text-support, var(--contrast-performance-support));
-}
-
+.scoreline-canvas[data-ladder] .ladder-stat,
 .scoreline-canvas[data-ladder] .ladder-stat--pts {
-  color: var(--container-text-accent, var(--accent-on-light-primary));
+  color: var(--container-text, var(--contrast-performance-lead));
 }
 
 .scoreline-canvas[data-ladder]
@@ -71590,8 +71717,8 @@ var SCORELINE_BUNDLED_CSS = `/* src/templates/variants/scoreline/styles/scorelin
   --surface-ink: #080b0d;
   --rule: rgba(8, 11, 13, 0.12);
   --muted: #5f5b56;
-  --font-display: "Barlow Condensed", Arial, sans-serif;
-  --font-body: "Source Sans 3", Arial, sans-serif;
+  --font-display: "Geist", Arial, sans-serif;
+  --font-body: "Geist", Arial, sans-serif;
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 16px;
@@ -72436,8 +72563,8 @@ var SCORELINE_BUNDLED_CSS = `/* src/templates/variants/scoreline/styles/scorelin
   --surface-muted: #f3f0ea;
   --rule: rgba(8, 11, 13, 0.12);
   --muted: #5f5b56;
-  --font-display: "Barlow Condensed", Arial, sans-serif;
-  --font-body: "Source Sans 3", Arial, sans-serif;
+  --font-display: "Geist", Arial, sans-serif;
+  --font-body: "Geist", Arial, sans-serif;
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 16px;
@@ -72784,8 +72911,9 @@ var SCORELINE_BUNDLED_CSS = `/* src/templates/variants/scoreline/styles/scorelin
   --surface-muted: #f3f0ea;
   --rule: rgba(8, 11, 13, 0.12);
   --muted: #5f5b56;
-  --font-display: "Barlow Condensed", Arial, sans-serif;
-  --font-body: "Source Sans 3", Arial, sans-serif;
+  --font-display: "Geist", Arial, sans-serif;
+  --font-body: "Geist", Arial, sans-serif;
+  --font-mono: "Geist Mono", "Geist", ui-monospace, monospace;
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 16px;
@@ -73053,8 +73181,8 @@ var SCORELINE_BUNDLED_CSS = `/* src/templates/variants/scoreline/styles/scorelin
 }
 
 .ladder-rank {
-  font-family: var(--font-display);
-  font-size: var(--ladder-rank-size, 28px);
+  font-family: var(--font-mono, var(--font-display));
+  font-size: var(--ladder-team-size, 22px);
   font-weight: 900;
   font-stretch: condensed;
   line-height: 1;
@@ -73063,7 +73191,7 @@ var SCORELINE_BUNDLED_CSS = `/* src/templates/variants/scoreline/styles/scorelin
 }
 
 .ladder-rows .ladder-entry:first-of-type .ladder-rank {
-  font-size: var(--ladder-rank-hero-size, 32px);
+  font-size: var(--ladder-team-hero-size, 24px);
 }
 
 .ladder-team {
@@ -73090,8 +73218,8 @@ var SCORELINE_BUNDLED_CSS = `/* src/templates/variants/scoreline/styles/scorelin
 }
 
 .ladder-stat {
-  font-family: var(--font-display);
-  font-size: var(--ladder-stat-size, 22px);
+  font-family: var(--font-mono, var(--font-display));
+  font-size: var(--ladder-team-size, 22px);
   font-weight: 700;
   font-stretch: condensed;
   line-height: 1;
@@ -73100,8 +73228,12 @@ var SCORELINE_BUNDLED_CSS = `/* src/templates/variants/scoreline/styles/scorelin
 }
 
 .ladder-stat--pts {
-  font-size: var(--ladder-stat-pts-size, 26px);
+  font-size: var(--ladder-team-size, 22px);
   font-weight: 800;
+}
+
+.ladder-rows .ladder-entry:first-of-type .ladder-stat--pts {
+  font-size: var(--ladder-team-hero-size, 24px);
 }
 
 
@@ -73126,8 +73258,8 @@ var SCORELINE_BUNDLED_CSS = `/* src/templates/variants/scoreline/styles/scorelin
   --surface-muted: #f3f0ea;
   --rule: rgba(8, 11, 13, 0.12);
   --muted: #5f5b56;
-  --font-display: "Barlow Condensed", Arial, sans-serif;
-  --font-body: "Source Sans 3", Arial, sans-serif;
+  --font-display: "Geist", Arial, sans-serif;
+  --font-body: "Geist", Arial, sans-serif;
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 16px;
@@ -73487,8 +73619,8 @@ var SCORELINE_BUNDLED_CSS = `/* src/templates/variants/scoreline/styles/scorelin
   --surface-muted: #f3f0ea;
   --rule: rgba(8, 11, 13, 0.12);
   --muted: #5f5b56;
-  --font-display: "Barlow Condensed", Arial, sans-serif;
-  --font-body: "Source Sans 3", Arial, sans-serif;
+  --font-display: "Geist", Arial, sans-serif;
+  --font-body: "Geist", Arial, sans-serif;
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 16px;
@@ -73941,8 +74073,8 @@ var SCORELINE_BUNDLED_CSS = `/* src/templates/variants/scoreline/styles/scorelin
   --surface-muted: #f3f0ea;
   --rule: rgba(8, 11, 13, 0.12);
   --muted: #5f5b56;
-  --font-display: "Barlow Condensed", Arial, sans-serif;
-  --font-body: "Source Sans 3", Arial, sans-serif;
+  --font-display: "Geist", Arial, sans-serif;
+  --font-body: "Geist", Arial, sans-serif;
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 16px;
