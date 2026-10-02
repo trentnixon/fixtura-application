@@ -798,3 +798,229 @@ describe("SelectOrganisationContent UX enhancements", () => {
     expect(orgButtons[0]).toHaveAttribute("aria-label", "Organisation 3");
   });
 });
+
+describe("SelectOrganisationContent status groups", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    navMocks.pathname = "/select-organisation";
+    navMocks.searchParams = new URLSearchParams();
+    localStorage.clear();
+  });
+
+  function lifecycleFor(accountId: string): OnboardingStateData {
+    const id = Number(accountId);
+    const completed = {
+      onboardingWizardCompletedAt: "2026-01-01T00:00:00.000Z",
+      hasCompletedOnboardingWizard: true,
+      onboardingWizardStatus: "completed" as const,
+    };
+
+    if (id === 2) {
+      return baseOnboardingState({
+        accountId: id,
+        ...completed,
+        isSetup: true,
+        isActive: true,
+        initialSetupStatus: "failed",
+      });
+    }
+    if (id === 3) {
+      return baseOnboardingState({
+        accountId: id,
+        ...completed,
+        isSetup: true,
+        isActive: false,
+      });
+    }
+    if (id === 4) {
+      return baseOnboardingState({ accountId: id, isSetup: false, isActive: true });
+    }
+    if (id === 5) {
+      return baseOnboardingState({
+        accountId: id,
+        ...completed,
+        isSetup: false,
+        isActive: true,
+      });
+    }
+    if (id === 6) {
+      return baseOnboardingState({
+        accountId: id,
+        ...completed,
+        isSetup: true,
+        isUpdating: true,
+        isActive: true,
+      });
+    }
+    return baseOnboardingState({
+      accountId: id,
+      ...completed,
+      isSetup: true,
+      isActive: true,
+    });
+  }
+
+  it("groups organisations by status and keeps create-organisation with Active", async () => {
+    getOnboardingOnboardingStateMock.mockImplementation(async (accountId: string) => ({
+      data: lifecycleFor(accountId),
+    }));
+    useAccountMeMock.mockReturnValue({
+      data: accountMeResponse(
+        [
+          row({
+            id: 3,
+            isActive: false,
+            isSetup: true,
+            onboardingWizardCompletedAt: "2026-01-01T00:00:00.000Z",
+            accountOrganisationDetails: orgDetails(3, "Veterans Inactive"),
+          }),
+          row({
+            id: 2,
+            isSetup: true,
+            onboardingWizardCompletedAt: "2026-01-01T00:00:00.000Z",
+            accountOrganisationDetails: orgDetails(2, "Coast Attention"),
+          }),
+          row({
+            id: 1,
+            isSetup: true,
+            onboardingWizardCompletedAt: "2026-01-01T00:00:00.000Z",
+            accountOrganisationDetails: orgDetails(1, "Darwin Active"),
+          }),
+          row({
+            id: 4,
+            onboardingWizardCompletedAt: null,
+            accountOrganisationDetails: orgDetails(4, "Setup Club"),
+          }),
+          row({
+            id: 5,
+            isSetup: false,
+            onboardingWizardCompletedAt: "2026-01-01T00:00:00.000Z",
+            accountOrganisationDetails: orgDetails(5, "Preparing Club"),
+          }),
+          row({
+            id: 6,
+            isSetup: true,
+            isUpdating: true,
+            onboardingWizardCompletedAt: "2026-01-01T00:00:00.000Z",
+            accountOrganisationDetails: orgDetails(6, "Updating Club"),
+          }),
+        ],
+        { accountId: null },
+      ),
+      isPending: false,
+      isError: false,
+      refetch: vi.fn(),
+    });
+
+    renderWithClient(<SelectOrganisationContent />);
+
+    await screen.findByRole("button", { name: "Review issue" });
+    await screen.findByRole("button", { name: "View organisation" });
+
+    expect(
+      screen.getAllByRole("heading", { level: 2 }).map((heading) => heading.textContent),
+    ).toEqual(["Active", "Needs attention", "Inactive"]);
+
+    const active = screen.getByRole("region", { name: "Active" });
+    const needsAttention = screen.getByRole("region", { name: "Needs attention" });
+    const inactive = screen.getByRole("region", { name: "Inactive" });
+
+    expect(
+      within(active)
+        .getAllByRole("article")
+        .map((article) => article.getAttribute("aria-label")),
+    ).toEqual(["Darwin Active", "Preparing Club", "Updating Club"]);
+    expect(within(active).getByText("Add another organisation")).toBeInTheDocument();
+    expect(
+      within(needsAttention)
+        .getAllByRole("article")
+        .map((article) => article.getAttribute("aria-label")),
+    ).toEqual(["Coast Attention", "Setup Club"]);
+    expect(within(needsAttention).queryByText("Add another organisation")).not.toBeInTheDocument();
+    expect(
+      within(inactive).getByRole("article", { name: "Veterans Inactive" }),
+    ).toBeInTheDocument();
+    expect(within(inactive).queryByText("Add another organisation")).not.toBeInTheDocument();
+  });
+
+  it("omits empty status sections and still offers create-organisation under Active", async () => {
+    getOnboardingOnboardingStateMock.mockImplementation(async (accountId: string) => ({
+      data: baseOnboardingState({
+        accountId: Number(accountId),
+        onboardingWizardCompletedAt: "2026-01-01T00:00:00.000Z",
+        hasCompletedOnboardingWizard: true,
+        onboardingWizardStatus: "completed",
+        isSetup: true,
+        isActive: false,
+      }),
+    }));
+    useAccountMeMock.mockReturnValue({
+      data: accountMeResponse(
+        [
+          row({
+            id: 9,
+            isActive: false,
+            isSetup: true,
+            onboardingWizardCompletedAt: "2026-01-01T00:00:00.000Z",
+            accountOrganisationDetails: orgDetails(9, "Only Inactive"),
+          }),
+        ],
+        { accountId: null },
+      ),
+      isPending: false,
+      isError: false,
+      refetch: vi.fn(),
+    });
+
+    renderWithClient(<SelectOrganisationContent />);
+
+    await screen.findByRole("button", { name: "View organisation" });
+
+    expect(
+      screen.getAllByRole("heading", { level: 2 }).map((heading) => heading.textContent),
+    ).toEqual(["Active", "Inactive"]);
+
+    const active = screen.getByRole("region", { name: "Active" });
+    expect(within(active).queryByRole("article")).not.toBeInTheDocument();
+    expect(within(active).getByText("Add another organisation")).toBeInTheDocument();
+    expect(screen.queryByRole("region", { name: "Needs attention" })).not.toBeInTheDocument();
+  });
+
+  it("keeps the create-organisation card in the Active section in list view", async () => {
+    getOnboardingOnboardingStateMock.mockImplementation(async (accountId: string) => ({
+      data: baseOnboardingState({
+        accountId: Number(accountId),
+        onboardingWizardCompletedAt: "2026-01-01T00:00:00.000Z",
+        hasCompletedOnboardingWizard: true,
+        onboardingWizardStatus: "completed",
+        isSetup: true,
+        isActive: true,
+      }),
+    }));
+    useAccountMeMock.mockReturnValue({
+      data: accountMeResponse(
+        [
+          row({
+            id: 1,
+            isSetup: true,
+            onboardingWizardCompletedAt: "2026-01-01T00:00:00.000Z",
+            accountOrganisationDetails: orgDetails(1, "Darwin Active"),
+          }),
+        ],
+        { accountId: null },
+      ),
+      isPending: false,
+      isError: false,
+      refetch: vi.fn(),
+    });
+
+    renderWithClient(<SelectOrganisationContent />);
+
+    await screen.findByRole("button", { name: "Open organisation" });
+    fireEvent.click(screen.getAllByRole("radio", { name: "List view" })[0]!);
+
+    const active = screen.getByRole("region", { name: "Active" });
+    expect(within(active).getByRole("article", { name: "Darwin Active" })).toBeInTheDocument();
+    expect(within(active).getByText("Add another organisation")).toBeInTheDocument();
+  });
+});

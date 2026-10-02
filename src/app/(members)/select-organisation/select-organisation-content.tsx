@@ -11,6 +11,7 @@ import {
   TypographyBodySmall,
   TypographyCaption,
   TypographyPageTitle,
+  TypographySubsectionTitle,
 } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -73,7 +74,9 @@ import {
   useSelectOrgPreferences,
 } from "./_hooks/use-select-org-preferences";
 import { buildSelectOrgItemViewModel } from "./_utils/build-select-org-item-view-model";
+import { groupSelectOrgItemsByStatus } from "./_utils/group-select-org-items";
 
+import type { SelectOrgViewMode } from "./_hooks/use-select-org-preferences";
 import type { SelectOrganisationDisplayState } from "./_utils/select-org-display-state";
 import type { SelectOrganisationItemViewModel } from "./_utils/select-org-display-state";
 import type { LastSelectedOrganisationRecord } from "@/lib/account/last-selected-organisation";
@@ -602,38 +605,15 @@ export function SelectOrganisationContent() {
 
             <Separator />
 
-            <div className="py-12">
-              {viewMode === "grid" ? (
-                <div className="grid w-full grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 2xl:grid-cols-6">
-                  {itemViewModels.map((item) => (
-                    <SelectOrgGridItem
-                      key={item.accountId}
-                      item={item}
-                      busy={busy}
-                      pending={pendingAccountId === item.accountId}
-                      onPrimaryAction={() => handlePrimaryAction(item)}
-                      onStatusInfo={() => openDetails(item)}
-                    />
-                  ))}
-                  <CreateOrganisationCard variant="grid" />
-                </div>
-              ) : (
-                <div className="grid gap-3">
-                  {itemViewModels.map((item) => (
-                    <SelectOrgListItem
-                      key={item.accountId}
-                      item={item}
-                      busy={busy}
-                      pending={pendingAccountId === item.accountId}
-                      showLastOpened={Boolean(lastUsedRecord)}
-                      onPrimaryAction={() => handlePrimaryAction(item)}
-                      onStatusInfo={() => openDetails(item)}
-                    />
-                  ))}
-                  <CreateOrganisationCard variant="list" />
-                </div>
-              )}
-            </div>
+            <SelectOrgStatusGroups
+              items={itemViewModels}
+              viewMode={viewMode}
+              busy={busy}
+              pendingAccountId={pendingAccountId}
+              showLastOpened={Boolean(lastUsedRecord)}
+              onPrimaryAction={handlePrimaryAction}
+              onStatusInfo={openDetails}
+            />
 
             <Separator />
 
@@ -668,4 +648,105 @@ export function SelectOrganisationContent() {
 
 function displayRowsCount(count: number): number {
   return count;
+}
+
+type SelectOrgStatusGroupsProps = {
+  items: SelectOrganisationItemViewModel[];
+  viewMode: SelectOrgViewMode;
+  busy: boolean;
+  pendingAccountId: string | null;
+  showLastOpened: boolean;
+  onPrimaryAction: (item: SelectOrganisationItemViewModel) => void;
+  onStatusInfo: (item: SelectOrganisationItemViewModel) => void;
+};
+
+function SelectOrgStatusGroups({
+  items,
+  viewMode,
+  busy,
+  pendingAccountId,
+  showLastOpened,
+  onPrimaryAction,
+  onStatusInfo,
+}: SelectOrgStatusGroupsProps) {
+  return (
+    <div className="grid gap-10 py-12">
+      {groupSelectOrgItemsByStatus(items).map((group) => (
+        <section
+          key={group.id}
+          aria-labelledby={`select-org-group-${group.id}`}
+          className="grid gap-3"
+        >
+          <div className="flex items-baseline gap-2">
+            <TypographySubsectionTitle as="h2" id={`select-org-group-${group.id}`}>
+              {group.label}
+            </TypographySubsectionTitle>
+            <TypographyCaption as="span" tone="muted">
+              {group.items.length}
+            </TypographyCaption>
+          </div>
+          <SelectOrgCollection
+            items={group.items}
+            viewMode={viewMode}
+            busy={busy}
+            pendingAccountId={pendingAccountId}
+            showLastOpened={showLastOpened}
+            showCreateCard={group.id === "active"}
+            onPrimaryAction={onPrimaryAction}
+            onStatusInfo={onStatusInfo}
+          />
+        </section>
+      ))}
+    </div>
+  );
+}
+
+type SelectOrgCollectionProps = SelectOrgStatusGroupsProps & {
+  showCreateCard: boolean;
+};
+
+function SelectOrgCollection({
+  items,
+  viewMode,
+  busy,
+  pendingAccountId,
+  showLastOpened,
+  showCreateCard,
+  onPrimaryAction,
+  onStatusInfo,
+}: SelectOrgCollectionProps) {
+  if (viewMode === "list") {
+    return (
+      <div className="grid gap-3">
+        {items.map((item) => (
+          <SelectOrgListItem
+            key={item.accountId}
+            item={item}
+            busy={busy}
+            pending={pendingAccountId === item.accountId}
+            showLastOpened={showLastOpened}
+            onPrimaryAction={() => onPrimaryAction(item)}
+            onStatusInfo={() => onStatusInfo(item)}
+          />
+        ))}
+        {showCreateCard ? <CreateOrganisationCard variant="list" /> : null}
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid w-full grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 2xl:grid-cols-6">
+      {items.map((item) => (
+        <SelectOrgGridItem
+          key={item.accountId}
+          item={item}
+          busy={busy}
+          pending={pendingAccountId === item.accountId}
+          onPrimaryAction={() => onPrimaryAction(item)}
+          onStatusInfo={() => onStatusInfo(item)}
+        />
+      ))}
+      {showCreateCard ? <CreateOrganisationCard variant="grid" /> : null}
+    </div>
+  );
 }
