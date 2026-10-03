@@ -11,6 +11,7 @@ import { isAccountSettingsGatewayRedirect } from "@/lib/api/hooks/account/useAcc
 import { AUTH_ERROR_MESSAGES } from "@/lib/auth/auth-errors";
 import { accountScopedRoutes } from "@/lib/config/account-routes";
 
+import { AccountActiveSection } from "./AccountActiveSection";
 import { AccountOverviewSection } from "./AccountOverviewSection";
 import { AccountSignInSecuritySection } from "./AccountSignInSecuritySection";
 import { ChangePasswordDialog } from "./ChangePasswordDialog";
@@ -147,6 +148,8 @@ export function AccountSecurityContent({ accountId }: AccountSecurityContentProp
           <AccountOverviewSection settings={settings} summary={summary} />
         </div>
       </div>
+
+      <AccountActiveSection accountId={accountId} isActive={settings.isActive} />
 
       <EditDisplayNameDialog {...profileDialog} />
       <EditLoginEmailDialog {...emailDialog} />

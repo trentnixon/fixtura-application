@@ -153,6 +153,10 @@ export interface SupportDirectoryRow {
   onboardingStatus: string;
   accountHealthStatus: string | null;
   createdAt: string;
+  /** Organisation logo URL when the directory row includes one. */
+  logoUrl?: string | null;
+  /** Same logo field as organisation details, when CMS sends it on the directory row. */
+  ParentLogo?: string | null;
 }
 
 export interface SupportDirectoryMeta {
@@ -523,6 +527,18 @@ export type PatchAccountSecurityProfileRequest =
   PatchAccountSecurityProfileBody | { data: PatchAccountSecurityProfileBody };
 
 export type PatchAccountSecurityProfileResponse = AccountSettingsResponse;
+
+/** PATCH /api/accounts/:accountId/active — owner sets `account.isActive`. */
+export type PatchAccountActiveBody = {
+  isActive: boolean;
+};
+
+export interface PatchAccountActiveResponse {
+  data: {
+    id: number;
+    isActive: boolean;
+  };
+}
 
 /** PATCH /api/accounts/:accountId/security/login-email — one of `loginEmail` or `email` (server enforces). */
 export type PatchAccountSecurityLoginEmailBody = { loginEmail: string } | { email: string };

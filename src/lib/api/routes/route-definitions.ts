@@ -178,6 +178,16 @@ export const appRoutes = {
         "PATCH append /{accountId}/notifications — bundle addressee + delivery email (`saveAccountNotifications`); members read via GET …/settings",
       domain: "account",
     },
+    active: {
+      key: "accounts.active",
+      method: "PATCH",
+      path: ACCOUNTS_API_BASE,
+      authRequired: true,
+      status: "ready",
+      description:
+        "PATCH append /{accountId}/active — owner sets account.isActive (`setAccountActive`)",
+      domain: "account",
+    },
     securityProfile: {
       key: "accounts.security-profile",
       method: "PATCH",
