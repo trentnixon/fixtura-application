@@ -17,6 +17,10 @@ vi.mock("./AccountOverviewSection", () => ({
   AccountOverviewSection: () => <div data-testid="account-overview-section" />,
 }));
 
+vi.mock("./AccountActiveSection", () => ({
+  AccountActiveSection: () => <div data-testid="account-active-section" />,
+}));
+
 vi.mock("./EditDisplayNameDialog", () => ({
   EditDisplayNameDialog: () => null,
 }));
@@ -167,6 +171,7 @@ describe("AccountSecurityContent", () => {
     expect(screen.getByRole("heading", { name: "Test Org" })).toBeInTheDocument();
     expect(screen.getByTestId("sign-in-security-section")).toBeInTheDocument();
     expect(screen.getByTestId("account-overview-section")).toBeInTheDocument();
+    expect(screen.getByTestId("account-active-section")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Organisation settings" })).toBeInTheDocument();
   });
 });

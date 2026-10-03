@@ -84,6 +84,8 @@ import type {
   PatchAccountBrandingSuccess,
   PatchAccountSecurityLoginEmailRequest,
   PatchAccountSecurityLoginEmailResponse,
+  PatchAccountActiveBody,
+  PatchAccountActiveResponse,
   PatchAccountSecurityProfileRequest,
   PatchAccountSecurityProfileResponse,
   AccountNotificationsResponse,
@@ -296,6 +298,12 @@ export const accountApi = {
   patchAccountNotifications: (accountId: string, body: PatchAccountNotificationsRequest) => {
     const path = `${appRoutes.accounts.notifications.path}/${encodeURIComponent(accountId)}/notifications`;
     return apiClient.patch<PatchAccountNotificationsResponse>(path, body);
+  },
+
+  /** Owner sets `account.isActive` (`setAccountActive`). */
+  patchAccountActive: (accountId: string, body: PatchAccountActiveBody) => {
+    const path = `${appRoutes.accounts.active.path}/${encodeURIComponent(accountId)}/active`;
+    return apiClient.patch<PatchAccountActiveResponse>(path, body);
   },
 
   /** Display / profile name on account (`saveAccountSecurityProfile`). */

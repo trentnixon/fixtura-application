@@ -10,7 +10,7 @@ import {
   TypographyCaption,
   TypographyPageTitle,
 } from "@/components/typography";
-import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/ui/empty-state";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -19,22 +19,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { ApiError } from "@/lib/api/client/api-error";
 import { useSupportDirectory } from "@/lib/api/hooks/account/useSupportDirectory";
 import { accountScopedRoutes } from "@/lib/config/account-routes";
 import { ROUTES } from "@/lib/config/routes";
 import { setSupportCustomerLabel } from "@/lib/support/support-customer-label";
 
+import { SupportAccountsTable, SupportAccountsTableSkeleton } from "./support-accounts-table";
+
 import type {
-  SupportDirectoryHealthStatus,
   SupportDirectoryParams,
   SupportDirectoryRow,
   SupportDirectorySort,
@@ -52,18 +45,6 @@ const SPORT_OPTIONS: SupportDirectorySport[] = [
   "Basketball",
 ];
 
-const HEALTH_OPTIONS: SupportDirectoryHealthStatus[] = [
-  "not_started",
-  "queued",
-  "running",
-  "completed",
-  "failed",
-];
-
-function formatHealthLabel(value: string): string {
-  return value.replace(/_/g, " ");
-}
-
 export function SupportAccountsContent() {
   const router = useRouter();
   const [searchInput, setSearchInput] = useState("");
@@ -72,7 +53,6 @@ export function SupportAccountsContent() {
   const [sport, setSport] = useState<string>("all");
   const [isActive, setIsActive] = useState<string>("all");
   const [isSetup, setIsSetup] = useState<string>("all");
-  const [healthStatus, setHealthStatus] = useState<string>("all");
   const [sort, setSort] = useState<SupportDirectorySort>("createdAt:desc");
   const [rateLimitRetryAt, setRateLimitRetryAt] = useState<number | null>(null);
 
@@ -105,9 +85,8 @@ export function SupportAccountsContent() {
     if (sport !== "all") params.sport = sport as SupportDirectorySport;
     if (isActive !== "all") params.isActive = isActive === "true";
     if (isSetup !== "all") params.isSetup = isSetup === "true";
-    if (healthStatus !== "all") params.healthStatus = healthStatus as SupportDirectoryHealthStatus;
     return params;
-  }, [debouncedSearch, healthStatus, isActive, isSetup, page, sort, sport]);
+  }, [debouncedSearch, isActive, isSetup, page, sort, sport]);
 
   const directoryQuery = useSupportDirectory(queryParams, {
     enabled: rateLimitRetryAt == null,
@@ -134,7 +113,6 @@ export function SupportAccountsContent() {
 
   const rows = directoryQuery.data?.data ?? [];
   const meta = directoryQuery.data?.meta;
-  const totalPages = meta?.totalPages ?? 1;
 
   return (
     <div className="mx-auto flex w-full max-w-6xl flex-col gap-6">
@@ -209,18 +187,6 @@ export function SupportAccountsContent() {
           ]}
         />
         <FilterSelect
-          label="Health"
-          value={healthStatus}
-          onChange={(v) => {
-            setHealthStatus(v);
-            setPage(1);
-          }}
-          options={[
-            { value: "all", label: "Any health" },
-            ...HEALTH_OPTIONS.map((h) => ({ value: h, label: formatHealthLabel(h) })),
-          ]}
-        />
-        <FilterSelect
           label="Sort"
           value={sort}
           onChange={(v) => {
@@ -234,11 +200,7 @@ export function SupportAccountsContent() {
         />
       </div>
 
-      {directoryQuery.isPending ? (
-        <TypographyBodySmall className="text-muted-foreground">
-          Loading accounts…
-        </TypographyBodySmall>
-      ) : null}
+      {directoryQuery.isPending ? <SupportAccountsTableSkeleton /> : null}
 
       {directoryQuery.isError && !isForbidden && !isRateLimited ? (
         <InlineAlert
@@ -248,74 +210,16 @@ export function SupportAccountsContent() {
       ) : null}
 
       {!directoryQuery.isPending && !directoryQuery.isError && rows.length === 0 ? (
-        <TypographyBodySmall className="text-muted-foreground">
-          No accounts match your filters.
-        </TypographyBodySmall>
+        <EmptyState title="No accounts" description="No accounts match your filters." />
       ) : null}
 
       {rows.length > 0 ? (
-        <div className="overflow-x-auto rounded-md border">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Owner email</TableHead>
-                <TableHead>Type</TableHead>
-                <TableHead>Sport</TableHead>
-                <TableHead>Active</TableHead>
-                <TableHead>Setup</TableHead>
-                <TableHead>Onboarding</TableHead>
-                <TableHead>Health</TableHead>
-                <TableHead className="text-right">Action</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {rows.map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell className="font-medium">{row.name}</TableCell>
-                  <TableCell>{row.ownerEmail ?? "—"}</TableCell>
-                  <TableCell>{row.accountType}</TableCell>
-                  <TableCell>{row.sport ?? "—"}</TableCell>
-                  <TableCell>{row.isActive ? "Yes" : "No"}</TableCell>
-                  <TableCell>{row.isSetup ? "Yes" : "No"}</TableCell>
-                  <TableCell>{row.onboardingStatus}</TableCell>
-                  <TableCell>{row.accountHealthStatus ?? "—"}</TableCell>
-                  <TableCell className="text-right">
-                    <Button size="sm" variant="outline" onClick={() => handleOpenAccount(row)}>
-                      Open
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-      ) : null}
-
-      {meta && meta.totalPages > 1 ? (
-        <div className="flex items-center justify-between gap-4">
-          <TypographyCaption>
-            Page {meta.page} of {meta.totalPages} ({meta.total} accounts)
-          </TypographyCaption>
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              disabled={page <= 1}
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
-            >
-              Previous
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              disabled={page >= totalPages}
-              onClick={() => setPage((p) => p + 1)}
-            >
-              Next
-            </Button>
-          </div>
-        </div>
+        <SupportAccountsTable
+          rows={rows}
+          {...(meta ? { meta } : {})}
+          onOpen={handleOpenAccount}
+          onPageChange={setPage}
+        />
       ) : null}
 
       <TypographyBodySmall className="text-muted-foreground">
