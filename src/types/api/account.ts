@@ -144,7 +144,8 @@ export interface SupportDirectoryParams {
 
 export interface SupportDirectoryRow {
   id: number;
-  name: string;
+  /** CMS prefers an organisation name, then first + last. Either source can be absent. */
+  name: string | null;
   ownerEmail: string | null;
   accountType: string;
   sport: string | null;

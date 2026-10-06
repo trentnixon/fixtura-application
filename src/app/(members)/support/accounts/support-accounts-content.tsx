@@ -25,7 +25,11 @@ import { accountScopedRoutes } from "@/lib/config/account-routes";
 import { ROUTES } from "@/lib/config/routes";
 import { setSupportCustomerLabel } from "@/lib/support/support-customer-label";
 
-import { SupportAccountsTable, SupportAccountsTableSkeleton } from "./support-accounts-table";
+import {
+  accountDisplayName,
+  SupportAccountsTable,
+  SupportAccountsTableSkeleton,
+} from "./support-accounts-table";
 
 import type {
   SupportDirectoryParams,
@@ -95,7 +99,7 @@ export function SupportAccountsContent() {
   const handleOpenAccount = useCallback(
     (row: SupportDirectoryRow) => {
       const accountId = String(row.id);
-      setSupportCustomerLabel(accountId, row.name);
+      setSupportCustomerLabel(accountId, accountDisplayName(row.name));
       router.push(accountScopedRoutes.dashboard(accountId));
     },
     [router],
