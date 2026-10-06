@@ -21542,6 +21542,32 @@ var BroadcastProFixtureFrame = ({ children, accentColor, glass, className = "", 
     children,
   });
 
+// src/compositions/cricket/utils/broadcastPro/results/placeBroadcastProClubBowlingOnOpposition.ts
+var placeBroadcastProClubBowlingOnOpposition = (homeTeam, awayTeam, isAccountClub) => {
+  if (!isAccountClub) {
+    return { homeTeam, awayTeam };
+  }
+  if (homeTeam.isClubTeam && !awayTeam.isClubTeam) {
+    return {
+      homeTeam,
+      awayTeam: {
+        ...awayTeam,
+        bowlingPerformances: homeTeam.bowlingPerformances,
+      },
+    };
+  }
+  if (awayTeam.isClubTeam && !homeTeam.isClubTeam) {
+    return {
+      homeTeam: {
+        ...homeTeam,
+        bowlingPerformances: awayTeam.bowlingPerformances,
+      },
+      awayTeam,
+    };
+  }
+  return { homeTeam, awayTeam };
+};
+
 // src/compositions/cricket/utils/broadcastPro/results/BroadcastProResultMatchContent.tsx
 import { jsx as jsx152, jsxs as jsxs66 } from "react/jsx-runtime";
 var teamForStatItems = (team, showBatting, showBowling) => ({
@@ -21611,21 +21637,27 @@ var BroadcastProResultMatchContent = ({
   );
   const homeBatted = (match.homeTeam.battingPerformances || []).length > 0;
   const awayBatted = (match.awayTeam.battingPerformances || []).length > 0;
+  const accountIsClub = isAccountClub || false;
   const visibility = computePlayerVisibility({
     matchType: match.type,
     matchStatus: match.status,
     homeBatted,
     awayBatted,
-    isAccountClub: isAccountClub || false,
+    isAccountClub: accountIsClub,
     homeIsClub: match.homeTeam.isClubTeam,
     awayIsClub: match.awayTeam.isClubTeam,
   });
+  const statTeams = placeBroadcastProClubBowlingOnOpposition(
+    match.homeTeam,
+    match.awayTeam,
+    accountIsClub,
+  );
   const homeStats = buildBroadcastProResultStatItems(
-    teamForStatItems(match.homeTeam, visibility.homeShowBatting, visibility.homeShowBowling),
+    teamForStatItems(statTeams.homeTeam, visibility.homeShowBatting, visibility.homeShowBowling),
     maxStatItems,
   );
   const awayStats = buildBroadcastProResultStatItems(
-    teamForStatItems(match.awayTeam, visibility.awayShowBatting, visibility.awayShowBowling),
+    teamForStatItems(statTeams.awayTeam, visibility.awayShowBatting, visibility.awayShowBowling),
     maxStatItems,
   );
   const homeFirstInnings = getFirstInningsDisplay2(
@@ -24840,21 +24872,27 @@ var BroadcastProRoundedResultMatchContent = ({
   );
   const homeBatted = (match.homeTeam.battingPerformances || []).length > 0;
   const awayBatted = (match.awayTeam.battingPerformances || []).length > 0;
+  const accountIsClub = isAccountClub || false;
   const visibility = computePlayerVisibility({
     matchType: match.type,
     matchStatus: match.status,
     homeBatted,
     awayBatted,
-    isAccountClub: isAccountClub || false,
+    isAccountClub: accountIsClub,
     homeIsClub: match.homeTeam.isClubTeam,
     awayIsClub: match.awayTeam.isClubTeam,
   });
+  const statTeams = placeBroadcastProClubBowlingOnOpposition(
+    match.homeTeam,
+    match.awayTeam,
+    accountIsClub,
+  );
   const homeStats = buildBroadcastProRoundedResultStatItems(
-    teamForStatItems2(match.homeTeam, visibility.homeShowBatting, visibility.homeShowBowling),
+    teamForStatItems2(statTeams.homeTeam, visibility.homeShowBatting, visibility.homeShowBowling),
     maxStatItems,
   );
   const awayStats = buildBroadcastProRoundedResultStatItems(
-    teamForStatItems2(match.awayTeam, visibility.awayShowBatting, visibility.awayShowBowling),
+    teamForStatItems2(statTeams.awayTeam, visibility.awayShowBatting, visibility.awayShowBowling),
     maxStatItems,
   );
   const homeFirstInnings = getFirstInningsDisplay2(
@@ -37957,7 +37995,10 @@ var broadcastprorounded = () => {
 var broadcastProRounded_default = broadcastprorounded;
 
 // src/compositions/cricket/results/controller/ResultsDisplay/display-Scoreline.tsx
-import React36 from "react";
+import React37 from "react";
+
+// src/compositions/cricket/utils/scoreline/results/ScorelineResultMatchContent.tsx
+import { useMemo as useMemo23 } from "react";
 
 // src/compositions/cricket/utils/scoreline/results/resolveScorelineResultStatement.ts
 var SCORELINE_RESULT_STATEMENT_LONG_THRESHOLD = 48;
@@ -38015,10 +38056,6 @@ var ScorelineResultMatchCell = ({
     }),
   });
 };
-
-// src/compositions/cricket/utils/scoreline/results/scorelineMatchShared.tsx
-import { useMemo as useMemo22 } from "react";
-import { Img as Img17 } from "remotion";
 
 // src/compositions/cricket/utils/scoreline/results/formatPerformances.ts
 var pickTopBatting = (performances, limit = 3) =>
@@ -38089,6 +38126,13 @@ var resolveScorelineClubTeam = (match, clubName) => {
   }
   return null;
 };
+var scorelineBowlingUnderOpposition = (match, isAccountClub, clubName) => {
+  if (!isAccountClub) {
+    return false;
+  }
+  const clubTeam = resolveScorelineClubTeam(match, clubName);
+  return clubTeam === match.awayTeam;
+};
 var resolveScorelineResultSinglePerformances = (match, clubName) => {
   const clubTeam = resolveScorelineClubTeam(match, clubName);
   if (clubTeam) {
@@ -38109,11 +38153,9 @@ var resolveScorelineResultSinglePerformances = (match, clubName) => {
 };
 
 // src/compositions/cricket/utils/scoreline/results/scorelineMatchShared.tsx
+import { useMemo as useMemo22 } from "react";
+import { Img as Img17 } from "remotion";
 import { Fragment as Fragment16, jsx as jsx381, jsxs as jsxs194 } from "react/jsx-runtime";
-var useScorelineMatchPerformances = (match) =>
-  useMemo22(() => resolveScorelineMatchPerformances(match), [match]);
-var useScorelineResultSinglePerformances = (match, clubName) =>
-  useMemo22(() => resolveScorelineResultSinglePerformances(match, clubName), [match, clubName]);
 var rankFilledPerformanceRows = (rows, kind) => {
   let rank = 0;
   return rows.map((row) => {
@@ -38285,46 +38327,54 @@ var ScorelineBowlingRow = ({ row, rank }) => {
     ],
   });
 };
-var ScorelinePerformancePanels = ({ battingRows, bowlingRows, hasBatting, hasBowling }) => {
+var ScorelinePerformancePanels = ({
+  battingRows,
+  bowlingRows,
+  hasBatting,
+  hasBowling,
+  bowlingFirst = false,
+}) => {
   const battingRanks = rankFilledPerformanceRows(battingRows, "batting");
   const bowlingRanks = rankFilledPerformanceRows(bowlingRows, "bowling");
+  const battingPanel = /* @__PURE__ */ jsxs194("section", {
+    className: "performance-panel",
+    "data-state": hasBatting ? "filled" : "empty",
+    children: [
+      /* @__PURE__ */ jsx381("h3", { className: "performance-heading", children: "Batting" }),
+      battingRows.map((row, index) =>
+        /* @__PURE__ */ jsx381(
+          ScorelineBattingRow,
+          {
+            row,
+            rank: battingRanks[index],
+          },
+          `bat-${index}`,
+        ),
+      ),
+    ],
+  });
+  const bowlingPanel = /* @__PURE__ */ jsxs194("section", {
+    className: "performance-panel",
+    "data-state": hasBowling ? "filled" : "empty",
+    children: [
+      /* @__PURE__ */ jsx381("h3", { className: "performance-heading", children: "Bowling" }),
+      bowlingRows.map((row, index) =>
+        /* @__PURE__ */ jsx381(
+          ScorelineBowlingRow,
+          {
+            row,
+            rank: bowlingRanks[index],
+          },
+          `bowl-${index}`,
+        ),
+      ),
+    ],
+  });
   return /* @__PURE__ */ jsxs194("div", {
     className: "performance-area",
     children: [
-      /* @__PURE__ */ jsxs194("section", {
-        className: "performance-panel",
-        "data-state": hasBatting ? "filled" : "empty",
-        children: [
-          /* @__PURE__ */ jsx381("h3", { className: "performance-heading", children: "Batting" }),
-          battingRows.map((row, index) =>
-            /* @__PURE__ */ jsx381(
-              ScorelineBattingRow,
-              {
-                row,
-                rank: battingRanks[index],
-              },
-              `bat-${index}`,
-            ),
-          ),
-        ],
-      }),
-      /* @__PURE__ */ jsxs194("section", {
-        className: "performance-panel",
-        "data-state": hasBowling ? "filled" : "empty",
-        children: [
-          /* @__PURE__ */ jsx381("h3", { className: "performance-heading", children: "Bowling" }),
-          bowlingRows.map((row, index) =>
-            /* @__PURE__ */ jsx381(
-              ScorelineBowlingRow,
-              {
-                row,
-                rank: bowlingRanks[index],
-              },
-              `bowl-${index}`,
-            ),
-          ),
-        ],
-      }),
+      bowlingFirst ? bowlingPanel : battingPanel,
+      bowlingFirst ? battingPanel : bowlingPanel,
     ],
   });
 };
@@ -38350,8 +38400,20 @@ var ScorelineMatchContext = ({ type, round, ground }) => {
 import { jsx as jsx382, jsxs as jsxs195 } from "react/jsx-runtime";
 var ScorelineResultMatchContent = ({ match, className = "", style, rowDelay, exitFrame }) => {
   var _a, _b, _c, _d;
-  const { battingRows, bowlingRows, hasBatting, hasBowling, performancePanelCount } =
-    useScorelineMatchPerformances(match);
+  const { isAccountClub, club } = useVideoDataContext();
+  const accountIsClub = isAccountClub || false;
+  const { battingRows, bowlingRows, hasBatting, hasBowling, performancePanelCount } = useMemo23(
+    () =>
+      accountIsClub
+        ? resolveScorelineResultSinglePerformances(match, club == null ? void 0 : club.name)
+        : resolveScorelineMatchPerformances(match),
+    [accountIsClub, club == null ? void 0 : club.name, match],
+  );
+  const bowlingFirst = scorelineBowlingUnderOpposition(
+    match,
+    accountIsClub,
+    club == null ? void 0 : club.name,
+  );
   const resultText = resolveScorelineResultStatementText(match.result, match.resultShort);
   const resultLength = resolveScorelineResultStatementLength(resultText);
   const animateInner = rowDelay !== void 0 && exitFrame !== void 0;
@@ -38447,6 +38509,7 @@ var ScorelineResultMatchContent = ({ match, className = "", style, rowDelay, exi
                 bowlingRows,
                 hasBatting,
                 hasBowling,
+                bowlingFirst,
               }),
             })
           : /* @__PURE__ */ jsx382(ScorelinePerformancePanels, {
@@ -38454,6 +38517,7 @@ var ScorelineResultMatchContent = ({ match, className = "", style, rowDelay, exi
               bowlingRows,
               hasBatting,
               hasBowling,
+              bowlingFirst,
             })
         : null,
       animateInner
@@ -38555,7 +38619,7 @@ var ResultsDisplayScoreline = ({ results: results5, resultsPerScreen, screenInde
           },
           children: displayedResults.map((match, index) =>
             /* @__PURE__ */ jsxs196(
-              React36.Fragment,
+              React37.Fragment,
               {
                 children: [
                   index > 0 ? /* @__PURE__ */ jsx385(ScorelineMatchSeparator, {}) : null,
@@ -38629,10 +38693,13 @@ var scoreline4 = () => {
 var scoreline_default = scoreline4;
 
 // src/compositions/cricket/results/controller/ResultsDisplay/display-NightSession.tsx
-import { useMemo as useMemo25 } from "react";
+import { useMemo as useMemo27 } from "react";
 
 // src/compositions/cricket/results/controller/MatchRow/row-NightSession.tsx
-import { useMemo as useMemo24 } from "react";
+import { useMemo as useMemo26 } from "react";
+
+// src/compositions/cricket/utils/nightSession/results/NightSessionResultsMatchContent.tsx
+import { useMemo as useMemo25 } from "react";
 
 // src/compositions/cricket/utils/nightSession/results/NightSessionTeamBand.tsx
 import { Img as Img18 } from "remotion";
@@ -38696,7 +38763,7 @@ var NightSessionTeamBand = ({ team, matchType, logoUrl, isClubTeam, side }) => {
 };
 
 // src/compositions/cricket/utils/nightSession/results/NightSessionResultMatchCell.tsx
-import { useMemo as useMemo23 } from "react";
+import { useMemo as useMemo24 } from "react";
 import { jsx as jsx388 } from "react/jsx-runtime";
 var INNER_ANIMATION_TIERS2 = /* @__PURE__ */ new Set([
   "grade",
@@ -38732,11 +38799,11 @@ var NightSessionResultMatchCell = ({
     secondaryAnimation.containerIn,
     secondaryAnimation.containerOut,
   );
-  const fixtureEnter = useMemo23(
+  const fixtureEnter = useMemo24(
     () => withResultsInnerDistance(slot.containerIn),
     [slot.containerIn],
   );
-  const fixtureExit = useMemo23(
+  const fixtureExit = useMemo24(
     () => withResultsInnerDistance(slot.containerOut),
     [slot.containerOut],
   );
@@ -38764,14 +38831,25 @@ var NightSessionResultsMatchContent = ({
   exitFrame,
 }) => {
   var _a, _b, _c, _d;
-  const { club } = useVideoDataContext();
+  const { club, isAccountClub } = useVideoDataContext();
+  const accountIsClub = isAccountClub || false;
   const { homeIsClub, awayIsClub } = resolveScorelineUpcomingClubSides(
     match.homeTeam.name,
     match.awayTeam.name,
     club == null ? void 0 : club.name,
   );
-  const { battingRows, bowlingRows, hasBatting, hasBowling, performancePanelCount } =
-    useScorelineMatchPerformances(match);
+  const { battingRows, bowlingRows, hasBatting, hasBowling, performancePanelCount } = useMemo25(
+    () =>
+      accountIsClub
+        ? resolveScorelineResultSinglePerformances(match, club == null ? void 0 : club.name)
+        : resolveScorelineMatchPerformances(match),
+    [accountIsClub, club == null ? void 0 : club.name, match],
+  );
+  const bowlingFirst = scorelineBowlingUnderOpposition(
+    match,
+    accountIsClub,
+    club == null ? void 0 : club.name,
+  );
   const resultText = resolveScorelineResultStatementText(match.result, match.resultShort);
   const resultLength = resolveScorelineResultStatementLength(resultText);
   const venue = dedupeVenueLabel(match.ground);
@@ -38826,43 +38904,45 @@ var NightSessionResultsMatchContent = ({
       }),
     ],
   });
+  const battingPanel = /* @__PURE__ */ jsxs198("section", {
+    className: "performance-panel",
+    "data-state": hasBatting ? "filled" : "empty",
+    children: [
+      /* @__PURE__ */ jsx389("h3", { className: "performance-heading", children: "Batting" }),
+      battingRows.map((row, index) =>
+        /* @__PURE__ */ jsx389(
+          ScorelineBattingRow,
+          {
+            row,
+            rank: battingRanks[index],
+          },
+          `bat-${index}`,
+        ),
+      ),
+    ],
+  });
+  const bowlingPanel = /* @__PURE__ */ jsxs198("section", {
+    className: "performance-panel",
+    "data-state": hasBowling ? "filled" : "empty",
+    children: [
+      /* @__PURE__ */ jsx389("h3", { className: "performance-heading", children: "Bowling" }),
+      bowlingRows.map((row, index) =>
+        /* @__PURE__ */ jsx389(
+          ScorelineBowlingRow,
+          {
+            row,
+            rank: bowlingRanks[index],
+          },
+          `bowl-${index}`,
+        ),
+      ),
+    ],
+  });
   const performanceArea = /* @__PURE__ */ jsxs198("div", {
     className: "performance-area",
     children: [
-      /* @__PURE__ */ jsxs198("section", {
-        className: "performance-panel",
-        "data-state": hasBatting ? "filled" : "empty",
-        children: [
-          /* @__PURE__ */ jsx389("h3", { className: "performance-heading", children: "Batting" }),
-          battingRows.map((row, index) =>
-            /* @__PURE__ */ jsx389(
-              ScorelineBattingRow,
-              {
-                row,
-                rank: battingRanks[index],
-              },
-              `bat-${index}`,
-            ),
-          ),
-        ],
-      }),
-      /* @__PURE__ */ jsxs198("section", {
-        className: "performance-panel",
-        "data-state": hasBowling ? "filled" : "empty",
-        children: [
-          /* @__PURE__ */ jsx389("h3", { className: "performance-heading", children: "Bowling" }),
-          bowlingRows.map((row, index) =>
-            /* @__PURE__ */ jsx389(
-              ScorelineBowlingRow,
-              {
-                row,
-                rank: bowlingRanks[index],
-              },
-              `bowl-${index}`,
-            ),
-          ),
-        ],
-      }),
+      bowlingFirst ? bowlingPanel : battingPanel,
+      bowlingFirst ? battingPanel : bowlingPanel,
     ],
   });
   const matchContext = /* @__PURE__ */ jsxs198("div", {
@@ -38960,14 +39040,14 @@ var MatchRowNightSession = ({ match, index }) => {
   const animationOutFrame = calculateAnimationOutFrame3(
     timings == null ? void 0 : timings.FPS_SCORECARD,
   );
-  const fixtureEnter = useMemo24(
+  const fixtureEnter = useMemo26(
     () => ({
       ...containerAnimation.containerIn,
       custom: { distance: NIGHT_SESSION_FIXTURE_ROW_ENTER_DISTANCE_PX },
     }),
     [containerAnimation.containerIn],
   );
-  const fixtureExit = useMemo24(
+  const fixtureExit = useMemo26(
     () => ({
       ...containerAnimation.containerOut,
       custom: { distance: NIGHT_SESSION_FIXTURE_ROW_ENTER_DISTANCE_PX },
@@ -39003,7 +39083,7 @@ var ResultsDisplayNightSession = ({ results: results5, resultsPerScreen, screenI
   const { displayedResults } = calculateDisplayedResults(results5, resultsPerScreen, screenIndex);
   const mainContentHeight = getMainContentSectionHeight(heights);
   const footerSponsors = buildResultsFooterSponsors(displayedResults);
-  const resultsEnterTimingOptions = useMemo25(
+  const resultsEnterTimingOptions = useMemo27(
     () => ({ rowStaggerFrames: NIGHT_SESSION_FIXTURE_ROW_STAGGER_FRAMES }),
     [],
   );
@@ -42342,18 +42422,30 @@ var broadcastprorounded2 = () => {
 };
 
 // src/compositions/cricket/utils/scoreline/results/ScorelineResultSingleContent.tsx
+import { useMemo as useMemo28 } from "react";
 import { jsx as jsx448, jsxs as jsxs237 } from "react/jsx-runtime";
 var ScorelineResultSingleContent = ({ match, className = "", style }) => {
   var _a, _b, _c, _d, _e, _f;
-  const { club } = useVideoDataContext();
+  const { club, isAccountClub } = useVideoDataContext();
+  const accountIsClub = isAccountClub || false;
   const resultsMatch = match;
   const { homeIsClub, awayIsClub } = resolveScorelineUpcomingClubSides(
     match.homeTeam.name,
     match.awayTeam.name,
     club == null ? void 0 : club.name,
   );
-  const { battingRows, bowlingRows, hasBatting, hasBowling, performancePanelCount } =
-    useScorelineResultSinglePerformances(resultsMatch, club == null ? void 0 : club.name);
+  const { battingRows, bowlingRows, hasBatting, hasBowling, performancePanelCount } = useMemo28(
+    () =>
+      accountIsClub
+        ? resolveScorelineResultSinglePerformances(resultsMatch, club == null ? void 0 : club.name)
+        : resolveScorelineMatchPerformances(resultsMatch),
+    [accountIsClub, club == null ? void 0 : club.name, resultsMatch],
+  );
+  const bowlingFirst = scorelineBowlingUnderOpposition(
+    resultsMatch,
+    accountIsClub,
+    club == null ? void 0 : club.name,
+  );
   const resultText = resolveScorelineResultStatementText(match.result, match.resultShort);
   const resultLength = resolveScorelineResultStatementLength(resultText);
   const gradeLabel = (_b = (_a = match.gradeName) == null ? void 0 : _a.trim()) != null ? _b : "";
@@ -42423,6 +42515,7 @@ var ScorelineResultSingleContent = ({ match, className = "", style }) => {
           bowlingRows,
           hasBatting,
           hasBowling,
+          bowlingFirst,
         }),
         /* @__PURE__ */ jsx448(ScorelineMatchContext, {
           type: match.type,
@@ -42531,18 +42624,30 @@ var scoreline5 = () => {
 };
 
 // src/compositions/cricket/utils/nightSession/results/NightSessionResultSingleContent.tsx
+import { useMemo as useMemo29 } from "react";
 import { jsx as jsx452, jsxs as jsxs239 } from "react/jsx-runtime";
 var NightSessionResultSingleContent = ({ match, className = "", style }) => {
   var _a, _b, _c, _d, _e, _f;
-  const { club } = useVideoDataContext();
+  const { club, isAccountClub } = useVideoDataContext();
+  const accountIsClub = isAccountClub || false;
   const resultsMatch = match;
   const { homeIsClub, awayIsClub } = resolveScorelineUpcomingClubSides(
     match.homeTeam.name,
     match.awayTeam.name,
     club == null ? void 0 : club.name,
   );
-  const { battingRows, bowlingRows, hasBatting, hasBowling, performancePanelCount } =
-    useScorelineResultSinglePerformances(resultsMatch, club == null ? void 0 : club.name);
+  const { battingRows, bowlingRows, hasBatting, hasBowling, performancePanelCount } = useMemo29(
+    () =>
+      accountIsClub
+        ? resolveScorelineResultSinglePerformances(resultsMatch, club == null ? void 0 : club.name)
+        : resolveScorelineMatchPerformances(resultsMatch),
+    [accountIsClub, club == null ? void 0 : club.name, resultsMatch],
+  );
+  const bowlingFirst = scorelineBowlingUnderOpposition(
+    resultsMatch,
+    accountIsClub,
+    club == null ? void 0 : club.name,
+  );
   const resultText = resolveScorelineResultStatementText(match.result, match.resultShort);
   const resultLength = resolveScorelineResultStatementLength(resultText);
   const gradeLabel = (_b = (_a = match.gradeName) == null ? void 0 : _a.trim()) != null ? _b : "";
@@ -42621,46 +42726,88 @@ var NightSessionResultSingleContent = ({ match, className = "", style }) => {
             /* @__PURE__ */ jsxs239("div", {
               className: "performance-area",
               children: [
-                /* @__PURE__ */ jsxs239("section", {
-                  className: "performance-panel",
-                  "data-state": hasBatting ? "filled" : "empty",
-                  children: [
-                    /* @__PURE__ */ jsx452("h3", {
-                      className: "performance-heading",
-                      children: "Batting",
+                bowlingFirst
+                  ? /* @__PURE__ */ jsxs239("section", {
+                      className: "performance-panel",
+                      "data-state": hasBowling ? "filled" : "empty",
+                      children: [
+                        /* @__PURE__ */ jsx452("h3", {
+                          className: "performance-heading",
+                          children: "Bowling",
+                        }),
+                        bowlingRows.map((row, index) =>
+                          /* @__PURE__ */ jsx452(
+                            ScorelineBowlingRow,
+                            {
+                              row,
+                              rank: bowlingRanks[index],
+                            },
+                            `bowl-${index}`,
+                          ),
+                        ),
+                      ],
+                    })
+                  : /* @__PURE__ */ jsxs239("section", {
+                      className: "performance-panel",
+                      "data-state": hasBatting ? "filled" : "empty",
+                      children: [
+                        /* @__PURE__ */ jsx452("h3", {
+                          className: "performance-heading",
+                          children: "Batting",
+                        }),
+                        battingRows.map((row, index) =>
+                          /* @__PURE__ */ jsx452(
+                            ScorelineBattingRow,
+                            {
+                              row,
+                              rank: battingRanks[index],
+                            },
+                            `bat-${index}`,
+                          ),
+                        ),
+                      ],
                     }),
-                    battingRows.map((row, index) =>
-                      /* @__PURE__ */ jsx452(
-                        ScorelineBattingRow,
-                        {
-                          row,
-                          rank: battingRanks[index],
-                        },
-                        `bat-${index}`,
-                      ),
-                    ),
-                  ],
-                }),
-                /* @__PURE__ */ jsxs239("section", {
-                  className: "performance-panel",
-                  "data-state": hasBowling ? "filled" : "empty",
-                  children: [
-                    /* @__PURE__ */ jsx452("h3", {
-                      className: "performance-heading",
-                      children: "Bowling",
+                bowlingFirst
+                  ? /* @__PURE__ */ jsxs239("section", {
+                      className: "performance-panel",
+                      "data-state": hasBatting ? "filled" : "empty",
+                      children: [
+                        /* @__PURE__ */ jsx452("h3", {
+                          className: "performance-heading",
+                          children: "Batting",
+                        }),
+                        battingRows.map((row, index) =>
+                          /* @__PURE__ */ jsx452(
+                            ScorelineBattingRow,
+                            {
+                              row,
+                              rank: battingRanks[index],
+                            },
+                            `bat-${index}`,
+                          ),
+                        ),
+                      ],
+                    })
+                  : /* @__PURE__ */ jsxs239("section", {
+                      className: "performance-panel",
+                      "data-state": hasBowling ? "filled" : "empty",
+                      children: [
+                        /* @__PURE__ */ jsx452("h3", {
+                          className: "performance-heading",
+                          children: "Bowling",
+                        }),
+                        bowlingRows.map((row, index) =>
+                          /* @__PURE__ */ jsx452(
+                            ScorelineBowlingRow,
+                            {
+                              row,
+                              rank: bowlingRanks[index],
+                            },
+                            `bowl-${index}`,
+                          ),
+                        ),
+                      ],
                     }),
-                    bowlingRows.map((row, index) =>
-                      /* @__PURE__ */ jsx452(
-                        ScorelineBowlingRow,
-                        {
-                          row,
-                          rank: bowlingRanks[index],
-                        },
-                        `bowl-${index}`,
-                      ),
-                    ),
-                  ],
-                }),
               ],
             }),
             /* @__PURE__ */ jsxs239("div", {
@@ -43934,7 +44081,7 @@ import { Series as Series8 } from "remotion";
 import { useVideoConfig as useVideoConfig32 } from "remotion";
 
 // src/templates/variants/broadcastPro/components/roster/BroadcastProRosterSheet.tsx
-import { useMemo as useMemo26 } from "react";
+import { useMemo as useMemo30 } from "react";
 
 // src/compositions/cricket/teamRoster/controller/Display/_utils/broadcastProRosterListMetrics.ts
 function computeBroadcastProRosterPlayerListMetrics(availableHeightPx, playerCount, sizing) {
@@ -44085,7 +44232,7 @@ import { jsx as jsx479, jsxs as jsxs256 } from "react/jsx-runtime";
 var BroadcastProRosterSheet = ({ players, availableHeightPx, nameColor, className = "" }) => {
   const { componentStyles, broadcastProRosterListSizing } = useThemeContext();
   const { accent } = useBroadcastProTheme();
-  const metrics = useMemo26(
+  const metrics = useMemo30(
     () =>
       computeBroadcastProRosterPlayerListMetrics(
         availableHeightPx,
@@ -44329,7 +44476,7 @@ import { Series as Series9 } from "remotion";
 import { useVideoConfig as useVideoConfig33 } from "remotion";
 
 // src/templates/variants/broadcastProRounded/components/roster/BroadcastProRoundedRosterSheet.tsx
-import { useMemo as useMemo27 } from "react";
+import { useMemo as useMemo31 } from "react";
 
 // src/compositions/cricket/teamRoster/controller/Display/_utils/broadcastProRoundedRosterListMetrics.ts
 function computeBroadcastProRoundedRosterPlayerListMetrics(availableHeightPx, playerCount, sizing) {
@@ -44486,7 +44633,7 @@ var BroadcastProRoundedRosterSheet = ({
 }) => {
   const { componentStyles, broadcastProRoundedRosterListSizing } = useThemeContext();
   const { accent } = useBroadcastProRoundedTheme();
-  const metrics = useMemo27(
+  const metrics = useMemo31(
     () =>
       computeBroadcastProRoundedRosterPlayerListMetrics(
         availableHeightPx,
@@ -48262,7 +48409,7 @@ var scoreline7 = () => {
 };
 
 // src/compositions/cricket/performances/controller/PerformancesDisplay/display-NightSession.tsx
-import { useMemo as useMemo28 } from "react";
+import { useMemo as useMemo32 } from "react";
 import { jsx as jsx532, jsxs as jsxs295 } from "react/jsx-runtime";
 var PerformancesDisplayNightSession = ({ performances, itemsPerScreen, screenIndex }) => {
   var _a, _b, _c;
@@ -48282,7 +48429,7 @@ var PerformancesDisplayNightSession = ({ performances, itemsPerScreen, screenInd
   const displayedPerformances = getItemsForScreen(performances, screenIndex, itemsPerScreen);
   const density = resolvePerformanceScreenDensity(displayedPerformances.length);
   const rankOffset = screenIndex * itemsPerScreen;
-  const performanceTimingOptions = useMemo28(
+  const performanceTimingOptions = useMemo32(
     () => ({
       rowStaggerFrames: NIGHT_SESSION_FIXTURE_ROW_STAGGER_FRAMES,
       minHoldAfterEnterFrames: 48,
@@ -51378,10 +51525,10 @@ var scoreline8 = () => {
 };
 
 // src/compositions/cricket/TeamOfTheWeek/controller/TeamOfTheWeekDisplay/display-NightSession.tsx
-import { useMemo as useMemo30 } from "react";
+import { useMemo as useMemo34 } from "react";
 
 // src/compositions/cricket/utils/nightSession/totw/NightSessionTotwRow.tsx
-import { useMemo as useMemo29 } from "react";
+import { useMemo as useMemo33 } from "react";
 import { Img as Img24 } from "remotion";
 import { jsx as jsx580, jsxs as jsxs323 } from "react/jsx-runtime";
 var NightSessionTotwRow = ({
@@ -51399,24 +51546,24 @@ var NightSessionTotwRow = ({
   const innerAnimation = animations.container.main.itemContainerInner;
   const statsAnimation = animations.container.main.itemContainerSecondary;
   const rowExitFrame = enterTiming.rowExitFrameForIndex(rowIndex);
-  const rowEnter = useMemo29(() => withNightSessionFixtureRowDistance(animation), [animation]);
-  const rowExit = useMemo29(
+  const rowEnter = useMemo33(() => withNightSessionFixtureRowDistance(animation), [animation]);
+  const rowExit = useMemo33(
     () => withNightSessionFixtureRowDistance(exitAnimation),
     [exitAnimation],
   );
-  const copyEnter = useMemo29(
+  const copyEnter = useMemo33(
     () => withNightSessionFixtureInnerDistance(innerAnimation.containerIn),
     [innerAnimation.containerIn],
   );
-  const copyExit = useMemo29(
+  const copyExit = useMemo33(
     () => withNightSessionFixtureInnerDistance(innerAnimation.containerOut),
     [innerAnimation.containerOut],
   );
-  const statsEnter = useMemo29(
+  const statsEnter = useMemo33(
     () => withNightSessionFixtureInnerDistance(statsAnimation.containerIn),
     [statsAnimation.containerIn],
   );
-  const statsExit = useMemo29(
+  const statsExit = useMemo33(
     () => withNightSessionFixtureInnerDistance(statsAnimation.containerOut),
     [statsAnimation.containerOut],
   );
@@ -51627,7 +51774,7 @@ var TeamOfTheWeekDisplayNightSession = ({ players, sponsors, title }) => {
   const { heights } = layout;
   const mainContentHeight = getMainContentSectionHeight(heights);
   const exitFrame = calculateExitFrame(timings);
-  const totwEnterTimingOptions = useMemo30(
+  const totwEnterTimingOptions = useMemo34(
     () => ({ rowStaggerFrames: NIGHT_SESSION_FIXTURE_ROW_STAGGER_FRAMES }),
     [],
   );
@@ -56545,7 +56692,7 @@ var TwoColumn2 = ({
 };
 
 // src/templates/variants/twoColumnClassic/components/ClassicMainHeaderRotated.tsx
-import React45 from "react";
+import React49 from "react";
 
 // src/templates/variants/twoColumnClassic/utils/titleLookup.ts
 var titleLookup2 = [
@@ -56580,9 +56727,9 @@ var ClassicMainHeaderRotated = () => {
   const { timings } = data;
   const exitFrame = timings.FPS_MAIN ? timings.FPS_MAIN - 30 : 0;
   const displayTitle = getSimplifiedTitle2(metadata.title || "");
-  const [rotatedMinHeight, setRotatedMinHeight] = React45.useState(0);
-  const measureRef = React45.useRef(null);
-  React45.useLayoutEffect(() => {
+  const [rotatedMinHeight, setRotatedMinHeight] = React49.useState(0);
+  const measureRef = React49.useRef(null);
+  React49.useLayoutEffect(() => {
     if (measureRef.current) {
       setRotatedMinHeight(measureRef.current.offsetWidth);
     }
@@ -59576,7 +59723,7 @@ var getBroadcastProHeaderSecondaryLine = (metadata, clubName) => {
 };
 
 // src/templates/variants/broadcastPro/components/headline/useBroadcastProHeadlineFit.ts
-import { useMemo as useMemo31 } from "react";
+import { useMemo as useMemo35 } from "react";
 import { useVideoConfig as useVideoConfig36 } from "remotion";
 var MAIN_HEADER_TITLE_PADDING_PX = 32;
 var useBroadcastProHeadlineFit = (text, variant) => {
@@ -59599,7 +59746,7 @@ var useBroadcastProHeadlineFit = (text, variant) => {
       ? _d
       : "Teko";
   const maxFontSize = variant === "intro" ? sizing.introMaxPx : sizing.mainHeaderMaxPx;
-  const withinWidth = useMemo31(() => {
+  const withinWidth = useMemo35(() => {
     const base = getTitleScreenContentWidth(width, MAIN_HEADER_TITLE_PADDING_PX);
     return variant === "mainHeader" ? Math.floor(base * 0.95) : base;
   }, [width, variant]);
@@ -61108,7 +61255,7 @@ var getBroadcastProRoundedHeaderSecondaryLine = (metadata, clubName) => {
 };
 
 // src/templates/variants/broadcastProRounded/components/headline/useBroadcastProRoundedHeadlineFit.ts
-import { useMemo as useMemo32 } from "react";
+import { useMemo as useMemo36 } from "react";
 import { useVideoConfig as useVideoConfig37 } from "remotion";
 var MAIN_HEADER_TITLE_PADDING_PX2 = 32;
 var useBroadcastProRoundedHeadlineFit = (text, variant) => {
@@ -61131,7 +61278,7 @@ var useBroadcastProRoundedHeadlineFit = (text, variant) => {
       ? _d
       : "Teko";
   const maxFontSize = variant === "intro" ? sizing.introMaxPx : sizing.mainHeaderMaxPx;
-  const withinWidth = useMemo32(() => {
+  const withinWidth = useMemo36(() => {
     const base = getTitleScreenContentWidth(width, MAIN_HEADER_TITLE_PADDING_PX2);
     return variant === "mainHeader" ? Math.floor(base * 0.95) : base;
   }, [width, variant]);
@@ -62036,7 +62183,7 @@ var scorelineTheme = {
 import { AbsoluteFill as AbsoluteFill61 } from "remotion";
 
 // src/compositions/cricket/utils/scoreline/scorelineCanvasStyle.ts
-import { useMemo as useMemo33 } from "react";
+import { useMemo as useMemo37 } from "react";
 import tinycolor34 from "tinycolor2";
 import { staticFile as staticFile5 } from "remotion";
 
@@ -62255,35 +62402,35 @@ var useScorelineCanvasStyle = () => {
   const headerText = selectedPalette.text.onContainer.title;
   const headerAccent = selectedPalette.text.onContainer.accent;
   const copyNoBg = selectedPalette.text.onContainer.copyNoBg;
-  const matchContext = useMemo33(
+  const matchContext = useMemo37(
     () => resolveScorelineMatchContextTokens(selectedPalette),
     [selectedPalette],
   );
-  const modeSurfaces = useMemo33(
+  const modeSurfaces = useMemo37(
     () => resolveScorelineModeSurfaceVars(selectedPalette),
     [selectedPalette],
   );
-  const containerCopy = useMemo33(
+  const containerCopy = useMemo37(
     () => resolveScorelineContainerCopyTokens(selectedPalette),
     [selectedPalette],
   );
-  const performanceAreaSurface = useMemo33(
+  const performanceAreaSurface = useMemo37(
     () => resolveScorelinePerformanceAreaSurface(selectedPalette),
     [selectedPalette],
   );
-  const ladderRowSurface = useMemo33(
+  const ladderRowSurface = useMemo37(
     () => resolveScorelineLadderRowSurface(selectedPalette),
     [selectedPalette],
   );
-  const leaderboardHeroRowSurface = useMemo33(
+  const leaderboardHeroRowSurface = useMemo37(
     () => resolveScorelineLeaderboardHeroRowSurface(selectedPalette),
     [selectedPalette],
   );
-  const rosterRowSurface = useMemo33(
+  const rosterRowSurface = useMemo37(
     () => resolveScorelineRosterRowSurface(selectedPalette),
     [selectedPalette],
   );
-  return useMemo33(
+  return useMemo37(
     () => ({
       ...getScorelineCanvasStyle(
         colors == null ? void 0 : colors.primary,
@@ -62858,7 +63005,7 @@ var nightSessionTheme = {
 import { AbsoluteFill as AbsoluteFill63 } from "remotion";
 
 // src/compositions/cricket/utils/nightSession/nightSessionCanvasStyle.ts
-import { useMemo as useMemo34 } from "react";
+import { useMemo as useMemo38 } from "react";
 
 // src/compositions/cricket/utils/nightSession/resolveNightSessionOverlayTokens.ts
 var resolveNightSessionBandTokens = (selectedPalette) => {
@@ -62900,11 +63047,11 @@ var resolveNightSessionBandTokens = (selectedPalette) => {
 var useNightSessionCanvasStyle = () => {
   const scorelineStyle = useScorelineCanvasStyle();
   const { selectedPalette } = useThemeContext();
-  const bandTokens = useMemo34(
+  const bandTokens = useMemo38(
     () => resolveNightSessionBandTokens(selectedPalette),
     [selectedPalette],
   );
-  return useMemo34(
+  return useMemo38(
     () => ({
       ...scorelineStyle,
       ...bandTokens,

@@ -106,6 +106,22 @@ describe("SupportAccountsTable", () => {
     expect(screen.getAllByText("EC").length).toBeGreaterThan(0);
   });
 
+  it("renders a row when the account name is null", () => {
+    render(
+      <SupportAccountsTable
+        rows={[{ ...row, name: null }]}
+        onOpen={vi.fn()}
+        onPageChange={vi.fn()}
+      />,
+    );
+
+    expect(screen.getAllByText("Unnamed account").length).toBeGreaterThan(0);
+    expect(screen.getAllByRole("button", { name: "Open Unnamed account" }).length).toBeGreaterThan(
+      0,
+    );
+    expect(screen.getAllByText("UA").length).toBeGreaterThan(0);
+  });
+
   it("opens the account from the row and from the button once", () => {
     const onOpen = vi.fn();
     render(<SupportAccountsTable rows={[row]} onOpen={onOpen} onPageChange={vi.fn()} />);

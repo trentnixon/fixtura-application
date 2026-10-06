@@ -30,7 +30,8 @@ const toneClassName: Record<Exclude<StatusTone, "danger" | "neutral">, string> =
     "border-transparent bg-[var(--warning-100)] text-[var(--warning-800)] dark:bg-[var(--warning-950)] dark:text-[var(--warning-200)]",
 };
 
-export function formatStatusLabel(value: string): string {
+export function formatStatusLabel(value: string | null | undefined): string {
+  if (!value) return "";
   return value.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
@@ -110,8 +111,13 @@ function StatusBadge({ label, tone }: { label: string; tone: StatusTone }) {
   );
 }
 
-function initialsFromName(name: string): string {
-  const parts = name.trim().split(/\s+/).filter(Boolean);
+export function accountDisplayName(name: string | null | undefined): string {
+  const trimmed = name?.trim() ?? "";
+  return trimmed.length > 0 ? trimmed : "Unnamed account";
+}
+
+function initialsFromName(name: string | null | undefined): string {
+  const parts = (name ?? "").trim().split(/\s+/).filter(Boolean);
   if (parts.length === 0) return "";
   if (parts.length === 1) return (parts[0] ?? "").slice(0, 2).toUpperCase();
   const first = parts[0]?.[0] ?? "";
@@ -126,18 +132,19 @@ function directoryLogoSrc(row: SupportDirectoryRow): string | undefined {
 
 function AccountIdentity({ row }: { row: SupportDirectoryRow }) {
   const logoSrc = directoryLogoSrc(row);
+  const displayName = accountDisplayName(row.name);
 
   return (
     <div className="flex min-w-0 items-center gap-3">
       <GridCardVisualSlot
         visual="org"
         className="!size-9 shrink-0"
-        initials={initialsFromName(row.name)}
-        {...(logoSrc ? { imageSrc: logoSrc, imageAlt: row.name } : {})}
+        initials={initialsFromName(displayName)}
+        {...(logoSrc ? { imageSrc: logoSrc, imageAlt: displayName } : {})}
       />
       <div className="min-w-0 space-y-0.5">
-        <p className="truncate text-sm font-medium" title={row.name}>
-          {row.name}
+        <p className="truncate text-sm font-medium" title={displayName}>
+          {displayName}
         </p>
         <p className="text-muted-foreground truncate text-xs" title={row.ownerEmail ?? undefined}>
           {row.ownerEmail ?? "No owner email"}
@@ -203,7 +210,7 @@ function OpenAccountButton({
       type="button"
       size="compact"
       variant="brandPrimaryOutline"
-      aria-label={`Open ${row.name}`}
+      aria-label={`Open ${accountDisplayName(row.name)}`}
       onClick={(event) => {
         event.stopPropagation();
         onOpen(row);
