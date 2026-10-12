@@ -24,6 +24,7 @@ import {
 } from "@/lib/config/gateway-reasons";
 import { ROUTES } from "@/lib/config/routes";
 
+import type { SelectOrgSubscriptionStatus } from "@/app/(members)/select-organisation/_utils/select-org-subscription-status";
 import type { AccountSummary } from "@/types/api/account";
 
 const STATES = [
@@ -37,6 +38,12 @@ const STATES = [
 ] as const;
 
 const LAB_SELECT_ORG_PATH = `${ROUTES.routeLab}/org/select-organisation`;
+
+const LAB_SUBSCRIPTION_STATUSES = [
+  "active",
+  "ending-soon",
+  "none",
+] as const satisfies readonly SelectOrgSubscriptionStatus[];
 
 function firstQueryValue(value: string | string[] | undefined): string | undefined {
   if (value === undefined) return undefined;
@@ -167,12 +174,15 @@ export default async function RouteLabSelectOrganisationPage({
 
           {orgs && orgs.length > 0 ? (
             <div className="grid w-full grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 2xl:grid-cols-6">
-              {orgs.map((a) => {
+              {orgs.map((a, index) => {
+                const subscriptionStatus =
+                  LAB_SUBSCRIPTION_STATUSES[index % LAB_SUBSCRIPTION_STATUSES.length];
                 const item = buildSelectOrgItemViewModel({
                   row: labRowFromOrganisation(a),
                   lifecycleQueryStatus: "success",
                   simulating: true,
                   isLastUsed: state === "last-used" && a.id === "lab-2",
+                  ...(subscriptionStatus ? { subscriptionStatus } : {}),
                 });
                 return (
                   <SelectOrgGridItem

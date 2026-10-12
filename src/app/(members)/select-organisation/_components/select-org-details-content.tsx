@@ -17,6 +17,7 @@ import { useRetryOnboardingSetup } from "@/lib/api/hooks/account/useRetryOnboard
 import { ROUTES } from "@/lib/config/routes";
 
 import { SelectOrgStatusBadge } from "./select-org-status-badge";
+import { SelectOrgSubscriptionBanner } from "./select-org-subscription-banner";
 import { selectOrgPrimaryButtonVariant } from "../_utils/select-org-display-state";
 
 import type { SelectOrganisationItemViewModel } from "../_utils/select-org-display-state";
@@ -203,6 +204,9 @@ export function SelectOrgDetailsContent({
           <Link href={ROUTES.support}>Contact support</Link>
         </Button>
       </div>
+      {item.subscriptionStatus ? (
+        <SelectOrgSubscriptionBanner status={item.subscriptionStatus} />
+      ) : null}
     </div>
   );
 }

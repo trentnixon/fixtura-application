@@ -2720,11 +2720,12 @@ var selectFooterSponsors = ({ primaryForScreen, entities, max = FOOTER_SPONSOR_M
 // src/core/utils/sponsors/outroSponsors.ts
 var OUTRO_SPONSOR_PAGE_SIZE = 6;
 var OUTRO_PAGE_ANIMATE_IN_FRAMES = 15;
-var OUTRO_PAGE_HOLD_FRAMES = 90;
+var OUTRO_PAGE_HOLD_FRAMES = 60;
 var OUTRO_PAGE_ANIMATE_OUT_FRAMES = 15;
 var OUTRO_PAGE_DURATION_FRAMES =
   OUTRO_PAGE_ANIMATE_IN_FRAMES + OUTRO_PAGE_HOLD_FRAMES + OUTRO_PAGE_ANIMATE_OUT_FRAMES;
 var OUTRO_PAGE_LOGO_EXIT_FRAME = OUTRO_PAGE_DURATION_FRAMES - OUTRO_PAGE_ANIMATE_OUT_FRAMES;
+var OUTRO_PAGE_LOGO_STAGGER_FRAMES = 2;
 var OUTRO_NO_SPONSORS_DURATION_FRAMES = 0;
 var buildOutroSponsorSequence = ({ primary, general }) => {
   return [...asSponsorArray(primary), ...asSponsorArray(general)];
@@ -6253,7 +6254,7 @@ var GRID_SETTINGS = {
   chunkSize: OUTRO_SPONSOR_PAGE_SIZE,
   sequenceDurationInFrames: OUTRO_PAGE_DURATION_FRAMES,
   logoExitFrame: OUTRO_PAGE_LOGO_EXIT_FRAME,
-  logoDelayIncrement: 5,
+  logoDelayIncrement: OUTRO_PAGE_LOGO_STAGGER_FRAMES,
 };
 var SponsorGrid = ({ sponsors, LogoAnimations }) =>
   /* @__PURE__ */ jsx18("div", {
@@ -53020,7 +53021,7 @@ var GRID_SETTINGS2 = {
   chunkSize: OUTRO_SPONSOR_PAGE_SIZE,
   sequenceDurationInFrames: OUTRO_PAGE_DURATION_FRAMES,
   logoExitFrame: OUTRO_PAGE_LOGO_EXIT_FRAME,
-  logoDelayIncrement: 5,
+  logoDelayIncrement: OUTRO_PAGE_LOGO_STAGGER_FRAMES,
 };
 var SponsorGrid2 = ({ sponsors, LogoAnimations }) =>
   /* @__PURE__ */ jsx594("div", {
@@ -53486,7 +53487,7 @@ var GRID_SETTINGS3 = {
   chunkSize: OUTRO_SPONSOR_PAGE_SIZE,
   sequenceDurationInFrames: OUTRO_PAGE_DURATION_FRAMES,
   logoExitFrame: OUTRO_PAGE_LOGO_EXIT_FRAME,
-  logoDelayIncrement: 5,
+  logoDelayIncrement: OUTRO_PAGE_LOGO_STAGGER_FRAMES,
 };
 var SponsorGrid3 = ({ sponsors, LogoAnimations }) =>
   /* @__PURE__ */ jsx600("div", {
@@ -54142,7 +54143,7 @@ var GRID_SETTINGS4 = {
   chunkSize: OUTRO_SPONSOR_PAGE_SIZE,
   sequenceDurationInFrames: OUTRO_PAGE_DURATION_FRAMES,
   logoExitFrame: OUTRO_PAGE_LOGO_EXIT_FRAME,
-  logoDelayIncrement: 5,
+  logoDelayIncrement: OUTRO_PAGE_LOGO_STAGGER_FRAMES,
 };
 var SponsorGrid4 = ({ sponsors, LogoAnimations }) =>
   /* @__PURE__ */ jsx606("div", {
@@ -55130,7 +55131,7 @@ var GRID_SETTINGS5 = {
   chunkSize: OUTRO_SPONSOR_PAGE_SIZE,
   sequenceDurationInFrames: OUTRO_PAGE_DURATION_FRAMES,
   logoExitFrame: OUTRO_PAGE_LOGO_EXIT_FRAME,
-  logoDelayIncrement: 5,
+  logoDelayIncrement: OUTRO_PAGE_LOGO_STAGGER_FRAMES,
 };
 var SponsorGrid5 = ({ sponsors, LogoAnimations }) =>
   /* @__PURE__ */ jsx612("div", {
@@ -55867,7 +55868,7 @@ var GRID_SETTINGS6 = {
   chunkSize: OUTRO_SPONSOR_PAGE_SIZE,
   sequenceDurationInFrames: OUTRO_PAGE_DURATION_FRAMES,
   logoExitFrame: OUTRO_PAGE_LOGO_EXIT_FRAME,
-  logoDelayIncrement: 5,
+  logoDelayIncrement: OUTRO_PAGE_LOGO_STAGGER_FRAMES,
 };
 var SponsorGrid6 = ({ sponsors, LogoAnimations }) =>
   /* @__PURE__ */ jsx618("div", {
@@ -56498,7 +56499,7 @@ var GRID_SETTINGS7 = {
   chunkSize: OUTRO_SPONSOR_PAGE_SIZE,
   sequenceDurationInFrames: OUTRO_PAGE_DURATION_FRAMES,
   logoExitFrame: OUTRO_PAGE_LOGO_EXIT_FRAME,
-  logoDelayIncrement: 5,
+  logoDelayIncrement: OUTRO_PAGE_LOGO_STAGGER_FRAMES,
 };
 var SponsorGrid7 = ({ sponsors, LogoAnimations }) =>
   /* @__PURE__ */ jsx624("div", {
@@ -57725,7 +57726,7 @@ var SponsorGrid8 = ({ sponsors, LogoAnimations }) =>
               animation: LogoAnimations.introIn,
               exitAnimation:
                 (_a = LogoAnimations.exitAnimation) != null ? _a : LogoAnimations.introOut,
-              animationDelay: idx * 5,
+              animationDelay: idx * OUTRO_PAGE_LOGO_STAGGER_FRAMES,
               exitFrame: OUTRO_PAGE_LOGO_EXIT_FRAME,
             }),
           },
@@ -58466,7 +58467,7 @@ var GRID_SETTINGS8 = {
   chunkSize: OUTRO_SPONSOR_PAGE_SIZE,
   sequenceDurationInFrames: OUTRO_PAGE_DURATION_FRAMES,
   logoExitFrame: OUTRO_PAGE_LOGO_EXIT_FRAME,
-  logoDelayIncrement: 5,
+  logoDelayIncrement: OUTRO_PAGE_LOGO_STAGGER_FRAMES,
 };
 var SponsorGrid9 = ({ sponsors, LogoAnimations }) =>
   /* @__PURE__ */ jsx637("div", {
@@ -59984,7 +59985,7 @@ var GRID_SETTINGS9 = {
   chunkSize: OUTRO_SPONSOR_PAGE_SIZE,
   sequenceDurationInFrames: OUTRO_PAGE_DURATION_FRAMES,
   logoExitFrame: OUTRO_PAGE_LOGO_EXIT_FRAME,
-  logoDelayIncrement: 5,
+  logoDelayIncrement: OUTRO_PAGE_LOGO_STAGGER_FRAMES,
 };
 var SponsorGrid10 = ({ sponsors, LogoAnimations }) =>
   /* @__PURE__ */ jsx645("div", {
@@ -61522,7 +61523,7 @@ var GRID_SETTINGS10 = {
   chunkSize: OUTRO_SPONSOR_PAGE_SIZE,
   sequenceDurationInFrames: OUTRO_PAGE_DURATION_FRAMES,
   logoExitFrame: OUTRO_PAGE_LOGO_EXIT_FRAME,
-  logoDelayIncrement: 5,
+  logoDelayIncrement: OUTRO_PAGE_LOGO_STAGGER_FRAMES,
 };
 var SponsorGrid11 = ({ sponsors, LogoAnimations, imageRadius }) =>
   /* @__PURE__ */ jsx653("div", {

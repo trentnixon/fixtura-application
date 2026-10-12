@@ -36,6 +36,7 @@ vi.mock("next/navigation", () => ({
 
 const useAccountMeMock = vi.hoisted(() => vi.fn());
 const getOnboardingOnboardingStateMock = vi.hoisted(() => vi.fn());
+const getAccountBillingMock = vi.hoisted(() => vi.fn());
 
 vi.mock("@/lib/api/hooks/account/useAccountMe", () => ({
   useAccountMe: useAccountMeMock,
@@ -44,6 +45,7 @@ vi.mock("@/lib/api/hooks/account/useAccountMe", () => ({
 vi.mock("@/lib/api/services/account.api", () => ({
   accountApi: {
     getOnboardingOnboardingState: getOnboardingOnboardingStateMock,
+    getAccountBilling: getAccountBillingMock,
   },
 }));
 
@@ -135,6 +137,19 @@ function accountMeResponse(
   };
 }
 
+function emptyBillingResponse() {
+  return {
+    data: {
+      billingStatus: "none",
+      accessStatus: "none",
+      currentPlan: null,
+      trial: null,
+      activeOrder: null,
+      latestInvoiceRequest: null,
+    },
+  };
+}
+
 function renderWithClient(ui: ReactElement) {
   const client = new QueryClient({
     defaultOptions: { queries: { retry: false }, mutations: { retry: false } },
@@ -142,6 +157,10 @@ function renderWithClient(ui: ReactElement) {
 
   return render(<QueryClientProvider client={client}>{ui}</QueryClientProvider>);
 }
+
+beforeEach(() => {
+  getAccountBillingMock.mockResolvedValue(emptyBillingResponse());
+});
 
 const testUser: AccountMeUser = {
   id: 110,
@@ -362,8 +381,8 @@ describe("SelectOrganisationContent multi-account presentation", () => {
     expect(unfinished).toHaveAccessibleName(/Continue setup/i);
     expect(finished).toHaveAccessibleName(/Open organisation/i);
     expect(
-      within(screen.getByRole("article", { name: /Finished Wizard/i })).getByText("Active"),
-    ).toBeInTheDocument();
+      within(screen.getByRole("article", { name: /Finished Wizard/i })).queryByText("Active"),
+    ).not.toBeInTheDocument();
     expect(finished).not.toHaveAccessibleName(/Continue setup/i);
   });
 
@@ -984,6 +1003,111 @@ describe("SelectOrganisationContent status groups", () => {
     expect(within(active).queryByRole("article")).not.toBeInTheDocument();
     expect(within(active).getByText("Add another organisation")).toBeInTheDocument();
     expect(screen.queryByRole("region", { name: "Needs attention" })).not.toBeInTheDocument();
+  });
+
+  it("shows a subscription banner from each organisation's billing summary", async () => {
+    getOnboardingOnboardingStateMock.mockImplementation(async (accountId: string) => ({
+      data: baseOnboardingState({
+        accountId: Number(accountId),
+        onboardingWizardCompletedAt: "2026-01-01T00:00:00.000Z",
+        hasCompletedOnboardingWizard: true,
+        onboardingWizardStatus: "completed",
+        isSetup: true,
+        isActive: true,
+      }),
+    }));
+    getAccountBillingMock.mockImplementation(async (accountId: string) => {
+      if (accountId === "1") {
+        return {
+          data: {
+            billingStatus: "active",
+            accessStatus: "trial",
+            currentPlan: null,
+            trial: { isActive: true, endDate: "2026-12-01" },
+            activeOrder: null,
+            latestInvoiceRequest: null,
+          },
+        };
+      }
+      if (accountId === "2") {
+        return {
+          data: {
+            billingStatus: "active",
+            accessStatus: "active",
+            currentPlan: null,
+            trial: null,
+            latestInvoiceRequest: null,
+            activeOrder: {
+              id: 2,
+              Name: "Season Pass",
+              total: 100,
+              currency: "AUD",
+              OrderPaid: true,
+              payment_status: "paid",
+              checkout_status: "active",
+              payment_channel: "stripe",
+              startOrderAt: "2026-01-01",
+              endOrderAt: "2099-01-01",
+              isActive: true,
+              isPaused: false,
+              cancel_at_period_end: true,
+              stripe_subscription_id: null,
+              stripe_status: "active",
+              hosted_invoice_url: null,
+              invoice_pdf: null,
+              invoice_number: null,
+              invoice_due_date: null,
+              createdAt: "2026-01-01",
+              updatedAt: "2026-01-01",
+              subscriptionTier: null,
+            },
+          },
+        };
+      }
+      return emptyBillingResponse();
+    });
+    useAccountMeMock.mockReturnValue({
+      data: accountMeResponse(
+        [
+          row({
+            id: 1,
+            isSetup: true,
+            onboardingWizardCompletedAt: "2026-01-01T00:00:00.000Z",
+            accountOrganisationDetails: orgDetails(1, "Trial Club"),
+          }),
+          row({
+            id: 2,
+            isSetup: true,
+            onboardingWizardCompletedAt: "2026-01-01T00:00:00.000Z",
+            accountOrganisationDetails: orgDetails(2, "Closing Club"),
+          }),
+          row({
+            id: 3,
+            isSetup: true,
+            onboardingWizardCompletedAt: "2026-01-01T00:00:00.000Z",
+            accountOrganisationDetails: orgDetails(3, "Unpaid Club"),
+          }),
+        ],
+        { accountId: null },
+      ),
+      isPending: false,
+      isError: false,
+      refetch: vi.fn(),
+    });
+
+    renderWithClient(<SelectOrganisationContent />);
+
+    const trialClub = await screen.findByRole("article", { name: "Trial Club" });
+    expect(await within(trialClub).findByText("Subscription Active")).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("article", { name: "Closing Club" })).getByText(
+        "Subscription Ending Soon",
+      ),
+    ).toBeInTheDocument();
+    const unpaidClub = screen.getByRole("article", { name: "Unpaid Club" });
+    expect(unpaidClub).toHaveAttribute("data-subscription", "none");
+    expect(within(unpaidClub).getByText("No Active Subscription")).toBeInTheDocument();
+    expect(trialClub).not.toHaveAttribute("data-subscription", "none");
   });
 
   it("keeps the create-organisation card in the Active section in list view", async () => {

@@ -15,6 +15,7 @@ export default [
       "out/**",
       "**/*.md",
       "src/vendor/**",
+      "brag-output/**",
       "preview.mjs",
       "**/preview.mjs",
     ],

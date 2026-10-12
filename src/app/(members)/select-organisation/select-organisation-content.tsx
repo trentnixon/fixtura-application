@@ -75,15 +75,17 @@ import {
 } from "./_hooks/use-select-org-preferences";
 import { buildSelectOrgItemViewModel } from "./_utils/build-select-org-item-view-model";
 import { groupSelectOrgItemsByStatus } from "./_utils/group-select-org-items";
+import { selectOrgSubscriptionBadgeState } from "./_utils/select-org-subscription-status";
 
 import type { SelectOrgViewMode } from "./_hooks/use-select-org-preferences";
 import type { SelectOrganisationDisplayState } from "./_utils/select-org-display-state";
 import type { SelectOrganisationItemViewModel } from "./_utils/select-org-display-state";
 import type { LastSelectedOrganisationRecord } from "@/lib/account/last-selected-organisation";
 import type { SelectOrgSortMode } from "@/lib/account/select-organisation-workspace";
-import type { OnboardingStateData } from "@/types/api/account";
+import type { AccountBillingSummaryV1, OnboardingStateData } from "@/types/api/account";
 
 const ONBOARDING_STATE_STALE_MS = 30_000;
+const BILLING_SUMMARY_STALE_MS = 60_000;
 const SELECTION_ERROR_MESSAGE =
   "We could not open this organisation. Try again or contact support if the problem continues.";
 
@@ -145,6 +147,19 @@ export function SelectOrganisationContent() {
     })),
   });
 
+  const billingQueries = useQueries({
+    queries: accountIds.map((id) => ({
+      queryKey: queryKeys.account.billing(id),
+      queryFn: async (): Promise<AccountBillingSummaryV1> => {
+        const response = await accountApi.getAccountBilling(id);
+        return response.data;
+      },
+      enabled: !simulating && accountIds.length > 0,
+      staleTime: BILLING_SUMMARY_STALE_MS,
+      retry: 1,
+    })),
+  });
+
   const onboardingStateByAccountId = useMemo(
     () =>
       new Map(
@@ -168,6 +183,25 @@ export function SelectOrganisationContent() {
         }),
       ),
     [accountIds, onboardingStateQueries, simulating],
+  );
+
+  const subscriptionStatusByAccountId = useMemo(
+    () =>
+      new Map(
+        accountIds.map((id, index) => {
+          const query = billingQueries[index];
+          return [
+            id,
+            selectOrgSubscriptionBadgeState({
+              simulating,
+              isPending: query?.isPending ?? true,
+              isError: query?.isError ?? false,
+              summary: query?.data,
+            }),
+          ];
+        }),
+      ),
+    [accountIds, billingQueries, simulating],
   );
 
   const lastUsedRecord = useMemo(() => {
@@ -220,6 +254,7 @@ export function SelectOrganisationContent() {
           lastUsedRecord?.accountId === id && lastUsedRecord
             ? lastOpenedAtFromRecord(lastUsedRecord)
             : undefined;
+        const subscriptionStatus = subscriptionStatusByAccountId.get(id);
         return buildSelectOrgItemViewModel({
           row,
           lifecycleQueryStatus: lifecycleStatus,
@@ -227,6 +262,7 @@ export function SelectOrganisationContent() {
           isLastUsed: lastUsedRecord?.accountId === id,
           ...(onboardingState ? { onboardingState } : {}),
           ...(lastOpenedAt ? { lastOpenedAt } : {}),
+          ...(subscriptionStatus ? { subscriptionStatus } : {}),
         });
       }),
     [
@@ -235,6 +271,7 @@ export function SelectOrganisationContent() {
       onboardingStateByAccountId,
       simulating,
       sortedRows,
+      subscriptionStatusByAccountId,
     ],
   );
 
@@ -245,6 +282,7 @@ export function SelectOrganisationContent() {
     const id = lastUsedRecord.accountId;
     const onboardingState = onboardingStateByAccountId.get(id);
     const lastOpenedAt = lastOpenedAtFromRecord(lastUsedRecord);
+    const subscriptionStatus = subscriptionStatusByAccountId.get(id);
     return buildSelectOrgItemViewModel({
       row,
       lifecycleQueryStatus: lifecycleQueryStatusByAccountId.get(id) ?? "pending",
@@ -252,12 +290,14 @@ export function SelectOrganisationContent() {
       isLastUsed: true,
       ...(onboardingState ? { onboardingState } : {}),
       ...(lastOpenedAt ? { lastOpenedAt } : {}),
+      ...(subscriptionStatus ? { subscriptionStatus } : {}),
     });
   }, [
     lastUsedRecord,
     lifecycleQueryStatusByAccountId,
     onboardingStateByAccountId,
     rows,
+    subscriptionStatusByAccountId,
     simulating,
   ]);
 
@@ -340,9 +380,10 @@ export function SelectOrganisationContent() {
     try {
       await refetch();
       await Promise.all(
-        accountIds.map((id) =>
+        accountIds.flatMap((id) => [
           queryClient.invalidateQueries({ queryKey: queryKeys.account.onboardingState(id) }),
-        ),
+          queryClient.invalidateQueries({ queryKey: queryKeys.account.billing(id) }),
+        ]),
       );
     } finally {
       setRefreshing(false);
