@@ -11,6 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { captureUserAction } from "@/lib/analytics";
 import {
   isAccountBillingGatewayRedirect,
+  readAccountBillingSummary,
   useAccountBilling,
 } from "@/lib/api/hooks/account/useAccountBilling";
 import {
@@ -100,10 +101,11 @@ export function DashboardBillingRouteCard({ accountId }: { accountId: string }) 
     billingQuery.isPending ||
     (billingReady && ordersQuery.isPending);
 
-  const billingSummary =
+  const billingSummary = readAccountBillingSummary(
     billingQuery.data && !isAccountBillingGatewayRedirect(billingQuery.data)
-      ? billingQuery.data.data
-      : null;
+      ? billingQuery.data
+      : undefined,
+  );
 
   const ordersPayload =
     ordersQuery.isSuccess &&

@@ -39,6 +39,10 @@ import {
   sortSelectOrgRows,
 } from "@/lib/account/select-organisation-workspace";
 import { captureUserAction } from "@/lib/analytics";
+import {
+  fetchAccountBillingQueryResult,
+  readAccountBillingSummary,
+} from "@/lib/api/hooks/account/useAccountBilling";
 import { useAccountMe } from "@/lib/api/hooks/account/useAccountMe";
 import { parseOnboardingStatePayload } from "@/lib/api/parse-onboarding-state";
 import { queryKeys } from "@/lib/api/query/query-keys";
@@ -82,7 +86,7 @@ import type { SelectOrganisationDisplayState } from "./_utils/select-org-display
 import type { SelectOrganisationItemViewModel } from "./_utils/select-org-display-state";
 import type { LastSelectedOrganisationRecord } from "@/lib/account/last-selected-organisation";
 import type { SelectOrgSortMode } from "@/lib/account/select-organisation-workspace";
-import type { AccountBillingSummaryV1, OnboardingStateData } from "@/types/api/account";
+import type { OnboardingStateData } from "@/types/api/account";
 
 const ONBOARDING_STATE_STALE_MS = 30_000;
 const BILLING_SUMMARY_STALE_MS = 60_000;
@@ -150,10 +154,7 @@ export function SelectOrganisationContent() {
   const billingQueries = useQueries({
     queries: accountIds.map((id) => ({
       queryKey: queryKeys.account.billing(id),
-      queryFn: async (): Promise<AccountBillingSummaryV1> => {
-        const response = await accountApi.getAccountBilling(id);
-        return response.data;
-      },
+      queryFn: () => fetchAccountBillingQueryResult(id),
       enabled: !simulating && accountIds.length > 0,
       staleTime: BILLING_SUMMARY_STALE_MS,
       retry: 1,
@@ -196,7 +197,7 @@ export function SelectOrganisationContent() {
               simulating,
               isPending: query?.isPending ?? true,
               isError: query?.isError ?? false,
-              summary: query?.data,
+              summary: readAccountBillingSummary(query?.data),
             }),
           ];
         }),

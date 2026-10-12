@@ -8,6 +8,7 @@ import {
   accountThemeSummaryFixture,
 } from "@/lib/account/account-summary-fixture";
 import { UNFINISHED_ORGANISATION_DISPLAY_NAME } from "@/lib/account/organisation-display-name";
+import { queryKeys } from "@/lib/api/query/query-keys";
 import { accountScopedRoutes } from "@/lib/config/account-routes";
 import { ROUTES } from "@/lib/config/routes";
 
@@ -151,11 +152,14 @@ function emptyBillingResponse() {
 }
 
 function renderWithClient(ui: ReactElement) {
-  const client = new QueryClient({
+  const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false }, mutations: { retry: false } },
   });
 
-  return render(<QueryClientProvider client={client}>{ui}</QueryClientProvider>);
+  return {
+    queryClient,
+    ...render(<QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>),
+  };
 }
 
 beforeEach(() => {
@@ -1095,9 +1099,17 @@ describe("SelectOrganisationContent status groups", () => {
       refetch: vi.fn(),
     });
 
-    renderWithClient(<SelectOrganisationContent />);
+    const { queryClient } = renderWithClient(<SelectOrganisationContent />);
 
     const trialClub = await screen.findByRole("article", { name: "Trial Club" });
+    expect(queryClient.getQueryData(queryKeys.account.billing("1"))).toEqual(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          billingStatus: "active",
+          activeOrder: null,
+        }),
+      }),
+    );
     expect(await within(trialClub).findByText("Subscription Active")).toBeInTheDocument();
     expect(
       within(screen.getByRole("article", { name: "Closing Club" })).getByText(

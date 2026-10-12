@@ -2,6 +2,7 @@
 
 import {
   isAccountBillingGatewayRedirect,
+  readAccountBillingSummary,
   useAccountBilling,
 } from "@/lib/api/hooks/account/useAccountBilling";
 import {
@@ -61,12 +62,13 @@ export function useBillingHistoryContentState(accountId: string): BillingHistory
     };
   }
 
-  const summary =
+  const summary = readAccountBillingSummary(
     billingQuery.isSuccess &&
-    billingQuery.data &&
-    !isAccountBillingGatewayRedirect(billingQuery.data)
-      ? billingQuery.data.data
-      : null;
+      billingQuery.data &&
+      !isAccountBillingGatewayRedirect(billingQuery.data)
+      ? billingQuery.data
+      : undefined,
+  );
 
   const waitingForInvoiceRequests = invoiceRequestsQueryEnabled && invoiceRequestsQuery.isPending;
   const waitingForOrders = ordersQueryEnabled && ordersQuery.isPending;

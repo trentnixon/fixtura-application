@@ -2,6 +2,7 @@
 
 import {
   isAccountBillingGatewayRedirect,
+  readAccountBillingSummary,
   useAccountBilling,
 } from "@/lib/api/hooks/account/useAccountBilling";
 import {
@@ -61,7 +62,8 @@ export function useBillingProductStateSnapshot(
     return { status: "loading" };
   }
 
-  if (q.isError || !q.data || isAccountBillingGatewayRedirect(q.data)) {
+  const billingSummary = readAccountBillingSummary(q.data);
+  if (q.isError || !q.data || isAccountBillingGatewayRedirect(q.data) || !billingSummary) {
     return { status: "unavailable" };
   }
 
@@ -74,15 +76,14 @@ export function useBillingProductStateSnapshot(
       ? ordersQ.data.orders
       : [];
 
-  const billingUiMode = deriveBillingUiMode(q.data.data, { orders: ordersPayload });
-  const organisationTrialPresentation = deriveOrganisationTrialPresentation(
-    q.data.data,
-  ).presentation;
+  const billingUiMode = deriveBillingUiMode(billingSummary, { orders: ordersPayload });
+  const organisationTrialPresentation =
+    deriveOrganisationTrialPresentation(billingSummary).presentation;
   const paidAwaitingStartOrder = findPaidAwaitingStartOrder(ordersPayload);
   const productState = resolveEffectiveBillingProductState(
     billingUiMode,
     organisationTrialPresentation,
-    q.data.data.availableActions,
+    billingSummary.availableActions,
   );
 
   return {
