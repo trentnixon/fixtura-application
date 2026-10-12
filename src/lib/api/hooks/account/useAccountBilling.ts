@@ -39,8 +39,8 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 function isAccountBillingSummary(value: unknown): value is AccountBillingSummaryV1 {
   if (!isRecord(value)) return false;
   return (
-    typeof value.billingStatus === "string" &&
-    typeof value.accessStatus === "string" &&
+    typeof value["billingStatus"] === "string" &&
+    typeof value["accessStatus"] === "string" &&
     "activeOrder" in value &&
     "currentPlan" in value &&
     "trial" in value
@@ -53,8 +53,9 @@ function isAccountBillingSummary(value: unknown): value is AccountBillingSummary
  */
 export function readAccountBillingSummary(value: unknown): AccountBillingSummaryV1 | undefined {
   if (!isRecord(value)) return undefined;
-  if (value._tag === billingGatewayRedirectTag) return undefined;
-  if (isAccountBillingSummary(value.data)) return value.data;
+  if (value["_tag"] === billingGatewayRedirectTag) return undefined;
+  const nested = value["data"];
+  if (isAccountBillingSummary(nested)) return nested;
   if (isAccountBillingSummary(value)) return value;
   return undefined;
 }
