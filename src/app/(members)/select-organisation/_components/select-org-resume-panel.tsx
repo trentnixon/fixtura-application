@@ -8,6 +8,7 @@ import { GridCardVisualSlot } from "@/components/ui/grid-card";
 import { cn } from "@/lib/utils";
 
 import { SelectOrgStatusBadge } from "./select-org-status-badge";
+import { SelectOrgSubscriptionBanner } from "./select-org-subscription-banner";
 import { selectOrgPrimaryButtonVariant } from "../_utils/select-org-display-state";
 
 import type { SelectOrganisationItemViewModel } from "../_utils/select-org-display-state";
@@ -44,7 +45,7 @@ export function SelectOrgResumePanel({
     <section
       aria-label="Continue where you left off"
       className={cn(
-        "border-border/70 bg-card relative flex w-full flex-col gap-4 overflow-hidden rounded-xl border p-4 min-[769px]:flex-row min-[769px]:items-center min-[769px]:justify-between min-[769px]:p-5",
+        "border-border/70 bg-card relative flex w-full flex-col gap-4 overflow-hidden rounded-xl border p-4 pb-0 min-[769px]:p-5 min-[769px]:pb-0",
         item.brandColors && "border-l-4",
       )}
       style={item.brandColors ? { borderLeftColor: item.brandColors.primary } : undefined}
@@ -59,70 +60,77 @@ export function SelectOrgResumePanel({
       >
         <X className="size-4" aria-hidden />
       </Button>
-      <div className="flex min-w-0 flex-1 items-start gap-3 pr-8 min-[769px]:items-center min-[769px]:pr-10">
-        <GridCardVisualSlot
-          visual="org"
-          className="!size-12 shrink-0 min-[769px]:!size-14"
-          initials={initialsFromName(item.name)}
-          {...(item.logo ? { imageSrc: item.logo, imageAlt: item.name } : {})}
-          {...(item.brandColors ? { brandColors: item.brandColors } : {})}
-        />
-        <div className="min-w-0 flex-1 space-y-1">
-          <TypographyCaption
-            as="p"
-            tone="muted"
-            className="font-medium tracking-wide uppercase max-[768px]:tracking-normal max-[768px]:normal-case"
-          >
-            <span className="min-[769px]:hidden">Continue</span>
-            <span className="hidden min-[769px]:inline">Continue where you left off</span>
-          </TypographyCaption>
-          <TypographyBodySmall
-            as="p"
-            className="line-clamp-2 text-sm font-semibold min-[769px]:text-base"
-          >
-            {item.name}
-          </TypographyBodySmall>
-          <div className="flex flex-wrap items-center gap-2">
-            {item.sport ? (
-              <TypographyCaption as="span" tone="muted">
-                {item.sport}
-              </TypographyCaption>
-            ) : null}
-            {!hideStatusBadge ? (
-              <SelectOrgStatusBadge
-                displayState={item.displayState}
-                statusLabel={item.statusLabel}
-                statusDescription={item.statusDescription}
-              />
-            ) : null}
+      <div className="flex w-full flex-col gap-4 min-[769px]:flex-row min-[769px]:items-center min-[769px]:justify-between">
+        <div className="flex min-w-0 flex-1 items-start gap-3 pr-8 min-[769px]:items-center min-[769px]:pr-10">
+          <GridCardVisualSlot
+            visual="org"
+            className="!size-12 shrink-0 min-[769px]:!size-14"
+            initials={initialsFromName(item.name)}
+            {...(item.logo ? { imageSrc: item.logo, imageAlt: item.name } : {})}
+            {...(item.brandColors ? { brandColors: item.brandColors } : {})}
+          />
+          <div className="min-w-0 flex-1 space-y-1">
+            <TypographyCaption
+              as="p"
+              tone="muted"
+              className="font-medium tracking-wide uppercase max-[768px]:tracking-normal max-[768px]:normal-case"
+            >
+              <span className="min-[769px]:hidden">Continue</span>
+              <span className="hidden min-[769px]:inline">Continue where you left off</span>
+            </TypographyCaption>
+            <TypographyBodySmall
+              as="p"
+              className="line-clamp-2 text-sm font-semibold min-[769px]:text-base"
+            >
+              {item.name}
+            </TypographyBodySmall>
+            <div className="flex flex-wrap items-center gap-2">
+              {item.sport ? (
+                <TypographyCaption as="span" tone="muted">
+                  {item.sport}
+                </TypographyCaption>
+              ) : null}
+              {!hideStatusBadge ? (
+                <SelectOrgStatusBadge
+                  displayState={item.displayState}
+                  statusLabel={item.statusLabel}
+                  statusDescription={item.statusDescription}
+                />
+              ) : null}
+            </div>
           </div>
         </div>
-      </div>
-      <div className="flex w-full shrink-0 flex-col gap-2 min-[769px]:w-auto min-[769px]:flex-row min-[769px]:items-center">
-        {showDetails ? (
+        <div className="flex w-full shrink-0 flex-col gap-2 min-[769px]:w-auto min-[769px]:flex-row min-[769px]:items-center">
+          {showDetails ? (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="w-full min-[769px]:w-auto"
+              disabled={busy}
+              onClick={onViewDetails}
+            >
+              View details
+            </Button>
+          ) : null}
           <Button
             type="button"
-            variant="outline"
             size="sm"
+            variant={selectOrgPrimaryButtonVariant(item)}
             className="w-full min-[769px]:w-auto"
             disabled={busy}
-            onClick={onViewDetails}
+            aria-busy={pending}
+            onClick={onPrimaryAction}
           >
-            View details
+            {pending ? "Opening…" : item.primaryActionLabel}
           </Button>
-        ) : null}
-        <Button
-          type="button"
-          size="sm"
-          variant={selectOrgPrimaryButtonVariant(item)}
-          className="w-full min-[769px]:w-auto"
-          disabled={busy}
-          aria-busy={pending}
-          onClick={onPrimaryAction}
-        >
-          {pending ? "Opening…" : item.primaryActionLabel}
-        </Button>
+        </div>
       </div>
+      {item.subscriptionStatus ? (
+        <div className="-mx-4 min-[769px]:-mx-5">
+          <SelectOrgSubscriptionBanner status={item.subscriptionStatus} />
+        </div>
+      ) : null}
     </section>
   );
 }

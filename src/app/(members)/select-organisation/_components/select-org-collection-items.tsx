@@ -17,6 +17,7 @@ import {
 import { cn } from "@/lib/utils";
 
 import { SelectOrgStatusBadge, selectOrgBadgeXsClass } from "./select-org-status-badge";
+import { SelectOrgSubscriptionBanner } from "./select-org-subscription-banner";
 import { selectOrgPrimaryButtonVariant } from "../_utils/select-org-display-state";
 
 import type { SelectOrganisationItemViewModel } from "../_utils/select-org-display-state";
@@ -28,7 +29,12 @@ function initialsFromName(name: string): string {
   return (parts[0]![0]! + parts[parts.length - 1]![0]!).toUpperCase();
 }
 
+function hasNoActiveSubscription(item: SelectOrganisationItemViewModel): boolean {
+  return item.subscriptionStatus === "none";
+}
+
 function shouldHideStatusBadge(item: SelectOrganisationItemViewModel): boolean {
+  if (item.displayState === "active" || item.displayState === "inactive") return true;
   return item.displayState === "setup-required" && item.primaryActionLabel === "Continue setup";
 }
 
@@ -39,6 +45,11 @@ type SelectOrgItemActionProps = {
   onPrimaryAction: () => void;
   onStatusInfo?: () => void;
 };
+
+function SelectOrgSubscriptionBannerSlot({ item }: { item: SelectOrganisationItemViewModel }) {
+  if (!item.subscriptionStatus) return null;
+  return <SelectOrgSubscriptionBanner status={item.subscriptionStatus} />;
+}
 
 function SelectOrgStatusBadgeOnly({ item }: { item: SelectOrganisationItemViewModel }) {
   if (item.displayState === "status-loading") {
@@ -116,20 +127,24 @@ export function SelectOrgGridItem({
   onStatusInfo,
 }: SelectOrgItemActionProps) {
   const disabled = busy && !pending;
-  const tileStyle = selectOrgBrandTileStyle(item.brandColors);
+  const unsubscribed = hasNoActiveSubscription(item);
+  const tileStyle = unsubscribed ? undefined : selectOrgBrandTileStyle(item.brandColors);
 
   return (
     <article
       aria-label={item.name}
       aria-busy={pending}
+      {...(unsubscribed ? { "data-subscription": "none" } : {})}
       className={cn(
         selectOrgGridTileSurfaceClass,
-        "justify-between gap-1.5 p-2 pt-6 lg:gap-2 lg:p-3 lg:pt-4 xl:p-4",
+        "p-0",
+        unsubscribed &&
+          "bg-destructive/10 text-card-foreground ring-destructive/50 hover:bg-destructive/15 shadow-none hover:translate-y-0 hover:shadow-md",
         disabled && "opacity-60",
       )}
       style={tileStyle}
     >
-      {item.brandColors ? (
+      {item.brandColors && !item.subscriptionStatus ? (
         <div
           className="absolute inset-x-0 bottom-0 z-[1] h-1.5 rounded-b-[1.25rem]"
           style={{
@@ -152,37 +167,42 @@ export function SelectOrgGridItem({
       <div className="absolute top-1.5 left-1.5 z-10 flex max-w-[calc(100%-1rem)] items-center gap-0.5 lg:top-2 lg:left-2">
         <SelectOrgStatusBadgeOnly item={item} />
       </div>
-      <div className="relative z-[2] flex min-h-0 flex-1 flex-col items-center gap-1 text-center lg:gap-1.5">
-        <div className="pt-1 transition-transform duration-700 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:-translate-y-0.5 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:translate-y-0 motion-reduce:group-hover:scale-100 lg:pt-2">
-          <GridCardVisualSlot
-            visual="org"
-            className="!size-14 lg:!size-[4.75rem]"
-            initials={initialsFromName(item.name)}
-            {...(item.logo ? { imageSrc: item.logo, imageAlt: item.name } : {})}
-            {...(item.brandColors ? { brandColors: item.brandColors } : {})}
-          />
+      <div className="relative z-[2] flex min-h-0 flex-1 flex-col justify-between gap-1.5 p-2 pt-6 lg:gap-2 lg:p-3 lg:pt-4 xl:p-4">
+        <div className="flex min-h-0 flex-1 flex-col items-center gap-1 text-center lg:gap-1.5">
+          <div className="pt-1 transition-transform duration-700 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:-translate-y-0.5 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:translate-y-0 motion-reduce:group-hover:scale-100 lg:pt-2">
+            <GridCardVisualSlot
+              visual="org"
+              className="!size-14 lg:!size-[4.75rem]"
+              initials={initialsFromName(item.name)}
+              {...(item.logo ? { imageSrc: item.logo, imageAlt: item.name } : {})}
+              {...(item.brandColors ? { brandColors: item.brandColors } : {})}
+            />
+          </div>
+          {item.sport ? (
+            <TypographyCaption className="line-clamp-1 w-full">{item.sport}</TypographyCaption>
+          ) : null}
+          <TypographyCardTitle className="mt-auto line-clamp-2 w-full shrink-0 text-xs leading-tight font-semibold sm:text-xs lg:text-sm lg:leading-none xl:text-base">
+            {item.name}
+          </TypographyCardTitle>
         </div>
-        {item.sport ? (
-          <TypographyCaption className="line-clamp-1 w-full">{item.sport}</TypographyCaption>
-        ) : null}
-        <TypographyCardTitle className="mt-auto line-clamp-2 w-full shrink-0 text-xs leading-tight font-semibold sm:text-xs lg:text-sm lg:leading-none xl:text-base">
-          {item.name}
-        </TypographyCardTitle>
+        <div className="mt-auto flex w-full items-center gap-1.5 pt-1.5 lg:pt-2">
+          <Button
+            type="button"
+            size="xs"
+            variant={selectOrgPrimaryButtonVariant(item)}
+            className="min-w-0 flex-1"
+            disabled={disabled}
+            aria-busy={pending}
+            aria-label={pending ? "Opening…" : item.primaryActionLabel}
+            onClick={onPrimaryAction}
+          >
+            <SelectOrgPrimaryActionLabel pending={pending} label={item.primaryActionLabel} />
+          </Button>
+          <SelectOrgStatusInfoButton item={item} {...(onStatusInfo ? { onStatusInfo } : {})} />
+        </div>
       </div>
-      <div className="relative z-[2] mt-auto flex w-full items-center gap-1.5 pt-1.5 lg:pt-2">
-        <Button
-          type="button"
-          size="xs"
-          variant={selectOrgPrimaryButtonVariant(item)}
-          className="min-w-0 flex-1"
-          disabled={disabled}
-          aria-busy={pending}
-          aria-label={pending ? "Opening…" : item.primaryActionLabel}
-          onClick={onPrimaryAction}
-        >
-          <SelectOrgPrimaryActionLabel pending={pending} label={item.primaryActionLabel} />
-        </Button>
-        <SelectOrgStatusInfoButton item={item} {...(onStatusInfo ? { onStatusInfo } : {})} />
+      <div className="relative z-[2] mt-auto w-full shrink-0">
+        <SelectOrgSubscriptionBannerSlot item={item} />
       </div>
     </article>
   );
@@ -201,62 +221,70 @@ export function SelectOrgListItem({
   showLastOpened = false,
 }: SelectOrgListItemProps) {
   const disabled = busy && !pending;
+  const unsubscribed = hasNoActiveSubscription(item);
 
   return (
     <article
       aria-label={item.name}
       aria-busy={pending}
+      {...(unsubscribed ? { "data-subscription": "none" } : {})}
       className={cn(
-        "border-border/60 bg-card flex items-center gap-2 rounded-xl border px-2.5 py-2.5 lg:gap-3 lg:px-3 lg:py-3 xl:gap-4 xl:px-4",
+        "border-border/60 bg-card flex flex-col overflow-hidden rounded-xl border",
+        unsubscribed && "border-destructive/40 bg-destructive/10 text-card-foreground",
         disabled && "opacity-60",
       )}
     >
-      <GridCardVisualSlot
-        visual="org"
-        className="!size-9 shrink-0 lg:!size-11 xl:!size-12"
-        initials={initialsFromName(item.name)}
-        {...(item.logo ? { imageSrc: item.logo, imageAlt: item.name } : {})}
-        {...(item.brandColors ? { brandColors: item.brandColors } : {})}
-      />
-      <div className="min-w-0 flex-1 space-y-0.5 lg:space-y-1">
-        <div className="flex flex-wrap items-center gap-1.5 lg:gap-2">
-          <TypographyBodySmall as="p" className="truncate text-xs font-semibold lg:text-sm">
-            {item.name}
-          </TypographyBodySmall>
-          {item.isNew ? (
-            <Badge variant="destructive" className={selectOrgBadgeXsClass}>
-              New
-            </Badge>
-          ) : null}
-        </div>
-        <div className="flex flex-wrap items-center gap-1.5 lg:gap-2">
-          {item.sport ? (
+      <div className="flex min-w-0 items-center gap-2 px-2.5 py-2.5 lg:gap-3 lg:px-3 lg:py-3 xl:gap-4 xl:px-4">
+        <GridCardVisualSlot
+          visual="org"
+          className="!size-9 shrink-0 lg:!size-11 xl:!size-12"
+          initials={initialsFromName(item.name)}
+          {...(item.logo ? { imageSrc: item.logo, imageAlt: item.name } : {})}
+          {...(item.brandColors ? { brandColors: item.brandColors } : {})}
+        />
+        <div className="min-w-0 flex-1 space-y-0.5 lg:space-y-1">
+          <div className="flex flex-wrap items-center gap-1.5 lg:gap-2">
+            <TypographyBodySmall as="p" className="truncate text-xs font-semibold lg:text-sm">
+              {item.name}
+            </TypographyBodySmall>
+            {item.isNew ? (
+              <Badge variant="destructive" className={selectOrgBadgeXsClass}>
+                New
+              </Badge>
+            ) : null}
+          </div>
+          <div className="flex flex-wrap items-center gap-1.5 lg:gap-2">
+            {item.sport ? (
+              <TypographyCaption as="span" tone="muted">
+                {item.sport}
+              </TypographyCaption>
+            ) : null}
+            <SelectOrgStatusBadgeOnly item={item} />
+          </div>
+          {showLastOpened && item.lastOpenedAt ? (
             <TypographyCaption as="span" tone="muted">
-              {item.sport}
+              Last opened {new Date(item.lastOpenedAt).toLocaleDateString()}
             </TypographyCaption>
           ) : null}
-          <SelectOrgStatusBadgeOnly item={item} />
         </div>
-        {showLastOpened && item.lastOpenedAt ? (
-          <TypographyCaption as="span" tone="muted">
-            Last opened {new Date(item.lastOpenedAt).toLocaleDateString()}
-          </TypographyCaption>
-        ) : null}
+        <div className="flex shrink-0 items-center gap-1.5">
+          <Button
+            type="button"
+            size="xs"
+            variant={selectOrgPrimaryButtonVariant(item)}
+            className="min-w-0 lg:min-w-[7.5rem]"
+            disabled={disabled}
+            aria-busy={pending}
+            aria-label={pending ? "Opening…" : item.primaryActionLabel}
+            onClick={onPrimaryAction}
+          >
+            <SelectOrgPrimaryActionLabel pending={pending} label={item.primaryActionLabel} />
+          </Button>
+          <SelectOrgStatusInfoButton item={item} {...(onStatusInfo ? { onStatusInfo } : {})} />
+        </div>
       </div>
-      <div className="flex shrink-0 items-center gap-1.5">
-        <Button
-          type="button"
-          size="xs"
-          variant={selectOrgPrimaryButtonVariant(item)}
-          className="min-w-0 lg:min-w-[7.5rem]"
-          disabled={disabled}
-          aria-busy={pending}
-          aria-label={pending ? "Opening…" : item.primaryActionLabel}
-          onClick={onPrimaryAction}
-        >
-          <SelectOrgPrimaryActionLabel pending={pending} label={item.primaryActionLabel} />
-        </Button>
-        <SelectOrgStatusInfoButton item={item} {...(onStatusInfo ? { onStatusInfo } : {})} />
+      <div className="mt-auto w-full shrink-0">
+        <SelectOrgSubscriptionBannerSlot item={item} />
       </div>
     </article>
   );

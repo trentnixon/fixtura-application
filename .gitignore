@@ -45,3 +45,6 @@ next-env.d.ts
 
 # Vercel recovery files
 .vercel/recovery/*
+brag-output/*
+/brag-output/*
+brag-output/**

@@ -14,6 +14,7 @@ import { analyticsFailureReasonCode, captureConversion, captureUserAction } from
 import { ApiError } from "@/lib/api/client/api-error";
 import {
   isAccountBillingGatewayRedirect,
+  readAccountBillingSummary,
   useAccountBilling,
 } from "@/lib/api/hooks/account/useAccountBilling";
 import {
@@ -98,10 +99,11 @@ export function CreateSubscriptionWizard({ accountId }: { accountId: string }) {
   const [stripeCreatedOrderId, setStripeCreatedOrderId] = useState<number | null>(null);
   const [stripeInvoicePaidDetected, setStripeInvoicePaidDetected] = useState(false);
 
-  const summary =
+  const summary = readAccountBillingSummary(
     billingQ.isSuccess && billingQ.data && !isAccountBillingGatewayRedirect(billingQ.data)
-      ? billingQ.data.data
-      : null;
+      ? billingQ.data
+      : undefined,
+  );
   const mode = summary ? deriveBillingUiMode(summary) : null;
   const availableActions = summary?.availableActions;
 

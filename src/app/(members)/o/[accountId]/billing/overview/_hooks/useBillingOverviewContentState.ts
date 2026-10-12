@@ -1,5 +1,6 @@
 import {
   isAccountBillingGatewayRedirect,
+  readAccountBillingSummary,
   useAccountBilling,
 } from "@/lib/api/hooks/account/useAccountBilling";
 import {
@@ -172,7 +173,17 @@ export function useBillingOverviewContentState(
     };
   }
 
-  const billingSummary = billingQuery.data.data;
+  const billingSummary = readAccountBillingSummary(billingQuery.data);
+  if (!billingSummary) {
+    return {
+      state: {
+        kind: "unexpected-empty",
+        accountId,
+        checkoutReturnNotice,
+      },
+      refetchBilling,
+    };
+  }
 
   if (ordersQuery.isPending) {
     return {

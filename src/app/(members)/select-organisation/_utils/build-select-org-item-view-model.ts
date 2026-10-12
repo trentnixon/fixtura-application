@@ -18,6 +18,7 @@ import type {
   SelectOrganisationItemViewModel,
   SelectOrganisationLifecycleQueryStatus,
 } from "./select-org-display-state";
+import type { SelectOrgSubscriptionBadgeState } from "./select-org-subscription-status";
 import type { AccountSummary, OnboardingStateData } from "@/types/api/account";
 
 function pipelineFailed(state: OnboardingStateData): boolean {
@@ -71,13 +72,21 @@ export type BuildSelectOrgItemViewModelInput = {
   simulating: boolean;
   isLastUsed: boolean;
   lastOpenedAt?: string;
+  subscriptionStatus?: SelectOrgSubscriptionBadgeState;
 };
 
 export function buildSelectOrgItemViewModel(
   input: BuildSelectOrgItemViewModelInput,
 ): SelectOrganisationItemViewModel {
-  const { row, lifecycleQueryStatus, onboardingState, simulating, isLastUsed, lastOpenedAt } =
-    input;
+  const {
+    row,
+    lifecycleQueryStatus,
+    onboardingState,
+    simulating,
+    isLastUsed,
+    lastOpenedAt,
+    subscriptionStatus,
+  } = input;
   const id = String(row.id);
   const org = organisationDetailsFromAccountRow(row);
   const name = organisationDisplayNameFromAccountRow(row);
@@ -127,5 +136,6 @@ export function buildSelectOrgItemViewModel(
     onboardingLastActivityAt: onboardingState?.onboardingLastActivityAt ?? null,
     canRetrySetup,
     isActive: simulating ? row.isActive : (onboardingState?.isActive ?? row.isActive),
+    ...(subscriptionStatus ? { subscriptionStatus } : {}),
   };
 }

@@ -1,3 +1,5 @@
+import type { SelectOrgSubscriptionBadgeState } from "./select-org-subscription-status";
+
 export type SelectOrganisationDisplayState =
   | "status-loading"
   | "active"
@@ -31,6 +33,8 @@ export type SelectOrganisationItemViewModel = {
   onboardingLastActivityAt?: string | null;
   canRetrySetup: boolean;
   isActive?: boolean;
+  /** Omitted while simulating or when billing could not be loaded. */
+  subscriptionStatus?: SelectOrgSubscriptionBadgeState;
 };
 
 export function selectOrgPrimaryButtonVariant(

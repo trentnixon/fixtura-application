@@ -28,14 +28,18 @@ const usePostAccountBillingCheckout = vi.hoisted(() => vi.fn());
 const usePostAccountBillingInvoiceRequest = vi.hoisted(() => vi.fn());
 const useAccountMe = vi.hoisted(() => vi.fn());
 
-vi.mock("@/lib/api/hooks/account/useAccountBilling", () => ({
-  useAccountBilling,
-  isAccountBillingGatewayRedirect: (value: unknown) =>
-    typeof value === "object" &&
-    value !== null &&
-    "_tag" in value &&
-    (value as { _tag: string })._tag === "billingGatewayRedirect",
-}));
+vi.mock("@/lib/api/hooks/account/useAccountBilling", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@/lib/api/hooks/account/useAccountBilling")>();
+  return {
+    ...actual,
+    useAccountBilling,
+    isAccountBillingGatewayRedirect: (value: unknown) =>
+      typeof value === "object" &&
+      value !== null &&
+      "_tag" in value &&
+      (value as { _tag: string })._tag === "billingGatewayRedirect",
+  };
+});
 
 vi.mock("@/lib/api/hooks/account/useAccountBillingAvailableTiers", () => ({
   useAccountBillingAvailableTiers,
